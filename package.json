@@ -1,0 +1,26 @@
+{
+  "name": "asset-panda-verification",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Figma-fidelity verification for the Asset Panda shared UI kit (ui/ + gutenberg/ + unyson/ adapters).",
+  "scripts": {
+    "build:css": "node design-system/build.mjs",
+    "audit:layout": "node tools/audit-layout.mjs",
+    "audit:tokens": "node tools/audit-tokens.mjs",
+    "audit:motion": "node tools/audit-motion.mjs",
+    "audit:pixel": "node tools/audit-pixel.mjs",
+    "verify": "node tools/verify.mjs",
+    "verify:live": "node tools/verify.mjs --target live",
+    "verify:dev": "node tools/verify.mjs --target dev",
+    "lint:css": "node tools/lint-css.mjs",
+    "setup": "npm install && npx playwright install chromium"
+  },
+  "dependencies": {
+    "pixelmatch": "^6.0.0",
+    "pngjs": "^7.0.0"
+  },
+  "devDependencies": {
+    "playwright": "^1.49.0"
+  }
+}

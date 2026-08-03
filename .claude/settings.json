@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(node tools/*)",
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git add*)",
+      "Bash(git commit*)",
+      "Bash(git checkout*)",
+      "Bash(git branch*)",
+      "Read(*)",
+      "Edit(design-system/src/**)",
+      "Edit(src/sections/**)",
+      "Edit(specs/**)",
+      "Write(design-system/src/**)",
+      "Write(src/sections/**)",
+      "Write(specs/**)",
+      "Write(refs/**)"
+    ],
+    "deny": [
+      "Bash(git push --no-verify*)",
+      "Bash(rm -rf*)",
+      "Write(dist/**)",
+      "Edit(dist/**)"
+    ]
+  },
+  "env": {
+    "AP_PREVIEW_URL": "http://localhost:4321"
+  }
+}

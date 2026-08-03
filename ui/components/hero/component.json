@@ -1,0 +1,49 @@
+{
+	"name": "hero",
+	"description": "Full-width hero banner with heading, supporting copy, and an optional call-to-action button. The reference component — copy its shape when adding new components.",
+	"props": {
+		"title": {
+			"type": "string",
+			"required": true,
+			"description": "Main heading text."
+		},
+		"subtitle": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Supporting copy shown under the heading."
+		},
+		"eyebrow": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Small label rendered above the heading."
+		},
+		"cta_label": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Button text. The button renders only when both cta_label and cta_url are set."
+		},
+		"cta_url": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Button destination URL."
+		},
+		"alignment": {
+			"type": "string",
+			"required": false,
+			"default": "center",
+			"enum": [ "left", "center" ],
+			"description": "Horizontal alignment of the hero content."
+		},
+		"theme": {
+			"type": "string",
+			"required": false,
+			"default": "light",
+			"enum": [ "light", "dark", "brand" ],
+			"description": "Background/foreground color scheme."
+		}
+	}
+}

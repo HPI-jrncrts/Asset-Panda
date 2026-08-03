@@ -1,0 +1,136 @@
+/*
+ * Hero component — styles.
+ *
+ * Reference stylesheet. Rules:
+ *   - All values come from tokens.css custom properties. No raw hex/px for
+ *     anything a token exists for.
+ *   - Scope every selector under the component root class (.ap-hero) so
+ *     components never leak styles into each other.
+ *   - This file is enqueued automatically by the loader when the hero renders.
+ */
+
+.ap-hero {
+	box-sizing: border-box;
+	width: 100%;
+	padding: var(--ap-space-9) var(--ap-space-5);
+	background: var(--ap-color-surface-alt);
+	color: var(--ap-color-ink);
+	font-family: var(--ap-font-sans);
+}
+
+.ap-hero *,
+.ap-hero *::before,
+.ap-hero *::after {
+	box-sizing: border-box;
+}
+
+.ap-hero__inner {
+	max-width: var(--ap-container-max);
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	gap: var(--ap-space-4);
+}
+
+.ap-hero__eyebrow {
+	margin: 0;
+	font-size: var(--ap-font-size-sm);
+	font-weight: var(--ap-weight-medium);
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--ap-color-brand);
+}
+
+.ap-hero__title {
+	margin: 0;
+	font-size: var(--ap-font-size-3xl);
+	line-height: var(--ap-line-tight);
+	font-weight: var(--ap-weight-bold);
+}
+
+.ap-hero__subtitle {
+	margin: 0;
+	max-width: 60ch;
+	font-size: var(--ap-font-size-lg);
+	line-height: var(--ap-line-base);
+	color: var(--ap-color-ink-soft);
+}
+
+.ap-hero__actions {
+	margin: var(--ap-space-2) 0 0;
+}
+
+.ap-hero__cta {
+	display: inline-block;
+	padding: var(--ap-space-3) var(--ap-space-6);
+	border-radius: var(--ap-radius-md);
+	background: var(--ap-color-brand);
+	color: var(--ap-color-brand-contrast);
+	font-size: var(--ap-font-size-base);
+	font-weight: var(--ap-weight-medium);
+	text-decoration: none;
+	transition: background-color 0.15s ease-in-out;
+}
+
+.ap-hero__cta:hover,
+.ap-hero__cta:focus {
+	background: var(--ap-color-brand-strong);
+}
+
+/* Alignment modifiers */
+.ap-hero--align-center .ap-hero__inner {
+	align-items: center;
+	text-align: center;
+}
+
+.ap-hero--align-left .ap-hero__inner {
+	align-items: flex-start;
+	text-align: left;
+}
+
+/* Theme modifiers */
+.ap-hero--theme-light {
+	background: var(--ap-color-surface-alt);
+	color: var(--ap-color-ink);
+}
+
+.ap-hero--theme-dark {
+	background: var(--ap-color-surface-dark);
+	color: var(--ap-color-on-dark);
+}
+
+.ap-hero--theme-dark .ap-hero__subtitle {
+	color: var(--ap-color-on-dark);
+	opacity: 0.85;
+}
+
+.ap-hero--theme-brand {
+	background: var(--ap-color-brand);
+	color: var(--ap-color-brand-contrast);
+}
+
+.ap-hero--theme-brand .ap-hero__eyebrow,
+.ap-hero--theme-brand .ap-hero__subtitle {
+	color: var(--ap-color-brand-contrast);
+	opacity: 0.9;
+}
+
+.ap-hero--theme-brand .ap-hero__cta {
+	background: var(--ap-color-brand-contrast);
+	color: var(--ap-color-brand-strong);
+}
+
+.ap-hero--theme-brand .ap-hero__cta:hover,
+.ap-hero--theme-brand .ap-hero__cta:focus {
+	background: var(--ap-color-surface-alt);
+}
+
+@media (max-width: 640px) {
+	.ap-hero {
+		padding: var(--ap-space-7) var(--ap-space-4);
+	}
+
+	.ap-hero__title {
+		font-size: var(--ap-font-size-2xl);
+	}
+}

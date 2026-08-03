@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/hero",
+	"title": "AP Hero",
+	"category": "design",
+	"icon": "cover-image",
+	"description": "Hero banner rendered by the shared Asset Panda UI kit. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"title": { "type": "string", "default": "" },
+		"subtitle": { "type": "string", "default": "" },
+		"eyebrow": { "type": "string", "default": "" },
+		"ctaLabel": { "type": "string", "default": "" },
+		"ctaUrl": { "type": "string", "default": "" },
+		"alignment": { "type": "string", "default": "center", "enum": [ "left", "center" ] },
+		"theme": { "type": "string", "default": "light", "enum": [ "light", "dark", "brand" ] }
+	},
+	"supports": {
+		"html": false,
+		"reusable": true
+	},
+	"render": "file:./render.php"
+}

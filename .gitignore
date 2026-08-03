@@ -1,0 +1,18 @@
+node_modules/
+dist/
+reports/
+.env
+.DS_Store
+Thumbs.db
+
+# Playwright
+test-results/
+playwright-report/
+
+# Keep Figma references, but they are large — review before adding new ones.
+refs/*.psd
+refs/*.fig
+
+# Local-only — not part of the repo
+NEW-SESSION-PROMPT.md
+ap-verification-layer.zip

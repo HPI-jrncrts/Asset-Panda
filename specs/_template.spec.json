@@ -1,0 +1,45 @@
+{
+  "$comment": [
+    "Copy to specs/<section>.spec.json. This file IS the definition of 'matches Figma'.",
+    "Write it during extraction, from what the Figma MCP returns — not afterwards from",
+    "what the build happens to render. A spec written to match the build proves nothing."
+  ],
+
+  "section": "example-section",
+  "node": "0000:00000",
+  "selector": "#ap-example-section",
+  "path": "/example-section/",
+
+  "widths": [1440, 1280, 1024, 768, 390],
+
+  "$comment_assert": "From get_variable_defs. Prefer 'token' over 'equals' — it stays correct when a token changes.",
+  "assert": [
+    { "selector": ".ap-section-head h2", "prop": "font-size",     "equals": "40px" },
+    { "selector": ".ap-section-head h2", "prop": "color",         "token": "--ap-text-heading" },
+    { "selector": ".ap-card",            "prop": "border-radius", "token": "--ap-radius-xl" },
+    { "selector": ".ap-card",            "prop": "background-color", "token": "--ap-white" },
+    { "selector": ".ap-grid",            "prop": "gap",           "token": "--ap-space-6" },
+    { "selector": ".ap-btn--primary",    "prop": "background-image", "token": "--ap-grad-brand" },
+    { "selector": ".ap-card h3",         "prop": "font-size",     "equals": "20px", "widths": [768, 390] }
+  ],
+
+  "$comment_motion": "From get_motion_context. Never invent a duration or easing.",
+  "motion": [
+    {
+      "selector": ".ap-card-art",
+      "trigger": "hover",
+      "prop": "transform",
+      "duration": "550ms",
+      "easing": "cubic-bezier(0.22, 1, 0.36, 1)"
+    }
+  ],
+
+  "$comment_noOverlap": "Groups of in-flow siblings that must never intersect at any breakpoint.",
+  "noOverlap": [".ap-card", ".ap-section-head", ".ap-btn"],
+
+  "$comment_jitter": "Elements to watch for scroll feedback loops. Add any sticky/fixed child.",
+  "jitterWatch": ["#ap-example-section", "#ap-example-section .ap-sticky-band"],
+
+  "strictTokens": false,
+  "pixelThreshold": 2.0
+}
