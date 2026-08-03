@@ -100,7 +100,7 @@ export async function auditTokens({ spec, url, browser, strict = false }) {
           if (a.token && expected === undefined) {
             report.add(false, `@${width}px  unknown token ${a.token}`,
               `Referenced by the assertion on "${a.selector}". Add it to ` +
-              `design-system/src/tokens.css or correct the name.`);
+              `ui/src/tokens.css or correct the name.`);
             continue;
           }
 

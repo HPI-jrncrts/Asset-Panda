@@ -1,7 +1,7 @@
 # Token reconciliation — Figma vs the existing build
 
 Source: `get_variable_defs` on node `4331:20126`, file `VW6cE9oR0LeIeowjwJvEqY`
-("Website 2026 — Asset Panda"). Compared against `design-system/src/tokens.css`.
+("Website 2026 — Asset Panda"). Compared against `ui/src/tokens.css`.
 
 Per CLAUDE.md, conflicting tokens **block** — they are reported, never silently merged.
 

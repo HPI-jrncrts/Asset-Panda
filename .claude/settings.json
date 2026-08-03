@@ -12,22 +12,22 @@
       "Bash(git checkout*)",
       "Bash(git branch*)",
       "Read(*)",
-      "Edit(design-system/src/**)",
-      "Edit(src/sections/**)",
+      "Edit(ui/**)",
+      "Edit(gutenberg/**)",
+      "Edit(unyson/**)",
       "Edit(specs/**)",
-      "Write(design-system/src/**)",
-      "Write(src/sections/**)",
+      "Edit(refs/**)",
+      "Edit(docs/**)",
+      "Write(ui/**)",
+      "Write(gutenberg/**)",
+      "Write(unyson/**)",
       "Write(specs/**)",
-      "Write(refs/**)"
+      "Write(refs/**)",
+      "Write(docs/**)"
     ],
     "deny": [
       "Bash(git push --no-verify*)",
-      "Bash(rm -rf*)",
-      "Write(dist/**)",
-      "Edit(dist/**)"
+      "Bash(rm -rf*)"
     ]
-  },
-  "env": {
-    "AP_PREVIEW_URL": "http://localhost:4321"
   }
 }

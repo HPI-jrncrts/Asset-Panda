@@ -59,7 +59,7 @@ for (const rel of files) {
       if (/<script[\s>]/i.test(line) && !/type=["']application\/(ld\+)?json/i.test(line)) {
         violations.push({
           rel, n, rule: 'inline <script>',
-          msg: 'Move to design-system/src/behaviour/ and trigger off a data-ap-* attribute.',
+          msg: 'Move to the component\'s ui/components/<name>/ folder and trigger off a data-ap-* attribute.',
           src: line.trim().slice(0, 90),
         });
       }

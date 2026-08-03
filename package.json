@@ -5,7 +5,6 @@
   "type": "module",
   "description": "Figma-fidelity verification for the Asset Panda shared UI kit (ui/ + gutenberg/ + unyson/ adapters).",
   "scripts": {
-    "build:css": "node design-system/build.mjs",
     "audit:layout": "node tools/audit-layout.mjs",
     "audit:tokens": "node tools/audit-tokens.mjs",
     "audit:motion": "node tools/audit-motion.mjs",

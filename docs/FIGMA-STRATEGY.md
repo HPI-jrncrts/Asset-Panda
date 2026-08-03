@@ -45,7 +45,7 @@ change available on the design side.
 One case: a complex interaction nobody can describe precisely — a multi-stage
 scroll reveal, a tricky sticky-tab sequence. Have Make prototype it, then read
 its output as an **executable spec** for timing and sequencing, and implement it
-by hand in `design-system/src/behaviour/`.
+by hand in the kit (`ui/components/<name>/`).
 
 Use it as a reference, never as a source. Do not paste Make output into the
 pipeline.
