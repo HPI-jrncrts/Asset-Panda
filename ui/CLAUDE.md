@@ -15,7 +15,8 @@ ui/
     └── <name>/
         ├── component.json   # the prop contract
         ├── render.php       # the markup
-        └── style.css        # the styles
+        ├── style.css        # the styles
+        └── behaviour.js     # OPTIONAL front-end JS (see "Component behaviour"; most have none)
 ```
 
 `hero/` is the reference component — copy its shape when adding new ones.
@@ -47,6 +48,38 @@ ui/
 6. **`ap_render_component()` returns a string.** It never echoes. Callers decide
    whether to echo or return it (blocks and shortcodes both need the string).
 
+## Component behaviour (JS) — convention (deferred, not yet built)
+
+Most components are markup + CSS only. When one genuinely needs front-end
+JavaScript (a delegated interaction, a motion trigger), it lives in
+`ui/components/<name>/behaviour.js` — the component owns its behaviour the same
+way it owns its markup and styles. **There is no shared `js/` directory.** A page
+that never renders a component must receive none of its assets; a shared bundle
+would break that isolation, which is the whole point of the kit.
+
+This is **not implemented yet**. Add loader support as part of the *first*
+component that needs it, mirroring exactly how `style.css` is enqueued in
+`ap_ui_enqueue_styles()`:
+
+- **On demand.** Enqueue only when the component renders, and only if
+  `behaviour.js` exists. No-op cleanly when it is absent — most components won't
+  have one.
+- **Once per component per page**, even if it renders N times (WordPress
+  de-dupes by handle — same as the style enqueue).
+- **Footer.** Register with `in_footer = true`.
+- **Delegated and idempotent.** The script keys off `data-ap-*` attributes, is
+  safe to run with several instances present, and safe to initialise once for
+  all of them. Never read layout geometry and write position from it in a scroll
+  handler.
+
+### Motion tokens
+
+- Shared easing/duration values live in `ui/src/tokens.css` (`--ap-ease-*`,
+  `--ap-dur-*`).
+- Component-specific `@keyframes` live in that component's `style.css`.
+- **Never invent** a duration or easing. Motion values come from Figma via
+  `get_motion_context`; until Figma is connected, leave motion unspecified.
+
 ## The contract format (`component.json`)
 
 ```json
@@ -72,8 +105,10 @@ resolve to `null`.
 2. Write `component.json` (the contract).
 3. Write `render.php` — presentation only, escape everything, use props.
 4. Write `style.css` — scoped under `.ap-<name>`, tokens only.
-5. Run `pwsh tools/sync-ui.ps1` so the verticals pick it up.
-6. Add the adapter in `gutenberg/` and/or `unyson/` to expose it in the editors.
+5. *(Only if it needs JS)* Write `behaviour.js` and add loader enqueue support —
+   see **Component behaviour (JS)** above. Most components skip this.
+6. Run `pwsh tools/sync-ui.ps1` so the verticals pick it up.
+7. Add the adapter in `gutenberg/` and/or `unyson/` to expose it in the editors.
 
 ## Never edit the copies
 

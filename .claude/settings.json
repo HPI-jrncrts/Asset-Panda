@@ -27,7 +27,11 @@
     ],
     "deny": [
       "Bash(git push --no-verify*)",
-      "Bash(rm -rf*)"
+      "Bash(rm -rf*)",
+      "Write(gutenberg/lib/asset-panda-ui/**)",
+      "Edit(gutenberg/lib/asset-panda-ui/**)",
+      "Write(unyson/lib/asset-panda-ui/**)",
+      "Edit(unyson/lib/asset-panda-ui/**)"
     ]
   }
 }
