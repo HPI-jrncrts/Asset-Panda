@@ -1,0 +1,53 @@
+{
+	"name": "media-split",
+	"description": "Split row: copy with explore links beside a composed scene of floating images and soft glows (the Ursa and integrations scenes). Live: the rows inside #ap-gov-intel on the industry hubs.",
+	"props": {
+		"eyebrow": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Small label above the heading."
+		},
+		"title": {
+			"type": "string",
+			"required": true,
+			"description": "Heading."
+		},
+		"title_accent": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Part of the heading painted with the brand gradient."
+		},
+		"body": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Paragraph under the heading."
+		},
+		"links": {
+			"type": "array",
+			"required": false,
+			"default": [],
+			"description": "Explore links. Each: label, url."
+		},
+		"reverse": {
+			"type": "boolean",
+			"required": false,
+			"default": false,
+			"description": "Put the scene on the right."
+		},
+		"images": {
+			"type": "array",
+			"required": false,
+			"default": [],
+			"description": "Scene images. Each: image, x, y, w (% of the 546 by 364 scene); optional float and crop (true/false)."
+		},
+		"glows": {
+			"type": "array",
+			"required": false,
+			"default": [],
+			"description": "Soft glows. Each: x, y, w, h (%) and color (rgb/rgba)."
+		}
+	}
+}

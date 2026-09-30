@@ -1,0 +1,11 @@
+{
+	"name": "awards",
+	"description": "A row of award, rating and compliance badges. Logos only, no copy. Sits between major sections as a trust strip.",
+	"props": {
+		"items": { "type": "array", "required": true, "description": "Badges. Each entry: `image` (URL, required), `alt` (required), optional `url` to link the badge." },
+		"title": { "type": "string", "required": false, "default": "", "description": "Visually-hidden heading naming the group, for screen readers." },
+		"theme": { "type": "string", "required": false, "default": "light", "enum": [ "light", "alt" ], "description": "Background colour scheme." },
+		"layout": { "type": "string", "required": false, "default": "wrap", "enum": [ "wrap", "row", "spread" ], "description": "wrap: centred rows that wrap (homepage). row: one centred row of 100px badges (product pages). spread: one row edge to edge (industry hubs)." },
+		"reveal": { "type": "boolean", "required": false, "default": true, "description": "Stagger the badges in on scroll." }
+	}
+}

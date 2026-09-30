@@ -1,0 +1,245 @@
+/* industries — sector cards on a dark indigo panel.
+ * Matches the live homepage (dev page 7, #ap-sector-intelligence-v4), built
+ * from Figma Industries (4331:24718). Section padding 80/40; panel indigo-900,
+ * radius 24, padding 64/40; cards indigo-950, radius 16, 168px photo inset.
+ * Phones add a swipeable row of sector chips that jump to each card. */
+
+.ap-industries {
+	position: relative;
+	overflow: hidden;
+	padding-block: var(--ap-pad-y-md) var(--ap-pad-y-sm);
+	padding-inline: var(--ap-pad-x-xs);
+	background: var(--ap-white);
+	font-family: var(--ap-font-body);
+}
+
+/* Decorative colour field behind the panel, positioned as in the 1440 frame.
+ * Figma softens these shapes with a 140px background blur, which the SVG
+ * carries as a foreignObject + backdrop-filter — browsers ignore both inside
+ * an <img>, leaving hard-edged blobs. Blurring the image itself restores the
+ * wash (same approach as the hero orbs). */
+.ap-industries__decor {
+	position: absolute;
+	left: -296px;
+	top: -487px;
+	width: 2165px;
+	height: 2131px;
+	max-width: none;
+	filter: blur(140px);
+	pointer-events: none;
+	user-select: none;
+}
+
+.ap-industries__box {
+	position: relative;
+	overflow: hidden;
+	max-width: calc(var(--ap-page-max-content-xl) + 80px);
+	margin-inline: auto;
+	padding: var(--ap-surf-pad-5xl) var(--ap-pad-x-sm);
+	background: var(--ap-indigo-900);
+	border-radius: var(--ap-radius-2xl);
+}
+
+.ap-industries__orb {
+	position: absolute;
+	max-width: none;
+	pointer-events: none;
+	user-select: none;
+}
+
+.ap-industries__orb--a { right: -304px; top: 699px; width: 853px; height: 853px; }
+.ap-industries__orb--b { right: 713px; top: 72px; width: 951px; height: 951px; }
+
+/* minmax(0, 1fr): the chip row is a no-wrap scroller, and without a zero
+ * minimum its content width would widen the column past the panel. */
+.ap-industries__inner {
+	position: relative;
+	z-index: 1;
+	max-width: var(--ap-page-max-content-xl);
+	margin-inline: auto;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--ap-surf-gap-4xl);
+}
+
+.ap-industries__head { display: grid; gap: var(--ap-surf-gap-lg); }
+
+.ap-industries__eyebrow {
+	margin: 0;
+	font-family: var(--ap-font-utility);
+	font-size: var(--ap-fs-eyebrow);
+	font-weight: var(--ap-weight-eyebrow);
+	line-height: var(--ap-line-eyebrow);
+	letter-spacing: var(--ap-ls-eyebrow);
+	text-transform: uppercase;
+	color: var(--ap-text-eyebrow-inverse);
+}
+
+.ap-industries__title {
+	margin: 0;
+	font-family: var(--ap-font-display);
+	font-size: var(--ap-fs-h2);
+	font-weight: var(--ap-weight-heading);
+	line-height: var(--ap-line-h2);
+	color: var(--ap-text-heading-inverse);
+}
+
+.ap-industries__grid {
+	display: grid;
+	gap: var(--ap-surf-gap-3xl);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ap-industries__card {
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: var(--ap-surf-gap-xl);
+	min-width: 0;
+	padding: 168px var(--ap-surf-pad-xl) var(--ap-surf-pad-xl);
+	background: var(--ap-indigo-950);
+	border: var(--ap-border-thin) solid var(--ap-indigo-900);
+	border-radius: var(--ap-radius-xl);
+	/* A chip jump lands with room for the sticky site header. */
+	scroll-margin-top: 96px;
+}
+
+/* Photo fills the top 232px and fades into the card colour. */
+.ap-industries__media {
+	position: absolute;
+	top: -1px;
+	left: -1px;
+	right: -1px;
+	height: 232px;
+}
+
+.ap-industries__media img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.ap-industries__media::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(to bottom, rgba(32, 28, 74, 0.2), var(--ap-indigo-950));
+}
+
+.ap-industries__icon,
+.ap-industries__text,
+.ap-industries__link { position: relative; z-index: 1; }
+
+.ap-industries__icon { display: block; inline-size: 24px; block-size: 24px; }
+
+.ap-industries__text { display: grid; gap: var(--ap-surf-gap-md); }
+
+.ap-industries__card-title {
+	margin: 0;
+	font-family: var(--ap-font-display);
+	font-size: var(--ap-fs-h5);
+	font-weight: var(--ap-weight-heading);
+	line-height: var(--ap-line-h5);
+	color: var(--ap-text-heading-inverse);
+}
+
+.ap-industries__card-body {
+	margin: 0;
+	font-size: var(--ap-fs-text-sm);
+	line-height: var(--ap-line-body);
+	color: var(--ap-text-body-inverse);
+}
+
+.ap-industries__link {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--ap-surf-gap-md);
+	margin-top: auto;
+	font-family: var(--ap-font-utility);
+	font-size: var(--ap-fs-button-sm);
+	font-weight: var(--ap-weight-button);
+	line-height: var(--ap-line-button);
+	color: var(--ap-text-inverse);
+	text-decoration: none;
+	border-radius: var(--ap-radius-sm);
+}
+
+.ap-industries__link img { display: block; inline-size: 24px; block-size: 24px; }
+.ap-industries__link:hover span { text-decoration: underline; }
+.ap-industries__link:focus-visible { outline: var(--ap-border-medium) solid var(--ap-focus-ring); outline-offset: 4px; }
+
+/* ---- Sector chips (phones only) ---- */
+.ap-industries__chips ul {
+	display: flex;
+	gap: var(--ap-surf-gap-lg);
+	margin: 0 calc(-1 * var(--ap-pad-x-xs));
+	padding: var(--ap-surf-gap-lg) var(--ap-pad-x-xs);
+	list-style: none;
+	overflow-x: auto;
+	overscroll-behavior-x: contain;
+	scroll-snap-type: x proximity;
+	scrollbar-width: none;
+}
+
+.ap-industries__chips ul::-webkit-scrollbar { display: none; }
+.ap-industries__chips li { flex: none; scroll-snap-align: start; }
+
+.ap-industries__chip {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--ap-surf-gap-md);
+	padding: 5px 12px 5px 8px;
+	font-family: var(--ap-font-utility);
+	font-size: var(--ap-fs-text-sm);
+	font-weight: var(--ap-weight-bold);
+	line-height: 1.5;
+	white-space: nowrap;
+	color: var(--ap-text-inverse);
+	text-decoration: none;
+	background: var(--ap-indigo-950);
+	border-radius: var(--ap-radius-pill);
+}
+
+.ap-industries__chip img { display: block; inline-size: 20px; block-size: 20px; }
+.ap-industries__chip:focus-visible { outline: var(--ap-border-medium) solid var(--ap-focus-ring); outline-offset: 2px; }
+
+/* Phones: the live homepage's spacing — a full-bleed panel (20px radius,
+ * 40/20 padding), 20px rhythm, and the same photo-on-top cards as desktop. */
+@media (max-width: 767.98px) {
+	.ap-industries { padding: var(--ap-pad-y-lg) 0; }
+	.ap-industries__box { padding: var(--ap-pad-y-md) var(--ap-pad-x-xs); border-radius: 20px; }
+	.ap-industries__inner { gap: var(--ap-surf-gap-3xl); }
+	.ap-industries__card { min-height: 340px; }
+}
+
+@media (min-width: 768px) {
+	.ap-industries__chips { display: none; }
+	.ap-industries__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (min-width: 992px) {
+	.ap-industries__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* Border-box sizing for everything in the component, as on the live homepage;
+ * :where() keeps it at zero specificity. */
+:where(.ap-industries, .ap-industries *, .ap-industries *::before, .ap-industries *::after) { box-sizing: border-box; }
+
+/* Phones: the live homepage panel spacing — 56px bands, a 36/16 panel, and a
+ * chip row that bleeds to the panel edge. */
+@media (max-width: 767.98px) {
+	.ap-industries { padding: 56px 0; }
+	.ap-industries__box { padding: 36px 16px; }
+	.ap-industries__chips ul { margin-inline: -16px; padding-inline: 16px; }
+}
+
+/* Phones keep the desktop card spacing, as the live homepage does (its phone
+ * cards are ~385px, like desktop). */
+@media (max-width: 767.98px) {
+	.ap-industries__card { gap: 24px; padding: 168px 24px 24px; }
+}

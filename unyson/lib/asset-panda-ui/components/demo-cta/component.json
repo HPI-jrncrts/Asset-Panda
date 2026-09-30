@@ -1,0 +1,21 @@
+{
+	"name": "demo-cta",
+	"description": "Closing demo card: dark gradient panel with copy and a pull quote beside a demo form or button. Live: the `.ap-fire-footer-cta` card that closes every vertical page.",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading. Line breaks are kept." },
+		"body": { "type": "string", "required": false, "default": "", "description": "Paragraph under the heading." },
+		"quote": { "type": "string", "required": false, "default": "", "description": "Pull quote, shown in green." },
+		"quote_sub": { "type": "string", "required": false, "default": "", "description": "Line under the pull quote." },
+		"form_heading": { "type": "string", "required": false, "default": "", "description": "Heading above the form panel." },
+		"form_id": { "type": "string", "required": false, "default": "", "description": "Identifier for the form mount point, which the site's form script fills. Empty renders the button instead." },
+		"hubspot_portal": { "type": "string", "required": false, "default": "", "description": "HubSpot portal ID for the demo form (digits)." },
+		"hubspot_form": { "type": "string", "required": false, "default": "", "description": "HubSpot form ID (GUID)." },
+		"hubspot_region": { "type": "string", "required": false, "default": "na1", "description": "HubSpot region, e.g. na1 or na2." },
+		"image": { "type": "string", "required": false, "default": "", "description": "Product image on the right, used instead of a form." },
+		"image_alt": { "type": "string", "required": false, "default": "", "description": "Product image alt text." },
+		"cta_label": { "type": "string", "required": false, "default": "", "description": "Button text, used when there is no form. Renders only with cta_url." },
+		"cta_url": { "type": "string", "required": false, "default": "", "description": "Button destination." },
+		"reveal": { "type": "boolean", "required": false, "default": true, "description": "Reveal the card on scroll." }
+	}
+}

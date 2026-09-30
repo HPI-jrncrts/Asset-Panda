@@ -6,9 +6,26 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
+
+/**
+ * Cross-platform "was this file run directly, not imported" check.
+ *
+ * The naive `import.meta.url === 'file://' + process.argv[1]` string concat
+ * silently evaluates false on Windows: `process.argv[1]` can come back as a
+ * relative path (`tools/audit-layout.mjs`), and even when absolute, a raw
+ * `'file://' + path` doesn't add the extra slash a Windows drive letter needs
+ * or percent-encode spaces the way a real file:// URL does — so every audit's
+ * CLI entrypoint no-op'd (exit 0, zero output) on every Windows invocation,
+ * including via `npm run audit:*`. `pathToFileURL` builds the URL correctly
+ * for the current platform, so the comparison is exact everywhere.
+ */
+export function isMainModule(moduleUrl) {
+  if (!process.argv[1]) return false;
+  return moduleUrl === pathToFileURL(process.argv[1]).href;
+}
 
 /* ------------------------------------------------------------------ *
  * Targets

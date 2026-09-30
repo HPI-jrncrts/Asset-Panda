@@ -1,0 +1,434 @@
+/*
+ * hub-hero — ported from the live #ap-gov-hero. Photo placement arrives as
+ * inline percentages (numbers only); the phone composite image arrives as
+ * --apg-mbg on the root.
+ */
+
+:where(.ap-hub-hero, .ap-hub-hero *, .ap-hub-hero *::before, .ap-hub-hero *::after) {
+	box-sizing: border-box;
+}
+
+.ap-hub-hero {
+	position:relative;
+	width:100%;
+	background:#fff;
+	overflow:hidden;
+	font-family:Manrope,sans-serif;
+	--gu:calc(100vw / 1440)
+}
+
+.ap-hub-hero .apg-hero-stage {
+	position:relative;
+	width:100%;
+	aspect-ratio:var(--apg-ratio, 1440/640)
+}
+
+.ap-hub-hero .apg-hero-visual {
+	position:absolute;
+	inset:0
+}
+
+.ap-hub-hero .apg-hero-bg {
+	position:absolute;
+	inset:0;
+	width:100%;
+	height:100%;
+	object-fit:cover;
+	object-position:center top
+}
+
+.ap-hub-hero .apg-hero-photo {
+	position:absolute;
+	display:block
+}
+
+.ap-hub-hero .apg-hero-p1 {
+	left:56.8056%;
+	top:15.625%;
+	width:25.4167%;
+	height:71.25%;
+	object-fit:cover
+}
+
+.ap-hub-hero .apg-hero-p2 {
+	left:45.9722%;
+	top:32.3438%;
+	width:24.1667%;
+	height:67.8125%;
+	object-fit:cover
+}
+
+.ap-hub-hero .apg-hero-p3w {
+	position:absolute;
+	left:63.6111%;
+	top:33.2813%;
+	width:25.625%;
+	height:66.875%;
+	overflow:hidden
+}
+
+.ap-hub-hero .apg-hero-p3w img {
+	position:absolute;
+	left:-22.57%;
+	top:0;
+	width:145.13%;
+	max-width:none;
+	height:100%;
+	display:block;
+	object-fit:fill
+}
+
+.ap-hub-hero .apg-hero-veil {
+	position:absolute;
+	left:0;
+	right:0;
+	bottom:-1px;
+	height:var(--apg-veil, 58.125%);
+	background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0) 25.86%,rgba(255,255,255,.846) 72.753%,#fff 100%)
+}
+
+.ap-hub-hero .apg-hero-in {
+	position:absolute;
+	left:11.1111%;
+	top:var(--apg-ctop, calc(50% + 14 * var(--gu)));
+	transform:translateY(-50%);
+	width:38.8889%;
+	display:flex;
+	flex-direction:column;
+	gap:calc(16 * var(--gu));
+	align-items:flex-start;
+	z-index:3
+}
+
+.ap-hub-hero .apg-eyebrow {
+	font-size:14px;
+	font-weight:800;
+	line-height:1.2;
+	letter-spacing:.56px;
+	text-transform:uppercase;
+	color:#5044e1;
+	margin:0
+}
+
+.ap-hub-hero h1.apg-h1 {
+	font-size:48px;
+	font-weight:800;
+	line-height:1.2;
+	color:#25272c;
+	margin:0
+}
+
+.ap-hub-hero .apg-h1-grad {
+	background:linear-gradient(38.812deg,#5044e1 0%,#00a991 70.44%);
+	-webkit-background-clip:text;
+	background-clip:text;
+	color:transparent
+}
+
+.ap-hub-hero .apg-hero-body {
+	font-size:18px;
+	line-height:1.5;
+	color:#5b616e;
+	margin:0
+}
+
+.ap-hub-hero .apg-cta-row {
+	display:flex;
+	align-items:center;
+	gap:calc(24 * var(--gu));
+	padding-top:calc(16 * var(--gu));
+	width:100%
+}
+
+.ap-hub-hero .apg-btn {
+	display:inline-flex;
+	align-items:center;
+	justify-content:center;
+	gap:8px;
+	min-height:48px;
+	padding:16px;
+	border-radius:4px;
+	border:1px solid #5044e1;
+	background:linear-gradient(55.106deg,#5044e1 0%,#00a991 70.44%);
+	color:#fff;
+	font-family:Manrope,sans-serif;
+	font-size:16px;
+	font-weight:600;
+	line-height:1.2;
+	text-decoration:none;
+	white-space:nowrap;
+	transition:translate .3s cubic-bezier(.25,.45,.45,.95),box-shadow .3s cubic-bezier(.25,.45,.45,.95)
+}
+
+.ap-hub-hero .apg-btn:hover {
+	translate:0 -2px;
+	box-shadow:0 8px 20px rgba(80,68,225,.25)
+}
+
+.ap-hub-hero .apg-badges {
+	display:flex;
+	align-items:center;
+	gap:calc(28 * var(--gu))
+}
+
+.ap-hub-hero .apg-feats {
+	position:absolute;
+	left:50%;
+	transform:translateX(-50%);
+	bottom:calc(16 * var(--gu));
+	width:77.7778%;
+	max-width:1120px;
+	display:flex;
+	align-items:center;
+	justify-content:space-between;
+	z-index:3
+}
+
+.ap-hub-hero .apg-feats-track {
+	display:contents
+}
+
+.ap-hub-hero .apg-feat {
+	display:flex;
+	align-items:center;
+	gap:8px;
+	padding:8px 12px;
+	border-radius:8px
+}
+
+.ap-hub-hero .apg-feat img {
+	width:24px;
+	height:24px;
+	display:block
+}
+
+.ap-hub-hero .apg-feat span {
+	font-size:16px;
+	line-height:1.6;
+	color:#25272c;
+	white-space:nowrap
+}
+
+.ap-hub-hero .apg-feat-dup {
+	display:none
+}
+
+@media (min-width:768px) {
+	.ap-hub-hero .apg-hero-p1 {
+	animation:apHubHeroRise .9s cubic-bezier(.22,1,.36,1) both .15s
+}
+
+.ap-hub-hero .apg-hero-p2 {
+	animation:apHubHeroRise .9s cubic-bezier(.22,1,.36,1) both .3s
+}
+
+.ap-hub-hero .apg-hero-p3w {
+	animation:apHubHeroRise .9s cubic-bezier(.22,1,.36,1) both .45s
+}
+
+
+}
+
+@keyframes apHubHeroRise {
+	from {
+	opacity:0;
+	translate:0 calc(18 * var(--gu))
+}
+
+to {
+	opacity:1;
+	translate:0 0
+}
+
+
+}
+
+@media (max-width:767px) {
+	.ap-hub-hero {
+	--gu:1px
+}
+
+.ap-hub-hero .apg-hero-stage {
+	display:flex;
+	flex-direction:column;
+	aspect-ratio:auto;
+	position:relative
+}
+
+.ap-hub-hero .apg-hero-stage::before {
+	content:"";
+	position:absolute;
+	left:0;
+	right:0;
+	top:0;
+	bottom:0;
+	background-image:var(--apg-mbg, none);
+	background-size:cover;
+	background-position:center bottom;
+	background-repeat:no-repeat;
+	z-index:0
+}
+
+.ap-hub-hero .apg-hero-in {
+	position:relative;
+	left:auto;
+	top:auto;
+	transform:none;
+	order:1;
+	width:100%;
+	padding:24px 24px 4px;
+	align-items:center;
+	text-align:center;
+	gap:10px
+}
+
+.ap-hub-hero .apg-eyebrow {
+	font-size:12px;
+	letter-spacing:.48px
+}
+
+.ap-hub-hero h1.apg-h1 {
+	font-size:30px
+}
+
+.ap-hub-hero .apg-hero-body {
+	font-size:15px
+}
+
+.ap-hub-hero .apg-cta-row {
+	flex-direction:column;
+	align-items:center;
+	gap:16px;
+	padding-top:6px
+}
+
+.ap-hub-hero .apg-btn {
+	width:100%;
+	font-size:16px;
+	min-height:46px;
+	padding:14px
+}
+
+.ap-hub-hero .apg-badges {
+	gap:20px;
+	justify-content:center
+}
+
+.ap-hub-hero .apg-hero-visual {
+	order:2;
+	position:relative;
+	inset:auto;
+	width:100%;
+	aspect-ratio:360/330;
+	overflow:hidden
+}
+
+.ap-hub-hero .apg-hero-bg,.ap-hub-hero .apg-hero-photo,.ap-hub-hero .apg-hero-p3w,.ap-hub-hero .apg-hero-veil {
+	display:none
+}
+
+.ap-hub-hero .apg-hero-in,.ap-hub-hero .apg-hero-visual,.ap-hub-hero .apg-feats {
+	position:relative;
+	z-index:1
+}
+
+.ap-hub-hero .apg-feats {
+	position:relative;
+	left:auto;
+	transform:none;
+	bottom:auto;
+	order:3;
+	width:100%;
+	max-width:none;
+	overflow:hidden;
+	justify-content:flex-start;
+	padding:8px 0 16px
+}
+
+.ap-hub-hero .apg-feats-track {
+	display:flex;
+	flex-direction:row;
+	align-items:center;
+	gap:0;
+	width:max-content;
+	max-width:none;
+	animation:apHubHeroMarquee 18s linear infinite
+}
+
+.ap-hub-hero .apg-feat {
+	margin-right:28px
+}
+
+.ap-hub-hero .apg-feat-dup {
+	display:flex
+}
+
+
+}
+
+@keyframes apHubHeroMarquee {
+	from {
+	transform:translateX(0)
+}
+
+to {
+	transform:translateX(-50%)
+}
+
+
+}
+
+/*apbnfix3*/@media (max-width:767px) {
+	.ap-hub-hero .apg-hero-stage::before {
+	background-image:var(--apg-mbg, none),var(--apg-mbg, none);
+	background-size:100% auto,cover;
+	background-position:center bottom,center top;
+	background-repeat:no-repeat
+}
+
+.ap-hub-hero .apg-hero-visual {
+	aspect-ratio:393/378
+}
+
+
+}
+
+.ap-hub-hero .apg-badges img {
+	width:auto;
+	height:calc(66 * var(--gu));
+	object-fit:contain
+}
+
+.ap-hub-hero .apg-feat .ap-inline-icon svg {
+	width:24px;
+	height:24px;
+	display:block
+}
+
+@media (max-width:767px) {
+	.ap-hub-hero .apg-badges img {
+	height:50px
+}
+
+
+}
+
+/* Education hub: the chips sit in a ruled band under the stage, and scroll as
+ * a marquee on phones (live .ap-hero-feats-band). */
+.ap-hub-hero .apg-feats--band {
+	position: static;
+	transform: none;
+	width: 100%;
+	max-width: none;
+	padding: 16px 24px;
+	border-bottom: 1px solid #e6e9f2;
+	background: #fff;
+	justify-content: center;
+	gap: 120px;
+}
+
+.ap-hub-hero .apg-feats--band .apg-feat { padding: 0; }
+
+@media (max-width: 1024px) {
+	.ap-hub-hero .apg-feats--band { padding: 16px 20px; overflow: hidden; }
+}

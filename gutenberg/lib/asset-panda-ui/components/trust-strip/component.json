@@ -1,0 +1,11 @@
+{
+	"name": "trust-strip",
+	"description": "Trust bar: a short label beside a row of customer or certification badges; on phones the row scrolls as a marquee. Live: the `.ap-trust` strip on every vertical, hub and solution page.",
+	"props": {
+		"label": { "type": "string", "required": false, "default": "", "description": "Label beside the badges, e.g. Trusted by fire departments nationwide." },
+		"accent": { "type": "string", "required": false, "default": "", "description": "Part of the label to paint with the brand gradient. Must appear in label." },
+		"items": { "type": "array", "required": true, "description": "Badges. Each: image (required), alt; optional url." },
+		"marquee": { "type": "boolean", "required": false, "default": true, "description": "Scroll the badges on phones instead of wrapping them." },
+		"reveal": { "type": "boolean", "required": false, "default": true, "description": "Reveal the section on scroll." }
+	}
+}

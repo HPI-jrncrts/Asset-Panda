@@ -1,0 +1,17 @@
+{
+  "$comment": "Proof-of-life spec, written 2026-08-31 against the LIVE Fire page's actual rendered markup (verified via curl, not guessed from memory). Node/Playwright were only just installed on this dev box — see the ap-verification-layer-status memory for status/next-steps.",
+
+  "section": "fire-hero",
+  "node": null,
+  "selector": "#ap-hero",
+  "path": "/products/asset-panda-for-fire/",
+
+  "widths": [320, 360, 375, 390, 414, 480, 640, 768, 900, 1024, 1180, 1280, 1366, 1440, 1600, 1920],
+
+  "$comment_noOverlap": "Deliberately EMPTY here. .apf-card/.apf-badge__tile/.apf-ln are all `position:absolute !important` by design (the --u design-unit overlay pattern every ap-* hero uses) -- audit-layout.mjs's overlap check only inspects static/relative siblings, so it would silently check zero elements and report a false pass. This IS the real bug class that hit Public Works (a connector line landing under a card, see ap-sector-page-deploys.md) -- audit-layout.mjs cannot catch that yet as written. Needs a follow-up check that measures a configured set of absolutely-positioned 'scene' elements against each other, before this spec's noOverlap is meaningful for any hero section.",
+  "noOverlap": [],
+
+  "jitterWatch": ["#ap-hero"],
+  "strictTokens": false,
+  "pixelThreshold": 2.0
+}

@@ -1,0 +1,130 @@
+/*
+ * Asset Panda UI — motion layer.
+ *
+ * The shared vocabulary for scroll reveals and hover micro-interactions.
+ * Component-specific @keyframes stay in that component's style.css; only
+ * cross-cutting primitives live here.
+ *
+ * All values come from tokens.css (--ap-dur-*, --ap-ease-*, --ap-reveal-*).
+ * Never hard-code a duration or easing in a component.
+ *
+ * SAFETY CONTRACT
+ *   Every element renders VISIBLE AT REST. The hidden pre-reveal state applies
+ *   only under `html.ap-motion`, a class motion.js sets at runtime. So if the
+ *   script fails to load, errors, or is blocked, content stays visible — a
+ *   broken observer can never leave a section invisible.
+ *
+ *   motion.js does not set that class when the user prefers reduced motion, so
+ *   the media query below is a second line of defence, not the only one.
+ *
+ * USAGE
+ *   <div data-ap-reveal>            fade + rise
+ *   <div data-ap-reveal="fade">     fade only
+ *   <div data-ap-reveal="left">     fade + slide from left
+ *   <div data-ap-reveal data-ap-reveal-delay="3">   stagger step 3
+ *
+ *   Do NOT put data-ap-reveal on above-the-fold content: motion.js is a footer
+ *   script, so first-screen elements would flash. Heroes animate on load via
+ *   their own component CSS instead.
+ */
+
+/* ---- Scroll reveal ---- */
+
+html.ap-motion [data-ap-reveal] {
+	opacity: 0;
+	transition:
+		opacity var(--ap-dur-slow) var(--ap-ease-out),
+		translate var(--ap-dur-slow) var(--ap-ease-out);
+	transition-delay: var(--ap-reveal-delay, 0ms);
+	will-change: opacity, translate;
+}
+
+/* Direction variants. `translate` (not `transform`) so a component is free to
+ * own `transform` for its own purposes without the two fighting. */
+html.ap-motion [data-ap-reveal],
+html.ap-motion [data-ap-reveal="up"] {
+	translate: 0 var(--ap-reveal-distance);
+}
+html.ap-motion [data-ap-reveal="down"] {
+	translate: 0 calc(var(--ap-reveal-distance) * -1);
+}
+html.ap-motion [data-ap-reveal="left"] {
+	translate: calc(var(--ap-reveal-distance) * -1) 0;
+}
+html.ap-motion [data-ap-reveal="right"] {
+	translate: var(--ap-reveal-distance) 0;
+}
+html.ap-motion [data-ap-reveal="fade"] {
+	translate: none;
+}
+
+/* Revealed state — one selector, every direction. */
+html.ap-motion [data-ap-reveal].ap-inview {
+	opacity: 1;
+	translate: none;
+}
+
+/* Once the reveal has run, drop the compositor hint. */
+html.ap-motion [data-ap-reveal].ap-reveal-done {
+	will-change: auto;
+	transition: none;
+}
+
+/* ---- Stagger ----
+ * Set by motion.js from data-ap-reveal-delay, or authored directly in markup.
+ * Steps are multiples of --ap-stagger-step so the rhythm stays consistent. */
+[data-ap-reveal-delay="1"] { --ap-reveal-delay: calc(var(--ap-stagger-step) * 1); }
+[data-ap-reveal-delay="2"] { --ap-reveal-delay: calc(var(--ap-stagger-step) * 2); }
+[data-ap-reveal-delay="3"] { --ap-reveal-delay: calc(var(--ap-stagger-step) * 3); }
+[data-ap-reveal-delay="4"] { --ap-reveal-delay: calc(var(--ap-stagger-step) * 4); }
+[data-ap-reveal-delay="5"] { --ap-reveal-delay: calc(var(--ap-stagger-step) * 5); }
+[data-ap-reveal-delay="6"] { --ap-reveal-delay: calc(var(--ap-stagger-step) * 6); }
+
+/* ---- Hover micro-interactions ----
+ * Opt-in utilities. `transform` is deliberately untouched: scroll entrances own
+ * it, and animating both from two places is how hover states start fighting
+ * reveals. These animate `translate` / `scale` / `box-shadow` only.
+ */
+
+[data-ap-hover] {
+	transition:
+		translate var(--ap-dur-base) var(--ap-ease-standard),
+		scale var(--ap-dur-base) var(--ap-ease-standard),
+		box-shadow var(--ap-dur-base) var(--ap-ease-standard),
+		background-color var(--ap-dur-fast) var(--ap-ease-standard),
+		border-color var(--ap-dur-fast) var(--ap-ease-standard),
+		color var(--ap-dur-fast) var(--ap-ease-standard);
+}
+@media (hover: hover) {
+	[data-ap-hover="lift"]:hover {
+		translate: 0 -4px;
+		box-shadow: var(--ap-shadow-md);
+	}
+	[data-ap-hover="grow"]:hover {
+		scale: 1.02;
+	}
+	[data-ap-hover="nudge"]:hover {
+		translate: 4px 0;
+	}
+}
+
+/* ---- Reduced motion ----
+ * Belt and braces: motion.js already declines to add .ap-motion, so the reveal
+ * pre-state never applies. This also neutralises hover transitions and any
+ * component keyframes.
+ */
+@media (prefers-reduced-motion: reduce) {
+	html.ap-motion [data-ap-reveal],
+	html.ap-motion [data-ap-reveal].ap-inview {
+		opacity: 1;
+		translate: none;
+		transition: none;
+	}
+	[data-ap-hover] {
+		transition: none;
+	}
+	[data-ap-hover]:hover {
+		translate: none;
+		scale: none;
+	}
+}

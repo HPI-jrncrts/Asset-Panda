@@ -1,0 +1,32 @@
+{
+  "section": "gov-picker",
+  "node": "5976:72091",
+  "selector": "#ap-gov-picker",
+  "path": "/",
+  "widths": [
+    320,
+    360,
+    375,
+    390,
+    414,
+    480,
+    640,
+    768,
+    900,
+    1024,
+    1180,
+    1280,
+    1366,
+    1440,
+    1600,
+    1920
+  ],
+  "noOverlap": [
+    ".apg-pick-card"
+  ],
+  "jitterWatch": [
+    "#ap-gov-picker"
+  ],
+  "strictTokens": false,
+  "pixelThreshold": 2.5
+}

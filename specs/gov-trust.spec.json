@@ -1,0 +1,33 @@
+{
+  "section": "gov-trust",
+  "node": "5976:72078",
+  "selector": "#ap-gov-trust",
+  "path": "/",
+  "widths": [
+    320,
+    360,
+    375,
+    390,
+    414,
+    480,
+    640,
+    768,
+    900,
+    1024,
+    1180,
+    1280,
+    1366,
+    1440,
+    1600,
+    1920
+  ],
+  "noOverlap": [
+    ".apg-trust-label",
+    ".apg-trust-logos"
+  ],
+  "jitterWatch": [
+    "#ap-gov-trust"
+  ],
+  "strictTokens": false,
+  "pixelThreshold": 2.5
+}

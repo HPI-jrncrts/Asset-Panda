@@ -1,0 +1,10 @@
+{
+	"name": "industries",
+	"description": "Dark indigo panel of sector cards, each with a photo, sector icon, description and link to the sector hub. Figma: Home Page > Industries (4331:24718).",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading. Line breaks are kept." },
+		"items": { "type": "array", "required": true, "description": "Sector cards. Each: title and body (required); optional image, image_alt, icon (government, manufacturing, healthcare, education, construction, nonprofit), link_label, link_url." },
+		"reveal": { "type": "boolean", "required": false, "default": true, "description": "Stagger cards in on scroll." }
+	}
+}

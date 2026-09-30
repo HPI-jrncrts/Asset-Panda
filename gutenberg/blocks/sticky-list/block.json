@@ -1,0 +1,45 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/sticky-list",
+	"title": "AP Sticky List",
+	"category": "design",
+	"icon": "editor-ul",
+	"description": "Solution list: a heading that sticks beside rows of capabilities, each row a coloured left rule with an icon, a title and a checklist. Live: the `.ap-features` section on every vertical and the numbered variant on the solution pages. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"items": {
+			"type": "array",
+			"default": []
+		},
+		"reveal": {
+			"type": "boolean",
+			"default": true
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

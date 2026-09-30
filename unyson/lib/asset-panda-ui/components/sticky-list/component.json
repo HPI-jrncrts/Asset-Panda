@@ -1,0 +1,34 @@
+{
+	"name": "sticky-list",
+	"description": "Solution list: a heading that sticks beside rows of capabilities, each row a coloured left rule with an icon, a title and a checklist. Live: the `.ap-features` section on every vertical and the numbered variant on the solution pages.",
+	"props": {
+		"eyebrow": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Small label above the heading."
+		},
+		"title": {
+			"type": "string",
+			"required": true,
+			"description": "Heading beside the rows. Line breaks are kept."
+		},
+		"items": {
+			"type": "array",
+			"required": true,
+			"description": "Each may carry num (a numeral shown instead of the icon). Rows. Each: title (required); optional icon (URL), icon_svg (inline SVG), icon_alt, accent (hex colour for the rule and check marks), checks (array of strings), body, link_label and link_url."
+		},
+		"reveal": {
+			"type": "boolean",
+			"required": false,
+			"default": true,
+			"description": "Reveal the rows on scroll."
+		},
+		"lede": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Supporting paragraph under the sticky heading."
+		}
+	}
+}

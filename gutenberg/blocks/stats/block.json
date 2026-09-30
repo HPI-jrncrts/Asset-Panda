@@ -1,0 +1,51 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/stats",
+	"title": "AP Stats",
+	"category": "design",
+	"icon": "chart-bar",
+	"description": "A grid of headline statistics. Each stat has a gradient-filled value, a label, and optional supporting copy. Used on the homepage between the hero and the value proposition. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"items": {
+			"type": "array",
+			"default": []
+		},
+		"columns": {
+			"type": "number",
+			"default": 3,
+			"enum": [
+				2,
+				3,
+				4
+			]
+		},
+		"theme": {
+			"type": "string",
+			"default": "light",
+			"enum": [
+				"light",
+				"alt",
+				"dark"
+			]
+		},
+		"reveal": {
+			"type": "boolean",
+			"default": true
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

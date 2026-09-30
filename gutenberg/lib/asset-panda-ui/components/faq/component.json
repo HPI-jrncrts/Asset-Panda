@@ -1,0 +1,12 @@
+{
+	"name": "faq",
+	"description": "FAQ accordion: a centred heading over ruled question rows that open in place. Live: the `.ap-faq` section on every vertical, hub and solution page.",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading. Line breaks are kept." },
+		"items": { "type": "array", "required": true, "description": "Questions. Each: q (question) and a (answer). Line breaks in the answer are kept." },
+		"open_first": { "type": "boolean", "required": false, "default": true, "description": "Start with the first question open." },
+		"schema": { "type": "boolean", "required": false, "default": false, "description": "Also output FAQPage structured data for these questions. Use on one FAQ per page." },
+		"reveal": { "type": "boolean", "required": false, "default": true, "description": "Reveal the section on scroll." }
+	}
+}

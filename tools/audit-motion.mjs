@@ -22,7 +22,7 @@
 
 import {
   parseArgs, loadSpec, resolveUrl, preparePage, launchBrowser,
-  cssEquals, makeReport, printReport, info,
+  cssEquals, makeReport, printReport, info, isMainModule,
 } from './lib/shared.mjs';
 
 /** "550ms" and "0.55s" are the same thing; compare in ms. */
@@ -79,7 +79,9 @@ export async function auditMotion({ spec, url, browser }) {
   try {
     const page = await b.newPage();
     try {
-      await page.goto(url, { waitUntil: 'networkidle', timeout: 45_000 });
+      // see audit-layout.mjs: 'networkidle' hangs on real AP pages with live
+      // tracking beacons. domcontentloaded + preparePage's settle wait instead.
+      await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 45_000 });
       await preparePage(page, { width });
 
       /* ---- A + B. Declared motion ---------------------------------- */
@@ -170,7 +172,7 @@ export async function auditMotion({ spec, url, browser }) {
 
       /* ---- D. prefers-reduced-motion ------------------------------- */
       await page.emulateMedia({ reducedMotion: 'reduce' });
-      await page.reload({ waitUntil: 'networkidle' });
+      await page.reload({ waitUntil: 'domcontentloaded' });
       const stillAnimating = await page.evaluate((rootSel) => {
         const root = document.querySelector(rootSel);
         if (!root) return 0;
@@ -197,7 +199,7 @@ export async function auditMotion({ spec, url, browser }) {
   return report;
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (isMainModule(import.meta.url)) {
   const args = parseArgs();
   if (!args.section) {
     console.error('Usage: node tools/audit-motion.mjs --section <name> [--target preview|dev|live]');

@@ -5,20 +5,110 @@
 	"title": "AP Hero",
 	"category": "design",
 	"icon": "cover-image",
-	"description": "Hero banner rendered by the shared Asset Panda UI kit. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"description": "Page hero: centred eyebrow, headline with a gradient accent line, lede, body, calls to action and compliance badges over blurred colour orbs; a frosted product-video frame; a client-logo strip. Figma: Home Page > Hero (4331:28767). The reference component — copy its shape when adding new components. This block is an adapter — it holds no markup; it maps attributes to kit props.",
 	"textdomain": "assetpanda",
 	"attributes": {
-		"title": { "type": "string", "default": "" },
-		"subtitle": { "type": "string", "default": "" },
-		"eyebrow": { "type": "string", "default": "" },
-		"ctaLabel": { "type": "string", "default": "" },
-		"ctaUrl": { "type": "string", "default": "" },
-		"alignment": { "type": "string", "default": "center", "enum": [ "left", "center" ] },
-		"theme": { "type": "string", "default": "light", "enum": [ "light", "dark", "brand" ] }
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"title_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"subtitle": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_label": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_url": {
+			"type": "string",
+			"default": ""
+		},
+		"secondary_label": {
+			"type": "string",
+			"default": ""
+		},
+		"secondary_url": {
+			"type": "string",
+			"default": ""
+		},
+		"secondary_mobile_only": {
+			"type": "boolean",
+			"default": false
+		},
+		"badges_label": {
+			"type": "string",
+			"default": ""
+		},
+		"badges": {
+			"type": "array",
+			"default": []
+		},
+		"media_video": {
+			"type": "string",
+			"default": ""
+		},
+		"media_image": {
+			"type": "string",
+			"default": ""
+		},
+		"media_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"logos_label": {
+			"type": "string",
+			"default": ""
+		},
+		"logos_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"logos": {
+			"type": "array",
+			"default": []
+		},
+		"alignment": {
+			"type": "string",
+			"default": "center",
+			"enum": [
+				"left",
+				"center"
+			]
+		},
+		"theme": {
+			"type": "string",
+			"default": "light",
+			"enum": [
+				"light",
+				"dark",
+				"brand"
+			]
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
 	},
 	"supports": {
 		"html": false,
-		"reusable": true
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
 	},
 	"render": "file:./render.php"
 }

@@ -1,0 +1,418 @@
+/*
+ * problem-callouts — centred copy, a photo ringed by floating chips, a note
+ * and a CTA bar. Ported from the live `.ap-problem` section.
+ *
+ * The first five chips take the five placements the design defines (by
+ * position in the list); the rest stack under the photo. Below 768px every
+ * chip becomes a full-width row, so nothing floats over the photo on a phone.
+ */
+
+:where(.ap-problem-callouts, .ap-problem-callouts *, .ap-problem-callouts *::before, .ap-problem-callouts *::after) {
+	box-sizing: border-box;
+}
+
+.ap-problem-callouts {
+	position: relative;
+	overflow: hidden;
+	padding: 80px 0;
+	background: #fff;
+}
+
+.ap-problem-callouts__bg {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	width: 100%;
+	height: 100%;
+	max-width: none;
+	object-fit: cover;
+	pointer-events: none;
+	-webkit-mask-image: linear-gradient(rgba(0, 0, 0, 0) 0%, #000 7%, #000 90%, rgba(0, 0, 0, 0) 100%);
+	mask-image: linear-gradient(rgba(0, 0, 0, 0) 0%, #000 7%, #000 90%, rgba(0, 0, 0, 0) 100%);
+}
+
+.ap-problem-callouts__inner {
+	position: relative;
+	z-index: 1;
+	width: min(var(--ap-page-max-content-xl, 1120px), 100% - 48px);
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 40px;
+}
+
+.ap-problem-callouts__header {
+	max-width: 640px;
+	text-align: center;
+}
+
+.ap-problem-callouts__eyebrow {
+	margin: 0 0 16px;
+	color: var(--ap-text-eyebrow);
+	font-family: var(--ap-font-utility);
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.2;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.ap-problem-callouts__title {
+	margin: 0 0 16px;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: 40px;
+	font-weight: 800;
+	line-height: 1.2;
+}
+
+.ap-problem-callouts__lede {
+	margin: 0 0 8px;
+	color: var(--ap-text-body);
+	font-family: var(--ap-font-body);
+	font-size: 18px;
+	line-height: 1.5;
+}
+
+.ap-problem-callouts__kicker {
+	margin: 0;
+	color: var(--ap-text-body);
+	font-family: var(--ap-font-body);
+	font-size: 18px;
+	font-weight: 700;
+	line-height: 1.5;
+}
+
+.ap-problem-callouts__stage {
+	position: relative;
+	width: 100%;
+	max-width: var(--ap-page-max-content-xl, 1120px);
+}
+
+.ap-problem-callouts__photo {
+	display: block;
+	width: 547px;
+	max-width: 100%;
+	height: auto;
+	margin: 0 auto;
+	border-radius: var(--ap-radius-lg);
+}
+
+.ap-problem-callouts__card {
+	position: absolute;
+	z-index: 2;
+	width: max-content;
+	max-width: 440px;
+	display: flex;
+	align-items: flex-start;
+	gap: 8px;
+	padding: 8px 12px;
+	border: 1px solid;
+	border-radius: var(--ap-radius-md);
+	box-shadow: 0 2px 24px rgba(255, 201, 124, 0.08);
+}
+
+.ap-problem-callouts__card p {
+	flex: 1 0 0;
+	min-width: 1px;
+	margin: 0;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-body);
+	font-size: 16px;
+	line-height: 1.6;
+}
+
+.ap-problem-callouts__ico {
+	width: 24px;
+	height: 24px;
+	flex: 0 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.ap-problem-callouts__ico img,
+.ap-problem-callouts__ico svg {
+	width: 20px;
+	height: 20px;
+	object-fit: contain;
+}
+
+/* Tones: a tinted wash and a matching hairline. */
+.ap-problem-callouts__card--indigo {
+	border-color: #eef2ff;
+	background: linear-gradient(90deg, rgba(255, 255, 255, 0.8) 0%, #eef2ff 100%);
+}
+
+.ap-problem-callouts__card--rose {
+	border-color: #fff1f3;
+	background: linear-gradient(90deg, rgba(255, 255, 255, 0.8) 0%, #fff1f3 100%);
+}
+
+.ap-problem-callouts__card--mint {
+	border-color: #effefa;
+	background: linear-gradient(90deg, rgba(255, 255, 255, 0.9) 0%, #effefa 100%);
+}
+
+.ap-problem-callouts__card--slate {
+	border-color: var(--ap-athens-50);
+	background: linear-gradient(90deg, rgba(255, 255, 255, 0.8) 0%, var(--ap-athens-50) 100%);
+}
+
+.ap-problem-callouts__card--amber {
+	border-color: #fff7ed;
+	background: linear-gradient(90deg, rgba(255, 255, 255, 0.9) 0%, #fff7ed 100%);
+}
+
+/* The five placements from the design, by position in the list. */
+.ap-problem-callouts__card:nth-of-type(1) {
+	left: 51px;
+	top: 36px;
+	min-width: 305px;
+}
+
+.ap-problem-callouts__card:nth-of-type(2) {
+	left: 0;
+	top: 128px;
+	min-width: 312px;
+}
+
+.ap-problem-callouts__card:nth-of-type(3) {
+	right: 0;
+	top: 68px;
+	min-width: 384px;
+}
+
+.ap-problem-callouts__card:nth-of-type(4) {
+	left: 102px;
+	top: 220px;
+	min-width: 282px;
+}
+
+.ap-problem-callouts__card:nth-of-type(5) {
+	right: 44px;
+	top: 160px;
+	min-width: 372px;
+}
+
+.ap-problem-callouts__card:nth-of-type(n + 6) {
+	position: static;
+	width: 100%;
+	max-width: 480px;
+	margin: 12px auto 0;
+}
+
+.ap-problem-callouts__note {
+	max-width: 480px;
+	margin: 40px auto 0;
+	color: var(--ap-text-body);
+	font-family: var(--ap-font-body);
+	font-size: 18px;
+	line-height: 1.5;
+	text-align: center;
+}
+
+.ap-problem-callouts__cta {
+	display: flex;
+	align-items: center;
+	gap: 24px;
+	width: 100%;
+	max-width: 794px;
+	padding: 20px 24px;
+	border: 1px solid #c8d2fd;
+	border-radius: var(--ap-radius-xl);
+	background: linear-gradient(39.6deg, var(--ap-indigo-50) 0%, #fff 100%);
+}
+
+.ap-problem-callouts__cta-body {
+	flex: 1 0 0;
+	min-width: 1px;
+	display: flex;
+	align-items: flex-start;
+	gap: 16px;
+}
+
+.ap-problem-callouts__cta-logo {
+	width: 42px;
+	height: 48px;
+	flex: 0 0 auto;
+	display: block;
+}
+
+.ap-problem-callouts__cta-logo img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.ap-problem-callouts__cta-title {
+	margin: 0 0 4px;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: 20px;
+	font-weight: 800;
+	line-height: 1.2;
+}
+
+.ap-problem-callouts__cta-accent {
+	display: block;
+	background: var(--ap-gradient-text);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
+}
+
+.ap-problem-callouts__cta-sub {
+	margin: 0;
+	color: var(--ap-text-body);
+	font-family: var(--ap-font-body);
+	font-size: 18px;
+	line-height: 1.5;
+}
+
+.ap-problem-callouts__btn {
+	flex: 0 0 auto;
+	max-width: 200px;
+	min-height: 48px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 12px 20px;
+	border-radius: var(--ap-radius-md);
+	background: var(--ap-gradient-action);
+	color: #fff;
+	font-family: var(--ap-font-display);
+	font-size: 16px;
+	font-weight: 800;
+	line-height: 1.2;
+	text-decoration: none;
+	white-space: nowrap;
+	transition: translate 0.2s, box-shadow 0.2s, filter 0.2s;
+}
+
+.ap-problem-callouts__btn:hover,
+.ap-problem-callouts__btn:focus-visible {
+	color: #fff;
+	translate: 0 -2px;
+	box-shadow: 0 8px 20px rgba(80, 68, 225, 0.25);
+	filter: brightness(1.06);
+}
+
+@media (prefers-reduced-motion: no-preference) and (min-width: 769px) {
+	.ap-problem-callouts__card {
+		animation: ap-problem-callouts-float 5s ease-in-out infinite alternate;
+	}
+
+	.ap-problem-callouts__card:nth-of-type(2) {
+		animation-delay: -1.2s;
+	}
+
+	.ap-problem-callouts__card:nth-of-type(3) {
+		animation-delay: -2.4s;
+	}
+
+	.ap-problem-callouts__card:nth-of-type(4) {
+		animation-delay: -3.6s;
+	}
+
+	.ap-problem-callouts__card:nth-of-type(5) {
+		animation-delay: -4.8s;
+	}
+}
+
+@media (max-width: 1024px) {
+	.ap-problem-callouts__card:nth-of-type(3) {
+		min-width: 340px;
+		max-width: 340px;
+	}
+
+	.ap-problem-callouts__card:nth-of-type(5) {
+		right: 24px;
+		min-width: 340px;
+		max-width: 340px;
+	}
+}
+
+@media (max-width: 768px) {
+	.ap-problem-callouts {
+		padding: 56px 0 48px;
+	}
+
+	.ap-problem-callouts__title {
+		font-size: 32px;
+	}
+
+	.ap-problem-callouts__lede,
+	.ap-problem-callouts__kicker,
+	.ap-problem-callouts__note,
+	.ap-problem-callouts__cta-sub {
+		font-size: 16px;
+	}
+
+	/* Every chip becomes a row under the photo. */
+	.ap-problem-callouts__stage {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: 16px;
+	}
+
+	.ap-problem-callouts__photo {
+		margin: 0 auto 8px;
+	}
+
+	.ap-problem-callouts__card,
+	.ap-problem-callouts__card:nth-of-type(n) {
+		position: static;
+		inset: auto;
+		width: 100%;
+		min-width: 0;
+		max-width: 480px;
+		margin: 0 auto;
+		align-items: center;
+	}
+
+	.ap-problem-callouts__note {
+		margin-top: 16px;
+	}
+
+	.ap-problem-callouts__cta {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 16px;
+	}
+
+	.ap-problem-callouts__btn {
+		max-width: none;
+	}
+}
+
+@media (max-width: 560px) {
+	.ap-problem-callouts {
+		padding: 40px 0;
+	}
+
+	.ap-problem-callouts__title {
+		font-size: 28px;
+	}
+
+	.ap-problem-callouts__cta-title {
+		font-size: 18px;
+	}
+
+	.ap-problem-callouts__cta-body {
+		flex-direction: column;
+		gap: 12px;
+	}
+}
+
+@keyframes ap-problem-callouts-float {
+	from {
+		translate: 0 0;
+	}
+
+	to {
+		translate: 0 -6px;
+	}
+}

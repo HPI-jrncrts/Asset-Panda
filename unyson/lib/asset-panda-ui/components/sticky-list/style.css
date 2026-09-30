@@ -1,0 +1,277 @@
+/*
+ * sticky-list — sticky heading beside ruled capability rows. Ported from the
+ * live `.ap-features` section.
+ *
+ * Each row sets --ap-sticky-list-accent inline; the rule and the check marks
+ * read it, so a row needs one value rather than a class per colour.
+ */
+
+:where(.ap-sticky-list, .ap-sticky-list *, .ap-sticky-list *::before, .ap-sticky-list *::after) {
+	box-sizing: border-box;
+}
+
+.ap-sticky-list {
+	background: #fff;
+}
+
+.ap-sticky-list__inner {
+	width: min(var(--ap-page-max-content-xl, 1120px), 100% - 48px);
+	margin: 0 auto;
+}
+
+.ap-sticky-list__grid {
+	display: flex;
+	align-items: flex-start;
+	gap: 40px;
+}
+
+.ap-sticky-list__head {
+	width: 383px;
+	flex: 0 0 383px;
+	padding: 80px 0;
+}
+
+.ap-sticky-list__eyebrow {
+	margin: 0 0 16px;
+	color: var(--ap-text-eyebrow);
+	font-family: var(--ap-font-utility);
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.2;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.ap-sticky-list__title {
+	margin: 0;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: 40px;
+	font-weight: 800;
+	line-height: 1.2;
+}
+
+.ap-sticky-list__items {
+	flex: 1 1 0;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	padding: 80px 0;
+}
+
+.ap-sticky-list__card {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	padding: 24px 40px;
+	border-left: 3px solid var(--ap-sticky-list-accent, var(--ap-indigo-600));
+}
+
+.ap-sticky-list__top {
+	display: flex;
+	align-items: flex-start;
+	gap: 16px;
+}
+
+.ap-sticky-list__icon {
+	width: 40px;
+	height: 40px;
+	flex: 0 0 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.ap-sticky-list__icon img {
+	display: block;
+	width: auto;
+	height: 30px;
+}
+
+.ap-sticky-list__icon svg {
+	display: block;
+	width: 32px;
+	height: 32px;
+}
+
+.ap-sticky-list__h3 {
+	flex: 1 1 0;
+	min-width: 0;
+	margin: 0;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: 24px;
+	font-weight: 800;
+	line-height: 1.2;
+}
+
+.ap-sticky-list__checks {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ap-sticky-list__checks li {
+	display: flex;
+	align-items: flex-start;
+	gap: 24px;
+	padding: 8px;
+	border-radius: var(--ap-radius-md);
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-body);
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.6;
+}
+
+.ap-sticky-list__checks li > span:last-child {
+	flex: 1 1 0;
+	min-width: 0;
+}
+
+.ap-sticky-list__body {
+	margin: 0;
+	color: var(--ap-text-body);
+	font-family: var(--ap-font-body);
+	font-size: 16px;
+	line-height: 1.5;
+}
+
+.ap-sticky-list__link {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: 8px;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1.2;
+	text-decoration: none;
+}
+
+.ap-sticky-list__link::after {
+	content: "";
+	width: 24px;
+	height: 24px;
+	background-color: var(--ap-sticky-list-accent, var(--ap-green-600));
+	-webkit-mask: url("../media-split/assets/icon-arrow.svg") center / contain no-repeat;
+	mask: url("../media-split/assets/icon-arrow.svg") center / contain no-repeat;
+	transition: translate 0.3s var(--ap-ease-standard);
+}
+
+.ap-sticky-list__link:hover::after {
+	translate: 4px 0;
+}
+
+/* The tick is a mask, so one shape takes each row's accent colour. */
+.ap-sticky-list__check {
+	width: 24px;
+	height: 24px;
+	flex: 0 0 24px;
+	background-color: var(--ap-sticky-list-accent, var(--ap-indigo-600));
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16.5 11.5' fill='none'%3E%3Cpath d='M0.75 5.75L5.75 10.75L15.75 0.75' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 16px no-repeat;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16.5 11.5' fill='none'%3E%3Cpath d='M0.75 5.75L5.75 10.75L15.75 0.75' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 16px no-repeat;
+}
+
+@media (min-width: 1025px) {
+	/* Clears the sticky site header, which is 72px plus a little air. */
+	.ap-sticky-list__head {
+		position: sticky;
+		top: 104px;
+		align-self: flex-start;
+	}
+
+	.admin-bar .ap-sticky-list__head {
+		top: 136px;
+	}
+}
+
+@media (max-width: 1024px) {
+	.ap-sticky-list__grid {
+		flex-direction: column;
+		gap: 0;
+	}
+
+	.ap-sticky-list__head {
+		width: 100%;
+		flex: 0 0 auto;
+		padding: 80px 0 8px;
+	}
+
+	.ap-sticky-list__items {
+		width: 100%;
+		padding: 32px 0 80px;
+	}
+}
+
+@media (max-width: 768px) {
+	.ap-sticky-list__title {
+		font-size: 32px;
+	}
+
+	.ap-sticky-list__head {
+		padding: 56px 0 8px;
+	}
+
+	.ap-sticky-list__items {
+		padding: 24px 0 56px;
+	}
+
+	.ap-sticky-list__card {
+		padding: 20px 24px;
+	}
+
+	.ap-sticky-list__checks li {
+		gap: 16px;
+	}
+}
+
+@media (max-width: 560px) {
+	.ap-sticky-list__title {
+		font-size: 28px;
+	}
+
+	.ap-sticky-list__head {
+		padding: 40px 0 8px;
+	}
+
+	.ap-sticky-list__items {
+		padding: 16px 0 40px;
+	}
+
+	.ap-sticky-list__h3 {
+		font-size: 20px;
+	}
+
+	.ap-sticky-list__card {
+		padding: 16px 16px 16px 20px;
+	}
+}
+
+/* A numeral instead of an icon (live education hub, .apu-fcard-num). */
+.ap-sticky-list__num {
+	width: 40px;
+	height: 40px;
+	flex: 0 0 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--ap-sticky-list-accent, var(--ap-indigo-600));
+	font-family: var(--ap-font-display);
+	font-size: 24px;
+	font-weight: 800;
+	line-height: 1.2;
+}
+
+.ap-sticky-list__lede {
+	margin: 16px 0 0;
+	color: var(--ap-text-body);
+	font-family: var(--ap-font-body);
+	font-size: 18px;
+	line-height: 1.5;
+}

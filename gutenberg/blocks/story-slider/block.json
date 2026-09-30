@@ -1,0 +1,53 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/story-slider",
+	"title": "AP Story Slider",
+	"category": "design",
+	"icon": "format-quote",
+	"description": "Customer-story slider: quote copy beside a large photo or video, with arrows, a progress rule, dots and a view-all link below. Live: #ap-*-case on the product pages (apc-*) and #ap-gov-case on the industry hubs. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"items": {
+			"type": "array",
+			"default": []
+		},
+		"quote_icon": {
+			"type": "string",
+			"default": ""
+		},
+		"viewall_label": {
+			"type": "string",
+			"default": "View All Case Studies"
+		},
+		"viewall_url": {
+			"type": "string",
+			"default": ""
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

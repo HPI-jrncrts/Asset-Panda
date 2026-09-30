@@ -40,29 +40,63 @@ require_once get_stylesheet_directory() . '/lib/asset-panda-ui/src/loader.php';
  * declares its attributes and points at render.php, which maps attributes ->
  * props -> ap_render_component(). save returns null (dynamic, server-rendered).
  */
+/**
+ * Every directory under blocks/ that contains a block.json is a block.
+ *
+ * Auto-discovery rather than a hand-maintained list: a block is added by
+ * creating its folder, not by editing this file.
+ *
+ * @return string[] Absolute paths to block directories.
+ */
+function ap_block_dirs() {
+	static $dirs = null;
+
+	if ( null !== $dirs ) {
+		return $dirs;
+	}
+
+	$found = glob( get_stylesheet_directory() . '/blocks/*/block.json' );
+	$dirs  = $found ? array_map( 'dirname', $found ) : array();
+
+	return $dirs;
+}
+
 add_action(
 	'init',
 	static function () {
-		register_block_type( get_stylesheet_directory() . '/blocks/hero' );
+		foreach ( ap_block_dirs() as $dir ) {
+			register_block_type( $dir );
+		}
 	}
 );
 
 /**
- * Enqueue the editor script for the block(s). Buildless: the script uses the
- * global wp.* packages, so we declare the dependencies explicitly here (there
- * is no wp-scripts build step producing an index.asset.php).
+ * Enqueue the shared block editor.
+ *
+ * Every AP block is an adapter over a kit component, so they all need the same
+ * editor: a labelled field per attribute plus a ServerSideRender preview.
+ * blocks/ap-editor.js derives those controls from each block's registered
+ * attributes and registers the editor half of all of them, so there is one
+ * script rather than one per block.
+ *
+ * Buildless: it uses the global wp.* packages, so the dependencies are declared
+ * explicitly here (there is no wp-scripts build step producing an
+ * index.asset.php).
  */
 add_action(
 	'enqueue_block_editor_assets',
 	static function () {
-		$rel  = '/blocks/hero/index.js';
-		$path = get_stylesheet_directory() . $rel;
+		$path = get_stylesheet_directory() . '/blocks/ap-editor.js';
+
+		if ( ! file_exists( $path ) ) {
+			return;
+		}
 
 		wp_enqueue_script(
-			'assetpanda-hero-editor',
-			get_stylesheet_directory_uri() . $rel,
+			'assetpanda-blocks-editor',
+			get_stylesheet_directory_uri() . '/blocks/ap-editor.js',
 			array( 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-server-side-render', 'wp-i18n' ),
-			file_exists( $path ) ? (string) filemtime( $path ) : AP_UI_VERSION,
+			(string) filemtime( $path ),
 			true
 		);
 	}

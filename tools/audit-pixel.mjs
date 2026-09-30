@@ -23,9 +23,10 @@ import path from 'node:path';
 
 import { PNG } from 'pngjs';
 import pixelmatch from 'pixelmatch';
+
 import {
   ROOT, parseArgs, loadSpec, resolveUrl, preparePage, launchBrowser,
-  makeReport, printReport, info,
+  makeReport, printReport, info, isMainModule,
 } from './lib/shared.mjs';
 
 const REFS = path.join(ROOT, 'refs');
@@ -46,7 +47,9 @@ export async function auditPixel({ spec, url, browser, updateRefs = false }) {
       const page = await b.newPage();
 
       try {
-        await page.goto(url, { waitUntil: 'networkidle', timeout: 45_000 });
+        // see audit-layout.mjs: 'networkidle' hangs on real AP pages with live
+        // tracking beacons. domcontentloaded + preparePage's settle wait instead.
+        await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 45_000 });
         // Reduced motion so a mid-flight transition doesn't poison the capture.
         await preparePage(page, { width, reducedMotion: true });
         await page.evaluate(() => window.scrollTo(0, 0));
@@ -126,7 +129,7 @@ export async function auditPixel({ spec, url, browser, updateRefs = false }) {
   return report;
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (isMainModule(import.meta.url)) {
   const args = parseArgs();
   if (!args.section) {
     console.error('Usage: node tools/audit-pixel.mjs --section <name> [--update-refs] [--target preview|dev|live]');

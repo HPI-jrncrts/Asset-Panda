@@ -1,0 +1,382 @@
+/* comparison — pillar / Asset Panda / spreadsheets table.
+ * Matches the live homepage (dev page 7, #ap-asset-intel-compare-v1), built
+ * from Figma Why Asset Intelligence (4331:24561). Section slate-50, padding
+ * 80/40, centred header (max 640), table columns 347 / 427 / 347. */
+
+.ap-compare {
+	padding-block: var(--ap-pad-y-md) var(--ap-pad-y-sm);
+	padding-inline: var(--ap-pad-x-xs);
+	background: var(--ap-slate-50);
+	font-family: var(--ap-font-body);
+}
+
+.ap-compare__inner {
+	max-width: var(--ap-page-max-content-xl);
+	margin-inline: auto;
+	display: grid;
+	gap: var(--ap-surf-gap-4xl);
+}
+
+.ap-compare__head {
+	display: grid;
+	gap: var(--ap-surf-gap-lg);
+	max-width: 640px;
+	margin-inline: auto;
+	text-align: center;
+}
+
+.ap-compare__eyebrow {
+	margin: 0;
+	font-family: var(--ap-font-utility);
+	font-size: var(--ap-fs-eyebrow);
+	font-weight: var(--ap-weight-eyebrow);
+	line-height: var(--ap-line-eyebrow);
+	letter-spacing: var(--ap-ls-eyebrow);
+	text-transform: uppercase;
+	color: var(--ap-text-eyebrow);
+}
+
+.ap-compare__title {
+	margin: 0;
+	font-family: var(--ap-font-display);
+	font-size: var(--ap-fs-h2);
+	font-weight: var(--ap-weight-heading);
+	line-height: var(--ap-line-h2);
+	color: var(--ap-text-heading);
+}
+
+.ap-compare__accent {
+	display: block;
+	padding-top: 0.06em;
+	background-image: var(--ap-gradient-text);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+
+.ap-compare__intro {
+	margin: 0;
+	font-size: var(--ap-fs-text-md);
+	line-height: var(--ap-line-body);
+	color: var(--ap-text-body);
+}
+
+/* UrsaAI brand mark in running copy. The padding lets the gradient paint above
+ * the raised "AI" — background-clip:text otherwise slices a superscript. */
+.ap-compare .ap-ursa {
+	padding-top: 0.5em;
+	font-weight: var(--ap-weight-bold);
+	background-image: var(--ap-gradient-ursa);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+.ap-compare .ap-ursa sup { font-size: 0.645em; line-height: 0; }
+
+@media (forced-colors: active) {
+	.ap-compare__accent,
+	.ap-compare .ap-ursa { background-image: none; color: CanvasText; }
+}
+
+/* ---- Table: mobile first = one stacked card ---- */
+
+.ap-compare__table {
+	display: grid;
+	overflow: hidden;
+	background: var(--ap-white);
+	border: var(--ap-border-thin) solid var(--ap-indigo-400);
+	border-radius: var(--ap-radius-xl);
+	box-shadow: var(--ap-shadow-card-indigo);
+}
+
+.ap-compare__row { display: contents; }
+
+.ap-compare__deco-card,
+.ap-compare__deco-panel,
+.ap-compare__panel-icon,
+.ap-compare__colhead--pillar,
+.ap-compare__colhead--before { display: none; }
+
+.ap-compare__banner {
+	position: relative;
+	overflow: hidden;
+	height: 160px;
+	background-image: linear-gradient(119deg, var(--ap-indigo-600) 26%, var(--ap-indigo-900) 58%, var(--ap-indigo-950) 89%);
+}
+
+.ap-compare__bamboo { position: absolute; max-width: none; pointer-events: none; }
+.ap-compare__bamboo--a { right: -17px; top: -89px; width: 215px; height: 324px; }
+.ap-compare__bamboo--b { left: -66px; top: -19px; width: 139px; height: 209px; transform: scaleX(-1); }
+
+.ap-compare__panda {
+	position: absolute;
+	left: 24px;
+	top: 50%;
+	width: 85px;
+	height: 97px;
+	transform: translateY(-50%);
+}
+
+.ap-compare__powered {
+	position: absolute;
+	right: 32px;
+	bottom: 32px;
+	display: grid;
+	justify-items: end;
+	gap: 6px;
+	font-size: 10px;
+	line-height: 1.5;
+	color: var(--ap-indigo-400);
+}
+
+.ap-compare__powered img { display: block; width: 64px; height: 21px; }
+
+.ap-compare__colhead {
+	padding: var(--ap-surf-pad-2xl);
+	font-family: var(--ap-font-display);
+	font-size: var(--ap-fs-h5);
+	font-weight: var(--ap-weight-heading);
+	line-height: var(--ap-line-h5);
+}
+
+.ap-compare__colhead--pillar { color: var(--ap-athens-800); }
+.ap-compare__colhead--after  { color: var(--ap-indigo-950); }
+.ap-compare__colhead--before { color: var(--ap-athens-400); padding-inline: var(--ap-surf-pad-xl); }
+
+.ap-compare__pillar {
+	padding: var(--ap-surf-pad-xl) var(--ap-surf-pad-xl) 0;
+	font-family: var(--ap-font-utility);
+	font-size: var(--ap-fs-eyebrow);
+	font-weight: var(--ap-weight-eyebrow);
+	letter-spacing: var(--ap-ls-eyebrow);
+	text-transform: uppercase;
+	color: var(--ap-text-eyebrow);
+	border-top: var(--ap-border-thin) solid var(--ap-indigo-400);
+}
+
+.ap-compare__after,
+.ap-compare__before {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--ap-surf-gap-md);
+}
+
+.ap-compare__after img,
+.ap-compare__before img { flex: none; display: block; inline-size: 24px; block-size: 24px; object-fit: contain; }
+
+.ap-compare__after p,
+.ap-compare__before p {
+	margin: 0;
+	font-size: var(--ap-fs-text-sm);
+	line-height: var(--ap-line-body);
+}
+
+.ap-compare__after { padding: var(--ap-surf-pad-md) var(--ap-surf-pad-xl); }
+.ap-compare__after p { color: var(--ap-indigo-950); }
+
+.ap-compare__before {
+	margin: 0 var(--ap-surf-pad-xl) var(--ap-surf-pad-xl);
+	padding: var(--ap-surf-pad-md);
+	background: var(--ap-athens-50);
+	border-radius: var(--ap-radius-md);
+}
+
+.ap-compare__before p { color: var(--ap-text-body); }
+
+.ap-compare__cta {
+	display: grid;
+	justify-items: center;
+	gap: var(--ap-surf-gap-xl);
+	padding: var(--ap-surf-pad-2xl) var(--ap-surf-pad-2xl) var(--ap-surf-pad-xl);
+	border-top: var(--ap-border-thin) solid var(--ap-indigo-400);
+	background: linear-gradient(to bottom, var(--ap-white), var(--ap-indigo-100));
+}
+
+.ap-compare__btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	min-height: 48px;
+	padding: 0 var(--ap-surf-pad-lg);
+	font-family: var(--ap-font-utility);
+	font-size: var(--ap-fs-button-md);
+	font-weight: var(--ap-weight-button);
+	line-height: var(--ap-line-button);
+	color: var(--ap-btn-primary-text);
+	text-decoration: none;
+	background-image: var(--ap-gradient-action);
+	border: var(--ap-border-thin) solid var(--ap-brand-indigo);
+	border-radius: var(--ap-radius-sm);
+}
+
+.ap-compare__plain {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--ap-surf-gap-md);
+	font-family: var(--ap-font-utility);
+	font-size: var(--ap-fs-button-sm);
+	font-weight: var(--ap-weight-button);
+	line-height: var(--ap-line-button);
+	color: var(--ap-text-heading);
+	text-decoration: none;
+	border-radius: var(--ap-radius-sm);
+}
+
+.ap-compare__plain img { display: block; inline-size: 24px; block-size: 24px; }
+.ap-compare__plain:hover span { text-decoration: underline; }
+
+.ap-compare__btn:focus-visible,
+.ap-compare__plain:focus-visible { outline: var(--ap-border-medium) solid var(--ap-focus-ring); outline-offset: 3px; }
+
+/* ---- Below desktop: the stacked card, as on the live homepage ----
+ * The full banner stays; the three column headers collapse into one line,
+ * "Asset Panda (Powered by UrsaAI) vs. Spreadsheets & Siloed Tools". The
+ * rows stop being display:contents here — only the desktop grid needs that. */
+@media (max-width: 991.98px) {
+	.ap-compare__head { margin-inline: 0; text-align: left; }
+	.ap-compare__table { background: linear-gradient(180deg, var(--ap-white) 81%, var(--ap-indigo-300) 108%); }
+	.ap-compare__row { display: block; }
+
+	.ap-compare__row--head {
+		padding: var(--ap-surf-pad-2xl) var(--ap-surf-pad-xl);
+		font-family: var(--ap-font-display);
+		font-size: var(--ap-fs-h5);
+		font-weight: var(--ap-weight-heading);
+		line-height: var(--ap-line-h5);
+		color: var(--ap-indigo-950);
+	}
+
+	.ap-compare__row--head .ap-compare__colhead { display: inline; padding: 0; font: inherit; }
+	.ap-compare__row--head .ap-compare__colhead--pillar { display: none; }
+	.ap-compare__row--head .ap-compare__colhead--before { color: var(--ap-brand-green); }
+	.ap-compare__row--head .ap-compare__colhead--before::before { content: " vs. "; }
+
+	.ap-compare__pillar {
+		font-family: var(--ap-font-display);
+		font-size: var(--ap-fs-text-md);
+		font-weight: var(--ap-weight-heading);
+		letter-spacing: 0;
+		text-transform: none;
+		color: var(--ap-text-heading);
+	}
+
+	.ap-compare__after p,
+	.ap-compare__before p { font-size: var(--ap-fs-text-md); }
+
+	.ap-compare__before {
+		margin: 0;
+		padding: var(--ap-surf-pad-md) var(--ap-surf-pad-xl) var(--ap-surf-pad-xl);
+		background: none;
+		border-radius: 0;
+	}
+
+	.ap-compare__before p { color: var(--ap-slate-400); }
+	.ap-compare__cta { background: none; }
+}
+
+/* ---- Desktop: the real three-column table ---- */
+@media (min-width: 992px) {
+	.ap-compare__table {
+		grid-template-columns: minmax(0, 347fr) minmax(0, 427fr) minmax(0, 347fr);
+		overflow: visible;
+		background: none;
+		border: 0;
+		border-radius: 0;
+		box-shadow: none;
+	}
+
+	.ap-compare__banner,
+	.ap-compare__panel-icon,
+	.ap-compare__cell,
+	.ap-compare__cta { grid-row: var(--r); position: relative; z-index: 1; }
+
+	.ap-compare__c1 { grid-column: 1; }
+	.ap-compare__c2 { grid-column: 2; }
+	.ap-compare__c3 { grid-column: 3; }
+
+	.ap-compare__deco-card,
+	.ap-compare__deco-panel,
+	.ap-compare__panel-icon,
+	.ap-compare__colhead--pillar,
+	.ap-compare__colhead--before { display: block; }
+
+	.ap-compare__deco-card {
+		grid-column: 2;
+		grid-row: 1 / span var(--ap-span-card);
+		z-index: 0;
+		background: linear-gradient(180deg, var(--ap-white) 81%, var(--ap-indigo-300) 108%);
+		border: var(--ap-border-thin) solid var(--ap-indigo-400);
+		border-radius: var(--ap-radius-xl);
+		box-shadow: var(--ap-shadow-card-indigo);
+	}
+
+	.ap-compare__deco-panel {
+		grid-column: 3;
+		grid-row: 1 / span var(--ap-span-panel);
+		z-index: 0;
+		margin-top: 55px;
+		background: var(--ap-athens-50);
+		border: var(--ap-border-thin) solid var(--ap-athens-200);
+		border-left: 0;
+		border-radius: 0 var(--ap-radius-xl) var(--ap-radius-xl) 0;
+	}
+
+	.ap-compare__banner { margin: 1px 1px 0; border-radius: 15px 15px 0 0; }
+
+	.ap-compare__panel-icon { align-self: end; padding: var(--ap-surf-pad-xl); }
+	.ap-compare__panel-icon img { display: block; width: 48px; height: 57px; }
+
+	.ap-compare__pillar {
+		display: flex;
+		align-items: center;
+		padding: 35px var(--ap-surf-pad-2xl);
+		font-family: var(--ap-font-display);
+		font-size: var(--ap-fs-h6);
+		font-weight: var(--ap-weight-heading);
+		letter-spacing: 0;
+		text-transform: none;
+		line-height: var(--ap-line-h6);
+		color: var(--ap-text-body);
+		border-top-color: var(--ap-athens-200);
+	}
+
+	.ap-compare__after {
+		padding: var(--ap-surf-pad-2xl);
+		border-top: var(--ap-border-thin) solid var(--ap-indigo-400);
+	}
+
+	.ap-compare__before {
+		margin: 0;
+		padding: var(--ap-surf-pad-2xl) var(--ap-surf-pad-2xl) var(--ap-surf-pad-2xl) var(--ap-surf-pad-xl);
+		background: none;
+		border-radius: 0;
+		border-top: var(--ap-border-thin) solid var(--ap-athens-200);
+	}
+
+	.ap-compare__cta {
+		background: none;
+		border-top: var(--ap-border-thin) solid var(--ap-indigo-400);
+	}
+}
+
+/* Border-box sizing for everything in the component, as on the live homepage;
+ * :where() keeps it at zero specificity. */
+:where(.ap-compare, .ap-compare *, .ap-compare *::before, .ap-compare *::after) { box-sizing: border-box; }
+
+/* Phones: the live homepage compact type and spacing — 16px gutters, a 133px
+ * banner, 14px cell copy. */
+@media (max-width: 767.98px) {
+	.ap-compare { padding: 56px 16px 40px; }
+	.ap-compare__banner { height: 133px; }
+	.ap-compare__row--head { padding: var(--ap-surf-gap-xl) var(--ap-surf-pad-2xl); font-size: var(--ap-fs-text-md); }
+	.ap-compare__pillar { padding: 10px var(--ap-surf-pad-2xl) 0; }
+	.ap-compare__after { padding: var(--ap-surf-gap-md) var(--ap-surf-pad-2xl); }
+	.ap-compare__before { padding: 4px var(--ap-surf-pad-2xl) var(--ap-surf-gap-xl); }
+
+	.ap-compare__after p,
+	.ap-compare__before p { font-size: var(--ap-fs-text-reg); }
+}

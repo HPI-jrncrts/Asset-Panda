@@ -1,0 +1,34 @@
+{
+  "section": "gov-case",
+  "node": "5976:72429",
+  "selector": "#ap-gov-case",
+  "path": "/",
+  "widths": [
+    320,
+    360,
+    375,
+    390,
+    414,
+    480,
+    640,
+    768,
+    900,
+    1024,
+    1180,
+    1280,
+    1366,
+    1440,
+    1600,
+    1920
+  ],
+  "noOverlap": [
+    ".apg-case-head",
+    ".apg-case-slides",
+    ".apg-case-controls"
+  ],
+  "jitterWatch": [
+    "#ap-gov-case"
+  ],
+  "strictTokens": false,
+  "pixelThreshold": 2.5
+}

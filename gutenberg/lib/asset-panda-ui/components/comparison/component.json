@@ -1,0 +1,20 @@
+{
+	"name": "comparison",
+	"description": "Three-column comparison: value pillars, an elevated Asset Panda column (panda banner, UrsaAI rows, call to action) and a muted Spreadsheets column. Figma: Home Page > Why Asset Intelligence (4331:24561).",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading. Line breaks are kept." },
+		"title_accent": { "type": "string", "required": false, "default": "", "description": "Final heading line in the brand gradient, e.g. Total accountability." },
+		"intro": { "type": "string", "required": false, "default": "", "description": "Supporting paragraph, centred under the heading." },
+		"pillar_title": { "type": "string", "required": false, "default": "Value Pillar", "description": "Heading of the left column." },
+		"after_title": { "type": "string", "required": false, "default": "Asset Panda", "description": "Heading of the highlighted centre column." },
+		"after_note": { "type": "string", "required": false, "default": "Powered by:", "description": "Small label above the UrsaAI logo in the centre banner." },
+		"before_title": { "type": "string", "required": false, "default": "Spreadsheets & Siloed Tools", "description": "Heading of the muted right column." },
+		"rows": { "type": "array", "required": true, "description": "Rows. Each: pillar, after and before, all required. The word UrsaAI in after is styled as the brand mark." },
+		"cta_label": { "type": "string", "required": false, "default": "", "description": "Button at the foot of the centre column. Renders only with cta_url." },
+		"cta_url": { "type": "string", "required": false, "default": "", "description": "Button destination." },
+		"link_label": { "type": "string", "required": false, "default": "", "description": "Secondary text link under the button. Renders only with link_url." },
+		"link_url": { "type": "string", "required": false, "default": "", "description": "Secondary link destination." },
+		"reveal": { "type": "boolean", "required": false, "default": true, "description": "Reveal on scroll." }
+	}
+}

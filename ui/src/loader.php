@@ -240,6 +240,84 @@ function ap_ui_enqueue_styles( $component ) {
 		);
 	}
 	wp_enqueue_style( $handle );
+
+	ap_ui_enqueue_motion();
+	ap_ui_enqueue_behaviour( $component );
+}
+
+/**
+ * Register and enqueue the shared motion layer.
+ *
+ * Motion is cross-cutting rather than component-owned: one stylesheet defines
+ * the reveal/hover vocabulary and one script runs a single IntersectionObserver
+ * for the whole document. Enqueued when any component renders, so a page using
+ * none of the kit still receives neither file.
+ *
+ * The script is idempotent and footer-registered; see ui/src/motion.js.
+ */
+function ap_ui_enqueue_motion() {
+	if ( ! function_exists( 'wp_enqueue_style' ) || '' === AP_UI_URL ) {
+		return;
+	}
+
+	if ( ! wp_style_is( 'ap-ui-motion', 'registered' ) ) {
+		wp_register_style(
+			'ap-ui-motion',
+			AP_UI_URL . '/src/motion.css',
+			array( 'ap-ui-tokens' ),
+			AP_UI_VERSION
+		);
+	}
+	wp_enqueue_style( 'ap-ui-motion' );
+
+	if ( ! function_exists( 'wp_enqueue_script' ) ) {
+		return;
+	}
+
+	if ( ! wp_script_is( 'ap-ui-motion', 'registered' ) ) {
+		wp_register_script(
+			'ap-ui-motion',
+			AP_UI_URL . '/src/motion.js',
+			array(),
+			AP_UI_VERSION,
+			true
+		);
+	}
+	wp_enqueue_script( 'ap-ui-motion' );
+}
+
+/**
+ * Register and enqueue a component's optional behaviour.js.
+ *
+ * Most components have none — this no-ops cleanly when the file is absent.
+ * Mirrors ap_ui_enqueue_styles(): on demand, once per component per page
+ * (WordPress de-dupes by handle), footer-registered, and dependent on the
+ * shared motion runtime so a component can rely on .ap-inview being managed.
+ *
+ * @param string $component Component name.
+ */
+function ap_ui_enqueue_behaviour( $component ) {
+	if ( ! function_exists( 'wp_enqueue_script' ) || '' === AP_UI_URL ) {
+		return;
+	}
+
+	$handle = 'ap-ui-' . $component . '-behaviour';
+	$js     = AP_UI_DIR . '/components/' . $component . '/behaviour.js';
+
+	if ( ! is_readable( $js ) ) {
+		return;
+	}
+
+	if ( ! wp_script_is( $handle, 'registered' ) ) {
+		wp_register_script(
+			$handle,
+			AP_UI_URL . '/components/' . $component . '/behaviour.js',
+			array( 'ap-ui-motion' ),
+			AP_UI_VERSION,
+			true
+		);
+	}
+	wp_enqueue_script( $handle );
 }
 
 /**
@@ -286,4 +364,87 @@ function ap_render_component( $component, array $props = array() ) {
 	};
 
 	return $renderer( $render, $props, $component );
+}
+
+/**
+ * Public URL of a file a component ships in its own assets/ folder.
+ *
+ * Decorative artwork that is part of a component's design (icons, rules,
+ * brand marks) travels with the component, so it is versioned and synced with
+ * the markup that uses it. Content imagery (photos, logos, screenshots) is NOT
+ * an asset — it arrives as a prop from the editor. Escape at the point of
+ * output with esc_url().
+ *
+ * @param string $component Component name.
+ * @param string $file      File name inside components/<name>/assets/.
+ * @return string URL, or '' when the kit has no public URL configured.
+ */
+function ap_ui_asset_url( $component, $file ) {
+	if ( '' === AP_UI_URL ) {
+		return '';
+	}
+	return AP_UI_URL . '/components/' . rawurlencode( $component ) . '/assets/' . rawurlencode( $file );
+}
+
+/**
+ * Escape a string for HTML and preserve the author's line breaks.
+ *
+ * Several designs break a heading at a specific point ("Built for the field. /
+ * Ready for anything."). Editors type the break; this renders it as <br>
+ * without ever letting markup through.
+ *
+ * @param string $text Raw, untrusted text.
+ * @return string Escaped HTML.
+ */
+function ap_ui_lines( $text ) {
+	return nl2br( esc_html( trim( (string) $text ) ), false );
+}
+
+/**
+ * Apply brand-mark styling to already-escaped text.
+ *
+ * The design requires "UrsaAI" to render as a gradient word with a superscript
+ * "AI" wherever it appears in running copy. The input MUST already be escaped;
+ * the only markup this adds is the fixed span below, so it cannot introduce
+ * anything the author typed.
+ *
+ * @param string $escaped Escaped HTML.
+ * @return string Escaped HTML with brand marks wrapped.
+ */
+function ap_ui_brandmarks( $escaped ) {
+	return preg_replace( '/\bUrsa\s?AI\b/', '<span class="ap-ursa">Ursa<sup>AI</sup></span>', (string) $escaped );
+}
+
+/**
+ * Sanitise an inline SVG icon supplied as a prop.
+ *
+ * The live pages draw most icons as inline SVG, often with gradients, so they
+ * cannot travel as image URLs. Only drawing elements and presentation
+ * attributes survive: no scripts, event handlers, style attributes,
+ * foreignObject or external references. Anything that does not start as an
+ * <svg> element renders nothing.
+ *
+ * @param string $markup Raw, untrusted SVG markup.
+ * @return string Sanitised SVG, or ''.
+ */
+function ap_ui_svg( $markup ) {
+	static $allowed = null;
+
+	$markup = trim( (string) $markup );
+	if ( '' === $markup || 0 !== stripos( $markup, '<svg' ) ) {
+		return '';
+	}
+
+	if ( null === $allowed ) {
+		$attrs   = array_fill_keys(
+			array( 'id', 'class', 'viewbox', 'width', 'height', 'fill', 'fill-rule', 'fill-opacity', 'stroke', 'stroke-width', 'stroke-linecap', 'stroke-linejoin', 'stroke-miterlimit', 'stroke-opacity', 'stroke-dasharray', 'opacity', 'd', 'cx', 'cy', 'r', 'rx', 'ry', 'x', 'y', 'x1', 'y1', 'x2', 'y2', 'points', 'transform', 'offset', 'stop-color', 'stop-opacity', 'gradientunits', 'gradienttransform', 'clip-path', 'clip-rule', 'mask', 'preserveaspectratio', 'xmlns', 'aria-hidden', 'focusable', 'overflow' ),
+			true
+		);
+		$allowed = array_fill_keys(
+			array( 'svg', 'g', 'path', 'circle', 'ellipse', 'rect', 'line', 'polyline', 'polygon', 'defs', 'lineargradient', 'radialgradient', 'stop', 'clippath', 'mask', 'title' ),
+			$attrs
+		);
+	}
+
+	return wp_kses( $markup, $allowed );
 }

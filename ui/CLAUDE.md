@@ -10,7 +10,10 @@ WordPress business logic. Props go in, HTML comes out.
 ui/
 ├── src/
 │   ├── loader.php     # ap_render_component() + validation. The public API.
-│   └── tokens.css     # design tokens — the source of truth for color/type/space.
+│   ├── tokens.css     # design tokens — ported from Figma. Regenerate the
+│   │                  #   responsive block with tools/gen-tokens.mjs.
+│   ├── motion.css     # shared reveal + hover vocabulary (see "The motion layer")
+│   └── motion.js      # one IntersectionObserver for the whole document
 └── components/
     └── <name>/
         ├── component.json   # the prop contract
@@ -48,18 +51,23 @@ ui/
 6. **`ap_render_component()` returns a string.** It never echoes. Callers decide
    whether to echo or return it (blocks and shortcodes both need the string).
 
-## Component behaviour (JS) — convention (deferred, not yet built)
+## Component behaviour (JS)
 
 Most components are markup + CSS only. When one genuinely needs front-end
-JavaScript (a delegated interaction, a motion trigger), it lives in
+JavaScript (a delegated interaction, a component-specific trigger), it lives in
 `ui/components/<name>/behaviour.js` — the component owns its behaviour the same
-way it owns its markup and styles. **There is no shared `js/` directory.** A page
-that never renders a component must receive none of its assets; a shared bundle
-would break that isolation, which is the whole point of the kit.
+way it owns its markup and styles. **There is still no shared component
+bundle**: a page that never renders a component receives none of its assets, and
+that isolation is the whole point of the kit.
 
-This is **not implemented yet**. Add loader support as part of the *first*
-component that needs it, mirroring exactly how `style.css` is enqueued in
-`ap_ui_enqueue_styles()`:
+The one deliberate exception is the **motion layer** in `ui/src/` (see below).
+Scroll reveal is cross-cutting — every component can opt in, and running N
+IntersectionObservers instead of one would be strictly worse. It is enqueued
+only when *some* kit component renders, so a page using none of the kit still
+receives neither file.
+
+This is now **implemented** — `ap_ui_enqueue_behaviour()` in `src/loader.php`,
+mirroring how `style.css` is enqueued in `ap_ui_enqueue_styles()`:
 
 - **On demand.** Enqueue only when the component renders, and only if
   `behaviour.js` exists. No-op cleanly when it is absent — most components won't
@@ -72,13 +80,42 @@ component that needs it, mirroring exactly how `style.css` is enqueued in
   all of them. Never read layout geometry and write position from it in a scroll
   handler.
 
+### The motion layer
+
+`ui/src/motion.css` + `ui/src/motion.js` are the shared animation vocabulary.
+Components never write observer code — they mark elements up and the runtime
+does the rest:
+
+```html
+<div data-ap-reveal>                          <!-- fade + rise -->
+<div data-ap-reveal="left">                   <!-- fade + slide -->
+<div data-ap-reveal data-ap-reveal-delay="3"> <!-- stagger step 3 -->
+<a   data-ap-hover="lift">                    <!-- hover micro-interaction -->
+```
+
+Rules that keep it safe:
+
+- **Everything renders visible at rest.** The hidden pre-reveal state applies
+  only under `html.ap-motion`, a class `motion.js` sets at runtime. If the
+  script fails, is blocked, or throws, content stays visible. A broken observer
+  can never leave a section blank.
+- **No `data-ap-reveal` above the fold.** `motion.js` is a footer script, so
+  first-screen elements would flash. Heroes animate on load from their own
+  component CSS instead.
+- **Never hover-animate `transform`** — scroll entrances own it. Animate
+  `translate` / `scale` / `box-shadow`, which is what `[data-ap-hover]` does.
+- `prefers-reduced-motion` is honoured twice: `motion.js` declines to add
+  `.ap-motion`, and `motion.css` neutralises transitions anyway.
+
 ### Motion tokens
 
 - Shared easing/duration values live in `ui/src/tokens.css` (`--ap-ease-*`,
-  `--ap-dur-*`).
+  `--ap-dur-*`, `--ap-stagger-step`, `--ap-reveal-distance`).
 - Component-specific `@keyframes` live in that component's `style.css`.
-- **Never invent** a duration or easing. Motion values come from Figma via
-  `get_motion_context`; until Figma is connected, leave motion unspecified.
+- **Never invent** a duration or easing — use the tokens. The current values
+  come from the `assetpanda-2026` child theme's established hover standard, not
+  from Figma; if `get_motion_context` later gives real Figma motion values,
+  update the tokens and every component follows.
 
 ## The contract format (`component.json`)
 

@@ -1,0 +1,83 @@
+{
+	"name": "dashboard-showcase",
+	"description": "Configurability section: a faded product screenshot ringed by floating tip cards and image orbs, with a closing line. Live: the `.ap-dashboard` section on every vertical page.",
+	"props": {
+		"eyebrow": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Small label above the heading."
+		},
+		"title": {
+			"type": "string",
+			"required": true,
+			"description": "Heading. Line breaks are kept."
+		},
+		"title_accent": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Word inside the heading to paint with the brand gradient. Must appear in title."
+		},
+		"image": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Product screenshot behind the cards."
+		},
+		"image_alt": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Screenshot alt text."
+		},
+		"background": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Soft background image behind the section."
+		},
+		"tips": {
+			"type": "array",
+			"required": false,
+			"default": [],
+			"description": "Up to four floating cards, placed as in the design. Each: title; optional icon (URL), icon_svg (inline SVG), icon_alt, tone (violet, blue, green, yellow) and rows (each: title, sub, chip, chip_tone — em, in, lb, yl)."
+		},
+		"orbs": {
+			"type": "array",
+			"required": false,
+			"default": [],
+			"description": "Up to eight circular cut-outs around the screenshot. Each: image; optional alt, tone (red, lb, yl, green, in) and zoom (percent, default 100)."
+		},
+		"sub_title": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Closing heading under the stage."
+		},
+		"sub_body": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Closing paragraph under the stage."
+		},
+		"reveal": {
+			"type": "boolean",
+			"required": false,
+			"default": true,
+			"description": "Reveal the section on scroll."
+		},
+		"checks": {
+			"type": "array",
+			"required": false,
+			"default": [],
+			"description": "Tick-marked lines under the stage. Plain strings."
+		},
+		"ctas": {
+			"type": "array",
+			"required": false,
+			"default": [],
+			"description": "Buttons under the checks. Each: label, url. The first is solid, the rest outlined."
+		}
+	}
+}

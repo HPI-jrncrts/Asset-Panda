@@ -1,0 +1,22 @@
+{
+	"name": "problem-callouts",
+	"description": "Problem section: centred heading and lede over a photo ringed by floating callout chips, a closing note and a panda CTA bar. Live: the `.ap-problem` section on every vertical and hub page.",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "The Challenge", "description": "Small label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading. Line breaks are kept." },
+		"lede": { "type": "string", "required": false, "default": "", "description": "Paragraph under the heading." },
+		"kicker": { "type": "string", "required": false, "default": "", "description": "Bold line under the lede, e.g. That works — until it doesn't." },
+		"image": { "type": "string", "required": false, "default": "", "description": "Photo at the centre of the stage." },
+		"image_alt": { "type": "string", "required": false, "default": "", "description": "Photo alt text." },
+		"background": { "type": "string", "required": false, "default": "", "description": "Soft background image behind the section." },
+		"cards": { "type": "array", "required": false, "default": [], "description": "Callout chips around the photo; the first five take the design's placements. Each: text (required); optional icon (URL), icon_svg (inline SVG), icon_alt and tone (indigo, rose, mint, slate, amber)." },
+		"note": { "type": "string", "required": false, "default": "", "description": "Closing line under the stage." },
+		"cta_title": { "type": "string", "required": false, "default": "", "description": "CTA bar heading." },
+		"cta_accent": { "type": "string", "required": false, "default": "", "description": "Second line of the CTA heading, painted with the brand gradient." },
+		"cta_sub": { "type": "string", "required": false, "default": "", "description": "CTA bar supporting line." },
+		"cta_logo": { "type": "string", "required": false, "default": "panda-mark.svg", "description": "Small mark beside the CTA copy: a file in assets/ or a URL." },
+		"cta_label": { "type": "string", "required": false, "default": "", "description": "CTA button text. Renders only with cta_url." },
+		"cta_url": { "type": "string", "required": false, "default": "", "description": "CTA button destination." },
+		"reveal": { "type": "boolean", "required": false, "default": true, "description": "Reveal the section on scroll." }
+	}
+}

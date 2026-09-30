@@ -1,60 +1,696 @@
 /*
  * Asset Panda UI — design tokens.
  *
- * The single source of truth for color, type, spacing, and radii used by every
- * component stylesheet. Component CSS must reference these variables rather than
- * hard-coding values, so a token change propagates everywhere at once.
+ * The single source of truth for color, type, spacing, motion, radii and
+ * borders used by every component stylesheet. Component CSS references these
+ * variables rather than hard-coding values, so a token change propagates
+ * everywhere at once.
  *
- * Synced verbatim into each vertical's lib/asset-panda-ui/src/tokens.css by
+ * PROVENANCE — everything below is ported from Figma "Website Design 2026"
+ * (file VW6cE9oR0LeIeowjwJvEqY) unless a comment says otherwise.
+ *   Colors        — "Color Scheme" collection (154 vars), resolved through
+ *                   "Primitives" to concrete hex.
+ *   Type family   — "Typeface Scheme" collection (9 vars). Manrope throughout.
+ *   Weights       — "Primitives" > Typeface/Weights, cross-checked against the
+ *                   18 local text styles.
+ *   Line heights  — the 18 local text styles (Figma percentages to unitless).
+ *   Radii/borders — "Primitives" > Border/Radius and Border/Weight.
+ *   Opacity       — "Primitives" > Opacity/Neutral.
+ *   Responsive    — "Responsive" collection (108 vars x 6 modes). Emitted
+ *                   mobile-first: :root is the "Mobile (360+)" mode and each
+ *                   media query carries only the values that change.
+ *   Motion        — NOT from Figma. Taken from the assetpanda-2026 child
+ *                   theme existing hover standard; the file has no motion
+ *                   variables and zero effect styles.
+ *
+ * Regenerate the responsive block with: node tools/gen-tokens.mjs
+ * Synced verbatim into each vertical lib/asset-panda-ui/src/tokens.css by
  * tools/sync-ui.ps1. Do not edit the copies.
  */
 
 :root {
-	/* Brand palette */
-	--ap-color-brand: #0f62fe;
-	--ap-color-brand-strong: #0043ce;
-	--ap-color-brand-contrast: #ffffff;
+	/* ---- Brand ---- */
+	--ap-brand-indigo: #5044e1;
+	--ap-brand-green: #00a991;
+	--ap-brand-yellow: #de8d14;
+	--ap-brand-red: #e61c55;
+	--ap-brand-violet: #55376d;
 
-	/* Neutrals */
-	--ap-color-ink: #161616;
-	--ap-color-ink-soft: #525252;
-	--ap-color-surface: #ffffff;
-	--ap-color-surface-alt: #f4f4f4;
-	--ap-color-surface-dark: #161616;
-	--ap-color-on-dark: #f4f4f4;
-	--ap-color-border: #e0e0e0;
+	/* ---- Color ramps ---- */
+	--ap-indigo-50: #eef2ff;
+	--ap-indigo-100: #e1e6fe;
+	--ap-indigo-200: #c8d2fd;
+	--ap-indigo-300: #a7b3fa;
+	--ap-indigo-600: #5044e1;
+	--ap-indigo-700: #6666ee;
+	--ap-indigo-900: #35307f;
+	--ap-indigo-950: #201c4a;
 
-	/* Typography */
-	--ap-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-	--ap-font-size-sm: 0.875rem;
-	--ap-font-size-base: 1rem;
-	--ap-font-size-lg: 1.25rem;
-	--ap-font-size-xl: 1.75rem;
-	--ap-font-size-2xl: 2.5rem;
-	--ap-font-size-3xl: 3.25rem;
-	--ap-line-tight: 1.15;
-	--ap-line-base: 1.55;
-	--ap-weight-regular: 400;
-	--ap-weight-medium: 500;
-	--ap-weight-bold: 700;
+	--ap-green-50: #effefa;
+	--ap-green-100: #c7fff1;
+	--ap-green-200: #90ffe3;
+	--ap-green-600: #00a991;
+	--ap-green-700: #04c8a8;
 
-	/* Spacing scale */
-	--ap-space-1: 0.25rem;
-	--ap-space-2: 0.5rem;
-	--ap-space-3: 0.75rem;
-	--ap-space-4: 1rem;
-	--ap-space-5: 1.5rem;
-	--ap-space-6: 2rem;
-	--ap-space-7: 3rem;
-	--ap-space-8: 4rem;
-	--ap-space-9: 6rem;
+	--ap-yellow-50: #fdf8e9;
+	--ap-yellow-100: #fbeec6;
+	--ap-yellow-600: #de8d14;
+	--ap-yellow-700: #eea521;
 
-	/* Radii & elevation */
+	--ap-red-50: #fff1f3;
+	--ap-red-100: #ffe3e8;
+	--ap-red-600: #e61c55;
+	--ap-red-700: #f83b68;
+
+	--ap-violet-50: #f9f7fc;
+	--ap-violet-100: #f3eef9;
+	--ap-violet-200: #e6dcf2;
+	--ap-violet-600: #55376d;
+	--ap-violet-700: #694388;
+
+	/* ---- Neutrals ---- */
+	--ap-white: #ffffff;
+	--ap-slate-50: #f9fafb;
+	--ap-slate-100: #edeef1;
+	--ap-slate-200: #d8dbdf;
+	--ap-slate-300: #b6bac3;
+	--ap-slate-500: #5b616e;
+	--ap-slate-700: #4a4e5a;
+	--ap-slate-900: #25272c;
+
+	/* ---- Scrims (Primitives > Opacity/Neutral) ---- */
+	--ap-white-5: rgba(255, 255, 255, 0.05);
+	--ap-white-10: rgba(255, 255, 255, 0.1);
+	--ap-white-15: rgba(255, 255, 255, 0.15);
+	--ap-white-20: rgba(255, 255, 255, 0.2);
+	--ap-white-30: rgba(255, 255, 255, 0.3);
+	--ap-white-40: rgba(255, 255, 255, 0.4);
+	--ap-white-50: rgba(255, 255, 255, 0.5);
+	--ap-white-60: rgba(255, 255, 255, 0.6);
+	--ap-white-70: rgba(255, 255, 255, 0.7);
+	--ap-white-80: rgba(255, 255, 255, 0.8);
+	--ap-black-5: rgba(0, 0, 0, 0.05);
+	--ap-black-10: rgba(0, 0, 0, 0.1);
+	--ap-black-15: rgba(0, 0, 0, 0.15);
+	--ap-black-20: rgba(0, 0, 0, 0.2);
+	--ap-black-30: rgba(0, 0, 0, 0.3);
+	--ap-black-40: rgba(0, 0, 0, 0.4);
+	--ap-black-50: rgba(0, 0, 0, 0.5);
+	--ap-black-60: rgba(0, 0, 0, 0.6);
+	--ap-black-70: rgba(0, 0, 0, 0.7);
+	--ap-black-80: rgba(0, 0, 0, 0.8);
+
+	/* ---- Text ---- */
+	--ap-text-heading: #25272c;
+	--ap-text-heading-inverse: #ffffff;
+	--ap-text-heading-indigo: #5044e1;
+	--ap-text-heading-green: #00a991;
+	--ap-text-body: #4a4e5a;
+	--ap-text-body-strong: #25272c;
+	--ap-text-body-inverse: rgba(255, 255, 255, 0.8);
+	--ap-text-muted: #d8dbdf;
+	--ap-text-subtle: #b6bac3;
+	--ap-text-inverse: #ffffff;
+	--ap-text-eyebrow: #5044e1;
+	--ap-text-eyebrow-inverse: #a7b3fa;
+
+	/* ---- Surface ---- */
+	--ap-surface: #ffffff;
+	--ap-surface-alt: #f9fafb;
+	--ap-surface-sunken: #edeef1;
+	--ap-surface-dark: #201c4a;
+	--ap-stroke: #d8dbdf;
+	--ap-stroke-soft: #edeef1;
+
+	/* ---- Actions ---- */
+	--ap-btn-primary-from: #5044e1;
+	--ap-btn-primary-to: #00a991;
+	--ap-btn-primary-text: #ffffff;
+	--ap-btn-indigo-bg: #5044e1;
+	--ap-btn-indigo-bg-hover: #6666ee;
+	--ap-btn-green-bg: #00a991;
+	--ap-btn-green-bg-hover: #04c8a8;
+	--ap-focus-ring: #bae6fd;
+
+	/* ---- Status ---- */
+	--ap-status-success: #04c8a8;
+	--ap-status-error: #e61c55;
+	--ap-status-warning: #eea521;
+	--ap-status-disabled: #b6bac3;
+
+	/* ---- Type families ---- */
+	--ap-font-display: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	--ap-font-body: var(--ap-font-display);
+	--ap-font-utility: var(--ap-font-display);
+
+	/* ---- Font weights (Primitives > Typeface/Weights) ---- */
+	--ap-weight-display: 800;
+	--ap-weight-heading: 800;
+	--ap-weight-body: 400;
+	--ap-weight-body-medium: 600;
+	--ap-weight-body-bold: 800;
+	--ap-weight-link: 600;
+	--ap-weight-button: 600;
+	--ap-weight-nav: 600;
+	--ap-weight-caption: 600;
+	--ap-weight-form-label: 600;
+
+	/* CONFLICT(figma): Primitives declares Utility/Eyebrow = 600, but the applied
+	 * text style Utility/Eyebrow/md is Manrope ExtraBold (800). Using 800 because
+	 * that is what the mockups render. Needs a designer ruling. */
+	--ap-weight-eyebrow: 800;
+
+	/* Generic aliases so components can express intent without picking a role. */
+	--ap-weight-regular: var(--ap-weight-body);
+	--ap-weight-medium: var(--ap-weight-body-medium);
+	--ap-weight-bold: var(--ap-weight-heading);
+
+	/* ---- Line heights (from the 18 Figma text styles) ---- */
+	--ap-line-h1: 1.2;
+	--ap-line-h2: 1.2;
+	--ap-line-h3: 1.4;
+	--ap-line-h4: 1.3;
+	--ap-line-h5: 1.4;
+	--ap-line-h6: 1.2;
+	--ap-line-heading: 1.2;
+	--ap-line-body: 1.5;
+	--ap-line-eyebrow: 1.2;
+	--ap-line-button: 1.2;
+	--ap-line-quote: 1.8;
+
+	/* ---- Letter spacing ---- */
+	--ap-ls-default: 0;
+	--ap-ls-eyebrow: 0.04em;
+
+	/* ---- Radii (Primitives > Border/Radius) ---- */
+	--ap-radius-none: 0;
+	--ap-radius-xs: 2px;
 	--ap-radius-sm: 4px;
 	--ap-radius-md: 8px;
-	--ap-radius-lg: 16px;
-	--ap-shadow-md: 0 4px 16px rgba(22, 22, 22, 0.12);
+	--ap-radius-lg: 12px;
+	--ap-radius-xl: 16px;
+	--ap-radius-2xl: 24px;
+	--ap-radius-4xl: 40px;
+	--ap-radius-8xl: 80px;
+	--ap-radius-pill: 8000px;
 
-	/* Layout */
-	--ap-container-max: 1200px;
+	/* ---- Border weights (Primitives > Border/Weight) ---- */
+	--ap-border-none: 0;
+	--ap-border-hairline: 0.48px;
+	--ap-border-thin: 0.8px;
+	--ap-border-medium: 2px;
+	--ap-border-thick: 4px;
+
+	/* ---- Elevation ----
+	 * NOT from Figma: the file defines zero effect styles. Derived from the
+	 * existing site card shadow. Replace if a shadow scale is ever added. */
+	--ap-shadow-md: 0 4px 16px rgba(37, 39, 44, 0.12);
+
+	/* ---- Extra primitives used by the homepage (Figma Color > athens/indigo/neutral) ---- */
+	--ap-black: #000000;
+	--ap-indigo-400: #838cf6;
+	--ap-slate-400: #8e95a2;
+	--ap-athens-50: #f2f5f8;
+	--ap-athens-100: #eaeff4;
+	--ap-athens-200: #d1dde6;
+	--ap-athens-400: #7b9db5;
+	--ap-athens-800: #334859;
+	--ap-shadow-card-indigo: 0 2px 24px 0 #e1e6fe;
+
+	/* ---- Gradients (Figma: heading accent + primary button fills) ---- */
+	--ap-gradient-text: linear-gradient(32deg, #5044e1 4%, #00a991 50%);
+	--ap-gradient-action: linear-gradient(35deg, #5044e1 0%, #00a991 70%);
+	--ap-gradient-ursa: linear-gradient(12deg, #806991 12%, #00a991 31%);
+
+	/* ---- Motion ----
+	 * NOT from Figma. Sourced from the assetpanda-2026 child theme hover
+	 * standard. Project rule: never hover-animate transform (scroll entrances
+	 * own it) — animate translate / scale instead.
+	 */
+	--ap-dur-fast: 150ms;
+	--ap-dur-base: 300ms;
+	--ap-dur-slow: 600ms;
+	--ap-ease-standard: cubic-bezier(0.25, 0.45, 0.45, 0.95);
+	--ap-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+	--ap-reveal-distance: 16px;
+	--ap-stagger-step: 80ms;
+
+	/* ---- Responsive scale (base = Figma "Mobile (360+)" mode) ---- */
+
+	/* Page/Max Width */
+	--ap-page-max-content-xs: 320px;
+
+	/* Page/Page Width */
+	--ap-page-w-default: 360px;
+
+	/* Page/Max Width */
+	--ap-page-max-content-sm: 320px;
+	--ap-page-max-content-md: 320px;
+	--ap-page-max-content-lg: 320px;
+	--ap-page-max-content-xl: 320px;
+	--ap-page-max-content-2xl: 320px;
+	--ap-page-max-content-3xl: 320px;
+	--ap-page-max-content-full: 360px;
+
+	/* Page/Page Width */
+	--ap-page-w-wide: 360px;
+	--ap-page-w-narrow: 360px;
+
+	/* Section/padding y */
+	--ap-pad-y-6xl: 120px;
+	--ap-pad-y-5xl: 112px;
+	--ap-pad-y-4xl: 96px;
+	--ap-pad-y-3xl: 80px;
+	--ap-pad-y-2xl: 64px;
+	--ap-pad-y-xl: 56px;
+	--ap-pad-y-lg: 48px;
+	--ap-pad-y-md: 40px;
+	--ap-pad-y-sm: 24px;
+	--ap-pad-y-xs: 24px;
+	--ap-pad-y-2xs: 14px;
+	--ap-pad-y-3xs: 12px;
+	--ap-pad-y-4xs: 8px;
+	--ap-pad-y-5xs: 4px;
+	--ap-pad-y-none: 0px;
+
+	/* Section/padding x */
+	--ap-pad-x-6xl: 80px;
+	--ap-pad-x-5xl: 64px;
+	--ap-pad-x-4xl: 56px;
+	--ap-pad-x-3xl: 48px;
+	--ap-pad-x-2xl: 40px;
+	--ap-pad-x-xl: 32px;
+	--ap-pad-x-lg: 28px;
+	--ap-pad-x-md: 24px;
+	--ap-pad-x-sm: 22px;
+	--ap-pad-x-xs: 20px;
+	--ap-pad-x-2xs: 16px;
+	--ap-pad-x-3xs: 14px;
+	--ap-pad-x-4xs: 8px;
+	--ap-pad-x-none: 0px;
+
+	/* Surface/Max Width */
+	--ap-surf-max-content-2xs: 320px;
+	--ap-surf-max-content-xs: 320px;
+	--ap-surf-max-content-sm: 320px;
+	--ap-surf-max-content-md: 320px;
+	--ap-surf-max-content-lg: 320px;
+	--ap-surf-max-content-xl: 320px;
+	--ap-surf-max-content-2xl: 320px;
+	--ap-surf-max-content-3xl: 320px;
+	--ap-surf-max-content-4xl: 320px;
+	--ap-surf-max-content-full: 360px;
+
+	/* Surface/gap */
+	--ap-surf-gap-none: 0px;
+	--ap-surf-gap-xs: 2px;
+	--ap-surf-gap-sm: 4px;
+	--ap-surf-gap-md: 8px;
+	--ap-surf-gap-lg: 12px;
+	--ap-surf-gap-xl: 16px;
+	--ap-surf-gap-2xl: 18px;
+	--ap-surf-gap-3xl: 20px;
+	--ap-surf-gap-4xl: 24px;
+	--ap-surf-gap-5xl: 24px;
+	--ap-surf-gap-6xl: 32px;
+	--ap-surf-gap-7xl: 40px;
+	--ap-surf-gap-8xl: 48px;
+	--ap-surf-gap-9xl: 56px;
+
+	/* Surface/padding */
+	--ap-surf-pad-7xl: 40px;
+	--ap-surf-pad-6xl: 32px;
+	--ap-surf-pad-5xl: 28px;
+	--ap-surf-pad-4xl: 24px;
+	--ap-surf-pad-3xl: 22px;
+	--ap-surf-pad-2xl: 20px;
+	--ap-surf-pad-xl: 18px;
+	--ap-surf-pad-lg: 14px;
+	--ap-surf-pad-md: 12px;
+	--ap-surf-pad-sm: 8px;
+	--ap-surf-pad-xs: 4px;
+	--ap-surf-pad-2xs: 2px;
+	--ap-surf-pad-none: 0px;
+
+	/* Typeface Size/Display & Heading */
+	--ap-fs-display: 3rem;
+	--ap-fs-h1-lg: 2.5rem;
+	--ap-fs-h1: 2rem;
+	--ap-fs-h1-sm: 1.75rem;
+	--ap-fs-h2: 1.5rem;
+	--ap-fs-h3: 1.375rem;
+	--ap-fs-h4: 1.25rem;
+	--ap-fs-h5: 1.125rem;
+	--ap-fs-h6: 0.875rem;
+
+	/* Typeface Size/Body */
+	--ap-fs-text-xl: 1.25rem;
+
+	/* Typeface Size/Quote */
+	--ap-fs-quote-2xl: 1.5rem;
+
+	/* Typeface Size/Body */
+	--ap-fs-text-lg: 1.125rem;
+	--ap-fs-text-md: 1rem;
+
+	/* Typeface Size/Quote */
+	--ap-fs-quote-xl: 1.375rem;
+	--ap-fs-quote-lg: 1.125rem;
+
+	/* Typeface Size/Body */
+	--ap-fs-text-reg: 0.875rem;
+	--ap-fs-text-sm: 0.75rem;
+
+	/* Typeface Size/Quote */
+	--ap-fs-quote-md: 0.875rem;
+
+	/* Typeface Size/Body */
+	--ap-fs-text-xs: 0.75rem;
+
+	/* Typeface Size/Quote */
+	--ap-fs-quote-sm: 0.875rem;
+	--ap-fs-quote-xs: 0.75rem;
+
+	/* Typeface Size/Utility */
+	--ap-fs-eyebrow: 0.75rem;
+	--ap-fs-button-lg: 1rem;
+	--ap-fs-button-md: 0.875rem;
+	--ap-fs-nav-md: 0.875rem;
+	--ap-fs-button-sm: 0.875rem;
+	--ap-fs-nav-sm: 0.875rem;
+	--ap-fs-form-label: 0.875rem;
+	--ap-fs-caption: 0.75rem;
+
+	/* Grid Guides/count y */
+	--ap-grid-count: 4;
+
+	/* Grid Guides/gap */
+	--ap-grid-gap: 8px;
+}
+
+/* Mobile Landscape (480+) */
+@media (min-width: 480px) {
+	:root {
+		--ap-page-max-content-xs: 390px;
+		--ap-page-w-default: 480px;
+		--ap-page-max-content-sm: 390px;
+		--ap-page-max-content-md: 390px;
+		--ap-page-max-content-lg: 390px;
+		--ap-page-max-content-xl: 390px;
+		--ap-page-max-content-2xl: 390px;
+		--ap-page-max-content-3xl: 390px;
+		--ap-page-max-content-full: 480px;
+		--ap-page-w-wide: 480px;
+		--ap-page-w-narrow: 390px;
+		--ap-pad-y-6xl: 140px;
+		--ap-pad-y-5xl: 120px;
+		--ap-pad-y-4xl: 112px;
+		--ap-pad-y-3xl: 96px;
+		--ap-pad-y-2xl: 80px;
+		--ap-pad-y-xl: 64px;
+		--ap-pad-y-lg: 56px;
+		--ap-pad-x-6xl: 96px;
+		--ap-pad-x-5xl: 80px;
+		--ap-pad-x-4xl: 64px;
+		--ap-pad-x-3xl: 56px;
+		--ap-pad-x-2xl: 48px;
+		--ap-pad-x-xl: 40px;
+		--ap-pad-x-lg: 32px;
+		--ap-pad-x-md: 28px;
+		--ap-pad-x-sm: 24px;
+		--ap-pad-x-2xs: 18px;
+		--ap-pad-x-3xs: 16px;
+		--ap-surf-max-content-2xs: 390px;
+		--ap-surf-max-content-xs: 390px;
+		--ap-surf-max-content-sm: 390px;
+		--ap-surf-max-content-md: 390px;
+		--ap-surf-max-content-lg: 390px;
+		--ap-surf-max-content-xl: 390px;
+		--ap-surf-max-content-2xl: 390px;
+		--ap-surf-max-content-3xl: 390px;
+		--ap-surf-max-content-4xl: 390px;
+		--ap-surf-max-content-full: 480px;
+		--ap-surf-gap-5xl: 32px;
+		--ap-surf-gap-6xl: 40px;
+		--ap-surf-gap-7xl: 48px;
+		--ap-surf-gap-8xl: 56px;
+		--ap-surf-gap-9xl: 64px;
+		--ap-surf-pad-7xl: 48px;
+		--ap-surf-pad-6xl: 40px;
+		--ap-surf-pad-5xl: 32px;
+		--ap-surf-pad-4xl: 28px;
+		--ap-surf-pad-3xl: 24px;
+		--ap-surf-pad-2xl: 22px;
+		--ap-surf-pad-xl: 20px;
+		--ap-surf-pad-lg: 16px;
+		--ap-fs-display: 3.5rem;
+		--ap-fs-h1-lg: 3rem;
+		--ap-fs-h1: 2.25rem;
+		--ap-fs-quote-2xl: 1.75rem;
+		--ap-fs-quote-xl: 1.5rem;
+		--ap-fs-quote-lg: 1.25rem;
+		--ap-fs-quote-md: 1rem;
+	}
+}
+
+/* Small Tablet (768+) */
+@media (min-width: 768px) {
+	:root {
+		--ap-page-max-content-xs: 480px;
+		--ap-page-w-default: 768px;
+		--ap-page-max-content-sm: 600px;
+		--ap-page-max-content-md: 640px;
+		--ap-page-max-content-lg: 720px;
+		--ap-page-max-content-xl: 720px;
+		--ap-page-max-content-2xl: 720px;
+		--ap-page-max-content-3xl: 720px;
+		--ap-page-max-content-full: 768px;
+		--ap-page-w-wide: 768px;
+		--ap-page-w-narrow: 744px;
+		--ap-pad-y-6xl: 180px;
+		--ap-pad-y-5xl: 160px;
+		--ap-pad-y-4xl: 140px;
+		--ap-pad-y-3xl: 120px;
+		--ap-pad-y-2xl: 96px;
+		--ap-pad-y-xl: 80px;
+		--ap-pad-y-lg: 72px;
+		--ap-pad-y-md: 56px;
+		--ap-pad-y-sm: 32px;
+		--ap-pad-y-2xs: 20px;
+		--ap-pad-y-3xs: 16px;
+		--ap-pad-y-4xs: 12px;
+		--ap-pad-y-5xs: 8px;
+		--ap-pad-x-6xl: 120px;
+		--ap-pad-x-5xl: 112px;
+		--ap-pad-x-4xl: 96px;
+		--ap-pad-x-3xl: 80px;
+		--ap-pad-x-2xl: 64px;
+		--ap-pad-x-xl: 48px;
+		--ap-pad-x-lg: 40px;
+		--ap-pad-x-md: 36px;
+		--ap-pad-x-sm: 32px;
+		--ap-pad-x-xs: 24px;
+		--ap-pad-x-2xs: 20px;
+		--ap-surf-max-content-2xs: 480px;
+		--ap-surf-max-content-xs: 480px;
+		--ap-surf-max-content-sm: 600px;
+		--ap-surf-max-content-md: 640px;
+		--ap-surf-max-content-lg: 640px;
+		--ap-surf-max-content-xl: 720px;
+		--ap-surf-max-content-2xl: 720px;
+		--ap-surf-max-content-3xl: 720px;
+		--ap-surf-max-content-4xl: 720px;
+		--ap-surf-max-content-full: 768px;
+		--ap-surf-gap-lg: 16px;
+		--ap-surf-gap-xl: 20px;
+		--ap-surf-gap-2xl: 22px;
+		--ap-surf-gap-3xl: 24px;
+		--ap-surf-gap-4xl: 32px;
+		--ap-surf-gap-5xl: 40px;
+		--ap-surf-gap-6xl: 48px;
+		--ap-surf-gap-7xl: 64px;
+		--ap-surf-gap-8xl: 80px;
+		--ap-surf-gap-9xl: 88px;
+		--ap-surf-pad-7xl: 56px;
+		--ap-surf-pad-6xl: 48px;
+		--ap-surf-pad-5xl: 40px;
+		--ap-surf-pad-4xl: 32px;
+		--ap-surf-pad-3xl: 28px;
+		--ap-surf-pad-2xl: 24px;
+		--ap-surf-pad-xl: 22px;
+		--ap-fs-display: 4rem;
+		--ap-fs-h1-lg: 3.5rem;
+		--ap-fs-h1: 2.5rem;
+		--ap-fs-h1-sm: 2rem;
+		--ap-fs-h2: 1.75rem;
+		--ap-fs-h3: 1.5rem;
+		--ap-fs-quote-2xl: 2rem;
+		--ap-fs-text-sm: 0.875rem;
+		--ap-fs-quote-xs: 0.875rem;
+		--ap-grid-count: 12;
+		--ap-grid-gap: 16px;
+	}
+}
+
+/* Tablet (992+) */
+@media (min-width: 992px) {
+	:root {
+		--ap-page-w-default: 992px;
+		--ap-page-max-content-sm: 640px;
+		--ap-page-max-content-md: 720px;
+		--ap-page-max-content-lg: 800px;
+		--ap-page-max-content-xl: 960px;
+		--ap-page-max-content-2xl: 960px;
+		--ap-page-max-content-3xl: 960px;
+		--ap-page-max-content-full: 992px;
+		--ap-page-w-wide: 1024px;
+		--ap-page-w-narrow: 960px;
+		--ap-pad-y-6xl: 220px;
+		--ap-pad-y-5xl: 200px;
+		--ap-pad-y-4xl: 180px;
+		--ap-pad-y-3xl: 160px;
+		--ap-pad-y-2xl: 120px;
+		--ap-pad-y-xl: 96px;
+		--ap-pad-y-lg: 80px;
+		--ap-pad-y-md: 64px;
+		--ap-pad-x-6xl: 160px;
+		--ap-pad-x-5xl: 120px;
+		--ap-pad-x-4xl: 112px;
+		--ap-pad-x-3xl: 96px;
+		--ap-pad-x-2xl: 80px;
+		--ap-pad-x-xl: 64px;
+		--ap-pad-x-lg: 48px;
+		--ap-pad-x-md: 40px;
+		--ap-surf-max-content-xs: 560px;
+		--ap-surf-max-content-sm: 640px;
+		--ap-surf-max-content-md: 720px;
+		--ap-surf-max-content-lg: 720px;
+		--ap-surf-max-content-xl: 800px;
+		--ap-surf-max-content-2xl: 960px;
+		--ap-surf-max-content-3xl: 960px;
+		--ap-surf-max-content-4xl: 960px;
+		--ap-surf-max-content-full: 992px;
+		--ap-surf-gap-4xl: 40px;
+		--ap-surf-gap-5xl: 48px;
+		--ap-surf-gap-6xl: 64px;
+		--ap-surf-gap-7xl: 80px;
+		--ap-surf-gap-8xl: 88px;
+		--ap-surf-gap-9xl: 104px;
+		--ap-surf-pad-7xl: 80px;
+		--ap-surf-pad-6xl: 60px;
+		--ap-surf-pad-5xl: 48px;
+		--ap-surf-pad-4xl: 40px;
+		--ap-surf-pad-3xl: 32px;
+		--ap-surf-pad-2xl: 28px;
+		--ap-surf-pad-xl: 24px;
+		--ap-fs-display: 5rem;
+		--ap-fs-h1-lg: 4rem;
+		--ap-fs-h1-sm: 2.5rem;
+		--ap-fs-h2: 2.25rem;
+		--ap-fs-h3: 1.75rem;
+		--ap-fs-h4: 1.5rem;
+		--ap-fs-h5: 1.25rem;
+		--ap-fs-h6: 1rem;
+		--ap-fs-text-xl: 1.5rem;
+		--ap-fs-quote-2xl: 2.5rem;
+		--ap-fs-text-lg: 1.25rem;
+		--ap-fs-text-md: 1.125rem;
+		--ap-fs-quote-xl: 2rem;
+		--ap-fs-quote-lg: 1.375rem;
+		--ap-fs-text-reg: 1rem;
+		--ap-fs-quote-md: 1.125rem;
+		--ap-fs-quote-sm: 1rem;
+		--ap-fs-eyebrow: 0.875rem;
+		--ap-fs-button-lg: 1.125rem;
+		--ap-fs-button-md: 1rem;
+		--ap-fs-nav-md: 1rem;
+		--ap-fs-caption: 0.875rem;
+		--ap-grid-gap: 20px;
+	}
+}
+
+/* Desktop (1280+) */
+@media (min-width: 1280px) {
+	:root {
+		--ap-page-w-default: 1280px;
+		--ap-page-max-content-md: 800px;
+		--ap-page-max-content-lg: 960px;
+		--ap-page-max-content-xl: 1120px;
+		--ap-page-max-content-2xl: 1200px;
+		--ap-page-max-content-3xl: 1280px;
+		--ap-page-max-content-full: 1280px;
+		--ap-page-w-wide: 1440px;
+		--ap-page-w-narrow: 1200px;
+		--ap-pad-y-6xl: 280px;
+		--ap-pad-y-5xl: 240px;
+		--ap-pad-y-4xl: 220px;
+		--ap-pad-y-3xl: 200px;
+		--ap-pad-y-2xl: 160px;
+		--ap-pad-y-xl: 120px;
+		--ap-pad-y-lg: 112px;
+		--ap-pad-y-md: 80px;
+		--ap-pad-y-sm: 40px;
+		--ap-pad-x-6xl: 240px;
+		--ap-pad-x-5xl: 200px;
+		--ap-pad-x-4xl: 180px;
+		--ap-pad-x-3xl: 160px;
+		--ap-pad-x-2xl: 120px;
+		--ap-pad-x-xl: 80px;
+		--ap-pad-x-lg: 64px;
+		--ap-pad-x-md: 56px;
+		--ap-pad-x-sm: 40px;
+		--ap-surf-max-content-lg: 800px;
+		--ap-surf-max-content-xl: 960px;
+		--ap-surf-max-content-2xl: 1120px;
+		--ap-surf-max-content-3xl: 1200px;
+		--ap-surf-max-content-4xl: 1280px;
+		--ap-surf-max-content-full: 1280px;
+		--ap-surf-gap-xl: 24px;
+		--ap-surf-gap-2xl: 28px;
+		--ap-surf-gap-3xl: 32px;
+		--ap-surf-gap-5xl: 64px;
+		--ap-surf-gap-6xl: 80px;
+		--ap-surf-gap-7xl: 96px;
+		--ap-surf-gap-8xl: 112px;
+		--ap-surf-gap-9xl: 120px;
+		--ap-surf-pad-7xl: 112px;
+		--ap-surf-pad-6xl: 80px;
+		--ap-surf-pad-5xl: 64px;
+		--ap-surf-pad-4xl: 48px;
+		--ap-surf-pad-3xl: 40px;
+		--ap-surf-pad-2xl: 32px;
+		--ap-fs-display: 6rem;
+		--ap-fs-h1-lg: 4.5rem;
+		--ap-fs-h1: 3rem;
+		--ap-fs-quote-lg: 1.5rem;
+		--ap-grid-gap: 28px;
+	}
+}
+
+/* Desktop (1440+) */
+@media (min-width: 1440px) {
+	:root {
+		--ap-page-w-default: 1440px;
+		--ap-page-max-content-2xl: 1280px;
+		--ap-page-max-content-3xl: 1360px;
+		--ap-page-max-content-full: 1440px;
+		--ap-page-w-wide: 1920px;
+		--ap-page-w-narrow: 1280px;
+		--ap-pad-x-6xl: 280px;
+		--ap-pad-x-5xl: 240px;
+		--ap-pad-x-4xl: 220px;
+		--ap-pad-x-3xl: 200px;
+		--ap-pad-x-2xl: 160px;
+		--ap-pad-x-xl: 120px;
+		--ap-pad-x-lg: 80px;
+		--ap-pad-x-md: 64px;
+		--ap-surf-max-content-3xl: 1280px;
+		--ap-surf-max-content-4xl: 1360px;
+		--ap-surf-max-content-full: 1440px;
+		--ap-fs-display: 7.5rem;
+		--ap-fs-h1-lg: 5rem;
+		--ap-fs-h1: 3.5rem;
+		--ap-fs-h1-sm: 3rem;
+		--ap-fs-h2: 2.5rem;
+	}
 }

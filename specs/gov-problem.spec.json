@@ -1,0 +1,34 @@
+{
+  "section": "gov-problem",
+  "node": "5976:72140",
+  "selector": "#ap-gov-problem",
+  "path": "/",
+  "widths": [
+    320,
+    360,
+    375,
+    390,
+    414,
+    480,
+    640,
+    768,
+    900,
+    1024,
+    1180,
+    1280,
+    1366,
+    1440,
+    1600,
+    1920
+  ],
+  "noOverlap": [
+    ".apg-prob-head",
+    ".apg-prob-scene",
+    ".apg-mini-cta"
+  ],
+  "jitterWatch": [
+    "#ap-gov-problem"
+  ],
+  "strictTokens": false,
+  "pixelThreshold": 2.5
+}

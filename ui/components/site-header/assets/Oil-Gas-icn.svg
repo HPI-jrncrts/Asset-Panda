@@ -1,0 +1,5 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="100%" height="100%" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="flame">
+<path id="Vector" d="M14 14C16.3333 10.5467 14 5.83333 12.8333 4.66667C12.8333 8.211 10.7648 10.1978 9.33333 11.6667C7.903 13.1367 7 15.4467 7 17.5C7 19.3565 7.7375 21.137 9.05025 22.4497C10.363 23.7625 12.1435 24.5 14 24.5C15.8565 24.5 17.637 23.7625 18.9497 22.4497C20.2625 21.137 21 19.3565 21 17.5C21 15.7127 19.768 12.9033 18.6667 11.6667C16.583 15.1667 15.4105 15.1667 14 14Z" stroke="var(--stroke-0, black)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</svg>

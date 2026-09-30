@@ -1,0 +1,153 @@
+/*
+ * faq — accordion of questions. Ported from the live `.ap-faq` section: a
+ * centred heading over ruled rows; the open row's question turns indigo and
+ * its chevron points up.
+ */
+
+:where(.ap-faq, .ap-faq *, .ap-faq *::before, .ap-faq *::after) {
+	box-sizing: border-box;
+}
+
+.ap-faq {
+	padding: 80px 0 40px;
+	background: linear-gradient(#f9fafb 0%, #fff 100%);
+}
+
+.ap-faq__inner {
+	width: min(var(--ap-page-max-content-xl, 1120px), 100% - 48px);
+	margin: 0 auto;
+}
+
+.ap-faq__eyebrow {
+	margin: 0 0 12px;
+	color: var(--ap-text-eyebrow);
+	font-family: var(--ap-font-utility);
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	text-align: center;
+}
+
+.ap-faq__title {
+	margin: 0 0 40px;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: clamp(28px, 3.2vw, 40px);
+	font-weight: 800;
+	line-height: 1.2;
+	text-align: center;
+}
+
+.ap-faq__list {
+	border-top: 1px solid #edeef1;
+}
+
+.ap-faq__item {
+	border-bottom: 1px solid #edeef1;
+}
+
+.ap-faq__q {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 24px;
+	padding: 20px 16px;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: 20px;
+	font-weight: 800;
+	line-height: 1.4;
+	list-style: none;
+	cursor: pointer;
+	transition: color 220ms;
+}
+
+.ap-faq__q::-webkit-details-marker {
+	display: none;
+}
+
+.ap-faq__q:hover,
+.ap-faq__q:focus-visible {
+	color: var(--ap-indigo-600);
+}
+
+.ap-faq__item[open] > .ap-faq__q {
+	color: var(--ap-indigo-600);
+	padding-bottom: 8px;
+}
+
+.ap-faq__q-text {
+	min-width: 0;
+}
+
+.ap-faq__chev {
+	width: 32px;
+	height: 32px;
+	flex: 0 0 32px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--ap-green-600);
+	transition: rotate 220ms var(--ap-ease-standard), color 220ms;
+}
+
+.ap-faq__chev svg {
+	width: 18px;
+	height: 18px;
+	display: block;
+}
+
+.ap-faq__item[open] > .ap-faq__q .ap-faq__chev {
+	color: var(--ap-indigo-600);
+	rotate: -90deg;
+}
+
+.ap-faq__a {
+	padding: 0 16px 24px;
+}
+
+.ap-faq__a p {
+	max-width: 62rem;
+	margin: 0;
+	color: var(--ap-text-body);
+	font-family: var(--ap-font-body);
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+	.ap-faq {
+		padding: 56px 0 32px;
+	}
+
+	.ap-faq__q {
+		gap: 16px;
+		padding: 20px 4px;
+		font-size: 16px;
+	}
+
+	.ap-faq__a {
+		padding: 0 4px 20px;
+	}
+}
+
+@media (max-width: 560px) {
+	.ap-faq {
+		padding: 40px 0 24px;
+	}
+
+	.ap-faq__chev {
+		width: 24px;
+		height: 24px;
+		flex: 0 0 24px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-faq * {
+		transition: none !important;
+	}
+}

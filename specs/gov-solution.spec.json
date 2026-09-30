@@ -1,0 +1,32 @@
+{
+  "section": "gov-solution",
+  "node": "5976:72170",
+  "selector": "#ap-gov-solution",
+  "path": "/",
+  "widths": [
+    320,
+    360,
+    375,
+    390,
+    414,
+    480,
+    640,
+    768,
+    900,
+    1024,
+    1180,
+    1280,
+    1366,
+    1440,
+    1600,
+    1920
+  ],
+  "noOverlap": [
+    ".apg-sol-row"
+  ],
+  "jitterWatch": [
+    "#ap-gov-solution"
+  ],
+  "strictTokens": false,
+  "pixelThreshold": 2.5
+}

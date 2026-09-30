@@ -1,0 +1,77 @@
+{
+	"name": "problem-scene",
+	"description": "Hub problem section: centred heading and lede over two overlapping photos with four coloured chips around them, then a panda CTA bar. Live: #ap-gov-problem on the industry hubs.",
+	"props": {
+		"eyebrow": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Small label above the heading."
+		},
+		"title": {
+			"type": "string",
+			"required": true,
+			"description": "Heading."
+		},
+		"lede": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Paragraph under the heading."
+		},
+		"background": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Soft colour-wash image behind the section."
+		},
+		"images": {
+			"type": "array",
+			"required": false,
+			"default": [],
+			"description": "Two photos. Each: image, alt. Each may carry x, y, w, h (% of the scene) to place and size it; the scene then takes its height from scene_height."
+		},
+		"chips": {
+			"type": "array",
+			"required": false,
+			"default": [],
+			"description": "Up to five chips (blue, red, green, yellow placements, then a fifth). Each: text, tone; icon (URL) or icon_svg; optional desktop placement left, right, top (CSS lengths, auto, or calc/min/max)."
+		},
+		"cta_title": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "CTA bar heading."
+		},
+		"cta_body": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "CTA bar text."
+		},
+		"cta_icon": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "CTA bar mark (URL)."
+		},
+		"cta_label": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "CTA button text."
+		},
+		"cta_url": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "CTA button destination."
+		},
+		"scene_height": {
+			"type": "number",
+			"required": false,
+			"default": 0,
+			"description": "Height of the photo scene in px. 0 keeps the default 260."
+		}
+	}
+}

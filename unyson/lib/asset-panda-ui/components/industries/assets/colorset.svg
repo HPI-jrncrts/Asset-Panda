@@ -1,0 +1,15 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="2165" height="2131" viewBox="0 0 2165 2131" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Decorative / Color Set">
+<circle id="Decorative / Indigo Orb" cx="510.5" cy="1150.5" r="426.5" fill="#5044E1"/>
+<circle id="Decorative / Violet Orb" cx="1446.5" cy="1109.5" r="518.5" fill="#5044E1"/>
+<circle id="Decorative / Yellow Orb" cx="842" cy="1443" r="523" fill="#F3BF51"/>
+<circle id="Decorative / Green Orb" cx="780.5" cy="1224.5" r="426.5" fill="#00A991"/>
+<circle id="Decorative / Green Orb Small" cx="1738.5" cy="1489.5" r="426.5" fill="#00A991"/>
+<ellipse id="Decorative / Gray Orb" cx="980.5" cy="1693" rx="980.5" ry="438" fill="white"/>
+<ellipse id="Decorative / Gray Orb Large" cx="1047.5" cy="438" rx="980.5" ry="438" fill="#F9FAFB"/>
+<foreignObject x="16" y="207" width="2000" height="1747"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(140px);clip-path:url(#bgblur_0_0_459_clip_path);height:100%;width:100%"></div></foreignObject><rect id="Decorative / Blur Overlay" data-figma-bg-blur-radius="280" x="296" y="487" width="1440" height="1187" fill="white" fill-opacity="0.15"/>
+</g>
+<defs>
+<clipPath id="bgblur_0_0_459_clip_path" transform="translate(-16 -207)"><rect x="296" y="487" width="1440" height="1187"/>
+</clipPath></defs>
+</svg>

@@ -1,0 +1,81 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/comparison",
+	"title": "AP Comparison",
+	"category": "design",
+	"icon": "columns",
+	"description": "Three-column comparison: value pillars, an elevated Asset Panda column (panda banner, UrsaAI rows, call to action) and a muted Spreadsheets column. Figma: Home Page > Why Asset Intelligence (4331:24561). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"title_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"intro": {
+			"type": "string",
+			"default": ""
+		},
+		"pillar_title": {
+			"type": "string",
+			"default": "Value Pillar"
+		},
+		"after_title": {
+			"type": "string",
+			"default": "Asset Panda"
+		},
+		"after_note": {
+			"type": "string",
+			"default": "Powered by:"
+		},
+		"before_title": {
+			"type": "string",
+			"default": "Spreadsheets & Siloed Tools"
+		},
+		"rows": {
+			"type": "array",
+			"default": []
+		},
+		"cta_label": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_url": {
+			"type": "string",
+			"default": ""
+		},
+		"link_label": {
+			"type": "string",
+			"default": ""
+		},
+		"link_url": {
+			"type": "string",
+			"default": ""
+		},
+		"reveal": {
+			"type": "boolean",
+			"default": true
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

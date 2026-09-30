@@ -1,0 +1,168 @@
+/*
+ * trust-strip — label plus trust badges. Ported from the live `.ap-trust`
+ * strip: one row from 768px, a marquee below it.
+ */
+
+:where(.ap-trust-strip, .ap-trust-strip *, .ap-trust-strip *::before, .ap-trust-strip *::after) {
+	box-sizing: border-box;
+}
+
+.ap-trust-strip {
+	background: #fff;
+}
+
+.ap-trust-strip__inner {
+	width: min(var(--ap-page-max-content-xl, 1120px), 100% - 48px);
+	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	gap: 40px;
+	padding: 40px 0;
+	border-top: 1px solid #edeef1;
+}
+
+.ap-trust-strip__label {
+	flex: 0 0 172px;
+	width: 172px;
+	margin: 0;
+	color: #121212;
+	font-family: var(--ap-font-display);
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1.2;
+	overflow-wrap: break-word;
+}
+
+.ap-trust-strip__accent {
+	background: var(--ap-gradient-text);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
+}
+
+.ap-trust-strip__badges {
+	flex: 1 1 0;
+	min-width: 0;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 40px 24px;
+	margin: 0;
+	padding: 0 40px;
+	list-style: none;
+}
+
+.ap-trust-strip__badge {
+	width: 110px;
+	height: 80px;
+	flex: 0 0 auto;
+}
+
+.ap-trust-strip__badge img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+/* The duplicate row exists only for the phone marquee. */
+.ap-trust-strip__badge--dup {
+	display: none;
+}
+
+@media (max-width: 1024px) {
+	.ap-trust-strip__badges {
+		padding: 0;
+		column-gap: 20px;
+	}
+}
+
+@media (max-width: 768px) {
+	.ap-trust-strip__inner {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 24px;
+		padding: 32px 0;
+	}
+
+	.ap-trust-strip__label {
+		flex: 0 0 auto;
+		width: auto;
+		max-width: 260px;
+	}
+
+	.ap-trust-strip__badges {
+		width: 100%;
+		justify-content: center;
+		gap: 24px 32px;
+	}
+}
+
+@media (max-width: 767.98px) {
+	.ap-trust-strip__inner {
+		overflow: hidden;
+	}
+
+	/*
+	 * Marquee: both copies in one no-wrap track, sliding half the track width.
+	 * The gap is carried as a right margin so the two halves stay identical.
+	 */
+	.ap-trust-strip__badges--marquee {
+		width: max-content;
+		max-width: none;
+		flex-wrap: nowrap;
+		justify-content: flex-start;
+		gap: 0;
+		animation: ap-trust-strip-scroll 15s linear infinite;
+		will-change: transform;
+	}
+
+	.ap-trust-strip__badges--marquee .ap-trust-strip__badge {
+		margin-right: 20px;
+	}
+
+	.ap-trust-strip__badges--marquee .ap-trust-strip__badge--dup {
+		display: block;
+	}
+}
+
+@media (max-width: 560px) {
+	.ap-trust-strip__badge {
+		width: 88px;
+		height: 64px;
+	}
+
+	.ap-trust-strip__badges {
+		gap: 20px;
+	}
+
+	.ap-trust-strip__badges--marquee {
+		gap: 0;
+	}
+}
+
+@keyframes ap-trust-strip-scroll {
+	from {
+		translate: 0 0;
+	}
+
+	to {
+		translate: -50% 0;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-trust-strip__badges--marquee {
+		animation: none;
+		width: 100%;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 24px 32px;
+	}
+
+	.ap-trust-strip__badges--marquee .ap-trust-strip__badge--dup {
+		display: none;
+	}
+}

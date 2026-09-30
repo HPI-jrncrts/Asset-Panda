@@ -1,0 +1,316 @@
+/*
+ * problem-scene — ported from the live #ap-gov-problem. The colour wash
+ * arrives as --apg-bg on the root.
+ */
+
+:where(.ap-problem-scene, .ap-problem-scene *, .ap-problem-scene *::before, .ap-problem-scene *::after) {
+	box-sizing: border-box;
+}
+
+.ap-problem-scene {
+	position:relative;
+	font-family:Manrope,sans-serif;
+	padding:20px 24px 80px;
+	overflow:visible
+}
+
+.ap-problem-scene::before {
+	content:"";
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	width:100%;
+	background-image:var(--apg-bg, none);
+	background-size:cover;
+	background-position:center 30%;
+	background-repeat:no-repeat;
+	opacity:.55;
+	pointer-events:none;
+	z-index:0
+}
+
+.ap-problem-scene > * {
+	position:relative;
+	z-index:1
+}
+
+.ap-problem-scene .apg-prob-head {
+	max-width:640px;
+	margin:0 auto 40px;
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	text-align:center;
+	gap:16px
+}
+
+.ap-problem-scene .apg-eyebrow {
+	font-size:14px;
+	font-weight:800;
+	line-height:1.2;
+	letter-spacing:.56px;
+	text-transform:uppercase;
+	color:#5044e1;
+	margin:0
+}
+
+.ap-problem-scene h2.apg-h2 {
+	font-size:40px;
+	font-weight:800;
+	line-height:1.2;
+	color:#25272c;
+	margin:0
+}
+
+.ap-problem-scene .apg-prob-lede {
+	font-size:18px;
+	line-height:1.5;
+	color:#4a4e5a;
+	margin:0
+}
+
+.ap-problem-scene .apg-prob-scene {
+	position:relative;
+	max-width:1120px;
+	margin:0 auto 40px;
+	height:var(--apg-scene-h, 260px)
+}
+
+.ap-problem-scene .apg-prob-img {
+	position:absolute;
+	width:328px;
+	height:218px;
+	border-radius:12px;
+	object-fit:cover;
+	box-shadow:0 8px 28px rgba(37,39,44,.18)
+}
+
+.ap-problem-scene .apg-prob-img-1 {
+	left:calc(50% - 137px);
+	top:0;
+	transform:translateX(-50%)
+}
+
+.ap-problem-scene .apg-prob-img-2 {
+	left:calc(50% + 137px);
+	top:42px;
+	transform:translateX(-50%)
+}
+
+.ap-problem-scene .apg-prob-chip {
+	position:absolute;
+	display:flex;
+	align-items:flex-start;
+	gap:8px;
+	padding:8px 12px;
+	border-radius:8px;
+	border:1px solid;
+	box-shadow:0 2px 24px rgba(255,201,124,.08);
+	white-space:nowrap
+}
+
+.ap-problem-scene .apg-prob-chip img {
+	width:24px;
+	height:24px;
+	display:block
+}
+
+.ap-problem-scene .apg-prob-chip span {
+	font-size:16px;
+	line-height:1.6;
+	color:#25272c
+}
+
+.ap-problem-scene .apg-chip-blue {
+	left:13.75%;
+	top:98px;
+	border-color:#eff6ff;
+	background:linear-gradient(90deg,rgba(255,255,255,.8),#eff6ff)
+}
+
+.ap-problem-scene .apg-chip-red {
+	left:63.75%;
+	top:77px;
+	border-color:#fff1f3;
+	background:linear-gradient(90deg,rgba(255,255,255,.8),#fff1f3)
+}
+
+.ap-problem-scene .apg-chip-green {
+	left:20.625%;
+	top:195px;
+	border-color:#effefa;
+	background:linear-gradient(90deg,rgba(255,255,255,.9),#effefa)
+}
+
+.ap-problem-scene .apg-chip-yellow {
+	left:68.125%;
+	top:167px;
+	border-color:#fdf8e9;
+	background:linear-gradient(90deg,rgba(255,255,255,.9),#fdf8e9)
+}
+
+.ap-problem-scene .apg-mini-cta {
+	display:flex;
+	align-items:flex-end;
+	gap:24px;
+	max-width:870px;
+	margin:0 auto;
+	padding:20px 24px;
+	border-radius:16px;
+	border:1px solid #c8d2fd;
+	background:linear-gradient(44.146deg,#eef2ff 0%,#fff 99.927%);
+	transition:translate .3s cubic-bezier(.25,.45,.45,.95),box-shadow .3s cubic-bezier(.25,.45,.45,.95)
+}
+
+.ap-problem-scene .apg-mini-cta:hover {
+	translate:0 -4px;
+	box-shadow:0 12px 28px rgba(80,68,225,.12)
+}
+
+.ap-problem-scene .apg-mini-left {
+	flex:1;
+	display:flex;
+	gap:16px;
+	align-items:flex-start;
+	min-width:0
+}
+
+.ap-problem-scene .apg-mini-left > img {
+	width:42px;
+	height:48px;
+	flex:0 0 42px;
+	display:block
+}
+
+.ap-problem-scene .apg-mini-title {
+	font-size:20px;
+	font-weight:800;
+	line-height:1.4;
+	color:#25272c;
+	margin:0 0 4px
+}
+
+.ap-problem-scene .apg-mini-body {
+	font-size:18px;
+	line-height:1.5;
+	color:#4a4e5a;
+	margin:0
+}
+
+.ap-problem-scene .apg-btn {
+	display:inline-flex;
+	align-items:center;
+	justify-content:center;
+	gap:8px;
+	min-height:48px;
+	padding:16px;
+	border-radius:4px;
+	border:1px solid #5044e1;
+	background:linear-gradient(42.983deg,#5044e1 0%,#00a991 70.44%);
+	color:#fff;
+	font-size:16px;
+	font-weight:600;
+	line-height:1.2;
+	text-decoration:none;
+	white-space:nowrap;
+	flex:0 0 auto;
+	transition:translate .3s cubic-bezier(.25,.45,.45,.95),box-shadow .3s cubic-bezier(.25,.45,.45,.95)
+}
+
+.ap-problem-scene .apg-btn:hover {
+	translate:0 -2px;
+	box-shadow:0 8px 20px rgba(80,68,225,.25)
+}
+
+@media (max-width:1024px) {
+	.ap-problem-scene .apg-prob-scene {
+	height:auto;
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	gap:16px;
+	padding-bottom:8px
+}
+
+.ap-problem-scene .apg-prob-img {
+	position:relative;
+	left:auto;
+	top:auto;
+	transform:none;
+	width:88%;
+	max-width:440px;
+	height:auto;
+	aspect-ratio:328/218
+}
+
+.ap-problem-scene .apg-prob-img-2 {
+	margin:-40px 0 0 auto
+}
+
+.ap-problem-scene .apg-prob-img-1 {
+	margin-right:auto
+}
+
+.ap-problem-scene .apg-prob-chips-flow {
+	display:flex;
+	flex-wrap:wrap;
+	justify-content:center;
+	gap:8px;
+	width:100%
+}
+
+.ap-problem-scene .apg-prob-chip {
+	position:relative;
+	left:auto!important;
+	right:auto!important;
+	top:auto!important
+}
+
+
+}
+
+@media (min-width:1025px) {
+	.ap-problem-scene .apg-prob-chips-flow {
+	display:contents
+}
+
+
+}
+
+@media (max-width:767px) {
+	.ap-problem-scene h2.apg-h2 {
+	font-size:28px
+}
+
+.ap-problem-scene .apg-prob-lede {
+	font-size:16px
+}
+
+.ap-problem-scene .apg-mini-cta {
+	flex-direction:column;
+	align-items:stretch
+}
+
+.ap-problem-scene .apg-btn {
+	width:100%
+}
+
+.ap-problem-scene .apg-prob-chip {
+	width:100%;
+	white-space:normal;
+	align-items:center
+}
+
+.ap-problem-scene .apg-prob-chip span {
+	font-size:14px
+}
+
+
+}
+
+.ap-problem-scene .apg-prob-chip .ap-inline-icon svg {
+	width:24px;
+	height:24px;
+	display:block
+}

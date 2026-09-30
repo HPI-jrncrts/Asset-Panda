@@ -15,7 +15,7 @@
 
 import {
   parseArgs, loadSpec, loadTokens, resolveUrl, preparePage, launchBrowser,
-  cssEquals, normalizeColor, makeReport, printReport, info,
+  cssEquals, normalizeColor, makeReport, printReport, info, isMainModule,
 } from './lib/shared.mjs';
 
 /** Read one computed property off the first match of a selector. */
@@ -88,7 +88,9 @@ export async function auditTokens({ spec, url, browser, strict = false }) {
     for (const width of spec.widths) {
       const page = await b.newPage();
       try {
-        await page.goto(url, { waitUntil: 'networkidle', timeout: 45_000 });
+        // see audit-layout.mjs: 'networkidle' hangs on real AP pages with live
+        // tracking beacons. domcontentloaded + preparePage's settle wait instead.
+        await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 45_000 });
         await preparePage(page, { width });
 
         /* ---- A. Explicit assertions -------------------------------- */
@@ -166,7 +168,7 @@ export async function auditTokens({ spec, url, browser, strict = false }) {
   return report;
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (isMainModule(import.meta.url)) {
   const args = parseArgs();
   if (!args.section) {
     console.error('Usage: node tools/audit-tokens.mjs --section <name> [--strict] [--target preview|dev|live]');

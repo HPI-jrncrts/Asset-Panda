@@ -1,0 +1,35 @@
+{
+  "section": "gov-faq",
+  "node": "5976:72487",
+  "selector": "#ap-gov-faq",
+  "path": "/",
+  "widths": [
+    320,
+    360,
+    375,
+    390,
+    414,
+    480,
+    640,
+    768,
+    900,
+    1024,
+    1180,
+    1280,
+    1366,
+    1440,
+    1600,
+    1920
+  ],
+  "noOverlap": [
+    ".apg-faq-item"
+  ],
+  "jitterWatch": [
+    "#ap-gov-faq"
+  ],
+  "strictTokens": false,
+  "pixelThreshold": 2.5,
+  "collapsedOk": [
+    ".apg-faq-a"
+  ]
+}

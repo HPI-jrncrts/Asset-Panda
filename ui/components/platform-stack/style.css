@@ -1,0 +1,351 @@
+/* platform-stack — capability cards with a numbered index.
+ * Matches the live homepage (dev page 7, #ap-platform-stack-v3), built from
+ * Figma Platform (4331:24729):
+ * - below 1280px the index is a numbered list above full-width cards (560px
+ *   tall from 768px; 300–360px screenshots on phones);
+ * - from 1280px a sticky 282px index sits beside 780x560 cards that stack as
+ *   you scroll, each sticking 24px below the previous one;
+ * - the "filled" state (solid accent, light copy, a preview sliding over the
+ *   screenshot) shows on hover at desktop and on the card being read on
+ *   phones.
+ *
+ * NOTE: this component deliberately does NOT set `scroll-behavior: smooth` on
+ * <html>. That property only works on the scroll container, so a component
+ * cannot opt into it without changing the whole document. */
+
+.ap-pstack {
+	--ap-pstack-top: 104px;
+	--ap-pstack-step: 24px;
+	padding-block: var(--ap-pad-y-lg) var(--ap-pad-y-md);
+	padding-inline: var(--ap-pad-x-xs);
+	background: var(--ap-white);
+	font-family: var(--ap-font-body);
+}
+
+.ap-pstack__inner {
+	max-width: var(--ap-page-max-content-xl);
+	margin-inline: auto;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--ap-surf-gap-4xl);
+}
+
+.ap-pstack__head { display: grid; gap: var(--ap-surf-gap-lg); max-width: 536px; }
+
+.ap-pstack__eyebrow {
+	margin: 0;
+	font-family: var(--ap-font-utility);
+	font-size: var(--ap-fs-eyebrow);
+	font-weight: var(--ap-weight-eyebrow);
+	line-height: var(--ap-line-eyebrow);
+	letter-spacing: var(--ap-ls-eyebrow);
+	text-transform: uppercase;
+	color: var(--ap-text-eyebrow);
+}
+
+.ap-pstack__title {
+	margin: 0;
+	font-family: var(--ap-font-display);
+	font-size: var(--ap-fs-h2);
+	font-weight: var(--ap-weight-heading);
+	line-height: var(--ap-line-h2);
+	color: var(--ap-text-heading);
+}
+
+.ap-pstack__intro,
+.ap-pstack__kicker {
+	margin: 0;
+	font-size: var(--ap-fs-text-md);
+	line-height: var(--ap-line-body);
+	color: var(--ap-text-body);
+}
+
+.ap-pstack__kicker { font-weight: var(--ap-weight-body-bold); color: var(--ap-text-heading); }
+
+/* UrsaAI brand mark. Padding lets the gradient paint above the raised "AI". */
+.ap-pstack .ap-ursa {
+	padding-top: 0.5em;
+	background-image: var(--ap-gradient-ursa);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+.ap-pstack .ap-ursa sup { font-size: 0.645em; line-height: 0; }
+.ap-pstack__card-body .ap-ursa { font-weight: var(--ap-weight-bold); }
+
+/* In the index and the plain link the mark is just text with a small AI. */
+.ap-pstack__navlink .ap-ursa,
+.ap-pstack__link .ap-ursa {
+	padding-top: 0;
+	background: none;
+	color: inherit;
+}
+
+@media (forced-colors: active) {
+	.ap-pstack .ap-ursa { background-image: none; color: CanvasText; }
+}
+
+.ap-pstack__body { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--ap-surf-gap-4xl); }
+
+/* ---- Index: a numbered list (a sticky rail from 1280px) ---- */
+.ap-pstack__navlist { display: grid; margin: 0; padding: 0; list-style: none; }
+
+.ap-pstack__navlink {
+	display: flex;
+	align-items: center;
+	gap: var(--ap-surf-gap-lg);
+	min-height: 54px;
+	padding: var(--ap-surf-gap-xl) 0;
+	font-family: var(--ap-font-display);
+	font-size: var(--ap-fs-text-md);
+	font-weight: var(--ap-weight-heading);
+	line-height: 1.2;
+	color: var(--ap-slate-300, #d1d5db);
+	text-decoration: none;
+	border-bottom: var(--ap-border-thin) solid var(--ap-slate-200);
+	transition: color var(--ap-dur-slow) var(--ap-ease-out);
+}
+
+.ap-pstack__navlink:hover { color: var(--ap-text-muted); }
+
+.ap-pstack__dot {
+	flex: none;
+	inline-size: 8px;
+	block-size: 8px;
+	background: transparent;
+	border-radius: var(--ap-radius-pill);
+	transition: background-color var(--ap-dur-slow) var(--ap-ease-out);
+}
+
+.ap-pstack__navlink.is-active { color: var(--ap-text-heading); }
+.ap-pstack__navlink.is-active .ap-pstack__dot { background: var(--ap-brand-indigo); }
+
+/* ---- Cards ---- */
+.ap-pstack__cards {
+	display: grid;
+	gap: var(--ap-surf-gap-4xl);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ap-pstack__card {
+	--ap-accent: var(--ap-brand-indigo);
+	--ap-accent-soft: var(--ap-indigo-50);
+	--ap-accent-fill: var(--ap-accent);
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	padding: var(--ap-surf-pad-4xl);
+	background: linear-gradient(80deg, var(--ap-accent-soft) 0%, var(--ap-white) 100%);
+	border: var(--ap-border-thin) solid var(--ap-accent);
+	border-radius: var(--ap-radius-xl);
+	/* Anchor jumps land with room for the sticky site header. */
+	scroll-margin-top: var(--ap-pstack-top);
+}
+
+.ap-pstack__card--indigo { --ap-accent: var(--ap-brand-indigo); --ap-accent-soft: var(--ap-indigo-50); }
+.ap-pstack__card--yellow { --ap-accent: var(--ap-brand-yellow); --ap-accent-soft: var(--ap-yellow-50); }
+.ap-pstack__card--green  { --ap-accent: var(--ap-brand-green);  --ap-accent-soft: var(--ap-green-50); }
+.ap-pstack__card--red    { --ap-accent: var(--ap-brand-red);    --ap-accent-soft: var(--ap-red-50); }
+.ap-pstack__card--violet { --ap-accent: var(--ap-brand-violet); --ap-accent-soft: var(--ap-violet-100); }
+
+.ap-pstack__card--ursa {
+	--ap-accent: var(--ap-green-100);
+	--ap-accent-fill: linear-gradient(160deg, var(--ap-brand-green) 0%, var(--ap-brand-violet) 100%);
+	background: linear-gradient(80deg, var(--ap-green-100) 0%, var(--ap-violet-200) 100%);
+}
+
+.ap-pstack__copy {
+	position: relative;
+	z-index: 3;
+	display: grid;
+	gap: var(--ap-surf-gap-xl);
+	justify-items: start;
+	max-width: 540px;
+}
+
+.ap-pstack__card-title {
+	margin: 0;
+	font-family: var(--ap-font-display);
+	font-size: 22px;
+	font-weight: var(--ap-weight-heading);
+	line-height: 1.2;
+	color: var(--ap-text-heading);
+	transition: color var(--ap-dur-slow) var(--ap-ease-out);
+}
+
+.ap-pstack__card-body {
+	margin: 0;
+	font-size: var(--ap-fs-text-md);
+	line-height: var(--ap-line-body);
+	color: var(--ap-text-body);
+	transition: color var(--ap-dur-slow) var(--ap-ease-out);
+}
+
+.ap-pstack__link {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--ap-surf-gap-md);
+	font-family: var(--ap-font-utility);
+	font-size: var(--ap-fs-button-sm);
+	font-weight: var(--ap-weight-bold);
+	line-height: 1.2;
+	color: var(--ap-text-heading);
+	text-decoration: none;
+	border-radius: var(--ap-radius-sm);
+	transition: color var(--ap-dur-slow) var(--ap-ease-out), translate var(--ap-dur-slow) var(--ap-ease-out);
+}
+
+.ap-pstack__link img { display: block; inline-size: 24px; block-size: 24px; }
+.ap-pstack__link:hover { translate: 2px 0; }
+
+/* Screenshot in a thin glass frame, plus an optional preview that slides over
+ * it in the filled state. */
+.ap-pstack__shot {
+	position: relative;
+	z-index: 2;
+	height: 360px;
+	margin-top: 28px;
+	pointer-events: none;
+}
+
+.ap-pstack__screen {
+	position: absolute;
+	inset: 0;
+	padding: 5.2px;
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: var(--ap-radius-md);
+	box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+	overflow: hidden;
+	transform-origin: center top;
+	transition: opacity var(--ap-dur-slow) var(--ap-ease-out), transform var(--ap-dur-slow) var(--ap-ease-out), filter var(--ap-dur-slow) var(--ap-ease-out);
+}
+
+.ap-pstack__screen img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: left top;
+	border-radius: 5.79px;
+}
+
+.ap-pstack__preview {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	z-index: 4;
+	display: none;
+	opacity: 0;
+	translate: 0 96px;
+	transition: opacity var(--ap-dur-slow) var(--ap-ease-out), translate var(--ap-dur-slow) var(--ap-ease-out);
+}
+
+.ap-pstack__preview img { display: block; width: 100%; height: auto; }
+
+.ap-pstack__link:focus-visible,
+.ap-pstack__navlink:focus-visible { outline: var(--ap-border-medium) solid var(--ap-focus-ring); outline-offset: 3px; }
+
+@media (max-width: 480px) {
+	.ap-pstack__shot { height: 300px; }
+}
+
+/* ---- Phones: the card being read fills with its accent ---- */
+@media (max-width: 767.98px) {
+	.ap-pstack__card.is-current { background: var(--ap-accent-fill); border-color: var(--ap-accent); }
+	.ap-pstack__card--ursa.is-current { border-color: var(--ap-brand-green); }
+
+	.ap-pstack__card.is-current .ap-pstack__card-title,
+	.ap-pstack__card.is-current .ap-pstack__card-body,
+	.ap-pstack__card.is-current .ap-pstack__link { color: var(--ap-white); }
+
+	.ap-pstack__card.is-current .ap-pstack__link img { filter: brightness(0) invert(1); }
+	.ap-pstack__card.is-current .ap-ursa { padding-top: 0; background: none; color: inherit; }
+
+	.ap-pstack__card.is-current .ap-pstack__screen {
+		opacity: 0.45;
+		transform: translateY(8px) scale(1.03);
+		filter: saturate(0.85) contrast(0.95) brightness(1.04);
+	}
+
+	.ap-pstack__card--indigo.is-current .ap-pstack__screen { opacity: 0; }
+	.ap-pstack__card.is-current .ap-pstack__preview { display: block; opacity: 1; translate: 0 0; }
+}
+
+/* ---- Tablet and up: 560px cards with the screenshot running off the edge ---- */
+@media (min-width: 768px) {
+	.ap-pstack__card { min-height: 560px; }
+	.ap-pstack__card-title { font-size: var(--ap-fs-h4); }
+
+	.ap-pstack__shot {
+		position: absolute;
+		left: var(--ap-surf-pad-4xl);
+		right: var(--ap-surf-pad-4xl);
+		top: 187px;
+		height: 512px;
+		margin: 0;
+	}
+}
+
+/* ---- Desktop: sticky rail and stacking cards; hover fills a card ---- */
+@media (min-width: 1280px) {
+	.ap-pstack__body {
+		grid-template-columns: 282px minmax(0, 780px);
+		justify-content: space-between;
+		align-items: start;
+	}
+
+	.ap-pstack__nav { position: sticky; top: var(--ap-pstack-top); }
+
+	.ap-pstack__cards { gap: var(--ap-pstack-step); }
+
+	.ap-pstack__card {
+		position: sticky;
+		top: calc(var(--ap-pstack-top) + var(--ap-pstack-step) * var(--i, 0));
+		z-index: calc(var(--i, 0) + 1);
+		height: 560px;
+		scroll-margin-top: calc(var(--ap-pstack-top) + var(--ap-pstack-step) * var(--i, 0));
+	}
+
+	.ap-pstack__preview { display: block; left: 7%; right: 7%; top: 24px; }
+}
+
+@media (min-width: 1280px) and (hover: hover) {
+	.ap-pstack__card:hover { background: var(--ap-accent-fill); }
+	.ap-pstack__card--ursa:hover { border-color: var(--ap-brand-green); }
+
+	.ap-pstack__card:hover .ap-pstack__card-title,
+	.ap-pstack__card:hover .ap-pstack__card-body,
+	.ap-pstack__card:hover .ap-pstack__link { color: var(--ap-white); }
+
+	.ap-pstack__card:hover .ap-pstack__link img { filter: brightness(0) invert(1); }
+	.ap-pstack__card:hover .ap-ursa { padding-top: 0; background: none; color: inherit; }
+
+	.ap-pstack__card:hover .ap-pstack__screen {
+		opacity: 0.48;
+		transform: translateY(12px) scale(1.11);
+		filter: saturate(0.85) contrast(0.95) brightness(1.04);
+	}
+
+	.ap-pstack__card--indigo:hover .ap-pstack__screen { opacity: 0; }
+	.ap-pstack__card:hover .ap-pstack__preview { opacity: 1; translate: 0 20px; }
+}
+
+/* Border-box sizing for everything in the component, as on the live homepage;
+ * :where() keeps it at zero specificity. */
+:where(.ap-pstack, .ap-pstack *, .ap-pstack *::before, .ap-pstack *::after) { box-sizing: border-box; }
+
+/* Cards are at least 560px at every width, as on the live homepage; phones
+ * use its 64/16/120 section padding. */
+.ap-pstack__card { min-height: 560px; }
+
+@media (max-width: 767.98px) {
+	.ap-pstack { padding: 64px 16px 120px; }
+}

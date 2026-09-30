@@ -1,0 +1,273 @@
+/*
+ * link-cards — ported from the live #ap-gov-picker. The per-card photo crop
+ * arrives inline as top:%.
+ */
+
+:where(.ap-link-cards, .ap-link-cards *, .ap-link-cards *::before, .ap-link-cards *::after) {
+	box-sizing: border-box;
+}
+
+.ap-link-cards {
+	position:relative;
+	background:#fff;
+	font-family:Manrope,sans-serif;
+	padding:80px 24px 200px;
+	overflow:visible
+}
+
+.ap-link-cards .apg-pick-orb {
+	position:absolute;
+	pointer-events:none;
+	filter:blur(140px);
+	border-radius:50%;
+	z-index:0
+}
+
+.ap-link-cards .apg-pick-orb-green {
+	right:8.3%;
+	top:325px;
+	width:62.8%;
+	max-width:904px;
+	height:498px;
+	background:radial-gradient(closest-side,rgba(0,169,145,.16),rgba(0,169,145,0))
+}
+
+.ap-link-cards .apg-pick-orb-indigo {
+	left:12.2%;
+	top:295px;
+	width:33.2%;
+	max-width:478px;
+	height:560px;
+	background:radial-gradient(closest-side,rgba(80,68,225,.16),rgba(80,68,225,0))
+}
+
+.ap-link-cards .apg-pick-head {
+	position:relative;
+	z-index:1;
+	max-width:1120px;
+	margin:0 auto 40px;
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	text-align:center;
+	gap:16px
+}
+
+.ap-link-cards .apg-eyebrow {
+	font-size:14px;
+	font-weight:800;
+	line-height:1.2;
+	letter-spacing:.56px;
+	text-transform:uppercase;
+	color:#5044e1;
+	margin:0
+}
+
+.ap-link-cards h2.apg-h2 {
+	font-size:40px;
+	font-weight:800;
+	line-height:1.2;
+	color:#25272c;
+	margin:0;
+	max-width:560px
+}
+
+.ap-link-cards .apg-h2-grad {
+	background:linear-gradient(33.651deg,#5044e1 0%,#00a991 70.44%);
+	-webkit-background-clip:text;
+	background-clip:text;
+	color:transparent
+}
+
+.ap-link-cards .apg-pick-grid {
+	position:relative;
+	z-index:1;
+	max-width:1120px;
+	margin:0 auto;
+	display:flex;
+	flex-wrap:wrap;
+	gap:24px 32px;
+	justify-content:center
+}
+
+.ap-link-cards .apg-pick-card {
+	position:relative;
+	display:flex;
+	align-items:flex-end;
+	width:calc(50% - 16px);
+	border-radius:16px;
+	border:1px solid #fff;
+	overflow:hidden;
+	padding:112px 24px 40px;
+	text-decoration:none;
+	box-shadow:0 2px 12px rgba(0,0,0,.06);
+	transition:translate .3s cubic-bezier(.25,.45,.45,.95),box-shadow .3s cubic-bezier(.25,.45,.45,.95);
+	background:#fff
+}
+
+.ap-link-cards .apg-pick-card:hover {
+	translate:0 -4px;
+	box-shadow:0 12px 28px rgba(37,39,44,.14)
+}
+
+.ap-link-cards .apg-pick-bg {
+	position:absolute;
+	inset:0;
+	overflow:hidden;
+	border-radius:16px;
+	pointer-events:none;
+	opacity:.4
+}
+
+.ap-link-cards .apg-pick-bg img {
+	position:absolute;
+	left:0;
+	width:100%;
+	height:180.13%;
+	object-fit:cover;
+	display:block
+}
+
+.ap-link-cards .apg-pick-fade {
+	position:absolute;
+	left:0;
+	right:0;
+	bottom:0;
+	height:245px;
+	pointer-events:none;
+	background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.8) 49.777%,rgba(255,255,255,.9) 82.765%)
+}
+
+.ap-link-cards .apg-pick-body {
+	position:relative;
+	display:flex;
+	flex-direction:column;
+	gap:8px;
+	align-items:flex-start;
+	width:100%
+}
+
+.ap-link-cards .apg-pick-body > img {
+	width:28px;
+	height:28px;
+	display:block
+}
+
+.ap-link-cards .apg-pick-title {
+	font-size:20px;
+	font-weight:800;
+	line-height:1.2;
+	color:#25272c;
+	margin:0;
+	transition:color .3s cubic-bezier(.25,.45,.45,.95)
+}
+
+.ap-link-cards .apg-pick-card:hover .apg-pick-title {
+	background:linear-gradient(33.651deg,#5044e1 0%,#00a991 70.44%);
+	-webkit-background-clip:text;
+	background-clip:text;
+	color:transparent
+}
+
+.ap-link-cards .apg-pick-desc {
+	font-size:14px;
+	line-height:1.5;
+	color:#4a4e5a;
+	margin:0
+}
+
+.ap-link-cards .apg-pick-cta {
+	display:flex;
+	align-items:center;
+	gap:8px;
+	padding-top:8px;
+	font-size:14px;
+	font-weight:700;
+	line-height:1.2;
+	color:#25272c
+}
+
+.ap-link-cards .apg-pick-cta img {
+	width:24px;
+	height:24px;
+	display:block;
+	filter:brightness(0) saturate(100%) invert(43%) sepia(99%) saturate(1178%) hue-rotate(131deg) brightness(92%) contrast(101%);
+	transition:translate .3s cubic-bezier(.25,.45,.45,.95)
+}
+
+.ap-link-cards .apg-pick-card:hover .apg-pick-cta img {
+	translate:4px 0
+}
+
+@media (max-width:1024px) {
+	.ap-link-cards {
+	padding:64px 24px 96px
+}
+
+.ap-link-cards .apg-pick-card {
+	width:100%;
+	max-width:544px;
+	padding-top:96px
+}
+
+
+}
+
+@media (max-width:767px) {
+	.ap-link-cards {
+	padding:48px 24px 64px
+}
+
+.ap-link-cards h2.apg-h2 {
+	font-size:28px
+}
+
+.ap-link-cards .apg-pick-card {
+	padding:88px 20px 28px
+}
+
+
+}
+
+.ap-link-cards .apg-pick-bg img {
+	top:-60%
+}
+
+.ap-link-cards .apg-pick-body > .ap-inline-icon svg {
+	width:28px;
+	height:28px;
+	display:block
+}
+
+/* Three cards sit in one row, photos filling the card (live construction hub). */
+@media (min-width: 1025px) {
+	.ap-link-cards--thirds .apg-pick-card { width: calc(33.333% - 21.34px); }
+}
+
+.ap-link-cards--thirds .apg-pick-bg img { top: 0 !important; height: 100%; }
+
+/* No photos: tinted cards with the icon above a linked title (live .epx-wcard). */
+.ap-link-cards--plain .apg-pick-card {
+	padding: 32px;
+	background: linear-gradient(159deg, rgba(238, 242, 255, .8) 0%, rgba(255, 255, 255, .8) 60%);
+	border: 1px solid #fff;
+	align-items: stretch;
+}
+
+.ap-link-cards--plain .apg-pick-card:nth-child(2) {
+	background: linear-gradient(159deg, rgba(239, 254, 250, .9) 0%, rgba(255, 255, 255, .8) 60%);
+}
+
+.ap-link-cards--plain .apg-pick-card:nth-child(3) {
+	background: linear-gradient(159deg, rgba(239, 246, 255, .9) 0%, rgba(255, 255, 255, .8) 60%);
+}
+
+.ap-link-cards--plain .apg-pick-fade { display: none; }
+
+.ap-link-cards--plain .apg-pick-body { gap: 16px; }
+
+@media (max-width: 1024px) {
+	.ap-link-cards--plain .apg-pick-card { padding: 28px 24px; }
+}
+
+.ap-link-cards--plain { padding: 80px 24px; }

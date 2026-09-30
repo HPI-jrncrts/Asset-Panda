@@ -1,0 +1,31 @@
+{
+	"name": "stats",
+	"description": "A grid of headline statistics. Each stat has a gradient-filled value, a label, and optional supporting copy. Used on the homepage between the hero and the value proposition.",
+	"props": {
+		"items": {
+			"type": "array",
+			"required": true,
+			"description": "The stats. Each entry is an object with `value` (required), `label` (required) and optional `description`. Entries missing value or label are skipped."
+		},
+		"columns": {
+			"type": "integer",
+			"required": false,
+			"default": 3,
+			"enum": [ 2, 3, 4 ],
+			"description": "Columns at desktop width. Always collapses to one column on mobile."
+		},
+		"theme": {
+			"type": "string",
+			"required": false,
+			"default": "light",
+			"enum": [ "light", "alt", "dark" ],
+			"description": "Background/foreground colour scheme."
+		},
+		"reveal": {
+			"type": "boolean",
+			"required": false,
+			"default": true,
+			"description": "Stagger each stat in on scroll. Set false when the section sits above the fold."
+		}
+	}
+}

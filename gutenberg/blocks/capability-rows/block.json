@@ -1,0 +1,65 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/capability-rows",
+	"title": "AP Capability Rows",
+	"category": "design",
+	"icon": "list-view",
+	"description": "Capability rows: tinted, outlined rows with an icon and title on the left and a description and explore link on the right, plus an optional closing line with a button. Live: #ap-gov-solution on the industry hubs. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"title_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"items": {
+			"type": "array",
+			"default": []
+		},
+		"ender_title": {
+			"type": "string",
+			"default": ""
+		},
+		"ender_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"ender_body": {
+			"type": "string",
+			"default": ""
+		},
+		"ender_label": {
+			"type": "string",
+			"default": ""
+		},
+		"ender_url": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

@@ -1,0 +1,13 @@
+{
+	"name": "platform-stack",
+	"description": "Capability cards with a sticky, numbered side index whose active dot takes each card's accent. Each card: accent-tinted wash, title, copy, link and a product screenshot running off the bottom edge. Figma: Home Page > Platform (4331:24729).",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading. Line breaks are kept." },
+		"intro": { "type": "string", "required": false, "default": "", "description": "Supporting paragraph under the heading." },
+		"kicker": { "type": "string", "required": false, "default": "", "description": "Optional emphatic line under the intro (hidden in the current design)." },
+		"items": { "type": "array", "required": true, "description": "Cards. Each: title and body (required); optional nav_label (defaults to title), link_label, link_url, image, image_alt, accent (indigo, yellow, red, green, ursa). The word UrsaAI is styled as the brand mark." },
+		"nav_title": { "type": "string", "required": false, "default": "", "description": "Accessible name for the side index." },
+		"reveal": { "type": "boolean", "required": false, "default": true, "description": "Reveal cards on scroll." }
+	}
+}

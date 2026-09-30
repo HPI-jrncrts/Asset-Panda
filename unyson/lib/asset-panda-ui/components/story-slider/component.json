@@ -1,0 +1,13 @@
+{
+	"name": "story-slider",
+	"description": "Customer-story slider: quote copy beside a large photo or video, with arrows, a progress rule, dots and a view-all link below. Live: #ap-*-case on the product pages (apc-*) and #ap-gov-case on the industry hubs.",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading." },
+		"lede": { "type": "string", "required": false, "default": "", "description": "Supporting paragraph under the heading." },
+		"items": { "type": "array", "required": true, "description": "Slides. Each: quote (required); optional title, author, role (line breaks kept), image, image_alt, logo, logo_alt, logo_w, logo_h, logo_text (a wordmark instead of a logo image; wrap the bold part in *asterisks*), logo_style (hospice|osage|fresenius), link_label, link_url, video_id (YouTube), video_start, video_end, video_title." },
+		"quote_icon": { "type": "string", "required": false, "default": "", "description": "Quote mark image URL. Empty uses the kit's orange mark." },
+		"viewall_label": { "type": "string", "required": false, "default": "View All Case Studies", "description": "Link beside the controls. Renders only with viewall_url." },
+		"viewall_url": { "type": "string", "required": false, "default": "", "description": "View-all destination." }
+	}
+}

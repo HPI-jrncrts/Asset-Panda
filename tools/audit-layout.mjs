@@ -19,11 +19,11 @@
 
 import {
   parseArgs, loadSpec, resolveUrl, preparePage, launchBrowser,
-  makeReport, printReport, info,
+  makeReport, printReport, info, isMainModule,
 } from './lib/shared.mjs';
 
 /* Runs inside the page. Pure geometry — no framework assumptions. */
-function collectLayoutFacts({ rootSelector, noOverlapSelectors }) {
+function collectLayoutFacts({ rootSelector, noOverlapSelectors, bleedOkSelectors = [], collapsedOkSelectors = [] }) {
   const root = document.querySelector(rootSelector);
   if (!root) return { error: `Section root not found: ${rootSelector}` };
 
@@ -53,13 +53,27 @@ function collectLayoutFacts({ rootSelector, noOverlapSelectors }) {
 
   /* 2. Elements escaping the section horizontally.
         Deliberate full-bleed is a correct pattern, so allow anything that
-        spans the full viewport width. */
+        spans the full viewport width. An element whose ancestor (up to and
+        including the section root) clips horizontally cannot visually escape
+        no matter what its geometry says — marquee tracks and decorative
+        orb/glow bleed live inside such clips by design. `bleedOk` lets a spec
+        exempt intentional bleed that is NOT clipped (e.g. soft glows). */
+  const horizontallyClipped = (el) => {
+    for (let a = el.parentElement; a; a = a.parentElement) {
+      const o = getComputedStyle(a).overflowX;
+      if (o === 'hidden' || o === 'clip') return true;
+      if (a === root) break;
+    }
+    return false;
+  };
   for (const el of all) {
     const s = getComputedStyle(el);
     if (s.position === 'fixed') continue;
     const r = el.getBoundingClientRect();
     if (r.width === 0) continue;
     if (r.width >= window.innerWidth - 2) continue;
+    if (horizontallyClipped(el)) continue;
+    if (bleedOkSelectors.some((sel) => { try { return el.closest(sel); } catch (e) { return false; } })) continue;
     if (r.right > rootRect.right + 1 || r.left < rootRect.left - 1) {
       out.overflowers.push({
         el: describe(el),
@@ -107,9 +121,11 @@ function collectLayoutFacts({ rootSelector, noOverlapSelectors }) {
     }
   }
 
-  /* 5. Collapsed containers that still hold content. */
+  /* 5. Collapsed containers that still hold content. `collapsedOk` exempts
+        containers that collapse interactively by design (accordion answers). */
   for (const el of all) {
     const r = el.getBoundingClientRect();
+    if (collapsedOkSelectors.some((sel) => { try { return el.closest(sel); } catch (e) { return false; } })) continue;
     if (r.height === 0 && el.children.length > 0 && el.textContent?.trim()) {
       out.collapsed.push({ el: describe(el) });
     }
@@ -137,12 +153,18 @@ export async function auditLayout({ spec, url, browser }) {
     for (const width of spec.widths) {
       const page = await b.newPage();
       try {
-        await page.goto(url, { waitUntil: 'networkidle', timeout: 45_000 });
+        // 'networkidle' hangs indefinitely on real pages carrying GTM/HubSpot/
+        // analytics beacons that never stop polling — confirmed live 2026-08-31
+        // against the Fire page (45s timeout, every time). 'domcontentloaded' +
+        // preparePage's fonts-ready/settle wait is the reliable combination.
+        await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 45_000 });
         await preparePage(page, { width });
 
         const facts = await page.evaluate(collectLayoutFacts, {
           rootSelector: spec.selector,
           noOverlapSelectors: spec.noOverlap || [],
+          bleedOkSelectors: spec.bleedOk || [],
+          collapsedOkSelectors: spec.collapsedOk || [],
         });
 
         if (facts.error) { report.add(false, `@${width}px  ${facts.error}`); continue; }
@@ -201,7 +223,7 @@ export async function auditLayout({ spec, url, browser }) {
   return report;
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (isMainModule(import.meta.url)) {
   const args = parseArgs();
   if (!args.section) {
     console.error('Usage: node tools/audit-layout.mjs --section <name> [--target preview|dev|live] [--url <url>]');

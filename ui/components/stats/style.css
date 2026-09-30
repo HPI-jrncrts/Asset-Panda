@@ -1,0 +1,148 @@
+/*
+ * stats — headline statistics grid.
+ *
+ * Figma: Home Page > Stats Section (node 4331:24519).
+ *   Section padding 40px y / 160px x at 1440, container 1120px, row gap 32px.
+ *   Value  48px ExtraBold, indigo -> green gradient fill.
+ *   Label  18px ExtraBold, body colour.
+ *   Desc   16px Regular, body colour.
+ *
+ * Every value below comes from tokens.css. The one Figma colour NOT tokenised
+ * is #4b5563 on the label/description — the Color Scheme defines body text as
+ * #4a4e5a, a one-step difference that reads identically. Using the token.
+ */
+
+.ap-stats {
+	padding-block: var(--ap-pad-y-sm);
+	padding-inline: var(--ap-pad-x-xs);
+	background: var(--ap-surface);
+	font-family: var(--ap-font-body);
+}
+
+.ap-stats--dark {
+	background: var(--ap-surface-dark);
+}
+
+.ap-stats__inner {
+	max-width: var(--ap-page-max-content-xl);
+	margin-inline: auto;
+}
+
+.ap-stats__grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--ap-surf-gap-4xl) var(--ap-surf-gap-3xl);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ap-stats__item {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ap-surf-gap-sm);
+	min-width: 0;
+}
+
+.ap-stats__value {
+	margin: 0;
+	font-size: var(--ap-fs-h1-sm);
+	font-weight: var(--ap-weight-display);
+	line-height: var(--ap-line-h1);
+
+	/* Gradient numeral, per the Figma fill. `background-clip: text` paints only
+	 * inside the text box, so a tall glyph or a superscript can be sliced off
+	 * the top — the padding is the standing fix for that, not decoration. */
+	padding-top: 0.12em;
+	background-image: linear-gradient(
+		90deg,
+		var(--ap-btn-primary-from) 0%,
+		var(--ap-btn-primary-to) 100%
+	);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+
+/* Forced-colours mode and any engine without background-clip:text would render
+ * the value invisible. Restore a real colour in both cases. */
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+	.ap-stats__value {
+		background-image: none;
+		color: var(--ap-brand-indigo);
+	}
+}
+
+@media (forced-colors: active) {
+	.ap-stats__value {
+		background-image: none;
+		color: CanvasText;
+	}
+}
+
+.ap-stats__label {
+	margin: 0;
+	font-size: var(--ap-fs-text-md);
+	font-weight: var(--ap-weight-body-bold);
+	line-height: var(--ap-line-h5);
+	color: var(--ap-text-body);
+}
+
+.ap-stats__desc {
+	margin: 0;
+	max-width: 40ch;
+	font-size: var(--ap-fs-text-reg);
+	font-weight: var(--ap-weight-body);
+	line-height: var(--ap-line-body);
+	color: var(--ap-text-body);
+}
+
+.ap-stats--dark .ap-stats__label,
+.ap-stats--dark .ap-stats__desc {
+	color: var(--ap-text-body-inverse);
+}
+
+/* Columns. Phones get two (end of file); the declared count applies from
+ * the small-tablet breakpoint up, matching the Figma responsive modes. */
+@media (min-width: 768px) {
+	.ap-stats--cols-2 .ap-stats__grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	.ap-stats--cols-3 .ap-stats__grid,
+	.ap-stats--cols-4 .ap-stats__grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (min-width: 992px) {
+	.ap-stats--cols-3 .ap-stats__grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+	.ap-stats--cols-4 .ap-stats__grid {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+}
+
+/* Figma: the homepage stats band sits on slate-50. */
+.ap-stats--alt {
+	background: var(--ap-surface-alt);
+}
+
+/* Phones: two columns and 14px labels (Figma Home Mobile 4333:40799). */
+@media (max-width: 767.98px) {
+	.ap-stats { padding-block: var(--ap-pad-y-md); }
+	.ap-stats__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.ap-stats__label { font-size: var(--ap-fs-text-reg); }
+}
+
+/* Border-box sizing for everything in the component, as on the live homepage;
+ * :where() keeps it at zero specificity. */
+:where(.ap-stats, .ap-stats *, .ap-stats *::before, .ap-stats *::after) { box-sizing: border-box; }
+
+/* Live homepage rhythm (stats): 40px bands on phones, 80px on desktop, and
+ * 28px phone gutters. */
+.ap-stats { padding-block: var(--ap-pad-y-md); }
+
+@media (max-width: 767.98px) {
+	.ap-stats { padding-inline: 28px; }
+}

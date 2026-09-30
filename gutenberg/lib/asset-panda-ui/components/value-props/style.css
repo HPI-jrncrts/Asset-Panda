@@ -1,0 +1,176 @@
+/* value-props — benefit cards with calls to action.
+ * Figma: Why Teams Choose Asset Panda (4331:24830). Padding 80/40, background
+ * slate-50 -> white; cards radius 16, padding 24 24 32, 1px accent border. */
+
+.ap-vprops {
+	padding-block: var(--ap-pad-y-md) var(--ap-pad-y-sm);
+	padding-inline: var(--ap-pad-x-xs);
+	background: linear-gradient(to bottom, var(--ap-slate-50), var(--ap-white));
+	font-family: var(--ap-font-body);
+}
+
+.ap-vprops__inner {
+	max-width: var(--ap-page-max-content-xl);
+	margin-inline: auto;
+	display: grid;
+	gap: var(--ap-surf-gap-4xl);
+}
+
+.ap-vprops__head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: var(--ap-surf-gap-3xl);
+}
+
+.ap-vprops__headings {
+	flex: 1 1 420px;
+	max-width: 640px;
+	display: grid;
+	gap: var(--ap-surf-gap-lg);
+}
+
+.ap-vprops__eyebrow {
+	margin: 0;
+	font-family: var(--ap-font-utility);
+	font-size: var(--ap-fs-eyebrow);
+	font-weight: var(--ap-weight-eyebrow);
+	line-height: var(--ap-line-eyebrow);
+	letter-spacing: var(--ap-ls-eyebrow);
+	text-transform: uppercase;
+	color: var(--ap-text-eyebrow);
+}
+
+.ap-vprops__title {
+	margin: 0;
+	font-family: var(--ap-font-display);
+	font-size: var(--ap-fs-h2);
+	font-weight: var(--ap-weight-heading);
+	line-height: var(--ap-line-h2);
+	color: var(--ap-text-heading);
+}
+
+.ap-vprops__intro {
+	margin: 0;
+	font-size: var(--ap-fs-text-md);
+	line-height: var(--ap-line-body);
+	color: var(--ap-text-body);
+}
+
+.ap-vprops__actions { display: flex; flex-wrap: wrap; gap: var(--ap-surf-gap-lg); }
+
+.ap-vprops__btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 48px;
+	padding: 0 var(--ap-surf-pad-lg);
+	font-family: var(--ap-font-utility);
+	font-size: var(--ap-fs-button-md);
+	font-weight: var(--ap-weight-button);
+	line-height: var(--ap-line-button);
+	text-decoration: none;
+	white-space: nowrap;
+	border: var(--ap-border-thin) solid transparent;
+	border-radius: var(--ap-radius-sm);
+}
+
+.ap-vprops__btn--primary {
+	color: var(--ap-btn-primary-text);
+	background-image: var(--ap-gradient-action);
+	border-color: var(--ap-brand-indigo);
+}
+
+.ap-vprops__btn--outline {
+	color: var(--ap-brand-green);
+	background: transparent;
+	border-color: var(--ap-brand-green);
+}
+
+.ap-vprops__btn--outline:hover { color: var(--ap-green-700); background: var(--ap-green-50); border-color: var(--ap-green-200); }
+
+.ap-vprops__btn:focus-visible { outline: var(--ap-border-medium) solid var(--ap-focus-ring); outline-offset: 3px; }
+
+.ap-vprops__grid {
+	display: grid;
+	gap: var(--ap-surf-gap-3xl);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ap-vprops__card {
+	--ap-accent: var(--ap-brand-indigo);
+	--ap-accent-soft: var(--ap-indigo-50);
+	position: relative;
+	display: grid;
+	align-content: start;
+	gap: var(--ap-surf-gap-md);
+	min-width: 0;
+	padding: var(--ap-surf-pad-xl) var(--ap-surf-pad-xl) var(--ap-surf-pad-2xl);
+	border: var(--ap-border-thin) solid var(--ap-accent);
+	border-radius: var(--ap-radius-xl);
+	background: linear-gradient(58deg, var(--ap-accent-soft) 0%, var(--ap-white) 100%);
+}
+
+.ap-vprops__card--yellow { --ap-accent: var(--ap-brand-yellow); --ap-accent-soft: var(--ap-yellow-50); }
+.ap-vprops__card--red    { --ap-accent: var(--ap-brand-red);    --ap-accent-soft: var(--ap-red-50); }
+.ap-vprops__card--green  { --ap-accent: var(--ap-brand-green);  --ap-accent-soft: var(--ap-green-50); }
+.ap-vprops__card--indigo { --ap-accent: var(--ap-brand-indigo); --ap-accent-soft: var(--ap-indigo-50); }
+
+.ap-vprops__check {
+	position: absolute;
+	top: 15px;
+	right: 15px;
+	display: block;
+	inline-size: 24px;
+	block-size: 24px;
+}
+
+.ap-vprops__card-title {
+	margin: 0;
+	padding-right: var(--ap-surf-pad-2xl);
+	font-family: var(--ap-font-display);
+	font-size: var(--ap-fs-h5);
+	font-weight: var(--ap-weight-heading);
+	line-height: var(--ap-line-heading);
+	color: var(--ap-text-heading);
+}
+
+.ap-vprops__card-body {
+	margin: 0;
+	font-size: var(--ap-fs-text-reg);
+	line-height: var(--ap-line-body);
+	color: var(--ap-text-body);
+}
+
+.ap-vprops__closing {
+	margin: 0;
+	font-size: var(--ap-fs-text-md);
+	line-height: var(--ap-line-body);
+	text-align: center;
+	color: var(--ap-text-body);
+}
+
+@media (min-width: 768px) {
+	.ap-vprops__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Phones: full-width stacked buttons (Figma Home Mobile 4333:42053). */
+@media (max-width: 767.98px) {
+	.ap-vprops__actions { display: grid; gap: var(--ap-surf-gap-md); width: 100%; }
+	.ap-vprops__btn { width: 100%; }
+}
+
+/* Border-box sizing for everything in the component, as on the live homepage;
+ * :where() keeps it at zero specificity. */
+:where(.ap-vprops, .ap-vprops *, .ap-vprops *::before, .ap-vprops *::after) { box-sizing: border-box; }
+
+/* Live homepage rhythm (value props): 40px bands on phones, 80px on desktop,
+ * and 28px phone gutters. */
+.ap-vprops { padding-block: var(--ap-pad-y-md); }
+
+@media (max-width: 767.98px) {
+	.ap-vprops { padding-inline: 28px; }
+}
