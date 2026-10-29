@@ -60,3 +60,20 @@ Expect `QA FIXES 18/18 PASSED`. On today's dev it prints 0/18 for F1–F5 (contr
 
 Full report (all pages, screenshots, arrows): see the QA report page link in the QA chat; source
 `C:\Sample Code\reports\qa-1029\report\index.html`.
+
+## Status 2026-10-29 afternoon (cloud chat)
+
+- **Batch 2 (F6–F11) is live** on dev kit 1.3.139: `check-fixes.mjs` without `--inject` passes 28/28 (F1 at 1024×768
+  failed once on a bad load and passed on a re-run). The repo's `ui/` matches dev 1.3.139 byte for byte.
+- **N1 + hub label are in the repo, not deployed** (next kit build): white text + `rgba(255,255,255,.6)` border on the
+  outlined button of the purple closing cards (rest state only; hovers untouched), appended to `ui/src/tokens.css`;
+  integrations-hero default label "Book a Demo" → "Free Demo" (`component.json`, `block.json`, `render.php`).
+  Proof: `node reports/qa-1029/fixes/check-n1.mjs --inject` → `N1 CHECK 12/12 PASSED`; after deploy run it without
+  `--inject` (13 checks incl. the hero label).
+- **Regression baseline on dev 1.3.139 before any of this ships: 10/17** from the cloud. Not caused here:
+  blog-posts/partners "broken images" are Cloudflare throttling this IP (the same SVGs return 200 one at a time);
+  figma-page needs `.unlazy/launch-1028/pages/compare-page.html`, which is not in the repo; qa-batch2's K-12 checks
+  pass/fail between runs (timing). Worth a look on the local machine: qa-batch1 `--reduced` (header "Free Demo" under
+  reduced motion has no green fill on hover, text is white) and deploy-1115 (Resource Center filter tab does a full
+  page load instead of swapping in place).
+- C4 (Fire mock on page 608) is media-library content, not kit: needs wp-admin.
