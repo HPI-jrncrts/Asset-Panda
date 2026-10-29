@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Asset Panda UI Kit
  * Description:       The shared Asset Panda presentation kit and its Gutenberg block adapters. Markup and CSS live in components/; each block maps editor fields to kit props. Deactivating removes the blocks and their assets and touches nothing else.
- * Version:           1.3.140
+ * Version:           1.3.141
  * Requires at least: 6.5
  * Requires PHP:      7.4
  * Author:            Asset Panda
@@ -28,7 +28,7 @@ define( 'AP_UI_KIT_FILE', __FILE__ );
  * fixed 1.0.0, which would let browsers and the host's page cache keep serving
  * old CSS after an update — so keep this in step with the Version header.
  */
-define( 'AP_UI_VERSION', '1.3.140' );
+define( 'AP_UI_VERSION', '1.3.141' );
 
 /*
  * The loader derives AP_UI_DIR from its own location (the parent of src/),
