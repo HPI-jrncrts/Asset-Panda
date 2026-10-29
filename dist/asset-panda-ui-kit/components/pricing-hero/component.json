@@ -1,0 +1,17 @@
+{
+	"name": "pricing-hero",
+	"description": "Pricing page hero: eyebrow, headline and body copy beside a white card holding the HubSpot quote form. Live: the `.ap-pricing-hero` section on /new-pricing/.",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small purple label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Page heading (the page's h1). Line breaks are kept." },
+		"body": { "type": "string", "required": false, "default": "", "description": "Paragraph under the heading. Line breaks are kept." },
+		"form_label": { "type": "string", "required": false, "default": "", "description": "Accessible name of the form mount, e.g. Get a Custom Quote." },
+		"hubspot_portal": { "type": "string", "required": false, "default": "", "description": "HubSpot portal ID (digits). The form card renders only with a portal and a form ID." },
+		"hubspot_form": { "type": "string", "required": false, "default": "", "description": "HubSpot form ID (GUID)." },
+		"hubspot_region": { "type": "string", "required": false, "default": "na1", "description": "HubSpot region, e.g. na1 or na2. Picks the embed script host as well." },
+		"form_placeholders": { "type": "object", "required": false, "default": {}, "description": "Placeholder text per HubSpot field name (lower-case), set once the form is drawn, e.g. {\"email\":\"Work Email*\"}." },
+		"form_submit": { "type": "string", "required": false, "default": "", "description": "Submit button text, set once the form is drawn. Empty keeps HubSpot's." },
+		"form_redirect": { "type": "string", "required": false, "default": "", "description": "Page to open after a successful submission. Empty keeps HubSpot's own thank-you behaviour." },
+		"form_enrich_fields": { "type": "array", "required": false, "default": [], "description": "Field names (lower-case) the form hides until the visitor needs them: shown when enrichment (ZoomInfo data-zi-*-enriched) reports it could not fill them, and on submit unless enrichment filled them. Live: phone_entered_by_prospect, phone, firstname, lastname, company." }
+	}
+}

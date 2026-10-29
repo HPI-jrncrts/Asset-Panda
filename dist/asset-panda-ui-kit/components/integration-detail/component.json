@@ -1,0 +1,16 @@
+{
+	"name": "integration-detail",
+	"description": "Integration detail body: a section head over a sticky numbered index (from 1025px) beside up to four parts — Overview (copy + product video), Key Capabilities (tinted cards), How It Works (numbered steps) and Requirements (copy + help card). Every part is optional; the index numbers whatever is present. Figma: Integrations Detail Page Template > Platform Section (7318:168656).",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the section heading, e.g. Integration Details." },
+		"title": { "type": "string", "required": false, "default": "", "description": "Section heading (H2), e.g. How Asset Panda PRO works with Slack. Line breaks are kept." },
+		"lede": { "type": "string", "required": false, "default": "", "description": "Paragraph under the heading." },
+		"id_prefix": { "type": "string", "required": false, "default": "integration", "description": "Start of the part anchors and the heading id: integration gives #integration-overview, #integration-capabilities, #integration-how-it-works, #integration-requirements. Lowercase letters, digits and hyphens, starting with a letter (e.g. guides on the Compare hub); anything else falls back to integration." },
+		"head_width": { "type": "string", "required": false, "default": "default", "enum": [ "default", "full" ], "description": "default keeps the section lede to 820px; full lets it run the whole container (Figma Compare hub, where it reads as one line at 1440)." },
+		"nav_label": { "type": "string", "required": false, "default": "On this page", "description": "Accessible name of the part index (the <nav> landmark)." },
+		"overview": { "type": "object", "required": false, "default": {}, "description": "Overview part. Keys: eyebrow, title (H3), paragraphs (array of strings), video_poster (image URL), video_url (YouTube, Vimeo or an .mp4/.webm file; without it the poster shows as a plain image), video_title (names the player and the poster), nav (index label; defaults to the eyebrow)." },
+		"capabilities": { "type": "object", "required": false, "default": {}, "description": "Key Capabilities part. Keys: eyebrow, title, lede, nav, items (array). Each item: title (required), text, icon (image URL) or icon_svg (inline SVG; currentColor takes the tone), tone (indigo | teal | amber | rose; defaults cycle in that order)." },
+		"steps": { "type": "object", "required": false, "default": {}, "description": "How It Works part. Keys: eyebrow, title, nav, items (array). Each item: title (required), text, tone (indigo | rose | teal | amber; defaults cycle in that order), links (optional array of { label, url }: arrow links listed under the step text, two columns from 768px when there are more than four). Items are numbered 1, 2, 3..." },
+		"requirements": { "type": "object", "required": false, "default": {}, "description": "Requirements part. Keys: eyebrow, title, text (line breaks kept), nav, help (object: title, text, cta_label, cta_url, icon — image URL; empty uses the Asset Panda panda)." }
+	}
+}

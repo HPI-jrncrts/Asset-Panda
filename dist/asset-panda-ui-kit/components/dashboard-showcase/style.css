@@ -1,0 +1,833 @@
+/*
+ * dashboard-showcase — faded product shot with floating tip cards and image
+ * orbs. Ported from the live `.ap-dashboard` section.
+ *
+ * Tips and orbs take their placement from their position in the list, so a
+ * page supplies content only. Below 768px the stage collapses: the screenshot
+ * stands at full opacity and only the two short tips follow it.
+ */
+
+:where(.ap-dashboard-showcase, .ap-dashboard-showcase *, .ap-dashboard-showcase *::before, .ap-dashboard-showcase *::after) {
+	box-sizing: border-box;
+}
+
+.ap-dashboard-showcase {
+	position: relative;
+	overflow: hidden;
+	padding: 80px 0;
+	background: #fff;
+}
+
+.ap-dashboard-showcase__bg {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	width: 100%;
+	height: 100%;
+	max-width: none;
+	object-fit: cover;
+	pointer-events: none;
+	-webkit-mask-image: linear-gradient(rgba(0, 0, 0, 0) 0%, #000 7%, #000 90%, rgba(0, 0, 0, 0) 100%);
+	mask-image: linear-gradient(rgba(0, 0, 0, 0) 0%, #000 7%, #000 90%, rgba(0, 0, 0, 0) 100%);
+}
+
+.ap-dashboard-showcase__inner {
+	position: relative;
+	z-index: 1;
+	width: min(var(--ap-host-container, 1120px), 100% - 48px);
+	margin: 0 auto;
+}
+
+.ap-dashboard-showcase__header {
+	max-width: 670px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+/* Live's own 16px margin loses to the section reset (.ap-sec p), and the line
+   height comes from the section (1.5). */
+.ap-dashboard-showcase__eyebrow {
+	margin: 0;
+	color: var(--ap-text-eyebrow);
+	font-family: var(--ap-font-utility);
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.5;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.ap-dashboard-showcase__title {
+	margin: 0;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: 40px;
+	font-weight: 800;
+	line-height: 1.2;
+}
+
+.ap-dashboard-showcase__accent {
+	background: linear-gradient(90deg, var(--ap-brand-green) 69.71%, var(--ap-brand-indigo) 100%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
+}
+
+.ap-dashboard-showcase__stage {
+	position: relative;
+	max-width: var(--ap-host-container, 1120px);
+	height: 546px;
+	margin: 64px auto 0;
+}
+
+.ap-dashboard-showcase__shot {
+	position: absolute;
+	margin: 0;
+	left: 8.57%;
+	right: 8.57%;
+	top: 96px;
+	aspect-ratio: 928 / 394;
+	overflow: hidden;
+	border: 8px solid rgba(255, 255, 255, 0.6);
+	border-radius: 10px;
+	opacity: 0.4;
+}
+
+.ap-dashboard-showcase__shot img {
+	position: absolute;
+	bottom: 0;
+	left: -18.6%;
+	width: 131.8%;
+	height: auto;
+	max-width: none;
+	border-radius: 6px;
+}
+
+/* Tip cards */
+
+.ap-dashboard-showcase__tip {
+	position: absolute;
+	z-index: 3;
+	width: 176px;
+	padding: 8px 12px 12px;
+	border: 1px dashed;
+	border-radius: var(--ap-radius-lg);
+}
+
+.ap-dashboard-showcase__tip--violet {
+	border-color: #e6dcf2;
+	box-shadow: 0 0 30px rgba(126, 84, 165, 0.16);
+	background: linear-gradient(90deg, rgba(255, 255, 255, 0.86) 1.6%, #f3eef9 100%);
+}
+
+.ap-dashboard-showcase__tip--blue {
+	border-color: #bfdbfe;
+	box-shadow: 0 0 30px rgba(2, 132, 199, 0.16);
+	background: linear-gradient(90deg, rgba(255, 255, 255, 0.86) 0%, #dbeafe 100%);
+}
+
+.ap-dashboard-showcase__tip--green {
+	border-color: #90ffe3;
+	box-shadow: 0 0 30px rgba(4, 200, 168, 0.16);
+	background: linear-gradient(90deg, rgba(255, 255, 255, 0.9) 0%, #effefa 100%);
+}
+
+.ap-dashboard-showcase__tip--yellow {
+	border-color: #f8db90;
+	box-shadow: 0 0 30px rgba(243, 191, 81, 0.16);
+	background: linear-gradient(90deg, rgba(255, 255, 255, 0.9) 0%, #fdf8e9 100%);
+}
+
+/* The two tall cards fade out at the bottom rather than cutting a row off. */
+.ap-dashboard-showcase__tip:nth-of-type(1),
+.ap-dashboard-showcase__tip:nth-of-type(2) {
+	height: 300px;
+	overflow: hidden;
+}
+
+.ap-dashboard-showcase__tip:nth-of-type(1)::after,
+.ap-dashboard-showcase__tip:nth-of-type(2)::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 91px;
+	background: linear-gradient(rgba(255, 255, 255, 0), #fff);
+	pointer-events: none;
+}
+
+.ap-dashboard-showcase__tip:nth-of-type(1) {
+	left: 0;
+	top: 128px;
+}
+
+.ap-dashboard-showcase__tip:nth-of-type(2) {
+	right: 0;
+	top: 246px;
+}
+
+.ap-dashboard-showcase__tip:nth-of-type(3) {
+	left: 40%;
+	top: 0;
+}
+
+.ap-dashboard-showcase__tip:nth-of-type(4) {
+	left: 43.7%;
+	top: 318px;
+}
+
+.ap-dashboard-showcase__tip-head {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 4px 0;
+}
+
+.ap-dashboard-showcase__tip-head strong {
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.2;
+}
+
+.ap-dashboard-showcase__tip-icn {
+	width: 32px;
+	height: 32px;
+	flex: 0 0 auto;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 4px;
+	border: 1px solid #e6e8f0;
+	border-radius: var(--ap-radius-sm);
+}
+
+.ap-dashboard-showcase__tip-icn img,
+.ap-dashboard-showcase__tip-icn svg {
+	display: block;
+	width: 24px;
+	height: 24px;
+}
+
+.ap-dashboard-showcase__tip--violet .ap-dashboard-showcase__tip-icn {
+	background: #f9f7fc;
+	border-color: #b99bd7;
+}
+
+.ap-dashboard-showcase__tip--blue .ap-dashboard-showcase__tip-icn {
+	background: #f9f7fc;
+	border-color: #60a5fa;
+}
+
+.ap-dashboard-showcase__tip--green .ap-dashboard-showcase__tip-icn {
+	background: #effefa;
+	border-color: #1de4c0;
+}
+
+.ap-dashboard-showcase__tip--yellow .ap-dashboard-showcase__tip-icn {
+	background: #fdf8e9;
+	border-color: #eea521;
+}
+
+.ap-dashboard-showcase__tip-row {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 2px;
+	padding: 8px 8px 12px;
+	border-bottom: 1px solid #d8dbdf;
+}
+
+.ap-dashboard-showcase__tip-row--last {
+	border-bottom: 0;
+}
+
+.ap-dashboard-showcase__tip-title {
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-body);
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1.5;
+}
+
+/* Live sets the location line under a station name at 8px. */
+.ap-dashboard-showcase__tip-sub {
+	color: var(--ap-text-body);
+	font-family: var(--ap-font-body);
+	font-size: 8px;
+	line-height: 1.5;
+}
+
+/* Typed row parts, as live sizes them (live .ap-dashboard-tip-code/-num/-sub/-sub14). */
+.ap-dashboard-showcase__tip-code {
+	color: var(--ap-text-body);
+	font-family: var(--ap-font-body);
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+.ap-dashboard-showcase__tip-code--muted {
+	color: #a4a9b4;
+}
+
+.ap-dashboard-showcase__tip-num {
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-body);
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 1.5;
+}
+
+.ap-dashboard-showcase__tip-sub14 {
+	color: var(--ap-text-body);
+	font-family: var(--ap-font-body);
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+/* Avatar rows: Local Government stacks the text beside a 36px avatar; Public
+   Works wraps a 40px avatar, the name and the yard. */
+.ap-dashboard-showcase__tip-row--person {
+	flex-direction: row;
+	align-items: center;
+	gap: 8px;
+}
+
+.ap-dashboard-showcase__tip-row--person .ap-dashboard-showcase__tip-avatar {
+	display: block;
+	flex: 0 0 auto;
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+.ap-dashboard-showcase__tip-person-txt {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 2px;
+	min-width: 0;
+}
+
+.ap-dashboard-showcase__tip-row--oper {
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 4px 8px;
+}
+
+.ap-dashboard-showcase__tip-row--oper .ap-dashboard-showcase__tip-avatar {
+	display: block;
+	flex: 0 0 auto;
+	width: 40px;
+	max-width: none;
+	height: 40px;
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+.ap-dashboard-showcase__tip-row--oper .ap-dashboard-showcase__tip-sub14 {
+	flex: 1 1 100%;
+}
+
+.ap-dashboard-showcase__tip-row--oper .ap-dashboard-showcase__tip-title {
+	flex: 0 1 auto;
+}
+
+/* The theme's Bootstrap reset sets a button's superscript without growing the line. */
+.ap-dashboard-showcase__btn sup {
+	position: relative;
+	top: -0.5em;
+	font-size: 75%;
+	line-height: 0;
+	vertical-align: baseline;
+}
+
+.ap-dashboard-showcase__chip {
+	display: inline-flex;
+	align-items: center;
+	padding: 0 4px;
+	border: 0.5px solid #e6e8f0;
+	border-radius: var(--ap-radius-xs);
+	font-family: var(--ap-font-body);
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1.5;
+	text-transform: uppercase;
+}
+
+.ap-dashboard-showcase__chip--em {
+	background: #effefa;
+	border-color: #90ffe3;
+	color: var(--ap-green-600);
+}
+
+.ap-dashboard-showcase__chip--in {
+	background: var(--ap-indigo-50);
+	border-color: #c8d2fd;
+	color: var(--ap-indigo-600);
+}
+
+.ap-dashboard-showcase__chip--lb {
+	background: #f0f9ff;
+	border-color: #bae6fd;
+	color: #0284c7;
+}
+
+/* Violet and blue chips (live K-12 and Higher Education). */
+.ap-dashboard-showcase__chip--vi {
+	background: #f9f7fc;
+	border-color: #e6dcf2;
+	color: #7e54a5;
+}
+
+.ap-dashboard-showcase__chip--bl {
+	background: #eff6ff;
+	border-color: #bfdbfe;
+	color: #2563eb;
+}
+
+.ap-dashboard-showcase__chip--yl {
+	background: #fdf8e9;
+	border-color: #f8db90;
+	color: var(--ap-text-heading);
+	text-transform: none;
+}
+
+/* Orbs */
+
+.ap-dashboard-showcase__orb {
+	position: absolute;
+	z-index: 2;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	border: 1px solid #e6e8f0;
+	border-radius: 50%;
+}
+
+.ap-dashboard-showcase__orb img {
+	display: block;
+	flex: 0 0 auto;
+	width: var(--ap-orb-zoom, 100%);
+	height: 100%;
+	max-width: none;
+	object-fit: contain;
+}
+
+.ap-dashboard-showcase__orb--red {
+	border-color: #ffccd5;
+	background: radial-gradient(circle, #fff 0%, #fff1f3 100%);
+	box-shadow: 0 0 30px rgba(248, 59, 104, 0.16);
+}
+
+.ap-dashboard-showcase__orb--lb {
+	border-color: #7dd3fc;
+	background: radial-gradient(circle, #fff 0%, #f0f9ff 100%);
+	box-shadow: 0 0 30px rgba(2, 132, 199, 0.16);
+}
+
+.ap-dashboard-showcase__orb--yl {
+	border-color: #f8db90;
+	background: radial-gradient(circle, #fff 0%, #fdf8e9 100%);
+	box-shadow: 0 0 30px rgba(243, 191, 81, 0.16);
+}
+
+.ap-dashboard-showcase__orb--green {
+	border-color: #90ffe3;
+	background: radial-gradient(circle, #fff 0%, #effefa 100%);
+	box-shadow: 0 0 19px rgba(29, 228, 192, 0.16);
+}
+
+.ap-dashboard-showcase__orb--in {
+	border-color: #a7b3fa;
+	background: radial-gradient(circle, #fff 0%, #f0f9ff 100%);
+	box-shadow: 0 0 15px rgba(2, 132, 199, 0.16);
+}
+
+/* The eight placements from the design, by position in the list. */
+.ap-dashboard-showcase__orb:nth-of-type(1) {
+	left: 19.2%;
+	top: 71px;
+	width: 44px;
+	height: 44px;
+}
+
+.ap-dashboard-showcase__orb:nth-of-type(2) {
+	right: 29%;
+	top: 31px;
+	width: 80px;
+	height: 80px;
+}
+
+.ap-dashboard-showcase__orb:nth-of-type(3) {
+	right: 21.5%;
+	top: 185px;
+	width: 96px;
+	height: 96px;
+}
+
+.ap-dashboard-showcase__orb:nth-of-type(4) {
+	left: 40.6%;
+	top: 225px;
+	width: 75px;
+	height: 75px;
+}
+
+.ap-dashboard-showcase__orb:nth-of-type(5) {
+	left: 25%;
+	top: 282px;
+	width: 65px;
+	height: 65px;
+}
+
+.ap-dashboard-showcase__orb:nth-of-type(6) {
+	right: 4%;
+	top: 104px;
+	width: 83px;
+	height: 83px;
+}
+
+.ap-dashboard-showcase__orb:nth-of-type(7) {
+	left: 18.2%;
+	top: 466px;
+	width: 56px;
+	height: 56px;
+}
+
+.ap-dashboard-showcase__orb:nth-of-type(8) {
+	right: 23.7%;
+	top: 475px;
+	width: 65px;
+	height: 65px;
+}
+
+/* Closing copy */
+
+.ap-dashboard-showcase__sub {
+	max-width: 768px;
+	margin: 48px auto 0;
+	text-align: center;
+}
+
+.ap-dashboard-showcase__sub h3 {
+	margin: 0 0 16px;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: 24px;
+	font-weight: 800;
+	line-height: 1.2;
+}
+
+.ap-dashboard-showcase__sub p {
+	margin: 0;
+	color: var(--ap-text-body);
+	font-family: var(--ap-font-body);
+	font-size: 18px;
+	line-height: 1.5;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.ap-dashboard-showcase__tip:nth-of-type(odd),
+	.ap-dashboard-showcase__orb:nth-of-type(odd) {
+		animation: ap-dashboard-showcase-bob 6s ease-in-out infinite;
+	}
+
+	.ap-dashboard-showcase__tip:nth-of-type(even),
+	.ap-dashboard-showcase__orb:nth-of-type(even) {
+		animation: ap-dashboard-showcase-bob 7s ease-in-out 0.8s infinite;
+	}
+
+	.ap-dashboard-showcase__orb:nth-of-type(3n) {
+		animation-duration: 5.5s;
+		animation-delay: 0.4s;
+	}
+
+	.ap-dashboard-showcase__orb:nth-of-type(4n) {
+		animation-duration: 6.5s;
+		animation-delay: 1.2s;
+	}
+}
+
+@media (max-width: 1024px) {
+	.ap-dashboard-showcase__title {
+		font-size: 32px;
+	}
+
+	.ap-dashboard-showcase__stage {
+		height: 500px;
+	}
+
+	.ap-dashboard-showcase__tip:nth-of-type(2) {
+		top: 210px;
+	}
+
+	.ap-dashboard-showcase__tip:nth-of-type(4) {
+		top: 290px;
+	}
+
+	.ap-dashboard-showcase__orb:nth-of-type(7) {
+		top: 420px;
+	}
+
+	.ap-dashboard-showcase__orb:nth-of-type(8) {
+		top: 430px;
+	}
+}
+
+@media (max-width: 768px) {
+	.ap-dashboard-showcase {
+		padding: 56px 0;
+	}
+
+	.ap-dashboard-showcase__stage {
+		height: auto;
+		margin-top: 40px;
+	}
+
+	/* The tall cards and the orbs would cover the screenshot on a phone. */
+	.ap-dashboard-showcase__orb,
+	.ap-dashboard-showcase__tip:nth-of-type(1),
+	.ap-dashboard-showcase__tip:nth-of-type(2) {
+		display: none;
+	}
+
+	.ap-dashboard-showcase__shot {
+		position: static;
+		aspect-ratio: auto;
+		border-width: 4px;
+		opacity: 1;
+	}
+
+	/* Block, so no descender space under the image (live's sits flush). */
+	.ap-dashboard-showcase__shot img {
+		position: static;
+		display: block;
+		width: 100%;
+		max-width: 100%;
+		height: auto;
+	}
+
+	.ap-dashboard-showcase__tip:nth-of-type(3),
+	.ap-dashboard-showcase__tip:nth-of-type(4) {
+		position: static;
+		width: auto;
+		animation: none;
+	}
+
+	.ap-dashboard-showcase__tip:nth-of-type(3) {
+		margin-top: 24px;
+	}
+
+	.ap-dashboard-showcase__tip:nth-of-type(4) {
+		margin-top: 16px;
+	}
+
+	.ap-dashboard-showcase__sub {
+		margin-top: 40px;
+	}
+
+	.ap-dashboard-showcase__sub p {
+		font-size: 16px;
+	}
+}
+
+@media (min-width: 561px) and (max-width: 768px) {
+	.ap-dashboard-showcase__tip:nth-of-type(3),
+	.ap-dashboard-showcase__tip:nth-of-type(4) {
+		display: inline-block;
+		vertical-align: top;
+		width: calc(50% - 8px);
+	}
+
+	.ap-dashboard-showcase__tip:nth-of-type(3) {
+		margin-right: 12px;
+	}
+
+	.ap-dashboard-showcase__tip:nth-of-type(4) {
+		margin-top: 24px;
+	}
+}
+
+@media (max-width: 560px) {
+	.ap-dashboard-showcase {
+		padding: 40px 0;
+	}
+
+	.ap-dashboard-showcase__title {
+		font-size: 28px;
+	}
+
+	.ap-dashboard-showcase__sub h3 {
+		font-size: 22px;
+	}
+}
+
+@keyframes ap-dashboard-showcase-bob {
+	0%,
+	100% {
+		translate: 0 0;
+	}
+
+	50% {
+		translate: 0 -8px;
+	}
+}
+
+/* Emergency Preparedness: tick list and buttons under the stage (live .epx-dash__checks/__ctas). */
+.ap-dashboard-showcase__checks {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 16px 40px;
+	max-width: var(--ap-host-container, 1120px);
+	margin: 40px auto 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ap-dashboard-showcase__checks li {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	max-width: 340px;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-body);
+	font-size: 16px;
+	line-height: 1.5;
+}
+
+.ap-dashboard-showcase__check {
+	width: 24px;
+	height: 24px;
+	flex: 0 0 24px;
+	background-color: var(--ap-green-600, #00a991);
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16.5 11.5' fill='none'%3E%3Cpath d='M0.75 5.75L5.75 10.75L15.75 0.75' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 16px no-repeat;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16.5 11.5' fill='none'%3E%3Cpath d='M0.75 5.75L5.75 10.75L15.75 0.75' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 16px no-repeat;
+}
+
+/*
+ * Button row (live .ap-dashboard-cta / -ctas / -sub-cta / .aplg-dash-cta): the
+ * site's .ap-btn — 14px 16px, no border, bold, the brand gradient — with the
+ * second button outlined in green. Police tightens the space above on tablets;
+ * K-12 stacks the buttons full width on phones.
+ */
+.ap-dashboard-showcase__ctas {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 16px;
+	margin-top: 24px;
+}
+
+.ap-dashboard-showcase__btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 14px 16px;
+	border: 0;
+	border-radius: 4px;
+	background-image: linear-gradient(54.6deg, #5044e1 0%, #00a991 70.44%);
+	color: #fff;
+	font-family: var(--ap-font-display);
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 1.2;
+	text-decoration: none;
+	transition: filter .2s ease, translate .2s ease, box-shadow .2s ease, background-color .3s var(--ap-ease-standard), color .3s var(--ap-ease-standard);
+}
+
+.ap-dashboard-showcase__btn:hover,
+.ap-dashboard-showcase__btn:focus-visible {
+	color: #fff;
+	filter: brightness(1.08);
+	translate: 0 -1px;
+	box-shadow: 0 8px 20px rgba(80, 68, 225, .25);
+}
+
+.ap-dashboard-showcase__btn--outline {
+	border: 1px solid #00a991;
+	background: #fff;
+	color: #00a991;
+}
+
+.ap-dashboard-showcase__btn--outline:hover,
+.ap-dashboard-showcase__btn--outline:focus-visible {
+	background: #00a991;
+	color: #fff;
+}
+
+@media (max-width: 768px) {
+	.ap-dashboard-showcase__ctas {
+		margin-top: var(--ap-dash-cta-top-t, 24px);
+	}
+
+	.ap-dashboard-showcase--stack-768 .ap-dashboard-showcase__ctas {
+		flex-direction: column;
+	}
+
+	.ap-dashboard-showcase--stack-768 .ap-dashboard-showcase__btn {
+		width: 100%;
+	}
+}
+
+@media (max-width: 640px) {
+	.ap-dashboard-showcase--stack-640 .ap-dashboard-showcase__ctas {
+		flex-direction: column;
+	}
+
+	.ap-dashboard-showcase--stack-640 .ap-dashboard-showcase__btn {
+		width: 100%;
+	}
+}
+
+/* Lede under the title, where a page carries one (live .ap-dashboard-lede). */
+.ap-dashboard-showcase__lede { margin: 16px auto 0; max-width: 856px; font-size: 18px; line-height: 1.5; color: var(--ap-slate-500); }
+
+/* Lede width and phone size vary by page (Higher Education caps it at 650px;
+   only Police drops it to 16px on phones). */
+.ap-dashboard-showcase__lede {
+	max-width: var(--ap-dash-lede-max, 856px);
+}
+
+@media (max-width: 768px) {
+	.ap-dashboard-showcase__lede {
+		font-size: var(--ap-dash-lede-m, 18px);
+	}
+}
+
+/* Higher Education's outline button: a fixed 48px, 16px all round, semibold. */
+.ap-dashboard-showcase--outline-fixed .ap-dashboard-showcase__btn--outline {
+	flex: none;
+	gap: 8px;
+	min-width: 120px;
+	height: 48px;
+	min-height: 48px;
+	max-height: 48px;
+	padding: 16px;
+	font-weight: 600;
+}
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: --ap-section-y top and bottom (was 80 / 56 / 40 by width),
+ * --ap-section-head-gap from the head to the dashboard stage (was 64 / 40). */
+html body .ap-dashboard-showcase.ap-dashboard-showcase { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+html body .ap-dashboard-showcase .ap-dashboard-showcase__stage { margin-top: var(--ap-section-head-gap, 48px); }
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-dashboard-showcase.ap-dashboard-showcase.ap-dashboard-showcase .ap-dashboard-showcase__title { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+/* Section eyebrow on the type scale too: 12px at 390 to 14px at 1440, 800, 4% tracking, upper case. */
+html body .ap-dashboard-showcase.ap-dashboard-showcase.ap-dashboard-showcase .ap-dashboard-showcase__eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }
+/* Tablets and phones (QA 2026-10-28): once the tip cards stack (768px and
+ * below) their small labels read at 12px (were 8px). */
+@media (max-width: 768px) {
+	html body .ap-dashboard-showcase .ap-dashboard-showcase__tip-sub { font-size: 12px; line-height: 1.4; }
+}

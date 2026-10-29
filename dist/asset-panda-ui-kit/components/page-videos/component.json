@@ -1,0 +1,15 @@
+{
+	"name": "page-videos",
+	"description": "Video gallery for /tutorials/: optional centred heading and intro over a dark theater panel — one large 16:9 player with the playing video's title and copy under it, and every other video as its own card in a deck beside it (the next one in front with its poster, the rest stacked behind it showing their titles; a swipe row under the player on tablets and phones). When the player scrolls into view the first video starts muted (YouTube IFrame API on youtube-nocookie.com, an Unmute pill turns the sound on); when a video ends the next card flies into the player and the old one goes to the back of the deck, looping from the last video to the first. Clicking a card plays it with sound and the cycle continues from it. No autoplay for reduced-motion or Save-Data visitors. Without JavaScript the first video is a poster linking to YouTube and every title is visible in the deck.",
+	"props": {
+		"anchor": { "type": "string", "required": false, "default": "", "description": "id on the section (letters, digits, hyphens)." },
+		"tone": { "type": "string", "required": false, "default": "white", "enum": [ "white", "soft" ], "description": "Section background around the dark panel." },
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small uppercase label above the heading." },
+		"title": { "type": "string", "required": false, "default": "", "description": "Heading (h2). Empty renders the panel alone." },
+		"intro": { "type": "string", "required": false, "default": "", "description": "Copy under the heading (blank line = new paragraph; [label](url), **bold**)." },
+		"card_tag": { "type": "string", "required": false, "default": "h3", "enum": [ "h2", "h3" ], "description": "Heading level of each video's title under the player (h2 when the videos carry the page's section headings, as /tutorials/ does). Every video's caption is in the markup; only the playing one shows." },
+		"columns": { "type": "string", "required": false, "default": "2", "enum": [ "2", "3" ], "description": "Legacy (the former card grid). Accepted so existing content still validates; no effect on the theater layout." },
+		"playlist_title": { "type": "string", "required": false, "default": "", "description": "Label above the deck of video cards. Empty shows 'Playlist'." },
+		"items": { "type": "array", "required": true, "description": "Videos, in playlist order; the first is in the player on load and the deck loops back to it after the last. Each: title (required), video (YouTube watch, youtu.be or embed URL; a playlist list= is kept on the no-JavaScript link and the fallback player), poster (image URL, used in the player and on the video's card) with poster_w / poster_h (intrinsic px), body (copy under the player while the video plays — blank line = new paragraph; a block of '- ' lines is a bullet list; [label](url), **bold**; empty shows the title only), play_label (accessible name of the first video's play button; default 'Play video: <title>')." }
+	}
+}

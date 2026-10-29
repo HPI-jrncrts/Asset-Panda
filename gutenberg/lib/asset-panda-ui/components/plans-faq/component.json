@@ -1,0 +1,11 @@
+{
+	"name": "plans-faq",
+	"description": "Pricing v2 FAQ: centred heading over bordered question cards that open in place (plus turns to minus). Source: the Asset Panda Pricing v2 mockup.",
+	"props": {
+		"variant": { "type": "string", "required": false, "default": "classic", "enum": [ "classic", "clean" ], "description": "classic: centred heading over bordered cards. clean: heading on the left, ruled questions on the right (stacked on phones)." },
+		"title": { "type": "string", "required": true, "description": "Heading. Line breaks are kept." },
+		"items": { "type": "array", "required": true, "description": "Questions. Each: q (question) and a (answer; a blank line starts a new paragraph)." },
+		"open_first": { "type": "boolean", "required": false, "default": true, "description": "Start with the first question open." },
+		"schema": { "type": "boolean", "required": false, "default": false, "description": "Also output FAQPage structured data for these questions. Use on one FAQ per page." }
+	}
+}

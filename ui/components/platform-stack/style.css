@@ -1,351 +1,392 @@
-/* platform-stack — capability cards with a numbered index.
- * Matches the live homepage (dev page 7, #ap-platform-stack-v3), built from
- * Figma Platform (4331:24729):
- * - below 1280px the index is a numbered list above full-width cards (560px
- *   tall from 768px; 300–360px screenshots on phones);
- * - from 1280px a sticky 282px index sits beside 780x560 cards that stack as
- *   you scroll, each sticking 24px below the previous one;
- * - the "filled" state (solid accent, light copy, a preview sliding over the
- *   screenshot) shows on hover at desktop and on the card being read on
- *   phones.
+/*
+ * platform-stack — ported from the live homepage platform section (#ap-platform-stack-v3).
  *
- * NOTE: this component deliberately does NOT set `scroll-behavior: smooth` on
- * <html>. That property only works on the scroll container, so a component
- * cannot opt into it without changing the whole document. */
+ * The live section is styled by 14 stacked sheets that win their fights with ids;
+ * each section id became the component root class, so the rules keep their relative
+ * order. Card ids (#ap-card-*) stay ids: they are the index anchors and live keys
+ * per-card colour to them. Lifecycle's red hover art comes from --ap-pstack-hover-bg.
+ */
 
-.ap-pstack {
-	--ap-pstack-top: 104px;
-	--ap-pstack-step: 24px;
-	padding-block: var(--ap-pad-y-lg) var(--ap-pad-y-md);
-	padding-inline: var(--ap-pad-x-xs);
-	background: var(--ap-white);
-	font-family: var(--ap-font-body);
-}
-
-.ap-pstack__inner {
-	max-width: var(--ap-page-max-content-xl);
-	margin-inline: auto;
-	display: grid;
-	grid-template-columns: minmax(0, 1fr);
-	gap: var(--ap-surf-gap-4xl);
-}
-
-.ap-pstack__head { display: grid; gap: var(--ap-surf-gap-lg); max-width: 536px; }
-
-.ap-pstack__eyebrow {
-	margin: 0;
-	font-family: var(--ap-font-utility);
-	font-size: var(--ap-fs-eyebrow);
-	font-weight: var(--ap-weight-eyebrow);
-	line-height: var(--ap-line-eyebrow);
-	letter-spacing: var(--ap-ls-eyebrow);
-	text-transform: uppercase;
-	color: var(--ap-text-eyebrow);
-}
-
-.ap-pstack__title {
-	margin: 0;
-	font-family: var(--ap-font-display);
-	font-size: var(--ap-fs-h2);
-	font-weight: var(--ap-weight-heading);
-	line-height: var(--ap-line-h2);
-	color: var(--ap-text-heading);
-}
-
-.ap-pstack__intro,
-.ap-pstack__kicker {
-	margin: 0;
-	font-size: var(--ap-fs-text-md);
-	line-height: var(--ap-line-body);
-	color: var(--ap-text-body);
-}
-
-.ap-pstack__kicker { font-weight: var(--ap-weight-body-bold); color: var(--ap-text-heading); }
-
-/* UrsaAI brand mark. Padding lets the gradient paint above the raised "AI". */
-.ap-pstack .ap-ursa {
-	padding-top: 0.5em;
-	background-image: var(--ap-gradient-ursa);
-	-webkit-background-clip: text;
-	background-clip: text;
-	color: transparent;
-	-webkit-box-decoration-break: clone;
-	box-decoration-break: clone;
-}
-
-.ap-pstack .ap-ursa sup { font-size: 0.645em; line-height: 0; }
-.ap-pstack__card-body .ap-ursa { font-weight: var(--ap-weight-bold); }
-
-/* In the index and the plain link the mark is just text with a small AI. */
-.ap-pstack__navlink .ap-ursa,
-.ap-pstack__link .ap-ursa {
-	padding-top: 0;
-	background: none;
-	color: inherit;
-}
-
-@media (forced-colors: active) {
-	.ap-pstack .ap-ursa { background-image: none; color: CanvasText; }
-}
-
-.ap-pstack__body { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--ap-surf-gap-4xl); }
-
-/* ---- Index: a numbered list (a sticky rail from 1280px) ---- */
-.ap-pstack__navlist { display: grid; margin: 0; padding: 0; list-style: none; }
-
-.ap-pstack__navlink {
-	display: flex;
-	align-items: center;
-	gap: var(--ap-surf-gap-lg);
-	min-height: 54px;
-	padding: var(--ap-surf-gap-xl) 0;
-	font-family: var(--ap-font-display);
-	font-size: var(--ap-fs-text-md);
-	font-weight: var(--ap-weight-heading);
-	line-height: 1.2;
-	color: var(--ap-slate-300, #d1d5db);
-	text-decoration: none;
-	border-bottom: var(--ap-border-thin) solid var(--ap-slate-200);
-	transition: color var(--ap-dur-slow) var(--ap-ease-out);
-}
-
-.ap-pstack__navlink:hover { color: var(--ap-text-muted); }
-
-.ap-pstack__dot {
-	flex: none;
-	inline-size: 8px;
-	block-size: 8px;
-	background: transparent;
-	border-radius: var(--ap-radius-pill);
-	transition: background-color var(--ap-dur-slow) var(--ap-ease-out);
-}
-
-.ap-pstack__navlink.is-active { color: var(--ap-text-heading); }
-.ap-pstack__navlink.is-active .ap-pstack__dot { background: var(--ap-brand-indigo); }
-
-/* ---- Cards ---- */
-.ap-pstack__cards {
-	display: grid;
-	gap: var(--ap-surf-gap-4xl);
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
-
-.ap-pstack__card {
-	--ap-accent: var(--ap-brand-indigo);
-	--ap-accent-soft: var(--ap-indigo-50);
-	--ap-accent-fill: var(--ap-accent);
-	position: relative;
-	overflow: hidden;
-	display: flex;
-	flex-direction: column;
-	min-width: 0;
-	padding: var(--ap-surf-pad-4xl);
-	background: linear-gradient(80deg, var(--ap-accent-soft) 0%, var(--ap-white) 100%);
-	border: var(--ap-border-thin) solid var(--ap-accent);
-	border-radius: var(--ap-radius-xl);
-	/* Anchor jumps land with room for the sticky site header. */
-	scroll-margin-top: var(--ap-pstack-top);
-}
-
-.ap-pstack__card--indigo { --ap-accent: var(--ap-brand-indigo); --ap-accent-soft: var(--ap-indigo-50); }
-.ap-pstack__card--yellow { --ap-accent: var(--ap-brand-yellow); --ap-accent-soft: var(--ap-yellow-50); }
-.ap-pstack__card--green  { --ap-accent: var(--ap-brand-green);  --ap-accent-soft: var(--ap-green-50); }
-.ap-pstack__card--red    { --ap-accent: var(--ap-brand-red);    --ap-accent-soft: var(--ap-red-50); }
-.ap-pstack__card--violet { --ap-accent: var(--ap-brand-violet); --ap-accent-soft: var(--ap-violet-100); }
-
-.ap-pstack__card--ursa {
-	--ap-accent: var(--ap-green-100);
-	--ap-accent-fill: linear-gradient(160deg, var(--ap-brand-green) 0%, var(--ap-brand-violet) 100%);
-	background: linear-gradient(80deg, var(--ap-green-100) 0%, var(--ap-violet-200) 100%);
-}
-
-.ap-pstack__copy {
-	position: relative;
-	z-index: 3;
-	display: grid;
-	gap: var(--ap-surf-gap-xl);
-	justify-items: start;
-	max-width: 540px;
-}
-
-.ap-pstack__card-title {
-	margin: 0;
-	font-family: var(--ap-font-display);
-	font-size: 22px;
-	font-weight: var(--ap-weight-heading);
-	line-height: 1.2;
-	color: var(--ap-text-heading);
-	transition: color var(--ap-dur-slow) var(--ap-ease-out);
-}
-
-.ap-pstack__card-body {
-	margin: 0;
-	font-size: var(--ap-fs-text-md);
-	line-height: var(--ap-line-body);
-	color: var(--ap-text-body);
-	transition: color var(--ap-dur-slow) var(--ap-ease-out);
-}
-
-.ap-pstack__link {
-	display: inline-flex;
-	align-items: center;
-	gap: var(--ap-surf-gap-md);
-	font-family: var(--ap-font-utility);
-	font-size: var(--ap-fs-button-sm);
-	font-weight: var(--ap-weight-bold);
-	line-height: 1.2;
-	color: var(--ap-text-heading);
-	text-decoration: none;
-	border-radius: var(--ap-radius-sm);
-	transition: color var(--ap-dur-slow) var(--ap-ease-out), translate var(--ap-dur-slow) var(--ap-ease-out);
-}
-
-.ap-pstack__link img { display: block; inline-size: 24px; block-size: 24px; }
-.ap-pstack__link:hover { translate: 2px 0; }
-
-/* Screenshot in a thin glass frame, plus an optional preview that slides over
- * it in the filled state. */
-.ap-pstack__shot {
-	position: relative;
-	z-index: 2;
-	height: 360px;
-	margin-top: 28px;
-	pointer-events: none;
-}
-
-.ap-pstack__screen {
-	position: absolute;
-	inset: 0;
-	padding: 5.2px;
-	background: rgba(255, 255, 255, 0.1);
-	border-radius: var(--ap-radius-md);
-	box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
-	overflow: hidden;
-	transform-origin: center top;
-	transition: opacity var(--ap-dur-slow) var(--ap-ease-out), transform var(--ap-dur-slow) var(--ap-ease-out), filter var(--ap-dur-slow) var(--ap-ease-out);
-}
-
-.ap-pstack__screen img {
-	display: block;
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	object-position: left top;
-	border-radius: 5.79px;
-}
-
-.ap-pstack__preview {
-	position: absolute;
-	left: 0;
-	right: 0;
-	top: 0;
-	z-index: 4;
-	display: none;
-	opacity: 0;
-	translate: 0 96px;
-	transition: opacity var(--ap-dur-slow) var(--ap-ease-out), translate var(--ap-dur-slow) var(--ap-ease-out);
-}
-
-.ap-pstack__preview img { display: block; width: 100%; height: auto; }
-
-.ap-pstack__link:focus-visible,
-.ap-pstack__navlink:focus-visible { outline: var(--ap-border-medium) solid var(--ap-focus-ring); outline-offset: 3px; }
-
-@media (max-width: 480px) {
-	.ap-pstack__shot { height: 300px; }
-}
-
-/* ---- Phones: the card being read fills with its accent ---- */
-@media (max-width: 767.98px) {
-	.ap-pstack__card.is-current { background: var(--ap-accent-fill); border-color: var(--ap-accent); }
-	.ap-pstack__card--ursa.is-current { border-color: var(--ap-brand-green); }
-
-	.ap-pstack__card.is-current .ap-pstack__card-title,
-	.ap-pstack__card.is-current .ap-pstack__card-body,
-	.ap-pstack__card.is-current .ap-pstack__link { color: var(--ap-white); }
-
-	.ap-pstack__card.is-current .ap-pstack__link img { filter: brightness(0) invert(1); }
-	.ap-pstack__card.is-current .ap-ursa { padding-top: 0; background: none; color: inherit; }
-
-	.ap-pstack__card.is-current .ap-pstack__screen {
-		opacity: 0.45;
-		transform: translateY(8px) scale(1.03);
-		filter: saturate(0.85) contrast(0.95) brightness(1.04);
-	}
-
-	.ap-pstack__card--indigo.is-current .ap-pstack__screen { opacity: 0; }
-	.ap-pstack__card.is-current .ap-pstack__preview { display: block; opacity: 1; translate: 0 0; }
-}
-
-/* ---- Tablet and up: 560px cards with the screenshot running off the edge ---- */
-@media (min-width: 768px) {
-	.ap-pstack__card { min-height: 560px; }
-	.ap-pstack__card-title { font-size: var(--ap-fs-h4); }
-
-	.ap-pstack__shot {
-		position: absolute;
-		left: var(--ap-surf-pad-4xl);
-		right: var(--ap-surf-pad-4xl);
-		top: 187px;
-		height: 512px;
-		margin: 0;
-	}
-}
-
-/* ---- Desktop: sticky rail and stacking cards; hover fills a card ---- */
+.ap-pstack {--ap-sticky-top: 28px; --ap-menu-offset: 90px; --ap-stack-sticky-top: 104px; --ap-card-step: 24px; background: #ffffff; padding: 120px 0 80px; width: 100%; margin-left: 0; margin-right: 0; font-family: 'Manrope', Arial, sans-serif !important; overflow: visible !important;}
+.ap-pstack, .ap-pstack * {box-sizing: border-box;}
+.ap-pstack .ap-platform-wrap {width: 100%; max-width: 1100px; margin: 0 auto;}
+.ap-pstack .ap-platform-head {display: grid; grid-template-columns: 536px 1fr; gap: 40px; align-items: start; margin-bottom: 32px;}
+.ap-pstack .ap-platform-copy {max-width: 536px;}
+.ap-pstack .ap-eyebrow {margin: 0 0 16px; font-size: 16px; line-height: 1.2; font-weight: 800; color: #5044E1; text-transform: uppercase; letter-spacing: 0.04em;}
+.ap-pstack h2 {margin: 0 0 16px; font-size: 32px; line-height: 1.2; font-weight: 800; color: #121212;}
+.ap-pstack .ap-intro {margin: 0; font-size: 18px; line-height: 1.5; font-weight: 400; color: #4B5563;}
+.ap-pstack .ap-platform-link, .ap-pstack .ap-card-link {display: inline-flex; align-items: center; gap: 8px; text-decoration: none !important; font-size: 14px; line-height: 1.2; font-weight: 700; transition: transform 0.2s ease, opacity 0.2s ease, color 0.2s ease;}
+.ap-pstack .ap-platform-link {justify-self: end; margin-top: 104px; color: #121212;}
+.ap-pstack .ap-platform-link:hover, .ap-pstack .ap-card-link:hover {transform: translateX(2px); opacity: 0.92;}
+.ap-pstack .ap-arrow {font-size: 20px; line-height: 1; color: inherit;}
+.ap-pstack .ap-platform-body {display: grid; grid-template-columns: 282px 780px; gap: 38px; align-items: stretch;}
+.ap-pstack .ap-platform-rail {position: relative; align-self: stretch; min-height: 100%;}
+.ap-pstack .ap-platform-nav {position: sticky !important; top: var(--ap-stack-sticky-top) !important; width: 282px; padding-top: 0 !important; z-index: 10;}
+.ap-pstack .ap-nav-item {display: flex; align-items: center; gap: 12px; width: 100%; min-height: 54px; padding: 16px 0; border-bottom: 1px solid #E5E7EB; text-decoration: none !important;}
+.ap-pstack .ap-dot {width: 8px; height: 8px; border-radius: 999px; background: #ffffff; opacity: 0.12; flex: 0 0 auto; transition: background 0.25s ease, opacity 0.25s ease, transform 0.25s ease;}
+.ap-pstack .ap-label {font-size: 18px; line-height: 1.2; font-weight: 800; color: #D1D5DB; transition: color 0.25s ease;}
+.ap-pstack .ap-nav-item.is-active .ap-dot {background: #5044E1; opacity: 1; transform: scale(1.05);}
+.ap-pstack .ap-nav-item.is-active .ap-label {color: #121212;}
+.ap-pstack .ap-platform-cards {position: relative; width: 780px; padding-bottom: 260px; margin-top: -68px;}
+.ap-pstack .ap-stack-card {position: sticky; width: 780px; height: 560px; border-radius: 16px; overflow: hidden;}
+.ap-pstack #ap-card-custom {top: var(--ap-stack-sticky-top) !important; z-index: 1;}
+.ap-pstack #ap-card-ownership {top: calc(var(--ap-stack-sticky-top) + var(--ap-card-step)) !important; z-index: 2;}
+.ap-pstack #ap-card-mobile {top: calc(var(--ap-stack-sticky-top) + (var(--ap-card-step) * 2)) !important; z-index: 3;}
+.ap-pstack #ap-card-inspection {top: calc(var(--ap-stack-sticky-top) + (var(--ap-card-step) * 3)) !important; z-index: 4;}
+.ap-pstack #ap-card-lifecycle {top: calc(var(--ap-stack-sticky-top) + (var(--ap-card-step) * 4)) !important; z-index: 5;}
+.ap-pstack #ap-card-reporting {top: calc(var(--ap-stack-sticky-top) + (var(--ap-card-step) * 5)) !important; z-index: 6;}
+.ap-pstack #ap-card-ursa {top: calc(var(--ap-stack-sticky-top) + (var(--ap-card-step) * 6)) !important; z-index: 7;}
+.ap-pstack .ap-stack-card + .ap-stack-card {margin-top: 24px;}
+.ap-pstack .ap-card {position: relative; padding: 32px; border: 1px solid transparent; transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease, background 0.28s ease;}
+.ap-pstack .ap-card:hover {transform: translateY(-3px); box-shadow: 0 18px 42px rgba(17, 24, 39, 0.08);}
+.ap-pstack .ap-card-copy {position: relative; z-index: 7; width: 540px; max-width: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: 16px;}
+.ap-pstack .ap-card-copy h3 {margin: 0; font-size: 24px; line-height: 1.2; font-weight: 800; color: #121212; transition: color 0.28s ease;}
+.ap-pstack .ap-card-copy p {margin: 0; max-width: 540px; font-size: 16px; line-height: 1.5; font-weight: 400; color: #4B5563; transition: color 0.28s ease;}
+.ap-pstack .ap-card-link {position: relative; z-index: 7; color: #121212;}
+.ap-pstack .ap-link-purple .ap-arrow {color: #5044E1;}
+.ap-pstack .ap-link-gold .ap-arrow {color: #DE8D14;}
+.ap-pstack .ap-link-pink .ap-arrow {color: #E61C55;}
+.ap-pstack .ap-link-green .ap-arrow {color: #00A991;}
+.ap-pstack .ap-link-plum .ap-arrow {color: #55376D;}
+.ap-pstack .ap-card-custom {background: linear-gradient(79.73deg, #EEF2FF 0%, #FFFFFF 100.03%); border-color: #5044E1;}
+.ap-pstack .ap-card-gold {background: linear-gradient(79.73deg, #FDF8E9 0%, #FFFFFF 100.03%); border-color: #DE8D14;}
+.ap-pstack .ap-card-pink {background: linear-gradient(79.73deg, #FFF1F3 0%, #FFFFFF 100.03%); border-color: #E61C55;}
+.ap-pstack .ap-card-green {background: linear-gradient(79.73deg, #EFFEFA 0%, #FFFFFF 100.03%); border-color: #00A991;}
+.ap-pstack .ap-card-plum {background: linear-gradient(79.73deg, #F3EEF9 0%, #FFFFFF 100.03%); border-color: #55376D;}
+.ap-pstack .ap-card-custom:hover {background: #5044E1; border-color: #5044E1;}
+.ap-pstack .ap-card-gold:hover {background: #DE8D14; border-color: #DE8D14;}
+.ap-pstack .ap-card-pink:hover {background: #E61C55; border-color: #E61C55;}
+.ap-pstack .ap-card-green:hover {background: #00A991; border-color: #00A991;}
+.ap-pstack .ap-card-plum:hover {background: #55376D; border-color: #55376D;}
+.ap-pstack .ap-card:hover h3, .ap-pstack .ap-card:hover p, .ap-pstack .ap-card:hover .ap-card-link, .ap-pstack .ap-card:hover .ap-card-link .ap-arrow {color: #ffffff;}
+.ap-pstack .ap-card-visual {position: absolute; left: 32px; right: 32px; top: 187px; width: 716px; height: 512px; z-index: 2; border-radius: 8px; pointer-events: none;}
+.ap-pstack .ap-screen-base {position: absolute; inset: 0; padding: 5.2px; background: rgba(255, 255, 255, 0.1); box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08); border-radius: 8px; overflow: hidden; transition: opacity 0.32s ease, transform 0.32s ease, filter 0.32s ease;}
+.ap-pstack .ap-screen-base img {width: 100%; height: 100%; display: block; object-fit: cover; object-position: top left; border-radius: 5.78976px;}
+/* QA 2026-10-29 (Joseph): the hover preview pops out from the centre of the image block (scale from 0.84), not up
+ * from the bottom; card 2 takes card 3's placement, card 4 fills to the card's bottom, card 6 runs edge to edge. */
+.ap-pstack .ap-hover-art {position: absolute; opacity: 0; transform: scale(0.84); transform-origin: 50% 50%; transition: opacity 0.34s ease, transform 0.34s ease, filter 0.34s ease; z-index: 4;}
+.ap-pstack .ap-hover-art img {display: block; max-width: none; height: auto;}
+.ap-pstack .ap-card:hover .ap-screen-base {opacity: 0.48; transform: scale(1.06); transform-origin: 50% 50%; filter: saturate(0.85) contrast(0.95) brightness(1.04);}
+.ap-pstack .ap-card:hover .ap-hover-art {opacity: 1; transform: scale(1);}
+.ap-pstack .ap-hover-card-1 {left: 0; top: 0; width: 716px;}
+.ap-pstack .ap-hover-card-1 img {width: 716px;}
+.ap-pstack .ap-card-custom:hover .ap-screen-base {opacity: 0; transform: scale(1.04); filter: none;}
+.ap-pstack .ap-card-custom:hover .ap-hover-card-1 {transform: scale(1.035);}
+.ap-pstack .ap-hover-card-2 {left: 54px; top: 34px; width: 650px;}
+.ap-pstack .ap-hover-card-2 img {width: 650px;}
+.ap-pstack .ap-card-gold:hover .ap-hover-card-2 {transform: scale(1.05);}
+.ap-pstack .ap-hover-card-3 {left: 54px; top: 34px; width: 650px;}
+.ap-pstack .ap-hover-card-3 img {width: 650px;}
+.ap-pstack .ap-card-pink:hover .ap-hover-card-3, .ap-pstack #ap-card-mobile:hover .ap-hover-card-3, .ap-pstack #ap-card-lifecycle:hover .ap-hover-card-3 {transform: scale(1.05);}
+.ap-pstack .ap-hover-card-4 {left: 0; top: 0; width: 716px;}
+.ap-pstack .ap-hover-card-4 img {width: 716px;}
+.ap-pstack #ap-card-inspection:hover .ap-hover-card-4 {transform: scale(1.02);}
+.ap-pstack .ap-hover-card-5 {left: -23px; top: 146px; width: 832px;}
+.ap-pstack .ap-hover-card-5 img {width: 832px;}
+.ap-pstack .ap-card-plum:hover .ap-hover-card-5 {transform: scale(1.04);}
+.ap-pstack .ap-hover-card-6 {left: 0; right: 0; top: 0; bottom: 0; width: 100%; display: flex; align-items: center;}
+.ap-pstack .ap-hover-card-6 img {width: 100%;}
+.ap-pstack #ap-card-reporting:hover .ap-hover-card-6, .ap-pstack #ap-card-reporting.is-mobile-scroll-active .ap-hover-card-6 {transform: scale(1) !important;}
+.ap-pstack .ap-hover-card-7 {left: 0; top: 0; width: 716px;}
+.ap-pstack .ap-hover-card-7 img {width: 716px;}
+.ap-pstack #ap-card-ursa:hover .ap-hover-card-7, .ap-pstack #ap-card-ursa.is-mobile-scroll-active .ap-hover-card-7 {transform: scale(1.035) !important;}
 @media (min-width: 1280px) {
-	.ap-pstack__body {
-		grid-template-columns: 282px minmax(0, 780px);
-		justify-content: space-between;
-		align-items: start;
-	}
+	.ap-pstack .ap-card.is-scroll-active:not(:hover), .ap-pstack .ap-card.is-scroll-reveal:not(:hover), .ap-pstack .ap-card.is-mobile-scroll-active:not(:hover) {transform: none !important; box-shadow: none !important;}
+	.ap-pstack .ap-card-custom.is-scroll-active:not(:hover), .ap-pstack .ap-card-custom.is-scroll-reveal:not(:hover), .ap-pstack .ap-card-custom.is-mobile-scroll-active:not(:hover) {background: linear-gradient(79.73deg, #EEF2FF 0%, #FFFFFF 100.03%) !important; border-color: #5044E1 !important;}
+	.ap-pstack .ap-card-gold.is-scroll-active:not(:hover), .ap-pstack .ap-card-gold.is-scroll-reveal:not(:hover), .ap-pstack .ap-card-gold.is-mobile-scroll-active:not(:hover) {background: linear-gradient(79.73deg, #FDF8E9 0%, #FFFFFF 100.03%) !important; border-color: #DE8D14 !important;}
+	.ap-pstack .ap-card-pink.is-scroll-active:not(:hover), .ap-pstack .ap-card-pink.is-scroll-reveal:not(:hover), .ap-pstack .ap-card-pink.is-mobile-scroll-active:not(:hover) {background: linear-gradient(79.73deg, #FFF1F3 0%, #FFFFFF 100.03%) !important; border-color: #E61C55 !important;}
+	.ap-pstack .ap-card-green.is-scroll-active:not(:hover), .ap-pstack .ap-card-green.is-scroll-reveal:not(:hover), .ap-pstack .ap-card-green.is-mobile-scroll-active:not(:hover) {background: linear-gradient(79.73deg, #EFFEFA 0%, #FFFFFF 100.03%) !important; border-color: #00A991 !important;}
+	.ap-pstack .ap-card-plum.is-scroll-active:not(:hover), .ap-pstack .ap-card-plum.is-scroll-reveal:not(:hover), .ap-pstack .ap-card-plum.is-mobile-scroll-active:not(:hover) {background: linear-gradient(79.73deg, #F3EEF9 0%, #FFFFFF 100.03%) !important; border-color: #55376D !important;}
+	.ap-pstack .ap-card.is-scroll-active:not(:hover) h3, .ap-pstack .ap-card.is-scroll-reveal:not(:hover) h3, .ap-pstack .ap-card.is-mobile-scroll-active:not(:hover) h3, .ap-pstack .ap-card.is-scroll-active:not(:hover) .ap-card-link, .ap-pstack .ap-card.is-scroll-reveal:not(:hover) .ap-card-link, .ap-pstack .ap-card.is-mobile-scroll-active:not(:hover) .ap-card-link, .ap-pstack .ap-card.is-scroll-active:not(:hover) .ap-card-link .ap-arrow, .ap-pstack .ap-card.is-scroll-reveal:not(:hover) .ap-card-link .ap-arrow, .ap-pstack .ap-card.is-mobile-scroll-active:not(:hover) .ap-card-link .ap-arrow {color: #121212 !important;}
+	.ap-pstack .ap-card.is-scroll-active:not(:hover) p, .ap-pstack .ap-card.is-scroll-reveal:not(:hover) p, .ap-pstack .ap-card.is-mobile-scroll-active:not(:hover) p {color: #4B5563 !important;}
+	.ap-pstack .ap-card.is-scroll-active:not(:hover) .ap-screen-base, .ap-pstack .ap-card.is-scroll-reveal:not(:hover) .ap-screen-base, .ap-pstack .ap-card.is-mobile-scroll-active:not(:hover) .ap-screen-base {opacity: 1 !important; transform: none !important; filter: none !important;}
+	.ap-pstack .ap-card.is-scroll-active:not(:hover) .ap-hover-art, .ap-pstack .ap-card.is-scroll-reveal:not(:hover) .ap-hover-art, .ap-pstack .ap-card.is-mobile-scroll-active:not(:hover) .ap-hover-art {opacity: 0 !important; transform: translateY(18px) scale(0.98) !important;}
+}
+@media (max-width: 1279px) {
+	.ap-pstack {--ap-stack-sticky-top: 0; padding: 96px 0 180px;}
+	.ap-pstack .ap-platform-wrap {max-width: calc(100% - 48px);}
+	.ap-pstack .ap-platform-head {grid-template-columns: 1fr; gap: 24px; margin-bottom: 28px;}
+	.ap-pstack .ap-platform-link {justify-self: start; margin-top: 0;}
+	.ap-pstack .ap-platform-body {grid-template-columns: 1fr; gap: 24px; align-items: start !important;}
+	.ap-pstack .ap-platform-rail {align-self: auto; min-height: auto;}
+	.ap-pstack .ap-platform-nav {position: static !important; width: 100%; padding-top: 0 !important;}
+	.ap-pstack .ap-platform-cards {width: 100%; padding-bottom: 0; margin-top: 0;}
+	.ap-pstack .ap-stack-card {position: relative; top: auto !important; width: 100%; height: auto; min-height: 560px;}
+	.ap-pstack .ap-card-visual {width: calc(100% - 64px);}
+}
+@media (max-width: 767px) {
+	.ap-pstack {padding: 64px 0 120px;}
+	.ap-pstack .ap-platform-wrap {max-width: calc(100% - 32px);}
+	.ap-pstack h2 {font-size: 28px;}
+	.ap-pstack .ap-intro {font-size: 16px;}
+	.ap-pstack .ap-label {font-size: 16px;}
+	.ap-pstack .ap-card {padding: 24px;}
+	.ap-pstack .ap-card-copy {width: 100%;}
+	.ap-pstack .ap-card-copy h3 {font-size: 22px;}
+	.ap-pstack .ap-card-copy p {font-size: 16px;}
+	.ap-pstack .ap-card-visual {position: relative; left: auto; right: auto; top: auto; width: 100%; height: 360px; margin-top: 28px;}
+	.ap-pstack .ap-screen-base {opacity: 1 !important; transform: none !important; filter: none !important;}
+	.ap-pstack .ap-hover-art {display: none;}
+	.ap-pstack .ap-card.is-mobile-scroll-active h3, .ap-pstack .ap-card.is-mobile-scroll-active p, .ap-pstack .ap-card.is-mobile-scroll-active .ap-card-link, .ap-pstack .ap-card.is-mobile-scroll-active .ap-card-link .ap-arrow {color: #ffffff !important;}
+	.ap-pstack .ap-card-custom.is-mobile-scroll-active {background: #5044E1 !important; border-color: #5044E1 !important;}
+	.ap-pstack .ap-card-gold.is-mobile-scroll-active {background: #DE8D14 !important; border-color: #DE8D14 !important;}
+	.ap-pstack .ap-card-pink.is-mobile-scroll-active {background: #E61C55 !important; border-color: #E61C55 !important;}
+	.ap-pstack .ap-card-green.is-mobile-scroll-active {background: #00A991 !important; border-color: #00A991 !important;}
+	.ap-pstack .ap-card-plum.is-mobile-scroll-active {background: #55376D !important; border-color: #55376D !important;}
+	.ap-pstack .ap-card.is-mobile-scroll-active .ap-screen-base {opacity: 0.45 !important; transform: translateY(8px) scale(1.03) !important; filter: saturate(0.85) contrast(0.95) brightness(1.04) !important;}
+	.ap-pstack .ap-card-custom.is-mobile-scroll-active .ap-screen-base {opacity: 0 !important; transform: translateY(8px) scale(1.03) !important; filter: none !important;}
+	.ap-pstack .ap-card.is-mobile-scroll-active .ap-hover-art {display: block !important; opacity: 1 !important; left: 0 !important; top: 0 !important; width: 100% !important; max-width: 100% !important; transform: translateY(0) scale(1) !important;}
+	.ap-pstack .ap-card.is-mobile-scroll-active .ap-hover-art img {width: 100% !important; max-width: 100% !important; height: auto !important;}
+}
+@media (max-width: 480px) {
+	.ap-pstack .ap-card-visual {height: 300px;}
+}
+body.home .wp-block-html:has(.ap-pstack), body.home .entry-content > .wp-block-html:has(.ap-pstack) {width: 100% !important; max-width: none !important; margin-top: 0 !important; margin-bottom: 0 !important;}
+.ap-pstack {width: 100% !important; max-width: none !important; margin-left: 0 !important; margin-right: 0 !important; padding-left: 24px !important; padding-right: 24px !important; overflow: visible !important;}
+.ap-pstack .ap-platform-wrap {width: 100% !important; max-width: 1100px !important; margin-left: auto !important; margin-right: auto !important;}
+.ap-pstack .ap-platform-link {display: none !important;}
+@media (min-width: 1280px) {
+	.ap-pstack .ap-platform-head {display: block !important; margin-bottom: 32px !important;}
+	.ap-pstack .ap-platform-copy {max-width: 536px !important;}
+	.ap-pstack .ap-platform-body {display: grid !important; grid-template-columns: 282px 780px !important; gap: 38px !important; align-items: start !important; overflow: visible !important;}
+	.ap-pstack .ap-platform-rail {position: relative !important; width: 282px !important; min-height: 100% !important; align-self: stretch !important; overflow: visible !important;}
+	.ap-pstack .ap-platform-nav {position: relative !important; top: auto !important; width: 282px !important; z-index: 100 !important;}
+	.ap-pstack .ap-platform-nav.ap-js-fixed {position: fixed !important; top: var(--ap-stack-sticky-top) !important;}
+	.ap-pstack .ap-platform-nav.ap-js-bottom {position: absolute !important; top: auto !important; bottom: 0 !important; left: 0 !important;}
+	.ap-pstack .ap-platform-cards {width: 780px !important; margin-top: 0 !important; padding-bottom: 260px !important;}
+	.ap-pstack .ap-stack-card {width: 780px !important; height: 560px !important;}
+}
+@media (max-width: 1279px) {
+	.ap-pstack {padding-left: 24px !important; padding-right: 24px !important;}
+	.ap-pstack .ap-platform-wrap {max-width: 100% !important;}
+}
+@media (max-width: 767px) {
+	.ap-pstack {padding-left: 16px !important; padding-right: 16px !important;}
+}
+@media (min-width: 1280px) {
+	.ap-pstack {padding-top: 104px !important;}
+	.ap-pstack .ap-platform-wrap {width: 100% !important; max-width: 1100px !important; margin-left: auto !important; margin-right: auto !important;}
+	.ap-pstack .ap-platform-head {margin-bottom: 32px !important;}
+	.ap-pstack .ap-platform-body {width: 100% !important; display: grid !important; grid-template-columns: 282px 780px !important; gap: 38px !important; align-items: start !important;}
+	.ap-pstack .ap-platform-rail {width: 282px !important; padding-top: 0 !important; align-self: start !important;}
+	.ap-pstack .ap-platform-nav {width: 282px !important;}
+	.ap-pstack .ap-platform-cards {width: 780px !important; margin-top: 0 !important; padding-top: 0 !important;}
+	.ap-pstack .ap-stack-card:first-child {margin-top: 0 !important;}
+}
+.ap-pstack .ap-nav-item.is-active .ap-dot {background: #5044E1 !important; opacity: 1 !important; transform: scale(1.05) !important;}
+.ap-pstack .ap-nav-item.is-active .ap-label {color: #121212 !important; opacity: 1 !important;}
+.ap-pstack .ap-nav-item:not(.is-active) .ap-label {color: #D1D5DB !important;}
+@media (min-width: 1280px) {
+	.ap-pstack .ap-platform-cards {margin-top: -88px !important;}
+	.ap-pstack .ap-stack-card:first-child {margin-top: 0 !important;}
+}
+.ap-pstack #ap-card-ursa .ap-screen-base img {object-fit: contain !important; object-position: center top !important; background: #F8FAFC !important;}
+.ap-pstack #ap-card-ursa .ap-screen-base {padding: 18px !important; background: #F8FAFC !important;}
+.ap-pstack #ap-card-ursa .ap-hover-card-7 {left: 36px !important; top: 18px !important; width: calc(100% - 72px) !important;}
+.ap-pstack #ap-card-ursa .ap-hover-card-7 img {width: 100% !important; max-width: 100% !important; height: auto !important;}
+.ap-pstack #ap-card-ursa:hover .ap-hover-card-7, .ap-pstack #ap-card-ursa.is-mobile-scroll-active .ap-hover-card-7 {transform: translateY(0) scale(1) !important;}
+.ap-pstack .ap-card:hover .ap-screen-base, .ap-pstack .ap-card.is-mobile-scroll-active .ap-screen-base {opacity: 0.48 !important; transform: none !important; filter: saturate(0.85) contrast(0.95) brightness(1.04) !important;}
+.ap-pstack .ap-card-custom:hover .ap-screen-base, .ap-pstack .ap-card-custom.is-mobile-scroll-active .ap-screen-base {opacity: 0 !important; transform: none !important; filter: none !important;}
+.ap-pstack .ap-hover-art {transform: translateY(96px) !important; transition: opacity 0.35s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1) !important;}
+.ap-pstack .ap-card:hover .ap-hover-art, .ap-pstack .ap-card.is-mobile-scroll-active .ap-hover-art {transform: translateY(20px) !important;}
+.ap-pstack #ap-card-reporting:hover .ap-hover-card-6, .ap-pstack #ap-card-reporting.is-mobile-scroll-active .ap-hover-card-6, .ap-pstack #ap-card-ursa:hover .ap-hover-card-7, .ap-pstack #ap-card-ursa.is-mobile-scroll-active .ap-hover-card-7 {transform: translateY(20px) !important;}
+@media (min-width: 1280px) {
+	.ap-pstack .ap-card.is-scroll-active:not(:hover) .ap-hover-art, .ap-pstack .ap-card.is-scroll-reveal:not(:hover) .ap-hover-art, .ap-pstack .ap-card.is-mobile-scroll-active:not(:hover) .ap-hover-art {opacity: 0 !important; transform: translateY(96px) !important;}
+	.ap-pstack .ap-card.is-scroll-active:not(:hover) .ap-screen-base, .ap-pstack .ap-card.is-scroll-reveal:not(:hover) .ap-screen-base, .ap-pstack .ap-card.is-mobile-scroll-active:not(:hover) .ap-screen-base {opacity: 1 !important; transform: none !important; filter: none !important;}
+}
+@media (min-width: 768px) and (max-width: 1279px) {
+	.ap-pstack .ap-card-custom.is-mobile-scroll-active, .ap-pstack .ap-card-custom.is-scroll-active {background: linear-gradient(79.73deg,#EEF2FF 0%,#FFFFFF 100.03%) !important; border-color:#5044E1 !important;}
+	.ap-pstack .ap-card-gold.is-mobile-scroll-active, .ap-pstack .ap-card-gold.is-scroll-active {background: linear-gradient(79.73deg,#FDF8E9 0%,#FFFFFF 100.03%) !important; border-color:#DE8D14 !important;}
+	.ap-pstack .ap-card-pink.is-mobile-scroll-active, .ap-pstack .ap-card-pink.is-scroll-active {background: linear-gradient(79.73deg,#FFF1F3 0%,#FFFFFF 100.03%) !important; border-color:#E61C55 !important;}
+	.ap-pstack .ap-card-green.is-mobile-scroll-active, .ap-pstack .ap-card-green.is-scroll-active {background: linear-gradient(79.73deg,#EFFEFA 0%,#FFFFFF 100.03%) !important; border-color:#00A991 !important;}
+	.ap-pstack .ap-card-plum.is-mobile-scroll-active, .ap-pstack .ap-card-plum.is-scroll-active {background: linear-gradient(79.73deg,#F3EEF9 0%,#FFFFFF 100.03%) !important; border-color:#55376D !important;}
+	.ap-pstack .ap-card.is-mobile-scroll-active h3, .ap-pstack .ap-card.is-scroll-active h3, .ap-pstack .ap-card.is-mobile-scroll-active .ap-card-link, .ap-pstack .ap-card.is-scroll-active .ap-card-link {color:#121212 !important;}
+	.ap-pstack .ap-card.is-mobile-scroll-active p, .ap-pstack .ap-card.is-scroll-active p {color:#4B5563 !important;}
+	.ap-pstack .is-mobile-scroll-active .ap-link-purple .ap-arrow, .ap-pstack .is-scroll-active .ap-link-purple .ap-arrow {color:#5044E1 !important;}
+	.ap-pstack .is-mobile-scroll-active .ap-link-gold .ap-arrow, .ap-pstack .is-scroll-active .ap-link-gold .ap-arrow {color:#DE8D14 !important;}
+	.ap-pstack .is-mobile-scroll-active .ap-link-pink .ap-arrow, .ap-pstack .is-scroll-active .ap-link-pink .ap-arrow {color:#E61C55 !important;}
+	.ap-pstack .is-mobile-scroll-active .ap-link-green .ap-arrow, .ap-pstack .is-scroll-active .ap-link-green .ap-arrow {color:#00A991 !important;}
+	.ap-pstack .is-mobile-scroll-active .ap-link-plum .ap-arrow, .ap-pstack .is-scroll-active .ap-link-plum .ap-arrow {color:#55376D !important;}
+	.ap-pstack .ap-card .ap-screen-base {opacity:1 !important; transform:none !important; filter:none !important;}
+	.ap-pstack .ap-hover-art {display:none !important;}
+	/* QA 2026-10-29 (Joseph): tablets highlight per scroll like phones — the scrolled-to card shows its preview too. */
+	.ap-pstack .ap-card.is-mobile-scroll-active .ap-hover-art {display:block !important; opacity:1 !important; transform:scale(1) !important;}
+}
+.ap-pstack sup {font-size: 0.55em; line-height: 1; vertical-align: super; font-weight: 800;}
+.ap-pstack .ap-nav-item .ap-dot {opacity:1 !important;transform:none !important}
+.ap-pstack .ap-nav-item[href="#ap-card-custom"] .ap-dot {background:#5044E1 !important}
+.ap-pstack .ap-nav-item[href="#ap-card-ownership"] .ap-dot {background:#DE8D14 !important}
+.ap-pstack .ap-nav-item[href="#ap-card-mobile"] .ap-dot {background:#E61C55 !important}
+.ap-pstack .ap-nav-item[href="#ap-card-inspection"] .ap-dot {background:#00A991 !important}
+.ap-pstack .ap-nav-item[href="#ap-card-lifecycle"] .ap-dot {background:#5044E1 !important}
+.ap-pstack .ap-nav-item[href="#ap-card-reporting"] .ap-dot {background:#E61C55 !important}
+.ap-pstack .ap-nav-item[href="#ap-card-ursa"] .ap-dot {background:linear-gradient(76.48deg,#5044E1 -2.52%,#00A991 86%) !important}
+.ap-pstack .ap-nav-item.is-active .ap-dot {transform:scale(1.05) !important}
+.ap-pstack #ap-card-ursa {background:linear-gradient(120deg,#ECFCF7 0%,#EEF1FF 52%,#F5ECFB 100%)!important;border-color:#00A991!important}
+.ap-pstack #ap-card-ursa:hover {background:linear-gradient(76.48deg,#5044E1 -2.52%,#00A991 86%)!important;border-color:#5044E1!important}
+.ap-pstack #ap-card-lifecycle:hover .ap-screen-base {opacity:0.48!important;transform:none!important;filter:saturate(0.85) contrast(0.95) brightness(1.04)!important}
+.ap-pstack #ap-card-lifecycle:hover .ap-screen-base {opacity:0!important;transform:none!important;filter:none!important}
+.ap-pstack #ap-card-lifecycle .ap-hover-art {left:0!important;top:0!important;right:auto!important;width:716px!important;height:512px!important}
+.ap-pstack #ap-card-lifecycle .ap-hover-art img {width:716px!important;height:512px!important;object-fit:cover!important;object-position:center top!important}
+.ap-pstack .ap-card-custom {--ap-acc:#5044E1}
+.ap-pstack .ap-card-gold {--ap-acc:#DE8D14}
+.ap-pstack .ap-card-pink {--ap-acc:#E61C55}
+.ap-pstack .ap-card-green {--ap-acc:#00A991}
+.ap-pstack .ap-card-visual::after {content:'';position:absolute;inset:0;border-radius:8px;z-index:3;pointer-events:none;opacity:0;transition:opacity .3s ease;background:var(--ap-acc,#5044E1)}
+.ap-pstack #ap-card-ursa .ap-card-visual::after {background:linear-gradient(120deg,#5044E1,#00A991)}
+.ap-pstack .ap-card:hover .ap-screen-base, .ap-pstack .ap-card.is-mobile-scroll-active .ap-screen-base {opacity:1!important;transform:none!important;filter:none!important}
+.ap-pstack .ap-card:hover .ap-card-visual::after, .ap-pstack .ap-card.is-mobile-scroll-active .ap-card-visual::after {opacity:.72!important}
+.ap-pstack .ap-hover-art {z-index:4!important}
+.ap-pstack #ap-card-lifecycle:hover .ap-card-visual::after, .ap-pstack #ap-card-lifecycle.is-mobile-scroll-active .ap-card-visual::after {opacity:0!important}
+.ap-pstack #ap-card-lifecycle:hover .ap-screen-base, .ap-pstack #ap-card-lifecycle.is-mobile-scroll-active .ap-screen-base {opacity:0!important}
+/* QA 2026-10-29 (Joseph): card 6's preview runs edge to edge, vertically centred, and pops from the centre. */
+.ap-pstack #ap-card-reporting .ap-hover-art {top:0!important;bottom:0!important;left:0!important;right:0!important;width:100%!important;height:auto!important;display:flex;align-items:center;transform:scale(0.84)!important}
+.ap-pstack #ap-card-reporting .ap-hover-art img {width:100%!important;height:auto!important}
+.ap-pstack #ap-card-reporting:hover .ap-hover-art, .ap-pstack #ap-card-reporting.is-mobile-scroll-active .ap-hover-art {transform:scale(1)!important}
+@media(max-width:767px) {
+	.ap-pstack .ap-card.is-mobile-scroll-active .ap-hover-art {display:block!important;opacity:1!important;left:50%!important;right:auto!important;top:auto!important;bottom:6%!important;transform:translateX(-50%)!important;width:90%!important;max-width:90%!important}
+	.ap-pstack .ap-card.is-mobile-scroll-active .ap-hover-art img {width:100%!important;max-width:100%!important;height:auto!important}
+	.ap-pstack #ap-card-ursa.is-mobile-scroll-active .ap-hover-art {display:block!important;opacity:1!important}
+}
+.ap-pstack .ap-card-custom {--ap-acc:#5044E1}
+.ap-pstack .ap-card-gold {--ap-acc:#DE8D14}
+.ap-pstack .ap-card-pink {--ap-acc:#E61C55}
+.ap-pstack .ap-card-green {--ap-acc:#00A991}
+.ap-pstack .ap-card-visual::after {content:'';position:absolute;inset:0;border-radius:8px;z-index:3;pointer-events:none;opacity:0;transition:opacity .3s ease;background:var(--ap-acc,#5044E1)}
+.ap-pstack #ap-card-ursa .ap-card-visual::after {background:linear-gradient(120deg,#5044E1,#00A991)}
+.ap-pstack .ap-card:hover .ap-screen-base, .ap-pstack .ap-card.is-mobile-scroll-active .ap-screen-base {opacity:1!important;transform:none!important;filter:none!important}
+.ap-pstack .ap-card:hover .ap-card-visual::after, .ap-pstack .ap-card.is-mobile-scroll-active .ap-card-visual::after {opacity:.72!important}
+.ap-pstack .ap-hover-art {z-index:4!important}
+html body .ap-pstack #ap-card-lifecycle {--ap-acc:#E61C55;background:linear-gradient(79.73deg,#FFF1F3 0%,#FFFFFF 100.03%)!important;border-color:#E61C55!important}
+html body .ap-pstack #ap-card-lifecycle:hover {background:#E61C55!important;border-color:#E61C55!important}
+html body .ap-pstack #ap-card-lifecycle .ap-arrow {color:#E61C55!important}
+html body .ap-pstack #ap-card-lifecycle:hover .ap-arrow {color:#fff!important}
+html body .ap-pstack #ap-card-lifecycle .ap-hover-art {background:var(--ap-pstack-hover-bg, none) center top/contain no-repeat!important}
+html body .ap-pstack #ap-card-lifecycle .ap-hover-art img {opacity:0!important}
+.ap-pstack #ap-card-lifecycle:hover .ap-card-visual::after, .ap-pstack #ap-card-lifecycle.is-mobile-scroll-active .ap-card-visual::after {opacity:0!important}
+.ap-pstack #ap-card-lifecycle:hover .ap-screen-base, .ap-pstack #ap-card-lifecycle.is-mobile-scroll-active .ap-screen-base {opacity:0!important}
+html body .ap-pstack #ap-card-reporting {--ap-acc:#00A991;background:linear-gradient(79.73deg,#EFFEFA 0%,#FFFFFF 100.03%)!important;border-color:#00A991!important}
+html body .ap-pstack #ap-card-reporting:hover {background:#00A991!important;border-color:#00A991!important}
+html body .ap-pstack #ap-card-reporting .ap-arrow {color:#00A991!important}
+html body .ap-pstack #ap-card-reporting:hover .ap-arrow {color:#fff!important}
+.ap-pstack #ap-card-reporting .ap-hover-art {top:0!important;bottom:0!important;left:0!important;right:0!important;width:100%!important;height:auto!important;display:flex;align-items:center;transform:scale(0.84)!important}
+.ap-pstack #ap-card-reporting .ap-hover-art img {width:100%!important;height:auto!important}
+html body .ap-pstack #ap-card-reporting:hover .ap-hover-card-6 {transform:scale(1)!important;opacity:1!important}
+html body .ap-pstack #ap-card-ursa:hover .ap-hover-card-7 {transform:scale(1.035)!important;opacity:1!important}
+html body .ap-pstack #ap-card-ursa:hover .ap-screen-base {opacity:.35!important}
+@media (max-width:767px) {
+	html body .ap-pstack #ap-card-ursa.is-mobile-scroll-active {background:linear-gradient(76.48deg,#5044E1 -2.52%,#00A991 86%)!important;border-color:#5044E1!important}
+	html body .ap-pstack #ap-card-lifecycle.is-mobile-scroll-active {background:#E61C55!important;border-color:#E61C55!important}
+	html body .ap-pstack #ap-card-reporting.is-mobile-scroll-active {background:#00A991!important;border-color:#00A991!important}
+	html body .ap-pstack .ap-card.is-mobile-scroll-active .ap-hover-art {display:block!important;opacity:1!important;left:50%!important;right:auto!important;top:auto!important;bottom:5%!important;width:96%!important;max-width:96%!important;transform:translateX(-50%)!important}
+	html body .ap-pstack .ap-card.is-mobile-scroll-active .ap-hover-art img {width:100%!important;max-width:100%!important;height:auto!important;margin:0 auto!important}
+}
+@media (min-width:768px) and (max-width:1279px) {
+	html body .ap-pstack .ap-card:hover .ap-hover-art {display:block!important;opacity:1!important;left:50%!important;right:auto!important;top:auto!important;bottom:5%!important;width:96%!important;max-width:96%!important;transform:translateX(-50%)!important}
+	html body .ap-pstack .ap-card:hover .ap-hover-art img {width:100%!important;max-width:100%!important;height:auto!important}
+	html body .ap-pstack .ap-card:hover .ap-card-visual::after {opacity:.72!important}
+	html body .ap-pstack #ap-card-ursa:hover {background:linear-gradient(76.48deg,#5044E1 -2.52%,#00A991 86%)!important;border-color:#5044E1!important}
+}
+@media (max-width:1279px) {
+	html body .ap-pstack .ap-platform-nav {display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;overflow-x:auto!important;gap:8px!important;padding:4px 2px 12px!important;scrollbar-width:none!important;-webkit-overflow-scrolling:touch}
+	html body .ap-pstack .ap-platform-nav::-webkit-scrollbar {display:none!important}
+	html body .ap-pstack .ap-nav-item {flex:0 0 auto!important;width:auto!important;min-height:0!important;padding:9px 14px!important;border:1px solid transparent!important;border-radius:999px!important;background:#F3F5F8!important}
+	html body .ap-pstack .ap-nav-item .ap-label {font-size:13px!important;white-space:nowrap!important}
+	html body .ap-pstack .ap-nav-item.is-active {background:#E7EAFE!important;border-color:#E7EAFE!important}
+	html body .ap-pstack .ap-nav-item.is-active .ap-label {color:#25272C!important}
+}
+@media (max-width:1279px) {
+	html body .ap-pstack .ap-nav-item:not(.is-active) .ap-label {color:#9AA3B2!important}
+	html body .ap-pstack .ap-nav-item:not(.is-active) .ap-dot {opacity:.35!important}
+	html body .ap-pstack .ap-nav-item.is-active .ap-label {color:#25272C!important}
+}
+@media (max-width:1279px) {
+	html body .ap-pstack .ap-platform-body {grid-template-columns:minmax(0,1fr)!important}
+	html body .ap-pstack .ap-platform-rail {min-width:0!important;max-width:100%!important}
+	html body .ap-pstack .ap-platform-nav {max-width:100%!important;min-width:0!important}
+	html body .ap-pstack .ap-platform-cards {min-width:0!important;max-width:100%!important;width:100%!important}
+	html body .ap-pstack .ap-stack-card {max-width:100%!important}
+}
+@media (min-width:1280px) {
+	html body .ap-pstack #ap-card-custom:hover .ap-screen-base, html body .ap-pstack #ap-card-ownership:hover .ap-screen-base, html body .ap-pstack #ap-card-mobile:hover .ap-screen-base, html body .ap-pstack #ap-card-inspection:hover .ap-screen-base, html body .ap-pstack #ap-card-reporting:hover .ap-screen-base {opacity:1!important;transform:none!important;filter:none!important}
+	html body .ap-pstack #ap-card-custom:hover .ap-card-visual::after, html body .ap-pstack #ap-card-ownership:hover .ap-card-visual::after, html body .ap-pstack #ap-card-mobile:hover .ap-card-visual::after, html body .ap-pstack #ap-card-inspection:hover .ap-card-visual::after, html body .ap-pstack #ap-card-reporting:hover .ap-card-visual::after {opacity:.72!important}
+	html body .ap-pstack #ap-card-reporting .ap-hover-art {top:0!important;bottom:0!important;left:0!important;right:0!important;width:100%!important}
+	html body .ap-pstack #ap-card-reporting:hover .ap-hover-art {transform:scale(1)!important;opacity:1!important}
+	html body .ap-pstack #ap-card-lifecycle .ap-hover-art {left:0!important;top:0!important;right:auto!important;bottom:auto!important;width:100%!important;height:373px!important;background-size:cover!important;background-position:center top!important}
+	html body .ap-pstack #ap-card-lifecycle:hover .ap-hover-art {transform:none!important;opacity:1!important}
+}
+.ap-pstack .ap-card:hover .ap-screen-base {opacity:0 !important;}
 
-	.ap-pstack__nav { position: sticky; top: var(--ap-pstack-top); }
+/* Kit addition: behaviour.js sentinels — rail top, and rail bottom less the index height. */
+.ap-pstack .ap-pstack-sentinel { position: absolute; left: 0; top: 0; width: 1px; height: 1px; pointer-events: none; visibility: hidden; }
+.ap-pstack .ap-pstack-sentinel--end { top: calc(100% - var(--ap-pstack-nav-h, 0px)); }
 
-	.ap-pstack__cards { gap: var(--ap-pstack-step); }
-
-	.ap-pstack__card {
-		position: sticky;
-		top: calc(var(--ap-pstack-top) + var(--ap-pstack-step) * var(--i, 0));
-		z-index: calc(var(--i, 0) + 1);
-		height: 560px;
-		scroll-margin-top: calc(var(--ap-pstack-top) + var(--ap-pstack-step) * var(--i, 0));
-	}
-
-	.ap-pstack__preview { display: block; left: 7%; right: 7%; top: 24px; }
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: one token on top at every width (was 104 desktop, 96 tablet,
+ * 64 phone) and below the cards under 1280px (was 180 / 120); desktop keeps
+ * its sticky-stack run-out below the last card.
+ *
+ * Phone cards (QA: "mobile responsive on containers looks ass" — the pink
+ * lifecycle card's screenshot was shifted half its width out of the card,
+ * cropped, with ~200px of empty fill under it). Below 768px every card is
+ * copy, then the product screenshot framed flush to the card's bottom edge
+ * at one fixed ratio: no 560px minimum height, no tint wash over the
+ * screenshot, no hover art (it was positioned for the 780px desktop card).
+ * The scroll-active colour fill stays. The :is(#_, …) argument lifts these
+ * to id weight so they outrank the ported per-card (#ap-card-*) rules. */
+html body .ap-pstack { padding-top: var(--ap-section-y, 64px) !important; }
+@media (max-width: 1279px) {
+	html body .ap-pstack { padding-bottom: var(--ap-section-y, 56px) !important; }
+}
+@media (max-width: 767px) {
+	html body .ap-pstack .ap-platform-head { margin-bottom: 20px !important; }
+	html body .ap-pstack .ap-platform-body { gap: 16px !important; }
+	html body .ap-pstack .ap-platform-cards .ap-stack-card:is(#_, .ap-card) { min-height: 0 !important; height: auto !important; padding: 24px 20px 0 !important; }
+	html body .ap-pstack .ap-platform-cards .ap-stack-card + .ap-stack-card { margin-top: 16px !important; }
+	html body .ap-pstack .ap-platform-cards .ap-stack-card:is(#_, .ap-card) .ap-card-copy { gap: 12px; }
+	html body .ap-pstack .ap-platform-cards .ap-stack-card:is(#_, .ap-card) .ap-card-visual { position: relative !important; inset: auto !important; width: 100% !important; height: auto !important; aspect-ratio: 16 / 10; margin-top: 24px !important; border-radius: 10px 10px 0 0 !important; overflow: hidden; }
+	html body .ap-pstack .ap-platform-cards .ap-stack-card:is(#_, .ap-card) .ap-screen-base { inset: 0 !important; padding: 4px 4px 0 !important; border-radius: 10px 10px 0 0 !important; background: rgba(255, 255, 255, .55) !important; opacity: 1 !important; transform: none !important; filter: none !important; }
+	html body .ap-pstack .ap-platform-cards .ap-stack-card:is(#_, .ap-card) .ap-screen-base img { width: 100% !important; height: 100% !important; object-fit: cover !important; object-position: left top !important; border-radius: 7px 7px 0 0 !important; background: #fff !important; }
+	html body .ap-pstack .ap-platform-cards .ap-stack-card:is(#_, .ap-card) .ap-hover-art { display: none !important; }
+	html body .ap-pstack .ap-platform-cards .ap-stack-card:is(#_, .ap-card) .ap-card-visual::after { opacity: 0 !important; }
+	/* Lifecycle and reporting keep a pink / teal arrow; on their own pink / teal fill it vanished. */
+	html body .ap-pstack .ap-platform-cards .ap-stack-card.is-mobile-scroll-active:is(#_, .ap-card) .ap-arrow { color: #fff !important; }
 }
 
-@media (min-width: 1280px) and (hover: hover) {
-	.ap-pstack__card:hover { background: var(--ap-accent-fill); }
-	.ap-pstack__card--ursa:hover { border-color: var(--ap-brand-green); }
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-pstack.ap-pstack.ap-pstack .ap-platform-head h2 { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+/* Section eyebrow on the type scale too: 12px at 390 to 14px at 1440, 800, 4% tracking, upper case. */
+html body .ap-pstack.ap-pstack.ap-pstack .ap-platform-head .ap-eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }
 
-	.ap-pstack__card:hover .ap-pstack__card-title,
-	.ap-pstack__card:hover .ap-pstack__card-body,
-	.ap-pstack__card:hover .ap-pstack__link { color: var(--ap-white); }
-
-	.ap-pstack__card:hover .ap-pstack__link img { filter: brightness(0) invert(1); }
-	.ap-pstack__card:hover .ap-ursa { padding-top: 0; background: none; color: inherit; }
-
-	.ap-pstack__card:hover .ap-pstack__screen {
-		opacity: 0.48;
-		transform: translateY(12px) scale(1.11);
-		filter: saturate(0.85) contrast(0.95) brightness(1.04);
-	}
-
-	.ap-pstack__card--indigo:hover .ap-pstack__screen { opacity: 0; }
-	.ap-pstack__card:hover .ap-pstack__preview { opacity: 1; translate: 0 20px; }
+/* ------------------------------------------------------------ Motion (QA 2026-10-28, motion agent's R2)
+ * Hover channels ran on 0.2 / 0.25 / 0.28 / 0.32 / 0.35 / 0.55s with mixed
+ * curves, and the card lift and link nudge animated transform. Every hover
+ * channel is now on the house timing (--ap-dur-base / --ap-ease-standard), and
+ * the card lift and link nudge use translate. The screenshot / hover-art swap
+ * inside a card keeps its transform positioning (it is placement per card and
+ * breakpoint, not an entrance), only its timing changes. */
+html body .ap-pstack .ap-card { transition: translate var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), box-shadow var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), border-color var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), background-color var(--ap-dur-base, .3s) var(--ap-ease-standard, ease) !important; }
+html body .ap-pstack .ap-card:hover { transform: none; translate: 0 -3px; }
+html body .ap-pstack :is(.ap-platform-link, .ap-card-link) { transition: translate var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), opacity var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), color var(--ap-dur-base, .3s) var(--ap-ease-standard, ease); }
+html body .ap-pstack :is(.ap-platform-link, .ap-card-link):hover { transform: none; translate: 2px 0; }
+html body .ap-pstack .ap-card-copy :is(h3, p) { transition: color var(--ap-dur-base, .3s) var(--ap-ease-standard, ease); }
+html body .ap-pstack .ap-dot { transition: background-color var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), opacity var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), transform var(--ap-dur-base, .3s) var(--ap-ease-standard, ease); }
+html body .ap-pstack .ap-label { transition: color var(--ap-dur-base, .3s) var(--ap-ease-standard, ease); }
+html body .ap-pstack .ap-screen-base { transition: opacity var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), transform var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), filter var(--ap-dur-base, .3s) var(--ap-ease-standard, ease) !important; }
+html body .ap-pstack .ap-hover-art { transition: opacity var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), transform var(--ap-dur-base, .3s) var(--ap-ease-standard, ease) !important; }
+html body .ap-pstack .ap-card-visual::after { transition: opacity var(--ap-dur-base, .3s) var(--ap-ease-standard, ease); }
+@media (prefers-reduced-motion: reduce) {
+	html body .ap-pstack :is(.ap-card, .ap-card-link, .ap-platform-link, .ap-screen-base, .ap-hover-art, .ap-dot, .ap-label) { transition: none !important; }
+	html body .ap-pstack .ap-card:hover { translate: none; }
 }
-
-/* Border-box sizing for everything in the component, as on the live homepage;
- * :where() keeps it at zero specificity. */
-:where(.ap-pstack, .ap-pstack *, .ap-pstack *::before, .ap-pstack *::after) { box-sizing: border-box; }
-
-/* Cards are at least 560px at every width, as on the live homepage; phones
- * use its 64/16/120 section padding. */
-.ap-pstack__card { min-height: 560px; }
-
-@media (max-width: 767.98px) {
-	.ap-pstack { padding: 64px 16px 120px; }
+/* QA 2026-10-29 (Joseph, second pass) at full desktop: card 4's preview sits on the card's bottom edge and grows out
+ * from there (the old slide-up offset of 20px is gone); card 6's strip runs to the card's left and right edges, past
+ * the screenshot frame (the frame sits 33px / 31px inside the card). */
+@media (min-width: 1280px) {
+	.ap-pstack #ap-card-inspection .ap-hover-art {top: auto !important; bottom: 140px !important; transform: scale(0.9) !important; transform-origin: 50% 100% !important; transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) !important;}
+	.ap-pstack #ap-card-inspection:hover .ap-hover-art, .ap-pstack #ap-card-inspection.is-mobile-scroll-active .ap-hover-art {transform: scale(1) !important;}
+	html body .ap-pstack #ap-card-reporting.ap-card .ap-hover-art {left: -33px !important; right: -31px !important; width: auto !important;}
 }

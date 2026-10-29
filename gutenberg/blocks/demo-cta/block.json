@@ -48,6 +48,18 @@
 			"type": "string",
 			"default": "na1"
 		},
+		"form_placeholders": {
+			"type": "object",
+			"default": {}
+		},
+		"form_submit": {
+			"type": "string",
+			"default": ""
+		},
+		"background": {
+			"type": "string",
+			"default": ""
+		},
 		"image": {
 			"type": "string",
 			"default": ""
@@ -67,6 +79,40 @@
 		"reveal": {
 			"type": "boolean",
 			"default": true
+		},
+		"variant": {
+			"type": "string",
+			"default": "default",
+			"enum": [
+				"default",
+				"platform",
+				"hub",
+				"eduhub"
+			]
+		},
+		"image_width": {
+			"type": "number",
+			"default": 0
+		},
+		"image_height": {
+			"type": "number",
+			"default": 0
+		},
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
+		"bullets": {
+			"type": "array",
+			"default": []
+		},
+		"panel": {
+			"type": "string",
+			"default": "plain",
+			"enum": [
+				"plain",
+				"card"
+			]
 		},
 		"align": {
 			"type": "string",

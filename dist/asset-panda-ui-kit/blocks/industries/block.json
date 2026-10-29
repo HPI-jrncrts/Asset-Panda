@@ -1,0 +1,49 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/industries",
+	"title": "AP Industries",
+	"category": "design",
+	"icon": "grid-view",
+	"description": "Dark indigo panel of sector cards over a blurred colour field; each card is a whole-card link with a photo, sector icon, description and an Explore line. Ported from the live homepage (#ap-sector-intelligence-v4); phones add a sticky row of sector chips. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"section_id": {
+			"type": "string",
+			"default": "industries"
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"tabs_label": {
+			"type": "string",
+			"default": "Jump to an industry"
+		},
+		"items": {
+			"type": "array",
+			"default": []
+		},
+		"reveal": {
+			"type": "boolean",
+			"default": true
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

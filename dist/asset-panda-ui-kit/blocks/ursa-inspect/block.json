@@ -1,0 +1,89 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/ursa-inspect",
+	"title": "AP Ursa Inspect",
+	"category": "design",
+	"icon": "block-default",
+	"description": "Ursa AI photo-inspection section: a copy column (eyebrow, heading, paragraph, checklist, closing note) beside the live Ursa Inspection demo in a card tagged \"Try it live\", with two buttons centred underneath. The demo is framed as on the homepage hero (lazy iframe, sized to the height the demo posts, drawing its own card and tag); its host only lets assetpanda.com frame it, so elsewhere the card shows a poster of the demo at rest. With both set, the poster card shows until the demo's first message, so a refused host keeps the poster. Ursa AI frame 7297:118866. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"body": {
+			"type": "string",
+			"default": ""
+		},
+		"checks": {
+			"type": "array",
+			"default": []
+		},
+		"note": {
+			"type": "string",
+			"default": ""
+		},
+		"demo_url": {
+			"type": "string",
+			"default": ""
+		},
+		"demo_title": {
+			"type": "string",
+			"default": "Ursa Inspection live demo"
+		},
+		"poster": {
+			"type": "string",
+			"default": ""
+		},
+		"poster_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"poster_width": {
+			"type": "number",
+			"default": 540
+		},
+		"poster_height": {
+			"type": "number",
+			"default": 517
+		},
+		"tag": {
+			"type": "string",
+			"default": "Try it live"
+		},
+		"secondary_label": {
+			"type": "string",
+			"default": ""
+		},
+		"secondary_url": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_label": {
+			"type": "string",
+			"default": "Free Demo"
+		},
+		"cta_url": {
+			"type": "string",
+			"default": "/get-a-demo/"
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

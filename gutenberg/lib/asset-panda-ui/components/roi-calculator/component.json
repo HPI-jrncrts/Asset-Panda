@@ -1,0 +1,18 @@
+{
+	"name": "roi-calculator",
+	"description": "Interactive savings calculator (the legacy /roi-calculator/): accordion groups of number fields and 0-100% sliders, each group closing on a subtotal, beside a sticky Your Savings panel with three breakdown rows, a gradient yearly total, the daily cost of delay and a button. Port of live's `.bs-section--roi-calculator`; behaviour.js recomputes on input with live's formulas operation for operation (loss = assets x value x lost% x tracked%; ghost value = assets x value x tracked% x ghost% x remaining%; ghost cost = ghost value x (federal + state + property tax)% + .01 x ghost value x insurance; search = tracked% x days x hours_per_day x salary / work_hours_per_year; total = loss + ghost cost + search; daily = total / days_per_year), and formats every figure the way live does (two decimals, dropped when .00). Lays out by its own width (container queries), so it fits an 800px article column or a full-width band.",
+	"props": {
+		"groups": { "type": "array", "required": true, "description": "The accordion sections, in order; fields name them by number (1 = first). Each: title, state (static = always open, no toggle — live's Start Your Calculation | open | closed; default closed)." },
+		"fields": { "type": "array", "required": true, "description": "Rows in display order. Each: key, group (1-based), label, help (tooltip text on the i icon), value (the starting text; sliders 0-100), suffix (shown in the field, e.g. % or USD). Input keys: users (shown, not used by the maths — as on live), assets, asset_value, loss_pct, tracked_pct, ghost_pct, remaining_pct (the three % keys are 0-100 sliders), federal_tax, state_tax, property_tax, insurance, search_days, salary. Output keys draw a subtotal row with label: loss, ghost_value, ghost_cost, search." },
+		"results_title": { "type": "string", "required": false, "default": "", "description": "Heading over the savings panel, e.g. Your Savings." },
+		"results": { "type": "array", "required": false, "default": [], "description": "Breakdown rows in the savings panel. Each: key (loss | ghost_value | ghost_cost | search), label, icon (shield | money | search | chart; default per key)." },
+		"total_label": { "type": "string", "required": false, "default": "", "description": "Caption over the gradient yearly total, e.g. Yearly Savings." },
+		"daily_label": { "type": "string", "required": false, "default": "", "description": "Caption over the daily figure (total / days_per_year), e.g. Daily Cost of Delay. Empty hides the line." },
+		"cta_label": { "type": "string", "required": false, "default": "", "description": "Button text. Renders only with cta_url." },
+		"cta_url": { "type": "string", "required": false, "default": "", "description": "Button destination." },
+		"currency": { "type": "string", "required": false, "default": "$", "description": "Prefix on every money figure (live draws $)." },
+		"hours_per_day": { "type": "number", "required": false, "default": 8, "description": "Working hours in a search day (live: 8)." },
+		"work_hours_per_year": { "type": "number", "required": false, "default": 2080, "description": "Paid hours a year; salary / this = hourly cost (live: 2080)." },
+		"days_per_year": { "type": "number", "required": false, "default": 365, "description": "Days the yearly total is spread over for the daily cost of delay (live: 365)." }
+	}
+}

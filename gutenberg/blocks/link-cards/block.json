@@ -20,9 +20,30 @@
 			"type": "string",
 			"default": ""
 		},
+		"head_width": {
+			"type": "number",
+			"default": 0
+		},
 		"items": {
 			"type": "array",
 			"default": []
+		},
+		"stack": {
+			"type": "string",
+			"default": "1024",
+			"enum": [
+				"1024",
+				"900"
+			]
+		},
+		"variant": {
+			"type": "string",
+			"default": "default",
+			"enum": [
+				"default",
+				"eduhub",
+				"hub26"
+			]
 		},
 		"align": {
 			"type": "string",

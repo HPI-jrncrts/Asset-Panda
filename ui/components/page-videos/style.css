@@ -1,0 +1,882 @@
+/*
+ * page-videos — a large player and a deck of video cards (/tutorials/).
+ *
+ * A dark theater panel on the page's white (or soft) section. From 1101px the
+ * player takes the panel's width less a 240–300px deck column (≈990px at a
+ * 1440 screen — about the old panel's width), with the chosen video's caption
+ * under it. The deck stacks every other video as its own card: the next one
+ * in front, poster and title, the rest tucked behind it in "up next" order,
+ * each 64px lower and 4px narrower a side so only its title strip shows (a
+ * deck seen from above). At 1100px and below the panel stacks: player, then
+ * the cards as a horizontal swipe row, then the caption — the row sits right
+ * under the player so it never jumps when a longer caption swaps in.
+ *
+ * A card's place is `--slot` (0 = up next), set inline by render.php and by
+ * behaviour.js after each swap; flex `order` lays the cards out from it, so
+ * the DOM order never changes. The playing video's card is visually hidden
+ * (still in the list for screen readers, with aria-current). behaviour.js
+ * animates swaps (a poster flies between card and player, the rest of the
+ * deck slides) with the Web Animations API on --ap-dur-slow / --ap-ease-*;
+ * these rules only describe the resting layout. Hover moves opacity / scale
+ * / box-shadow on the house timing, never transform. Surface, text and
+ * accents come from the dark tokens (--ap-surface-dark, --ap-text-*-inverse,
+ * --ap-white-*).
+ */
+
+.ap-page-videos,
+.ap-page-videos * {
+	box-sizing: border-box;
+}
+
+.ap-page-videos {
+	position: relative;
+	width: 100%;
+	overflow: hidden;
+	background: var(--ap-white);
+	font-family: var(--ap-font-body);
+	color: var(--ap-text-body);
+}
+
+.ap-page-videos--soft {
+	background: var(--ap-surface-alt);
+}
+
+/* Wider than the 1200px text sections: the player is the point of the page. */
+.ap-page-videos__wrap {
+	max-width: 1480px;
+	margin: 0 auto;
+	padding: 72px 40px 96px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 40px;
+}
+
+/* ---- Optional heading ---- */
+.ap-page-videos__head {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 16px;
+	max-width: 760px;
+	text-align: center;
+}
+
+.ap-page-videos .ap-page-videos__eyebrow {
+	margin: 0;
+	font-size: 14px;
+	font-weight: var(--ap-weight-eyebrow);
+	line-height: 1.2;
+	letter-spacing: 0.56px;
+	text-transform: uppercase;
+	color: var(--ap-text-eyebrow);
+}
+
+.ap-page-videos .ap-page-videos__title {
+	margin: 0;
+	font-family: var(--ap-font-display);
+	font-size: 40px;
+	font-weight: var(--ap-weight-heading);
+	line-height: 1.2;
+	color: var(--ap-text-heading);
+}
+
+.ap-page-videos .ap-page-videos__intro p {
+	margin: 0;
+	font-size: 18px;
+	line-height: 1.5;
+}
+
+/* ---- Theater panel ---- */
+.ap-page-videos__theater {
+	--pv-deck-w: clamp(240px, 21vw, 300px);
+	--pv-strip: 64px;
+	--pv-card-h: calc(var(--pv-deck-w) * 0.5625 + var(--pv-strip));
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	width: 100%;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) var(--pv-deck-w);
+	grid-template-areas:
+		"screen deck"
+		"caption deck";
+	grid-template-rows: auto 1fr;
+	align-items: start;
+	column-gap: 24px;
+	row-gap: 22px;
+	padding: 24px;
+	border-radius: var(--ap-radius-2xl);
+	background: var(--ap-surface-dark);
+	color: var(--ap-text-body-inverse);
+	box-shadow: 0 30px 80px rgba(32, 28, 74, 0.22);
+}
+
+.ap-page-videos__theater--single {
+	grid-template-columns: minmax(0, 1fr);
+	grid-template-areas:
+		"screen"
+		"caption";
+}
+
+/* Brand glow in the corners, like the hero wash on a dark ground. */
+.ap-page-videos__theater::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+	background:
+		radial-gradient(55% 75% at 0% 0%, rgba(80, 68, 225, 0.42) 0%, rgba(80, 68, 225, 0) 70%),
+		radial-gradient(45% 65% at 100% 100%, rgba(0, 169, 145, 0.26) 0%, rgba(0, 169, 145, 0) 70%);
+}
+
+/* ---- Player ---- */
+.ap-page-videos__screen {
+	grid-area: screen;
+	position: relative;
+	z-index: 1;
+	aspect-ratio: 16 / 9;
+	overflow: hidden;
+	border-radius: var(--ap-radius-xl);
+	background: var(--ap-indigo-950);
+	box-shadow: 0 24px 56px rgba(0, 0, 0, 0.35);
+	scroll-margin-top: 96px; /* the theme pins its header; a scrollIntoView lands below it */
+}
+
+/* Layers, bottom to top: the player iframe, a poster cover while a video
+ * loads, the Unmute pill. During a swap behaviour.js flies posters over the
+ * screen, so its own layers drop out for that moment. */
+.ap-page-videos__screen > * {
+	transition: opacity var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+/* Instant: the outgoing poster covers the screen exactly at that moment. */
+.ap-page-videos__screen.is-swapping > *,
+.ap-page-videos .ap-page-videos__screen.is-swapping > .ap-page-videos__sound {
+	opacity: 0;
+	transition: none;
+}
+
+.ap-page-videos__frame {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	border: 0;
+}
+
+.ap-page-videos .ap-page-videos__play,
+.ap-page-videos__cover {
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+	display: block;
+	background: var(--ap-indigo-950);
+}
+
+.ap-page-videos .ap-page-videos__play {
+	color: var(--ap-brand-indigo);
+	text-decoration: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.ap-page-videos .ap-page-videos__play.is-gone,
+.ap-page-videos__cover.is-gone {
+	opacity: 0;
+	pointer-events: none;
+}
+
+.ap-page-videos__poster {
+	position: absolute;
+	inset: 0;
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	scale: 1;
+	transition: scale var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-page-videos__play::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(180deg, rgba(32, 28, 74, 0) 40%, rgba(32, 28, 74, 0.32) 100%);
+	opacity: 0.6;
+	transition: opacity var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+/* Centred: live’s posters bake a play mark into their centre, which this button covers. */
+.ap-page-videos__btn {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 80px;
+	height: 80px;
+	margin: -40px 0 0 -40px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.94);
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35), 0 0 0 8px rgba(255, 255, 255, 0.18);
+	color: var(--ap-brand-indigo);
+	scale: 1;
+	transition-property: scale, box-shadow, background-color, color;
+	transition-duration: var(--ap-dur-base);
+	transition-timing-function: var(--ap-ease-standard);
+}
+
+.ap-page-videos__btn svg {
+	translate: 2px 0;
+}
+
+.ap-page-videos__play:hover .ap-page-videos__poster,
+.ap-page-videos__play:focus-visible .ap-page-videos__poster {
+	scale: 1.03;
+}
+
+.ap-page-videos__play:hover::after {
+	opacity: 1;
+}
+
+.ap-page-videos__play:hover .ap-page-videos__btn,
+.ap-page-videos__play:focus-visible .ap-page-videos__btn {
+	scale: 1.08;
+	background: var(--ap-brand-indigo);
+	color: var(--ap-white);
+	box-shadow: 0 14px 36px rgba(80, 68, 225, 0.45), 0 0 0 10px rgba(255, 255, 255, 0.22);
+}
+
+.ap-page-videos .ap-page-videos__play:focus-visible {
+	outline: 3px solid var(--ap-white);
+	outline-offset: -3px;
+}
+
+/* Muted autoplay: one tap turns the sound on. */
+.ap-page-videos .ap-page-videos__sound {
+	position: absolute;
+	left: 16px;
+	top: 16px;
+	z-index: 3;
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	margin: 0;
+	padding: 8px 14px 8px 12px;
+	border: 1px solid var(--ap-white-20);
+	border-radius: var(--ap-radius-pill);
+	background: rgba(32, 28, 74, 0.78);
+	color: var(--ap-white);
+	font: inherit;
+	font-size: 14px;
+	font-weight: var(--ap-weight-body-medium);
+	line-height: 1;
+	cursor: pointer;
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+	transition-property: opacity, background-color;
+	transition-duration: var(--ap-dur-base);
+	transition-timing-function: var(--ap-ease-standard);
+}
+
+.ap-page-videos .ap-page-videos__sound[hidden] {
+	display: none;
+}
+
+.ap-page-videos .ap-page-videos__sound:hover {
+	background: var(--ap-brand-indigo);
+}
+
+.ap-page-videos .ap-page-videos__sound:focus-visible {
+	outline: 3px solid var(--ap-focus-ring);
+	outline-offset: 2px;
+}
+
+/* A poster in flight between a card and the player (behaviour.js). */
+.ap-page-videos__ghost {
+	position: absolute;
+	z-index: 50;
+	overflow: hidden;
+	border-radius: var(--ap-radius-xl);
+	background: var(--ap-indigo-950);
+	box-shadow: 0 24px 56px rgba(0, 0, 0, 0.45);
+	pointer-events: none;
+	transform-origin: 0 0;
+	will-change: transform, opacity;
+}
+
+.ap-page-videos__ghost img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* ---- Caption: every video's is in the markup; only the chosen one shows ---- */
+.ap-page-videos__captions {
+	grid-area: caption;
+	display: grid;
+	min-width: 0;
+}
+
+.ap-page-videos__caption {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 0 4px;
+	animation: ap-page-videos-caption-in var(--ap-dur-base) var(--ap-ease-out) both;
+}
+
+.ap-page-videos__caption[hidden] {
+	display: none;
+}
+
+@keyframes ap-page-videos-caption-in {
+	from {
+		opacity: 0;
+		translate: 0 8px;
+	}
+	to {
+		opacity: 1;
+		translate: none;
+	}
+}
+
+.ap-page-videos .ap-page-videos__count {
+	margin: 0;
+	font-size: 13px;
+	font-weight: var(--ap-weight-eyebrow);
+	line-height: 1.2;
+	letter-spacing: 0.52px;
+	text-transform: uppercase;
+	color: var(--ap-text-eyebrow-inverse);
+}
+
+.ap-page-videos .ap-page-videos__name {
+	margin: 0;
+	padding: 0;
+	font-family: var(--ap-font-display);
+	font-size: 28px;
+	font-weight: var(--ap-weight-heading);
+	line-height: 1.25;
+	letter-spacing: normal;
+	color: var(--ap-text-heading-inverse);
+	text-wrap: balance;
+}
+
+.ap-page-videos__body {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	max-width: 880px;
+}
+
+.ap-page-videos .ap-page-videos__body p {
+	margin: 0;
+	font-size: 16px;
+	line-height: 1.6;
+	color: var(--ap-text-body-inverse);
+}
+
+.ap-page-videos .ap-page-videos__body ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 6px 16px;
+}
+
+.ap-page-videos .ap-page-videos__body li {
+	position: relative;
+	margin: 0;
+	padding-left: 18px;
+	font-size: 15px;
+	line-height: 1.5;
+	color: var(--ap-white);
+}
+
+.ap-page-videos .ap-page-videos__body li::before {
+	content: "";
+	position: absolute;
+	left: 2px;
+	top: 0.62em;
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: var(--ap-green-700);
+}
+
+.ap-page-videos .ap-page-videos__body a {
+	color: var(--ap-text-eyebrow-inverse);
+	font-weight: var(--ap-weight-link);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+.ap-page-videos .ap-page-videos__body a:hover {
+	color: var(--ap-white);
+}
+
+/* Announces the chosen video to screen readers; never seen. */
+.ap-page-videos .ap-page-videos__status {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+/* ---- Deck ---- */
+.ap-page-videos__deck {
+	grid-area: deck;
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	min-width: 0;
+}
+
+.ap-page-videos__deck-head {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 2px 4px 0;
+}
+
+.ap-page-videos .ap-page-videos__deck-title {
+	margin: 0;
+	font-size: 13px;
+	font-weight: var(--ap-weight-eyebrow);
+	line-height: 1.2;
+	letter-spacing: 0.52px;
+	text-transform: uppercase;
+	color: var(--ap-white);
+}
+
+.ap-page-videos .ap-page-videos__deck-count {
+	margin: 0;
+	font-size: 13px;
+	font-weight: var(--ap-weight-body-medium);
+	line-height: 1.2;
+	color: var(--ap-white-50);
+}
+
+.ap-page-videos .ap-page-videos__cards {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+/* Slot 0 sits on top; every later slot starts one strip below the card in
+ * front of it (so only its bottom strip — the title — shows), 4px narrower a
+ * side, and further back in the stack. */
+.ap-page-videos .ap-page-videos__slot {
+	position: relative;
+	z-index: calc(40 - var(--slot, 0));
+	order: var(--slot, 0);
+	flex: none;
+	height: var(--pv-card-h);
+	margin: calc(min(var(--slot, 0), 1) * (var(--pv-strip) - var(--pv-card-h))) calc(min(var(--slot, 0), 6) * 4px) 0;
+	padding: 0;
+	transform-origin: 0 0;
+}
+
+/* The playing video's card: out of the deck (its poster is in the player),
+ * still in the list for screen readers, with aria-current. */
+.ap-page-videos .ap-page-videos__slot.is-active {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 1px;
+	height: 1px;
+	margin: 0;
+	overflow: hidden;
+	clip-path: inset(50%);
+	opacity: 0;
+	pointer-events: none;
+}
+
+/* Keyboard focus lifts a card out of the stack so the whole of it shows. */
+.ap-page-videos .ap-page-videos__slot:focus-within {
+	z-index: 45;
+}
+
+.ap-page-videos .ap-page-videos__card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	border: 1px solid var(--ap-white-10);
+	border-radius: var(--ap-radius-lg);
+	background: linear-gradient(var(--ap-white-10), var(--ap-white-10)), var(--ap-surface-dark);
+	color: var(--ap-text-body-inverse);
+	font: inherit;
+	text-align: left;
+	cursor: pointer;
+	box-shadow: 0 12px 26px rgba(0, 0, 0, 0.34);
+	-webkit-tap-highlight-color: transparent;
+	transition-property: box-shadow, border-color, color;
+	transition-duration: var(--ap-dur-base);
+	transition-timing-function: var(--ap-ease-standard);
+}
+
+.ap-page-videos .ap-page-videos__slot.is-next .ap-page-videos__card {
+	border-color: var(--ap-white-20);
+	color: var(--ap-white);
+	box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Hover tint: an overlay, so the card stays opaque over the cards behind it. */
+.ap-page-videos__card::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+	border-radius: inherit;
+	background: var(--ap-white-5);
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-page-videos .ap-page-videos__card:focus-visible {
+	outline: 3px solid var(--ap-focus-ring);
+	outline-offset: -3px;
+}
+
+/* In the stack every card is the same height and the title strip is pinned
+ * to its bottom (that strip is all that shows of a card behind another), so
+ * the poster takes what is left: 16:9 on the front card, a little wider on the
+ * narrower cards behind it, where it is hidden anyway. */
+.ap-page-videos__thumb {
+	position: relative;
+	flex: 1 1 auto;
+	min-height: 0;
+	overflow: hidden;
+	background: var(--ap-indigo-900);
+}
+
+.ap-page-videos__thumb img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	scale: 1;
+	transition: scale var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-page-videos__thumb-play {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-items: center;
+	background: rgba(32, 28, 74, 0.38);
+	color: var(--ap-brand-indigo);
+	opacity: 0;
+	transition: opacity var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-page-videos__thumb-play svg {
+	width: 40px;
+	height: 40px;
+	padding: 10px 9px 10px 11px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.94);
+	box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.ap-page-videos__next {
+	position: absolute;
+	left: 10px;
+	top: 10px;
+	display: none;
+	align-items: center;
+	gap: 6px;
+	padding: 5px 10px;
+	border-radius: var(--ap-radius-pill);
+	background: rgba(32, 28, 74, 0.82);
+	color: var(--ap-white);
+	font-size: 11px;
+	font-weight: var(--ap-weight-eyebrow);
+	line-height: 1.2;
+	letter-spacing: 0.44px;
+	text-transform: uppercase;
+}
+
+.ap-page-videos__next::before {
+	content: "";
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: var(--ap-green-700);
+}
+
+.ap-page-videos__slot.is-next .ap-page-videos__next {
+	display: inline-flex;
+}
+
+.ap-page-videos__card-text {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	align-items: start;
+	gap: 10px;
+	flex: none;
+	height: var(--pv-strip);
+	padding: 12px 14px;
+}
+
+.ap-page-videos__index {
+	padding-top: 2px;
+	font-size: 12px;
+	font-weight: var(--ap-weight-eyebrow);
+	line-height: 1.2;
+	letter-spacing: 0.44px;
+	color: var(--ap-white-50);
+}
+
+.ap-page-videos__slot.is-next .ap-page-videos__index {
+	color: var(--ap-text-eyebrow-inverse);
+}
+
+.ap-page-videos__card-title {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	overflow: hidden;
+	font-size: 15px;
+	font-weight: var(--ap-weight-body-medium);
+	line-height: 1.3;
+	color: inherit;
+	overflow-wrap: anywhere;
+}
+
+@media (hover: hover) {
+	.ap-page-videos .ap-page-videos__card:hover {
+		border-color: var(--ap-white-30);
+		color: var(--ap-white);
+	}
+
+	.ap-page-videos__card:hover::after {
+		opacity: 1;
+	}
+
+	.ap-page-videos__card:hover .ap-page-videos__thumb img {
+		scale: 1.05;
+	}
+
+	.ap-page-videos__card:hover .ap-page-videos__thumb-play {
+		opacity: 1;
+	}
+}
+
+/* ---- Widths ---- */
+@media (max-width: 1300px) {
+	.ap-page-videos__theater {
+		column-gap: 20px;
+		padding: 20px;
+	}
+
+	.ap-page-videos .ap-page-videos__body ul {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+/* Stacked: player, the cards as a swipe row, then the caption. */
+@media (max-width: 1100px) {
+	.ap-page-videos__wrap {
+		padding-left: 32px;
+		padding-right: 32px;
+	}
+
+	.ap-page-videos__theater {
+		grid-template-columns: minmax(0, 1fr);
+		grid-template-areas:
+			"screen"
+			"deck"
+			"caption";
+		grid-template-rows: auto;
+		row-gap: 20px;
+	}
+
+	/* Room inside the scroller for the cards' shadows (a scroller clips them). */
+	.ap-page-videos .ap-page-videos__cards {
+		flex-direction: row;
+		gap: 14px;
+		margin: -4px -20px -18px;
+		padding: 4px 20px 22px;
+		overflow-x: auto;
+		overscroll-behavior-x: contain;
+		scroll-snap-type: x mandatory;
+		scroll-padding-inline: 20px;
+		scrollbar-width: thin;
+		scrollbar-color: var(--ap-white-30) transparent;
+	}
+
+	.ap-page-videos .ap-page-videos__slot {
+		width: 260px;
+		height: auto;
+		margin: 0;
+		scroll-snap-align: start;
+	}
+
+	/* The row: whole cards side by side, poster 16:9 and the title under it.
+	 * Nothing overlaps here, so a light shadow is enough. */
+	.ap-page-videos .ap-page-videos__card,
+	.ap-page-videos .ap-page-videos__slot.is-next .ap-page-videos__card {
+		box-shadow: 0 8px 16px rgba(0, 0, 0, 0.22);
+	}
+
+	.ap-page-videos__thumb {
+		flex: none;
+		aspect-ratio: 16 / 9;
+	}
+
+	.ap-page-videos__card-text {
+		flex: 1 0 auto;
+		height: auto;
+		min-height: var(--pv-strip);
+	}
+
+	.ap-page-videos .ap-page-videos__slot.is-active {
+		width: 1px;
+		height: 1px;
+	}
+}
+
+@media (max-width: 700px) {
+	.ap-page-videos__wrap {
+		padding: 48px 20px 64px;
+		gap: 28px;
+	}
+
+	.ap-page-videos .ap-page-videos__title {
+		font-size: 28px;
+	}
+
+	.ap-page-videos__theater {
+		row-gap: 16px;
+		padding: 12px;
+		border-radius: var(--ap-radius-xl);
+	}
+
+	.ap-page-videos__screen {
+		border-radius: var(--ap-radius-lg);
+	}
+
+	.ap-page-videos .ap-page-videos__cards {
+		gap: 12px;
+		margin: -4px -12px -18px;
+		padding: 4px 12px 22px;
+		scroll-padding-inline: 12px;
+	}
+
+	.ap-page-videos .ap-page-videos__slot {
+		width: min(64vw, 240px);
+	}
+
+	.ap-page-videos__caption {
+		padding: 0 2px 4px;
+	}
+
+	.ap-page-videos .ap-page-videos__name {
+		font-size: 22px;
+	}
+
+	.ap-page-videos .ap-page-videos__body p {
+		font-size: 15px;
+	}
+
+	.ap-page-videos .ap-page-videos__body ul {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.ap-page-videos__btn {
+		width: 56px;
+		height: 56px;
+		margin: -28px 0 0 -28px;
+	}
+
+	.ap-page-videos__btn svg {
+		width: 22px;
+		height: 22px;
+	}
+
+	.ap-page-videos .ap-page-videos__sound {
+		left: 10px;
+		top: 10px;
+		padding: 7px 12px 7px 10px;
+		font-size: 13px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-page-videos__screen > *,
+	.ap-page-videos__poster,
+	.ap-page-videos__btn,
+	.ap-page-videos__play::after,
+	.ap-page-videos .ap-page-videos__card,
+	.ap-page-videos__card::after,
+	.ap-page-videos__thumb img,
+	.ap-page-videos__thumb-play {
+		transition: none;
+	}
+
+	.ap-page-videos__caption {
+		animation: none;
+	}
+
+	.ap-page-videos__play:hover .ap-page-videos__poster,
+	.ap-page-videos__play:hover .ap-page-videos__btn,
+	.ap-page-videos__card:hover .ap-page-videos__thumb img {
+		scale: 1;
+	}
+}
+
+/* QA 2026-10-29 (Joseph, /tutorials/): "the ones listed on the videos will have the same width all throughout … I want
+ * the bottom of the last video to be aligned with the texts." Beside the player (desktop) the deck now fills the full
+ * height of the player + caption: the up-next card keeps its size, every later card is the full deck width (no 4px
+ * step per card) and shares the remaining height equally, showing at least its title strip; its card sits at the
+ * bottom of its slot and runs up behind the card in front, so the stack reads as before. The last card's bottom is
+ * the caption's bottom. Phones/tablets (the swipe row) are unchanged. */
+@media (min-width: 1101px) {
+	.ap-page-videos .ap-page-videos__deck {
+		align-self: stretch;
+	}
+	.ap-page-videos .ap-page-videos__cards {
+		flex: 1 1 auto;
+	}
+	.ap-page-videos .ap-page-videos__slot.is-next {
+		flex: none;
+		height: var(--pv-card-h);
+		margin: 0;
+	}
+	.ap-page-videos .ap-page-videos__slot:not(.is-next):not(.is-active) {
+		flex: 1 1 0;
+		min-height: var(--pv-strip);
+		height: auto;
+		margin: 0;
+	}
+	.ap-page-videos .ap-page-videos__slot:not(.is-next):not(.is-active) .ap-page-videos__card {
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		height: var(--pv-card-h);
+	}
+}

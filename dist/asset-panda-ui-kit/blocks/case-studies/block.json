@@ -1,0 +1,57 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/case-studies",
+	"title": "AP Case Studies",
+	"category": "design",
+	"icon": "format-quote",
+	"description": "Customer-story slider: a white testimonial card overlapping a large photo, with arrows, a rule and dots below. Figma: Home Page > Case Studies (4331:24818). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"intro": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_label": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_url": {
+			"type": "string",
+			"default": ""
+		},
+		"items": {
+			"type": "array",
+			"default": []
+		},
+		"reveal": {
+			"type": "boolean",
+			"default": true
+		},
+		"autoplay_ms": {
+			"type": "number",
+			"default": 3000
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

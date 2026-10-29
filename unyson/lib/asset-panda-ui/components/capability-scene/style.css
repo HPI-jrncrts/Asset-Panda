@@ -1,0 +1,157 @@
+/*
+ * capability-scene — ported from the live .apx-int section.
+ *
+ * The live sheet owns its whole section, so every selector is scoped under the
+ * component root and the keyframes are renamed; the inner class names are kept
+ * so the port stays diffable against live.
+ */
+
+.ap-capability-scene{
+      --i:#5044e1; --t:#00a991; --ink:#25272c; --body:#4a4e5a;
+      position:relative; isolation:isolate; box-sizing:border-box; overflow:hidden;
+      width:100%; /* live broke out of the theme container with 100vw; the block is already full width */
+      font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+      color:var(--ink);
+      background:linear-gradient(180deg,#ffffff 0%, #f9fafb 100%);
+    }
+.ap-capability-scene *,.ap-capability-scene *::before,.ap-capability-scene *::after{box-sizing:border-box;}
+/* The dev theme sets text-wrap:pretty on headings and paragraphs; live wraps
+   greedily, so line breaks only match with the default restored. :where() keeps
+   this at class weight, so any later rule in this sheet still wins. */
+.ap-capability-scene :where(h1,h2,h3,h4,h5,h6,blockquote,caption,figcaption,p){text-wrap:wrap;}
+.ap-capability-scene__glow{position:absolute; inset:0; z-index:0; pointer-events:none;
+      background-image:url('https://www.assetpanda.com/wp-content/webp-express/webp-images/uploads/2026/08/Intelligence-Built-In-Section.png.webp');
+      background-repeat:no-repeat; background-position:center; background-size:100% 100%;
+    }
+.ap-capability-scene__wrap{
+      position:relative; z-index:1;
+      width:100%; max-width:1200px; margin:0 auto; padding:80px 40px 112px;   
+      display:flex; flex-direction:column; gap:80px;
+    }
+.ap-capability-scene__top{display:flex; gap:40px; align-items:flex-end;}
+.ap-capability-scene__head{position:static;height:auto;background:none;flex:1 1 0; min-width:0; max-width:480px; display:flex; flex-direction:column; gap:16px;}
+.ap-capability-scene__eyebrow{margin:0; font-size:14px; font-weight:800; line-height:1.2; letter-spacing:.56px; text-transform:uppercase; color:var(--i);}
+.ap-capability-scene__title{margin:0; font-size:40px; font-weight:800; line-height:1.2; color:var(--ink);}
+.ap-capability-scene__lede{flex:1 1 0; min-width:0; margin:0; font-size:18px; font-weight:400; line-height:1.5; color:var(--body);}
+.ap-capability-scene .apx-g{
+      background:linear-gradient(62deg,#5044e1 4%,#00a991 55%);
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+.ap-capability-scene .apx-sup{font-size:.645em; vertical-align:.42em; margin-left:1px;}
+/* The kit renders the brand mark as <span class="ap-ursa">Ursa<sup>AI</sup></span>;
+   live sizes it with .apx-sup. Same numbers, so the line boxes match. */
+.ap-capability-scene .ap-ursa sup{font-size:.645em; vertical-align:.42em; margin-left:1px;}
+.ap-capability-scene__cards{display:flex; gap:64px; align-items:center; justify-content:center;}
+.ap-capability-scene__col{flex:1 1 0; min-width:0; display:flex; flex-direction:column; gap:40px;}
+.ap-capability-scene__card{display:flex; flex-direction:column; gap:16px;}
+.ap-capability-scene__k{margin:0; font-size:16px; font-weight:800; line-height:1.2;
+      background:linear-gradient(76deg,#5044e1 4%,#00a991 55%);
+      -webkit-background-clip:text; background-clip:text; color:transparent;}
+.ap-capability-scene__ct{margin:0; font-size:20px; font-weight:800; line-height:1.4; color:var(--ink);}
+.ap-capability-scene__cb{margin:0; font-size:18px; font-weight:400; line-height:1.5; color:var(--body);}
+.ap-capability-scene__panel{
+      flex:none; width:330.67px; align-self:stretch; position:relative; z-index:2;
+      border-radius:16px; border:1px solid #fff; background:rgba(255,255,255,.24);
+      min-height:470px;
+    }
+.ap-capability-scene__paneltop{position:absolute; z-index:3; left:23.33px; right:24.33px; top:19px; padding-top:8px; display:flex; flex-direction:column; gap:8px;}
+.ap-capability-scene__lines{margin:0; font-size:16px; font-weight:700; line-height:1.2; color:var(--ink);}
+.ap-capability-scene__lines>span{display:block;}
+.ap-capability-scene__meet{margin:0; font-size:14px; font-weight:400; line-height:1.5; color:var(--body);}
+.ap-capability-scene__meet a{font-weight:700; color:inherit; text-decoration:none;}
+.ap-capability-scene__meet a:hover{text-decoration:underline;}
+.ap-capability-scene__art{position:absolute; z-index:1; left:52%; bottom:0; transform:translateX(-50%);
+      width:128%; max-width:424px; height:auto; display:block;}
+@media (max-width:1080px){.ap-capability-scene__cards{gap:36px;}
+.ap-capability-scene__panel{width:290px;}
+}
+@media (max-width:900px){.ap-capability-scene__wrap{padding:64px 24px 80px; gap:48px;}
+.ap-capability-scene__top{flex-direction:column; align-items:flex-start; gap:16px;}
+.ap-capability-scene__head{max-width:none;}
+.ap-capability-scene__title{font-size:32px;}
+.ap-capability-scene__cards{flex-direction:column; gap:40px;}
+.ap-capability-scene__col{width:100%;}
+.ap-capability-scene__panel{width:100%; max-width:420px; align-self:center; min-height:0; order:1;
+        padding:19px 24px 0; display:flex; flex-direction:column;
+        background:rgba(255,255,255,.55); border:1px solid #fff;
+        box-shadow:0 8px 30px rgba(120,130,200,.12);}
+.ap-capability-scene__col{order:0;}
+.ap-capability-scene__paneltop{position:static; left:auto; right:auto; top:auto;}
+.ap-capability-scene__art{position:static; transform:none; left:auto; bottom:auto;
+        width:calc(100% + 48px); max-width:none; margin:12px -24px -1px;}
+}
+@media (max-width:1000px){.ap-capability-scene__top,.ap-capability-scene__cards,.ap-capability-scene__col,.ap-capability-scene__card{
+        position:static !important;
+        inset:auto !important;
+        transform:none !important;
+        z-index:auto !important;
+        will-change:auto !important;
+      }
+.ap-capability-scene__top{
+        display:flex !important;
+        flex-direction:column !important;
+        align-items:flex-start !important;
+        width:100% !important;
+      }
+.ap-capability-scene__cards{
+        display:flex !important;
+        flex-direction:column !important;
+        align-items:stretch !important;
+        width:100% !important;
+        gap:32px !important;
+      }
+.ap-capability-scene__col{
+        display:flex !important;
+        flex-direction:column !important;
+        width:100% !important;
+        min-width:0 !important;
+        gap:32px !important;
+        order:0 !important;
+      }
+.ap-capability-scene__card{
+        width:100% !important;
+        height:auto !important;
+      }
+.ap-capability-scene__panel{
+        position:relative !important;
+        display:flex !important;
+        flex-direction:column !important;
+        width:100% !important;
+        max-width:420px !important;
+        min-height:0 !important;
+        height:auto !important;
+        align-self:center !important;
+        order:1 !important;
+        padding:19px 24px 0 !important;
+      }
+.ap-capability-scene__paneltop{
+        position:static !important;
+        left:auto !important;
+        right:auto !important;
+        top:auto !important;
+        width:auto !important;
+      }
+.ap-capability-scene__art{
+        position:static !important;
+        left:auto !important;
+        bottom:auto !important;
+        transform:none !important;
+        width:calc(100% + 48px) !important;
+        max-width:none !important;
+        height:auto !important;
+        margin:12px -24px -1px !important;
+      }
+}
+@media (max-width:560px){.ap-capability-scene__wrap{padding:56px 20px 64px;}
+.ap-capability-scene__title{font-size:27px;}
+.ap-capability-scene__lede,.ap-capability-scene__cb{font-size:16px;}
+.ap-capability-scene__ct{font-size:18px;}
+}
+
+/* Optional closing buttons (Ursa AI frame 7261:111751): outline teal, then the solid gradient; centred, 16px apart. */
+.ap-capability-scene__cta{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;}
+.ap-capability-scene__btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:14px 16px;border-radius:4px;font-size:16px;font-weight:600;line-height:1.2;text-decoration:none;white-space:nowrap;transition:box-shadow .3s cubic-bezier(.25,.45,.45,.95),translate .3s cubic-bezier(.25,.45,.45,.95);}
+.ap-capability-scene__btn--solid{background:linear-gradient(42.98deg,#5044e1 0%,#00a991 70.44%);border:1px solid #5044e1;color:#fff;}
+.ap-capability-scene__btn--outline{background:#fff;border:1px solid #00a991;color:#00a991;}
+.ap-capability-scene__btn:hover{translate:0 -2px;box-shadow:0 8px 20px rgba(37,39,44,.12);}
+@media (max-width:560px){.ap-capability-scene__btn{flex:1 1 100%;white-space:normal;}}

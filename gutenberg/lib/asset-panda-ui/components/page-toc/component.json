@@ -1,0 +1,10 @@
+{
+	"name": "page-toc",
+	"description": "Floating 'On this page' panel for long articles: a pill at the left edge that opens a card listing the page's sections, the section in view highlighted, with a reading-progress bar; closes from its X. Shown from 1200px up (the margin beside the article column). Figma: Website Design 2026 > Floating TOC Panel (7224:2).",
+	"props": {
+		"title": { "type": "string", "required": false, "default": "On this page", "description": "Panel heading and the pill's label." },
+		"items": { "type": "array", "required": true, "description": "Sections in page order. Each: label (required) and anchor (the id of the heading it jumps to, without #)." },
+		"progress_label": { "type": "string", "required": false, "default": "Reading progress", "description": "Label beside the percentage." },
+		"open": { "type": "boolean", "required": false, "default": false, "description": "Start with the panel open instead of the pill." }
+	}
+}

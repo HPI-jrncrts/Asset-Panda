@@ -1,0 +1,8 @@
+{
+	"name": "demo-stats",
+	"description": "Stats band under the split Get a Demo booking hero (live #ap-demo-stats on /test-calendar-demo-weekly/): three big gradient numbers that count up on first view, each over a label. On desktop it is 128px tall (108px on short screens) so it and the hero fill one screen.",
+	"props": {
+		"items": { "type": "array", "required": true, "description": "Numbers. Each: value (e.g. 10,000+; the digits count up, prefix/suffix stay), label." },
+		"label": { "type": "string", "required": false, "default": "Asset Panda by the numbers", "description": "Accessible name of the band." }
+	}
+}

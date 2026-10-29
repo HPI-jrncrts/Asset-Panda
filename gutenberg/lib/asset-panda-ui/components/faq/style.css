@@ -14,7 +14,7 @@
 }
 
 .ap-faq__inner {
-	width: min(var(--ap-page-max-content-xl, 1120px), 100% - 48px);
+	width: min(var(--ap-host-container, 1120px), 100% - 48px);
 	margin: 0 auto;
 }
 
@@ -151,3 +151,186 @@
 		transition: none !important;
 	}
 }
+
+/* Plain white section (live Higher Education and Local Government). */
+.ap-faq--white {
+	background: #fff;
+}
+
+/*
+ * Vertical variant — the product pages' live `.ap-faq`: rows inset 24px inside
+ * the 1120px container, a rule above each row only, questions at 1.2 line
+ * height, a chevron that swaps (green right, indigo up), and the heading's own
+ * steps. The space under the heading is measured per page (live mixes a
+ * margin with stray <br>s): 82px on most pages, 54 on Fire, 28 on Police.
+ */
+.ap-faq--vertical .ap-faq__inner {
+	width: auto;
+	max-width: var(--ap-host-container, 1120px);
+	padding: 0 24px;
+}
+
+.ap-faq--vertical .ap-faq__title {
+	margin: 0 0 var(--ap-faq-gap, 28px);
+	font-size: 40px;
+}
+
+.ap-faq--vertical .ap-faq__list {
+	border-top: 0;
+}
+
+.ap-faq--vertical .ap-faq__item {
+	border-top: 1px solid #b6bac3;
+	border-bottom: 0;
+}
+
+.ap-faq--vertical .ap-faq__q,
+.ap-faq--vertical .ap-faq__item[open] > .ap-faq__q {
+	gap: 24px;
+	padding: 20px 16px;
+	font-size: 20px;
+	line-height: 1.2;
+}
+
+.ap-faq--vertical .ap-faq__item:not([open]) > .ap-faq__q:hover {
+	color: var(--ap-text-heading);
+}
+
+.ap-faq--vertical .ap-faq__chev,
+.ap-faq--vertical .ap-faq__item[open] > .ap-faq__q .ap-faq__chev {
+	position: relative;
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	flex: 0 0 32px;
+	rotate: none;
+}
+
+.ap-faq--vertical .ap-faq__chev svg {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+	transition: opacity 0.25s ease;
+}
+
+.ap-faq--vertical .ap-faq__chev .ap-faq__chev-closed {
+	width: 10.67px;
+	height: 18.67px;
+}
+
+.ap-faq--vertical .ap-faq__chev .ap-faq__chev-open {
+	width: 18.67px;
+	height: 10.67px;
+	opacity: 0;
+}
+
+.ap-faq--vertical .ap-faq__item[open] > .ap-faq__q .ap-faq__chev-closed {
+	opacity: 0;
+}
+
+.ap-faq--vertical .ap-faq__item[open] > .ap-faq__q .ap-faq__chev-open {
+	opacity: 1;
+}
+
+.ap-faq--vertical .ap-faq__a {
+	padding: 0 16px 24px;
+}
+
+.ap-faq--vertical .ap-faq__a p {
+	max-width: none;
+	line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+	.ap-faq--vertical .ap-faq__title {
+		font-size: 32px;
+	}
+
+	.ap-faq--vertical .ap-faq__q,
+	.ap-faq--vertical .ap-faq__item[open] > .ap-faq__q {
+		gap: 16px;
+		padding: 20px 16px;
+		font-size: 18px;
+	}
+
+	.ap-faq--vertical .ap-faq__a {
+		padding: 0 16px 24px;
+	}
+}
+
+/* Live's later .ap-faq .ap-faq__chev rule keeps the chevron box at 32px on
+   phones too, so only the heading steps down here. */
+@media (max-width: 560px) {
+	.ap-faq--vertical .ap-faq__title {
+		font-size: 28px;
+	}
+}
+
+/* Fire and Police pad the heading on phones, so their gap changes there. */
+@media (max-width: 767px) {
+	.ap-faq--vertical .ap-faq__title {
+		margin-bottom: var(--ap-faq-gap-m, var(--ap-faq-gap, 28px));
+	}
+}
+
+/*
+ * Hub variants — the live industry-hub FAQ sheets, ported whole (selectors
+ * re-rooted from #ap-gov-faq / #ap-eduhub-faq; class names are live's own).
+ * Live toggles .is-open from a script; here the rows are <details>, so the
+ * open state is [open] and the closed answer simply is not rendered.
+ */
+.ap-faq.ap-faq--hub{position:relative;font-family:Manrope,sans-serif;padding:80px 24px 40px;background:none}
+.ap-faq.ap-faq--hub::before{content:"";position:absolute;top:0;bottom:0;left:calc(50% - 50vw);width:100vw;background:linear-gradient(180deg,#f9fafb 0%,#fff 100%);pointer-events:none;z-index:0}
+.ap-faq.ap-faq--hub > *{position:relative;z-index:1}
+.ap-faq.ap-faq--hub h2.apg-h2{font-size:40px;font-weight:800;line-height:1.2;color:#25272c;margin:0 auto 40px;text-align:center;max-width:1120px}
+.ap-faq.ap-faq--hub .apg-faq-list{max-width:1120px;margin:0 auto}
+.ap-faq.ap-faq--hub .apg-faq-item{border-top:1px solid #b6bac3}
+.ap-faq.ap-faq--hub .apg-faq-q{display:flex;align-items:center;gap:24px;width:100%;padding:20px 16px;background:none;border:0;cursor:pointer;text-align:left;font-family:Manrope,sans-serif;list-style:none}
+.ap-faq.ap-faq--hub .apg-faq-q::-webkit-details-marker{display:none}
+.ap-faq.ap-faq--hub .apg-faq-q span.apg-q-text{flex:1;font-size:20px;font-weight:800;line-height:1.4;color:#25272c;transition:color .3s cubic-bezier(.25,.45,.45,.95)}
+.ap-faq.ap-faq--hub.ap-faq--q-accent .apg-faq-q span.apg-q-text{color:#5044e1}
+.ap-faq.ap-faq--hub .apg-faq-item[open] .apg-q-text{color:#5044e1}
+.ap-faq.ap-faq--hub .apg-faq-ico{position:relative;width:32px;height:32px;flex:0 0 32px}
+.ap-faq.ap-faq--hub .apg-faq-ico::before,.ap-faq.ap-faq--hub .apg-faq-ico::after{content:"";position:absolute;background:#5044e1;transition:transform .3s cubic-bezier(.25,.45,.45,.95),opacity .3s cubic-bezier(.25,.45,.45,.95)}
+.ap-faq.ap-faq--hub .apg-faq-ico::before{left:7px;right:7px;top:15px;height:2px}
+.ap-faq.ap-faq--hub .apg-faq-ico::after{top:7px;bottom:7px;left:15px;width:2px}
+.ap-faq.ap-faq--hub .apg-faq-item[open] .apg-faq-ico::after{transform:scaleY(0)}
+.ap-faq.ap-faq--hub .apg-faq-a{display:grid;grid-template-rows:minmax(0,1fr)}
+.ap-faq.ap-faq--hub .apg-faq-a-in{min-height:0;overflow:hidden}
+.ap-faq.ap-faq--hub .apg-faq-a-in p{font-size:16px;line-height:1.5;color:#4a4e5a;margin:0;padding:0 16px 24px}
+.ap-faq.ap-faq--hub .apg-faq-a-in a{color:#5044e1;font-weight:600;text-decoration:none}
+.ap-faq.ap-faq--hub .apg-faq-a-in a:hover{text-decoration:underline}
+@media (max-width:767px){
+	.ap-faq.ap-faq--hub{padding:48px 24px 32px}
+	.ap-faq.ap-faq--hub h2.apg-h2{font-size:28px}
+	.ap-faq.ap-faq--hub .apg-faq-q span.apg-q-text{font-size:17px}
+}
+
+.ap-faq.ap-faq--eduhub{position:relative;background:transparent;padding:80px 24px}
+.ap-faq.ap-faq--eduhub::before{content:"";position:absolute;top:0;bottom:0;left:calc(50% - 50vw);width:100vw;background:#f9fafb;pointer-events:none}
+.ap-faq.ap-faq--eduhub > *{position:relative}
+.ap-faq.ap-faq--eduhub .apf-container{max-width:1120px;margin:0 auto;font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif}
+.ap-faq.ap-faq--eduhub .apf-h2{margin:0 0 32px;font-weight:800;font-size:40px;line-height:1.2;color:#25272c;text-align:center}
+.ap-faq.ap-faq--eduhub .apf-list{border-top:1px solid #e6e9f2}
+.ap-faq.ap-faq--eduhub .apf-item{border-bottom:1px solid #e6e9f2}
+.ap-faq.ap-faq--eduhub .apf-q{width:100%;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:24px 0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-weight:700;font-size:18px;line-height:1.3;color:#25272c;transition:color .2s ease;list-style:none}
+.ap-faq.ap-faq--eduhub .apf-q::-webkit-details-marker{display:none}
+.ap-faq.ap-faq--eduhub .apf-item[open] .apf-q{color:#5044e1}
+.ap-faq.ap-faq--eduhub .apf-q-icon{flex-shrink:0;width:24px;height:24px;position:relative}
+.ap-faq.ap-faq--eduhub .apf-q-icon::before,.ap-faq.ap-faq--eduhub .apf-q-icon::after{content:'';position:absolute;top:50%;left:50%;background:#5044e1;transform:translate(-50%,-50%);transition:transform .2s ease,opacity .2s ease}
+.ap-faq.ap-faq--eduhub .apf-q-icon::before{width:14px;height:2px}
+.ap-faq.ap-faq--eduhub .apf-q-icon::after{width:2px;height:14px}
+.ap-faq.ap-faq--eduhub .apf-item[open] .apf-q-icon::after{opacity:0;transform:translate(-50%,-50%) rotate(90deg)}
+.ap-faq.ap-faq--eduhub .apf-a-wrap{overflow:hidden}
+.ap-faq.ap-faq--eduhub .apf-a{margin:0 0 24px;font-weight:400;font-size:16px;line-height:1.6;color:#4a4e5a;max-width:960px}
+@media (max-width:900px){
+	.ap-faq.ap-faq--eduhub .apf-h2{font-size:28px}
+	.ap-faq.ap-faq--eduhub .apf-q{font-size:16px}
+}
+/* Live's page-level phone spacing for every Education hub band. */
+@media (max-width:767px){
+	.ap-faq.ap-faq--eduhub{padding-top:48px;padding-bottom:48px}
+}
+/* The staging theme sets text-wrap:pretty on headings and paragraphs; live wraps plainly. */
+.ap-faq--hub :is(h2, p, summary), .ap-faq--eduhub :is(h2, p, summary) {text-wrap:wrap}

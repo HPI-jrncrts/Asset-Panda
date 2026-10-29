@@ -1,0 +1,70 @@
+/*
+ * platform-faq — ported from the live .apx-faq section.
+ *
+ * The live sheet owns its whole section, so every selector is scoped under the
+ * component root and the keyframes are renamed; the inner class names are kept
+ * so the port stays diffable against live.
+ */
+
+.ap-platform-faq{
+      --i:#5044e1; --t:#00a991; --ink:#25272c; --body:#4a4e5a;
+      position:relative; box-sizing:border-box; overflow:hidden;
+      width:100%; /* live broke out of the theme container with 100vw; the block is already full width */   
+      font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+      color:var(--ink); background:#fff;
+    }
+.ap-platform-faq *,.ap-platform-faq *::before,.ap-platform-faq *::after{box-sizing:border-box;}
+.ap-platform-faq__wrap{
+      width:100%; max-width:1200px; margin:0 auto; padding:80px 40px 40px;   
+      display:flex; gap:80px; align-items:flex-start;
+    }
+.ap-platform-faq__title{flex:none; width:259px; margin:0; font-size:40px; font-weight:800; line-height:1.2; color:var(--ink);}
+.ap-platform-faq__list{flex:1 1 0; min-width:0;}
+.ap-platform-faq__item{border-bottom:1px solid #e3e7ef;}
+.ap-platform-faq__item:first-child{border-top:1px solid #e3e7ef;}
+.ap-platform-faq__q{
+      list-style:none; cursor:pointer;
+      display:flex; gap:24px; align-items:center; padding:20px 16px;
+      font-size:20px; font-weight:800; line-height:1.4; color:var(--ink);
+      -webkit-tap-highlight-color:transparent;
+      transition:color var(--ap-dur-base) var(--ap-ease-standard);
+    }
+.ap-platform-faq__q::-webkit-details-marker{display:none;}
+@media (hover:hover){.ap-platform-faq__q:hover{color:var(--i);}}
+/* No box around the opened row: the theme outlines any focused element and a
+   click focuses the <summary>. Keyboard focus underlines the question. */
+.ap-platform-faq__q:focus{outline:none;}
+.ap-platform-faq__q:focus-visible{color:var(--i);}
+.ap-platform-faq__q:focus-visible .ap-platform-faq__qt{text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:4px;}
+/* :where() keeps the plain [open] specificity; data-ap-closing (motion.js, while
+   a row animates shut) drops the open look as the motion starts. */
+.ap-platform-faq__item[open]:where(:not([data-ap-closing])) .ap-platform-faq__q{color:var(--i);}
+.ap-platform-faq__qt{flex:1 1 0; min-width:0;}
+.ap-platform-faq__ic{flex:none; width:32px; height:32px; display:flex; align-items:center; justify-content:center;}
+.ap-platform-faq__ic svg{width:20px; height:20px; display:block;}
+.ap-platform-faq__ic .v{transition:transform var(--ap-dur-base) var(--ap-ease-standard), opacity var(--ap-dur-base) var(--ap-ease-standard); transform-origin:center;}
+.ap-platform-faq__item[open]:where(:not([data-ap-closing])) .ap-platform-faq__ic .v{transform:rotate(90deg); opacity:0;}
+.ap-platform-faq__a{margin:0; padding:0 72px 24px 16px; font-size:16px; font-weight:400; line-height:1.6; color:var(--body);}
+.ap-platform-faq__a .g{
+      font-weight:700;
+      background:linear-gradient(76deg,#5044e1 4%,#00a991 55%);
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+.ap-platform-faq .apx-sup{font-size:.645em; vertical-align:.42em; margin-left:1px;}
+@media (max-width:900px){.ap-platform-faq__wrap{flex-direction:column; gap:28px; padding:64px 24px 32px;}
+.ap-platform-faq__title{width:100%; font-size:32px;}
+.ap-platform-faq__list{width:100%;}
+.ap-platform-faq__q{font-size:17px; padding:18px 8px; gap:16px;}
+.ap-platform-faq__a{padding:0 44px 20px 8px; font-size:15px;}
+}
+@media (prefers-reduced-motion:reduce){.ap-platform-faq__q,.ap-platform-faq__ic .v{transition:none;}}
+@media (max-width:560px){.ap-platform-faq__wrap{padding:56px 20px 28px;}
+.ap-platform-faq__title{font-size:27px;}
+.ap-platform-faq__q{font-size:16px;}
+}
+
+/* ------------------------------------------------------------ Section rhythm + type scale (QA 2026-10-28, sections agent)
+ * Padding on the kit section rhythm (tokens.css "section rhythm") and the
+ * section title / eyebrow on the type-scale tokens, like every other section. */
+html body .ap-platform-faq.ap-platform-faq .ap-platform-faq__wrap { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+html body .ap-platform-faq.ap-platform-faq .ap-platform-faq__title { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }

@@ -1,0 +1,23 @@
+{
+	"name": "resource-header",
+	"description": "Header of a resource or press release page. variant \"band\" (default) is live's article band (www.assetpanda.com case study / success story / white paper / press pages): breadcrumbs, then a deep-indigo rounded band holding the H1, the letter-spaced type label, category chips, date and share links beside the featured photo; image_side puts the photo left (live's case studies) or right. variant \"article\" is the 2026 post design (Figma Blog Detail 5434:79954 and the compare post 7219:87997): breadcrumbs (home icon first), the indigo eyebrow, the H1, a 'Share on:' row above a rule, then the featured image full width with rounded corners, all over a soft centred gradient wash that fades to white.",
+	"props": {
+		"title": { "type": "string", "required": true, "description": "The H1." },
+		"variant": { "type": "string", "default": "band", "enum": ["band", "article"], "description": "band = live's deep-indigo band; article = the 2026 post design (light, image below the title)." },
+		"crumbs": { "type": "array", "default": [], "description": "Breadcrumb trail before the title. Each: label (required), url, icon ('home' draws the home icon in place of the label; article variant)." },
+		"label": { "type": "string", "default": "", "description": "Resource type, e.g. Success Story. The band's letter-spaced label; the article variant's indigo eyebrow (a compare post's 'Compare Asset Panda', a blog post's category)." },
+		"label_url": { "type": "string", "default": "" },
+		"categories": { "type": "array", "default": [], "description": "Category chips (band only). Each: label (required), url." },
+		"date": { "type": "string", "default": "", "description": "Display date (press releases)." },
+		"date_iso": { "type": "string", "default": "" },
+		"image": { "type": "string", "default": "" },
+		"image_alt": { "type": "string", "default": "" },
+		"image_w": { "type": "integer", "default": 0 },
+		"image_h": { "type": "integer", "default": 0 },
+		"image_side": { "type": "string", "default": "right", "enum": ["right", "left"], "description": "Band only." },
+		"share_url": { "type": "string", "default": "", "description": "Page URL for the share links; no share row when empty." },
+		"share_title": { "type": "string", "default": "" },
+		"share_label": { "type": "string", "default": "Share", "description": "The design's article header says 'Share on:'." },
+		"wash": { "type": "boolean", "default": true, "description": "Article only: draw the gradient wash behind the header." }
+	}
+}

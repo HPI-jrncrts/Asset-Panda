@@ -1,0 +1,143 @@
+/*
+ * resource-summary — live's success-story summary: an off-white rounded panel, centred heading and
+ * paragraph, and a white card with the key features in three columns. It sits in the 800px article
+ * column and runs out to 960px on desktop. Selectors are doubled so the article's own h2/h3/p/ul
+ * rules (.ap26-article h2 …) cannot restyle it.
+ */
+
+:where(.ap-resource-summary, .ap-resource-summary *, .ap-resource-summary *::before, .ap-resource-summary *::after) {
+	box-sizing: border-box;
+}
+
+.ap-resource-summary.ap-resource-summary {
+	--ap-rs-w: min(960px, calc(100vw - 32px));
+	width: var(--ap-rs-w);
+	max-width: none;
+	margin: 0 0 40px calc(50% - var(--ap-rs-w) / 2);
+	padding: 40px 48px;
+	background: var(--ap-athens-50);
+	border: 1px solid var(--ap-athens-100);
+	border-radius: var(--ap-radius-xl);
+	font-family: var(--ap-font-body);
+	text-align: center;
+}
+
+.ap-resource-summary.ap-resource-summary .ap-resource-summary__title {
+	margin: 0 0 16px;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: 32px;
+	font-weight: var(--ap-weight-heading);
+	line-height: 1.2;
+}
+
+.ap-resource-summary.ap-resource-summary .ap-resource-summary__text {
+	max-width: 720px;
+	margin: 0 auto;
+	color: var(--ap-text-body);
+	font-size: 17px;
+	line-height: var(--ap-line-body);
+}
+
+.ap-resource-summary.ap-resource-summary .ap-resource-summary__text a,
+.ap-resource-summary.ap-resource-summary .ap-resource-summary__list a {
+	color: var(--ap-brand-indigo);
+}
+
+.ap-resource-summary.ap-resource-summary .ap-resource-summary__card {
+	max-width: 760px;
+	margin: 28px auto 0;
+	padding: 24px 32px 20px;
+	background: var(--ap-surface);
+	border: 1px solid var(--ap-stroke-soft);
+	border-radius: var(--ap-radius-lg);
+	box-shadow: 0 2px 12px rgba(37, 39, 44, 0.04);
+	text-align: left;
+}
+
+.ap-resource-summary.ap-resource-summary .ap-resource-summary__ftitle {
+	margin: 0 0 16px;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: 16px;
+	font-weight: var(--ap-weight-heading);
+	line-height: 1.4;
+	text-align: center;
+}
+
+.ap-resource-summary.ap-resource-summary .ap-resource-summary__list {
+	columns: 3;
+	column-gap: 32px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	color: var(--ap-text-body);
+	font-size: 15px;
+	line-height: 1.45;
+}
+
+.ap-resource-summary.ap-resource-summary .ap-resource-summary__list.is-short {
+	columns: auto;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 8px 32px;
+}
+
+.ap-resource-summary.ap-resource-summary .ap-resource-summary__list li {
+	position: relative;
+	margin: 0 0 10px;
+	padding: 0 0 0 26px;
+	break-inside: avoid;
+	color: inherit;
+	font-size: inherit;
+	line-height: inherit;
+}
+
+.ap-resource-summary.ap-resource-summary .ap-resource-summary__list li::before {
+	content: "";
+	position: absolute;
+	top: 3px;
+	left: 0;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background:
+		url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 8.2l2.3 2.3 4.7-4.9' fill='none' stroke='%23fff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 16px 16px no-repeat,
+		var(--ap-brand-green);
+}
+
+@media (max-width: 1023px) {
+	.ap-resource-summary.ap-resource-summary {
+		--ap-rs-w: 100%;
+		margin-left: 0;
+		padding: 32px;
+	}
+
+	.ap-resource-summary.ap-resource-summary .ap-resource-summary__list {
+		columns: 2;
+	}
+}
+
+@media (max-width: 599px) {
+	.ap-resource-summary.ap-resource-summary {
+		padding: 28px 20px;
+		border-radius: var(--ap-radius-lg);
+	}
+
+	.ap-resource-summary.ap-resource-summary .ap-resource-summary__title {
+		font-size: 26px;
+	}
+
+	.ap-resource-summary.ap-resource-summary .ap-resource-summary__text {
+		font-size: 16px;
+	}
+
+	.ap-resource-summary.ap-resource-summary .ap-resource-summary__card {
+		padding: 20px;
+	}
+
+	.ap-resource-summary.ap-resource-summary .ap-resource-summary__list {
+		columns: 1;
+	}
+}

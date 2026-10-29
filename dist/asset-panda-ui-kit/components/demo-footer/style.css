@@ -1,0 +1,181 @@
+/*
+ * demo-footer — Compact footer of the Get a Demo pages (live #ap-demo-footer). behaviour.js moves it into the
+ * global footer (.ap-final-footer-inner) and the page-chrome rules at the end hide that footer's CTA
+ * band and link columns, as live does.
+ *
+ * Ported class-for-class from the live sheet (worktree get-a-demo-calcom @5ae4e90,
+ * regenerate with scratchpad agents/demo/port-css.mjs): every selector is scoped under the
+ * component root, live's section id becomes the root class, and the inner class names are kept
+ * so the port stays diffable against live. Source comments say Page A for the weekly page
+ * (split layout, now www /get-a-demo/) and Page B for the month page (centered layout).
+ *
+ * Weights: live serves Manrope as static 300/400/700/800 faces, so its 600 draws as 700 and its
+ * 500 as 400; the dev theme's Manrope is variable, so this port states the weight live shows.
+ */
+
+
+/* Same font guard the live ap-* pages ship; the theme otherwise forces its own font. */
+.ap-demo-footer,
+.ap-demo-footer h1,
+.ap-demo-footer h2,
+.ap-demo-footer h3,
+.ap-demo-footer p,
+.ap-demo-footer span,
+.ap-demo-footer a,
+.ap-demo-footer li,
+.ap-demo-footer button,
+.ap-demo-footer input,
+.ap-demo-footer select,
+.ap-demo-footer label,
+.ap-demo-footer div {
+	font-family: "Manrope",Arial,sans-serif!important;
+}
+.ap-demo-footer.ap-d26-sec,
+.ap-demo-footer.ap-d26-sec *,
+.ap-demo-footer.ap-d26-sec *::before,
+.ap-demo-footer.ap-d26-sec *::after {
+	box-sizing: border-box;
+}
+.ap-demo-footer.ap-d26-sec {
+	position: relative;
+	width: 100%;
+	margin: 0;
+}
+
+/* ---------- Compact footer (7019:103198), moved into the global footer by behaviour.js ---------- */
+.ap-demo-footer.ap-d26-sec {
+	max-width: 1120px;
+	margin: 0 auto;
+	padding: 0 16px;
+}
+.ap-demo-footer .ap-d26-foot {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 24px;
+}
+.ap-demo-footer .ap-d26-foot-left {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+.ap-demo-footer .ap-d26-foot-logo {
+	display: inline-block;
+}
+.ap-demo-footer .ap-d26-foot-logo img {
+	display: block;
+	width: 140px;
+	height: auto;
+}
+.ap-demo-footer.ap-d26-sec .ap-d26-foot-copy {
+	margin: 0;
+	font-size: 12px;
+	line-height: 1.5;
+	color: #000;
+	white-space: nowrap;
+}
+.ap-demo-footer .ap-d26-foot-right {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 16px;
+}
+.ap-demo-footer .ap-d26-foot-apps {
+	display: flex;
+	gap: 8px;
+}
+.ap-demo-footer .ap-d26-foot-apps img {
+	display: block;
+	width: auto;
+	height: 56px;
+}
+.ap-demo-footer .ap-d26-foot-legal {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 8px 24px;
+	font-size: 12px;
+	line-height: 1.5;
+	color: #4a4e5a;
+}
+.ap-demo-footer .ap-d26-foot-legal a {
+	display: inline-block;
+	padding: 3px 0;
+	color: #4a4e5a;
+	text-decoration: none;
+}
+.ap-demo-footer .ap-d26-foot-legal a:hover {
+	text-decoration: underline;
+}
+.ap-demo-footer .ap-d26-foot-addr {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+}
+.ap-demo-footer .ap-d26-foot-addr img {
+	display: block;
+	width: 12px;
+	height: 12px;
+}
+.ap-demo-footer .ap-d26-foot-social {
+	display: inline-flex;
+	gap: 4px;
+}
+.ap-demo-footer .ap-d26-foot-social a {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	padding: 0;
+}
+.ap-demo-footer .ap-d26-foot-social img {
+	display: block;
+	width: 18px;
+	height: 18px;
+}
+@media (max-width:900px) {
+	.ap-demo-footer .ap-d26-foot {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	.ap-demo-footer .ap-d26-foot-right {
+		align-items: flex-start;
+		min-width: 0;
+		max-width: 100%;
+	}
+	.ap-demo-footer .ap-d26-foot-apps {
+		flex-wrap: wrap;
+	}
+	.ap-demo-footer .ap-d26-foot-apps img {
+		height: 44px;
+	}
+	.ap-demo-footer .ap-d26-foot-legal {
+		justify-content: flex-start;
+	}
+}
+
+/* ===== Page chrome (live demo-chrome.css) =====
+ * The global footer's CTA band and link columns give way to this compact footer, which
+ * behaviour.js moves into .ap-final-footer-inner (then sets html.ap-demo-footer-moved). The live
+ * header rules of the same sheet are not ported: the dev site header already hides Try for Free,
+ * shows the Sales line and draws Book a Demo as the gradient button. */
+body:has(.ap-demo-footer) .ap-final-cta-section,
+body:has(.ap-demo-footer) .ap-footer-links-section {
+	display: none !important;
+}
+html.ap-demo-footer-moved #ap-final-footer-v1 {
+	padding-bottom: 0 !important;
+}
+html.ap-demo-footer-moved .ap-final-footer-inner {
+	padding-top: 0 !important;
+	padding-bottom: 20px !important;
+}
+
+/* The block theme spaces its footer template part 1.2rem below <main>; live's footer sits flush
+ * under the last section (the dev homepage zeroes the same gap for body.home). */
+body:has(.ap-demo-footer) footer.wp-block-template-part:has(#ap-final-footer-v1) {
+	margin-top: 0 !important;
+}

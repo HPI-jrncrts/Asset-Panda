@@ -1,0 +1,1057 @@
+/*
+ * integration-directory — Integrations hub directory.
+ *
+ * Figma: Desktop - Integrations > Features Section (7310:158798), 1440 wide:
+ * a 1120px container; section head (eyebrow 14/800 indigo, H2 40/800 with the
+ * first words in the brand gradient, 18px lede); then a 239px Categories
+ * column (legend 16/700, radio rows 16/1.6 with the exported circle /
+ * check-circle glyphs) beside the main column: a 58px slate-50 search field,
+ * a three-column grid of 16px-radius hairline cards (8px gaps, 360px tall:
+ * 64px logo, 20/800 name, 12px indigo tag, 14px description clamped to three
+ * lines, "Learn More" + indigo long arrow pinned to the foot) and the
+ * top-border pager (2px indigo bar over the current page, green step arrows).
+ * Hover / focus = the Figma Intune card: indigo-50 fill, indigo-100 border,
+ * plus a 2px lift via `translate` (never `transform`).
+ *
+ * Below 1024px the categories become a sideways-scrolling chip row above the
+ * search; the grid steps 3 -> 2 -> 1 columns; on phones cards tighten, the
+ * "Learn More" row folds into a corner arrow and the pager reads
+ * Previous / Page 2 of 4 / Next.
+ */
+
+.ap-integration-directory,
+.ap-integration-directory * {
+	box-sizing: border-box;
+}
+
+.ap-integration-directory {
+	--ap-intdir-ls: 1; /* logo scale */
+	position: relative;
+	width: 100%;
+	overflow-x: clip;
+	padding-block: var(--ap-section-y);
+	background: var(--ap-white);
+	/* Restates the host body type (see tokens.css): the staging theme's 22px/300 would otherwise leak in. */
+	font-family: var(--ap-font-body);
+	font-size: 1rem;
+	font-weight: var(--ap-weight-body);
+	line-height: var(--ap-line-body);
+	letter-spacing: normal;
+	color: var(--ap-text-body);
+}
+
+.ap-integration-directory__inner {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ap-section-head-gap);
+	width: min(var(--ap-host-container, 1120px), 100% - 48px);
+	margin-inline: auto;
+}
+
+.ap-integration-directory__sr {
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* ---- section head ---- */
+
+.ap-integration-directory__head {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ap-section-title-gap);
+}
+
+.ap-integration-directory .ap-integration-directory__eyebrow {
+	margin: 0;
+	font-family: var(--ap-font-utility);
+	font-size: var(--ap-type-eyebrow-size);
+	font-weight: var(--ap-type-eyebrow-weight);
+	line-height: var(--ap-type-eyebrow-line);
+	letter-spacing: var(--ap-type-eyebrow-track);
+	text-transform: uppercase;
+	color: var(--ap-type-eyebrow-color);
+}
+
+.ap-integration-directory .ap-integration-directory__title {
+	margin: 0;
+	padding: 0;
+	font-family: var(--ap-font-display);
+	font-size: var(--ap-type-h2-size);
+	font-weight: var(--ap-type-h2-weight);
+	line-height: var(--ap-type-h2-line);
+	letter-spacing: var(--ap-type-h2-track);
+	text-transform: none;
+	color: var(--ap-text-heading);
+	text-wrap: balance;
+}
+
+.ap-integration-directory__accent {
+	background-image: var(--ap-gradient-text);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	-webkit-text-fill-color: transparent;
+}
+
+.ap-integration-directory .ap-integration-directory__lede {
+	margin: 0;
+	font-size: var(--ap-type-lede-size);
+	font-weight: var(--ap-type-lede-weight);
+	line-height: var(--ap-type-lede-line);
+	color: var(--ap-type-lede-color);
+}
+
+/* ---- body: categories | main ---- */
+
+.ap-integration-directory__body {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 16px;
+}
+
+.ap-integration-directory__main {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	min-width: 0;
+	/* page changes scroll here; clears the pinned site header */
+	scroll-margin-top: 112px;
+}
+
+/* ---- categories (radio group) ---- */
+
+.ap-integration-directory .ap-integration-directory__filter {
+	min-width: 0;
+	min-inline-size: 0;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+.ap-integration-directory .ap-integration-directory__legend {
+	display: block;
+	margin: 0 0 28px;
+	padding: 0;
+	font-family: var(--ap-font-body);
+	font-size: 1rem;
+	font-weight: 700;
+	line-height: 1.6;
+	color: var(--ap-text-heading);
+}
+
+.ap-integration-directory__cats {
+	position: relative; /* offsetParent for the restored-chip scroll in behaviour.js */
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.ap-integration-directory .ap-integration-directory__cat {
+	position: relative;
+	display: flex;
+	align-items: flex-start;
+	gap: 8px;
+	margin: 0;
+	padding: 8px 12px;
+	border: 0;
+	border-radius: var(--ap-radius-md);
+	font-family: var(--ap-font-body);
+	font-size: 1rem;
+	font-weight: var(--ap-weight-body);
+	line-height: 1.6;
+	color: var(--ap-text-heading);
+	cursor: pointer;
+	transition-property: background-color, border-color, color;
+	transition-duration: var(--ap-dur-base);
+	transition-timing-function: var(--ap-ease-standard);
+	-webkit-tap-highlight-color: transparent;
+}
+
+/* The real radio stays in the label (keyboard, arrow keys, screen readers); the glyph beside it shows its state. */
+.ap-integration-directory .ap-integration-directory__radio {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 1px;
+	height: 1px;
+	margin: 0;
+	padding: 0;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.ap-integration-directory__cat-icon {
+	flex: none;
+	width: 24px;
+	height: 24px;
+	background: url("assets/circle.svg") center / 24px 24px no-repeat;
+}
+
+.ap-integration-directory__radio:checked + .ap-integration-directory__cat-icon {
+	background-image: url("assets/check-circle.svg");
+}
+
+@media (hover: hover) {
+	.ap-integration-directory .ap-integration-directory__cat:hover {
+		background-color: var(--ap-slate-50);
+	}
+}
+
+.ap-integration-directory .ap-integration-directory__cat:has(.ap-integration-directory__radio:focus-visible) {
+	outline: 2px solid var(--ap-brand-indigo);
+	outline-offset: 0;
+}
+
+/* ---- search ---- */
+
+.ap-integration-directory__search {
+	position: relative;
+}
+
+.ap-integration-directory .ap-integration-directory__input {
+	display: block;
+	width: 100%;
+	height: 52px;
+	margin: 0;
+	padding: 0 16px 0 20px;
+	border: 1px solid var(--ap-slate-100);
+	border-radius: var(--ap-radius-sm);
+	background: var(--ap-slate-50);
+	box-shadow: none;
+	font-family: var(--ap-font-body);
+	font-size: 1rem; /* 16px+ keeps iOS from zooming on focus */
+	font-weight: var(--ap-weight-body);
+	line-height: 1.2;
+	color: var(--ap-text-heading);
+	-webkit-appearance: none;
+	appearance: none;
+	transition-property: border-color, background-color, box-shadow;
+	transition-duration: var(--ap-dur-base);
+	transition-timing-function: var(--ap-ease-standard);
+}
+
+.ap-integration-directory .ap-integration-directory__input::placeholder {
+	color: var(--ap-slate-500);
+	opacity: 1;
+}
+
+.ap-integration-directory .ap-integration-directory__input:hover {
+	border-color: var(--ap-slate-200);
+}
+
+.ap-integration-directory .ap-integration-directory__input:focus {
+	outline: none;
+	border-color: var(--ap-brand-indigo);
+	background: var(--ap-white);
+	box-shadow: 0 0 0 4px color-mix(in srgb, var(--ap-brand-indigo) 14%, transparent);
+}
+
+/* ---- grid + cards ---- */
+
+.ap-integration-directory .ap-integration-directory__grid {
+	position: relative; /* the card shuffle's frame: cards measure from it and leaving cards sit in it (behaviour.js) */
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 8px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ap-integration-directory .ap-integration-directory__grid[hidden] {
+	display: none;
+}
+
+/* Focus lands here after a page change (programmatic only, tabindex -1). */
+.ap-integration-directory .ap-integration-directory__grid:focus {
+	outline: none;
+}
+
+.ap-integration-directory .ap-integration-directory__card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	padding: 20px 20px 24px;
+	border: 1px solid var(--ap-slate-100);
+	border-radius: var(--ap-radius-xl);
+	background: var(--ap-white);
+	translate: 0 0;
+	transition-property: translate, background-color, border-color;
+	transition-duration: var(--ap-dur-base);
+	transition-timing-function: var(--ap-ease-standard);
+}
+
+.ap-integration-directory .ap-integration-directory__card[hidden] {
+	display: none;
+}
+
+/*
+ * Card shuffle (behaviour.js, Web Animations on transform + opacity). Only
+ * while a shuffle runs: cards that stay or arrive ride above the ones leaving,
+ * and a leaving card is lifted out of the flow at the spot it had (left / top /
+ * width / height inline), so the new layout forms under it while it drops out.
+ * Nothing here applies without the script, so every card still renders at rest.
+ */
+/* The held min-height must not stretch the auto rows (align-content: normal would), or cards would grow and land off their spots. */
+.ap-integration-directory .ap-integration-directory__grid.is-shuffling {
+	align-content: start;
+}
+
+.ap-integration-directory .ap-integration-directory__grid.is-shuffling > .ap-integration-directory__card {
+	z-index: 1;
+}
+
+.ap-integration-directory .ap-integration-directory__grid > .ap-integration-directory__card.is-leaving {
+	position: absolute;
+	z-index: 0;
+	margin: 0;
+	pointer-events: none;
+}
+
+.ap-integration-directory__card--link {
+	cursor: pointer;
+}
+
+@media (hover: hover) {
+	.ap-integration-directory .ap-integration-directory__card--link:hover {
+		translate: 0 -2px;
+		border-color: var(--ap-indigo-100);
+		background: var(--ap-indigo-50);
+	}
+}
+
+.ap-integration-directory .ap-integration-directory__card--link:focus-within {
+	border-color: var(--ap-indigo-100);
+	background: var(--ap-indigo-50);
+}
+
+/* logo: square marks 64px, wordmarks 44px tall, at most 150px wide (sized in render.php) */
+.ap-integration-directory__logo {
+	display: flex;
+	align-items: center;
+	height: calc(64px * var(--ap-intdir-ls));
+	margin-bottom: 20px;
+}
+
+.ap-integration-directory .ap-integration-directory__mark {
+	display: block;
+	flex: none;
+	width: calc(var(--w) * var(--ap-intdir-ls) * 1px);
+	height: calc(var(--h) * var(--ap-intdir-ls) * 1px);
+	max-width: 100%;
+	margin: 0;
+	object-fit: contain;
+	object-position: left center;
+	/* white logo canvases melt into the indigo hover fill */
+	mix-blend-mode: multiply;
+}
+
+.ap-integration-directory .ap-integration-directory__mark--auto {
+	width: auto;
+	height: calc(64px * var(--ap-intdir-ls));
+	max-width: calc(150px * var(--ap-intdir-ls));
+}
+
+.ap-integration-directory__crop {
+	position: relative;
+	display: block;
+	flex: none;
+	overflow: hidden;
+	width: calc(var(--w) * var(--ap-intdir-ls) * 1px);
+	height: calc(var(--h) * var(--ap-intdir-ls) * 1px);
+}
+
+.ap-integration-directory .ap-integration-directory__crop img {
+	position: absolute;
+	left: calc(var(--ix) * 1%);
+	top: calc(var(--iy) * 1%);
+	display: block;
+	width: calc(var(--iw) * 1%);
+	height: calc(var(--ih) * 1%);
+	max-width: none;
+	max-height: none;
+	margin: 0;
+	mix-blend-mode: multiply;
+}
+
+.ap-integration-directory__text {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.ap-integration-directory .ap-integration-directory__name {
+	margin: 0;
+	padding: 0;
+	font-family: var(--ap-font-display);
+	font-size: 1.125rem;
+	font-weight: var(--ap-type-heading-weight);
+	line-height: 1.2;
+	letter-spacing: var(--ap-type-heading-track);
+	text-transform: none;
+	color: var(--ap-text-heading);
+	overflow-wrap: anywhere;
+}
+
+.ap-integration-directory .ap-integration-directory__link,
+.ap-integration-directory .ap-integration-directory__link:hover,
+.ap-integration-directory .ap-integration-directory__link:visited {
+	color: inherit;
+	text-decoration: none;
+	outline: none;
+	box-shadow: none;
+}
+
+/* The name's link covers the whole card: one link, one tab stop. */
+.ap-integration-directory__link::after {
+	content: "";
+	position: absolute;
+	inset: -1px;
+	z-index: 1;
+	border-radius: var(--ap-radius-xl);
+}
+
+.ap-integration-directory .ap-integration-directory__link:focus-visible::after {
+	outline: 2px solid var(--ap-brand-indigo);
+	outline-offset: 2px;
+}
+
+.ap-integration-directory .ap-integration-directory__tag {
+	margin: 2px 0 0;
+	font-size: 0.75rem;
+	font-weight: var(--ap-weight-body);
+	line-height: 1.5;
+	color: var(--ap-brand-indigo);
+}
+
+.ap-integration-directory .ap-integration-directory__desc {
+	display: -webkit-box;
+	margin: 8px 0 0;
+	overflow: hidden;
+	font-size: 0.875rem;
+	font-weight: var(--ap-weight-body);
+	line-height: 1.5;
+	color: var(--ap-text-body);
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
+	line-clamp: 3;
+}
+
+.ap-integration-directory__more {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: auto;
+	padding-top: 20px;
+	font-family: var(--ap-font-utility);
+	font-size: 0.875rem;
+	font-weight: var(--ap-weight-button);
+	line-height: 1.2;
+	color: var(--ap-text-heading);
+}
+
+.ap-integration-directory__arrow {
+	display: inline-block;
+	flex: none;
+	width: 24px;
+	height: 24px;
+	background-color: var(--ap-brand-indigo);
+	-webkit-mask: url("assets/arrow-long-right.svg") center / 24px 24px no-repeat;
+	mask: url("assets/arrow-long-right.svg") center / 24px 24px no-repeat;
+	translate: 0 0;
+	transition: translate var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+@media (hover: hover) {
+	.ap-integration-directory__card--link:hover .ap-integration-directory__arrow {
+		translate: 4px 0;
+	}
+}
+
+.ap-integration-directory__card--link:focus-within .ap-integration-directory__arrow {
+	translate: 4px 0;
+}
+
+/* ---- empty state ---- */
+
+.ap-integration-directory .ap-integration-directory__empty {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 16px;
+	padding: 40px 24px;
+	border: 1px dashed var(--ap-slate-200);
+	border-radius: var(--ap-radius-xl);
+	background: var(--ap-slate-50);
+	text-align: center;
+}
+
+.ap-integration-directory .ap-integration-directory__empty[hidden] {
+	display: none;
+}
+
+.ap-integration-directory .ap-integration-directory__empty-text {
+	margin: 0;
+	font-family: var(--ap-font-display);
+	font-size: 1.125rem;
+	font-weight: 700;
+	line-height: 1.4;
+	color: var(--ap-text-heading);
+}
+
+.ap-integration-directory__empty-actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: 12px 24px;
+}
+
+.ap-integration-directory .ap-integration-directory__reset {
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
+	margin: 0;
+	padding: 10px 20px;
+	border: 1px solid var(--ap-slate-200);
+	border-radius: var(--ap-radius-pill);
+	background: var(--ap-white);
+	box-shadow: none;
+	font-family: var(--ap-font-utility);
+	font-size: 0.875rem;
+	font-weight: var(--ap-weight-button);
+	line-height: 1.2;
+	color: var(--ap-text-heading);
+	text-transform: none;
+	letter-spacing: normal;
+	cursor: pointer;
+	transition-property: border-color, color;
+	transition-duration: var(--ap-dur-base);
+	transition-timing-function: var(--ap-ease-standard);
+}
+
+.ap-integration-directory .ap-integration-directory__reset:hover {
+	border-color: var(--ap-brand-indigo);
+	background: var(--ap-white);
+	color: var(--ap-brand-indigo);
+}
+
+.ap-integration-directory .ap-integration-directory__empty-link {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	font-family: var(--ap-font-utility);
+	font-size: 0.875rem;
+	font-weight: var(--ap-weight-link);
+	line-height: 1.4;
+	color: var(--ap-brand-indigo);
+	text-decoration: none;
+}
+
+.ap-integration-directory .ap-integration-directory__empty-link:hover {
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.ap-integration-directory .ap-integration-directory__empty-link:hover .ap-integration-directory__arrow {
+	translate: 4px 0;
+}
+
+/* ---- pager ---- */
+
+.ap-integration-directory .ap-integration-directory__pager {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.ap-integration-directory .ap-integration-directory__pager[hidden] {
+	display: none;
+}
+
+.ap-integration-directory .ap-integration-directory__step,
+.ap-integration-directory .ap-integration-directory__page {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0;
+	border: 0;
+	border-top: 2px solid transparent;
+	border-radius: 0;
+	background: none;
+	box-shadow: none;
+	font-family: var(--ap-font-body);
+	font-size: 0.875rem;
+	font-weight: var(--ap-weight-body);
+	line-height: 1.5;
+	letter-spacing: normal;
+	text-transform: none;
+	color: var(--ap-slate-500);
+	cursor: pointer;
+	transition-property: border-color, color;
+	transition-duration: var(--ap-dur-base);
+	transition-timing-function: var(--ap-ease-standard);
+}
+
+.ap-integration-directory .ap-integration-directory__step {
+	gap: 12px;
+	min-height: 44px;
+	padding: 0 14px;
+	border: 1px solid var(--ap-slate-200);
+	border-radius: var(--ap-radius-pill);
+	background: var(--ap-white);
+	color: var(--ap-text-heading);
+}
+
+.ap-integration-directory__step-icon {
+	display: inline-block;
+	flex: none;
+	width: 20px;
+	height: 20px;
+	background-color: var(--ap-brand-green);
+	-webkit-mask: url("assets/arrow-narrow-left.svg") center / 20px 20px no-repeat;
+	mask: url("assets/arrow-narrow-left.svg") center / 20px 20px no-repeat;
+	transition: background-color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-integration-directory__step--next .ap-integration-directory__step-icon {
+	-webkit-mask-image: url("assets/arrow-narrow-right.svg");
+	mask-image: url("assets/arrow-narrow-right.svg");
+}
+
+.ap-integration-directory .ap-integration-directory__step[aria-disabled="true"] {
+	color: var(--ap-slate-400);
+	cursor: default;
+}
+
+.ap-integration-directory .ap-integration-directory__step[aria-disabled="true"] .ap-integration-directory__step-icon {
+	background-color: var(--ap-slate-300);
+}
+
+.ap-integration-directory .ap-integration-directory__pages {
+	display: none;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ap-integration-directory .ap-integration-directory__pages li {
+	margin: 0;
+	padding: 0;
+}
+
+.ap-integration-directory .ap-integration-directory__page,
+.ap-integration-directory .ap-integration-directory__gap {
+	min-width: 40px;
+	padding: 16px 16px 0;
+}
+
+.ap-integration-directory .ap-integration-directory__gap {
+	display: block;
+	border-top: 2px solid transparent;
+	font-size: 0.875rem;
+	line-height: 1.5;
+	text-align: center;
+	color: var(--ap-slate-500);
+}
+
+.ap-integration-directory .ap-integration-directory__page[aria-current="page"] {
+	border-top-color: var(--ap-indigo-700);
+	color: var(--ap-brand-indigo);
+	cursor: default;
+}
+
+.ap-integration-directory .ap-integration-directory__page-of {
+	margin: 0;
+	font-size: 0.875rem;
+	font-weight: var(--ap-weight-body-medium);
+	line-height: 1.5;
+	color: var(--ap-text-heading);
+	text-align: center;
+}
+
+@media (hover: hover) {
+	.ap-integration-directory .ap-integration-directory__page:not([aria-current="page"]):hover {
+		border-top-color: var(--ap-slate-300);
+		color: var(--ap-text-heading);
+	}
+
+	.ap-integration-directory .ap-integration-directory__step:not([aria-disabled="true"]):hover {
+		border-color: var(--ap-indigo-300);
+		color: var(--ap-text-heading);
+	}
+}
+
+.ap-integration-directory .ap-integration-directory__step:focus-visible,
+.ap-integration-directory .ap-integration-directory__page:focus-visible,
+.ap-integration-directory .ap-integration-directory__reset:focus-visible,
+.ap-integration-directory .ap-integration-directory__empty-link:focus-visible {
+	outline: 2px solid var(--ap-brand-indigo);
+	outline-offset: 2px;
+}
+
+/* ---- phones and tablets: categories as a chip row ---- */
+
+@media (max-width: 1023.98px) {
+	.ap-integration-directory .ap-integration-directory__legend {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0 0 0 0);
+		clip-path: inset(50%);
+		white-space: nowrap;
+	}
+
+	.ap-integration-directory .ap-integration-directory__filter {
+		margin-inline: -24px;
+	}
+
+	.ap-integration-directory__cats {
+		flex-direction: row;
+		gap: 8px;
+		padding: 2px 24px 4px;
+		overflow-x: auto;
+		overscroll-behavior-x: contain;
+		scroll-padding-inline: 24px;
+		scrollbar-width: none;
+		-webkit-mask-image: linear-gradient(90deg, transparent 0, #000 20px, #000 calc(100% - 20px), transparent 100%);
+		mask-image: linear-gradient(90deg, transparent 0, #000 20px, #000 calc(100% - 20px), transparent 100%);
+	}
+
+	.ap-integration-directory__cats::-webkit-scrollbar {
+		display: none;
+	}
+
+	.ap-integration-directory .ap-integration-directory__cat {
+		flex: none;
+		align-items: center;
+		gap: 6px;
+		padding: 7px 14px 7px 10px;
+		border: 1px solid var(--ap-slate-200);
+		border-radius: var(--ap-radius-pill);
+		background: var(--ap-white);
+		font-size: 0.875rem;
+		font-weight: var(--ap-weight-body-medium);
+		line-height: 1.4;
+		white-space: nowrap;
+	}
+
+	.ap-integration-directory__cat-icon {
+		width: 20px;
+		height: 20px;
+		background-size: 20px 20px;
+	}
+
+	.ap-integration-directory .ap-integration-directory__cat:has(.ap-integration-directory__radio:checked) {
+		border-color: var(--ap-brand-indigo);
+		background: var(--ap-indigo-50);
+	}
+
+	.ap-integration-directory .ap-integration-directory__cat:has(.ap-integration-directory__radio:focus-visible) {
+		outline-offset: 2px;
+	}
+}
+
+@media (min-width: 600px) {
+	.ap-integration-directory .ap-integration-directory__grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.ap-integration-directory .ap-integration-directory__card {
+		padding: 24px 24px 28px;
+	}
+
+	.ap-integration-directory__logo {
+		margin-bottom: 24px;
+	}
+
+	.ap-integration-directory .ap-integration-directory__name {
+		font-size: 1.25rem;
+	}
+}
+
+@media (min-width: 768px) {
+	.ap-integration-directory__body {
+		gap: 20px;
+	}
+
+	.ap-integration-directory__main {
+		gap: 32px;
+	}
+
+	.ap-integration-directory .ap-integration-directory__input {
+		height: 58px;
+		padding-left: 24px;
+		font-size: 1.0625rem;
+	}
+
+	.ap-integration-directory .ap-integration-directory__step {
+		padding: 14px 4px 0 0;
+		min-height: 0;
+		border: 0;
+		border-top: 2px solid transparent;
+		border-radius: 0;
+		background: none;
+		color: var(--ap-slate-500);
+	}
+
+	.ap-integration-directory .ap-integration-directory__step--next {
+		padding: 14px 0 0 4px;
+	}
+
+	.ap-integration-directory .ap-integration-directory__pager {
+		align-items: flex-start;
+	}
+
+	.ap-integration-directory .ap-integration-directory__pages {
+		display: flex;
+	}
+
+	.ap-integration-directory .ap-integration-directory__page-of {
+		display: none;
+	}
+
+	@media (hover: hover) {
+		.ap-integration-directory .ap-integration-directory__step:not([aria-disabled="true"]):hover {
+			border-top-color: var(--ap-slate-300);
+		}
+	}
+}
+
+@media (min-width: 900px) {
+	.ap-integration-directory .ap-integration-directory__grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+
+/* ---- desktop: categories column beside the grid ---- */
+
+@media (min-width: 1024px) {
+	.ap-integration-directory__body {
+		grid-template-columns: 228px minmax(0, 1fr);
+		align-items: start;
+		gap: 24px;
+	}
+
+	/* 1024-1279: a 15px list keeps 'IT & device management' on one line in the narrower column */
+	.ap-integration-directory .ap-integration-directory__cat {
+		padding-inline: 8px;
+		font-size: 0.9375rem;
+	}
+
+	.ap-integration-directory--no-filter .ap-integration-directory__body {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.ap-integration-directory__main {
+		gap: 40px;
+	}
+}
+
+@media (min-width: 1280px) {
+	.ap-integration-directory__body {
+		grid-template-columns: 239px minmax(0, 1fr);
+		gap: 28px;
+	}
+
+	.ap-integration-directory .ap-integration-directory__cat {
+		padding-inline: 12px;
+		font-size: 1rem;
+	}
+
+	/* Cards size to their content (Figma fixes them at 360px, which left ~80px of
+	 * white under every description); each grid row still evens out its cards. */
+	.ap-integration-directory .ap-integration-directory__card {
+		padding: 24px 24px 28px;
+	}
+}
+
+/* ---- phones: tighter cards, corner arrow ---- */
+
+@media (max-width: 599.98px) {
+	.ap-integration-directory {
+		--ap-intdir-ls: 0.75;
+	}
+
+	.ap-integration-directory__logo {
+		margin-bottom: 14px;
+		padding-right: 32px;
+	}
+
+	.ap-integration-directory__more {
+		position: absolute;
+		top: 20px;
+		right: 16px;
+		margin: 0;
+		padding: 0;
+		font-size: 0;
+		gap: 0;
+	}
+
+	.ap-integration-directory .ap-integration-directory__desc {
+		margin-top: 6px;
+	}
+}
+
+/* ---- accessibility preferences ---- */
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-integration-directory .ap-integration-directory__card,
+	.ap-integration-directory .ap-integration-directory__arrow,
+	.ap-integration-directory .ap-integration-directory__cat,
+	.ap-integration-directory .ap-integration-directory__input,
+	.ap-integration-directory .ap-integration-directory__step,
+	.ap-integration-directory .ap-integration-directory__page {
+		transition: none;
+	}
+
+	.ap-integration-directory .ap-integration-directory__card--link:hover {
+		translate: 0 0;
+	}
+}
+
+@media (forced-colors: active) {
+	.ap-integration-directory__accent {
+		background-image: none;
+		color: CanvasText;
+		-webkit-text-fill-color: CanvasText;
+	}
+
+	.ap-integration-directory__radio:checked ~ .ap-integration-directory__cat-text {
+		text-decoration: underline;
+	}
+
+	.ap-integration-directory .ap-integration-directory__page[aria-current="page"] {
+		border-top-color: Highlight;
+	}
+}
+
+/* ------------------------------------------------------------ Compare hub layouts (opt-in: layout "compare" / "compare-band")
+ * compare: Figma Desktop - Compare > Features Section (7333:173384, 2026-10-29): the head row is the eyebrow and a
+ * 20/800 heading (Headline/H5) on the left and the 58px search on the right, 528px each with a 64px gap; then three
+ * columns of 280px cards (8px gaps; 24/24/32 padding; a 64px logo row, 24px, the name 20/800/1.2 on three lines
+ * "Asset Panda Pro / vs. / X", and the View Comparison row pinned to the foot) and the pager.
+ * compare-band: Figma 7379:185289: the same cards four across under a centred eyebrow / H2 / lede (640px). Figma
+ * fades the band from slate-50; it stays white here (kit QA 2026-10-29: white-to-#f9fafb fades read as grey bands). */
+.ap-integration-directory--compare .ap-integration-directory__top {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.ap-integration-directory--compare .ap-integration-directory__top > * {
+	flex: 1 1 0;
+	min-width: 0;
+}
+
+.ap-integration-directory--compare .ap-integration-directory__head {
+	gap: 8px;
+}
+
+.ap-integration-directory--compare:not(.ap-integration-directory--compare-band) .ap-integration-directory__title {
+	font-size: 1.25rem;
+	line-height: 1.4;
+	letter-spacing: normal;
+	text-wrap: pretty;
+}
+
+.ap-integration-directory--compare .ap-integration-directory__card {
+	padding: 24px 24px 32px;
+}
+
+.ap-integration-directory--compare .ap-integration-directory__logo {
+	height: calc(64px * var(--ap-intdir-ls));
+	margin-bottom: 24px;
+}
+
+.ap-integration-directory--compare .ap-integration-directory__name {
+	font-size: 1.25rem;
+	font-weight: var(--ap-type-heading-weight);
+	line-height: 1.2;
+	overflow-wrap: normal;
+}
+
+.ap-integration-directory--compare .ap-integration-directory__more {
+	padding-top: 24px;
+}
+
+.ap-integration-directory--compare-band .ap-integration-directory__head {
+	gap: var(--ap-section-title-gap);
+	align-items: center;
+	max-width: 640px;
+	margin-inline: auto;
+	text-align: center;
+}
+
+@media (min-width: 768px) {
+	.ap-integration-directory--compare .ap-integration-directory__top {
+		flex-direction: row;
+		align-items: center;
+		gap: 64px;
+	}
+}
+
+@media (min-width: 900px) {
+	.ap-integration-directory--compare .ap-integration-directory__card {
+		min-height: 280px;
+	}
+}
+
+@media (min-width: 1024px) {
+	.ap-integration-directory--compare-band .ap-integration-directory__grid {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+}
+
+/* Phones: two cards a row (the names are short), the logo at 0.6 and the arrow in the card's corner. */
+@media (max-width: 599.98px) {
+	.ap-integration-directory--compare {
+		--ap-intdir-ls: 0.6;
+	}
+
+	.ap-integration-directory--compare .ap-integration-directory__grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.ap-integration-directory--compare .ap-integration-directory__card {
+		padding: 16px 14px 18px;
+	}
+
+	.ap-integration-directory--compare .ap-integration-directory__logo {
+		margin-bottom: 12px;
+		padding-right: 24px;
+	}
+
+	.ap-integration-directory--compare .ap-integration-directory__name {
+		font-size: 1rem;
+		line-height: 1.25;
+	}
+
+	.ap-integration-directory--compare .ap-integration-directory__more {
+		top: 14px;
+		right: 10px;
+		padding: 0;
+	}
+}
+
+/* QA 2026-10-29 (Joseph, /integrations/): the Categories list stays in view while the cards scroll — pinned under the
+   site header (72px) with a 32px breath, released at the end of the directory (it is a grid item aligned to start).
+   Desktop only: below 1024px the categories are the horizontal chip row above the grid. */
+@media (min-width: 1024px) {
+	.ap-integration-directory .ap-integration-directory__filter {
+		position: sticky;
+		top: 104px;
+	}
+}

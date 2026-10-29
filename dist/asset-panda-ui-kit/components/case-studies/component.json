@@ -1,0 +1,14 @@
+{
+	"name": "case-studies",
+	"description": "Customer-story slider: a white testimonial card overlapping a large photo, with arrows, a rule and dots below. Figma: Home Page > Case Studies (4331:24818).",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading. Line breaks are kept." },
+		"intro": { "type": "string", "required": false, "default": "", "description": "Supporting paragraph under the heading." },
+		"cta_label": { "type": "string", "required": false, "default": "", "description": "Header link text, e.g. View All Case Studies. Renders only with cta_url." },
+		"cta_url": { "type": "string", "required": false, "default": "", "description": "Header link destination." },
+		"items": { "type": "array", "required": true, "description": "Slides. Each: title (required); optional category, quote, author, role, logo, logo_alt, image, image_alt, link_label, link_url." },
+		"reveal": { "type": "boolean", "required": false, "default": true, "description": "Reveal the section on scroll." },
+		"autoplay_ms": { "type": "integer", "required": false, "default": 3000, "description": "Milliseconds between automatic slide changes (default 3000; 0 turns autoplay off; values under 1500 are raised to 1500). Autoplay pauses on hover, keyboard focus, touch, a playing video, an off-screen slider and a hidden tab, and never runs under prefers-reduced-motion." }
+	}
+}

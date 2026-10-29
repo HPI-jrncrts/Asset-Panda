@@ -1,0 +1,69 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/pricing-hero",
+	"title": "AP Pricing Hero",
+	"category": "design",
+	"icon": "money-alt",
+	"description": "Pricing page hero: eyebrow, headline and body copy beside a white card holding the HubSpot quote form. Live: the `.ap-pricing-hero` section on /new-pricing/. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"body": {
+			"type": "string",
+			"default": ""
+		},
+		"form_label": {
+			"type": "string",
+			"default": ""
+		},
+		"hubspot_portal": {
+			"type": "string",
+			"default": ""
+		},
+		"hubspot_form": {
+			"type": "string",
+			"default": ""
+		},
+		"hubspot_region": {
+			"type": "string",
+			"default": "na1"
+		},
+		"form_placeholders": {
+			"type": "object",
+			"default": {}
+		},
+		"form_submit": {
+			"type": "string",
+			"default": ""
+		},
+		"form_redirect": {
+			"type": "string",
+			"default": ""
+		},
+		"form_enrich_fields": {
+			"type": "array",
+			"default": []
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

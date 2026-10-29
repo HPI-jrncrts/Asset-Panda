@@ -1,0 +1,44 @@
+
+/* QA 2026-10-29: phones had no way to log in (the login menu lives in the desktop header only).
+   The drawer now ends with the same logins as the desktop menu, as in Figma's mobile menu. */
+.ap-site-header__mob .ap-mobile-menu-login {
+	display: grid;
+	gap: 8px;
+	margin-top: 18px;
+	padding-top: 14px;
+	border-top: 1px solid #eef0f4;
+}
+.ap-site-header__mob .ap-mobile-menu-login > p {
+	margin: 0 0 2px;
+	color: var(--ap-indigo-600);
+	font-size: 11px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+.ap-site-header__mob .ap-mobile-menu-login a {
+	min-height: 44px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 0 14px;
+	border: 1px solid #dfe3ea;
+	border-radius: 5px;
+	background: #fff;
+	color: #25272c;
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.2;
+	text-decoration: none;
+}
+.ap-site-header__mob .ap-mobile-menu-login a:focus-visible {
+	outline: 2px solid var(--ap-indigo-600);
+	outline-offset: 2px;
+}
+.ap-site-header__mob .ap-mobile-menu-login small {
+	color: #6b7280;
+	font-size: 12px;
+	font-weight: 500;
+}

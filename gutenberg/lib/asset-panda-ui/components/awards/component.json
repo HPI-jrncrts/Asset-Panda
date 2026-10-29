@@ -2,10 +2,10 @@
 	"name": "awards",
 	"description": "A row of award, rating and compliance badges. Logos only, no copy. Sits between major sections as a trust strip.",
 	"props": {
-		"items": { "type": "array", "required": true, "description": "Badges. Each entry: `image` (URL, required), `alt` (required), optional `url` to link the badge." },
+		"items": { "type": "array", "required": true, "description": "Badges. Each entry: `image` (URL, required), `alt` (required), optional `url` to link the badge, and optional `w` (badge width in px per step: d desktop, t at 1279px, m at 767px, s at 480px — the row layout sizes each badge as live does). The hub and eduhub layouts draw each badge at one size at every width: `w` (a number, or the d of the per-step object), plus `h` (height in px, hub only) and `radius` (corner radius in px, hub only)." },
 		"title": { "type": "string", "required": false, "default": "", "description": "Visually-hidden heading naming the group, for screen readers." },
 		"theme": { "type": "string", "required": false, "default": "light", "enum": [ "light", "alt" ], "description": "Background colour scheme." },
-		"layout": { "type": "string", "required": false, "default": "wrap", "enum": [ "wrap", "row", "spread" ], "description": "wrap: centred rows that wrap (homepage). row: one centred row of 100px badges (product pages). spread: one row edge to edge (industry hubs)." },
+		"layout": { "type": "string", "required": false, "default": "wrap", "enum": [ "wrap", "row", "spread", "hub", "eduhub" ], "description": "wrap: centred rows that wrap (homepage). row: one centred row of 100px badges (product pages). spread: one row edge to edge (earlier hub build). hub: the Government, Healthcare, Construction and Manufacturing hubs (live #ap-gov-awards, ported whole: one row edge to edge, each badge at its own w x h, a marquee from 1024px down). eduhub: the Education hub (live #ap-eduhub-awards, ported whole: a centred row of badges up to 64px tall, a marquee from 1024px down, tighter padding on phones). The hub layouts follow live and do not stagger the badges in." },
 		"reveal": { "type": "boolean", "required": false, "default": true, "description": "Stagger the badges in on scroll." }
 	}
 }

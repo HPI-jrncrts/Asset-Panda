@@ -1,0 +1,7 @@
+{
+	"name": "solution-awards",
+	"description": "Award badges spaced across one row on a soft grey band; a masked marquee below 901px. Live: the .epx-awards section on the solution pages, Emergency Preparedness, School Reunification and Help Desk (rules ported).",
+	"props": {
+		"items": { "type": "array", "required": true, "description": "Badges, in order. Each: image (required), alt, w and h (the badge's display size in px, as live sets it)." }
+	}
+}

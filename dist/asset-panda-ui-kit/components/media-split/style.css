@@ -1,0 +1,373 @@
+/*
+ * media-split — ported from one row of the live #ap-gov-intel. Scene layers
+ * arrive as inline percentages.
+ */
+
+:where(.ap-media-split, .ap-media-split *, .ap-media-split *::before, .ap-media-split *::after) {
+	box-sizing: border-box;
+}
+
+.ap-media-split {
+	position:relative;
+	background:#fff;
+	font-family:Manrope,sans-serif;
+	padding:var(--apg-pad-t,40px) 24px var(--apg-pad-b,40px);
+	overflow-x:clip
+}
+
+.ap-media-split .apg-int-row {
+	max-width:1120px;
+	margin:0 auto;
+	width:100%;
+	display:flex;
+	align-items:center;
+	gap:28px
+}
+
+.ap-media-split .apg-int-scene {
+	position:relative;
+	flex:0 0 var(--apg-scene-w, 546px);
+	width:var(--apg-scene-w, 546px);
+	height:var(--apg-scene-h, 364px)
+}
+
+.ap-media-split .apg-int-scene img {
+	position:absolute;
+	height:auto;
+	margin:0;
+	display:block;
+	max-width:none;
+	pointer-events:none
+}
+
+.ap-media-split .apg-glow {
+	position:absolute;
+	border-radius:50%;
+	filter:blur(45px);
+	pointer-events:none
+}
+
+.ap-media-split .apg-tile-crop {
+	-webkit-mask-image:radial-gradient(ellipse closest-side,#000 60%,transparent 96%);
+	mask-image:radial-gradient(ellipse closest-side,#000 60%,transparent 96%)
+}
+
+.ap-media-split .apg-float {
+	animation:apMediaSplitBob 5.5s ease-in-out infinite alternate
+}
+
+.ap-media-split .apg-float:nth-of-type(2n) {
+	animation-duration:7s;
+	animation-delay:.7s
+}
+
+.ap-media-split .apg-float:nth-of-type(3n) {
+	animation-duration:6.2s;
+	animation-delay:1.4s
+}
+
+@keyframes apMediaSplitBob {
+	from {
+	translate:0 0
+}
+
+to {
+	translate:0 -10px
+}
+
+
+}
+
+.ap-media-split .apg-int-copy {
+	flex:1;
+	min-width:0;
+	display:flex;
+	flex-direction:column;
+	gap:8px;
+	align-items:flex-start;
+	padding-top:8px
+}
+
+.ap-media-split .apg-eyebrow {
+	font-size:14px;
+	font-weight:800;
+	line-height:1.2;
+	letter-spacing:.56px;
+	text-transform:uppercase;
+	color:#5044e1;
+	margin:0 0 8px
+}
+
+.ap-media-split h2.apg-h2 {
+	font-size:40px;
+	font-weight:800;
+	line-height:1.2;
+	color:#25272c;
+	margin:0
+}
+
+.ap-media-split .apg-h2-grad {
+	background:linear-gradient(34.323deg,#5044e1 0%,#00a991 70.44%);
+	-webkit-background-clip:text;
+	background-clip:text;
+	color:transparent
+}
+
+.ap-media-split .apg-int-body {
+	font-size:14px;
+	line-height:1.5;
+	color:#4a4e5a;
+	margin:0
+}
+
+.ap-media-split .apg-int-body sup {
+	font-size:9px;
+	font-weight:700;
+	vertical-align:super;
+	line-height:0
+}
+
+.ap-media-split .apg-int-ctas {
+	display:flex;
+	flex-direction:column;
+	gap:16px;
+	align-items:flex-start;
+	padding-top:16px
+}
+
+.ap-media-split .apg-int-cta {
+	display:flex;
+	align-items:center;
+	gap:8px;
+	font-size:14px;
+	font-weight:700;
+	line-height:1.2;
+	color:#25272c;
+	text-decoration:none
+}
+
+.ap-media-split .apg-int-cta img {
+	width:24px;
+	height:24px;
+	display:block;
+	filter:brightness(0) saturate(100%) invert(43%) sepia(99%) saturate(1178%) hue-rotate(131deg) brightness(92%) contrast(101%);
+	transition:translate .3s cubic-bezier(.25,.45,.45,.95)
+}
+
+.ap-media-split .apg-int-cta:hover img {
+	translate:4px 0
+}
+
+.ap-media-split .apg-int-cta:hover span {
+	background:linear-gradient(34deg,#5044e1 0%,#00a991 70.44%);
+	-webkit-background-clip:text;
+	background-clip:text;
+	color:transparent
+}
+
+@media (max-width:1180px) {
+	
+}
+
+@media (max-width:1024px) {
+	.ap-media-split:not(.ap-media-split--stack-900) .apg-int-row {
+	flex-direction:column
+}
+	.ap-media-split:not(.ap-media-split--stack-900) .apg-int-scene {
+	flex:none;
+	width:100%;
+	max-width:546px;
+	height:auto;
+	aspect-ratio:546/364;
+	order:2
+}
+	.ap-media-split:not(.ap-media-split--stack-900) .apg-int-copy {
+	order:1
+}
+}
+@media (max-width: 900px) {
+	.ap-media-split.ap-media-split--stack-900 .apg-int-row {
+	flex-direction:column
+}
+	.ap-media-split.ap-media-split--stack-900 .apg-int-scene {
+	flex:none;
+	width:100%;
+	max-width:546px;
+	height:auto;
+	aspect-ratio:546/364;
+	order:2
+}
+	.ap-media-split.ap-media-split--stack-900 .apg-int-copy {
+	order:1
+}
+}
+
+@media (max-width:767px) {
+	.ap-media-split:not(.ap-media-split--stack-900) {
+	padding:48px 24px 64px;
+	gap:56px
+}
+	.ap-media-split:not(.ap-media-split--stack-900) h2.apg-h2 {
+	font-size:28px
+}
+	.ap-media-split:not(.ap-media-split--stack-900) .apg-int-scene {
+	transform:scale(1.22);
+	margin:20px 0 28px
+}
+}
+@media (max-width:767px) {
+	.ap-media-split.ap-media-split--stack-900 {
+	padding:48px 24px 64px;
+	gap:56px
+}
+	.ap-media-split.ap-media-split--stack-900 h2.apg-h2 {
+	font-size:28px
+}
+	.ap-media-split.ap-media-split--stack-900 .apg-int-scene {
+	transform:scale(1.22);
+	margin:20px 0 28px
+}
+}
+
+@media (max-width:767px) {
+	.ap-media-split:not(.ap-media-split--stack-900) {
+	padding:28px 24px
+}
+}
+@media (max-width:767px) {
+	.ap-media-split.ap-media-split--stack-900 {
+	padding:28px 24px
+}
+}
+
+/* Help desk row: a sub-heading, a bullet list, and labels pinned over the scene. */
+.ap-media-split .apg-int-h3 {
+	margin: 0;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: 24px;
+	font-weight: 800;
+	line-height: 1.3;
+}
+
+.ap-media-split .apg-int-bullets {
+	margin: 0;
+	padding-left: 20px;
+	color: var(--ap-text-body);
+	font-family: var(--ap-font-body);
+	font-size: 16px;
+	line-height: 1.6;
+}
+
+.ap-media-split .apg-int-chip {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 8px 14px;
+	border-radius: 999px;
+	border: 1px solid #fff;
+	background: rgba(255, 255, 255, .92);
+	box-shadow: 0 2px 12px rgba(37, 39, 44, .08);
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1.2;
+	white-space: nowrap;
+}
+
+.ap-media-split .apg-int-chip img,
+.ap-media-split .apg-int-chip .ap-inline-icon svg { width: 20px; height: 20px; display: block; flex: 0 0 20px; }
+
+@media (max-width: 900px) {
+	.ap-media-split:not(.ap-media-split--stack-900) .apg-int-chip { font-size: 12px; padding: 6px 10px; gap: 6px; }
+}
+@media (max-width: 900px) {
+	.ap-media-split.ap-media-split--stack-900 .apg-int-chip { font-size: 12px; padding: 6px 10px; gap: 6px; }
+}
+
+/* Heading centred above the row (the help desk problem section). */
+.ap-media-split .apg-int-head {
+	max-width: 720px;
+	margin: 0 auto 40px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	gap: 16px;
+}
+
+.ap-media-split .apg-int-head .apg-h2 { margin: 0; }
+
+/* stack-900 variant generated */
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: --ap-section-y top and bottom at every width (was 40 / 40
+ * plus per-page --apg-pad-t / --apg-pad-b of 80 and 160, then 48 / 64 and
+ * 28 / 28 on phones). Two splits in a row are one section in two rows: the
+ * second drops its top padding, so the rows sit one --ap-section-y apart
+ * instead of two. */
+html body .ap-media-split.ap-media-split { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+html body *:has(> .ap-media-split) + *:has(> .ap-media-split) > .ap-media-split.ap-media-split { padding-top: 0; }
+html body .ap-media-split .apg-int-head { margin-bottom: var(--ap-section-head-gap, 48px); }
+/* PageSpeed: the glows are radial gradients already; drop the blur filter. */
+.ap-media-split .apg-glow { filter: none; }
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-media-split.ap-media-split.ap-media-split h2.apg-h2 { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+/* Section eyebrow on the type scale too: 12px at 390 to 14px at 1440, 800, 4% tracking, upper case. */
+html body .ap-media-split.ap-media-split.ap-media-split .apg-eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }
+/* Phones (QA 2026-10-28): the paragraph under the title was 14px while every
+ * other section's copy is 16px on phones. */
+@media (max-width: 767px) {
+	html body .ap-media-split .apg-int-body { font-size: 16px; }
+}
+
+/* QA 2026-10-29 (Joseph, /solutions/energy-utilities/ and the other industry pages with two splits in a row:
+ * "move the gradient in between sections"; "remove the gradient background on the panda … the square is obvious").
+ * 1. The same soft "puddle" the hub pages carry, anchored to the gap between the two rows: drawn by the FIRST split
+ *    (its own stacking context, so the wash sits behind its content; matched through the block wrapper, since a
+ *    :has() may not sit inside another :has()) and centred 32px below it (the middle of the
+ *    64px gap); the second split is transparent so the wash shows on through to its content.
+ * 2. The scene art is drawn with a multiply blend: its white or near-white ground then shows whatever is behind it
+ *    (white, or the puddle) instead of a visible box. Over white it is pixel-identical. */
+html body .wp-block-assetpanda-media-split:has(+ .wp-block-assetpanda-media-split) > .ap-media-split {
+	isolation: isolate;
+}
+html body .wp-block-assetpanda-media-split:has(+ .wp-block-assetpanda-media-split) > .ap-media-split::after {
+	content: "";
+	position: absolute;
+	z-index: -1;
+	left: 50%;
+	width: 100vw;
+	translate: -50% 0;
+	top: calc(100% - 182px);
+	height: 300px;
+	pointer-events: none;
+	background:
+		radial-gradient(ellipse 26% 44% at 50% 50%, rgba(80, 68, 225, .20), rgba(80, 68, 225, .08) 45%, rgba(80, 68, 225, 0) 100%),
+		radial-gradient(ellipse 20% 36% at 62% 40%, rgba(0, 169, 145, .20), rgba(0, 169, 145, .07) 45%, rgba(0, 169, 145, 0) 100%),
+		radial-gradient(ellipse 18% 34% at 39% 62%, rgba(230, 28, 85, .13), rgba(230, 28, 85, .05) 45%, rgba(230, 28, 85, 0) 100%),
+		radial-gradient(ellipse 16% 30% at 57% 66%, rgba(243, 191, 81, .18), rgba(243, 191, 81, .06) 45%, rgba(243, 191, 81, 0) 100%),
+		radial-gradient(ellipse 22% 38% at 44% 36%, rgba(120, 108, 240, .16), rgba(120, 108, 240, .06) 45%, rgba(120, 108, 240, 0) 100%);
+}
+html body *:has(> .ap-media-split) + *:has(> .ap-media-split) > .ap-media-split.ap-media-split {
+	background: transparent;
+}
+.ap-media-split .apg-int-scene img {
+	mix-blend-mode: multiply;
+}
+@media (max-width: 767px) {
+	html body .wp-block-assetpanda-media-split:has(+ .wp-block-assetpanda-media-split) > .ap-media-split::after {
+		top: calc(100% - 150px);
+		height: 260px;
+		background:
+			radial-gradient(ellipse 60% 40% at 50% 50%, rgba(80, 68, 225, .20), rgba(80, 68, 225, .08) 45%, rgba(80, 68, 225, 0) 100%),
+			radial-gradient(ellipse 45% 32% at 70% 42%, rgba(0, 169, 145, .20), rgba(0, 169, 145, .07) 45%, rgba(0, 169, 145, 0) 100%),
+			radial-gradient(ellipse 40% 30% at 30% 60%, rgba(230, 28, 85, .13), rgba(230, 28, 85, .05) 45%, rgba(230, 28, 85, 0) 100%);
+	}
+}

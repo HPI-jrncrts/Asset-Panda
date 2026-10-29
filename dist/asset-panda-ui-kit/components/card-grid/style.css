@@ -1,0 +1,302 @@
+/*
+ * card-grid — centred heading over a grid of cards.
+ *
+ * Cards are white with a hairline border and a soft shadow (the thanks-steps
+ * card look); image cards show their picture edge to edge at the top, icon
+ * cards a 56px icon. Columns: 3 (or 2) from 992px, 2 from 640px, 1 below.
+ */
+
+.ap-card-grid,
+.ap-card-grid * {
+	box-sizing: border-box;
+}
+
+.ap-card-grid {
+	width: 100%;
+	padding: 72px 24px 88px;
+	background: var(--ap-white);
+	font-family: var(--ap-font-body);
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.5;
+	color: var(--ap-text-body);
+}
+
+.ap-card-grid--soft {
+	background: var(--ap-surface-alt);
+}
+
+.ap-card-grid :where(h1, h2, h3, p) {
+	text-wrap: wrap;
+}
+
+.ap-card-grid__inner {
+	width: 100%;
+	max-width: var(--ap-host-container, 1120px);
+	margin: 0 auto;
+}
+
+.ap-card-grid__head {
+	max-width: 760px;
+	margin: 0 auto 48px;
+	text-align: center;
+}
+
+.ap-card-grid .ap-card-grid__eyebrow {
+	margin: 0 0 12px;
+	color: var(--ap-text-eyebrow);
+	font-size: 14px;
+	font-weight: var(--ap-weight-eyebrow);
+	line-height: 1.2;
+	letter-spacing: .56px;
+	text-transform: uppercase;
+}
+
+.ap-card-grid .ap-card-grid__title {
+	margin: 0;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-body);
+	font-size: clamp(30px, 3.4vw, 44px);
+	font-weight: var(--ap-weight-heading);
+	line-height: 1.15;
+	letter-spacing: -0.02em;
+	text-transform: none;
+}
+
+.ap-card-grid .ap-card-grid__sub {
+	margin: 14px 0 0;
+	color: var(--ap-text-body-strong);
+	font-size: 20px;
+	font-weight: 700;
+	line-height: 1.4;
+}
+
+.ap-card-grid .ap-card-grid__intro {
+	margin: 12px 0 0;
+	color: var(--ap-text-body);
+	font-size: 18px;
+	line-height: 1.55;
+}
+
+.ap-card-grid__grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 24px;
+}
+
+.ap-card-grid__grid--2 {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.ap-card-grid__card {
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	border: 1px solid var(--ap-slate-100);
+	border-radius: var(--ap-radius-xl);
+	background: var(--ap-white);
+	box-shadow: 0 4px 16px rgba(37, 39, 44, .06);
+}
+
+.ap-card-grid__card:not(.ap-card-grid__card--image) {
+	padding: 32px;
+}
+
+.ap-card-grid__media {
+	background: var(--ap-indigo-50);
+	line-height: 0;
+}
+
+.ap-card-grid__media img {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+
+.ap-card-grid__icon {
+	display: block;
+	width: 56px;
+	height: 56px;
+	margin: 0 0 20px;
+	object-fit: contain;
+}
+
+.ap-card-grid__body {
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.ap-card-grid__card--image .ap-card-grid__body {
+	padding: 24px 28px 28px;
+}
+
+.ap-card-grid .ap-card-grid__card-title {
+	margin: 0 0 10px;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-body);
+	font-size: 22px;
+	font-weight: var(--ap-weight-heading);
+	line-height: 1.25;
+	letter-spacing: -0.01em;
+	text-transform: none;
+}
+
+.ap-card-grid .ap-card-grid__text {
+	margin: 0;
+	color: var(--ap-text-body);
+	font-size: 16px;
+	line-height: 1.6;
+}
+
+.ap-card-grid__text a {
+	color: var(--ap-brand-indigo);
+	font-weight: 600;
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+.ap-card-grid__text strong {
+	color: var(--ap-text-body-strong);
+	font-weight: 700;
+}
+
+.ap-card-grid__btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 44px;
+	margin-top: auto;
+	padding: 0 22px;
+	border: 1px solid var(--ap-brand-indigo);
+	border-radius: var(--ap-radius-sm);
+	color: var(--ap-brand-indigo);
+	font-size: 15px;
+	font-weight: var(--ap-weight-button);
+	line-height: 1.2;
+	text-decoration: none;
+	transition: background-color var(--ap-dur-base) var(--ap-ease-standard), color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-card-grid .ap-card-grid__text:not(:last-child) {
+	margin-bottom: 24px;
+}
+
+.ap-card-grid__btn:hover,
+.ap-card-grid__btn:focus-visible {
+	background: var(--ap-brand-indigo);
+	color: var(--ap-white);
+}
+
+@media (max-width: 991px) {
+	.ap-card-grid__grid,
+	.ap-card-grid__grid--2 {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 639px) {
+	.ap-card-grid {
+		padding: 48px 16px 56px;
+	}
+
+	.ap-card-grid__head {
+		margin-bottom: 32px;
+	}
+
+	.ap-card-grid__grid,
+	.ap-card-grid__grid--2 {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.ap-card-grid__card:not(.ap-card-grid__card--image) {
+		padding: 28px 24px;
+	}
+}
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: --ap-section-y top and bottom (was 72 / 88),
+ * --ap-section-head-gap under the head (was 48). */
+html body .ap-card-grid.ap-card-grid { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+html body .ap-card-grid .ap-card-grid__head { margin-bottom: var(--ap-section-head-gap, 48px); }
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-card-grid.ap-card-grid.ap-card-grid h2.ap-card-grid__title { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+html body .ap-card-grid.ap-card-grid.ap-card-grid h1.ap-card-grid__title { font-size: var(--ap-type-h1-size); font-weight: var(--ap-type-h1-weight); line-height: var(--ap-type-h1-line); letter-spacing: var(--ap-type-h1-track); }
+/* Section eyebrow on the type scale too: 12px at 390 to 14px at 1440, 800, 4% tracking, upper case. */
+html body .ap-card-grid.ap-card-grid.ap-card-grid .ap-card-grid__eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }
+
+/* ------------------------------------------------------------ look: resource (2026-10-29)
+ * The Resource Center's listing cards (resource-cards/style.css) for a grid of cards with no links
+ * (/start-a-free-trial-email-only/ templates): a light-ruled white card with no resting shadow and
+ * the listing's 12px corners, the photo filling the listing's 40:21 frame, the listing's title and
+ * copy type, and its row and column gaps (3 / 2 / 1 columns as the listing: 1024px and 768px). The
+ * cards are not links, so they take no hover lift. */
+.ap-card-grid.ap-card-grid--resource .ap-card-grid__grid {
+	gap: 40px 32px;
+}
+
+.ap-card-grid.ap-card-grid--resource .ap-card-grid__card {
+	border: 1px solid var(--ap-stroke);
+	border-radius: var(--ap-radius-lg);
+	background: var(--ap-surface);
+	box-shadow: none;
+}
+
+.ap-card-grid.ap-card-grid--resource .ap-card-grid__card:not(.ap-card-grid__card--image) {
+	padding: 24px;
+}
+
+.ap-card-grid.ap-card-grid--resource .ap-card-grid__media {
+	overflow: hidden;
+	aspect-ratio: 40 / 21;
+	background: var(--ap-slate-100);
+}
+
+.ap-card-grid.ap-card-grid--resource .ap-card-grid__media img {
+	height: 100%;
+	object-fit: cover;
+}
+
+.ap-card-grid.ap-card-grid--resource .ap-card-grid__card--image .ap-card-grid__body {
+	padding: 20px 24px 24px;
+}
+
+.ap-card-grid.ap-card-grid--resource .ap-card-grid__card-title {
+	margin: 0 0 8px;
+	font-family: var(--ap-font-display);
+	font-size: 22px;
+	font-weight: var(--ap-weight-heading);
+	line-height: 1.3;
+	letter-spacing: 0;
+}
+
+.ap-card-grid.ap-card-grid--resource .ap-card-grid__text {
+	font-size: 16px;
+	line-height: var(--ap-line-body);
+}
+
+@media (max-width: 1023px) {
+	.ap-card-grid.ap-card-grid--resource .ap-card-grid__grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 32px 24px;
+	}
+}
+
+@media (max-width: 767px) {
+	.ap-card-grid.ap-card-grid--resource .ap-card-grid__grid {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 24px;
+	}
+}
+
+
+/* QA 2026-10-29: sections without a gradient are pure white (Joseph, 2026-10-29). The soft variant keeps
+   its colour wash; only the grey ground goes, so it no longer ends in a hard grey-to-white step. */
+.ap-card-grid--soft {
+	background: #fff;
+}

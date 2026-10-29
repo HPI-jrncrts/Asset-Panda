@@ -1,0 +1,92 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/page-cards",
+	"title": "AP Page Cards",
+	"category": "design",
+	"icon": "block-default",
+	"description": "Card grid for the 2026 company and resource pages: centred eyebrow, heading and intro over 2 to 4 columns of white cards in one of four looks — icon (an SVG icon in a tinted tile that takes the card's brand colour), number (numbered steps joined by a rule), badge (an award or partner badge with a list of links) or plain — each with a title, copy with inline links, optional link list or whole-card link; then optional buttons and small print. Cards rise in on scroll. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
+		"tone": {
+			"type": "string",
+			"default": "white",
+			"enum": [
+				"white",
+				"soft"
+			]
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"intro": {
+			"type": "string",
+			"default": ""
+		},
+		"look": {
+			"type": "string",
+			"default": "icon",
+			"enum": [
+				"icon",
+				"number",
+				"badge",
+				"plain"
+			]
+		},
+		"columns": {
+			"type": "string",
+			"default": "3",
+			"enum": [
+				"2",
+				"3",
+				"4"
+			]
+		},
+		"items": {
+			"type": "array",
+			"default": []
+		},
+		"cta_label": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_url": {
+			"type": "string",
+			"default": ""
+		},
+		"secondary_label": {
+			"type": "string",
+			"default": ""
+		},
+		"secondary_url": {
+			"type": "string",
+			"default": ""
+		},
+		"note": {
+			"type": "string",
+			"default": ""
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

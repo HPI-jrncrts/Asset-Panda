@@ -1,0 +1,113 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/page-directory",
+	"title": "AP Page Directory",
+	"category": "design",
+	"icon": "block-default",
+	"description": "Directory grid of logo cards with optional category chips and an instant search: centred heading, a chip row built from the cards' tags (each with its count), a search box, then white cards (logo, name, tag pills, description, optional arrow link; the whole card is the link when it has a url), an optional 'more coming soon' tile and a closing line with a button. Built for /integrations/ (live's logo-expand gridder, every description shown instead of hidden behind a click; on phones long descriptions fold to three lines and a tap unfolds them) and the /compare/ guides. Filtering is behaviour.js; without it every card shows. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
+		"tone": {
+			"type": "string",
+			"default": "white",
+			"enum": [
+				"white",
+				"soft"
+			]
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"filter": {
+			"type": "boolean",
+			"default": false
+		},
+		"all_label": {
+			"type": "string",
+			"default": "All"
+		},
+		"filter_label": {
+			"type": "string",
+			"default": "Filter by category"
+		},
+		"search": {
+			"type": "boolean",
+			"default": false
+		},
+		"search_label": {
+			"type": "string",
+			"default": "Search"
+		},
+		"count_label": {
+			"type": "string",
+			"default": ""
+		},
+		"empty_text": {
+			"type": "string",
+			"default": "Nothing matches that search."
+		},
+		"columns": {
+			"type": "string",
+			"default": "4",
+			"enum": [
+				"3",
+				"4"
+			]
+		},
+		"link_label": {
+			"type": "string",
+			"default": ""
+		},
+		"items": {
+			"type": "array",
+			"default": []
+		},
+		"soon_title": {
+			"type": "string",
+			"default": ""
+		},
+		"soon_image": {
+			"type": "string",
+			"default": ""
+		},
+		"foot_text": {
+			"type": "string",
+			"default": ""
+		},
+		"foot_label": {
+			"type": "string",
+			"default": ""
+		},
+		"foot_url": {
+			"type": "string",
+			"default": ""
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

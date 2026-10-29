@@ -1,0 +1,53 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/integration-more",
+	"title": "AP Integration More",
+	"category": "design",
+	"icon": "block-default",
+	"description": "More integrations band for the integration detail pages: eyebrow, heading and lede with a 'View All Integrations' outline button, over a row of up to four cards, each a partner logo + the Asset Panda PRO panda mark with the integration's name, linking to that integration's page. Figma: Integrations Detail Page Template > Problem Section (7318:171385). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": "More integrations"
+		},
+		"title": {
+			"type": "string",
+			"default": "More ways to connect the tools you rely on."
+		},
+		"lede": {
+			"type": "string",
+			"default": "Explore other integrations that bring asset management closer to the systems your business uses every day."
+		},
+		"cta_label": {
+			"type": "string",
+			"default": "View All Integrations"
+		},
+		"cta_url": {
+			"type": "string",
+			"default": "/integrations/"
+		},
+		"brand_logo": {
+			"type": "string",
+			"default": ""
+		},
+		"items": {
+			"type": "array",
+			"default": []
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

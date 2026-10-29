@@ -1,0 +1,20 @@
+{
+	"name": "founder-quote",
+	"description": "Founder's note: eyebrow and title, then a rounded portrait with the Asset Panda logo beside a pull quote, the note itself and the attribution. Live: .apx-fdr \"Why we built it\" on the Asset Intelligence Platform page.",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the title." },
+		"title": { "type": "string", "required": true, "description": "Section title." },
+		"photo": { "type": "string", "required": false, "default": "", "description": "Portrait." },
+		"photo_alt": { "type": "string", "required": false, "default": "", "description": "Alt text for the portrait." },
+		"logo": { "type": "string", "required": false, "default": "", "description": "Logo laid over the portrait's corner." },
+		"quote_svg": { "type": "string", "required": false, "default": "", "description": "Inline SVG quote mark." },
+		"pull": { "type": "string", "required": false, "default": "", "description": "Pull quote's first line." },
+		"pull_accent": { "type": "string", "required": false, "default": "", "description": "Pull quote's second line, painted with the brand gradient." },
+		"body": { "type": "array", "required": false, "default": [], "description": "The note, one paragraph per item. Wrap bold runs in **double asterisks**; \"UrsaAI\" is drawn as the brand mark." },
+		"author": { "type": "string", "required": false, "default": "", "description": "Who wrote it (an em dash is added)." },
+		"author_role": { "type": "string", "required": false, "default": "", "description": "Their role." },
+		"cta_label": { "type": "string", "required": false, "default": "", "description": "Optional gradient button under the attribution, inside the ruled quote block (Partners: Email Today). Renders only with cta_url." },
+		"cta_url": { "type": "string", "required": false, "default": "", "description": "Button destination (a page, #anchor, http(s), mailto: or tel:)." },
+		"photo_fade": { "type": "boolean", "required": false, "default": true, "description": "The soft white fade in the portrait's bottom-right corner. Turn it off when the logo laid over that corner is white (Partners)." }
+	}
+}

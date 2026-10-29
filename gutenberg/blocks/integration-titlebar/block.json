@@ -1,0 +1,45 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/integration-titlebar",
+	"title": "AP Integration Titlebar",
+	"category": "design",
+	"icon": "block-default",
+	"description": "Slim sticky title bar for an integration detail page: the partner logo + Asset Panda PRO mark beside the eyebrow and page title. Slides in under the site header once the hero's H1 has left the viewport (Figma 'Sticky Title Bar', 7333:171865). Place it right after integration-hero. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": "Integrations"
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"logo": {
+			"type": "string",
+			"default": ""
+		},
+		"brand_logo": {
+			"type": "string",
+			"default": ""
+		},
+		"watch": {
+			"type": "string",
+			"default": ".ap-integration-hero__title"
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

@@ -1,0 +1,173 @@
+/*
+ * case-slider — ported from the live case-study slider (#ap-<page>-case, .apg-case-*)
+ * on the solution pages and Help Desk. Live ships this sheet inside the section,
+ * keyed to the page id; the id became the component root. Class names inside are
+ * live's own, so the markup in render.php matches it class for class.
+ */
+
+.ap-case-slider {position:relative;font-family:Manrope,sans-serif;padding:80px 24px}
+.ap-case-slider::before {content:"";position:absolute;top:0;bottom:0;left:0;width:100%;background:#fff;pointer-events:none;z-index:0}
+.ap-case-slider * {box-sizing:border-box}
+.ap-case-slider>* {position:relative;z-index:1}
+.ap-case-slider .apg-case-head {max-width:720px;margin:0 auto 80px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px}
+.ap-case-slider .apg-eyebrow {font-size:14px;font-weight:800;line-height:1.2;letter-spacing:.56px;text-transform:uppercase;color:#5044e1;margin:0}
+.ap-case-slider h2.apg-h2 {font-size:40px;font-weight:800;line-height:1.2;color:#25272c;margin:0}
+.ap-case-slider .apg-case-slides {max-width:1120px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr)}
+.ap-case-slider .apg-case-slide {display:flex !important;align-items:center;justify-content:space-between;gap:40px;grid-column:1;grid-row:1;width:100%;opacity:0;visibility:hidden;pointer-events:none;z-index:1;transition: opacity .26s cubic-bezier(.25,.45,.45,.95),transform .52s cubic-bezier(.25,.45,.45,.95),visibility 0s linear .6s}
+.ap-case-slider .apg-case-slide.is-active {opacity:1;visibility:visible;pointer-events:auto;z-index:2;transition: opacity .48s cubic-bezier(.25,.45,.45,.95) .12s,transform .55s cubic-bezier(.25,.45,.45,.95) .04s,visibility 0s}
+.ap-case-slider .apg-case-copy {width:325px;flex:0 0 325px;display:flex;flex-direction:column;gap:16px;align-items:flex-start;justify-content:center;align-self:stretch;opacity:0;transform:translateX(-18px);transition: opacity .42s cubic-bezier(.25,.45,.45,.95),transform .58s cubic-bezier(.25,.45,.45,.95)}
+.ap-case-slider .apg-case-slide.is-active .apg-case-copy {opacity:1;transform:translateX(0);transition-delay:.08s}
+.ap-case-slider .apg-case-copy>* {opacity:0;transform:translateY(9px);transition: opacity .38s cubic-bezier(.25,.45,.45,.95),transform .48s cubic-bezier(.25,.45,.45,.95)}
+.ap-case-slider .apg-case-slide.is-active .apg-case-copy>* {opacity:1;transform:translateY(0)}
+.ap-case-slider .apg-case-slide.is-active .apg-case-copy>*:nth-child(1) {transition-delay:.10s}
+.ap-case-slider .apg-case-slide.is-active .apg-case-copy>*:nth-child(2) {transition-delay:.16s}
+.ap-case-slider .apg-case-slide.is-active .apg-case-copy>*:nth-child(3) {transition-delay:.22s}
+.ap-case-slider .apg-case-slide.is-active .apg-case-copy>*:nth-child(4) {transition-delay:.28s}
+.ap-case-slider .apg-case-headline {margin:0;font-size:22px;font-weight:800;line-height:1.25;color:#25272c}
+.ap-case-slider .apg-case-slide.is-active .apg-case-copy>*:nth-child(5) {transition-delay:.34s}
+.ap-case-slider .apg-tst-quoteico {width:32px;height:32px;display:block}
+.ap-case-slider .apg-tst-quote {margin:0;font-size:18px;line-height:1.5;color:#25272c}
+.ap-case-slider .apg-tst-author {margin:0;font-size:18px;font-weight:800;line-height:1.2;color:#25272c}
+.ap-case-slider .apg-tst-role {margin:0;font-size:12px;line-height:1.5;color:#4a4e5a}
+.ap-case-slider .apg-case-cta {display:inline-flex;align-items:center;gap:8px;padding-top:16px;font-size:14px;font-weight:600;line-height:1.2;color:#25272c;text-decoration:none;width:fit-content}
+.ap-case-slider .apg-case-cta img {width:24px;height:24px;display:block;filter:brightness(0) saturate(100%) invert(43%) sepia(99%) saturate(1178%) hue-rotate(131deg) brightness(92%) contrast(101%);transition:translate .3s cubic-bezier(.25,.45,.45,.95)}
+.ap-case-slider .apg-case-cta:hover img {translate:4px 0}
+.ap-case-slider .apg-case-cta span,.ap-case-slider .apg-case-viewall span {background:linear-gradient(34deg,#5044e1 0%,#00a991 70.44%);-webkit-background-clip:text;background-clip:text;transition:color var(--ap-dur-base) var(--ap-ease-standard)}
+/* The gradient sits under the text all the time and the solid colour fades off it, so the hover eases in on the same
+   0.3s curve as the arrow instead of switching to gradient text in one frame. */
+.ap-case-slider .apg-case-cta:hover span {color:transparent}
+.ap-case-slider .apg-case-img {position:relative;width:737px;flex:0 0 737px;aspect-ratio:737 / 413;border-radius:16px;overflow:hidden;opacity:0;transform:translateX(22px) scale(.985);transition: opacity .46s cubic-bezier(.25,.45,.45,.95),transform .62s cubic-bezier(.25,.45,.45,.95)}
+.ap-case-slider .apg-case-slide.is-active .apg-case-img {opacity:1;transform:translateX(0) scale(1);transition-delay:.10s}
+.ap-case-slider .apg-case-img picture {position:absolute;inset:0;display:block;width:100%;height:100%}
+.ap-case-slider .apg-case-img img {position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;border-radius:inherit}
+.ap-case-slider .apg-vid-logo {position:absolute;right:16px;bottom:16px;min-width:92px;min-height:58px;max-width:140px;border-radius:8px;background:linear-gradient(74.795deg,#eef2ff 0%,#fff 99.927%);display:flex;align-items:center;justify-content:center;padding:10px 16px;opacity:0;transform:translateY(8px);transition: opacity .38s ease,transform .48s cubic-bezier(.25,.45,.45,.95)}
+.ap-case-slider .apg-case-slide.is-active .apg-vid-logo {opacity:1;transform:translateY(0);transition-delay:.28s}
+.ap-case-slider .apg-logo-wordmark {display:block;text-align:center;line-height:1.05;color:#0C2340;font-weight:800;font-family:Manrope,Arial,sans-serif}
+.ap-case-slider .apg-case-controls {max-width:1120px;margin:40px auto 0;display:flex;align-items:center;gap:24px;height:40px}
+.ap-case-slider .apg-case-arrows {display:flex;gap:16px;align-items:center;flex-shrink:0}
+.ap-case-slider .apg-arrow-btn {width:40px;height:40px;border-radius:50%;border:1px solid #d8dbdf;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;-webkit-tap-highlight-color:transparent;transition: border-color var(--ap-dur-base) var(--ap-ease-standard),translate var(--ap-dur-base) var(--ap-ease-standard),box-shadow var(--ap-dur-base) var(--ap-ease-standard)}
+@media (hover:hover) {.ap-case-slider .apg-arrow-btn:hover {border-color:#5044e1;translate:0 -2px;box-shadow:0 5px 14px rgba(37,39,44,.08)}}
+.ap-case-slider .apg-arrow-btn img {width:20px;height:20px;display:block}
+.ap-case-slider .apg-arrow-prev img {transform:rotate(180deg)}
+.ap-case-slider .apg-case-line {flex:1;height:1px;background:#d8dbdf;position:relative;overflow:hidden}
+.ap-case-slider .apg-case-progress {position:absolute;left:0;top:0;width:33.333%;height:1px;background:#25272c;transform:translateX(0);transition:transform .55s cubic-bezier(.25,.45,.45,.95)}
+.ap-case-slider .apg-case-dots {display:flex;gap:6px;align-items:center;flex-shrink:0}
+.ap-case-slider .apg-case-dot {width:8px;height:8px;border-radius:50%;background:#d8dbdf;border:0;padding:0;cursor:pointer;position:relative;-webkit-tap-highlight-color:transparent;transition:background-color var(--ap-dur-base) var(--ap-ease-standard)}
+/* A finger-sized hit area around each 8px dot, without moving anything. */
+.ap-case-slider .apg-case-dot::before {content:"";position:absolute;inset:-12px -3px}
+.ap-case-slider .apg-case-dot.is-active {background:#5044e1}
+@media (max-width:1180px) {
+.ap-case-slider .apg-case-slide {flex-direction:column;align-items:stretch}
+.ap-case-slider .apg-case-copy {width:100%;flex:none;transform:translateY(12px)}
+.ap-case-slider .apg-case-slide.is-active .apg-case-copy {transform:translateY(0)}
+.ap-case-slider .apg-case-img {width:100%;flex:none;max-width:737px;transform:translateY(14px) scale(.985)}
+.ap-case-slider .apg-case-slide.is-active .apg-case-img {transform:translateY(0) scale(1)}
+}
+@media (max-width:767px) {
+.ap-case-slider {padding:48px 24px}
+.ap-case-slider .apg-case-head {margin-bottom:40px}
+.ap-case-slider h2.apg-h2 {font-size:28px}
+.ap-case-slider .apg-tst-quote {font-size:16px}
+.ap-case-slider .apg-tst-author {font-size:17px}
+.ap-case-slider .apg-vid-logo {right:12px;bottom:12px;min-width:84px;min-height:52px;padding:8px 12px}
+.ap-case-slider .apg-case-controls {flex-wrap:wrap;height:auto;gap:16px}
+}
+@media (prefers-reduced-motion:reduce) {
+.ap-case-slider .apg-case-slide,.ap-case-slider .apg-case-copy,.ap-case-slider .apg-case-copy>*,.ap-case-slider .apg-case-img,.ap-case-slider .apg-vid-logo,.ap-case-slider .apg-case-progress {transition:none !important;transform:none !important}
+}
+.ap-case-slider .apg-case-lede {margin:0;font-size:18px;line-height:1.5;color:#4a4e5a}
+.ap-case-slider .apg-case-logoimg {display:block;width:auto;height:auto;max-width:100%;max-height:46px;object-fit:contain}
+.ap-case-slider .apg-case-foot {max-width:1120px;margin:40px auto 0;display:flex;justify-content:center}
+.ap-case-slider .apg-case-viewall {display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;line-height:1.2;color:#25272c;text-decoration:none}
+.ap-case-slider .apg-case-viewall svg {transition:translate .3s cubic-bezier(.25,.45,.45,.95)}
+.ap-case-slider .apg-case-viewall:hover svg {translate:4px 0}
+.ap-case-slider .apg-case-viewall:hover span {color:transparent}
+.ap-case-slider .apg-case-viewall:focus-visible,.ap-case-slider .apg-case-cta:focus-visible {outline:3px solid #5044e1;outline-offset:2px;border-radius:2px}
+@media (max-width:767px) {
+.ap-case-slider {padding:56px 24px}
+.ap-case-slider .apg-case-lede {font-size:16px}
+}
+
+/* The solution pages' own sheet (not Help Desk's): logo badge, borderless arrows, the
+ * View All spacing, the deeper gap under the controls and the phone layout. */
+.ap-case-slider--solution .apg-case-img img {position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit}
+.ap-case-slider--solution .epx-g {background:linear-gradient(41.5deg,#5044E1 3.6%,#00A991 50.1%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ap-case-slider--solution .apg-case-controls {flex-wrap:nowrap;gap:24px;margin-bottom:78px}
+@media (max-width:640px) {
+	.ap-case-slider--solution .apg-case-controls {margin-bottom:32px}
+}
+.ap-case-slider--solution .apg-case-controls .apg-case-viewall {flex:0 0 auto;margin-left:8px}
+.ap-case-slider--solution .apg-arrow-btn {border:0;background:none;width:32px;height:32px}
+.ap-case-slider--solution .apg-arrow-btn:hover {box-shadow:none;translate:none}
+@media (max-width:640px) {
+	.ap-case-slider--solution .apg-case-controls {flex-wrap:wrap}
+	.ap-case-slider--solution .apg-case-controls .apg-case-viewall {width:100%;justify-content:center;margin:8px 0 0}
+}
+.ap-case-slider--solution .apg-case-img .sp-case-logo {position:absolute;right:16px;bottom:16px;z-index:2;display:flex;align-items:center;justify-content:center;width:120px;height:80px;padding:8px;border-radius:12px;background:#fff;box-shadow:0 4px 16px rgba(37,39,44,.12)}
+.ap-case-slider--solution .apg-case-img .sp-case-logo img,.ap-case-slider--solution .apg-case-img .sp-case-logo picture {position:static;inset:auto;width:100%;height:100%;object-fit:contain;border-radius:0}
+.ap-case-slider--solution .sp-case-logo svg {width:100%;height:100%}
+@media (max-width:640px) {
+	.ap-case-slider--solution .apg-case-controls {flex-wrap:nowrap;gap:24px}
+	.ap-case-slider--solution .apg-case-controls .apg-case-viewall {flex:0 0 auto;margin-left:8px}
+	.ap-case-slider--solution .apg-arrow-btn {border:0;background:none;width:32px;height:32px}
+	.ap-case-slider--solution .apg-arrow-btn:hover {box-shadow:none;translate:none}
+	.ap-case-slider--solution .apg-case-controls {flex-wrap:wrap}
+	.ap-case-slider--solution .apg-case-controls .apg-case-viewall {width:100%;justify-content:center;margin:8px 0 0}
+	.ap-case-slider--solution .apg-case-img .sp-case-logo {width:88px;height:60px;right:10px;bottom:10px}
+}
+@media (max-width:1180px) {
+	.ap-case-slider--solution .apg-case-slide {justify-content:flex-start}
+}
+@media (max-width:767px) {
+	section.ap-case-slider--solution {padding-left:20px;padding-right:20px}
+	.ap-case-slider--solution .apg-case-slide {gap:24px}
+}
+@media (max-width:640px) {
+	.ap-case-slider--solution :is(h2,h3,[class*="eyebrow"]) {text-wrap:balance}
+}
+
+/* The industry hubs' sheet (live #ap-gov-case): wordmark or image logo badge over the
+ * photo, View All as a plain link closing the controls row, and its own phone padding.
+ * --hub-industry adds the Construction / Manufacturing copy of that sheet. */
+.ap-case-slider--hub .apg-case-img .apg-vid-logo img {position:static;inset:auto;width:auto;height:auto;border-radius:0}
+.ap-case-slider--hub .apg-logo-hospice {font-size:11px;letter-spacing:.1px}
+.ap-case-slider--hub .apg-logo-hospice strong {display:block;font-size:20px;letter-spacing:.2px}
+.ap-case-slider--hub .apg-logo-osage {font-size:14px;line-height:1.05;color:#1E5C65}
+/* Live asks for Georgia here, but its theme forces Manrope on every [id^="ap-"] span/strong (!important), so Manrope is what shows. */
+.ap-case-slider--hub .apg-logo-osage strong {display:block;font-size:28px;line-height:.95;font-family:Manrope,sans-serif;font-weight:700}
+.ap-case-slider--hub .apg-logo-fresenius {font-size:9px;color:#4E8DB9;line-height:1.15;white-space:nowrap}
+.ap-case-slider--hub .apg-logo-fresenius::before {content:"";display:block;width:18px;height:10px;margin:0 auto 6px;background:linear-gradient(180deg,#9cc0d9 0%,#4E8DB9 100%);clip-path:polygon(50% 0,100% 0,65% 100%,35% 100%,0 0)}
+.ap-case-slider--hub .apg-case-controls .apg-case-cta--all {padding-top:0}
+@media (max-width:767px) {
+	section.ap-case-slider--hub {padding:48px 24px}
+	.ap-case-slider--hub .apg-logo-hospice strong {font-size:17px}
+	.ap-case-slider--hub .apg-logo-osage strong {font-size:23px}
+}
+.ap-case-slider--hub-industry .apg-tst-title {font-size:24px;font-weight:800;line-height:1.2;color:#25272c;margin:0}
+.ap-case-slider--hub-industry .apg-vid-logo {width:120px;height:80px;max-width:120px;max-height:80px;padding:11px 24px}
+.ap-case-slider--hub-industry .apg-case-img .apg-vid-logo img {width:58px;height:58px;object-fit:contain;display:block}
+.ap-case-slider--hub-industry .apg-case-slide.is-active .apg-case-copy>*:nth-child(5) {transition-delay:.30s}
+@media (max-width:767px) {
+	.ap-case-slider--hub-industry .apg-tst-quote,
+	.ap-case-slider--hub-industry .apg-tst-author {font-size:18px}
+	.ap-case-slider--hub-industry .apg-vid-logo {right:16px;bottom:16px;width:90px;height:60px;min-width:0;min-height:0;padding:8px 16px}
+	.ap-case-slider--hub-industry .apg-case-img .apg-vid-logo img {width:44px;height:44px}
+	.ap-case-slider--hub-industry .apg-case-controls {gap:24px}
+}
+/* The staging theme sets text-wrap:pretty on headings and paragraphs; live wraps plainly. */
+.ap-case-slider--hub :is(h2, h3, p) {text-wrap:wrap}
+
+/* Autoplay swipe (behaviour.js): how far a story travels as it enters or leaves.
+ * Inside the side padding on phones, so nothing pokes past the screen edge. */
+.ap-case-slider {--apg-swipe:40px}
+@media (max-width:767px) {.ap-case-slider {--apg-swipe:16px}}
+
+/* ------------------------------------------------------------ Section rhythm + type scale (QA 2026-10-28, sections agent)
+ * Padding on the kit section rhythm (tokens.css "section rhythm") and the
+ * section title / eyebrow on the type-scale tokens, like every other section. */
+html body .ap-case-slider.ap-case-slider.ap-case-slider { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+html body .ap-case-slider.ap-case-slider.ap-case-slider h2.apg-h2 { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+html body .ap-case-slider.ap-case-slider.ap-case-slider .apg-eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }
+
+/* QA 2026-10-29 (Joseph, sitewide): sections without a colour gradient are pure white — the white-to-#f9fafb fades
+ * showed as a grey band against the next section. */

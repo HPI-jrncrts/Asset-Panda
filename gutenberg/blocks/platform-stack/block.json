@@ -5,7 +5,7 @@
 	"title": "AP Platform Stack",
 	"category": "design",
 	"icon": "list-view",
-	"description": "Capability cards with a sticky, numbered side index whose active dot takes each card's accent. Each card: accent-tinted wash, title, copy, link and a product screenshot running off the bottom edge. Figma: Home Page > Platform (4331:24729). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"description": "Capability cards beside a numbered index that tracks the card being read: tinted cards with title, copy, link, a product screenshot and a hover preview. Live: the homepage #ap-platform-stack-v3 section (markup and sheets ported). This block is an adapter — it holds no markup; it maps attributes to kit props.",
 	"textdomain": "assetpanda",
 	"attributes": {
 		"eyebrow": {
@@ -20,21 +20,13 @@
 			"type": "string",
 			"default": ""
 		},
-		"kicker": {
+		"nav_title": {
 			"type": "string",
-			"default": ""
+			"default": "Platform capabilities"
 		},
 		"items": {
 			"type": "array",
 			"default": []
-		},
-		"nav_title": {
-			"type": "string",
-			"default": ""
-		},
-		"reveal": {
-			"type": "boolean",
-			"default": true
 		},
 		"align": {
 			"type": "string",

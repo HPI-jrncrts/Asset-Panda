@@ -49,8 +49,66 @@ $items = array_values( array_filter( is_array( $props['items'] ) ? $props['items
 if ( empty( $items ) ) {
 	return;
 }
+
+/*
+ * Education hub: live #ap-eduhub-solution, ported whole with its own class names
+ * (.aps-*) — tinted rows numbered by tone (.aps-row-1 indigo … -6 cyan) and the
+ * closing line with its button.
+ */
+if ( 'eduhub' === $props['variant'] ) :
+	?>
+<section class="ap-capability-rows ap-capability-rows--eduhub">
+	<div class="aps-container">
+		<div class="aps-header">
+			<?php if ( '' !== trim( (string) $props['eyebrow'] ) ) : ?>
+				<p class="aps-eyebrow"><?php echo esc_html( $props['eyebrow'] ); ?></p>
+			<?php endif; ?>
+			<h2 class="aps-h2"><?php echo $ap_accent( $props['title'], $props['title_accent'], 'aps-grad' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?></h2>
+		</div>
+		<div class="aps-rows">
+			<?php foreach ( $items as $n => $item ) : ?>
+				<?php
+				$ap_tone = array_search( $item['tone'] ?? '', $tones, true );
+				$ap_slot = false === $ap_tone ? ( $n % 6 ) + 1 : $ap_tone + 1;
+				?>
+				<div class="aps-row aps-row-<?php echo esc_attr( (string) $ap_slot ); ?>">
+					<div class="aps-row-head">
+						<?php echo $ap_icon( $item, 'aps-row-icon' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?>
+						<h3 class="aps-row-title"><?php echo esc_html( $item['title'] ); ?></h3>
+					</div>
+					<div class="aps-row-body">
+						<?php if ( '' !== trim( (string) ( $item['body'] ?? '' ) ) ) : ?>
+							<p class="aps-row-desc"><?php echo ap_ui_brandmarks( esc_html( $item['body'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; brandmarks adds a fixed span. ?></p>
+						<?php endif; ?>
+						<?php if ( '' !== trim( (string) ( $item['link_label'] ?? '' ) ) && '' !== trim( (string) ( $item['url'] ?? '' ) ) ) : ?>
+							<a class="aps-row-cta" href="<?php echo esc_url( $item['url'] ); ?>"><?php echo esc_html( $item['link_label'] ); ?></a>
+						<?php endif; ?>
+					</div>
+				</div>
+			<?php endforeach; ?>
+		</div>
+		<?php if ( '' !== trim( (string) $props['ender_title'] ) || '' !== trim( (string) $props['ender_body'] ) ) : ?>
+			<div class="aps-ender">
+				<div class="aps-ender-text">
+					<?php if ( '' !== trim( (string) $props['ender_title'] ) ) : ?>
+						<p class="aps-ender-title"><?php echo $ap_accent( $props['ender_title'], $props['ender_accent'], 'aps-grad' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?></p>
+					<?php endif; ?>
+					<?php if ( '' !== trim( (string) $props['ender_body'] ) ) : ?>
+						<p class="aps-ender-desc"><?php echo esc_html( $props['ender_body'] ); ?></p>
+					<?php endif; ?>
+				</div>
+				<?php if ( '' !== trim( (string) $props['ender_label'] ) && '' !== trim( (string) $props['ender_url'] ) ) : ?>
+					<a class="aps-ender-btn" href="<?php echo esc_url( $props['ender_url'] ); ?>"><?php echo esc_html( $props['ender_label'] ); ?></a>
+				<?php endif; ?>
+			</div>
+		<?php endif; ?>
+	</div>
+</section>
+	<?php
+	return;
+endif;
 ?>
-<section class="ap-capability-rows">
+<section class="ap-capability-rows<?php echo '900' === (string) $props['stack'] ? ' ap-capability-rows--stack-900' : ''; ?><?php echo 'readiness' === $props['variant'] ? ' ap-capability-rows--readiness' : ''; ?>">
 	<div class="apg-sol-head">
 		<?php if ( '' !== trim( (string) $props['eyebrow'] ) ) : ?>
 			<p class="apg-eyebrow"><?php echo esc_html( $props['eyebrow'] ); ?></p>
@@ -60,12 +118,16 @@ if ( empty( $items ) ) {
 			<p class="apg-sol-lede"><?php echo ap_ui_brandmarks( ap_ui_lines( $props['lede'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; only <br> and a fixed span are added. ?></p>
 		<?php endif; ?>
 	</div>
-	<div class="apg-sol-rows">
+	<div class="apg-sol-rows<?php echo $props['plain'] ? ' apg-sol-rows--plain' : ''; ?>">
 		<?php foreach ( $items as $i => $item ) : ?>
 			<?php $tone = in_array( $item['tone'] ?? '', $tones, true ) ? $item['tone'] : $tones[ $i % count( $tones ) ]; ?>
 			<div class="apg-sol-row apg-row-<?php echo esc_attr( $tone ); ?>">
 				<div class="apg-sol-left">
-					<?php echo $ap_icon( $item ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?>
+					<?php if ( '' !== trim( (string) ( $item['number'] ?? '' ) ) ) : ?>
+						<span class="apg-sol-num" aria-hidden="true"><?php echo esc_html( $item['number'] ); ?></span>
+					<?php else : ?>
+						<?php echo $ap_icon( $item ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?>
+					<?php endif; ?>
 					<h3 class="apg-sol-title"><?php echo esc_html( $item['title'] ); ?></h3>
 				</div>
 				<div class="apg-sol-right">

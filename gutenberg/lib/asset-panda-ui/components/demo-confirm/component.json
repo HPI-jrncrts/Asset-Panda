@@ -1,0 +1,12 @@
+{
+	"name": "demo-confirm",
+	"description": "Booking-confirmed hero of the 2026 Get a Demo flow (live #ap-ty-hero on /demo-confirmed/): a check badge, heading, gradient sub-heading, a line of copy and a back link over a soft background image. The page also hides the global footer's CTA card.",
+	"props": {
+		"title": { "type": "string", "required": true, "description": "Heading (h1)." },
+		"subtitle": { "type": "string", "required": false, "default": "", "description": "Gradient line under the heading." },
+		"body": { "type": "string", "required": false, "default": "", "description": "Copy under the sub-heading." },
+		"back_label": { "type": "string", "required": false, "default": "", "description": "Back link text. Renders only with back_url." },
+		"back_url": { "type": "string", "required": false, "default": "", "description": "Back link destination." },
+		"background": { "type": "string", "required": false, "default": "", "description": "Background image URL (one flattened image, covers the hero from the top)." }
+	}
+}

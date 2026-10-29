@@ -1,0 +1,132 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/page-split",
+	"title": "AP Page Split",
+	"category": "design",
+	"icon": "block-default",
+	"description": "Copy-and-image row for the 2026 company and resource pages: eyebrow, heading (or a large pull quote), paragraphs with inline links, bullets, a person line, arrow links (one or two columns), and up to two buttons beside a photo, illustration or framed screenshot; image left or right, stacked on phones. Without an image the copy centres (an intro band). Tones: white, the soft brand wash, or a rounded off-white panel (live's rounded sections). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
+		"tone": {
+			"type": "string",
+			"default": "white",
+			"enum": [
+				"white",
+				"soft",
+				"panel"
+			]
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"title_tag": {
+			"type": "string",
+			"default": "h2",
+			"enum": [
+				"h2",
+				"h3"
+			]
+		},
+		"quote": {
+			"type": "boolean",
+			"default": false
+		},
+		"body": {
+			"type": "string",
+			"default": ""
+		},
+		"bullets": {
+			"type": "array",
+			"default": []
+		},
+		"person_name": {
+			"type": "string",
+			"default": ""
+		},
+		"person_role": {
+			"type": "string",
+			"default": ""
+		},
+		"links": {
+			"type": "array",
+			"default": []
+		},
+		"links_columns": {
+			"type": "string",
+			"default": "1",
+			"enum": [
+				"1",
+				"2"
+			]
+		},
+		"cta_label": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_url": {
+			"type": "string",
+			"default": ""
+		},
+		"secondary_label": {
+			"type": "string",
+			"default": ""
+		},
+		"secondary_url": {
+			"type": "string",
+			"default": ""
+		},
+		"image": {
+			"type": "string",
+			"default": ""
+		},
+		"image_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"image_width": {
+			"type": "number",
+			"default": 0
+		},
+		"image_height": {
+			"type": "number",
+			"default": 0
+		},
+		"image_style": {
+			"type": "string",
+			"default": "photo",
+			"enum": [
+				"photo",
+				"circle",
+				"card",
+				"plain"
+			]
+		},
+		"reverse": {
+			"type": "boolean",
+			"default": false
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

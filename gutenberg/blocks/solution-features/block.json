@@ -1,0 +1,67 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/solution-features",
+	"title": "AP Solution Features",
+	"category": "design",
+	"icon": "editor-ol",
+	"description": "Heading and lede on the left, numbered feature cards ruled in brand colours on the right; one column below 1001px. Live: the .epx-feat section on the solution pages, Emergency Preparedness, School Reunification and Help Desk (rules ported). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"title_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"items": {
+			"type": "array",
+			"default": []
+		},
+		"variant": {
+			"type": "string",
+			"default": "solution",
+			"enum": [
+				"solution",
+				"readiness",
+				"service",
+				"steps"
+			]
+		},
+		"list_title": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_label": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_url": {
+			"type": "string",
+			"default": ""
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

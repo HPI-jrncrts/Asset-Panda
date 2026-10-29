@@ -1,0 +1,111 @@
+{
+	"name": "hub-hero",
+	"description": "Industry hub hero: headline with a gradient lead phrase, badges and a demo button over a dashboard backdrop with up to three cut-out photos, and a strip of three feature chips (a marquee on phones). Live: #ap-gov-hero on the government, healthcare, construction and manufacturing hubs.",
+	"props": {
+		"eyebrow": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Small label above the title."
+		},
+		"title": {
+			"type": "string",
+			"required": true,
+			"description": "Title (the page H1)."
+		},
+		"title_accent": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Part of the title painted with the brand gradient."
+		},
+		"lede": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Paragraph under the title."
+		},
+		"cta_label": {
+			"type": "string",
+			"required": false,
+			"default": "Free Demo",
+			"description": "Button text."
+		},
+		"cta_url": {
+			"type": "string",
+			"required": false,
+			"default": "/get-a-demo/",
+			"description": "Button destination."
+		},
+		"badges": {
+			"type": "array",
+			"required": false,
+			"default": [],
+			"description": "Compliance badges. Each: image, alt."
+		},
+		"background": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Desktop backdrop (dashboard) image."
+		},
+		"mobile_background": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Composite image shown behind the phone layout."
+		},
+		"photos": {
+			"type": "array",
+			"required": false,
+			"default": [],
+			"description": "Up to three cut-out photos. Each: image, alt, x, y, w, h (% of the stage); optional ix, iy, iw, ih (% placement of the image inside its box, which then crops it)."
+		},
+		"ratio": {
+			"type": "string",
+			"required": false,
+			"default": "1440/640",
+			"description": "Stage aspect ratio, width/height."
+		},
+		"mobile_ratio": {
+			"type": "string",
+			"required": false,
+			"default": "393/378",
+			"description": "Phone (767px and below) aspect ratio of the art box under the copy, width/height (live: 393/378 Government, 393/368 Healthcare, 393/294 Construction, 393/374 Manufacturing)."
+		},
+		"veil_height": {
+			"type": "number",
+			"required": false,
+			"default": 58.125,
+			"description": "Height of the white fade at the foot of the stage, % of the stage."
+		},
+		"content_top": {
+			"type": "number",
+			"required": false,
+			"default": 0,
+			"description": "Vertical centre of the copy column, % of the stage. 0 keeps the default placement."
+		},
+		"features_band": {
+			"type": "boolean",
+			"required": false,
+			"default": false,
+			"description": "Put the feature chips in a ruled band under the stage (the education hub) instead of over it."
+		},
+		"features": {
+			"type": "array",
+			"required": false,
+			"default": [],
+			"description": "Feature chips along the bottom. Each: label; icon (URL) or icon_svg; icon_mask (true: the icon URL is drawn as a gradient-filled mask, as live Education does)."
+		},
+		"variant": {
+			"type": "string",
+			"required": false,
+			"default": "default",
+			"enum": [
+				"default",
+				"eduhub"
+			],
+			"description": "eduhub: the Education hub hero (live #ap-eduhub-hero, ported whole): backdrop on the wrap, copy over the photos, chips in a ruled band below; mobile_background is the phone backdrop."
+		}
+	}
+}

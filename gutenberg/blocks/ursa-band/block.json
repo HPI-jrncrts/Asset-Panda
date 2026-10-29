@@ -1,0 +1,45 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/ursa-band",
+	"title": "AP Ursa Band",
+	"category": "design",
+	"icon": "block-default",
+	"description": "Ursa AI data-control band: a dark indigo card with the Ursa orb, a heading, a short paragraph and a button on the right. Ursa AI frame 7261:114286 (under the stats row). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"body": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_label": {
+			"type": "string",
+			"default": "Free Demo"
+		},
+		"cta_url": {
+			"type": "string",
+			"default": "/get-a-demo/"
+		},
+		"joined": {
+			"type": "boolean",
+			"default": true
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

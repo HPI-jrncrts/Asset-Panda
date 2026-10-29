@@ -1,0 +1,106 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/dashboard-showcase",
+	"title": "AP Dashboard Showcase",
+	"category": "design",
+	"icon": "desktop",
+	"description": "Configurability section: a faded product screenshot ringed by floating tip cards and image orbs, with a closing line. Live: the `.ap-dashboard` section on every vertical page. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"title_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"image": {
+			"type": "string",
+			"default": ""
+		},
+		"image_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"background": {
+			"type": "string",
+			"default": ""
+		},
+		"tips": {
+			"type": "array",
+			"default": []
+		},
+		"orbs": {
+			"type": "array",
+			"default": []
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"sub_title": {
+			"type": "string",
+			"default": ""
+		},
+		"sub_body": {
+			"type": "string",
+			"default": ""
+		},
+		"reveal": {
+			"type": "boolean",
+			"default": true
+		},
+		"checks": {
+			"type": "array",
+			"default": []
+		},
+		"ctas": {
+			"type": "array",
+			"default": []
+		},
+		"lede_max": {
+			"type": "number",
+			"default": 856
+		},
+		"lede_size_m": {
+			"type": "number",
+			"default": 18
+		},
+		"outline_fixed": {
+			"type": "boolean",
+			"default": false
+		},
+		"cta_stack": {
+			"type": "number",
+			"default": 0,
+			"enum": [
+				0,
+				640,
+				768
+			]
+		},
+		"cta_top_tablet": {
+			"type": "number",
+			"default": 24
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

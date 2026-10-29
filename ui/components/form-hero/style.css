@@ -1,0 +1,1075 @@
+/*
+ * form-hero — form page hero / in-page form band.
+ *
+ * The 2026 kit look of the pricing page (pricing-hero): Manrope, an indigo
+ * eyebrow, an 800-weight heading, slate copy, green check list, and the form
+ * in a white card with a soft indigo shadow; copy and card side by side from
+ * 992px, stacked below. HubSpot draws its forms straight into the page (v2
+ * with css: "" and the developer embed), so the form rules below style
+ * HubSpot's own markup; they keep !important because the host theme styles
+ * bare inputs and buttons. Every field shows its label as placeholder text
+ * (the kit form skin, see "The kit form skin" below).
+ */
+
+.ap-form-hero,
+.ap-form-hero * {
+	box-sizing: border-box;
+}
+
+.ap-form-hero {
+	position: relative;
+	width: 100%;
+	padding: 72px 24px 88px;
+	overflow: hidden;
+	font-family: var(--ap-font-body);
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.5;
+	color: var(--ap-text-body);
+	text-align: left;
+	background-color: var(--ap-white);
+	background-image: var(--ap-form-hero-bg, none);
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+}
+
+.ap-form-hero :where(h1, h2, h3, p, li, label) {
+	text-wrap: wrap;
+}
+
+.ap-form-hero__inner {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 480px);
+	gap: 64px;
+	align-items: center;
+	width: 100%;
+	max-width: var(--ap-host-container, 1120px);
+	margin: 0 auto;
+}
+
+.ap-form-hero__copy {
+	max-width: 560px;
+}
+
+.ap-form-hero .ap-form-hero__eyebrow {
+	margin: 0 0 16px;
+	color: var(--ap-text-eyebrow);
+	font-family: var(--ap-font-body);
+	font-size: 14px;
+	font-weight: var(--ap-weight-eyebrow);
+	line-height: 1.2;
+	letter-spacing: .56px;
+	text-transform: uppercase;
+}
+
+.ap-form-hero .ap-form-hero__title {
+	margin: 0;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-body);
+	font-size: clamp(34px, 4vw, 48px);
+	font-weight: var(--ap-weight-heading);
+	line-height: 1.15;
+	letter-spacing: -0.02em;
+	text-transform: none;
+}
+
+.ap-form-hero .ap-form-hero__body {
+	margin: 20px 0 0;
+	color: var(--ap-text-body);
+	font-size: 18px;
+	line-height: 1.55;
+}
+
+.ap-form-hero__body strong,
+.ap-form-hero__list strong {
+	color: var(--ap-text-body-strong);
+	font-weight: 700;
+}
+
+.ap-form-hero .ap-form-hero__list {
+	display: grid;
+	gap: 14px;
+	margin: 28px 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ap-form-hero .ap-form-hero__list li {
+	position: relative;
+	margin: 0;
+	padding: 0 0 0 34px;
+	color: var(--ap-text-body);
+	font-size: 17px;
+	line-height: 1.5;
+}
+
+.ap-form-hero .ap-form-hero__list li::before {
+	content: "";
+	position: absolute;
+	top: 3px;
+	left: 0;
+	width: 22px;
+	height: 22px;
+	border-radius: 50%;
+	background: var(--ap-green-50) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='10' viewBox='0 0 12 10'%3E%3Cpath d='M3.81 7.77 0.97 4.79 0 5.8l3.81 4L12 1.21 11.04.2z' fill='%2300a991'/%3E%3C/svg%3E") no-repeat center / 12px 10px;
+}
+
+.ap-form-hero__badges {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+	align-items: center;
+	margin-top: 32px;
+}
+
+.ap-form-hero__badges img {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
+
+/* ---- The card ---- */
+.ap-form-hero__card {
+	width: 100%;
+	padding: 32px;
+	border-radius: 20px;
+	background: var(--ap-white);
+	color: var(--ap-text-body);
+	box-shadow: 0 0 4px rgba(200, 210, 253, .9), 0 8px 24px rgba(32, 28, 74, .08);
+}
+
+.ap-form-hero .ap-form-hero__card-title {
+	margin: 0 0 6px;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-body);
+	font-size: 26px;
+	font-weight: var(--ap-weight-heading);
+	line-height: 1.2;
+	letter-spacing: -0.01em;
+	text-transform: none;
+}
+
+.ap-form-hero .ap-form-hero__card-intro {
+	margin: 0 0 20px;
+	color: var(--ap-slate-500);
+	font-size: 16px;
+	line-height: 1.5;
+}
+
+.ap-form-hero .ap-form-hero__note {
+	margin: 16px 0 0;
+	color: var(--ap-slate-500);
+	font-size: 14px;
+	line-height: 1.4;
+	text-align: center;
+}
+
+.ap-form-hero__form {
+	min-height: 120px;
+}
+
+.ap-form-hero__fallback {
+	margin-top: 12px;
+	padding: 14px 16px;
+	border: 1px solid #d7dfff;
+	border-radius: 8px;
+	background: #f8f8fe;
+	color: var(--ap-slate-900);
+	font-size: 15px;
+	line-height: 1.5;
+}
+
+.ap-form-hero__fallback[hidden] {
+	display: none;
+}
+
+.ap-form-hero__fallback a {
+	color: var(--ap-brand-indigo);
+	text-decoration: underline;
+}
+
+html.ap-intl .ap-form-hero__fb-phone {
+	display: none;
+}
+
+/* ---- The kit form skin ----
+ * HubSpot draws its form straight into the card (v2 with css: "" and
+ * cssRequired: "", or the developer embed), so these rules style HubSpot's
+ * own markup. The look is the demo form on /get-a-demo/ and the quote form
+ * on /new-pricing/: soft grey fields that carry their label as placeholder
+ * text (the label stays in the markup for screen readers; behaviour.js copies
+ * it into the placeholder when HubSpot set none) and the brand gradient
+ * button full width. Dropdowns, checkboxes, radios, dates and file fields
+ * keep a visible label: a placeholder cannot name them. !important
+ * throughout: the host theme styles bare inputs and buttons, and HubSpot's
+ * developer embed ships its own theme variables. */
+
+.ap-form-hero__form {
+	--ap-fh-field-h: 46px;
+	--ap-fh-gap: 12px;
+	--ap-fh-radius: 6px;
+	--ap-fh-field-bg: #f5f8fa;
+	--ap-fh-field-border: #e5edf3;
+}
+
+.ap-form-hero__form form.hs-form,
+.ap-form-hero__form .hs-form,
+.ap-form-hero__form--developer .hsfc-Form {
+	display: flex !important;
+	flex-direction: column !important;
+	gap: var(--ap-fh-gap) !important;
+	width: 100% !important;
+	max-width: 100% !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	font-family: var(--ap-font-body) !important;
+}
+
+.ap-form-hero__form fieldset,
+.ap-form-hero__form--developer .hsfc-Row {
+	display: flex !important;
+	gap: var(--ap-fh-gap) !important;
+	width: 100% !important;
+	max-width: 100% !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 0 !important;
+}
+
+/* Rows that only carry HubSpot's hidden tracking inputs leave no gap. */
+.ap-form-hero__form fieldset:not(:has(.hs-input:not([type="hidden"]), .hs-richtext, .legal-consent-container)),
+.ap-form-hero__form--developer .hsfc-Row:not(:has(input:not([type="hidden"]), select, textarea, button, p, label, a)) {
+	display: none !important;
+}
+
+.ap-form-hero__form .hs-form-field,
+.ap-form-hero__form .hs_submit,
+.ap-form-hero__form .actions,
+.ap-form-hero__form--developer .hsfc-Row > * {
+	position: relative;
+	flex: 1 1 0 !important;
+	width: auto !important;
+	min-width: 0 !important;
+	max-width: none !important;
+	float: none !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.ap-form-hero__form .input,
+.ap-form-hero__form--developer .hsfc-Step__Content,
+.ap-form-hero__form--developer .hsfc-NavigationRow {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+/* Labels: in the markup for assistive tech, shown as the placeholder. */
+.ap-form-hero__form .hs-form-field > label:not(.hs-error-msg),
+.ap-form-hero__form--developer .hsfc-FieldLabel {
+	position: absolute !important;
+	width: 1px !important;
+	height: 1px !important;
+	margin: -1px !important;
+	padding: 0 !important;
+	overflow: hidden !important;
+	clip: rect(0, 0, 0, 0) !important;
+	white-space: nowrap !important;
+	border: 0 !important;
+}
+
+/* Fields a placeholder cannot name keep a visible label. */
+.ap-form-hero__form .hs-fieldtype-select > label:not(.hs-error-msg),
+.ap-form-hero__form .hs-fieldtype-checkbox > label:not(.hs-error-msg),
+.ap-form-hero__form .hs-fieldtype-booleancheckbox > label:not(.hs-error-msg),
+.ap-form-hero__form .hs-fieldtype-radio > label:not(.hs-error-msg),
+.ap-form-hero__form .hs-fieldtype-date > label:not(.hs-error-msg),
+.ap-form-hero__form .hs-fieldtype-file > label:not(.hs-error-msg),
+.ap-form-hero__form--developer .hsfc-DropdownField .hsfc-FieldLabel,
+.ap-form-hero__form--developer .hsfc-CheckboxField .hsfc-FieldLabel,
+.ap-form-hero__form--developer .hsfc-RadioField .hsfc-FieldLabel,
+.ap-form-hero__form--developer .hsfc-DateField .hsfc-FieldLabel,
+.ap-form-hero__form--developer .hsfc-FileField .hsfc-FieldLabel {
+	position: static !important;
+	display: block !important;
+	width: auto !important;
+	height: auto !important;
+	margin: 0 0 6px !important;
+	overflow: visible !important;
+	clip: auto !important;
+	white-space: normal !important;
+	color: var(--ap-text-heading) !important;
+	font-family: var(--ap-font-body) !important;
+	font-size: 14px !important;
+	font-weight: 600 !important;
+	line-height: 1.3 !important;
+}
+
+.ap-form-hero__form .hs-form-required {
+	margin-left: 2px;
+	color: var(--ap-brand-red);
+}
+
+.ap-form-hero__form input.hs-input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"]),
+.ap-form-hero__form select.hs-input,
+.ap-form-hero__form textarea.hs-input,
+.ap-form-hero__form--developer .hsfc-Form input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="submit"]):not([type="file"]),
+.ap-form-hero__form--developer .hsfc-Form select,
+.ap-form-hero__form--developer .hsfc-Form textarea {
+	display: block !important;
+	width: 100% !important;
+	max-width: 100% !important;
+	height: var(--ap-fh-field-h) !important;
+	min-height: var(--ap-fh-field-h) !important;
+	margin: 0 !important;
+	padding: 0 14px !important;
+	border: 1px solid var(--ap-fh-field-border) !important;
+	border-radius: var(--ap-fh-radius) !important;
+	background: var(--ap-fh-field-bg) !important;
+	color: var(--ap-slate-900) !important;
+	font-family: var(--ap-font-body) !important;
+	font-size: 15px !important;
+	font-weight: 400 !important;
+	line-height: 1.4 !important;
+	letter-spacing: normal !important;
+	box-shadow: none !important;
+	outline: none !important;
+	transition: border-color var(--ap-dur-base) var(--ap-ease-standard), box-shadow var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-form-hero__form textarea.hs-input,
+.ap-form-hero__form--developer .hsfc-Form textarea {
+	height: 120px !important;
+	min-height: 120px !important;
+	padding: 12px 14px !important;
+	resize: vertical !important;
+}
+
+/* The placeholder is the field's name here, so it reads at body contrast. */
+.ap-form-hero__form .hs-input::placeholder,
+.ap-form-hero__form--developer .hsfc-Form input::placeholder,
+.ap-form-hero__form--developer .hsfc-Form textarea::placeholder {
+	color: var(--ap-slate-500) !important;
+	opacity: 1 !important;
+}
+
+.ap-form-hero__form .hs-input:focus,
+.ap-form-hero__form--developer .hsfc-Form input:focus,
+.ap-form-hero__form--developer .hsfc-Form select:focus,
+.ap-form-hero__form--developer .hsfc-Form textarea:focus {
+	border-color: var(--ap-brand-indigo) !important;
+	box-shadow: 0 0 0 3px rgba(80, 68, 225, .14) !important;
+}
+
+.ap-form-hero__form .hs-input.error,
+.ap-form-hero__form .hs-input.invalid,
+.ap-form-hero__form--developer .hsfc-Form [aria-invalid="true"] {
+	border-color: #d93025 !important;
+}
+
+/* Checkbox and radio lists. */
+.ap-form-hero__form ul.inputs-list {
+	display: grid !important;
+	gap: 8px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	list-style: none !important;
+}
+
+.ap-form-hero__form ul.inputs-list li {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.ap-form-hero__form ul.inputs-list label {
+	display: flex !important;
+	gap: 10px !important;
+	align-items: flex-start !important;
+	margin: 0 !important;
+	color: var(--ap-text-body) !important;
+	font-family: var(--ap-font-body) !important;
+	font-size: 14px !important;
+	font-weight: 400 !important;
+	line-height: 1.5 !important;
+}
+
+.ap-form-hero__form ul.inputs-list input[type="checkbox"],
+.ap-form-hero__form ul.inputs-list input[type="radio"] {
+	flex: none !important;
+	width: 18px !important;
+	height: 18px !important;
+	margin: 2px 0 0 !important;
+	accent-color: var(--ap-brand-indigo);
+}
+
+.ap-form-hero__form .hs-error-msgs,
+.ap-form-hero__form--developer .hsfc-ErrorAlert {
+	margin: 6px 0 0 !important;
+	padding: 0 !important;
+	list-style: none !important;
+}
+
+.ap-form-hero__form .hs-error-msg,
+.ap-form-hero__form .hs-error-msgs label,
+.ap-form-hero__form .hs_error_rollup label,
+.ap-form-hero__form--developer .hsfc-ErrorAlert {
+	position: static !important;
+	display: block !important;
+	width: auto !important;
+	height: auto !important;
+	margin: 0 !important;
+	overflow: visible !important;
+	clip: auto !important;
+	white-space: normal !important;
+	color: #d93025 !important;
+	font-family: var(--ap-font-body) !important;
+	font-size: 12px !important;
+	font-weight: 400 !important;
+	line-height: 1.4 !important;
+}
+
+.ap-form-hero__form .hs-richtext,
+.ap-form-hero__form .legal-consent-container,
+.ap-form-hero__form .legal-consent-container p,
+.ap-form-hero__form--developer .hsfc-FieldDescription,
+.ap-form-hero__form--developer .hsfc-RichText,
+.ap-form-hero__form--developer .hsfc-RichText p {
+	margin: 0 !important;
+	color: var(--ap-slate-500) !important;
+	font-family: var(--ap-font-body) !important;
+	font-size: 13px !important;
+	line-height: 1.5 !important;
+}
+
+.ap-form-hero__form .hs-richtext a,
+.ap-form-hero__form .legal-consent-container a,
+.ap-form-hero__form--developer .hsfc-RichText a {
+	color: var(--ap-brand-indigo) !important;
+	text-decoration: underline !important;
+}
+
+/* The brand button, full width. */
+.ap-form-hero__form input[type="submit"],
+.ap-form-hero__form button[type="submit"],
+.ap-form-hero__form .hs-button,
+.ap-form-hero__form--developer .hsfc-Button {
+	display: block !important;
+	width: 100% !important;
+	max-width: 100% !important;
+	min-height: 52px !important;
+	height: auto !important;
+	margin: 4px 0 0 !important;
+	padding: 14px 20px !important;
+	border: 0 !important;
+	border-radius: var(--ap-fh-radius) !important;
+	background: var(--ap-gradient-action) !important;
+	color: var(--ap-white) !important;
+	font-family: var(--ap-font-body) !important;
+	font-size: 16px !important;
+	font-weight: 700 !important;
+	line-height: 1.2 !important;
+	letter-spacing: normal !important;
+	text-align: center !important;
+	text-transform: none !important;
+	text-shadow: none !important;
+	box-shadow: none !important;
+	cursor: pointer !important;
+	-webkit-appearance: none !important;
+	appearance: none !important;
+	transition: box-shadow var(--ap-dur-base) var(--ap-ease-standard), filter var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-form-hero__form input[type="submit"]:hover,
+.ap-form-hero__form button[type="submit"]:hover,
+.ap-form-hero__form .hs-button:hover,
+.ap-form-hero__form--developer .hsfc-Button:hover {
+	box-shadow: 0 8px 20px rgba(80, 68, 225, .25) !important;
+	filter: brightness(1.06);
+}
+
+.ap-form-hero__form input[type="submit"]:focus-visible,
+.ap-form-hero__form button[type="submit"]:focus-visible,
+.ap-form-hero__form .hs-button:focus-visible,
+.ap-form-hero__form--developer .hsfc-Button:focus-visible {
+	outline: 3px solid var(--ap-brand-indigo) !important;
+	outline-offset: 2px !important;
+}
+
+.ap-form-hero__form .submitted-message,
+.ap-form-hero__form--developer .hsfc-Step .hsfc-RichText--submitted {
+	color: var(--ap-text-heading) !important;
+	font-family: var(--ap-font-body) !important;
+	font-size: 16px !important;
+	font-weight: 600 !important;
+	line-height: 1.5 !important;
+}
+
+/* Live shows the requested subdomain with its ".assetpanda.app" suffix. */
+.ap-form-hero__form--developer .hsfc-TextField:has(> input[name="0-1/requested_asset_panda_pro_subdomain"]) {
+	display: grid !important;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	column-gap: 8px;
+}
+
+.ap-form-hero__form--developer .hsfc-TextField:has(> input[name="0-1/requested_asset_panda_pro_subdomain"]) > :not(input) {
+	grid-column: 1 / -1;
+}
+
+.ap-form-hero__form--developer .hsfc-TextField:has(> input[name="0-1/requested_asset_panda_pro_subdomain"]) > input {
+	grid-column: 1;
+	grid-row: 3;
+}
+
+.ap-form-hero__form--developer .hsfc-TextField:has(> input[name="0-1/requested_asset_panda_pro_subdomain"])::after {
+	content: ".assetpanda.app";
+	grid-column: 2;
+	grid-row: 3;
+	color: var(--ap-slate-900);
+	font-size: 15px;
+	white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-form-hero__form .hs-input,
+	.ap-form-hero__form input[type="submit"],
+	.ap-form-hero__form .hs-button,
+	.ap-form-hero__form--developer .hsfc-Form input,
+	.ap-form-hero__form--developer .hsfc-Button {
+		transition: none !important;
+	}
+}
+
+/* ---- dark: white copy over the brand picture ---- */
+.ap-form-hero--dark {
+	background-color: var(--ap-indigo-950);
+	padding-top: 88px;
+	padding-bottom: 96px;
+}
+
+.ap-form-hero--dark .ap-form-hero__eyebrow {
+	color: var(--ap-text-eyebrow-inverse);
+}
+
+.ap-form-hero--dark .ap-form-hero__title,
+.ap-form-hero--dark .ap-form-hero__body,
+.ap-form-hero--dark .ap-form-hero__body strong,
+.ap-form-hero--dark .ap-form-hero__list li,
+.ap-form-hero--dark .ap-form-hero__list strong {
+	color: var(--ap-white);
+}
+
+/* ---- section: an in-page band (h2) ---- */
+.ap-form-hero--section {
+	padding: 40px 24px;
+	background-color: var(--ap-white);
+	background-image: none;
+}
+
+.ap-form-hero--section .ap-form-hero__inner {
+	padding: 56px;
+	border-radius: var(--ap-radius-2xl);
+	background-color: var(--ap-indigo-50);
+	background-image: var(--ap-form-hero-bg, linear-gradient(120deg, var(--ap-indigo-50) 0%, var(--ap-green-50) 100%));
+	background-size: cover;
+	background-position: center;
+}
+
+.ap-form-hero--section .ap-form-hero__title {
+	font-size: clamp(28px, 3vw, 40px);
+}
+
+@media (max-width: 991px) {
+	.ap-form-hero__inner {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 40px;
+		max-width: 640px;
+	}
+
+	.ap-form-hero__copy {
+		max-width: none;
+	}
+
+	.ap-form-hero--section .ap-form-hero__inner {
+		max-width: var(--ap-host-container, 1120px);
+		padding: 40px 32px;
+	}
+}
+
+@media (max-width: 767px) {
+	.ap-form-hero {
+		padding: 40px 16px 56px;
+	}
+
+	.ap-form-hero--dark {
+		padding-top: 48px;
+	}
+
+	.ap-form-hero--section {
+		padding: 24px 16px;
+	}
+
+	.ap-form-hero--section .ap-form-hero__inner {
+		padding: 32px 20px;
+	}
+
+	.ap-form-hero .ap-form-hero__body {
+		font-size: 17px;
+	}
+
+	.ap-form-hero__card {
+		padding: 24px 20px;
+	}
+
+	.ap-form-hero__form fieldset,
+	.ap-form-hero__form--developer .hsfc-Row {
+		flex-direction: column !important;
+	}
+}
+
+/* ---- kit type scale (QA 2026-10-28) ----
+ * Eyebrow, title and paragraph (the H1 was clamp(34px, 4vw, 48px) at -0.02em; as a section it is an H2).
+ * One heading scale across every hero (ui/src/tokens.css --ap-type-*): same size, weight 800, zero
+ * tracking at every width, so no H1 reads thicker or tighter than another. */
+.ap-form-hero .ap-form-hero__eyebrow {
+	font-size: var(--ap-type-eyebrow-size);
+	font-weight: var(--ap-type-eyebrow-weight);
+	line-height: var(--ap-type-eyebrow-line);
+	letter-spacing: var(--ap-type-eyebrow-track);
+	text-transform: uppercase;
+}
+.ap-form-hero .ap-form-hero__title {
+	font-size: var(--ap-type-h1-size);
+	font-weight: var(--ap-type-h1-weight);
+	line-height: var(--ap-type-h1-line);
+	letter-spacing: var(--ap-type-h1-track);
+}
+.ap-form-hero.ap-form-hero--section .ap-form-hero__title {
+	font-size: var(--ap-type-h2-size);
+	font-weight: var(--ap-type-h2-weight);
+	line-height: var(--ap-type-h2-line);
+	letter-spacing: var(--ap-type-h2-track);
+}
+.ap-form-hero .ap-form-hero__body {
+	font-size: var(--ap-type-lede-size);
+	line-height: var(--ap-type-lede-line);
+}
+
+/* ---- banner: the Integrations hub hero banner with the form in the art's slot (2026-10-29) ----
+ * /start-a-free-trial-email-only/. The section, type, spacing and height of integrations-hero
+ * (Figma 7310:158542): white under ten soft brand glows, copy column left, and the form card
+ * where that hero's 546 x 438 art box sits (the ::before below keeps the art box's footprint, so
+ * the banner is as tall as the hub hero: 620px at 1440); stacked, copy first and centred, below
+ * 900px. The card and its fields are the Get a Demo form (demo-booking .ap-dw--v1 on
+ * /get-a-demo/): a white 16px card with its soft shadow; white fields with a 1px #cfd4de edge and
+ * 4px corners whose label sits inside the box and floats up when the field is focused or filled,
+ * a green edge on focus, a red line under the field on error; the gradient button at its own
+ * width. HubSpot still draws the form (behaviour.js is unchanged): these rules only restyle its
+ * markup, and they keep !important where they replace the base skin's !important rules above. */
+
+.ap-form-hero.ap-form-hero--banner {
+	--ap-fhb-line: #cfd4de; /* demo-booking field edge */
+	--ap-fhb-error: #c0262d; /* demo-booking error text */
+	--ap-fhb-btn-hover-from: #4237c9; /* demo-booking button hover */
+	--ap-fhb-btn-hover-to: #00957f;
+	--ap-fhb-radius: 4px;
+	--ap-fhb-h: 48px; /* a field at rest: the 46px input and its 1px edges (demo-booking) */
+	--ap-fhb-h-active: 57px; /* focused or filled: 55px and edges, the label floats above the text */
+	isolation: isolate;
+	padding: 0;
+	color: #1d2331;
+	background-color: var(--ap-white);
+	background-image:
+		radial-gradient(108.89% 164.52% at 50.35% 161.21%, rgb(255 255 255 / 0.844), rgb(255 255 255 / 0.812) 12.5%, rgb(255 255 255 / 0.718) 25%, rgb(255 255 255 / 0.572) 37.5%, rgb(255 255 255 / 0.388) 50%, rgb(255 255 255 / 0.207) 62.5%, rgb(255 255 255 / 0.08) 75%, rgb(255 255 255 / 0.021) 87.5%, rgb(255 255 255 / 0)),
+		radial-gradient(61.67% 143.23% at 53.85% 133.63%, rgb(0 169 145 / 0.477), rgb(0 169 145 / 0.445) 12.5%, rgb(0 169 145 / 0.36) 25%, rgb(0 169 145 / 0.252) 37.5%, rgb(0 169 145 / 0.151) 50%, rgb(0 169 145 / 0.078) 62.5%, rgb(0 169 145 / 0.034) 75%, rgb(0 169 145 / 0.013) 87.5%, rgb(0 169 145 / 0)),
+		radial-gradient(61.11% 141.94% at 68.44% 135.4%, rgb(230 28 85 / 0.465), rgb(230 28 85 / 0.433) 12.5%, rgb(230 28 85 / 0.351) 25%, rgb(230 28 85 / 0.246) 37.5%, rgb(230 28 85 / 0.149) 50%, rgb(230 28 85 / 0.077) 62.5%, rgb(230 28 85 / 0.034) 75%, rgb(230 28 85 / 0.013) 87.5%, rgb(230 28 85 / 0)),
+		radial-gradient(68.06% 147.1% at 25.35% 132.58%, rgb(80 68 225 / 0.585), rgb(80 68 225 / 0.546) 12.5%, rgb(80 68 225 / 0.444) 25%, rgb(80 68 225 / 0.311) 37.5%, rgb(80 68 225 / 0.186) 50%, rgb(80 68 225 / 0.094) 62.5%, rgb(80 68 225 / 0.039) 75%, rgb(80 68 225 / 0.014) 87.5%, rgb(80 68 225 / 0)),
+		radial-gradient(51.67% 120% at 91.42% 57.66%, rgb(222 141 20 / 0.209), rgb(222 141 20 / 0.197) 12.5%, rgb(222 141 20 / 0.164) 25%, rgb(222 141 20 / 0.12) 37.5%, rgb(222 141 20 / 0.078) 50%, rgb(222 141 20 / 0.045) 62.5%, rgb(222 141 20 / 0.023) 75%, rgb(222 141 20 / 0.01) 87.5%, rgb(222 141 20 / 0)),
+		radial-gradient(75.56% 156.77% at 82.81% 2.34%, rgb(255 255 255 / 0.721), rgb(255 255 255 / 0.678) 12.5%, rgb(255 255 255 / 0.559) 25%, rgb(255 255 255 / 0.398) 37.5%, rgb(255 255 255 / 0.239) 50%, rgb(255 255 255 / 0.119) 62.5%, rgb(255 255 255 / 0.048) 75%, rgb(255 255 255 / 0.015) 87.5%, rgb(255 255 255 / 0)),
+		radial-gradient(86.94% 174.84% at 31.08% 49.11%, rgb(255 255 255 / 0.882), rgb(255 255 255 / 0.844) 12.5%, rgb(255 255 255 / 0.728) 25%, rgb(255 255 255 / 0.545) 37.5%, rgb(255 255 255 / 0.34) 50%, rgb(255 255 255 / 0.168) 62.5%, rgb(255 255 255 / 0.064) 75%, rgb(255 255 255 / 0.018) 87.5%, rgb(255 255 255 / 0)),
+		radial-gradient(71.39% 165.81% at 3.62% 4.06%, rgb(0 169 145 / 0.741), rgb(0 169 145 / 0.696) 12.5%, rgb(0 169 145 / 0.573) 25%, rgb(0 169 145 / 0.405) 37.5%, rgb(0 169 145 / 0.242) 50%, rgb(0 169 145 / 0.119) 62.5%, rgb(0 169 145 / 0.048) 75%, rgb(0 169 145 / 0.015) 87.5%, rgb(0 169 145 / 0)),
+		radial-gradient(71.39% 165.81% at 77.58% 95.19%, rgb(80 68 225 / 0.741), rgb(80 68 225 / 0.696) 12.5%, rgb(80 68 225 / 0.573) 25%, rgb(80 68 225 / 0.405) 37.5%, rgb(80 68 225 / 0.242) 50%, rgb(80 68 225 / 0.119) 62.5%, rgb(80 68 225 / 0.048) 75%, rgb(80 68 225 / 0.015) 87.5%, rgb(80 68 225 / 0)),
+		radial-gradient(89.44% 152.9% at 45.91% 22.09%, rgb(255 255 255 / 0.73), rgb(255 255 255 / 0.693) 12.5%, rgb(255 255 255 / 0.59) 25%, rgb(255 255 255 / 0.439) 37.5%, rgb(255 255 255 / 0.276) 50%, rgb(255 255 255 / 0.141) 62.5%, rgb(255 255 255 / 0.056) 75%, rgb(255 255 255 / 0.017) 87.5%, rgb(255 255 255 / 0));
+	background-position: 0 0;
+	background-size: auto;
+}
+
+/* The hub hero's bottom fade to white (Figma 7333:174686: y 363 -> 603.5 of the 620 frame). */
+.ap-form-hero.ap-form-hero--banner::after {
+	content: "";
+	position: absolute;
+	z-index: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 41.5%;
+	background: linear-gradient(180deg, rgb(255 255 255 / 0) 0%, var(--ap-white) 93.6%);
+	pointer-events: none;
+}
+
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__inner {
+	position: relative;
+	z-index: 1;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	column-gap: 28px;
+	row-gap: 0;
+	align-items: center;
+	width: min(var(--ap-host-container, 1120px), 100% - 48px);
+	max-width: none;
+	padding: 64px 0 56px;
+}
+
+/* The art box's footprint (546 x 438 design px at 1440): the form card sits centred in it. */
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__inner::before {
+	content: "";
+	grid-column: 2;
+	grid-row: 1;
+	width: 100%;
+	aspect-ratio: 546 / 438;
+}
+
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__copy {
+	grid-column: 1;
+	grid-row: 1;
+	min-width: 0;
+	max-width: none;
+}
+
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__eyebrow {
+	margin: 0 0 var(--ap-section-title-gap);
+	color: var(--ap-type-eyebrow-color);
+	font-family: var(--ap-font-utility);
+}
+
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__title {
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	text-wrap: balance;
+}
+
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__body {
+	margin: var(--ap-section-title-gap) 0 0;
+	color: var(--ap-type-lede-color);
+	font-family: var(--ap-font-body);
+	font-weight: var(--ap-type-lede-weight);
+	text-wrap: pretty;
+}
+
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__list {
+	margin-top: 24px;
+}
+
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__badges {
+	margin-top: 32px;
+}
+
+/* ---- The card: the Get a Demo card (demo-booking .ap-d26-qcard / .ap-dw-card) ---- */
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__card {
+	grid-column: 2;
+	grid-row: 1;
+	align-self: center;
+	padding: 32px;
+	border-radius: var(--ap-radius-xl);
+	background: var(--ap-white);
+	box-shadow: 0 8px 24px rgba(10, 10, 10, .08);
+	text-align: left;
+}
+
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__card-title {
+	margin: 0 0 6px;
+	font-family: var(--ap-font-display);
+	font-size: 26px;
+	line-height: 1.2;
+	letter-spacing: 0;
+}
+
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__card-intro {
+	margin: 0 0 20px;
+	color: var(--ap-text-body);
+	font-size: 16px;
+	line-height: 1.5;
+}
+
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__note {
+	margin: 16px 0 0;
+	color: var(--ap-text-body);
+	font-size: 14px;
+	line-height: 1.5;
+	text-align: left;
+}
+
+/* ---- The fields: demo-booking's floating-label boxes on HubSpot's markup ---- */
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form {
+	min-height: 100px; /* the drawn form (one field, the gap, the button), held while HubSpot loads it */
+	--ap-fh-gap: 16px;
+	--ap-fh-radius: var(--ap-fhb-radius);
+	--ap-fh-field-h: var(--ap-fhb-h);
+	--ap-fh-field-bg: var(--ap-white);
+	--ap-fh-field-border: var(--ap-fhb-line);
+}
+
+/* HubSpot's step holds the rows and the button row: 16px apart, as the demo form. */
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form--developer .hsfc-Step__Content {
+	display: flex !important;
+	flex-direction: column !important;
+	gap: var(--ap-fh-gap) !important;
+}
+
+/* A text-like field: the box is the input; its label sits inside it (absolute, over the input). */
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form--developer .hsfc-Row > :has(> input.hsfc-TextInput),
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form--developer .hsfc-Row > :has(> textarea),
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form .hs-form-field:has(input.hs-input:is([type="text"], [type="email"], [type="tel"], [type="number"], [type="url"]), textarea.hs-input) {
+	position: relative !important;
+}
+
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form--developer .hsfc-Row > :has(> input.hsfc-TextInput) > .hsfc-FieldLabel,
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form--developer .hsfc-Row > :has(> textarea) > .hsfc-FieldLabel,
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form .hs-form-field:has(input.hs-input:is([type="text"], [type="email"], [type="tel"], [type="number"], [type="url"]), textarea.hs-input) > label:not(.hs-error-msg) {
+	position: absolute !important;
+	z-index: 1;
+	top: 13px !important;
+	left: 13px !important;
+	width: auto !important;
+	max-width: calc(100% - 26px) !important;
+	height: auto !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	overflow: hidden !important;
+	clip: auto !important;
+	border: 0 !important;
+	color: var(--ap-text-body) !important;
+	font-family: var(--ap-font-body) !important;
+	font-size: 14px !important;
+	font-weight: 400 !important;
+	line-height: 1.5 !important;
+	letter-spacing: normal !important;
+	text-overflow: ellipsis;
+	white-space: nowrap !important;
+	pointer-events: none;
+	transition: top .2s ease, font-size .2s ease;
+}
+
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form--developer .hsfc-FieldLabel__RequiredIndicator,
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form .hs-form-field > label .hs-form-required {
+	margin: 0 !important;
+	color: inherit !important;
+}
+
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form--developer .hsfc-Form input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="submit"]):not([type="file"]),
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form--developer .hsfc-Form textarea,
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form input.hs-input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"]),
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form textarea.hs-input {
+	padding: 12px !important;
+	border: 1px solid var(--ap-fhb-line) !important;
+	border-radius: var(--ap-fhb-radius) !important;
+	background: var(--ap-white) !important;
+	color: var(--ap-text-body) !important;
+	font-size: 14px !important;
+	line-height: 1.5 !important;
+	transition: border-color .3s cubic-bezier(.25, .45, .45, .95), height .2s ease, padding .2s ease;
+}
+
+/* Focused or filled: the label floats to the top of the box and the text sits under it. */
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form--developer .hsfc-Row > :has(> input.hsfc-TextInput:is(:focus, :not(:placeholder-shown))) > .hsfc-FieldLabel,
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form .hs-form-field:has(input.hs-input:is([type="text"], [type="email"], [type="tel"], [type="number"], [type="url"]):is(:focus, :not(:placeholder-shown))) > label:not(.hs-error-msg) {
+	top: 9px !important;
+	font-size: 12px !important;
+}
+
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form--developer .hsfc-Form input.hsfc-TextInput:is(:focus, :not(:placeholder-shown)):not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="submit"]):not([type="file"]),
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form input.hs-input:is([type="text"], [type="email"], [type="tel"], [type="number"], [type="url"]):is(:focus, :not(:placeholder-shown)):not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"]) {
+	height: var(--ap-fhb-h-active) !important;
+	min-height: var(--ap-fhb-h-active) !important;
+	padding: 26px 12px 7px !important;
+}
+
+/* The label is the field's name in the box, so HubSpot's hint text shows only while typing. */
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form--developer .hsfc-Form input::placeholder,
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form--developer .hsfc-Form textarea::placeholder,
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form .hs-input::placeholder {
+	color: transparent !important;
+}
+
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form--developer .hsfc-Form input:focus::placeholder,
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form--developer .hsfc-Form textarea:focus::placeholder,
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form .hs-input:focus::placeholder {
+	color: var(--ap-slate-300) !important;
+}
+
+/* Focus: the demo form's green edge, no glow (selectors as specific as the field rule above). */
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form--developer .hsfc-Form input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="submit"]):not([type="file"]):focus,
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form--developer .hsfc-Form textarea:focus,
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form--developer .hsfc-Form select:focus,
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form input.hs-input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"]):focus,
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form textarea.hs-input:focus,
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form select.hs-input:focus {
+	border-color: var(--ap-brand-green) !important;
+	box-shadow: none !important;
+	outline: none !important;
+}
+
+/* Error: a red line under the field (demo-booking .ap-dw-err), and the edge in the same red. */
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form--developer .hsfc-Form input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="submit"]):not([type="file"])[aria-invalid="true"],
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form--developer .hsfc-Form textarea[aria-invalid="true"],
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form--developer .hsfc-Form select[aria-invalid="true"],
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form input.hs-input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"]):is(.error, .invalid),
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form textarea.hs-input:is(.error, .invalid) {
+	border-color: var(--ap-fhb-error) !important;
+}
+
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form--developer .hsfc-ErrorAlert,
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form .hs-error-msg,
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form .hs-error-msgs label,
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form .hs_error_rollup label {
+	margin: 8px 0 0 !important;
+	color: var(--ap-fhb-error) !important;
+	font-size: 13px !important;
+	line-height: 1.4 !important;
+}
+
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form .hs-error-msgs {
+	margin: 0 !important;
+}
+
+/* HubSpot's form-level alert slot keeps a 20px margin even when empty: none until it holds a message. */
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form--developer .hsfc-NavigationRow__Alerts {
+	margin: 0 0 8px !important;
+}
+
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form--developer .hsfc-NavigationRow__Alerts:empty {
+	margin: 0 !important;
+}
+
+/* The button: demo-booking's Get My Free Demo, at its own width. Its size is the sitewide CTA scale the demo
+ * button now takes (tokens.css "CTA button scale — sitewide": the header nav button's 14px / 800 / 1.2 type and
+ * 12px 16px padding, 13px and 9px 12px at 1100px and below); no height is set here, the padding gives it. */
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form--developer .hsfc-NavigationRow__Buttons {
+	display: flex !important;
+	flex-direction: row !important; /* HubSpot stacks and centres it on narrow forms */
+	align-items: center !important;
+	justify-content: flex-start !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form--developer .hsfc-Button,
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form input[type="submit"],
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form button[type="submit"],
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form .hs-button {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	width: auto !important;
+	height: auto !important;
+	min-height: 0 !important;
+	margin: 0 !important;
+	padding: 12px 16px !important;
+	border: 1px solid var(--ap-brand-indigo) !important;
+	border-radius: var(--ap-fhb-radius) !important;
+	background: linear-gradient(60.14deg, var(--ap-brand-indigo) 0%, var(--ap-brand-green) 70.44%) !important;
+	font-family: var(--ap-font-body) !important;
+	font-size: 14px !important;
+	font-weight: 800 !important;
+	line-height: 1.2 !important;
+	box-shadow: none !important;
+	filter: none !important;
+	transition: background-color .3s cubic-bezier(.25, .45, .45, .95), border-color .3s cubic-bezier(.25, .45, .45, .95), opacity .3s cubic-bezier(.25, .45, .45, .95);
+}
+
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form--developer .hsfc-Button:hover,
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form input[type="submit"]:hover,
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form button[type="submit"]:hover,
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form .hs-button:hover {
+	background: linear-gradient(60.14deg, var(--ap-fhb-btn-hover-from) 0%, var(--ap-fhb-btn-hover-to) 70.44%) !important;
+	box-shadow: none !important;
+	filter: none !important;
+}
+
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form--developer .hsfc-Button:focus-visible,
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form input[type="submit"]:focus-visible,
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form button[type="submit"]:focus-visible,
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form .hs-button:focus-visible {
+	outline: 2px solid var(--ap-brand-indigo) !important;
+	outline-offset: 2px !important;
+}
+
+/* HubSpot marks the button busy while it sends: the demo form's faded wait state. */
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form--developer .hsfc-Button[aria-busy="true"],
+.ap-form-hero.ap-form-hero--banner .ap-form-hero__form--developer .hsfc-Button:disabled {
+	border-color: rgba(80, 68, 225, .4) !important;
+	background: linear-gradient(54.49deg, rgba(80, 68, 225, .4) 0%, rgba(0, 169, 145, .4) 70.44%) !important;
+	cursor: progress !important;
+}
+
+@media (max-width: 1100px) {
+	.ap-form-hero.ap-form-hero--banner .ap-form-hero__form--developer .hsfc-Button,
+	.ap-form-hero.ap-form-hero--banner .ap-form-hero__form input[type="submit"],
+	.ap-form-hero.ap-form-hero--banner .ap-form-hero__form button[type="submit"],
+	.ap-form-hero.ap-form-hero--banner .ap-form-hero__form .hs-button {
+		padding: 9px 12px !important;
+		font-size: 13px !important;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-form-hero.ap-form-hero--banner .ap-form-hero__form .hsfc-FieldLabel,
+	.ap-form-hero.ap-form-hero--banner .ap-form-hero__form .hs-form-field > label {
+		transition: none !important;
+	}
+}
+
+/* Figma geometry from 1280px: 93px above the art box, 89px below; the copy's centre 14.5px under the art's. */
+@media (min-width: 1280px) {
+	.ap-form-hero.ap-form-hero--banner .ap-form-hero__inner {
+		padding: 93px 0 89px;
+	}
+
+	.ap-form-hero.ap-form-hero--banner .ap-form-hero__copy {
+		margin-top: 29px;
+	}
+}
+
+/* Below 900px, as the hub hero: stack, copy first and centred; the card follows at up to the art's width. */
+@media (max-width: 899px) {
+	.ap-form-hero.ap-form-hero--banner .ap-form-hero__inner {
+		grid-template-columns: minmax(0, 1fr);
+		row-gap: 32px;
+		padding: 48px 0 40px;
+	}
+
+	.ap-form-hero.ap-form-hero--banner .ap-form-hero__inner::before {
+		display: none;
+	}
+
+	.ap-form-hero.ap-form-hero--banner .ap-form-hero__copy {
+		justify-self: center;
+		max-width: 600px;
+		text-align: center;
+	}
+
+	.ap-form-hero.ap-form-hero--banner .ap-form-hero__badges {
+		justify-content: center;
+	}
+
+	.ap-form-hero.ap-form-hero--banner .ap-form-hero__card {
+		grid-column: 1;
+		grid-row: 2;
+		justify-self: center;
+		width: min(546px, 100%);
+	}
+}
+
+@media (max-width: 599px) {
+	.ap-form-hero.ap-form-hero--banner .ap-form-hero__inner {
+		row-gap: 24px;
+		padding: 32px 0;
+	}
+
+	.ap-form-hero.ap-form-hero--banner .ap-form-hero__card {
+		padding: 24px 20px;
+	}
+
+	.ap-form-hero.ap-form-hero--banner .ap-form-hero__card-title {
+		font-size: 22px;
+	}
+}

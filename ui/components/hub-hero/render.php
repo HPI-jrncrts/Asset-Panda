@@ -43,7 +43,7 @@ $ap_icon = static function ( $item, $class = '' ) {
 		return '<span class="' . esc_attr( trim( 'ap-inline-icon ' . $class ) ) . '" aria-hidden="true">' . $svg . '</span>';
 	}
 	$icon = trim( (string) ( $item['icon'] ?? '' ) );
-	return '' !== $icon ? '<img class="' . esc_attr( $class ) . '" src="' . esc_url( $icon ) . '" alt="" loading="lazy" decoding="async" />' : '';
+	return '' !== $icon ? '<img class="' . esc_attr( $class ) . '" src="' . esc_url( $icon ) . '" alt="" width="24" height="24" decoding="async" />' : '';
 };
 
 $title   = trim( (string) $props['title'] );
@@ -65,13 +65,128 @@ if ( is_numeric( $props['veil_height'] ) && $props['veil_height'] > 0 ) {
 if ( is_numeric( $props['content_top'] ) && $props['content_top'] > 0 ) {
 	$vars[] = '--apg-ctop:' . round( (float) $props['content_top'], 3 ) . '%';
 }
+// Phone visual box (live sets it per page on .apg-hero-visual below 768px).
+if ( preg_match( '#^\s*(\d+(?:\.\d+)?)\s*/\s*(\d+(?:\.\d+)?)\s*$#', (string) $props['mobile_ratio'], $m ) && '393/378' !== $m[1] . '/' . $m[2] ) {
+	$vars[] = '--apg-mratio:' . $m[1] . '/' . $m[2];
+}
+// The photo group's bounds on the 1440x640 art canvas, in canvas px (unitless):
+// the stylesheet right-anchors the art by them on laptops and scales the group to
+// the width under the copy on tablets and phones. Numbers only.
+$ap_x0 = 1440;
+$ap_x1 = 0;
+$ap_y0 = 640;
+foreach ( array_slice( $photos, 0, 3 ) as $photo ) {
+	if ( ! isset( $photo['x'], $photo['y'], $photo['w'] ) || ! is_numeric( $photo['x'] ) || ! is_numeric( $photo['y'] ) || ! is_numeric( $photo['w'] ) ) {
+		continue;
+	}
+	$ap_x0 = min( $ap_x0, (float) $photo['x'] * 14.4 );
+	$ap_x1 = max( $ap_x1, ( (float) $photo['x'] + (float) $photo['w'] ) * 14.4 );
+	$ap_y0 = min( $ap_y0, (float) $photo['y'] * 6.4 );
+}
+if ( $ap_x1 > $ap_x0 + 40 ) {
+	$ap_x0  = max( 0, $ap_x0 - 16 );
+	$ap_x1  = min( 1440, $ap_x1 + 16 );
+	$ap_y0  = max( 0, min( 600, $ap_y0 - 8 ) );
+	$vars[] = '--apg-x0:' . round( $ap_x0 );
+	$vars[] = '--apg-x1:' . round( $ap_x1 );
+	$vars[] = '--apg-y0:' . round( $ap_y0 );
+	$vars[] = '--apg-rw:' . round( $ap_x1 - $ap_x0 );
+}
 $root_st = implode( ';', $vars );
+
+// The backdrop is the first-screen image: ask for it before the stylesheet is parsed.
+if ( 'eduhub' !== $props['variant'] && '' !== trim( (string) $props['background'] ) && function_exists( 'ap_ui_preload_image' ) ) {
+	echo ap_ui_preload_image( $props['background'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- built from esc_url() in the loader.
+}
+
+// Live sizes each compliance badge by kind (.apg-badge-soc2 / -govramp / -hipaa).
+$ap_badge_class = static function ( $badge ) {
+	$file = strtolower( (string) wp_parse_url( (string) $badge['image'], PHP_URL_PATH ) );
+	foreach ( array( 'soc2', 'govramp', 'hipaa' ) as $kind ) {
+		if ( false !== strpos( basename( $file ), $kind ) ) {
+			return 'apg-badge-' . $kind;
+		}
+	}
+	return '';
+};
+
+/*
+ * Education hub: live #ap-eduhub-hero, ported whole with its own class names
+ * (.apf-*): the backdrop sits on the wrap, the copy over the stage (which keeps
+ * a 520px floor from 768 to 1100px), the chips in a ruled band below; on phones
+ * the copy stacks over the phone backdrop. Photos are placed from the props.
+ */
+if ( 'eduhub' === $props['variant'] ) :
+	$ap_edu_vars = array();
+	if ( '' !== trim( (string) $props['background'] ) ) {
+		$ap_edu_vars[] = '--apf-bg:url("' . esc_url_raw( trim( (string) $props['background'] ) ) . '")';
+	}
+	if ( '' !== $mobile ) {
+		$ap_edu_vars[] = '--apf-mbg:url("' . esc_url_raw( $mobile ) . '")';
+	}
+	$ap_feat = static function ( $feat ) use ( $ap_icon ) {
+		$icon = trim( (string) ( $feat['icon'] ?? '' ) );
+		if ( ! empty( $feat['icon_mask'] ) && '' !== $icon ) {
+			$mask = 'url("' . esc_url_raw( $icon ) . '") center/contain no-repeat';
+			return '<span class="apf-feat-mask" aria-hidden="true" style="' . esc_attr( '-webkit-mask:' . $mask . ';mask:' . $mask ) . '"></span>';
+		}
+		return $ap_icon( $feat );
+	};
+	?>
+<section class="ap-hub-hero ap-hub-hero--eduhub"<?php echo $ap_edu_vars ? ' style="' . esc_attr( implode( ';', $ap_edu_vars ) ) . '"' : ''; ?>>
+	<div class="apf-wrap">
+		<div class="apf-stage">
+			<?php foreach ( array_slice( $photos, 0, 3 ) as $i => $photo ) : ?>
+				<div class="apf-photo apf-photo<?php echo esc_attr( (string) ( $i + 1 ) ); ?>" style="<?php echo esc_attr( $ap_pct( $photo, array( 'x' => 'left', 'y' => 'top', 'w' => 'width', 'h' => 'height' ) ) ); ?>">
+					<img src="<?php echo esc_url( $photo['image'] ); ?>" alt="<?php echo esc_attr( $photo['alt'] ?? '' ); ?>" style="<?php echo esc_attr( $ap_pct( $photo, array( 'ix' => 'left', 'iy' => 'top', 'iw' => 'width', 'ih' => 'height' ) ) ); ?>" decoding="async" />
+				</div>
+			<?php endforeach; ?>
+			<div class="apf-veil"></div>
+		</div>
+		<div class="apf-content">
+			<?php if ( '' !== trim( (string) $props['eyebrow'] ) ) : ?>
+				<p class="apf-eyebrow"><?php echo esc_html( $props['eyebrow'] ); ?></p>
+			<?php endif; ?>
+			<h1 class="apf-headline"><?php echo $ap_accent( $title, $props['title_accent'], 'apf-grad' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?></h1>
+			<?php if ( '' !== trim( (string) $props['lede'] ) ) : ?>
+				<p class="apf-body"><?php echo ap_ui_brandmarks( ap_ui_lines( $props['lede'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped. ?></p>
+			<?php endif; ?>
+			<div class="apf-cta-row">
+				<?php if ( '' !== trim( (string) $props['cta_label'] ) && '' !== trim( (string) $props['cta_url'] ) ) : ?>
+					<a class="ap-btn ap-btn-primary" href="<?php echo esc_url( $props['cta_url'] ); ?>"><?php echo esc_html( $props['cta_label'] ); ?></a>
+				<?php endif; ?>
+				<?php if ( $badges ) : ?>
+					<div class="apf-badges">
+						<?php foreach ( $badges as $badge ) : ?>
+							<?php $ap_bc = str_replace( 'apg-', 'apf-', $ap_badge_class( $badge ) ); ?>
+							<img<?php echo '' !== $ap_bc ? ' class="' . esc_attr( $ap_bc ) . '"' : ''; ?> src="<?php echo esc_url( $badge['image'] ); ?>" alt="<?php echo esc_attr( $badge['alt'] ?? '' ); ?>" decoding="async" />
+						<?php endforeach; ?>
+					</div>
+				<?php endif; ?>
+			</div>
+		</div>
+	</div>
+	<?php if ( $feats ) : ?>
+		<div class="ap-hero-feats-band">
+			<div class="ap-hero-feats">
+				<?php foreach ( array( false, true ) as $dup ) : ?>
+					<?php foreach ( $feats as $feat ) : ?>
+						<div class="ap-hero-feat<?php echo $dup ? ' apf-dup' : ''; ?>"<?php echo $dup ? ' aria-hidden="true"' : ''; ?>><?php echo $ap_feat( $feat ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helpers. ?><span><?php echo esc_html( $feat['label'] ); ?></span></div>
+					<?php endforeach; ?>
+				<?php endforeach; ?>
+			</div>
+		</div>
+	<?php endif; ?>
+</section>
+	<?php
+	return;
+endif;
 ?>
 <section class="ap-hub-hero"<?php echo '' !== $root_st ? ' style="' . esc_attr( $root_st ) . '"' : ''; ?>>
 	<div class="apg-hero-stage">
 		<div class="apg-hero-visual">
 			<?php if ( '' !== trim( (string) $props['background'] ) ) : ?>
-				<img class="apg-hero-bg" src="<?php echo esc_url( $props['background'] ); ?>" alt="" decoding="async" fetchpriority="high" />
+				<img class="apg-hero-bg" src="<?php echo esc_url( $props['background'] ); ?>" alt="" width="1440" height="640" decoding="async" fetchpriority="high" />
 			<?php endif; ?>
 			<?php foreach ( array_slice( $photos, 0, 3 ) as $i => $photo ) : ?>
 				<?php $box = $ap_pct( $photo, array( 'x' => 'left', 'y' => 'top', 'w' => 'width', 'h' => 'height' ) ); ?>
@@ -80,7 +195,7 @@ $root_st = implode( ';', $vars );
 						<img src="<?php echo esc_url( $photo['image'] ); ?>" alt="<?php echo esc_attr( $photo['alt'] ?? '' ); ?>" style="<?php echo esc_attr( $ap_pct( $photo, array( 'ix' => 'left', 'iy' => 'top', 'iw' => 'width', 'ih' => 'height' ) ) ); ?>" decoding="async" />
 					</div>
 				<?php else : ?>
-					<img class="apg-hero-photo apg-hero-p<?php echo esc_attr( (string) ( $i + 1 ) ); ?>" src="<?php echo esc_url( $photo['image'] ); ?>" alt="<?php echo esc_attr( $photo['alt'] ?? '' ); ?>" style="<?php echo esc_attr( $box ); ?>" decoding="async" />
+					<img class="apg-hero-photo apg-hero-p<?php echo esc_attr( (string) ( $i + 1 ) ); ?>" src="<?php echo esc_url( $photo['image'] ); ?>" alt="<?php echo esc_attr( $photo['alt'] ?? '' ); ?>" style="<?php echo esc_attr( $box ); ?>"<?php echo isset( $photo['w'], $photo['h'] ) && is_numeric( $photo['w'] ) && is_numeric( $photo['h'] ) ? ' width="' . (int) round( (float) $photo['w'] * 14.4 ) . '" height="' . (int) round( (float) $photo['h'] * 6.4 ) . '"' : ''; ?> decoding="async" />
 				<?php endif; ?>
 			<?php endforeach; ?>
 			<div class="apg-hero-veil"></div>
@@ -101,7 +216,8 @@ $root_st = implode( ';', $vars );
 				<?php if ( $badges ) : ?>
 					<div class="apg-badges">
 						<?php foreach ( $badges as $badge ) : ?>
-							<img src="<?php echo esc_url( $badge['image'] ); ?>" alt="<?php echo esc_attr( $badge['alt'] ?? '' ); ?>" decoding="async" />
+							<?php $ap_bc = $ap_badge_class( $badge ); ?>
+							<img<?php echo '' !== $ap_bc ? ' class="' . esc_attr( $ap_bc ) . '"' : ''; ?> src="<?php echo esc_url( $badge['image'] ); ?>" alt="<?php echo esc_attr( $badge['alt'] ?? '' ); ?>" decoding="async" />
 						<?php endforeach; ?>
 					</div>
 				<?php endif; ?>

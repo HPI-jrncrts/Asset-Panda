@@ -1,0 +1,796 @@
+{
+	"name": "site-header",
+	"description": "Global site header: desktop bar with tab-rail mega menus, the phone header with its drawer, and the phone app banner. One nav prop drives desktop and phone. Live 2026 header (#ap-presentation-header-v5) plus the Figma Global Megamenu options (4374:23298).",
+	"props": {
+		"logo": {
+			"type": "string",
+			"default": "logo-asset-panda.png",
+			"description": "Logo image: a file in assets/ or a URL."
+		},
+		"logo_alt": {
+			"type": "string",
+			"default": "Asset Panda",
+			"description": "Logo alt text."
+		},
+		"home_url": {
+			"type": "string",
+			"default": "/",
+			"description": "Where the logo links."
+		},
+		"nav": {
+			"type": "array",
+			"default": [
+				{
+					"label": "Products",
+					"variant": "figma-2026",
+					"url": "",
+					"tabs": [
+						{
+							"key": "purpose-built",
+							"label": "Purpose-Built Products",
+							"url": "",
+							"heading": "",
+							"groups": [
+								{
+									"heading": "Public Sector",
+									"links": [
+										{
+											"title": "Asset Panda for Local Government",
+											"desc": "Manage assets across departments and facilities.",
+											"url": "/products/asset-panda-for-local-government/",
+											"icon": "Government-Public-Sector-icn.svg"
+										},
+										{
+											"title": "Asset Panda for Public Works",
+											"desc": "Track vehicles, equipment, and field operations.",
+											"url": "/products/asset-panda-for-public-works/",
+											"icon": "Public-Works-icn.svg"
+										},
+										{
+											"title": "Asset Panda for Fire",
+											"desc": "Keep apparatus and gear mission-ready.",
+											"url": "/products/asset-panda-for-fire/",
+											"icon": "AP-for-Fire-icn.svg"
+										},
+										{
+											"title": "Asset Panda for Police",
+											"desc": "Track issued equipment, assignments, and custody.",
+											"url": "/products/asset-panda-for-police/",
+											"icon": "AP-for-Police-icn.svg"
+										}
+									]
+								},
+								{
+									"heading": "Education",
+									"links": [
+										{
+											"title": "Asset Panda for K-12",
+											"desc": "Track devices, equipment, and assignments district-wide.",
+											"url": "/products/asset-panda-for-k12/",
+											"icon": "k-12-icn.svg"
+										},
+										{
+											"title": "Asset Panda for Higher Education",
+											"desc": "Manage campus assets across departments and facilities.",
+											"url": "/products/asset-panda-for-higher-education/",
+											"icon": "higher-education-icn.svg"
+										}
+									]
+								}
+							]
+						},
+						{
+							"key": "core-platform",
+							"label": "Core Platform",
+							"url": "",
+							"heading": "",
+							"groups": [
+								{
+									"heading": "Core Platform",
+									"links": [
+										{
+											"title": "Asset Intelligence Platform",
+											"desc": "Six connected jobs. One asset record.",
+											"url": "/asset-intelligence-platform/",
+											"icon": "Asset-Intelligence-Platform-icn.svg"
+										},
+										{
+											"title": "Ursa AI",
+											"desc": "Turn asset data into answers and insights.",
+											"url": "/ursa-ai/",
+											"icon": "URSA-AI-icn.svg"
+										},
+										{
+											"title": "Integrations",
+											"desc": "Connect Asset Panda with your existing tools.",
+											"url": "/integrations/",
+											"icon": "Integrations-icn.svg"
+										},
+										{
+											"title": "Asset Tags & Labels",
+											"desc": "Identify and track assets with durable labels.",
+											"url": "/barcode-labels/",
+											"icon": "Asset-Tags-and-Labels-icn.svg"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"label": "Solutions",
+					"variant": "figma-2026",
+					"url": "",
+					"tabs": [
+						{
+							"key": "asset-management-and-visibility",
+							"label": "Asset Management & Visibility",
+							"url": "",
+							"heading": "Asset Management & Visibility",
+							"groups": [
+								{
+									"heading": "",
+									"links": [
+										{
+											"title": "Asset Management",
+											"desc": "Centralize asset records, activity, and lifecycle history.",
+											"url": "/solutions/asset-management/",
+											"icon": "Asset-Tracking-icn.svg"
+										},
+										{
+											"title": "Inventory Management",
+											"desc": "Track inventory, stock, and asset availability.",
+											"url": "/solutions/inventory-management/",
+											"icon": "Inventory-Management-icn.svg"
+										},
+										{
+											"title": "IT Asset Management",
+											"desc": "Manage hardware, software, users, and IT lifecycle.",
+											"url": "/solutions/it-asset-tracking/",
+											"icon": "IT-Asset-Management-icn.svg"
+										}
+									]
+								},
+								{
+									"heading": "",
+									"links": [
+										{
+											"title": "Fixed Asset Management",
+											"desc": "Maintain accurate records for finance and audits.",
+											"url": "/solutions/fixed-asset-tracking/",
+											"icon": "Fixed-Asset-Management-icn.svg"
+										},
+										{
+											"title": "Barcode Tracking",
+											"desc": "Scan assets using barcode and QR labels.",
+											"url": "/solutions/barcode-tracking/",
+											"icon": "Barcode-Tracking-icn.svg"
+										},
+										{
+											"title": "Reservation Management",
+											"desc": "Schedule and manage shared asset availability.",
+											"url": "/solutions/reservations/",
+											"icon": "Reservation-Management-icn.svg"
+										}
+									]
+								}
+							]
+						},
+						{
+							"key": "audit-and-compliance",
+							"label": "Audit & Compliance",
+							"url": "",
+							"heading": "Audit & Compliance",
+							"groups": [
+								{
+									"heading": "",
+									"links": [
+										{
+											"title": "Compliance & Audit Readiness",
+											"desc": "Keep records and evidence ready for audits.",
+											"url": "/solutions/compliance-management/",
+											"icon": "Audit-Readiness-icn.svg"
+										},
+										{
+											"title": "Asset Auditing",
+											"desc": "Verify assets and document audit discrepancies.",
+											"url": "/solutions/mobile-audit/",
+											"icon": "Mobile-Asset-Auditing-icn.svg"
+										}
+									]
+								}
+							]
+						},
+						{
+							"key": "maintenance-and-workflows",
+							"label": "Maintenance & Workflows",
+							"url": "",
+							"heading": "Maintenance & Workflows",
+							"groups": [
+								{
+									"heading": "",
+									"links": [
+										{
+											"title": "Maintenance Management",
+											"desc": "Schedule preventive maintenance and preserve service history.",
+											"url": "/solutions/cmms-maintenance-management/",
+											"icon": "Maintenance-Management-icn.svg"
+										},
+										{
+											"title": "Help Desk Ticketing",
+											"desc": "Use Ursa AI to answer, act, or escalate requests.",
+											"url": "/solutions/help-desk-ticketing/",
+											"icon": "Help-Desk-Ticketing-icn.svg"
+										},
+										{
+											"title": "Asset Inspections",
+											"desc": "Standardize inspections and document proof of completion.",
+											"url": "/solutions/asset-inspection/",
+											"icon": "Asset-Inspections-icn.svg"
+										}
+									]
+								},
+								{
+									"heading": "",
+									"links": [
+										{
+											"title": "Repair Tracking",
+											"desc": "Track corrective work from issue through resolution.",
+											"url": "/solutions/repair-tracking/",
+											"icon": "Repair-Tracking-icn.svg"
+										},
+										{
+											"title": "Calibration Management",
+											"desc": "Maintain calibration history and compliance records.",
+											"url": "/solutions/calibration-management/",
+											"icon": "Calibration-Management-icn.svg"
+										},
+										{
+											"title": "Facilities Management",
+											"desc": "Manage facilities, equipment, and maintenance activity.",
+											"url": "/solutions/facilities-management/",
+											"icon": "Facilities-Management-icn.svg"
+										}
+									]
+								}
+							]
+						},
+						{
+							"key": "equipment-and-lifecycle",
+							"label": "Equipment & Lifecycle",
+							"url": "",
+							"heading": "Equipment & Lifecycle",
+							"groups": [
+								{
+									"heading": "",
+									"links": [
+										{
+											"title": "Equipment Management",
+											"desc": "Centralize equipment records, condition, and service history.",
+											"url": "/solutions/equipment-management/",
+											"icon": "Equipment-Management-icn.svg"
+										},
+										{
+											"title": "Lifecycle Management",
+											"desc": "Manage assets from acquisition through disposition.",
+											"url": "/solutions/lifecycle-management/",
+											"icon": "Lifecycle-Management-icn.svg"
+										},
+										{
+											"title": "Fleet Management",
+											"desc": "Track vehicle condition, maintenance, and lifecycle.",
+											"url": "/solutions/fleet-management/",
+											"icon": "Fleet-Management-icn.svg"
+										}
+									]
+								},
+								{
+									"heading": "",
+									"links": [
+										{
+											"title": "Tool Tracking",
+											"desc": "Track tools, assignments, condition, and availability.",
+											"url": "/solutions/tool-tracking/",
+											"icon": "tools-icn.svg"
+										},
+										{
+											"title": "Leased Equipment Tracking",
+											"desc": "Manage leased assets, obligations, and return dates.",
+											"url": "/solutions/leased-equipment-tracking/",
+											"icon": "Leased-Equipment-Tracking-icn.svg"
+										}
+									]
+								}
+							]
+						},
+						{
+							"key": "readiness-and-response",
+							"label": "Readiness & Response",
+							"url": "",
+							"heading": "Readiness & Response",
+							"groups": [
+								{
+									"heading": "",
+									"links": [
+										{
+											"title": "Emergency Preparedness",
+											"desc": "Maintain resource readiness through critical events.",
+											"url": "/solutions/emergency-preparedness/",
+											"icon": "Emergency-Response-Alert-icn.svg"
+										},
+										{
+											"title": "School Reunification",
+											"desc": "Support student accountability during emergency reunification.",
+											"url": "/solutions/school-reunification-software/",
+											"icon": "School-Reunification-icn.svg"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"label": "Who We Help",
+					"url": "",
+					"variant": "figma-2026",
+					"posts_label": "Latest Blog Posts",
+					"all_label": "View All Industries",
+					"all_url": "/#industries",
+					"tabs": [
+						{
+							"key": "public-sector",
+							"label": "Public Sector",
+							"url": "/solutions/government/",
+							"heading": "Public Sector",
+							"groups": [
+								{
+									"heading": "",
+									"links": [
+										{
+											"title": "Local Government",
+											"desc": "Manage assets across departments, facilities, and teams.",
+											"url": "/products/asset-panda-for-local-government/",
+											"icon": "Government-Public-Sector-icn.svg"
+										},
+										{
+											"title": "Public Works",
+											"desc": "Track vehicles, equipment, and field operations.",
+											"url": "/products/asset-panda-for-public-works/",
+											"icon": "Public-Works-icn.svg"
+										},
+										{
+											"title": "Fire Departments",
+											"desc": "Keep apparatus, gear, and inspections mission ready.",
+											"url": "/products/asset-panda-for-fire/",
+											"icon": "Fire-Departments-icn.svg"
+										},
+										{
+											"title": "Police Departments",
+											"desc": "Track issued equipment, custody, and accountability.",
+											"url": "/products/asset-panda-for-police/",
+											"icon": "Police-Departments-icn.svg"
+										}
+									]
+								}
+							],
+							"card": {
+								"image": "/wp-content/uploads/2026/10/megamenu-okc-photo.webp",
+								"image_alt": "Downtown Oklahoma City skyline",
+								"logo": "/wp-content/uploads/2026/10/megamenu-okc-logo.webp",
+								"logo_alt": "City of Oklahoma City seal",
+								"title": "Oklahoma City becomes more responsive and organized",
+								"quote": "“Now, we can streamline our process, be more responsive to customer requests, and improve overall compliance with auditing.”",
+								"author": "Jack Gallemore",
+								"role": "Customer Support Manager",
+								"url": ""
+							}
+						},
+						{
+							"key": "education",
+							"label": "Education",
+							"url": "/solutions/education/",
+							"heading": "Education",
+							"groups": [
+								{
+									"heading": "",
+									"links": [
+										{
+											"title": "K–12 School Districts",
+											"desc": "Manage assets across districts.",
+											"url": "/products/asset-panda-for-k12/",
+											"icon": "k-12-icn.svg"
+										},
+										{
+											"title": "Higher Education",
+											"desc": "Asset management for campuses.",
+											"url": "/products/asset-panda-for-higher-education/",
+											"icon": "higher-education-icn.svg"
+										}
+									]
+								}
+							],
+							"card": {
+								"image": "/wp-content/uploads/2026/10/megamenu-creston-photo.webp",
+								"image_alt": "",
+								"logo": "/wp-content/uploads/2026/10/megamenu-creston-logo.webp",
+								"logo_alt": "",
+								"title": "Creston Community School District gets 3 hours back per day",
+								"quote": "“I have a wealth of data right in the palm of my hands about all of our district’s assets. I can even scan an asset on the spot and see if it’s in our inventory or not. If it isn’t, then I can add it right in instantly...and Asset Panda will track its entire lifecycle moving forward.”",
+								"author": "Brendalee Lyell-Keate",
+								"role": "Technology Department",
+								"url": "/resource-center/success-stories/creston-school-saves-searching-for-assets/"
+							}
+						},
+						{
+							"key": "healthcare",
+							"label": "Healthcare",
+							"url": "/solutions/healthcare/",
+							"heading": "Healthcare",
+							"groups": [
+								{
+									"heading": "",
+									"links": [
+										{
+											"title": "Biomedical",
+											"desc": "Manage critical biomedical assets.",
+											"url": "/solutions/healthcare/biomedical/",
+											"icon": "Biomedical-icn.svg"
+										},
+										{
+											"title": "Hospital Facilities",
+											"desc": "Manage facilities and equipment.",
+											"url": "/solutions/healthcare/hospital-facilities/",
+											"icon": "hospital-icn.svg"
+										},
+										{
+											"title": "Pharmaceutical & Laboratory",
+											"desc": "Maintain compliance and traceability.",
+											"url": "/solutions/healthcare/pharmaceutical-laboratory/",
+											"icon": "pharmaceutical-laboratory-icn.svg"
+										}
+									]
+								}
+							]
+						},
+						{
+							"key": "industrial-and-field-operations",
+							"label": "Industry & Field Operations",
+							"url": "",
+							"heading": "Industry & Field Operations",
+							"groups": [
+								{
+									"heading": "",
+									"links": [
+										{
+											"title": "Construction",
+											"desc": "Track equipment and jobsite assets.",
+											"url": "/solutions/construction/",
+											"icon": "Construction-icn.svg"
+										},
+										{
+											"title": "Manufacturing",
+											"desc": "Improve uptime and productivity.",
+											"url": "/solutions/manufacturing/",
+											"icon": "Manufacturing-icn.svg"
+										},
+										{
+											"title": "Mining & Materials",
+											"desc": "Optimize extraction and material handling.",
+											"url": "/solutions/mining-material-lims/",
+											"icon": "Mining-Materials-icn.svg"
+										}
+									]
+								}
+							]
+						},
+						{
+							"key": "energy-and-utilities",
+							"label": "Energy & Utilities",
+							"url": "/solutions/energy-utilities/",
+							"heading": "Energy & Utilities",
+							"groups": [
+								{
+									"heading": "",
+									"links": [
+										{
+											"title": "Oil & Gas",
+											"desc": "Monitor pipelines, rigs, and fuel assets.",
+											"url": "/solutions/energy-utilities/oil-and-gas/",
+											"icon": "Oil-Gas-icn.svg"
+										},
+										{
+											"title": "Renewable Energy",
+											"desc": "Manage solar, wind, and clean energy systems.",
+											"url": "/solutions/energy-utilities/renewable-energy/",
+											"icon": "Renewable-Energy-icn.svg"
+										},
+										{
+											"title": "Electric Utilities",
+											"desc": "Ensure grid reliability and power delivery.",
+											"url": "/solutions/energy-utilities/electric/",
+											"icon": "Electric-Utilities-icn.svg"
+										},
+										{
+											"title": "Water Utilities",
+											"desc": "Track water treatment and distribution assets.",
+											"url": "/solutions/energy-utilities/water/",
+											"icon": "Water-Utilities-icn.svg"
+										}
+									]
+								}
+							]
+						},
+						{
+							"key": "transportation-and-logistics",
+							"label": "Transportation & Logistics",
+							"url": "/solutions/transportation-logistics/",
+							"heading": "Transportation & Logistics",
+							"groups": [
+								{
+									"heading": "",
+									"links": [
+										{
+											"title": "Warehousing",
+											"desc": "Streamline inventory and storage operations.",
+											"url": "/solutions/transportation-logistics/warehouse/",
+											"icon": "Warehousing-icn.svg"
+										},
+										{
+											"title": "Aviation",
+											"desc": "Maintain fleet readiness and compliance.",
+											"url": "/solutions/transportation-logistics/aviation/",
+											"icon": "Aviation-icn.svg"
+										},
+										{
+											"title": "Rail",
+											"desc": "Keep rolling stock and infrastructure on track.",
+											"url": "/solutions/transportation-logistics/rail/",
+											"icon": "Rail-icn.svg"
+										},
+										{
+											"title": "Maritime & Ports",
+											"desc": "Oversee vessel and port asset performance.",
+											"url": "/solutions/transportation-logistics/maritime-ports/",
+											"icon": "Maritime-Ports-icn.svg"
+										}
+									]
+								}
+							]
+						},
+						{
+							"key": "business-and-nonprofit",
+							"label": "Business & Nonprofit",
+							"url": "",
+							"heading": "Business & Nonprofit",
+							"groups": [
+								{
+									"heading": "",
+									"links": [
+										{
+											"title": "Managed Service Providers",
+											"desc": "Manage assets across your clients.",
+											"url": "/solutions/msp-it-asset-management/",
+											"icon": "Managed-Service-Provider-icn.svg"
+										},
+										{
+											"title": "Non-Profit",
+											"desc": "Maximize impact with smarter asset care.",
+											"url": "/solutions/non-profit/",
+											"icon": "Non-Profit-icn.svg"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"label": "Resources",
+					"url": "/resource-center/",
+					"layout": "columns",
+					"tabs": [
+						{
+							"key": "learn",
+							"label": "Learn & Explore",
+							"url": "",
+							"heading": "Learn & Explore",
+							"groups": [
+								{
+									"heading": "",
+									"links": [
+										{
+											"title": "Blog",
+											"desc": "Insights, updates, and asset management best practices.",
+											"url": "/resource-center/blog/",
+											"icon": "ap-res-icn-blog.svg"
+										},
+										{
+											"title": "White Papers",
+											"desc": "In-depth guides, reports, and industry research.",
+											"url": "/resource-center/white-papers/",
+											"icon": "ap-res-icn-white-papers.svg"
+										},
+										{
+											"title": "Webinars",
+											"desc": "Expert sessions, demos, and educational events.",
+											"url": "/resource-center/webinars/",
+											"icon": "ap-res-icn-webinars.svg"
+										}
+									]
+								}
+							]
+						},
+						{
+							"key": "proof",
+							"label": "Proof & Results",
+							"url": "",
+							"heading": "Proof & Results",
+							"groups": [
+								{
+									"heading": "",
+									"links": [
+										{
+											"title": "Case Studies",
+											"desc": "See how organizations use Asset Panda.",
+											"url": "/resource-center/case-studies/",
+											"icon": "ap-res-icn-case-studies.svg"
+										},
+										{
+											"title": "Success Stories",
+											"desc": "Real customer wins and measurable outcomes.",
+											"url": "/resource-center/success-stories/",
+											"icon": "ap-res-icn-success-stories.svg"
+										},
+										{
+											"title": "Partners",
+											"desc": "Explore Asset Panda’s partner ecosystem.",
+											"url": "/partners/",
+											"icon": "ap-res-icn-partners.svg"
+										}
+									]
+								}
+							]
+						},
+						{
+							"key": "tools",
+							"label": "Tools & Evaluation",
+							"url": "",
+							"heading": "Tools & Evaluation",
+							"groups": [
+								{
+									"heading": "",
+									"links": [
+										{
+											"title": "ROI Calculator",
+											"desc": "Estimate the value Asset Panda can deliver.",
+											"url": "/roi-calculator/",
+											"icon": "ap-res-icn-roi.svg"
+										},
+										{
+											"title": "Compare Asset Panda",
+											"desc": "See how Asset Panda compares to other solutions.",
+											"url": "/compare/",
+											"icon": "ap-res-icn-compare.svg"
+										}
+									]
+								}
+							]
+						},
+						{
+							"key": "training",
+							"label": "Training & Support",
+							"url": "",
+							"heading": "Training & Support",
+							"groups": [
+								{
+									"heading": "",
+									"links": [
+										{
+											"title": "FAQ",
+											"desc": "Find answers to common questions.",
+											"url": "/faq/",
+											"icon": "ap-res-icn-faq.svg"
+										},
+										{
+											"title": "Video Tutorials",
+											"desc": "Learn Asset Panda through step-by-step videos.",
+											"url": "/tutorials/",
+											"icon": "ap-res-icn-video-tutorials.svg"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"label": "Enterprise",
+					"url": "/solutions/enterprise/"
+				},
+				{
+					"label": "Pricing",
+					"url": "/get-a-quote-pro/"
+				}
+			],
+			"description": "Top-level items. Each: label, url; optional layout (\"columns\" shows every tab at once, one column per tab topped by its heading, instead of the tab rail; the item's label is drawn as an eyebrow only when no tab has a heading; featured lists and cards are not drawn then); optional variant (\"figma-2026\" gives the tab-rail panel the Figma Who We Help look, 5886:66455: wider panel, 330px category rail with chevrons, 16px titles, 28px icons in dashed frames, case-study card beside the links; other items keep the default look); optional posts_label (heading over a tab's posts), optional all_label + all_url (a \"View All …\" link under the option list of every tab panel of the item, and at the end of its phone-drawer section); optional tabs, each with key, label, url (renders the tab as a link), heading, groups [{ heading, links [{ title, desc, url, icon }] }], an optional featured list [{ type, title, desc, url, cta }] (resource cards beside the links; desktop only), an optional posts list [{ title, url, image, image_alt, image_width, image_height, date, datetime, category }] (the tab's latest blog posts, supplied by the adapter, drawn beside the links as image cards under posts_label, with the tab heading moved to the top of the links column so both headings sit level; images deferred until the tab is shown; a post without image gets a tinted placeholder; desktop only; used when a tab has no featured list) and an optional card { image, image_alt, logo, logo_alt, title, quote, author, role, url } (used when a tab has neither featured list nor posts). Items without tabs render as plain links. Icons and images are files in assets/ or URLs."
+		},
+		"login_url": {
+			"type": "string",
+			"default": "https://login.assetpanda.com/users/sign_in",
+			"description": "Login icon link (used when scripts are off)."
+		},
+		"login_links": {
+			"type": "array",
+			"default": [
+				{
+					"label": "Asset Panda Pro",
+					"note": "with Ursa AI",
+					"url": "https://assetpanda.app"
+				},
+				{
+					"label": "Asset Panda Classic",
+					"note": "login.assetpanda.com",
+					"url": "https://login.assetpanda.com/users/sign_in"
+				}
+			],
+			"description": "Login dropdown entries. Each: label, url; optional note."
+		},
+		"trial_label": {
+			"type": "string",
+			"default": "Try for Free",
+			"description": "Free-trial button (shown to international visitors only, via html.ap-intl)."
+		},
+		"trial_url": {
+			"type": "string",
+			"default": "/start-a-free-trial-email-only/",
+			"description": "Free-trial destination."
+		},
+		"demo_label": {
+			"type": "string",
+			"default": "Free Demo",
+			"description": "Demo button text."
+		},
+		"demo_url": {
+			"type": "string",
+			"default": "/get-a-demo/",
+			"description": "Demo destination."
+		},
+		"phone_label": {
+			"type": "string",
+			"default": "Sales: (888) 928 6112",
+			"description": "Sales phone link text."
+		},
+		"phone_tel": {
+			"type": "string",
+			"default": "888-928-6112",
+			"description": "Sales phone number for the tel: link. Empty hides it."
+		},
+		"app_banner": {
+			"type": "boolean",
+			"default": true,
+			"description": "Show the app banner above the phone header."
+		},
+		"app_text": {
+			"type": "string",
+			"default": "Get the Asset Panda Pro App",
+			"description": "App banner text."
+		},
+		"app_icon": {
+			"type": "string",
+			"default": "app-icon.svg",
+			"description": "App banner icon: a file in assets/ or a URL."
+		},
+		"app_ios_url": {
+			"type": "string",
+			"default": "https://apps.apple.com/us/app/asset-panda-pro/id6529526674",
+			"description": "App Store link."
+		},
+		"app_android_url": {
+			"type": "string",
+			"default": "https://play.google.com/store/apps/details?id=com.assetpanda2.app&hl=en_US",
+			"description": "Google Play link, swapped in on Android."
+		}
+	}
+}

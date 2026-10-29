@@ -694,3 +694,59 @@
 		--ap-fs-h2: 2.5rem;
 	}
 }
+
+/*
+ * ---- Host baseline (hand-written; NOT part of the generated responsive block above) ----
+ *
+ * Components inherit body type from whatever theme hosts them. The live theme,
+ * which every component is matched against, sets Manrope 1rem / 1.5, weight
+ * 400, normal tracking, #1d2331; the staging theme (Twenty Twenty-Five) sets
+ * 22px / 1.4, weight 300, -0.1px tracking, so any text a component leaves
+ * unstyled rendered lighter and larger on staging. Each component root restates
+ * live's body type, at zero specificity (:where) so a component's own root
+ * styles still win. These are the host's literal values, not design tokens:
+ * --ap-fs-text-md grows to 18px on desktop while live's body stays 16px.
+ * Keep the list in step with ui/components/ (site-header and site-footer style
+ * their own type: page chrome outside post content, each restating live's body
+ * type on its own root).
+ */
+/*
+ * Live's section container caps content at 1120px with 24px gutters at every
+ * width (`.ap-container`). The Figma --ap-page-max-content-xl steps down to
+ * 960 / 720 / 390 / 320px below 1280, which live does not follow, so content
+ * on staging came out 16-160px narrower and taller below desktop.
+ */
+:root {
+	--ap-host-container: 1120px;
+}
+
+:where(.ap-asset-scene, .ap-assist-hero, .ap-awards, .ap-solution-awards, .ap-capability-rows, .ap-case-slider, .ap-capability-scene, .ap-cases, .ap-compare, .ap-continuity-columns, .ap-dashboard-showcase, .ap-demo-cta, .ap-demo-booking, .ap-demo-confirm, .ap-demo-footer, .ap-demo-stats, .ap-demo-stories, .ap-faq,.ap-fcards, .ap-founder-quote, .ap-home-hero, .ap-hero, .ap-hub-hero, .ap-hub-intel, .ap-industries, .ap-intel-dashboard, .ap-link-cards, .ap-media-split, .ap-mission, .ap-orbit-hero, .ap-photo-tags, .ap-pstack, .ap-problem-callouts, .ap-problem-scene, .ap-readiness-hero, .ap-readiness-problem, .ap-solution-cta, .ap-solution-faq, .ap-solution-features, .ap-solution-hero, .ap-solution-rows, .ap-solution-trust, .ap-platform-rows, .ap-platform-faq, .ap-platform-cta, .ap-assist-problem, .ap-pricing-hero, .ap-pricing-calculator, .ap-thanks-hero, .ap-thanks-steps, .ap-stats, .ap-sticky-list, .ap-story-slider, .ap-tab-showcase, .ap-trust-strip, .ap-vprops, .ap-vhero, .ap-why-cards, .ap-plans-hero, .ap-plans-picker, .ap-plans-compare, .ap-plans-faq, .ap-form-hero, .ap-media-band, .ap-card-grid, .ap-message-hero, .ap-thanks-calendly, .ap-login-splash, .ap-roi-calculator) {
+	font-family: var(--ap-font-body);
+	font-size: 1rem;
+	font-weight: var(--ap-weight-body);
+	line-height: 1.5;
+	letter-spacing: normal;
+	color: #1d2331;
+}
+
+/*
+ * Headings get the same treatment. The staging theme styles h1-h6 as weight 400,
+ * -0.1px tracking, line-height 1.125; live's theme styles them h1 900 / -1px /
+ * 1.19048, h2 700 / 1.2, h3 700 / 1.3, h4 700 / 1.20833, h5-h6 700 / 1.2, normal
+ * tracking. The staging theme's rule loads after the kit at specificity (0,0,1),
+ * so these restate live's at (0,0,2) — `html` plus the tag — which still loses
+ * to any component class (0,1,0) that sets its own heading type.
+ */
+html :where(.ap-asset-scene, .ap-assist-hero, .ap-awards, .ap-solution-awards, .ap-capability-rows, .ap-case-slider, .ap-capability-scene, .ap-cases, .ap-compare, .ap-continuity-columns, .ap-dashboard-showcase, .ap-demo-cta, .ap-demo-booking, .ap-demo-confirm, .ap-demo-footer, .ap-demo-stats, .ap-demo-stories, .ap-faq,.ap-fcards, .ap-founder-quote, .ap-home-hero, .ap-hero, .ap-hub-hero, .ap-hub-intel, .ap-industries, .ap-intel-dashboard, .ap-link-cards, .ap-media-split, .ap-mission, .ap-orbit-hero, .ap-photo-tags, .ap-pstack, .ap-problem-callouts, .ap-problem-scene, .ap-readiness-hero, .ap-readiness-problem, .ap-solution-cta, .ap-solution-faq, .ap-solution-features, .ap-solution-hero, .ap-solution-rows, .ap-solution-trust, .ap-platform-rows, .ap-platform-faq, .ap-platform-cta, .ap-assist-problem, .ap-pricing-hero, .ap-pricing-calculator, .ap-thanks-hero, .ap-thanks-steps, .ap-stats, .ap-sticky-list, .ap-story-slider, .ap-tab-showcase, .ap-trust-strip, .ap-vprops, .ap-vhero, .ap-why-cards, .ap-plans-hero, .ap-plans-picker, .ap-plans-compare, .ap-plans-faq, .ap-form-hero, .ap-media-band, .ap-card-grid, .ap-message-hero, .ap-thanks-calendly, .ap-login-splash, .ap-roi-calculator) :is(h1, h2, h3, h4, h5, h6) {
+	font-weight: 700;
+	line-height: 1.2;
+	letter-spacing: normal;
+	text-transform: none;
+}
+html :where(.ap-asset-scene, .ap-assist-hero, .ap-awards, .ap-solution-awards, .ap-capability-rows, .ap-case-slider, .ap-capability-scene, .ap-cases, .ap-compare, .ap-continuity-columns, .ap-dashboard-showcase, .ap-demo-cta, .ap-demo-booking, .ap-demo-confirm, .ap-demo-footer, .ap-demo-stats, .ap-demo-stories, .ap-faq,.ap-fcards, .ap-founder-quote, .ap-home-hero, .ap-hero, .ap-hub-hero, .ap-hub-intel, .ap-industries, .ap-intel-dashboard, .ap-link-cards, .ap-media-split, .ap-mission, .ap-orbit-hero, .ap-photo-tags, .ap-pstack, .ap-problem-callouts, .ap-problem-scene, .ap-readiness-hero, .ap-readiness-problem, .ap-solution-cta, .ap-solution-faq, .ap-solution-features, .ap-solution-hero, .ap-solution-rows, .ap-solution-trust, .ap-platform-rows, .ap-platform-faq, .ap-platform-cta, .ap-assist-problem, .ap-pricing-hero, .ap-pricing-calculator, .ap-thanks-hero, .ap-thanks-steps, .ap-stats, .ap-sticky-list, .ap-story-slider, .ap-tab-showcase, .ap-trust-strip, .ap-vprops, .ap-vhero, .ap-why-cards, .ap-plans-hero, .ap-plans-picker, .ap-plans-compare, .ap-plans-faq, .ap-form-hero, .ap-media-band, .ap-card-grid, .ap-message-hero, .ap-thanks-calendly, .ap-login-splash, .ap-roi-calculator) h1 {
+	font-weight: 900;
+	line-height: 1.19048;
+	letter-spacing: -1px;
+}
+html :where(.ap-asset-scene, .ap-assist-hero, .ap-awards, .ap-solution-awards, .ap-capability-rows, .ap-case-slider, .ap-capability-scene, .ap-cases, .ap-compare, .ap-continuity-columns, .ap-dashboard-showcase, .ap-demo-cta, .ap-demo-booking, .ap-demo-confirm, .ap-demo-footer, .ap-demo-stats, .ap-demo-stories, .ap-faq,.ap-fcards, .ap-founder-quote, .ap-home-hero, .ap-hero, .ap-hub-hero, .ap-hub-intel, .ap-industries, .ap-intel-dashboard, .ap-link-cards, .ap-media-split, .ap-mission, .ap-orbit-hero, .ap-photo-tags, .ap-pstack, .ap-problem-callouts, .ap-problem-scene, .ap-readiness-hero, .ap-readiness-problem, .ap-solution-cta, .ap-solution-faq, .ap-solution-features, .ap-solution-hero, .ap-solution-rows, .ap-solution-trust, .ap-platform-rows, .ap-platform-faq, .ap-platform-cta, .ap-assist-problem, .ap-pricing-hero, .ap-pricing-calculator, .ap-thanks-hero, .ap-thanks-steps, .ap-stats, .ap-sticky-list, .ap-story-slider, .ap-tab-showcase, .ap-trust-strip, .ap-vprops, .ap-vhero, .ap-why-cards, .ap-plans-hero, .ap-plans-picker, .ap-plans-compare, .ap-plans-faq, .ap-form-hero, .ap-media-band, .ap-card-grid, .ap-message-hero, .ap-thanks-calendly, .ap-login-splash, .ap-roi-calculator) h3 { line-height: 1.3; }
+html :where(.ap-asset-scene, .ap-assist-hero, .ap-awards, .ap-solution-awards, .ap-capability-rows, .ap-case-slider, .ap-capability-scene, .ap-cases, .ap-compare, .ap-continuity-columns, .ap-dashboard-showcase, .ap-demo-cta, .ap-demo-booking, .ap-demo-confirm, .ap-demo-footer, .ap-demo-stats, .ap-demo-stories, .ap-faq,.ap-fcards, .ap-founder-quote, .ap-home-hero, .ap-hero, .ap-hub-hero, .ap-hub-intel, .ap-industries, .ap-intel-dashboard, .ap-link-cards, .ap-media-split, .ap-mission, .ap-orbit-hero, .ap-photo-tags, .ap-pstack, .ap-problem-callouts, .ap-problem-scene, .ap-readiness-hero, .ap-readiness-problem, .ap-solution-cta, .ap-solution-faq, .ap-solution-features, .ap-solution-hero, .ap-solution-rows, .ap-solution-trust, .ap-platform-rows, .ap-platform-faq, .ap-platform-cta, .ap-assist-problem, .ap-pricing-hero, .ap-pricing-calculator, .ap-thanks-hero, .ap-thanks-steps, .ap-stats, .ap-sticky-list, .ap-story-slider, .ap-tab-showcase, .ap-trust-strip, .ap-vprops, .ap-vhero, .ap-why-cards, .ap-plans-hero, .ap-plans-picker, .ap-plans-compare, .ap-plans-faq, .ap-form-hero, .ap-media-band, .ap-card-grid, .ap-message-hero, .ap-thanks-calendly, .ap-login-splash, .ap-roi-calculator) h4 { line-height: 1.20833; }

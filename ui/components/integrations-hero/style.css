@@ -1,0 +1,455 @@
+/*
+ * integrations-hero — the Integrations hub hero.
+ * Figma: Desktop — Integrations > Hero Section (7310:158542), 1440 x 620.
+ *
+ * Copy column left (160px at 1440, the 1120px container's edge), art box right.
+ * The art box is aspect-locked at 546 x 438 design px and sized in design
+ * units: --u is 1/546 of its width (container units), so rings, bubbles, card,
+ * panda and sparkles scale as one picture. Bubbles read their centre from
+ * --x / --y (% of the box) and their diameter from --s (design px), which
+ * render.php sets from numbers only.
+ *
+ * Background glows: the ten Figma orbs (each blurred with stdDeviation 300) as
+ * radial gradients whose stops follow the blurred profile, over white. The
+ * rings are a CSS mask (assets/rings.svg) so they are never an LCP candidate.
+ */
+
+:where(.ap-integrations-hero, .ap-integrations-hero *, .ap-integrations-hero *::before, .ap-integrations-hero *::after) {
+	box-sizing: border-box;
+}
+
+.ap-integrations-hero {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	overflow: clip;
+	/* Live's body type (the host theme's), restated so the staging theme's 22px / 300 never leaks in. */
+	font-family: var(--ap-font-body);
+	font-size: 1rem;
+	font-weight: var(--ap-weight-body);
+	line-height: 1.5;
+	letter-spacing: normal;
+	color: #1d2331;
+	background-color: var(--ap-white);
+	background-image:
+		radial-gradient(108.89% 164.52% at 50.35% 161.21%, rgb(255 255 255 / 0.844), rgb(255 255 255 / 0.812) 12.5%, rgb(255 255 255 / 0.718) 25%, rgb(255 255 255 / 0.572) 37.5%, rgb(255 255 255 / 0.388) 50%, rgb(255 255 255 / 0.207) 62.5%, rgb(255 255 255 / 0.08) 75%, rgb(255 255 255 / 0.021) 87.5%, rgb(255 255 255 / 0)),
+		radial-gradient(61.67% 143.23% at 53.85% 133.63%, rgb(0 169 145 / 0.477), rgb(0 169 145 / 0.445) 12.5%, rgb(0 169 145 / 0.36) 25%, rgb(0 169 145 / 0.252) 37.5%, rgb(0 169 145 / 0.151) 50%, rgb(0 169 145 / 0.078) 62.5%, rgb(0 169 145 / 0.034) 75%, rgb(0 169 145 / 0.013) 87.5%, rgb(0 169 145 / 0)),
+		radial-gradient(61.11% 141.94% at 68.44% 135.4%, rgb(230 28 85 / 0.465), rgb(230 28 85 / 0.433) 12.5%, rgb(230 28 85 / 0.351) 25%, rgb(230 28 85 / 0.246) 37.5%, rgb(230 28 85 / 0.149) 50%, rgb(230 28 85 / 0.077) 62.5%, rgb(230 28 85 / 0.034) 75%, rgb(230 28 85 / 0.013) 87.5%, rgb(230 28 85 / 0)),
+		radial-gradient(68.06% 147.1% at 25.35% 132.58%, rgb(80 68 225 / 0.585), rgb(80 68 225 / 0.546) 12.5%, rgb(80 68 225 / 0.444) 25%, rgb(80 68 225 / 0.311) 37.5%, rgb(80 68 225 / 0.186) 50%, rgb(80 68 225 / 0.094) 62.5%, rgb(80 68 225 / 0.039) 75%, rgb(80 68 225 / 0.014) 87.5%, rgb(80 68 225 / 0)),
+		radial-gradient(51.67% 120% at 91.42% 57.66%, rgb(222 141 20 / 0.209), rgb(222 141 20 / 0.197) 12.5%, rgb(222 141 20 / 0.164) 25%, rgb(222 141 20 / 0.12) 37.5%, rgb(222 141 20 / 0.078) 50%, rgb(222 141 20 / 0.045) 62.5%, rgb(222 141 20 / 0.023) 75%, rgb(222 141 20 / 0.01) 87.5%, rgb(222 141 20 / 0)),
+		radial-gradient(75.56% 156.77% at 82.81% 2.34%, rgb(255 255 255 / 0.721), rgb(255 255 255 / 0.678) 12.5%, rgb(255 255 255 / 0.559) 25%, rgb(255 255 255 / 0.398) 37.5%, rgb(255 255 255 / 0.239) 50%, rgb(255 255 255 / 0.119) 62.5%, rgb(255 255 255 / 0.048) 75%, rgb(255 255 255 / 0.015) 87.5%, rgb(255 255 255 / 0)),
+		radial-gradient(86.94% 174.84% at 31.08% 49.11%, rgb(255 255 255 / 0.882), rgb(255 255 255 / 0.844) 12.5%, rgb(255 255 255 / 0.728) 25%, rgb(255 255 255 / 0.545) 37.5%, rgb(255 255 255 / 0.34) 50%, rgb(255 255 255 / 0.168) 62.5%, rgb(255 255 255 / 0.064) 75%, rgb(255 255 255 / 0.018) 87.5%, rgb(255 255 255 / 0)),
+		radial-gradient(71.39% 165.81% at 3.62% 4.06%, rgb(0 169 145 / 0.741), rgb(0 169 145 / 0.696) 12.5%, rgb(0 169 145 / 0.573) 25%, rgb(0 169 145 / 0.405) 37.5%, rgb(0 169 145 / 0.242) 50%, rgb(0 169 145 / 0.119) 62.5%, rgb(0 169 145 / 0.048) 75%, rgb(0 169 145 / 0.015) 87.5%, rgb(0 169 145 / 0)),
+		radial-gradient(71.39% 165.81% at 77.58% 95.19%, rgb(80 68 225 / 0.741), rgb(80 68 225 / 0.696) 12.5%, rgb(80 68 225 / 0.573) 25%, rgb(80 68 225 / 0.405) 37.5%, rgb(80 68 225 / 0.242) 50%, rgb(80 68 225 / 0.119) 62.5%, rgb(80 68 225 / 0.048) 75%, rgb(80 68 225 / 0.015) 87.5%, rgb(80 68 225 / 0)),
+		radial-gradient(89.44% 152.9% at 45.91% 22.09%, rgb(255 255 255 / 0.73), rgb(255 255 255 / 0.693) 12.5%, rgb(255 255 255 / 0.59) 25%, rgb(255 255 255 / 0.439) 37.5%, rgb(255 255 255 / 0.276) 50%, rgb(255 255 255 / 0.141) 62.5%, rgb(255 255 255 / 0.056) 75%, rgb(255 255 255 / 0.017) 87.5%, rgb(255 255 255 / 0));
+}
+
+.ap-integrations-hero__inner {
+	position: relative;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	column-gap: 28px;
+	align-items: center;
+	width: min(var(--ap-host-container, 1120px), 100% - 48px);
+	margin: 0 auto;
+	padding: 64px 0 56px;
+}
+
+/* ------------------------------------------------------------------ copy */
+
+.ap-integrations-hero__copy {
+	position: relative;
+	z-index: 1;
+	min-width: 0;
+}
+
+.ap-integrations-hero__eyebrow {
+	margin: 0 0 var(--ap-section-title-gap);
+	color: var(--ap-type-eyebrow-color);
+	font-family: var(--ap-font-utility);
+	font-size: var(--ap-type-eyebrow-size);
+	font-weight: var(--ap-type-eyebrow-weight);
+	line-height: var(--ap-type-eyebrow-line);
+	letter-spacing: var(--ap-type-eyebrow-track);
+	text-transform: uppercase;
+}
+
+.ap-integrations-hero .ap-integrations-hero__title {
+	margin: 0;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: var(--ap-type-h1-size);
+	font-weight: var(--ap-type-h1-weight);
+	line-height: var(--ap-type-h1-line);
+	letter-spacing: var(--ap-type-h1-track);
+	text-transform: none;
+	text-wrap: balance;
+}
+
+.ap-integrations-hero__lede {
+	margin: var(--ap-section-title-gap) 0 0;
+	color: var(--ap-type-lede-color);
+	font-family: var(--ap-font-body);
+	font-size: var(--ap-type-lede-size);
+	font-weight: var(--ap-type-lede-weight);
+	line-height: var(--ap-type-lede-line);
+	text-wrap: pretty;
+}
+
+.ap-integrations-hero__cta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 16px;
+	margin-top: 32px;
+}
+
+/* Primary gradient button — Figma Primary CTA (the kit's hub-hero .apg-btn). */
+.ap-integrations-hero__btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	min-height: 48px;
+	padding: 12px 16px; /* 48px tall, as Figma's trimmed text box */
+	border: 1px solid var(--ap-btn-primary-from);
+	border-radius: var(--ap-radius-sm);
+	background: linear-gradient(55.106deg, var(--ap-btn-primary-from) 0%, var(--ap-btn-primary-to) 70.44%);
+	color: var(--ap-btn-primary-text);
+	font-family: var(--ap-font-display);
+	font-size: 1rem; /* Figma Utility/Button/md 16px (the token grows to 18px on desktop) */
+	font-weight: var(--ap-weight-button);
+	line-height: var(--ap-line-button);
+	text-decoration: none;
+	white-space: nowrap;
+	transition: translate var(--ap-dur-base) var(--ap-ease-standard), box-shadow var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-integrations-hero__btn:hover,
+.ap-integrations-hero__btn:focus,
+.ap-integrations-hero__btn:visited {
+	color: var(--ap-btn-primary-text);
+	text-decoration: none;
+}
+
+.ap-integrations-hero__btn:hover {
+	translate: 0 -2px;
+	box-shadow: 0 8px 20px rgb(80 68 225 / 0.25);
+}
+
+.ap-integrations-hero__btn:focus-visible {
+	outline: 3px solid var(--ap-brand-indigo);
+	outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------- art */
+
+.ap-integrations-hero__art {
+	--u: calc(100cqw / 546);
+	--bk: 1; /* bubble scale: 1 = Figma, larger on phones so the logos stay legible */
+	/* Figma's bottom fade (7333:174686) — full width, y 363 -> 603.5 of the 620 frame,
+	 * i.e. from 61.64% of the art box to fully white at 116.6%. */
+	--fade-top: 61.64%;
+	--fade-h: 54.91%;
+	position: relative;
+	width: 100%;
+	aspect-ratio: 546 / 438;
+	container-type: inline-size;
+	line-height: 0;
+}
+
+.ap-integrations-hero__art::before {
+	content: "";
+	position: absolute;
+	top: var(--fade-top);
+	left: -100vw;
+	right: -100vw;
+	box-sizing: content-box;
+	height: var(--fade-h);
+	border-bottom: 100vh solid var(--ap-white);
+	background: linear-gradient(180deg, rgb(255 255 255 / 0), var(--ap-white)) top / 100% 100% no-repeat;
+	pointer-events: none;
+}
+
+.ap-integrations-hero__art > * {
+	position: absolute;
+	margin: 0;
+	pointer-events: none;
+}
+
+/* Orbit rings (Figma "image 123", screen-blended white light): white paint
+ * through the rings' luminance, which is exactly what screen does with white. */
+.ap-integrations-hero__rings {
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 83.105%;
+	background: var(--ap-white);
+	-webkit-mask: url("assets/rings.svg") center / 100% 100% no-repeat;
+	mask: url("assets/rings.svg") center / 100% 100% no-repeat;
+}
+
+/* Soft brand glow behind the app card. */
+.ap-integrations-hero__glow {
+	left: calc(36.863% + 78.69 * var(--u) - 120 * var(--u));
+	top: calc(64.069% + 78.69 * var(--u) - 120 * var(--u));
+	width: calc(240 * var(--u));
+	height: calc(240 * var(--u));
+	border-radius: 50%;
+	background: radial-gradient(closest-side, rgb(80 68 225 / 0.26), rgb(80 68 225 / 0.12) 45%, rgb(0 169 145 / 0.05) 70%, rgb(0 169 145 / 0));
+}
+
+/* Logo bubbles — Figma "Icon Container": 20% white -> #f0f9ff radial fill, white
+ * hairline, Glass effect (approximated with a backdrop blur and inner light). */
+.ap-integrations-hero__bubble {
+	--w: calc(var(--s) * var(--u) * var(--bk));
+	left: calc(var(--x) - var(--w) / 2);
+	top: calc(var(--y) - var(--w) / 2);
+	width: var(--w);
+	height: var(--w);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: max(1px, var(--w) * 0.014) solid var(--ap-white);
+	border-radius: 50%;
+	background: radial-gradient(closest-side, rgb(255 255 255 / 0.34), rgb(240 249 255 / 0.24));
+	box-shadow:
+		inset 0 0 calc(var(--w) * 0.16) rgb(255 255 255 / 0.65),
+		0 calc(var(--w) * 0.05) calc(var(--w) * 0.24) rgb(37 39 44 / 0.06);
+	-webkit-backdrop-filter: blur(calc(var(--w) * 0.07));
+	backdrop-filter: blur(calc(var(--w) * 0.07));
+}
+
+.ap-integrations-hero__bubble img {
+	display: block;
+	width: calc(var(--w) * var(--k));
+	height: calc(var(--w) * var(--k));
+	max-width: none;
+	margin: 0;
+	object-fit: contain;
+}
+
+/* App card — Figma "app": 1.46px indigo -> green ring (r 29.28), and the indigo
+ * logo tile inset 14.57 (r 14.64). */
+.ap-integrations-hero__card {
+	left: 36.863%;
+	top: 64.069%;
+	width: calc(157.377 * var(--u));
+	height: calc(157.377 * var(--u));
+	border-radius: calc(29.279 * var(--u));
+}
+
+.ap-integrations-hero__card::before,
+.ap-integrations-hero__card::after {
+	content: "";
+	position: absolute;
+}
+
+.ap-integrations-hero__card::before {
+	inset: 0;
+	padding: max(1px, 1.464 * var(--u));
+	border-radius: inherit;
+	background: linear-gradient(90deg, var(--ap-brand-indigo), var(--ap-brand-green));
+	-webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+	-webkit-mask-composite: xor;
+	mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+
+.ap-integrations-hero__card::after {
+	inset: calc(14.57 * var(--u));
+	border-radius: calc(14.64 * var(--u));
+	background: linear-gradient(180deg, var(--ap-indigo-700), #483bc7);
+	box-shadow: 0 calc(6 * var(--u)) calc(26 * var(--u)) rgb(80 68 225 / 0.22);
+}
+
+/* Sparkles — Figma Ellipse 706-716: 2.14px white dots, blurred 1.07. */
+.ap-integrations-hero__spark {
+	--w: calc(4.6 * var(--u) * var(--bk));
+	left: calc(var(--x) - var(--w) / 2);
+	top: calc(var(--y) - var(--w) / 2);
+	width: var(--w);
+	height: var(--w);
+	border-radius: 50%;
+	background: radial-gradient(closest-side, rgb(255 255 255 / 0.95), rgb(255 255 255 / 0.6) 45%, rgb(255 255 255 / 0));
+}
+
+/* Panda — Figma "image 122", mirrored and cropped in the asset itself. */
+.ap-integrations-hero__panda {
+	left: 36.863%;
+	top: 70.442%;
+	width: calc(157.377 * var(--u));
+	height: calc(114.005 * var(--u));
+	max-width: none;
+	object-fit: fill;
+}
+
+/* ---------------------------------------------------------------- motion */
+
+@media (prefers-reduced-motion: no-preference) {
+	.ap-integrations-hero__rings {
+		animation: ap-ihero-fade var(--ap-dur-slow) var(--ap-ease-out) 0.1s both;
+	}
+
+	.ap-integrations-hero__glow {
+		animation:
+			ap-ihero-fade var(--ap-dur-slow) var(--ap-ease-out) 0.2s both,
+			ap-ihero-breathe 5s ease-in-out 0.8s infinite alternate;
+	}
+
+	.ap-integrations-hero__card,
+	.ap-integrations-hero__panda {
+		animation: ap-ihero-rise var(--ap-dur-slow) var(--ap-ease-out) 0.15s both;
+	}
+
+	.ap-integrations-hero__panda {
+		animation-delay: 0.22s;
+	}
+
+	/* Quick staggered pop-in, then a slow drift (translate only, <= 6px). */
+	.ap-integrations-hero__bubble {
+		animation:
+			ap-ihero-pop var(--ap-dur-slow) var(--ap-ease-out) calc(0.25s + var(--i) * var(--ap-stagger-step) / 2) both,
+			ap-ihero-float var(--d, 7s) ease-in-out calc(var(--i) * -1.3s) infinite;
+	}
+
+	.ap-integrations-hero__spark {
+		animation: ap-ihero-twinkle calc(2.8s + var(--i) * 0.17s) ease-in-out calc(var(--i) * -0.7s) infinite alternate;
+	}
+}
+
+@keyframes ap-ihero-fade {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes ap-ihero-rise {
+	from {
+		opacity: 0;
+		translate: 0 calc(14 * var(--u));
+	}
+
+	to {
+		opacity: 1;
+		translate: 0 0;
+	}
+}
+
+@keyframes ap-ihero-pop {
+	from {
+		opacity: 0;
+		scale: 0.8;
+	}
+
+	to {
+		opacity: 1;
+		scale: 1;
+	}
+}
+
+@keyframes ap-ihero-float {
+	0%,
+	100% {
+		translate: 0 0;
+	}
+
+	35% {
+		translate: calc(2 * var(--u)) calc(-5 * var(--u));
+	}
+
+	70% {
+		translate: calc(-2 * var(--u)) calc(-2 * var(--u));
+	}
+}
+
+@keyframes ap-ihero-breathe {
+	from {
+		opacity: 0.65;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes ap-ihero-twinkle {
+	from {
+		opacity: 0.35;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+/* --------------------------------------------------------------- desktop */
+
+/* Figma geometry: 93px above the art box, 89px below (620px tall at 1440),
+ * and the copy block's centre 14.5px below the art's. */
+@media (min-width: 1280px) {
+	.ap-integrations-hero__inner {
+		padding: 93px 0 89px;
+	}
+
+	.ap-integrations-hero__copy {
+		margin-top: 29px;
+	}
+}
+
+/* ------------------------------------------------------ tablet and phone */
+
+/* Below 900px the two columns get too narrow for the headline and the logos:
+ * stack, copy first, centred; the art follows at up to its design size. */
+@media (max-width: 899px) {
+	.ap-integrations-hero__inner {
+		grid-template-columns: minmax(0, 1fr);
+		row-gap: 32px;
+		padding: 48px 0 40px;
+	}
+
+	.ap-integrations-hero__copy {
+		justify-self: center;
+		max-width: 600px;
+		text-align: center;
+	}
+
+	.ap-integrations-hero__cta {
+		justify-content: center;
+	}
+
+	.ap-integrations-hero__art {
+		justify-self: center;
+		width: min(546px, 100%);
+		--fade-top: 70%;
+		--fade-h: 36%;
+	}
+}
+
+/* Phones: the art bleeds into half of each gutter and the bubbles grow 20% so
+ * the smallest logos stay legible; the button runs full width. */
+@media (max-width: 599px) {
+	.ap-integrations-hero__inner {
+		row-gap: 24px;
+		padding: 32px 0;
+	}
+
+	.ap-integrations-hero__art {
+		--bk: 1.2;
+		justify-self: stretch;
+		width: auto;
+		margin-inline: -12px;
+	}
+
+	.ap-integrations-hero__cta {
+		margin-top: 24px;
+	}
+
+	.ap-integrations-hero__btn {
+		width: 100%;
+		max-width: 400px;
+	}
+}

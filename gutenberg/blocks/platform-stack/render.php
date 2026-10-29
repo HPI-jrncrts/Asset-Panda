@@ -25,10 +25,8 @@ $props = array(
 	'eyebrow'   => $attributes['eyebrow'] ?? '',
 	'title'     => $attributes['title'] ?? '',
 	'intro'     => $attributes['intro'] ?? '',
-	'kicker'    => $attributes['kicker'] ?? '',
+	'nav_title' => $attributes['nav_title'] ?? 'Platform capabilities',
 	'items'     => $attributes['items'] ?? array(),
-	'nav_title' => $attributes['nav_title'] ?? '',
-	'reveal'    => $attributes['reveal'] ?? true,
 );
 
 $ap_html = ap_render_component( 'platform-stack', $props );

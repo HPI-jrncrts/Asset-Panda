@@ -1,0 +1,12 @@
+{
+	"name": "article-cta",
+	"description": "In-article call-to-action box of the resource-center articles: the panda mark, a bold heading and a line of copy on a soft indigo panel, with a gradient button on the right (stacked on phones). Figma: Website Design 2026 > Blog > Compare article (7219:87997), the 'See why Asset Panda is the stronger choice' boxes.",
+	"props": {
+		"title": { "type": "string", "required": true, "description": "Bold heading." },
+		"body": { "type": "string", "required": false, "default": "", "description": "Line of copy under the heading. UrsaAI is set with its superscript." },
+		"cta_label": { "type": "string", "required": false, "default": "Free Demo", "description": "Button text. Renders only with cta_url." },
+		"cta_url": { "type": "string", "required": false, "default": "/get-a-demo/", "description": "Button destination." },
+		"icon": { "type": "string", "required": false, "default": "", "description": "Icon image URL. Empty draws the kit's panda mark." },
+		"icon_alt": { "type": "string", "required": false, "default": "", "description": "Icon alt text (empty when decorative)." }
+	}
+}

@@ -1,0 +1,55 @@
+/*
+ * platform-faq — ported from the live .apx-faq section.
+ *
+ * The live sheet owns its whole section, so every selector is scoped under the
+ * component root and the keyframes are renamed; the inner class names are kept
+ * so the port stays diffable against live.
+ */
+
+.ap-platform-faq{
+      --i:#5044e1; --t:#00a991; --ink:#25272c; --body:#4a4e5a;
+      position:relative; box-sizing:border-box; overflow:hidden;
+      width:100%; /* live broke out of the theme container with 100vw; the block is already full width */   
+      font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+      color:var(--ink); background:#f9fafb;
+    }
+.ap-platform-faq *,.ap-platform-faq *::before,.ap-platform-faq *::after{box-sizing:border-box;}
+.ap-platform-faq__wrap{
+      width:100%; max-width:1200px; margin:0 auto; padding:80px 40px 40px;   
+      display:flex; gap:80px; align-items:flex-start;
+    }
+.ap-platform-faq__title{flex:none; width:259px; margin:0; font-size:40px; font-weight:800; line-height:1.2; color:var(--ink);}
+.ap-platform-faq__list{flex:1 1 0; min-width:0;}
+.ap-platform-faq__item{border-bottom:1px solid #e3e7ef;}
+.ap-platform-faq__item:first-child{border-top:1px solid #e3e7ef;}
+.ap-platform-faq__q{
+      list-style:none; cursor:pointer;
+      display:flex; gap:24px; align-items:center; padding:20px 16px;
+      font-size:20px; font-weight:800; line-height:1.4; color:var(--ink);
+      transition:color .15s ease;
+    }
+.ap-platform-faq__q::-webkit-details-marker{display:none;}
+.ap-platform-faq__q:hover{color:var(--i);}
+.ap-platform-faq__item[open] .ap-platform-faq__q{color:var(--i);}
+.ap-platform-faq__qt{flex:1 1 0; min-width:0;}
+.ap-platform-faq__ic{flex:none; width:32px; height:32px; display:flex; align-items:center; justify-content:center;}
+.ap-platform-faq__ic svg{width:20px; height:20px; display:block;}
+.ap-platform-faq__ic .v{transition:transform .2s ease, opacity .2s ease; transform-origin:center;}
+.ap-platform-faq__item[open] .ap-platform-faq__ic .v{transform:rotate(90deg); opacity:0;}
+.ap-platform-faq__a{margin:0; padding:0 72px 24px 16px; font-size:16px; font-weight:400; line-height:1.6; color:var(--body);}
+.ap-platform-faq__a .g{
+      font-weight:700;
+      background:linear-gradient(76deg,#5044e1 4%,#00a991 55%);
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+.ap-platform-faq .apx-sup{font-size:.645em; vertical-align:.42em; margin-left:1px;}
+@media (max-width:900px){.ap-platform-faq__wrap{flex-direction:column; gap:28px; padding:64px 24px 32px;}
+.ap-platform-faq__title{width:100%; font-size:32px;}
+.ap-platform-faq__list{width:100%;}
+.ap-platform-faq__q{font-size:17px; padding:18px 8px; gap:16px;}
+.ap-platform-faq__a{padding:0 44px 20px 8px; font-size:15px;}
+}
+@media (max-width:560px){.ap-platform-faq__wrap{padding:56px 20px 28px;}
+.ap-platform-faq__title{font-size:27px;}
+.ap-platform-faq__q{font-size:16px;}
+}

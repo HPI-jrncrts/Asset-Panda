@@ -5,7 +5,7 @@
 	"title": "AP Value Props",
 	"category": "design",
 	"icon": "yes-alt",
-	"description": "Heading with calls to action, a 2x2 grid of colour-bordered benefit cards, and a closing line. Figma: Home Page > Why Teams Choose Asset Panda (4331:24830). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"description": "Heading with calls to action, colour-bordered benefit cards two to a row, and a closing line. Ported from the live homepage section #ap-built-field-v2 (Figma: Why Teams Choose Asset Panda, 4331:24830). This block is an adapter — it holds no markup; it maps attributes to kit props.",
 	"textdomain": "assetpanda",
 	"attributes": {
 		"eyebrow": {

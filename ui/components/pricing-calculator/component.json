@@ -1,0 +1,27 @@
+{
+	"name": "pricing-calculator",
+	"description": "Interactive ROI calculator card: range sliders (people, hourly cost, tracked asset value, weekly manual hours) beside an annual-return panel with a gradient total, a three-row breakdown, an ROI note and a button, plus a centred sales line below. Live: `.ap-roi-calculator-section` on /new-pricing/. Stands alone (no dependency on the pricing hero); every number, rate and label is a prop and behaviour.js recomputes on input. Model: hours saved = round(hours/wk x weeks x time_saved_pct% x people / people_baseline); labour = round(hours saved x hourly); loss prevented = round(asset value x loss_pct%); total = labour + loss prevented.",
+	"props": {
+		"inputs_label": { "type": "string", "required": false, "default": "", "description": "Small caps label over the sliders, e.g. Your Inputs." },
+		"inputs_text": { "type": "string", "required": false, "default": "", "description": "Line under the inputs label." },
+		"sliders": { "type": "array", "required": true, "description": "One entry per slider. Each: key (people | hourly | assets | hours — the model input it drives), label, min, max, step, value (starting value), pill (value chip text, {n} = the formatted value, e.g. \"{n} people\"), pill_one (chip text when the value is exactly 1), format (raw | number | currency | money_short; default per key: assets money_short, others raw), min_label, max_label (the scale ends under the track)." },
+		"note": { "type": "string", "required": false, "default": "", "description": "Small print under the sliders." },
+		"results_label": { "type": "string", "required": false, "default": "", "description": "Small caps purple label over the results, e.g. Your Annual Return." },
+		"results_text": { "type": "string", "required": false, "default": "", "description": "Line under the results label." },
+		"total_label": { "type": "string", "required": false, "default": "", "description": "Caption above the total, e.g. Estimated Annual Value Reclaimed." },
+		"total_text": { "type": "string", "required": false, "default": "", "description": "Line under the total." },
+		"rows": { "type": "array", "required": false, "default": [], "description": "Breakdown rows. Each: key (hours | labor | loss — the computed value shown), icon (time | money | shield), title, note, value (text with {n} = the formatted value; default \"{n}\", live hours row \"{n} hrs\")." },
+		"roi_text": { "type": "string", "required": false, "default": "", "description": "Centred note under the breakdown. Wrap words in *asterisks* to set them bold purple, e.g. Asset Panda customers see an average *800% return* on their investment." },
+		"cta_label": { "type": "string", "required": false, "default": "", "description": "Button text. Renders only with cta_url." },
+		"cta_url": { "type": "string", "required": false, "default": "", "description": "Button destination." },
+		"footer_text": { "type": "string", "required": false, "default": "", "description": "Centred line under the card." },
+		"footer_link_label": { "type": "string", "required": false, "default": "", "description": "Green link after the footer line, e.g. Talk to Sales. Renders only with footer_link_url." },
+		"footer_link_url": { "type": "string", "required": false, "default": "", "description": "Footer link destination (http(s) or tel:)." },
+		"time_saved_pct": { "type": "number", "required": false, "default": 70, "description": "Share of manual tracking time Asset Panda saves, in percent." },
+		"loss_pct": { "type": "number", "required": false, "default": 2, "description": "Share of total asset value protected from loss each year, in percent." },
+		"weeks": { "type": "number", "required": false, "default": 52, "description": "Working weeks per year." },
+		"people_baseline": { "type": "number", "required": false, "default": 10, "description": "Team size the weekly hours describe; the people slider scales hours saved by people / people_baseline." },
+		"variant": { "type": "string", "required": false, "default": "classic", "enum": ["classic", "2026"], "description": "classic: the live /new-pricing/ port (unchanged). 2026: the Figma 'Pricing - New Jun 11 2026' card (node 7169:88817) — on the white page, a soft centred indigo/green gradient splash behind a frosted-glass card (80% white over a backdrop blur, QA 2026-10-29), Figma's compact type (12px caps labels, 15px slider and row titles, 13px notes), the Figma breakdown icons, AA-contrast greys, a live total for screen readers and an arrow on the sales link." },
+		"disclaimer": { "type": "string", "required": false, "default": "", "description": "Small print centred under the sales line, e.g. the calculator's estimate disclaimer. Empty renders nothing." }
+	}
+}

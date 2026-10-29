@@ -1,0 +1,14 @@
+{
+	"name": "thanks-hero",
+	"description": "Demo thank-you hero: success tick, heading, gradient subheading and paragraph on the colour-wash backdrop, then the inline Cal.com booking calendar. Live: #ap-demo-thank-you on the seven 2026 demo thank-you pages (/thank-you-fire/, /thank-you-police/, the K-12 / Higher Ed / Local Government / Public Works pages, /thank-you-schedule-demo/) and the restyled hero of /thanks-guided-trial-pro/ (variant trial).",
+	"props": {
+		"title": { "type": "string", "required": true, "description": "Main heading, e.g. Thank you! Line breaks are kept." },
+		"title_tag": { "type": "string", "required": false, "default": "h1", "enum": [ "h1", "h2" ], "description": "Heading level of the main heading. The demo pages use h1; /thanks-guided-trial-pro/ marks it up as h2." },
+		"subtitle": { "type": "string", "required": false, "default": "", "description": "Gradient line under the heading (an h2), e.g. Let’s get your walkthrough booked." },
+		"body": { "type": "string", "required": false, "default": "", "description": "Paragraph under the subheading. Wrap a run in **double asterisks** to bold it." },
+		"background": { "type": "string", "required": false, "default": "", "description": "Backdrop image URL (the soft colour wash), drawn cover-sized behind the whole section." },
+		"cal_link": { "type": "string", "required": false, "default": "team/asset-panda-sales/asset-panda-demo", "description": "Cal.com booking link (path after app.cal.com/). Empty hides the calendar." },
+		"cal_namespace": { "type": "string", "required": false, "default": "asset-panda-demo", "description": "Cal.com embed namespace (lower-case letters, digits, hyphens). Booking events are posted under it, which the site's GTM listener reads." },
+		"variant": { "type": "string", "required": false, "default": "demo", "enum": [ "demo", "trial" ], "description": "demo: the seven demo thank-you pages. trial: /thanks-guided-trial-pro/ — smaller two-line heading, wider copy column, no bottom padding under the calendar." }
+	}
+}

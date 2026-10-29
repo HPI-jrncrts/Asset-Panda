@@ -2,9 +2,11 @@
 /**
  * value-props — benefit cards with calls to action.
  *
- * Figma: Home Page > Why Teams Choose Asset Panda (4331:24830). Heading left,
- * buttons bottom-right; 2x2 cards, each with a 1px accent border, a faint
- * accent-to-white wash and a matching check-circle; a centred closing line.
+ * Mirrors the live homepage "Built for the field" section (#ap-built-field-v2)
+ * element for element, so the ported stylesheet applies class for class:
+ * heading left and buttons bottom-right, cards two to a row, each with a 1px
+ * accent border, a faint accent-to-white wash and a check badge that fills on
+ * hover, then a centred closing line.
  *
  * @var array $props Validated props.
  */
@@ -18,7 +20,14 @@ if ( '' === $title ) {
 	return;
 }
 
-$accents = array( 'yellow', 'red', 'green', 'indigo' );
+// Prop accent => live card class.
+$accents = array(
+	'yellow' => 'gold',
+	'red'    => 'pink',
+	'green'  => 'green',
+	'indigo' => 'purple',
+);
+$order   = array_keys( $accents );
 
 $items = array_values(
 	array_filter(
@@ -36,52 +45,57 @@ $reveal  = (bool) $props['reveal'];
 
 $has_primary   = '' !== trim( (string) $props['primary_label'] ) && '' !== trim( (string) $props['primary_url'] );
 $has_secondary = '' !== trim( (string) $props['secondary_label'] ) && '' !== trim( (string) $props['secondary_url'] );
+
+// Live lays the cards out two to a row.
+$rows = array_chunk( $items, 2, true );
 ?>
 <section class="ap-vprops">
-	<div class="ap-vprops__inner">
-		<div class="ap-vprops__head"<?php echo $reveal ? ' data-ap-reveal' : ''; ?>>
-			<div class="ap-vprops__headings">
+	<div class="ap-built-inner">
+		<div class="ap-built-head"<?php echo $reveal ? ' data-ap-reveal' : ''; ?>>
+			<div class="ap-built-copy">
 				<?php if ( '' !== $eyebrow ) : ?>
-					<p class="ap-vprops__eyebrow"><?php echo esc_html( $eyebrow ); ?></p>
+					<p class="ap-eyebrow"><?php echo esc_html( $eyebrow ); ?></p>
 				<?php endif; ?>
-				<h2 class="ap-vprops__title"><?php echo ap_ui_lines( $title ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped by ap_ui_lines(). ?></h2>
+				<h2><?php echo ap_ui_lines( $title ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped by ap_ui_lines(). ?></h2>
 				<?php if ( '' !== $intro ) : ?>
-					<p class="ap-vprops__intro"><?php echo esc_html( $intro ); ?></p>
+					<p class="ap-copy"><?php echo esc_html( $intro ); ?></p>
 				<?php endif; ?>
 			</div>
 			<?php if ( $has_primary || $has_secondary ) : ?>
-				<div class="ap-vprops__actions">
+				<div class="ap-actions">
 					<?php if ( $has_primary ) : ?>
-						<a class="ap-vprops__btn ap-vprops__btn--primary" href="<?php echo esc_url( $props['primary_url'] ); ?>"><?php echo esc_html( $props['primary_label'] ); ?></a>
+						<a class="ap-btn ap-btn-primary" href="<?php echo esc_url( $props['primary_url'] ); ?>"><?php echo esc_html( $props['primary_label'] ); ?></a>
 					<?php endif; ?>
 					<?php if ( $has_secondary ) : ?>
-						<a class="ap-vprops__btn ap-vprops__btn--outline" href="<?php echo esc_url( $props['secondary_url'] ); ?>"><?php echo esc_html( $props['secondary_label'] ); ?></a>
+						<a class="ap-btn ap-btn-outline" href="<?php echo esc_url( $props['secondary_url'] ); ?>"><?php echo esc_html( $props['secondary_label'] ); ?></a>
 					<?php endif; ?>
 				</div>
 			<?php endif; ?>
 		</div>
 
-		<?php if ( ! empty( $items ) ) : ?>
-			<ul class="ap-vprops__grid">
-				<?php
-				foreach ( $items as $i => $item ) :
-					$accent = isset( $item['accent'] ) && in_array( $item['accent'], $accents, true ) ? $item['accent'] : $accents[ $i % count( $accents ) ];
-					?>
-					<li class="ap-vprops__card ap-vprops__card--<?php echo esc_attr( $accent ); ?>"
-						<?php if ( $reveal ) : ?>
-							data-ap-reveal data-ap-reveal-delay="<?php echo esc_attr( (string) ( ( $i % 2 ) + 1 ) ); ?>"
-						<?php endif; ?>
-					>
-						<img class="ap-vprops__check" src="<?php echo esc_url( ap_ui_asset_url( 'value-props', 'check-' . $accent . '.svg' ) ); ?>" alt="" width="24" height="24" />
-						<h3 class="ap-vprops__card-title"><?php echo ap_ui_lines( $item['title'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped by ap_ui_lines(). ?></h3>
-						<p class="ap-vprops__card-body"><?php echo esc_html( $item['body'] ); ?></p>
-					</li>
+		<?php if ( ! empty( $rows ) ) : ?>
+			<div class="ap-cards">
+				<?php foreach ( $rows as $row ) : ?>
+					<div class="ap-row">
+						<?php
+						$k = 0;
+						foreach ( $row as $i => $item ) :
+							$accent = isset( $item['accent'] ) && is_string( $item['accent'] ) && isset( $accents[ $item['accent'] ] ) ? $item['accent'] : $order[ $i % count( $order ) ];
+							++$k;
+							?>
+							<article class="ap-card ap-card-<?php echo esc_attr( $accents[ $accent ] ); ?>"<?php if ( $reveal ) : ?> data-ap-reveal data-ap-reveal-delay="<?php echo esc_attr( (string) $k ); ?>"<?php endif; ?>>
+								<span class="ap-check" aria-hidden="true">&#10003;</span>
+								<h3><?php echo ap_ui_lines( $item['title'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped by ap_ui_lines(). ?></h3>
+								<p><?php echo esc_html( $item['body'] ); ?></p>
+							</article>
+						<?php endforeach; ?>
+					</div>
 				<?php endforeach; ?>
-			</ul>
+			</div>
 		<?php endif; ?>
 
 		<?php if ( '' !== $closing ) : ?>
-			<p class="ap-vprops__closing"><?php echo esc_html( $closing ); ?></p>
+			<p class="ap-footnote"><?php echo esc_html( $closing ); ?></p>
 		<?php endif; ?>
 	</div>
 </section>

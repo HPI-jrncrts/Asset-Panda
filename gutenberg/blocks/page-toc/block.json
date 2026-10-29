@@ -1,0 +1,41 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/page-toc",
+	"title": "AP Page Toc",
+	"category": "design",
+	"icon": "block-default",
+	"description": "Floating 'On this page' panel for long articles: a pill at the left edge that opens a card listing the page's sections, the section in view highlighted, with a reading-progress bar; closes from its X. Shown from 1200px up (the margin beside the article column). Figma: Website Design 2026 > Floating TOC Panel (7224:2). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"title": {
+			"type": "string",
+			"default": "On this page"
+		},
+		"items": {
+			"type": "array",
+			"default": []
+		},
+		"progress_label": {
+			"type": "string",
+			"default": "Reading progress"
+		},
+		"open": {
+			"type": "boolean",
+			"default": false
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

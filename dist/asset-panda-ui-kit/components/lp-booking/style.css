@@ -1,0 +1,255 @@
+/*
+ * lp-booking — booking page: heading over one white card (event details
+ * beside the scheduler) on the soft colour wash.
+ *
+ * The card matches thanks-calendly (the legacy thank-you calendars): a 300px
+ * details column, the scheduler beside it, 16px radius, hairline border and a
+ * soft shadow; 1000px wide; stacked below 992px.
+ */
+
+.ap-lp-booking,
+.ap-lp-booking * {
+	box-sizing: border-box;
+}
+
+.ap-lp-booking {
+	width: 100%;
+	padding: 56px 24px 88px;
+	background-color: var(--ap-white);
+	background-image: var(--ap-lp-booking-bg, linear-gradient(120deg, var(--ap-indigo-50) 0%, var(--ap-white) 55%, var(--ap-green-50) 100%));
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+	font-family: var(--ap-font-body);
+	font-size: 16px;
+	font-weight: var(--ap-weight-body);
+	line-height: 1.5;
+	letter-spacing: normal;
+	color: var(--ap-text-body);
+}
+
+html.ap-intl .ap-lp-booking--intl-hide .ap-lp-booking__card {
+	display: none;
+}
+
+.ap-lp-booking :where(h1, h2, p) {
+	text-wrap: wrap;
+}
+
+.ap-lp-booking__inner {
+	width: 100%;
+	max-width: 1000px;
+	margin: 0 auto;
+}
+
+/* ---- heading ---- */
+.ap-lp-booking__head {
+	max-width: 760px;
+	margin: 0 auto 36px;
+	text-align: center;
+}
+
+.ap-lp-booking .ap-lp-booking__eyebrow {
+	margin: 0 0 12px;
+	color: var(--ap-text-eyebrow);
+	font-size: 14px;
+	font-weight: var(--ap-weight-eyebrow);
+	line-height: 1.2;
+	letter-spacing: .06em;
+	text-transform: uppercase;
+}
+
+.ap-lp-booking .ap-lp-booking__title {
+	margin: 0;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: 48px;
+	font-weight: var(--ap-weight-heading);
+	line-height: 1.2;
+	letter-spacing: -1px;
+	text-transform: none;
+}
+
+.ap-lp-booking .ap-lp-booking__lede {
+	margin: 16px auto 0;
+	color: var(--ap-slate-700);
+	font-size: 18px;
+	line-height: 1.6;
+}
+
+/* ---- card ---- */
+.ap-lp-booking__card {
+	display: grid;
+	grid-template-columns: 300px minmax(0, 1fr);
+	gap: 40px;
+	align-items: center;
+	padding: 32px;
+	border: 1px solid var(--ap-slate-100);
+	border-radius: var(--ap-radius-xl);
+	background: var(--ap-white);
+	box-shadow: 0 12px 32px rgba(32, 28, 74, .08);
+}
+
+.ap-lp-booking__card--solo {
+	grid-template-columns: minmax(0, 1fr);
+	max-width: 460px;
+	margin: 0 auto;
+}
+
+.ap-lp-booking__event {
+	text-align: center;
+}
+
+.ap-lp-booking__logo {
+	display: block;
+	width: 200px;
+	max-width: 100%;
+	height: auto;
+	margin: 0 auto 16px;
+}
+
+.ap-lp-booking .ap-lp-booking__name {
+	margin: 0 0 14px;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: 26px;
+	font-weight: 700;
+	line-height: 1.25;
+	letter-spacing: normal;
+	text-transform: none;
+}
+
+.ap-lp-booking .ap-lp-booking__duration {
+	display: flex;
+	gap: 6px;
+	align-items: center;
+	justify-content: center;
+	margin: 0 0 12px;
+	color: var(--ap-slate-900);
+	font-size: 14px;
+	font-weight: 700;
+}
+
+.ap-lp-booking__duration svg {
+	display: block;
+	flex: none;
+	width: 20px;
+	height: 20px;
+}
+
+.ap-lp-booking .ap-lp-booking__body {
+	margin: 0;
+	color: var(--ap-slate-700);
+	font-size: 16px;
+	line-height: 1.6;
+}
+
+.ap-lp-booking__sched {
+	position: relative;
+	min-width: 0;
+	height: var(--ap-lp-booking-h, 640px);
+	overflow: auto;
+	border-radius: var(--ap-radius-lg);
+}
+
+.ap-lp-booking__sched--cal {
+	height: auto;
+	min-height: var(--ap-lp-booking-h, 640px);
+	overflow: visible;
+}
+
+.ap-lp-booking__sched--cal .ap-lp-booking__fallback {
+	min-height: var(--ap-lp-booking-h, 640px);
+}
+
+.ap-lp-booking__sched iframe {
+	display: block;
+	width: 100% !important;
+	height: 100% !important;
+	min-height: 100%;
+	border: 0 !important;
+}
+
+.ap-lp-booking a.ap-lp-booking__fallback {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	border-radius: var(--ap-radius-lg);
+	background: var(--ap-surface-alt);
+	color: var(--ap-brand-indigo);
+	font-weight: var(--ap-weight-link);
+	text-decoration: none;
+}
+
+/* ---- contact line ---- */
+.ap-lp-booking .ap-lp-booking__contact {
+	margin: 24px auto 0;
+	color: var(--ap-slate-500);
+	font-size: 15px;
+	line-height: 1.5;
+	text-align: center;
+}
+
+.ap-lp-booking .ap-lp-booking__contact a {
+	color: var(--ap-brand-indigo);
+	font-weight: var(--ap-weight-link);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+	transition: color .3s cubic-bezier(.25, .45, .45, .95);
+}
+
+.ap-lp-booking .ap-lp-booking__contact a:hover,
+.ap-lp-booking .ap-lp-booking__contact a:focus-visible {
+	color: var(--ap-indigo-900);
+}
+
+@media (max-width: 991px) {
+	.ap-lp-booking__card {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 24px;
+		padding: 28px 20px 12px;
+	}
+
+	.ap-lp-booking__event {
+		max-width: 420px;
+		margin: 0 auto;
+	}
+
+	.ap-lp-booking__sched--calendly {
+		height: max(var(--ap-lp-booking-h, 640px), 700px);
+	}
+}
+
+@media (max-width: 767px) {
+	.ap-lp-booking {
+		padding: 32px 12px 56px;
+	}
+
+	.ap-lp-booking__head {
+		margin-bottom: 24px;
+		padding: 0 4px;
+	}
+
+	.ap-lp-booking .ap-lp-booking__title {
+		font-size: 36px;
+	}
+
+	.ap-lp-booking .ap-lp-booking__lede {
+		font-size: 17px;
+	}
+
+	.ap-lp-booking__card {
+		padding: 24px 12px 8px;
+	}
+
+	.ap-lp-booking .ap-lp-booking__name {
+		font-size: 22px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-lp-booking .ap-lp-booking__contact a {
+		transition: none;
+	}
+}

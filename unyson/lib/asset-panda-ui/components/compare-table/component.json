@@ -1,0 +1,59 @@
+{
+	"name": "compare-table",
+	"description": "Comparison-guide table for the resource-center articles (Asset Panda vs X): a criterion column with small icons, the Asset Panda column under an indigo header with the wordmark, the competitor column under a grey header with its mark, and a Winner column of pills (Asset Panda amber, Tie indigo, the competitor grey), with an optional footnote. Figma: Website Design 2026 > Blog > Compare article (7219:87997).",
+	"props": {
+		"label_title": {
+			"type": "string",
+			"required": false,
+			"default": "Buying criterion",
+			"description": "Heading of the criterion column."
+		},
+		"after_title": {
+			"type": "string",
+			"required": false,
+			"default": "Asset Panda",
+			"description": "Accessible name of the Asset Panda column (the header shows the wordmark)."
+		},
+		"before_title": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Competitor column heading text, e.g. EAM. Shown after before_mark."
+		},
+		"before_mark": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Short word drawn as the competitor's black rounded mark, e.g. ezo. Leave empty when before_logo is set."
+		},
+		"before_logo": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Competitor logo image URL, used instead of before_mark."
+		},
+		"before_logo_alt": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Alt text of the competitor logo."
+		},
+		"winner_title": {
+			"type": "string",
+			"required": false,
+			"default": "Winner",
+			"description": "Heading of the winner column."
+		},
+		"rows": {
+			"type": "array",
+			"required": true,
+			"description": "Rows. Each: label (required), after and before (the two cells), winner (pill text: a name containing Asset Panda is amber, Tie is indigo, anything else grey); optional icon_svg (16px criterion icon), after_check (default true) and before_check (default false) for a green check instead of the grey dot, winner_note (small line under the pill, e.g. (CMMS-first)). When no row has a winner or winner_note, the Winner column is left out."
+		},
+		"note": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Footnote under the table, e.g. the meaning of an asterisk."
+		}
+	}
+}

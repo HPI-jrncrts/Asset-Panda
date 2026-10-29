@@ -1,0 +1,13 @@
+
+/* QA 2026-10-29: Education hub on phones and tablets. Below 900px the band stacks into a column, but it
+   still wrapped, so its one flex line took the logo ticker's width (~1000px): the caption was centred in
+   that line, off the right edge of the screen, and the logo row's flex-basis (320px) became its height,
+   a ~250px blank band. One line, the row at its own height, the caption centred on screen. */
+@media (max-width: 900px) {
+	html body .ap-trust-strip.ap-trust-strip--eduhub .apt-inner {
+		flex-wrap: nowrap;
+	}
+	html body .ap-trust-strip.ap-trust-strip--eduhub .apt-badges {
+		flex: 0 0 auto;
+	}
+}

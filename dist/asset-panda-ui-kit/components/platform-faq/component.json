@@ -1,0 +1,11 @@
+{
+	"name": "platform-faq",
+	"description": "FAQ with the heading in a left column beside ruled questions that open in place (plus turns to minus). Live: .apx-faq on the Asset Intelligence Platform page.",
+	"props": {
+		"title": { "type": "string", "required": true, "description": "Heading, in the left column (above the questions below 901px)." },
+		"items": { "type": "array", "required": true, "description": "Questions. Each: q (question) and a (answer). UrsaAI is set with its superscript." },
+		"title_mark": { "type": "boolean", "required": false, "default": false, "description": "Set UrsaAI in the heading as the brand mark with its superscript (Ursa AI frame 7261:111996)." },
+		"open_first": { "type": "boolean", "required": false, "default": true, "description": "Start with the first question open (live does)." },
+		"schema": { "type": "boolean", "required": false, "default": false, "description": "Also output FAQPage structured data for these questions. Use on one FAQ per page." }
+	}
+}

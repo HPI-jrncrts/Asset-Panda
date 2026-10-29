@@ -1,0 +1,11 @@
+{
+	"name": "why-cards",
+	"description": "Centred heading over three linked use-case cards on a soft two-orb wash. Live: the .epx-why section on the solution pages, Emergency Preparedness, School Reunification and Help Desk (rules ported).",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading." },
+		"lede": { "type": "string", "required": false, "default": "", "description": "Optional paragraph under the heading." },
+		"items": { "type": "array", "required": true, "description": "Cards. Each: title (line breaks kept) and body; optional url (links the title), link_label (with url: an arrow link under the body carries the url instead of the title), icon (image URL) or icon_svg (inline SVG), icon_alt." },
+		"variant": { "type": "string", "required": false, "default": "solution", "enum": [ "solution", "readiness", "service" ], "description": "solution: white cards (the six solution pages). readiness: glass cards, deeper bottom space, still icons (Emergency Preparedness, School Reunification). service: glass cards, shallow bottom space (Help Desk)." }
+	}
+}

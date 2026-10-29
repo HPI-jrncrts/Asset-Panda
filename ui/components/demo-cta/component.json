@@ -12,10 +12,19 @@
 		"hubspot_portal": { "type": "string", "required": false, "default": "", "description": "HubSpot portal ID for the demo form (digits)." },
 		"hubspot_form": { "type": "string", "required": false, "default": "", "description": "HubSpot form ID (GUID)." },
 		"hubspot_region": { "type": "string", "required": false, "default": "na1", "description": "HubSpot region, e.g. na1 or na2." },
+		"form_placeholders": { "type": "object", "required": false, "default": {}, "description": "Placeholder text per HubSpot field name (lower-case), set once the form is ready. The key textarea covers any message box that has none." },
+		"form_submit": { "type": "string", "required": false, "default": "", "description": "Submit button text, set once the form is ready. Empty keeps HubSpot's." },
+		"background": { "type": "string", "required": false, "default": "", "description": "Backdrop art behind the form card, stretched to the section (live: the site footer art)." },
 		"image": { "type": "string", "required": false, "default": "", "description": "Product image on the right, used instead of a form." },
 		"image_alt": { "type": "string", "required": false, "default": "", "description": "Product image alt text." },
 		"cta_label": { "type": "string", "required": false, "default": "", "description": "Button text, used when there is no form. Renders only with cta_url." },
 		"cta_url": { "type": "string", "required": false, "default": "", "description": "Button destination." },
-		"reveal": { "type": "boolean", "required": false, "default": true, "description": "Reveal the card on scroll." }
+		"reveal": { "type": "boolean", "required": false, "default": true, "description": "Reveal the card on scroll." },
+		"variant": { "type": "string", "required": false, "default": "default", "enum": [ "default", "platform", "hub", "eduhub" ], "description": "platform: the Asset Intelligence Platform page keeps the image card's heading tightly tracked (the hub and solution pages set it at normal tracking). hub: the industry hubs' closing band (live #ap-gov-fcta). eduhub: the Education hub's closing band (live #ap-eduhub-fcta)." },
+		"image_width": { "type": "integer", "required": false, "default": 0, "description": "Hub variants: the product image's intrinsic width, written on the <img> so the band keeps its height while the image loads. 0 omits it." },
+		"image_height": { "type": "integer", "required": false, "default": 0, "description": "Hub variants: the product image's intrinsic height. 0 omits it." },
+		"anchor": { "type": "string", "required": false, "default": "", "description": "Default and platform variants: id on the section, so buttons elsewhere on the page can jump to the form (letters, digits, hyphens), e.g. partner-registration." },
+		"bullets": { "type": "array", "required": false, "default": [], "description": "Default and platform variants: a check list under the paragraph (plain strings), each with a green circle-check." },
+		"panel": { "type": "string", "required": false, "default": "plain", "enum": [ "plain", "card" ], "description": "plain: the form sits straight on the gradient card (the product pages). card: the form sits in a white rounded card, copy and form share the row equally and the copy top-aligns with the card (Figma Footer CTA Card with Booking form; Partners)." }
 	}
 }

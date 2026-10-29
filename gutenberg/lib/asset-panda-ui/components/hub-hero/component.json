@@ -28,7 +28,7 @@
 		"cta_label": {
 			"type": "string",
 			"required": false,
-			"default": "Book a Demo",
+			"default": "Free Demo",
 			"description": "Button text."
 		},
 		"cta_url": {
@@ -67,6 +67,12 @@
 			"default": "1440/640",
 			"description": "Stage aspect ratio, width/height."
 		},
+		"mobile_ratio": {
+			"type": "string",
+			"required": false,
+			"default": "393/378",
+			"description": "Phone (767px and below) aspect ratio of the art box under the copy, width/height (live: 393/378 Government, 393/368 Healthcare, 393/294 Construction, 393/374 Manufacturing)."
+		},
 		"veil_height": {
 			"type": "number",
 			"required": false,
@@ -89,7 +95,17 @@
 			"type": "array",
 			"required": false,
 			"default": [],
-			"description": "Feature chips along the bottom. Each: label; icon (URL) or icon_svg."
+			"description": "Feature chips along the bottom. Each: label; icon (URL) or icon_svg; icon_mask (true: the icon URL is drawn as a gradient-filled mask, as live Education does)."
+		},
+		"variant": {
+			"type": "string",
+			"required": false,
+			"default": "default",
+			"enum": [
+				"default",
+				"eduhub"
+			],
+			"description": "eduhub: the Education hub hero (live #ap-eduhub-hero, ported whole): backdrop on the wrap, copy over the photos, chips in a ruled band below; mobile_background is the phone backdrop."
 		}
 	}
 }

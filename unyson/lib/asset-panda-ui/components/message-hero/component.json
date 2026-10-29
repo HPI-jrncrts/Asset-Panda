@@ -1,0 +1,15 @@
+{
+	"name": "message-hero",
+	"description": "Centred message page: an illustration, a big status code, the heading, a line of copy and a row of buttons and links, over the soft colour wash. Built for the branded 404 template (live /404-not-found/: 'Oops…Page Not Found!').",
+	"props": {
+		"image": { "type": "string", "required": false, "default": "", "description": "Illustration above the heading (live: the question-mark panda head)." },
+		"image_alt": { "type": "string", "required": false, "default": "", "description": "Illustration alt text (empty when decorative)." },
+		"image_width": { "type": "integer", "required": false, "default": 0, "description": "Illustration intrinsic width in px. 0 omits it." },
+		"image_height": { "type": "integer", "required": false, "default": 0, "description": "Illustration intrinsic height in px. 0 omits it." },
+		"code": { "type": "string", "required": false, "default": "", "description": "Big status line in the brand gradient, e.g. 404. It is part of the h1." },
+		"title": { "type": "string", "required": true, "description": "Heading, e.g. Oops…Page Not Found!" },
+		"body": { "type": "string", "required": false, "default": "", "description": "Paragraph under the heading. Line breaks are kept." },
+		"links": { "type": "array", "required": false, "default": [], "description": "Buttons and links, in order. Each: label, url, style (primary: gradient button; secondary: outline button; text: plain link)." },
+		"background": { "type": "string", "required": false, "default": "", "description": "Backdrop image URL (the soft colour wash), drawn cover-sized." }
+	}
+}

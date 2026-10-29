@@ -1,0 +1,73 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/resource-search",
+	"title": "AP Resource Search",
+	"category": "design",
+	"icon": "block-default",
+	"description": "Instant search for the Resource Center and Press Room: results appear under the field while the visitor types (no submit, no reload), from a compact JSON index fetched the first time the field is focused, hovered or touched. Typo-tolerant prefix matching, highlighted matches, arrow-key navigation, a no-results state. Enter and 'View all results' open the full results page; when it is the current listing's own (same scope) and the page has a resource-cards listing, the results change in place with the filter animation instead of a reload. Without JavaScript the field submits to fallback_url as ?q=. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"index_url": {
+			"type": "string",
+			"default": ""
+		},
+		"label": {
+			"type": "string",
+			"default": "Search resources"
+		},
+		"placeholder": {
+			"type": "string",
+			"default": "Search resources"
+		},
+		"value": {
+			"type": "string",
+			"default": ""
+		},
+		"fallback_url": {
+			"type": "string",
+			"default": ""
+		},
+		"action": {
+			"type": "string",
+			"default": ""
+		},
+		"action_all": {
+			"type": "string",
+			"default": ""
+		},
+		"scope": {
+			"type": "string",
+			"default": ""
+		},
+		"scope_label": {
+			"type": "string",
+			"default": ""
+		},
+		"max_results": {
+			"type": "number",
+			"default": 8
+		},
+		"size": {
+			"type": "string",
+			"default": "lg",
+			"enum": [
+				"md",
+				"lg"
+			]
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

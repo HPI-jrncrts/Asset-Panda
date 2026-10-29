@@ -1,0 +1,6 @@
+
+/* QA 2026-10-29: sections without a gradient are pure white (Joseph, 2026-10-29). The soft variant keeps
+   its colour wash; only the grey ground goes, so it no longer ends in a hard grey-to-white step. */
+.ap-page-cards--soft {
+	background: #fff;
+}

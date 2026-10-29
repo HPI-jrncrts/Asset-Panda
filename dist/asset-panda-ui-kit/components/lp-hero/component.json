@@ -1,0 +1,21 @@
+{
+	"name": "lp-hero",
+	"description": "Opening section for long-form and utility pages (legal pages, guides, webinar replays, event pages): breadcrumbs, eyebrow, the page h1, a lede with optional links, a small meta line and an optional button, over the soft colour wash. center: one centred column (legal pages, replays). split: copy left, a rounded picture card right, stacked below 992px (the government guides). banner: centred copy over a wide picture (the AWS re:Invent page).",
+	"props": {
+		"layout": { "type": "string", "required": false, "default": "center", "enum": [ "center", "split", "banner" ], "description": "center: one centred column. split: copy beside a picture card. banner: copy centred over a wide picture." },
+		"tone": { "type": "string", "required": false, "default": "wash", "enum": [ "wash", "white" ], "description": "wash: the soft colour wash (background picture, or the kit's gradient when none is given). white: plain white." },
+		"background": { "type": "string", "required": false, "default": "", "description": "Wash picture URL, drawn cover-sized (tone wash). Empty draws the kit's own soft gradient." },
+		"crumbs": { "type": "array", "required": false, "default": [], "description": "Breadcrumb trail after Home, in order. Each: label (required) and url (empty for the current page, which should come last)." },
+		"home_url": { "type": "string", "required": false, "default": "/", "description": "Home link of the breadcrumb trail." },
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small uppercase label above the heading." },
+		"title": { "type": "string", "required": true, "description": "The page heading (h1). Line breaks are kept; UrsaAI is set with its superscript." },
+		"lede": { "type": "string", "required": false, "default": "", "description": "Paragraph under the heading. Line breaks are kept, **double asterisks** bold, [label](url) makes a link (http(s), mailto:, tel:, a path or #anchor); UrsaAI is set with its superscript." },
+		"meta": { "type": "string", "required": false, "default": "", "description": "Small line under the lede, e.g. Last updated: January 1, 2026." },
+		"cta_label": { "type": "string", "required": false, "default": "", "description": "Button text. Renders only with cta_url." },
+		"cta_url": { "type": "string", "required": false, "default": "", "description": "Button destination (a page, or #anchor on the page)." },
+		"image": { "type": "string", "required": false, "default": "", "description": "Picture for the split and banner layouts." },
+		"image_alt": { "type": "string", "required": false, "default": "", "description": "Picture alt text (empty when decorative)." },
+		"image_width": { "type": "integer", "required": false, "default": 0, "description": "Picture intrinsic width in px. 0 omits it." },
+		"image_height": { "type": "integer", "required": false, "default": 0, "description": "Picture intrinsic height in px. 0 omits it." }
+	}
+}

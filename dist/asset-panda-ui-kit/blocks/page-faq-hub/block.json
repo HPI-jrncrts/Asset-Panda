@@ -1,0 +1,57 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/page-faq-hub",
+	"title": "AP Page Faq Hub",
+	"category": "design",
+	"icon": "block-default",
+	"description": "Help-centre FAQ for /faq/: a sticky topic list with question counts and an instant search beside topic groups (each an h2) of questions (h3) that open in place; on phones the topics become a sideways chip row over the search. Answers take paragraphs, bulleted and numbered lists, **bold** and [label](url) links. One FAQPage JSON-LD for every question. Search, topic highlight and the empty state are behaviour.js; without it every question shows and opens on click. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
+		"nav_title": {
+			"type": "string",
+			"default": "Topics"
+		},
+		"search": {
+			"type": "boolean",
+			"default": true
+		},
+		"search_label": {
+			"type": "string",
+			"default": "Search questions"
+		},
+		"empty_text": {
+			"type": "string",
+			"default": "No question matches that search."
+		},
+		"open_first": {
+			"type": "boolean",
+			"default": false
+		},
+		"schema": {
+			"type": "boolean",
+			"default": true
+		},
+		"groups": {
+			"type": "array",
+			"default": []
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

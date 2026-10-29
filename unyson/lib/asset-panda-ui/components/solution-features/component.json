@@ -1,0 +1,12 @@
+{
+	"name": "solution-features",
+	"description": "Heading and lede on the left, numbered feature cards ruled in brand colours on the right; one column below 1001px. Live: the .epx-feat section on the solution pages, Emergency Preparedness, School Reunification and Help Desk (rules ported).",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading." },
+		"title_accent": { "type": "string", "required": false, "default": "", "description": "Words inside the heading painted with the brand gradient; must appear in title." },
+		"lede": { "type": "string", "required": false, "default": "", "description": "Paragraph under the heading." },
+		"items": { "type": "array", "required": true, "description": "Cards. Each: title and body; optional icon_svg (the number glyph) and accent (#5044e1 indigo, #e61c55 red, #00a991 green, #de8d14 yellow — or the tone name)." },
+		"variant": { "type": "string", "required": false, "default": "solution", "enum": [ "solution", "readiness", "service" ], "description": "solution: the six solution pages (phone headings balance). readiness / service: Emergency Preparedness, School Reunification / Help Desk." }
+	}
+}

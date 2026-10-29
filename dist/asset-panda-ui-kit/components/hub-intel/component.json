@@ -1,0 +1,13 @@
+{
+	"name": "hub-intel",
+	"description": "Industry-hub platform band: copy-and-scene rows (floating images and soft glows) over a heading beside numbered feature cards. Live: #ap-gov-intel on the Government, Healthcare, Construction and Manufacturing hubs and #ap-eduhub-ursa on the Education hub (sheets and markup ported).",
+	"props": {
+		"variant": { "type": "string", "required": false, "default": "gov", "enum": [ "gov", "eduhub" ], "description": "gov: the Government-family hubs (#ap-gov-intel). eduhub: the Education hub (#ap-eduhub-ursa, stacks at 900px)." },
+		"phone": { "type": "string", "required": false, "default": "scaled", "enum": [ "scaled", "plain" ], "description": "Gov variant at 767px and below: scaled enlarges each scene 1.22x with extra space round it and a 56px row gap (live Government); plain keeps the scenes at size with a 48px gap (Healthcare, Construction, Manufacturing)." },
+		"rows": { "type": "array", "required": true, "description": "Copy-and-scene rows. Each: title (required); eyebrow, title_accent (part painted with the brand gradient), body, links (each label, url), reverse (scene on the right), images (each image, x, y, w as % of the 546 by 364 scene; optional float, crop) and glows (each x, y, w, h in %, color as rgb/rgba)." },
+		"features_eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the feature heading." },
+		"features_title": { "type": "string", "required": false, "default": "", "description": "Heading beside the feature cards." },
+		"features_title_accent": { "type": "string", "required": false, "default": "", "description": "Part of the feature heading painted with the brand gradient." },
+		"features": { "type": "array", "required": false, "default": [], "description": "Feature cards. Each: title (required); body, icon (number badge image URL), icon_alt, accent (hex rule colour), link_label, link_url." }
+	}
+}

@@ -1,0 +1,85 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/resource-cards",
+	"title": "AP Resource Cards",
+	"category": "design",
+	"icon": "block-default",
+	"description": "Resource card grid after live's listing cards (photo, uppercase type label, category, title, excerpt, Read More →, in a light-ruled card), with the 'Showing 1–6 of N' line, numbered pagination (Previous / pages / Next) and an empty state. On a listing (variant grid) behaviour.js turns a click on a category tab (resource-hero's rail), a page number, an empty-state link back into the same listing, or a search of the same listing (resource-search's Enter / View all) into an in-place change: the leaving cards fade out, a skeleton holds the space while the filtered page is fetched, the new count, cards and pager fade and rise in with a short stagger, the listing's height is held so the tab rail never jumps, and the address, title and Back button follow; a page that turns out to be another listing, or any failure, loads normally; without JavaScript the links load the page as before. Variant related = the 'Related resources' row under an article: centred heading, three cards, no count or pagination. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"variant": {
+			"type": "string",
+			"default": "grid",
+			"enum": [
+				"grid",
+				"related"
+			]
+		},
+		"heading": {
+			"type": "string",
+			"default": ""
+		},
+		"count_text": {
+			"type": "string",
+			"default": ""
+		},
+		"items": {
+			"type": "array",
+			"default": []
+		},
+		"eager": {
+			"type": "number",
+			"default": 0
+		},
+		"more_label": {
+			"type": "string",
+			"default": "Read More"
+		},
+		"pages": {
+			"type": "array",
+			"default": []
+		},
+		"prev_url": {
+			"type": "string",
+			"default": ""
+		},
+		"next_url": {
+			"type": "string",
+			"default": ""
+		},
+		"prev_label": {
+			"type": "string",
+			"default": "Previous"
+		},
+		"next_label": {
+			"type": "string",
+			"default": "Next"
+		},
+		"empty_title": {
+			"type": "string",
+			"default": "No resources found."
+		},
+		"empty_text": {
+			"type": "string",
+			"default": ""
+		},
+		"empty_links": {
+			"type": "array",
+			"default": []
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

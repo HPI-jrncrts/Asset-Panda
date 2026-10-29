@@ -1,0 +1,45 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/lp-cookie-declaration",
+	"title": "AP Lp Cookie Declaration",
+	"category": "design",
+	"icon": "block-default",
+	"description": "Cookie Declaration section of the GDPR page: an anchored heading, an optional line of copy and Cookiebot's own cookie declaration (cd.js), which lists the site's cookies by category and lets visitors change or withdraw consent. Set in the same 760px reading column as lp-prose. Live: the Cookie Declaration at the end of /gdpr-policy/. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"anchor": {
+			"type": "string",
+			"default": "cookie-declaration"
+		},
+		"title": {
+			"type": "string",
+			"default": "Cookie Declaration"
+		},
+		"intro": {
+			"type": "string",
+			"default": ""
+		},
+		"cbid": {
+			"type": "string",
+			"default": ""
+		},
+		"culture": {
+			"type": "string",
+			"default": ""
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

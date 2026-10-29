@@ -1,0 +1,24 @@
+{
+	"name": "intel-dashboard",
+	"description": "Asset Intelligence dashboard: heading and lede over a dashboard table with floating image chips and mock tip cards, then a check list and two buttons. Live: .epx-dash on the Emergency Preparedness, School Reunification, Help Desk and September 2026 solution pages.",
+	"props": {
+		"variant": { "type": "string", "required": false, "default": "solution", "enum": [ "readiness", "reunification", "service", "solution" ], "description": "Which live design draws the section: readiness (Emergency Preparedness), reunification (School Reunification), service (Help Desk), solution (the six September solution pages)." },
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the title." },
+		"title": { "type": "string", "required": true, "description": "Section title. Line breaks are kept." },
+		"title_accent": { "type": "string", "required": false, "default": "", "description": "Part of the title painted with the brand gradient." },
+		"lede": { "type": "string", "required": false, "default": "", "description": "Paragraph under the title. \"UrsaAI\" is drawn as the brand mark." },
+		"image": { "type": "string", "required": false, "default": "", "description": "Dashboard table screenshot." },
+		"image_mobile": { "type": "string", "required": false, "default": "", "description": "Taller crop shown at 1080px and below." },
+		"image_alt": { "type": "string", "required": false, "default": "", "description": "Alt text for the table screenshot." },
+		"background": { "type": "string", "required": false, "default": "", "description": "Backdrop art behind the section." },
+		"background_mobile": { "type": "string", "required": false, "default": "", "description": "Backdrop at 1080px and below (falls back to background)." },
+		"chips": { "type": "array", "required": false, "default": [], "description": "Floating image chips. Each: cls (placement class from the design, e.g. epx-chip--g or sp-chip--1), image, boxed (true when the chip is a frame holding the image rather than the image itself), framed (true when the image sits in an inner circle)." },
+		"tips": { "type": "array", "required": false, "default": [], "description": "Floating mock UI cards. Each: cls (the card's own classes, e.g. epx-tip--t3 or sp-tip--1), height (px, optional), markup (the card body; sanitised by ap_ui_markup)." },
+		"check_svg": { "type": "string", "required": false, "default": "", "description": "Inline SVG tick drawn before each check." },
+		"chips_anchor": { "type": "string", "required": false, "default": "section", "enum": [ "section", "dashboard" ], "description": "What the chips are pinned to (solution variant). section: the section wrap, as on the live pages. dashboard: the table stage at the design's offsets, so the chips move with the dashboard when the heading wraps to more lines and scale with it on tablets." },
+		"head_width": { "type": "integer", "required": false, "default": 0, "description": "Max width of the heading column in px (solution variant; 0 keeps the design's 656px)." },
+		"check_width": { "type": "integer", "required": false, "default": 0, "description": "Width of each check column in px (solution variant; 0 keeps the design's)." },
+		"checks": { "type": "array", "required": false, "default": [], "description": "Short benefit lines under the dashboard." },
+		"ctas": { "type": "array", "required": false, "default": [], "description": "Buttons; the first is solid, the rest outlined. Each: label, url. \"UrsaAI\" is drawn as the brand mark." }
+	}
+}

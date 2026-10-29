@@ -22,12 +22,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $props = array(
-	'eyebrow'    => $attributes['eyebrow'] ?? '',
-	'title'      => $attributes['title'] ?? '',
-	'items'      => $attributes['items'] ?? array(),
-	'open_first' => $attributes['open_first'] ?? true,
-	'schema'     => $attributes['schema'] ?? false,
-	'reveal'     => $attributes['reveal'] ?? true,
+	'eyebrow'       => $attributes['eyebrow'] ?? '',
+	'title'         => $attributes['title'] ?? '',
+	'items'         => $attributes['items'] ?? array(),
+	'open_first'    => $attributes['open_first'] ?? true,
+	'schema'        => $attributes['schema'] ?? false,
+	'reveal'        => $attributes['reveal'] ?? true,
+	'variant'       => $attributes['variant'] ?? 'default',
+	'title_gap_m'   => $attributes['title_gap_m'] ?? -1,
+	'title_gap'     => $attributes['title_gap'] ?? 28,
+	'tone'          => $attributes['tone'] ?? 'gradient',
+	'question_tone' => $attributes['question_tone'] ?? 'default',
+	'layout'        => $attributes['layout'] ?? 'stack',
 );
 
 $ap_html = ap_render_component( 'faq', $props );

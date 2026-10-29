@@ -93,6 +93,7 @@
 	font-size: var(--ap-fs-h1-sm);
 	font-weight: var(--ap-weight-display);
 	line-height: var(--ap-line-h1);
+	letter-spacing: -0.02em;
 	color: var(--ap-text-heading);
 	text-wrap: balance;
 }

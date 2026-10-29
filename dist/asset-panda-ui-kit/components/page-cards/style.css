@@ -1,0 +1,557 @@
+/*
+ * page-cards — card grid of the reskinned company and resource pages.
+ *
+ * Head type follows the designed pages (14px/800 eyebrow, 40px/800 h2 —
+ * 28px on phones — 18px slate intro). Cards: white, 16px radius, hairline
+ * border; each card carries a brand accent (--ap-pc-c / --ap-pc-t) that colours
+ * its icon tile, number pill and top rule, so icons follow their card colour.
+ * Hover: translate + box-shadow on the house timing (never transform).
+ */
+
+.ap-page-cards,
+.ap-page-cards * {
+	box-sizing: border-box;
+}
+
+.ap-page-cards {
+	position: relative;
+	isolation: isolate;
+	width: 100%;
+	overflow: hidden;
+	background: var(--ap-white);
+	font-family: var(--ap-font-body);
+	color: var(--ap-text-body);
+}
+
+.ap-page-cards--soft {
+	background: var(--ap-surface-alt);
+}
+
+.ap-page-cards__wash {
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+	background:
+		radial-gradient(30% 46% at 10% 30%, rgba(200, 210, 253, 0.6) 0%, rgba(200, 210, 253, 0) 70%),
+		radial-gradient(40% 50% at 92% 78%, rgba(199, 255, 241, 0.55) 0%, rgba(199, 255, 241, 0) 70%);
+}
+
+.ap-page-cards__wrap {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 80px 40px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 40px;
+}
+
+.ap-page-cards__head {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 16px;
+	max-width: 780px;
+	text-align: center;
+}
+
+.ap-page-cards .ap-page-cards__eyebrow {
+	margin: 0;
+	font-size: 14px;
+	font-weight: var(--ap-weight-eyebrow);
+	line-height: 1.2;
+	letter-spacing: 0.56px;
+	text-transform: uppercase;
+	color: var(--ap-text-eyebrow);
+}
+
+.ap-page-cards .ap-page-cards__title {
+	margin: 0;
+	padding: 0;
+	font-family: var(--ap-font-display);
+	font-size: 40px;
+	font-weight: var(--ap-weight-heading);
+	line-height: 1.2;
+	letter-spacing: normal;
+	color: var(--ap-text-heading);
+	text-wrap: balance;
+}
+
+.ap-page-cards__intro {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.ap-page-cards .ap-page-cards__intro p {
+	margin: 0;
+	font-size: 18px;
+	line-height: 1.5;
+	color: var(--ap-text-body);
+}
+
+.ap-page-cards .ap-page-cards__intro a,
+.ap-page-cards .ap-page-cards__body a,
+.ap-page-cards .ap-page-cards__note a {
+	color: var(--ap-brand-indigo);
+	font-weight: var(--ap-weight-link);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+/* ---- grid ---- */
+
+.ap-page-cards .ap-page-cards__grid {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 24px;
+}
+
+.ap-page-cards--cols-2 .ap-page-cards__grid {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	max-width: 960px;
+}
+
+.ap-page-cards--cols-4 .ap-page-cards__grid {
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+/* ---- card ---- */
+
+.ap-page-cards__card {
+	--ap-pc-c: var(--ap-brand-indigo);
+	--ap-pc-t: var(--ap-indigo-50);
+}
+
+.ap-page-cards__card--green {
+	--ap-pc-c: var(--ap-brand-green);
+	--ap-pc-t: var(--ap-green-50);
+}
+
+.ap-page-cards__card--yellow {
+	--ap-pc-c: var(--ap-brand-yellow);
+	--ap-pc-t: var(--ap-yellow-50);
+}
+
+.ap-page-cards__card--red {
+	--ap-pc-c: var(--ap-brand-red);
+	--ap-pc-t: var(--ap-red-50);
+}
+
+.ap-page-cards__card--violet {
+	--ap-pc-c: var(--ap-violet-700);
+	--ap-pc-t: var(--ap-violet-100);
+}
+
+.ap-page-cards .ap-page-cards__card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 14px;
+	margin: 0;
+	padding: 28px 24px;
+	border: 1px solid var(--ap-slate-100);
+	border-radius: var(--ap-radius-xl);
+	background: var(--ap-white);
+	box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+	transition-property: translate, box-shadow, border-color, opacity;
+	transition-duration: var(--ap-dur-base);
+	transition-timing-function: var(--ap-ease-standard);
+}
+
+@media (hover: hover) {
+	.ap-page-cards .ap-page-cards__card:hover {
+		translate: 0 -4px;
+		border-color: var(--ap-pc-t);
+		box-shadow: 0 16px 32px rgba(32, 28, 74, 0.1);
+	}
+}
+
+.ap-page-cards__card--link:focus-within {
+	border-color: var(--ap-brand-indigo);
+	box-shadow: 0 0 0 3px var(--ap-focus-ring);
+}
+
+.ap-page-cards__icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+	width: 56px;
+	height: 56px;
+	border-radius: var(--ap-radius-lg);
+	background: var(--ap-pc-t);
+	color: var(--ap-pc-c);
+}
+
+.ap-page-cards__icon svg,
+.ap-page-cards__icon img {
+	display: block;
+	width: 34px;
+	height: 34px;
+}
+
+/* Line icons drawn on a big viewBox keep a readable 1.6px stroke at any size. */
+.ap-page-cards__icon svg [stroke]:not([stroke="none"]) {
+	vector-effect: non-scaling-stroke;
+	stroke-width: 1.6px;
+}
+
+.ap-page-cards .ap-page-cards__name {
+	margin: 0;
+	padding: 0;
+	font-family: var(--ap-font-display);
+	font-size: 20px;
+	font-weight: var(--ap-weight-heading);
+	line-height: 1.3;
+	letter-spacing: normal;
+	color: var(--ap-text-heading);
+}
+
+.ap-page-cards .ap-page-cards__stretch,
+.ap-page-cards .ap-page-cards__stretch:visited {
+	color: inherit;
+	text-decoration: none;
+}
+
+.ap-page-cards__stretch::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	border-radius: inherit;
+}
+
+.ap-page-cards .ap-page-cards__stretch:focus-visible {
+	outline: none;
+}
+
+.ap-page-cards__body {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.ap-page-cards .ap-page-cards__body p {
+	margin: 0;
+	font-size: 15px;
+	line-height: 1.55;
+	color: var(--ap-text-body);
+}
+
+.ap-page-cards .ap-page-cards__links {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.ap-page-cards__links li {
+	margin: 0;
+}
+
+.ap-page-cards .ap-page-cards__links a {
+	position: relative;
+	z-index: 2;
+	font-size: 14px;
+	font-weight: var(--ap-weight-link);
+	line-height: 1.4;
+	color: var(--ap-brand-indigo);
+	text-decoration: none;
+	transition: color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-page-cards .ap-page-cards__links a:hover {
+	color: var(--ap-brand-green);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.ap-page-cards__more {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: auto;
+	font-size: 14px;
+	font-weight: var(--ap-weight-link);
+	color: var(--ap-brand-indigo);
+}
+
+.ap-page-cards__more svg {
+	translate: 0 0;
+	transition: translate var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-page-cards__card:hover .ap-page-cards__more svg,
+.ap-page-cards__card:focus-within .ap-page-cards__more svg {
+	translate: 4px 0;
+}
+
+/* ---- number look: steps joined by a rule ---- */
+
+.ap-page-cards--number .ap-page-cards__card {
+	padding-top: 24px;
+	border-top: 3px solid var(--ap-pc-c);
+}
+
+.ap-page-cards__top {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.ap-page-cards__num {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 40px;
+	height: 40px;
+	padding: 0 12px;
+	border-radius: var(--ap-radius-pill);
+	background: var(--ap-pc-t);
+	font-size: 18px;
+	font-weight: var(--ap-weight-heading);
+	line-height: 1;
+	color: var(--ap-pc-c);
+}
+
+@media (min-width: 1101px) {
+	.ap-page-cards--number .ap-page-cards__grid {
+		position: relative;
+	}
+
+	.ap-page-cards--number .ap-page-cards__card:not(:last-child)::after {
+		content: "";
+		position: absolute;
+		top: 44px;
+		right: -24px;
+		width: 24px;
+		border-top: 2px dashed var(--ap-indigo-200);
+	}
+}
+
+/* ---- badge look: awards ---- */
+
+.ap-page-cards--badge .ap-page-cards__card {
+	align-items: center;
+	text-align: center;
+	padding: 28px 20px;
+}
+
+.ap-page-cards__badge {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 112px;
+	margin-bottom: 4px;
+}
+
+/* A fixed box with contain: badge SVGs without width/height (no intrinsic size) still draw. */
+.ap-page-cards__badge img {
+	display: block;
+	width: 132px;
+	max-width: 100%;
+	height: 112px;
+	object-fit: contain;
+}
+
+.ap-page-cards--badge .ap-page-cards__name {
+	font-size: 17px;
+	line-height: 1.35;
+}
+
+.ap-page-cards--badge .ap-page-cards__links {
+	align-items: center;
+}
+
+/* ---- plain look ---- */
+
+.ap-page-cards--plain .ap-page-cards__card {
+	border-top: 3px solid var(--ap-pc-c);
+}
+
+/* ---- buttons + note ---- */
+
+.ap-page-cards__ctas {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 16px;
+}
+
+.ap-page-cards .ap-page-cards__btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 48px;
+	padding: 14px 20px;
+	border-radius: var(--ap-radius-sm);
+	font-family: var(--ap-font-body);
+	font-size: 16px;
+	font-weight: var(--ap-weight-button);
+	line-height: 1.2;
+	text-decoration: none;
+	white-space: nowrap;
+	translate: 0 0;
+	transition-property: translate, box-shadow, background-color, color, border-color;
+	transition-duration: var(--ap-dur-base);
+	transition-timing-function: var(--ap-ease-standard);
+}
+
+.ap-page-cards .ap-page-cards__btn--primary,
+.ap-page-cards .ap-page-cards__btn--primary:visited {
+	border: 1px solid var(--ap-brand-indigo);
+	background: linear-gradient(55.1deg, var(--ap-brand-indigo) 0%, var(--ap-brand-green) 70.44%);
+	color: var(--ap-white);
+}
+
+.ap-page-cards .ap-page-cards__btn--outline,
+.ap-page-cards .ap-page-cards__btn--outline:visited {
+	border: 1px solid var(--ap-brand-green);
+	background: transparent;
+	color: var(--ap-brand-green);
+}
+
+.ap-page-cards .ap-page-cards__btn:hover,
+.ap-page-cards .ap-page-cards__btn:focus-visible {
+	translate: 0 -2px;
+	text-decoration: none;
+}
+
+.ap-page-cards .ap-page-cards__btn--primary:hover,
+.ap-page-cards .ap-page-cards__btn--primary:focus-visible {
+	color: var(--ap-white);
+	box-shadow: 0 6px 18px rgba(80, 68, 225, 0.28);
+}
+
+.ap-page-cards .ap-page-cards__btn--outline:hover,
+.ap-page-cards .ap-page-cards__btn--outline:focus-visible {
+	background: var(--ap-brand-green);
+	color: var(--ap-white);
+}
+
+.ap-page-cards .ap-page-cards__btn:focus-visible {
+	outline: 3px solid var(--ap-brand-indigo);
+	outline-offset: 2px;
+}
+
+.ap-page-cards__note {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	max-width: 820px;
+	text-align: center;
+}
+
+.ap-page-cards .ap-page-cards__note p {
+	margin: 0;
+	font-size: 13px;
+	line-height: 1.5;
+	color: var(--ap-slate-500);
+}
+
+/* ---- tablet ---- */
+
+@media (max-width: 1100px) {
+	.ap-page-cards .ap-page-cards__grid,
+	.ap-page-cards--cols-4 .ap-page-cards__grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+/* ---- phones ---- */
+
+@media (max-width: 640px) {
+	.ap-page-cards__wrap {
+		padding: 56px 20px;
+		gap: 28px;
+	}
+
+	.ap-page-cards .ap-page-cards__title {
+		font-size: 28px;
+	}
+
+	.ap-page-cards .ap-page-cards__intro p {
+		font-size: 16px;
+	}
+
+	.ap-page-cards .ap-page-cards__grid,
+	.ap-page-cards--cols-2 .ap-page-cards__grid,
+	.ap-page-cards--cols-4 .ap-page-cards__grid {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 14px;
+	}
+
+	.ap-page-cards--badge .ap-page-cards__grid,
+	.ap-page-cards--badge.ap-page-cards--cols-4 .ap-page-cards__grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 12px;
+	}
+
+	.ap-page-cards .ap-page-cards__card {
+		padding: 22px 20px;
+	}
+
+	.ap-page-cards--badge .ap-page-cards__card {
+		padding: 20px 12px;
+		gap: 10px;
+	}
+
+	.ap-page-cards__badge {
+		height: 84px;
+	}
+
+	.ap-page-cards__badge img {
+		width: 96px;
+		height: 84px;
+	}
+
+	.ap-page-cards--badge .ap-page-cards__name {
+		font-size: 15px;
+	}
+
+	.ap-page-cards .ap-page-cards__name {
+		font-size: 18px;
+	}
+
+	.ap-page-cards__ctas {
+		flex-direction: column;
+		align-items: stretch;
+		width: 100%;
+	}
+
+	.ap-page-cards .ap-page-cards__btn {
+		width: 100%;
+		white-space: normal;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-page-cards .ap-page-cards__card,
+	.ap-page-cards .ap-page-cards__btn,
+	.ap-page-cards__more svg {
+		transition: none;
+	}
+
+	.ap-page-cards .ap-page-cards__card:hover,
+	.ap-page-cards .ap-page-cards__btn:hover {
+		translate: none;
+	}
+}
+
+
+/* QA 2026-10-29: sections without a gradient are pure white (Joseph, 2026-10-29). The soft variant keeps
+   its colour wash; only the grey ground goes, so it no longer ends in a hard grey-to-white step. */
+.ap-page-cards--soft {
+	background: #fff;
+}

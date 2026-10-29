@@ -224,7 +224,7 @@
 }
 
 @media (max-width:1024px) {
-	.ap-problem-scene .apg-prob-scene {
+	.ap-problem-scene:not(.ap-problem-scene--stack-900):not(.ap-problem-scene--readiness) .apg-prob-scene {
 	height:auto;
 	display:flex;
 	flex-direction:column;
@@ -232,8 +232,7 @@
 	gap:16px;
 	padding-bottom:8px
 }
-
-.ap-problem-scene .apg-prob-img {
+	.ap-problem-scene:not(.ap-problem-scene--stack-900):not(.ap-problem-scene--readiness) .apg-prob-img {
 	position:relative;
 	left:auto;
 	top:auto;
@@ -243,70 +242,122 @@
 	height:auto;
 	aspect-ratio:328/218
 }
-
-.ap-problem-scene .apg-prob-img-2 {
+	.ap-problem-scene:not(.ap-problem-scene--stack-900):not(.ap-problem-scene--readiness) .apg-prob-img-2 {
 	margin:-40px 0 0 auto
 }
-
-.ap-problem-scene .apg-prob-img-1 {
+	.ap-problem-scene:not(.ap-problem-scene--stack-900):not(.ap-problem-scene--readiness) .apg-prob-img-1 {
 	margin-right:auto
 }
-
-.ap-problem-scene .apg-prob-chips-flow {
+	.ap-problem-scene:not(.ap-problem-scene--stack-900):not(.ap-problem-scene--readiness) .apg-prob-chips-flow {
 	display:flex;
 	flex-wrap:wrap;
 	justify-content:center;
 	gap:8px;
 	width:100%
 }
-
-.ap-problem-scene .apg-prob-chip {
+	.ap-problem-scene:not(.ap-problem-scene--stack-900):not(.ap-problem-scene--readiness) .apg-prob-chip {
 	position:relative;
 	left:auto!important;
 	right:auto!important;
 	top:auto!important
 }
-
-
+}
+@media (max-width: 900px) {
+	.ap-problem-scene.ap-problem-scene--stack-900:not(.ap-problem-scene--readiness) .apg-prob-scene {
+	height:auto;
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	gap:16px;
+	padding-bottom:8px
+}
+	.ap-problem-scene.ap-problem-scene--stack-900:not(.ap-problem-scene--readiness) .apg-prob-img {
+	position:relative;
+	left:auto;
+	top:auto;
+	transform:none;
+	width:88%;
+	max-width:440px;
+	height:auto;
+	aspect-ratio:328/218
+}
+	.ap-problem-scene.ap-problem-scene--stack-900:not(.ap-problem-scene--readiness) .apg-prob-img-2 {
+	margin:-40px 0 0 auto
+}
+	.ap-problem-scene.ap-problem-scene--stack-900:not(.ap-problem-scene--readiness) .apg-prob-img-1 {
+	margin-right:auto
+}
+	.ap-problem-scene.ap-problem-scene--stack-900:not(.ap-problem-scene--readiness) .apg-prob-chips-flow {
+	display:flex;
+	flex-wrap:wrap;
+	justify-content:center;
+	gap:8px;
+	width:100%
+}
+	.ap-problem-scene.ap-problem-scene--stack-900:not(.ap-problem-scene--readiness) .apg-prob-chip {
+	position:relative;
+	left:auto!important;
+	right:auto!important;
+	top:auto!important
+}
 }
 
 @media (min-width:1025px) {
-	.ap-problem-scene .apg-prob-chips-flow {
+	.ap-problem-scene:not(.ap-problem-scene--stack-900):not(.ap-problem-scene--readiness) .apg-prob-chips-flow {
 	display:contents
 }
-
-
+}
+@media (min-width: 901px) {
+	.ap-problem-scene.ap-problem-scene--stack-900:not(.ap-problem-scene--readiness) .apg-prob-chips-flow {
+	display:contents
+}
 }
 
 @media (max-width:767px) {
-	.ap-problem-scene h2.apg-h2 {
+	.ap-problem-scene:not(.ap-problem-scene--stack-900) h2.apg-h2 {
 	font-size:28px
 }
-
-.ap-problem-scene .apg-prob-lede {
+	.ap-problem-scene:not(.ap-problem-scene--stack-900) .apg-prob-lede {
 	font-size:16px
 }
-
-.ap-problem-scene .apg-mini-cta {
+	.ap-problem-scene:not(.ap-problem-scene--stack-900) .apg-mini-cta {
 	flex-direction:column;
 	align-items:stretch
 }
-
-.ap-problem-scene .apg-btn {
+	.ap-problem-scene:not(.ap-problem-scene--stack-900) .apg-btn {
 	width:100%
 }
-
-.ap-problem-scene .apg-prob-chip {
+	.ap-problem-scene:not(.ap-problem-scene--stack-900) .apg-prob-chip {
 	width:100%;
 	white-space:normal;
 	align-items:center
 }
-
-.ap-problem-scene .apg-prob-chip span {
+	.ap-problem-scene:not(.ap-problem-scene--stack-900) .apg-prob-chip span {
 	font-size:14px
 }
-
-
+}
+@media (max-width:767px) {
+	.ap-problem-scene.ap-problem-scene--stack-900 h2.apg-h2 {
+	font-size:28px
+}
+	.ap-problem-scene.ap-problem-scene--stack-900 .apg-prob-lede {
+	font-size:16px
+}
+	.ap-problem-scene.ap-problem-scene--stack-900 .apg-mini-cta {
+	flex-direction:column;
+	align-items:stretch
+}
+	.ap-problem-scene.ap-problem-scene--stack-900 .apg-btn {
+	width:100%
+}
+	.ap-problem-scene.ap-problem-scene--stack-900 .apg-prob-chip {
+	width:100%;
+	white-space:normal;
+	align-items:center
+}
+	.ap-problem-scene.ap-problem-scene--stack-900 .apg-prob-chip span {
+	font-size:14px
+}
 }
 
 .ap-problem-scene .apg-prob-chip .ap-inline-icon svg {
@@ -314,3 +365,83 @@
 	height:24px;
 	display:block
 }
+
+/* variant "readiness" (Emergency Preparedness, School Reunification): the scene keeps its
+ * desktop placement down to 901px, then stacks into one column - a larger photo,
+ * full-width callouts, and a stacked card with a full-width button. */
+@media (min-width:901px) {
+	.ap-problem-scene--readiness .apg-prob-chips-flow { display: contents; }
+}
+@media (max-width:900px) {
+	.ap-problem-scene--readiness h2.apg-h2 { font-size: 32px; }
+	.ap-problem-scene--readiness .apg-prob-scene { height: auto; display: flex; flex-direction: column; align-items: stretch; gap: 8px; padding-bottom: 8px; }
+	.ap-problem-scene--readiness .apg-prob-img { position: static; left: auto; top: auto; transform: none; width: 100%; max-width: 547px; height: auto; aspect-ratio: 547 / 364; margin: 0 auto 8px; }
+	.ap-problem-scene--readiness .apg-prob-chips-flow { display: flex; flex-direction: column; align-items: stretch; gap: 8px; width: 100%; }
+	.ap-problem-scene--readiness .apg-prob-chip { position: static; left: auto !important; right: auto !important; top: auto !important; width: 100%; justify-content: flex-start; white-space: normal; font-size: 16px; padding: 8px 12px; }
+	.ap-problem-scene--readiness .apg-prob-chip span { font-size: 16px; }
+	.ap-problem-scene--readiness .apg-mini-cta { flex-direction: column; align-items: flex-start; gap: 16px; }
+	.ap-problem-scene--readiness .apg-btn { width: 100%; }
+}
+@media (max-width:640px) {
+	.ap-problem-scene--readiness h2.apg-h2 { font-size: 28px; }
+}
+
+/* stack-900 variant generated */
+
+/*
+ * variant "eduhub" — the Education hub: live #ap-eduhub-problem (its three sheets
+ * plus the page's phone padding rule), ported whole (selectors re-rooted at
+ * .ap-problem-scene--eduhub). The photo pair and chips sit in a 1120/260 scene
+ * that scales with the width down to 641px; at 640px and below the scene is one
+ * photo and four full-width chips. The colour washes come from the background
+ * props (--apr-bg, and --apr-mbg on phones) instead of URLs in the sheet. Live's
+ * full-bleed width:100vw / margin-left:calc(50% - 50vw) is dropped: the block is
+ * already full width, and 100vw scrolls sideways wherever a scrollbar shows.
+ */
+.ap-problem-scene.ap-problem-scene--eduhub{position:relative;background:#ffffff;overflow:hidden;padding:24px 24px 80px}
+.ap-problem-scene.ap-problem-scene--eduhub *{box-sizing:border-box}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-wash{position:absolute;top:0;left:0;right:0;height:100%;background:var(--apr-bg, none) center/cover no-repeat;pointer-events:none}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-container{position:relative;max-width:1120px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:40px}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-header{max-width:640px;text-align:center;display:flex;flex-direction:column;gap:16px;font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-eyebrow{margin:0;font-weight:800;font-size:14px;line-height:1.2;letter-spacing:.56px;text-transform:uppercase;color:#5044e1}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-h2{margin:0;font-weight:800;font-size:40px;line-height:1.2;color:#25272c}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-body{margin:0;font-weight:400;font-size:18px;line-height:1.5;color:#4a4e5a}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-cards{position:relative;width:100%;max-width:1120px;aspect-ratio:1120/260;margin:0 auto}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-photo{position:absolute;border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(37,39,44,.12)}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-photo img{display:block;width:100%;height:100%;object-fit:cover}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-photo-1{left:23.13%;top:0;width:29.29%;height:83.85%;z-index:1}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-photo-2{left:47.59%;top:16.15%;width:29.29%;height:83.85%;z-index:2}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-chip{position:absolute;z-index:3;display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;border:1px solid;box-shadow:0 2px 24px rgba(255,201,124,.08);font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-size:16px;line-height:1.6;color:#25272c;white-space:nowrap}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-chip img,.ap-problem-scene.ap-problem-scene--eduhub .apr-chip .ap-inline-icon svg{display:block;width:24px;height:24px;flex-shrink:0}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-chip-1{left:13.75%;top:37.69%;border-color:#eff6ff;background:linear-gradient(90deg,rgba(255,255,255,.8),#eff6ff)}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-chip-2{left:63.75%;top:29.62%;border-color:#fff1f3;background:linear-gradient(90deg,rgba(255,255,255,.8),#fff1f3)}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-chip-3{left:20.63%;top:75%;border-color:#effefa;background:linear-gradient(90deg,rgba(255,255,255,.9),#effefa)}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-chip-4{left:68.13%;top:64.23%;border-color:#fdf8e9;background:linear-gradient(90deg,rgba(255,255,255,.9),#fdf8e9)}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-cta{position:relative;z-index:1;display:flex;align-items:flex-end;gap:24px;width:100%;max-width:870px;padding:20px 24px;border:1px solid #c8d2fd;border-radius:16px;background:linear-gradient(38.64deg,#eef2ff 0%,#ffffff 99.9%);font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-cta-content{display:flex;flex:1 1 0;min-width:0;gap:16px;align-items:flex-start}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-cta-icon{width:42px;height:48px;flex-shrink:0;display:block}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-cta-text{display:flex;flex-direction:column;gap:4px;flex:1;min-width:0}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-cta-title{margin:0;font-weight:800;font-size:20px;line-height:1.4;color:#25272c}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-cta-desc{margin:0;font-weight:400;font-size:18px;line-height:1.5;color:#4a4e5a}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-cta-btn{flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;padding:16px;max-width:200px;min-height:48px;border-radius:4px;background:linear-gradient(43deg,#5044e1 0%,#00a991 70.44%);color:#ffffff;font-weight:600;font-size:16px;line-height:1.2;text-decoration:none;white-space:nowrap;box-shadow:0 2px 8px rgba(80,68,225,.25);transition:box-shadow .3s cubic-bezier(.25,.45,.45,.95)}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-cta-btn:hover{box-shadow:0 6px 18px rgba(80,68,225,.4)}
+@media (max-width:900px){
+.ap-problem-scene.ap-problem-scene--eduhub .apr-h2{font-size:30px}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-chip{font-size:13px;padding:6px 10px}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-chip img,.ap-problem-scene.ap-problem-scene--eduhub .apr-chip .ap-inline-icon svg{width:18px;height:18px}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-cta{flex-direction:column;align-items:stretch}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-cta-btn{max-width:none}
+}
+@media (max-width:767px){
+.ap-problem-scene.ap-problem-scene--eduhub{padding-top:48px;padding-bottom:48px}
+}
+@media (max-width:640px){
+.ap-problem-scene.ap-problem-scene--eduhub .apr-wash{background:var(--apr-mbg, var(--apr-bg, none)) center/cover no-repeat}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-cards{aspect-ratio:auto;height:auto;display:flex;flex-direction:column;gap:12px}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-photo{position:static;width:100%;height:auto;aspect-ratio:16/10}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-photo-1{display:none}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-photo img{width:100%;height:100%;object-fit:cover}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-chip{position:static;width:100%;justify-content:flex-start;font-size:14px;padding:12px 14px;border-radius:10px}
+}
+/* The staging theme sets text-wrap:pretty on headings and paragraphs; live wraps plainly. */
+.ap-problem-scene--eduhub :is(h2, p) {text-wrap:wrap}

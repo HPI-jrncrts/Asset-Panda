@@ -1,0 +1,184 @@
+/*
+ * solution-trust — ported from the live .epx-trust section.
+ *
+ * Live's rules re-namespaced from .epx-trust__* / .epx-trev to
+ * .ap-solution-trust__*. The base is Help Desk's sheet; --solution adds the six
+ * solution pages' deeper padding from 901px, and --readiness carries
+ * Emergency Preparedness / School Reunification's taller 110x80 logos in a
+ * row that may wrap. Live's 100vw full-bleed trick is left out.
+ */
+
+.ap-solution-trust,
+.ap-solution-trust * {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+.ap-solution-trust {
+	background: #fff;
+	overflow: hidden;
+	font-family: var(--ap-font-body, 'Manrope', Arial, sans-serif);
+}
+
+.ap-solution-trust__wrap {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 40px;
+	display: flex;
+	gap: 40px;
+	align-items: center;
+	border-top: 1px solid #edeef1;
+}
+
+.ap-solution-trust__label {
+	flex: 0 0 auto;
+	width: 227px;
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1.2;
+	color: #121212;
+}
+
+.ap-solution-trust__g {
+	background: linear-gradient(30.2deg, #5044e1 0%, #00a991 70.44%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+
+.ap-solution-trust__ticker {
+	flex: 1 1 0;
+	min-width: 0;
+}
+
+.ap-solution-trust__grid {
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-items: center;
+	gap: 20px;
+	padding: 0 8px;
+}
+
+.ap-solution-trust__grid img {
+	display: block;
+	width: 120px;
+	height: 60px;
+	object-fit: contain;
+	object-position: center;
+}
+
+.ap-solution-trust__grid .ap-solution-trust__dup { display: none; }
+
+.ap-solution-trust--readiness .ap-solution-trust__grid {
+	flex-wrap: wrap;
+	gap: 24px;
+	padding: 0 12px;
+}
+
+.ap-solution-trust--readiness .ap-solution-trust__grid img {
+	width: 110px;
+	height: 80px;
+}
+
+.ap-solution-trust__grid img.ap-solution-trust__cover { object-fit: cover; }
+
+@keyframes apSolutionTrustUp {
+	from {
+		opacity: 0;
+		transform: translateY(16px);
+	}
+}
+
+@keyframes apSolutionTrustMarquee {
+	to { transform: translateX(-50%); }
+}
+
+/* Scroll reveal: a CSS scroll timeline, staggered per logo (no script). */
+@media (prefers-reduced-motion: no-preference) {
+	.ap-solution-trust .ap-solution-trust__rev {
+		animation: apSolutionTrustUp 1ms linear both;
+		animation-timeline: view();
+		animation-range: entry 5% entry 40%;
+	}
+
+	.ap-solution-trust .ap-solution-trust__rev--d1 { animation-range: entry 9% entry 44%; }
+	.ap-solution-trust .ap-solution-trust__rev--d2 { animation-range: entry 13% entry 48%; }
+	.ap-solution-trust .ap-solution-trust__rev--d3 { animation-range: entry 17% entry 52%; }
+	.ap-solution-trust .ap-solution-trust__rev--d4 { animation-range: entry 21% entry 56%; }
+	.ap-solution-trust .ap-solution-trust__rev--d5 { animation-range: entry 25% entry 60%; }
+}
+
+@media (min-width: 901px) {
+	.ap-solution-trust--solution .ap-solution-trust__wrap { padding: 50px 40px; }
+}
+
+@media (max-width: 900px) {
+	.ap-solution-trust__wrap {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 24px;
+		padding: 32px 40px;
+	}
+
+	.ap-solution-trust__label { width: auto; }
+
+	.ap-solution-trust__ticker {
+		flex: 0 0 auto;
+		width: 100%;
+		overflow: hidden;
+		-webkit-mask-image: linear-gradient(90deg, transparent 0, #000 32px, #000 calc(100% - 32px), transparent 100%);
+		mask-image: linear-gradient(90deg, transparent 0, #000 32px, #000 calc(100% - 32px), transparent 100%);
+	}
+
+	.ap-solution-trust__grid,
+	.ap-solution-trust--readiness .ap-solution-trust__grid {
+		flex-wrap: nowrap;
+		justify-content: flex-start;
+		gap: 0;
+		width: max-content;
+		padding: 0;
+		animation: apSolutionTrustMarquee 18s linear infinite;
+	}
+
+	.ap-solution-trust__grid img { margin-right: 40px; }
+	.ap-solution-trust__grid .ap-solution-trust__dup { display: block; }
+	.ap-solution-trust .ap-solution-trust__rev { animation: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-solution-trust__grid,
+	.ap-solution-trust--readiness .ap-solution-trust__grid {
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 24px 40px;
+		width: auto;
+		animation: none !important;
+	}
+
+	.ap-solution-trust__grid img { margin-right: 0; }
+	.ap-solution-trust__grid .ap-solution-trust__dup { display: none !important; }
+}
+
+@media (max-width: 640px) {
+	.ap-solution-trust__wrap { padding: 28px 20px; }
+
+	.ap-solution-trust__grid img {
+		width: 112px;
+		height: 56px;
+	}
+
+	.ap-solution-trust--readiness .ap-solution-trust__grid img {
+		width: 88px;
+		height: 64px;
+	}
+
+	.ap-solution-trust--solution .ap-solution-trust__label { text-wrap: balance; }
+}
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: a compact band, --ap-section-y-sm top and bottom at every
+ * width (was 40 / 50 / 32 / 28 by breakpoint and variant). */
+.ap-solution-trust .ap-solution-trust__wrap,
+.ap-solution-trust--solution .ap-solution-trust__wrap { padding-top: var(--ap-section-y-sm, 40px); padding-bottom: var(--ap-section-y-sm, 40px); }

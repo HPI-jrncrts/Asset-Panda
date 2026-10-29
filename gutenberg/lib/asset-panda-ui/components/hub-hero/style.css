@@ -387,7 +387,7 @@ to {
 }
 
 .ap-hub-hero .apg-hero-visual {
-	aspect-ratio:393/378
+	aspect-ratio:var(--apg-mratio, 393/378)
 }
 
 
@@ -432,3 +432,178 @@ to {
 @media (max-width: 1024px) {
 	.ap-hub-hero .apg-feats--band { padding: 16px 20px; overflow: hidden; }
 }
+
+/* Live sizes each compliance badge by kind (#ap-gov-hero .apg-badge-*). */
+.ap-hub-hero .apg-badges img.apg-badge-soc2 {width:calc(55.1 * var(--gu));height:calc(70 * var(--gu))}
+.ap-hub-hero .apg-badges img.apg-badge-govramp {width:calc(65.92 * var(--gu));height:calc(66 * var(--gu))}
+.ap-hub-hero .apg-badges img.apg-badge-hipaa {width:calc(101.98 * var(--gu));height:calc(55.39 * var(--gu))}
+@media (max-width:767px) {
+	.ap-hub-hero .apg-badges img.apg-badge-soc2 {width:42px;height:54px}
+	.ap-hub-hero .apg-badges img.apg-badge-govramp {width:50px;height:50px}
+	.ap-hub-hero .apg-badges img.apg-badge-hipaa {width:80px;height:44px}
+}
+
+
+/*
+ * Education hub variant — live #ap-eduhub-hero, ported whole: the section's ten
+ * sheets in source order (selectors re-rooted from the section id; class names and
+ * the !important flags are live's own — its later fix sheets override earlier ones
+ * with them, so they stay to keep that cascade exact). Backdrops arrive as
+ * --apf-bg / --apf-mbg; the root's 100vw full-bleed trick is dropped (the block is
+ * already full width).
+ */
+.ap-hub-hero.ap-hub-hero--eduhub{position:relative;background:#ffffff}
+.ap-hub-hero.ap-hub-hero--eduhub *{box-sizing:border-box}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap{position:relative;display:grid;background-image:var(--apf-bg, none);background-size:cover;background-position:center top;background-repeat:no-repeat}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap>*{grid-area:1/1}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-stage{position:relative;display:block;width:100%;aspect-ratio:1440/560;max-width:1440px;margin:0 auto;overflow:hidden;background:transparent;line-height:0;font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;container-type:inline-size;--u:calc(100cqw / 1440)}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-decor,.ap-hub-hero.ap-hub-hero--eduhub .apf-dash{display:none !important}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-decor{position:absolute;inset:0}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-orb{position:absolute;border-radius:50%}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-orb-white1{left:-0.661%;top:-28.998%;width:98.899%;height:106.908%;background:radial-gradient(circle,rgba(255,255,255,.9) 0%,rgba(255,255,255,0) 70%);filter:blur(40px)}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-orb-violet{left:49.028%;top:31.964%;width:57.104%;height:146.839%;background:radial-gradient(circle,rgba(80,68,225,.55) 0%,rgba(80,68,225,0) 70%);filter:blur(60px)}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-orb-green{left:-24.931%;top:-68.929%;width:57.104%;height:146.839%;background:radial-gradient(circle,rgba(0,169,145,.5) 0%,rgba(0,169,145,0) 70%);filter:blur(60px)}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-orb-whiteglow{left:-13.542%;top:-25.357%;width:89.236%;height:159.464%;background:radial-gradient(circle,rgba(255,255,255,.85) 0%,rgba(255,255,255,0) 70%);filter:blur(50px)}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-orb-whiteupper{left:48.819%;top:-58.214%;width:67.986%;height:121.607%;background:radial-gradient(circle,rgba(255,255,255,.85) 0%,rgba(255,255,255,0) 70%);filter:blur(50px)}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-orb-yellow{left:79.514%;top:33.214%;width:23.819%;height:61.250%;background:radial-gradient(circle,rgba(222,141,20,.45) 0%,rgba(222,141,20,0) 70%);filter:blur(40px)}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-orb-violetsm{left:-10.764%;top:48.036%;width:32.431%;height:83.393%;background:radial-gradient(circle,rgba(80,68,225,.4) 0%,rgba(80,68,225,0) 70%);filter:blur(40px)}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-dash{position:absolute;left:35.833%;top:11.607%;width:64.167%;height:88.750%;overflow:hidden;opacity:.4;-webkit-mask-image:radial-gradient(closest-side,rgba(0,0,0,.9) 0%,rgba(0,0,0,0) 100%);mask-image:radial-gradient(closest-side,rgba(0,0,0,.9) 0%,rgba(0,0,0,0) 100%);animation:apHubHeroEduApfFade 1s cubic-bezier(.25,.45,.45,.95) .05s both}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-dash img{position:absolute;object-fit:fill;border:0;max-width:none;margin:0;top:-26.5%;left:-23.38%;width:123.38%;height:149.06%}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-photo{position:absolute}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-photo img{position:absolute;object-fit:fill;border:0;max-width:none;margin:0}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-photo1{left:51.875%;top:14.464%;width:28.958%;height:100.000%;animation:apHubHeroEduApfRise .8s cubic-bezier(.25,.45,.45,.95) .1s both}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-photo1 img{left:-0.04%;top:0;width:100.08%;height:111.79%}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-photo2{left:64.024%;top:36.429%;width:25.278%;height:78.036%;animation:apHubHeroEduApfRise .8s cubic-bezier(.25,.45,.45,.95) .2s both}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-photo2 img{left:0;top:0;width:100%;height:124.94%}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-photo3{left:44.517%;top:37.857%;width:26.806%;height:76.607%;animation:apHubHeroEduApfRise .8s cubic-bezier(.25,.45,.45,.95) .3s both}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-photo3 img{left:-0.09%;top:0;width:100.17%;height:135.2%}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-veil{position:absolute;left:0;right:0;bottom:0;height:66.429%;background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0) 25.86%,rgba(255,255,255,.846) 72.753%,rgba(255,255,255,1) 100%);left:calc(50% - 50vw);right:auto;width:100vw}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-content{position:absolute;left:max(11.111%,calc(50% - 560px));top:52.500%;width:min(38.889%,560px);transform:translateY(-50%);display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:16px;line-height:normal}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-eyebrow{margin:0;width:100%;font-weight:800;line-height:1.2;color:#5044e1;font-size:14px;letter-spacing:.56px;text-transform:uppercase;opacity:0;animation:apHubHeroEduApfRiseText .6s cubic-bezier(.25,.45,.45,.95) .15s forwards}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-headline{margin:0;width:100%;font-weight:800;line-height:1.2;color:#25272c;font-size:48px;opacity:0;animation:apHubHeroEduApfRiseText .6s cubic-bezier(.25,.45,.45,.95) .28s forwards}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-headline .apf-grad{background-image:linear-gradient(38.8deg,#5044e1 0%,#00a991 70.44%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-body{margin:0;width:100%;font-weight:400;line-height:1.5;color:#5b616e;font-size:18px;opacity:0;animation:apHubHeroEduApfRiseText .6s cubic-bezier(.25,.45,.45,.95) .4s forwards}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-cta-row{display:flex;gap:24px;align-items:center;padding-top:16px;width:100%;opacity:0;animation:apHubHeroEduApfRiseText .6s cubic-bezier(.25,.45,.45,.95) .52s forwards}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-btn.ap-btn-primary{display:inline-flex;align-items:center;justify-content:center;padding:16px 16px;border-radius:4px;background:linear-gradient(90deg,#5044e1 0%,#00a991 100%);color:#ffffff;font-weight:700;font-size:16px;line-height:1;text-decoration:none;border:0;white-space:nowrap;box-shadow:0 2px 8px rgba(80,68,225,.25);transition:box-shadow .3s cubic-bezier(.25,.45,.45,.95),background .3s cubic-bezier(.25,.45,.45,.95)}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-btn.ap-btn-primary:hover{box-shadow:0 6px 18px rgba(80,68,225,.4);background:linear-gradient(90deg,#4438c9 0%,#00937f 100%)}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-badges{display:flex;gap:28px;align-items:center}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-badge-soc2{width:55.1px;height:70px;object-fit:contain}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-badge-govramp{width:66px;height:66px;object-fit:contain}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feats-band{padding:16px 24px;border-bottom:1px solid #e6e9f2;background:#ffffff}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feats{display:flex;justify-content:center;flex-wrap:wrap;gap:120px;max-width:1440px;margin:0 auto}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feat{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;color:#25272c}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feat img{width:24px;height:24px;flex-shrink:0}
+@keyframes apHubHeroEduApfFade{from{opacity:0}
+to{opacity:.4}
+}
+@keyframes apHubHeroEduApfRise{from{opacity:0;transform:translateY(14px)}
+to{opacity:1;transform:translateY(0)}
+}
+@keyframes apHubHeroEduApfRiseText{from{opacity:0;transform:translateY(10px)}
+to{opacity:1;transform:translateY(0)}
+}
+@media(max-width:767px){.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap{display:flex;flex-direction:column}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap{background:none}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-stage{order:2;margin:0;max-width:none;aspect-ratio:860/1864;height:auto;min-height:0;max-height:none;background-image:var(--apf-mbg, none);background-size:cover;background-position:center}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-photo1,.ap-hub-hero.ap-hub-hero--eduhub .apf-photo2,.ap-hub-hero.ap-hub-hero--eduhub .apf-photo3,.ap-hub-hero.ap-hub-hero--eduhub .apf-veil{display:none}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-decor,.ap-hub-hero.ap-hub-hero--eduhub .apf-photo2,.ap-hub-hero.ap-hub-hero--eduhub .apf-photo3{display:none}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-photo1{position:absolute;left:0;top:0;width:100%;height:100%}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-photo1 img{left:0;top:0;width:100%;height:100%;object-fit:cover;object-position:top center}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-veil{height:45%}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-content{order:1;position:static;transform:none;width:100%;left:auto;top:auto;padding:28px 20px 24px;gap:14px;align-items:center;text-align:center}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-eyebrow{text-align:center;font-size:12px}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-headline{text-align:center;font-size:28px}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-body{text-align:center;font-size:16px}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-cta-row{flex-direction:column;gap:16px;padding-top:8px;align-items:center}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-btn.ap-btn-primary{width:100%}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-badges{justify-content:center}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feats{flex-direction:column;align-items:flex-start;gap:12px}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feats-band{padding:16px 20px}
+}
+@media (max-width:767px){.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap{height:auto;min-height:0;background-image:var(--apf-mbg, none),var(--apf-mbg, none);background-size:100% auto,cover;background-position:center bottom,center top;background-repeat:no-repeat}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-stage{display:block;position:static;inset:auto;transform:none;width:100%;height:auto;min-height:0;max-height:none;margin:0;aspect-ratio:393/480;background:none}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-stage *{display:none!important}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-eyebrow{display:block}
+}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feat.apf-dup{display:none}
+@media(max-width:767px){.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feats-band{overflow:hidden}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feats{flex-direction:row;flex-wrap:nowrap;width:max-content;justify-content:flex-start;gap:0}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feat{margin-right:40px}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feat.apf-dup{display:flex}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feats{animation:apHubHeroEduApfChips 14s linear infinite}
+@keyframes apHubHeroEduApfChips{from{transform:translateX(0)}
+to{transform:translateX(-50%)}
+}
+}
+@media (min-width:768px){.ap-hub-hero.ap-hub-hero--eduhub{overflow-x:clip;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap{width:100%; max-width:none; overflow:hidden; background-size:cover; background-position:center top; background-repeat:no-repeat;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-stage{width:100%; max-width:none; margin:0; aspect-ratio:1440 / 560; height:auto; border:0; outline:0; box-shadow:none;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-veil{left:0; right:0; width:100%;}
+}
+@media (min-width:768px) and (max-width:1100px){.ap-hub-hero.ap-hub-hero--eduhub .apf-stage{aspect-ratio:auto; min-height:520px;}
+}
+@media (max-width:767px){.ap-hub-hero.ap-hub-hero--eduhub{overflow-x:hidden;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-stage{width:100%; max-width:none; margin:0;}
+}
+@media (max-width:767px){.ap-hub-hero.ap-hub-hero--eduhub{ overflow-x:hidden; background:#ffffff;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap{position:relative; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; width:100%; max-width:none; min-height:calc(100svh - 72px); margin:0; padding:0; background-image: var(--apf-mbg, none) !important; background-repeat:no-repeat !important; background-size:cover !important; background-position:center bottom !important; overflow:hidden;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-stage{display:none !important;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-photo1,.ap-hub-hero.ap-hub-hero--eduhub .apf-photo2,.ap-hub-hero.ap-hub-hero--eduhub .apf-photo3,.ap-hub-hero.ap-hub-hero--eduhub .apf-decor,.ap-hub-hero.ap-hub-hero--eduhub .apf-dash,.ap-hub-hero.ap-hub-hero--eduhub .apf-veil{display:none !important;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-content{position:relative !important; order:1; left:auto !important; right:auto !important; top:auto !important; transform:none !important; width:100% !important; max-width:460px; margin:0 auto; padding:26px 20px 0; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; gap:14px; text-align:center; background:transparent !important; z-index:5;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-eyebrow{display:none;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-headline{width:100%; margin:0; font-size:clamp(27px,7vw,32px); line-height:1.16; text-align:center; background:transparent !important;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-body{width:100%; max-width:410px; margin:4px auto 0; font-size:clamp(15px,4vw,17px); line-height:1.5; text-align:center; background:transparent !important;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-cta-row{width:100%; margin:0; padding-top:8px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; background:transparent !important;}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-btn.ap-btn-primary{width:100%; max-width:400px; min-height:49px; margin:0; display:flex; align-items:center; justify-content:center;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-badges{display:flex; align-items:center; justify-content:center; gap:24px; margin:0 auto; background:transparent !important;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-badge-soc2{width:55px; height:70px; object-fit:contain;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-badge-govramp{width:66px; height:66px; object-fit:contain;}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feats-band{position:relative; width:100%; margin:0; padding:16px 20px; overflow:hidden; background:#ffffff; z-index:10;}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feats{flex-direction:row; flex-wrap:nowrap; width:max-content; justify-content:flex-start; gap:0;}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feat{margin-right:40px;}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feat.apf-dup{display:flex;}
+}
+@media (max-width:767px) and (max-height:750px){.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap{min-height:680px;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-content{padding-top:18px; gap:10px;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-headline{font-size:26px;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-body{font-size:15px; line-height:1.4;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-cta-row{gap:12px; padding-top:4px;}
+}
+@media (max-width:380px){.ap-hub-hero.ap-hub-hero--eduhub .apf-content{padding-left:16px; padding-right:16px;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-headline{font-size:25px;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-body{font-size:14px;}
+}
+@media (max-width:767px){.ap-hub-hero.ap-hub-hero--eduhub{--ap-mobile-header-h:72px; --ap-mobile-feats-h:58px;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap{height:calc( 100svh - var(--ap-mobile-header-h) - var(--ap-mobile-feats-h) ) !important; min-height:0 !important; max-height:none !important; background-position:center bottom !important; overflow:hidden;}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feats-band{height:var(--ap-mobile-feats-h); min-height:var(--ap-mobile-feats-h); padding:0 20px !important; display:flex; align-items:center; background:#ffffff; overflow:hidden;}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feats{height:100%; align-items:center;}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feat{height:100%; display:flex; align-items:center; white-space:nowrap;}
+}
+@media (max-width:767px){.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap{background-position:center calc(100% + 45px) !important;}
+}
+@media (max-width:767px){.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap{height:max( calc( 100svh - var(--ap-mobile-header-h) - var(--ap-mobile-feats-h) ), 680px ) !important; min-height:680px !important; background-position: center calc(100% + 45px) !important;}
+}
+@media (max-width:390px){.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap{height:max( calc( 100svh - var(--ap-mobile-header-h) - var(--ap-mobile-feats-h) ), 700px ) !important; min-height:700px !important;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-content{padding-top:18px; gap:10px;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-headline{font-size:25px;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-body{font-size:14px; line-height:1.42;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-cta-row{gap:12px; padding-top:4px;}
+}
+@media (max-width:430px){.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap{height:auto !important; min-height:780px !important; max-height:none !important; background-position: center calc(100% + 105px) !important;}
+}
+@media (max-width:390px){.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap{min-height:800px !important; background-position: center calc(100% + 120px) !important;}
+}
+@media (max-width:767px){.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap{background-image:var(--apf-mbg, none) !important; background-size:cover !important; background-position:center bottom !important; background-repeat:no-repeat !important;}
+}
+@media (max-width:767px){.ap-hub-hero.ap-hub-hero--eduhub .apf-eyebrow{display:block!important}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap{height:auto!important;min-height:0!important;padding-bottom:calc(100vw * 0.967 + 8px)!important;background-image:var(--apf-mbg, none),var(--apf-mbg, none)!important;background-size:100% auto,cover!important;background-position:center bottom,center top!important;background-repeat:no-repeat!important}
+}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-feat-mask {display:inline-block;width:24px;height:24px;flex-shrink:0;background:linear-gradient(38.8deg,#5044e1 0%,#00a991 70.44%)}
+.ap-hub-hero--eduhub :is(h1, p) {text-wrap:wrap}
+/* Live's site-wide Additional CSS (wp-custom-css) puts the Education hero copy back in flow
+ * between 768 and 939px, which grows the stage past its 520px floor. */
+@media (min-width:768px) and (max-width:939px) {
+	.ap-hub-hero.ap-hub-hero--eduhub .apf-content {position:relative !important;top:auto !important;bottom:auto !important;transform:none !important;align-self:center}
+}
+/* Live's page script repaints every primary button with this gradient (inline style). */
+.ap-hub-hero.ap-hub-hero--eduhub .apf-cta-row .ap-btn.ap-btn-primary {background-image:linear-gradient(54.33deg,#5044e1 0%,#00a991 70.44%)}

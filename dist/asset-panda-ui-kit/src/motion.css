@@ -1,0 +1,300 @@
+/*
+ * Asset Panda UI — motion layer.
+ *
+ * The shared vocabulary for scroll reveals and hover micro-interactions.
+ * Component-specific @keyframes stay in that component's style.css; only
+ * cross-cutting primitives live here.
+ *
+ * All values come from tokens.css (--ap-dur-*, --ap-ease-*, --ap-reveal-*).
+ * Never hard-code a duration or easing in a component.
+ *
+ * SAFETY CONTRACT
+ *   Every element renders VISIBLE AT REST. The hidden pre-reveal state applies
+ *   only under `html.ap-motion`, a class motion.js sets at runtime. So if the
+ *   script fails to load, errors, or is blocked, content stays visible — a
+ *   broken observer can never leave a section invisible.
+ *
+ *   motion.js does not set that class when the user prefers reduced motion, so
+ *   the media query below is a second line of defence, not the only one.
+ *
+ * USAGE
+ *   <div data-ap-reveal>            fade + rise
+ *   <div data-ap-reveal="fade">     fade only
+ *   <div data-ap-reveal="left">     fade + slide from left
+ *   <div data-ap-reveal data-ap-reveal-delay="3">   stagger step 3
+ *
+ *   Do NOT put data-ap-reveal on above-the-fold content: motion.js is a footer
+ *   script, so first-screen elements would flash. Heroes animate on load via
+ *   their own component CSS instead.
+ */
+
+/* ---- Scroll reveal ----
+ * Three states, and the reveal only owns the element while it is hidden or
+ * moving:
+ *   hidden     html.ap-motion [data-ap-reveal]:not(.ap-inview)
+ *   revealing  .ap-inview without .ap-reveal-done (the reveal transition runs)
+ *   done       .ap-reveal-done — NOTHING here overrides the component any more.
+ * The done state used to force `transition: none` and `translate: none` at a
+ * higher specificity than any component rule, so a revealed card's own hover
+ * (a lift, a colour fill) snapped instead of easing, and a hover `translate`
+ * never applied at all. */
+
+html.ap-motion [data-ap-reveal]:not(.ap-inview) {
+	opacity: 0;
+	translate: 0 var(--ap-reveal-distance);
+}
+
+/* Direction variants. `translate` (not `transform`) so a component is free to
+ * own `transform` for its own purposes without the two fighting. */
+html.ap-motion [data-ap-reveal="down"]:not(.ap-inview) {
+	translate: 0 calc(var(--ap-reveal-distance) * -1);
+}
+html.ap-motion [data-ap-reveal="left"]:not(.ap-inview) {
+	translate: calc(var(--ap-reveal-distance) * -1) 0;
+}
+html.ap-motion [data-ap-reveal="right"]:not(.ap-inview) {
+	translate: var(--ap-reveal-distance) 0;
+}
+html.ap-motion [data-ap-reveal="fade"]:not(.ap-inview) {
+	translate: none;
+}
+
+/* Hidden and revealing: the reveal's own transition, from the hidden state to
+ * whatever the component says at rest. Dropped (with the compositor hint) once
+ * the reveal has run, so the component's own transitions take over again. */
+html.ap-motion [data-ap-reveal]:not(.ap-reveal-done) {
+	transition:
+		opacity var(--ap-dur-slow) var(--ap-ease-out),
+		translate var(--ap-dur-slow) var(--ap-ease-out);
+	transition-delay: var(--ap-reveal-delay, 0ms);
+	will-change: opacity, translate;
+}
+
+/* ---- Scroll-driven entrance (QA 2026-10-28) ----
+ * motion.js marks the content blocks of every section below the first screen
+ * with [data-ap-sr] (and --ap-sr-i, its place in the row) when the browser
+ * supports scroll-driven animations. Each block rises 28px and fades in over
+ * the first 220px of scroll after its top edge enters the viewport — tied to
+ * the scroll position, so it glides with the page instead of popping when a
+ * timer fires; siblings start 40px of scroll apart. Ends on transform:none /
+ * opacity:1 so nothing is left holding a stacking context or a containing
+ * block. Browsers without view timelines get the one-shot reveal above. */
+@keyframes apScrollIn {
+	from {
+		opacity: 0;
+		transform: translateY(28px);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+@supports (animation-timeline: view()) {
+	html.ap-motion.ap-sdriven [data-ap-sr] {
+		animation: apScrollIn linear both;
+		animation-timeline: view();
+		animation-range: cover calc(var(--ap-sr-i, 0) * 40px) cover calc(220px + var(--ap-sr-i, 0) * 40px);
+	}
+}
+
+/* ---- Stagger ----
+ * Set by motion.js from data-ap-reveal-delay, or authored directly in markup.
+ * Steps are multiples of --ap-stagger-step so the rhythm stays consistent. */
+[data-ap-reveal-delay="1"] { --ap-reveal-delay: calc(var(--ap-stagger-step) * 1); }
+[data-ap-reveal-delay="2"] { --ap-reveal-delay: calc(var(--ap-stagger-step) * 2); }
+[data-ap-reveal-delay="3"] { --ap-reveal-delay: calc(var(--ap-stagger-step) * 3); }
+[data-ap-reveal-delay="4"] { --ap-reveal-delay: calc(var(--ap-stagger-step) * 4); }
+[data-ap-reveal-delay="5"] { --ap-reveal-delay: calc(var(--ap-stagger-step) * 5); }
+[data-ap-reveal-delay="6"] { --ap-reveal-delay: calc(var(--ap-stagger-step) * 6); }
+
+/* ---- Hover micro-interactions ----
+ * Opt-in utilities. `transform` is deliberately untouched: scroll entrances own
+ * it, and animating both from two places is how hover states start fighting
+ * reveals. These animate `translate` / `scale` / `box-shadow` only.
+ */
+
+/* Every channel on the same duration and curve (the house hover standard):
+ * colours finishing in half the time of the lift read as two separate moves. */
+[data-ap-hover] {
+	transition:
+		translate var(--ap-dur-base) var(--ap-ease-standard),
+		scale var(--ap-dur-base) var(--ap-ease-standard),
+		box-shadow var(--ap-dur-base) var(--ap-ease-standard),
+		background-color var(--ap-dur-base) var(--ap-ease-standard),
+		border-color var(--ap-dur-base) var(--ap-ease-standard),
+		color var(--ap-dur-base) var(--ap-ease-standard);
+}
+@media (hover: hover) {
+	[data-ap-hover="lift"]:hover {
+		translate: 0 -4px;
+		box-shadow: var(--ap-shadow-md);
+	}
+	[data-ap-hover="grow"]:hover {
+		scale: 1.02;
+	}
+	[data-ap-hover="nudge"]:hover {
+		translate: 4px 0;
+	}
+}
+
+/* ---- Focus rings: keyboard only ----
+ * The theme's `:where(.wp-site-blocks :focus)` draws a 2px solid outline on
+ * ANY focused element, and Chrome focuses a <summary> or <button> on a mouse
+ * click — so every clicked FAQ row, slider arrow, dot or tab sat in a square
+ * box until the next click elsewhere. Keep the ring for keyboard users only
+ * (:focus-visible still matches the theme rule); mouse and touch show nothing.
+ */
+.wp-site-blocks :focus:not(:focus-visible) {
+	outline: none;
+}
+
+/* ---- CTA hover: highlight + edge refraction (QA 2026-10-29, Joseph) ----
+ * Replaces the liquid fill ("instead of liquid fill up, let's do this simple highlight"). motion.js tags every
+ * green outline CTA .ap-cta-outline and every gradient CTA .ap-cta-grad, and (unless reduced motion) adds one SVG:
+ *  - Highlight (dev.to #7, Bootstrap 4 buttons): the outline button fills green and its text turns white over
+ *    .15s ease-in-out; the gradient button deepens a step (the SVG's shade layer fades in under the label).
+ *  - Refraction (dev.to #10, "Button N° 045"): a light in the brand colours (indigo → white → teal across the
+ *    button) runs once around the button's edge on hover — a dash 28% of the measured perimeter, moved from before
+ *    the path's start to past its end over 1s ease-in-out — and runs back on leave.
+ * The SVG is z-index -1 inside the button's own stacking context: above its background, below its label.
+ */
+.ap-cta-grad,
+.ap-cta-outline {
+	isolation: isolate;
+}
+.ap-cta-outline {
+	transition:
+		color 0.15s ease-in-out,
+		background-color 0.15s ease-in-out,
+		border-color 0.15s ease-in-out,
+		box-shadow 0.15s ease-in-out;
+}
+/* Components size and nudge the icons inside their buttons (`.btn svg { width: 16px }`, arrows that slide on
+ * hover); the effect layer opts out of all of it. */
+.ap-cta-grad > svg.ap-cta-fx,
+.ap-cta-outline > svg.ap-cta-fx {
+	position: absolute !important;
+	inset: calc(-1 * var(--ap-cta-bw, 0px)) !important; /* the border box, so the light runs on the border itself */
+	z-index: -1 !important;
+	display: block !important;
+	width: auto !important;
+	height: auto !important;
+	max-width: none !important;
+	min-width: 0 !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	flex: none !important;
+	transform: none !important;
+	translate: none !important;
+	rotate: none !important;
+	scale: none !important;
+	opacity: 1 !important;
+	color: inherit;
+	overflow: visible;
+	pointer-events: none;
+}
+.ap-cta-fx__shade {
+	fill: rgb(20, 16, 60);
+	opacity: 0;
+	transition: opacity 0.15s ease-in-out;
+}
+.ap-cta-outline .ap-cta-fx__shade {
+	display: none;
+}
+.ap-cta-fx__ray {
+	fill: none;
+	stroke: url(#ap-cta-ray);
+	stroke-width: 2;
+	stroke-linecap: round;
+	stroke-dasharray: calc(var(--ap-cta-p, 400px) * 0.28) calc(var(--ap-cta-p, 400px) * 2);
+	stroke-dashoffset: calc(var(--ap-cta-p, 400px) * 0.28);
+	filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.75));
+	transition: stroke-dashoffset 1s ease-in-out;
+}
+/* Overlays some gradient buttons already fade in on hover go beneath the SVG. */
+.ap-cta-grad::before,
+.ap-cta-grad > .ap-grad-hov-ov {
+	z-index: -2;
+}
+@media (hover: hover) {
+	.ap-cta-grad:hover .ap-cta-fx__ray,
+	.ap-cta-outline:hover .ap-cta-fx__ray,
+	.ap-cta-grad:focus-visible .ap-cta-fx__ray,
+	.ap-cta-outline:focus-visible .ap-cta-fx__ray {
+		stroke-dashoffset: calc(var(--ap-cta-p, 400px) * -1);
+	}
+	.ap-cta-grad:hover .ap-cta-fx__shade,
+	.ap-cta-grad:focus-visible .ap-cta-fx__shade {
+		opacity: 0.14;
+	}
+}
+/* The outline highlight. Four classes beat each component's own outline hover; tagged buttons fill green with
+ * white text (also under reduced motion, without the SVG). */
+@media (hover: hover) {
+	.ap-cta-outline.ap-cta-outline.ap-cta-outline.ap-cta-outline:hover,
+	.ap-cta-outline.ap-cta-outline.ap-cta-outline.ap-cta-outline:focus-visible {
+		background-color: var(--ap-brand-green, #00a991) !important;
+		background-image: none !important;
+		border-color: var(--ap-brand-green, #00a991) !important;
+		color: #fff !important;
+	}
+	.ap-cta-outline.ap-cta-outline.ap-cta-outline.ap-cta-outline:hover *:not(.ap-cta-fx):not(.ap-cta-fx *),
+	.ap-cta-outline.ap-cta-outline.ap-cta-outline.ap-cta-outline:focus-visible *:not(.ap-cta-fx):not(.ap-cta-fx *) {
+		color: #fff !important;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.ap-cta-outline {
+		transition: none;
+	}
+}
+
+/* ---- Section reveals off on the solution, hub, product and Ursa page families (QA 2026-10-29, Joseph:
+ * "remove the scroll behavior on the sections" — calibration, education, every hub, ursa-steps) ----
+ * motion.js adds html.ap-noreveal on any page whose hero is a solution/hub/assist/orbit/vertical/readiness hero and
+ * strips every data-ap-reveal there (so the one-shot entrances never run and autoReveal stays out). The scroll-LINKED
+ * entrances some components author with animation-timeline: view() (their __rev / .epx-drev / .sp-prev elements, and
+ * the dashboard tips' fade) are retimed to a normal timeline: a 1 ms "both"-filled run ends in the visible state at
+ * load, while loops on the same element (floats) keep running. Hero card entrances (.epx-hv__rev) are time-based and
+ * untouched. */
+html.ap-noreveal [class*="__rev"],
+html.ap-noreveal .epx-drev,
+html.ap-noreveal .epx-tip,
+html.ap-noreveal .sp-prev {
+	animation-timeline: auto !important;
+	animation-range: normal !important;
+}
+/* Their entrance keyframes end in the visible state; keep that end state (some authored the run without a fill
+ * mode because a scroll timeline never "ends"), and pin the ones whose pre-state is a dimmed base opacity. */
+html.ap-noreveal [class*="__rev"],
+html.ap-noreveal .epx-drev,
+html.ap-noreveal .epx-tip,
+html.ap-noreveal .sp-prev {
+	animation-fill-mode: both !important;
+}
+/* (No opacity pin: the entrance keyframes only set a start state, so each element settles at its own designed
+ * opacity — the solution dashboards' table rests at .4 under the gradient, QA 2026-10-29.) */
+
+/* ---- Reduced motion ----
+ * Belt and braces: motion.js already declines to add .ap-motion, so the reveal
+ * pre-state never applies. This also neutralises hover transitions and any
+ * component keyframes. (The liquid markup is never injected under reduced motion,
+ * so each component's plain hover fill applies.)
+ */
+@media (prefers-reduced-motion: reduce) {
+	html.ap-motion [data-ap-reveal]:not(.ap-reveal-done) {
+		opacity: 1;
+		translate: none;
+		transition: none;
+	}
+	html.ap-motion.ap-sdriven [data-ap-sr] {
+		animation: none;
+	}
+	[data-ap-hover] {
+		transition: none;
+	}
+	[data-ap-hover]:hover {
+		translate: none;
+		scale: none;
+	}
+}

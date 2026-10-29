@@ -1,0 +1,97 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/assist-problem",
+	"title": "AP Assist Problem",
+	"category": "design",
+	"icon": "warning",
+	"description": "Help desk problem section: centred heading over a fixed 606x400 art frame (blurred backdrop, ring, the panda, the UrsaAI orb and floating feature chips) beside a copy column with a sub-heading, paragraphs and bullets. Below 701px the copy moves above the frame, which scales as one piece. Live: .epx-prob on /solutions/help-desk-ticketing/ (rules ported). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"title_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"sub_title": {
+			"type": "string",
+			"default": ""
+		},
+		"sub_title_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"body_size": {
+			"type": "string",
+			"default": "sm",
+			"enum": [
+				"sm",
+				"md"
+			]
+		},
+		"heading": {
+			"type": "string",
+			"default": "above",
+			"enum": [
+				"above",
+				"beside"
+			]
+		},
+		"body": {
+			"type": "string",
+			"default": ""
+		},
+		"bullets": {
+			"type": "array",
+			"default": []
+		},
+		"blur": {
+			"type": "string",
+			"default": ""
+		},
+		"ring": {
+			"type": "string",
+			"default": ""
+		},
+		"panda": {
+			"type": "string",
+			"default": ""
+		},
+		"panda_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"orb": {
+			"type": "string",
+			"default": ""
+		},
+		"chips": {
+			"type": "array",
+			"default": []
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

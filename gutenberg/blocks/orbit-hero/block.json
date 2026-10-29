@@ -1,0 +1,81 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/orbit-hero",
+	"title": "AP Orbit Hero",
+	"category": "design",
+	"icon": "cover-image",
+	"description": "Platform hero: copy and two buttons beside the panda holding the assistant orb, with labelled badges orbiting it and a chip strip below. Live: .apx-hero on /asset-intelligence-platform/. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"title_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_label": {
+			"type": "string",
+			"default": "Free Demo"
+		},
+		"cta_url": {
+			"type": "string",
+			"default": "/get-a-demo/"
+		},
+		"secondary_label": {
+			"type": "string",
+			"default": ""
+		},
+		"secondary_url": {
+			"type": "string",
+			"default": ""
+		},
+		"panda": {
+			"type": "string",
+			"default": ""
+		},
+		"panda_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"orb": {
+			"type": "string",
+			"default": ""
+		},
+		"badges": {
+			"type": "array",
+			"default": []
+		},
+		"features": {
+			"type": "array",
+			"default": []
+		},
+		"chat": {
+			"type": "object",
+			"default": {}
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

@@ -1,0 +1,21 @@
+diff --git a/ui/components/site-header/render.php b/ui/components/site-header/render.php
+index 4f9ccea..d605fbc 100644
+--- a/ui/components/site-header/render.php
++++ b/ui/components/site-header/render.php
+@@ -650,6 +650,16 @@ $menu_id  = 'ap-site-header-menu';
+ 					<a class="ap-mobile-sales" href="<?php echo esc_url( 'tel:' . $tel ); ?>"><?php echo esc_html( $phone ); ?></a>
+ 				<?php endif; ?>
+ 			</div>
++
++			<?php // Phones have no header login icon, so the drawer ends with the same logins as the desktop menu. ?>
++			<?php if ( $login_links || '' !== trim( (string) $props['login_url'] ) ) : ?>
++				<div class="ap-mobile-menu-login">
++					<p>Log in</p>
++					<?php foreach ( ( $login_links ? $login_links : array( array( 'label' => 'Log in', 'url' => $props['login_url'] ) ) ) as $entry ) : ?>
++						<a href="<?php echo esc_url( $entry['url'] ); ?>"><?php echo esc_html( $entry['label'] ); ?><?php if ( ! empty( $entry['note'] ) ) : ?><small><?php echo esc_html( $entry['note'] ); ?></small><?php endif; ?></a>
++					<?php endforeach; ?>
++				</div>
++			<?php endif; ?>
+ 		</nav>
+ 	</div>
+ </div>

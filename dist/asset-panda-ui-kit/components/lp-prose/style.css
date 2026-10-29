@@ -1,0 +1,402 @@
+/*
+ * lp-prose — the reading type of the long-form pages.
+ *
+ * A centred 760px column (960px for wide tables): 18px / 1.7 body in slate,
+ * h2 30px / 800, h3 22px / 700, indigo links underlined, lists with brand
+ * dots and numbers, ruled tables and rounded pictures. Each section is one
+ * heading and its text; the page-toc panel scrolls to the heading, which
+ * keeps clear of the sticky site header with scroll-margin.
+ */
+
+.ap-lp-prose,
+.ap-lp-prose * {
+	box-sizing: border-box;
+}
+
+.ap-lp-prose {
+	width: 100%;
+	padding: 20px 24px;
+	background: var(--ap-white);
+	font-family: var(--ap-font-body);
+	font-size: 18px;
+	font-weight: var(--ap-weight-body);
+	line-height: 1.7;
+	letter-spacing: normal;
+	color: var(--ap-slate-700);
+}
+
+.ap-lp-prose--space-start {
+	padding-top: 56px;
+}
+
+.ap-lp-prose--space-end {
+	padding-bottom: 96px;
+}
+
+.ap-lp-prose__inner {
+	width: 100%;
+	max-width: 760px;
+	margin: 0 auto;
+}
+
+.ap-lp-prose--wide .ap-lp-prose__inner {
+	max-width: 960px;
+}
+
+.ap-lp-prose--panel .ap-lp-prose__inner {
+	padding: 32px 36px;
+	border: 1px solid var(--ap-indigo-100);
+	border-radius: var(--ap-radius-xl);
+	background: linear-gradient(180deg, var(--ap-indigo-50) 0%, var(--ap-white) 100%);
+}
+
+.ap-lp-prose :where(h2, h3, h4, h5, h6, p, li, td, th, figcaption) {
+	text-wrap: pretty;
+}
+
+/* ---- headings ---- */
+.ap-lp-prose .ap-lp-prose__eyebrow {
+	margin: 0 0 10px;
+	color: var(--ap-text-eyebrow);
+	font-size: 14px;
+	font-weight: var(--ap-weight-eyebrow);
+	line-height: 1.2;
+	letter-spacing: .06em;
+	text-transform: uppercase;
+}
+
+.ap-lp-prose .ap-lp-prose__title,
+.ap-lp-prose .ap-lp-prose__body :where(h3, h4, h5, h6) {
+	scroll-margin-top: 120px;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	letter-spacing: normal;
+	text-transform: none;
+}
+
+.ap-lp-prose .ap-lp-prose__title {
+	margin: 24px 0 16px;
+	font-size: 30px;
+	font-weight: var(--ap-weight-heading);
+	line-height: 1.25;
+	letter-spacing: -.4px;
+}
+
+.ap-lp-prose--panel .ap-lp-prose__title {
+	margin-top: 0;
+}
+
+.ap-lp-prose h3.ap-lp-prose__title {
+	font-size: 24px;
+	font-weight: 700;
+	letter-spacing: normal;
+}
+
+.ap-lp-prose__anchor {
+	display: block;
+	scroll-margin-top: 120px;
+}
+
+.ap-lp-prose .ap-lp-prose__body h3 {
+	margin: 32px 0 10px;
+	font-size: 22px;
+	font-weight: 700;
+	line-height: 1.35;
+}
+
+.ap-lp-prose .ap-lp-prose__body h4 {
+	margin: 28px 0 8px;
+	font-size: 19px;
+	font-weight: 700;
+	line-height: 1.4;
+}
+
+.ap-lp-prose .ap-lp-prose__body :where(h5, h6) {
+	margin: 24px 0 8px;
+	font-size: 17px;
+	font-weight: 700;
+	line-height: 1.4;
+}
+
+/* ---- text ---- */
+.ap-lp-prose .ap-lp-prose__body > :first-child {
+	margin-top: 0;
+}
+
+.ap-lp-prose .ap-lp-prose__body > :last-child {
+	margin-bottom: 0;
+}
+
+.ap-lp-prose .ap-lp-prose__body p {
+	margin: 0 0 18px;
+	color: var(--ap-slate-700);
+	font-size: inherit;
+	line-height: inherit;
+}
+
+.ap-lp-prose--lead .ap-lp-prose__body,
+.ap-lp-prose--lead .ap-lp-prose__body p {
+	color: var(--ap-slate-900);
+	font-size: 20px;
+	line-height: 1.65;
+}
+
+.ap-lp-prose .ap-lp-prose__body :where(strong, b) {
+	color: var(--ap-slate-900);
+	font-weight: 700;
+}
+
+.ap-lp-prose .ap-lp-prose__body a {
+	color: var(--ap-brand-indigo);
+	font-weight: var(--ap-weight-link);
+	text-decoration: underline;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 3px;
+	overflow-wrap: anywhere;
+	transition: color .3s cubic-bezier(.25, .45, .45, .95);
+}
+
+.ap-lp-prose .ap-lp-prose__body a:hover,
+.ap-lp-prose .ap-lp-prose__body a:focus-visible {
+	color: var(--ap-indigo-900);
+}
+
+.ap-lp-prose .ap-lp-prose__body :where(sup, sub) {
+	font-size: .7em;
+	line-height: 0;
+}
+
+.ap-lp-prose .ap-lp-prose__body code {
+	padding: 1px 6px;
+	border-radius: var(--ap-radius-sm);
+	background: var(--ap-slate-100);
+	font-size: .9em;
+}
+
+.ap-lp-prose .ap-lp-prose__body mark {
+	padding: 0 2px;
+	background: var(--ap-yellow-50);
+	color: inherit;
+}
+
+.ap-lp-prose .ap-lp-prose__body hr {
+	height: 1px;
+	margin: 32px 0;
+	border: 0;
+	background: var(--ap-slate-100);
+}
+
+/* ---- lists ---- */
+.ap-lp-prose .ap-lp-prose__body :where(ul, ol) {
+	margin: 0 0 20px;
+	padding: 0 0 0 4px;
+	list-style: none;
+}
+
+.ap-lp-prose .ap-lp-prose__body ol {
+	counter-reset: ap-lp-prose-ol;
+}
+
+.ap-lp-prose .ap-lp-prose__body li {
+	position: relative;
+	margin: 0 0 10px;
+	padding-left: 28px;
+	color: var(--ap-slate-700);
+	font-size: inherit;
+	line-height: 1.65;
+}
+
+.ap-lp-prose .ap-lp-prose__body ul > li::before {
+	content: "";
+	position: absolute;
+	top: .72em;
+	left: 6px;
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: var(--ap-gradient-action);
+}
+
+.ap-lp-prose .ap-lp-prose__body ol > li {
+	counter-increment: ap-lp-prose-ol;
+}
+
+.ap-lp-prose .ap-lp-prose__body ol > li::before {
+	content: counter(ap-lp-prose-ol) ".";
+	position: absolute;
+	top: 0;
+	left: 0;
+	min-width: 22px;
+	color: var(--ap-brand-indigo);
+	font-weight: 700;
+}
+
+.ap-lp-prose .ap-lp-prose__body li > :where(ul, ol) {
+	margin: 10px 0 0;
+}
+
+.ap-lp-prose .ap-lp-prose__body li p {
+	margin: 0 0 8px;
+}
+
+/* ---- quotes, pictures ---- */
+.ap-lp-prose .ap-lp-prose__body blockquote {
+	margin: 28px 0;
+	padding: 4px 0 4px 22px;
+	border-left: 3px solid var(--ap-brand-indigo);
+	color: var(--ap-slate-900);
+	font-size: 20px;
+	font-style: normal;
+	line-height: 1.6;
+}
+
+.ap-lp-prose .ap-lp-prose__body blockquote p:last-child {
+	margin-bottom: 0;
+}
+
+.ap-lp-prose .ap-lp-prose__body figure {
+	margin: 32px 0;
+}
+
+.ap-lp-prose .ap-lp-prose__body img {
+	display: block;
+	max-width: 100%;
+	height: auto;
+	margin: 28px auto;
+	border-radius: var(--ap-radius-xl);
+}
+
+.ap-lp-prose .ap-lp-prose__body figure img {
+	margin: 0 auto;
+}
+
+.ap-lp-prose .ap-lp-prose__body figcaption {
+	margin-top: 10px;
+	color: var(--ap-slate-500);
+	font-size: 14px;
+	line-height: 1.5;
+	text-align: center;
+}
+
+/* ---- tables ---- */
+.ap-lp-prose__table {
+	overflow-x: auto;
+	margin: 24px 0 28px;
+	border: 1px solid var(--ap-slate-100);
+	border-radius: var(--ap-radius-lg);
+	-webkit-overflow-scrolling: touch;
+}
+
+.ap-lp-prose .ap-lp-prose__body table {
+	width: 100%;
+	min-width: 520px;
+	margin: 0;
+	border-collapse: collapse;
+	font-size: 16px;
+	line-height: 1.5;
+}
+
+.ap-lp-prose .ap-lp-prose__body caption {
+	padding: 12px 16px 0;
+	color: var(--ap-slate-500);
+	font-size: 14px;
+	text-align: left;
+}
+
+.ap-lp-prose .ap-lp-prose__body :where(th, td) {
+	padding: 12px 16px;
+	border-bottom: 1px solid var(--ap-slate-100);
+	color: var(--ap-slate-700);
+	text-align: left;
+	vertical-align: top;
+}
+
+.ap-lp-prose .ap-lp-prose__body th,
+.ap-lp-prose .ap-lp-prose__body thead td {
+	background: var(--ap-surface-alt);
+	color: var(--ap-slate-900);
+	font-weight: 700;
+}
+
+.ap-lp-prose .ap-lp-prose__body tr:last-child > :where(th, td) {
+	border-bottom: 0;
+}
+
+/* The UrsaAI mark in headings and text (gradient text keeps room for the superscript). */
+.ap-lp-prose .ap-ursa {
+	padding-top: .1em;
+	background: var(--ap-gradient-ursa);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	-webkit-text-fill-color: transparent;
+	white-space: nowrap;
+}
+
+.ap-lp-prose .ap-ursa sup {
+	font-size: .5em;
+	line-height: 1;
+	vertical-align: super;
+}
+
+@media (max-width: 767px) {
+	.ap-lp-prose {
+		padding: 16px 16px;
+		font-size: 16px;
+		line-height: 1.65;
+	}
+
+	.ap-lp-prose--space-start {
+		padding-top: 40px;
+	}
+
+	.ap-lp-prose--space-end {
+		padding-bottom: 64px;
+	}
+
+	.ap-lp-prose--lead .ap-lp-prose__body,
+	.ap-lp-prose--lead .ap-lp-prose__body p {
+		font-size: 18px;
+	}
+
+	.ap-lp-prose .ap-lp-prose__title {
+		margin-top: 20px;
+		font-size: 24px;
+		letter-spacing: -.2px;
+	}
+
+	.ap-lp-prose h3.ap-lp-prose__title {
+		font-size: 21px;
+	}
+
+	.ap-lp-prose .ap-lp-prose__body h3 {
+		font-size: 19px;
+	}
+
+	.ap-lp-prose .ap-lp-prose__body h4 {
+		font-size: 17px;
+	}
+
+	.ap-lp-prose .ap-lp-prose__body li {
+		padding-left: 24px;
+	}
+
+	.ap-lp-prose .ap-lp-prose__body blockquote {
+		font-size: 18px;
+	}
+
+	.ap-lp-prose--panel .ap-lp-prose__inner {
+		padding: 22px 20px;
+	}
+
+	.ap-lp-prose .ap-lp-prose__body :where(th, td) {
+		padding: 10px 12px;
+		font-size: 15px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-lp-prose .ap-lp-prose__body a {
+		transition: none;
+	}
+}

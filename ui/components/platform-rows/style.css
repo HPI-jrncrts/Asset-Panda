@@ -1,0 +1,79 @@
+/*
+ * platform-rows — ported from the live .apx-sol section.
+ *
+ * The live sheet owns its whole section, so every selector is scoped under the
+ * component root and the keyframes are renamed; the inner class names are kept
+ * so the port stays diffable against live.
+ */
+
+.ap-platform-rows{
+      --i:#5044e1; --t:#00a991; --ink:#25272c; --body:#4a4e5a;
+      position:relative; box-sizing:border-box; overflow:hidden;
+      width:100%; /* live broke out of the theme container with 100vw; the block is already full width */   
+      font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+      color:var(--ink);
+      background:#fff;
+    }
+.ap-platform-rows *,.ap-platform-rows *::before,.ap-platform-rows *::after{box-sizing:border-box;}
+.ap-platform-rows__wrap{
+      width:100%; max-width:1200px; margin:0 auto; padding:112px 40px 80px;  
+      display:flex; flex-direction:column; gap:40px; align-items:center;
+    }
+.ap-platform-rows__head{position:static;height:auto;background:none;max-width:680px; display:flex; flex-direction:column; gap:16px; text-align:center;}
+.ap-platform-rows__title .lb{display:inline;}
+.ap-platform-rows__eyebrow{margin:0; font-size:14px; font-weight:800; line-height:1.2; letter-spacing:.56px; text-transform:uppercase; color:var(--i);}
+.ap-platform-rows__title{margin:0; font-size:40px; font-weight:800; line-height:1.2; color:var(--ink);}
+.ap-platform-rows__title .g{
+      background:linear-gradient(48deg,#5044e1 4%,#00a991 55%);
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+.ap-platform-rows__sub{margin:0; font-size:18px; font-weight:400; line-height:1.5; color:var(--body);}
+.ap-platform-rows__rows{width:100%; display:flex; flex-direction:column; gap:24px;}
+.ap-platform-rows__row{
+      border-left:3px solid var(--i);
+      padding:24px 0 24px 40px;
+      display:flex; gap:120px; align-items:flex-start;
+    }
+.ap-platform-rows__lead{flex:1 1 0; min-width:0; max-width:360px; display:flex; gap:16px; align-items:flex-start;}
+.ap-platform-rows__num{margin:0; flex:none; font-size:24px; font-weight:600; line-height:1.2; color:var(--i); white-space:nowrap;}
+.ap-platform-rows__h3{margin:0; flex:1 1 0; min-width:0; font-size:24px; font-weight:800; line-height:1.3; color:var(--ink);}
+.ap-platform-rows__h3 .k{color:var(--t);}
+.ap-platform-rows__col{flex:1 1 0; min-width:0; display:flex; flex-direction:column; gap:8px; align-items:flex-start;}
+.ap-platform-rows__p{margin:0; font-size:18px; font-weight:400; line-height:1.5; color:var(--body);}
+.ap-platform-rows__cta{
+      margin-top:16px; display:inline-flex; gap:8px; align-items:center;
+      font-size:14px; font-weight:600; line-height:1.2; color:var(--ink); text-decoration:none;
+      border-radius:4px; transition:gap .15s ease, color .15s ease;
+    }
+.ap-platform-rows__cta:hover{color:var(--i); gap:12px;}
+.ap-platform-rows__cta svg{width:24px; height:24px; display:block; flex:none;}
+@media (max-width:1080px){.ap-platform-rows__row{gap:56px;}
+}
+@media (max-width:900px){.ap-platform-rows__wrap{padding:80px 24px 64px; gap:32px;}
+.ap-platform-rows__title{font-size:32px;}
+.ap-platform-rows__row{flex-direction:column; gap:16px; padding:20px 0 20px 24px;}
+.ap-platform-rows__lead{max-width:none; width:100%;}
+.ap-platform-rows__title .lb{display:none;}
+}
+@media (max-width:560px){.ap-platform-rows__wrap{padding:64px 20px 56px;}
+.ap-platform-rows__title{font-size:27px;}
+.ap-platform-rows__sub{font-size:16px;}
+.ap-platform-rows__h3{font-size:20px;}
+.ap-platform-rows__num{font-size:20px;}
+.ap-platform-rows__p{font-size:16px;}
+}
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: --ap-section-y top and bottom (was 112 / 80, 80 / 64, 64 / 56 by width). */
+html body .ap-platform-rows .ap-platform-rows__wrap { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-platform-rows.ap-platform-rows.ap-platform-rows .ap-platform-rows__title { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+/* Section eyebrow on the type scale too: 12px at 390 to 14px at 1440, 800, 4% tracking, upper case. */
+html body .ap-platform-rows.ap-platform-rows.ap-platform-rows .ap-platform-rows__eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }
+
+/* QA 2026-10-29 (Joseph, sitewide): sections without a colour gradient are pure white — the white-to-#f9fafb fades
+ * showed as a grey band against the next section. */

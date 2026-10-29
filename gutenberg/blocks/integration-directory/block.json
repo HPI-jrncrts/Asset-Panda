@@ -1,0 +1,122 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/integration-directory",
+	"title": "AP Integration Directory",
+	"category": "design",
+	"icon": "block-default",
+	"description": "Integrations hub directory: eyebrow, H2 with a gradient slice and lede over a Categories radio list (left; a scrollable chip row on tablets and phones), a search field and a paginated three-column grid of logo cards (logo, name as the card link, indigo category tag, three-line description, Learn More row), with Previous / numbered pages / Next under it. Every card is server-rendered; behaviour.js adds the category filter, debounced live search over name, tag and description, 12-per-page pagination, an aria-live result count, the empty state, a card-shuffle animation on every filter, search or page change (Web Animations on transform/opacity; instant under reduced motion) and ?category= / ?q= in the address bar. Without JS every card shows. Figma: Desktop - Integrations > Features Section (7310:158798). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"title_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"categories_label": {
+			"type": "string",
+			"default": "Categories"
+		},
+		"categories": {
+			"type": "array",
+			"default": []
+		},
+		"search_label": {
+			"type": "string",
+			"default": "Search integrations"
+		},
+		"search_placeholder": {
+			"type": "string",
+			"default": "Search integrations..."
+		},
+		"link_label": {
+			"type": "string",
+			"default": "Learn More"
+		},
+		"per_page": {
+			"type": "number",
+			"default": 12
+		},
+		"status_text": {
+			"type": "string",
+			"default": "Showing {from}–{to} of {total} integrations"
+		},
+		"empty_text": {
+			"type": "string",
+			"default": "No integrations match your search."
+		},
+		"empty_link_label": {
+			"type": "string",
+			"default": ""
+		},
+		"empty_link_url": {
+			"type": "string",
+			"default": ""
+		},
+		"reset_label": {
+			"type": "string",
+			"default": "Show all integrations"
+		},
+		"pager_label": {
+			"type": "string",
+			"default": "Integration pages"
+		},
+		"prev_label": {
+			"type": "string",
+			"default": "Previous"
+		},
+		"next_label": {
+			"type": "string",
+			"default": "Next"
+		},
+		"page_label": {
+			"type": "string",
+			"default": "Page {page} of {pages}"
+		},
+		"url_sync": {
+			"type": "boolean",
+			"default": true
+		},
+		"layout": {
+			"type": "string",
+			"default": "default",
+			"enum": [
+				"default",
+				"compare",
+				"compare-band"
+			]
+		},
+		"items": {
+			"type": "array",
+			"default": []
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

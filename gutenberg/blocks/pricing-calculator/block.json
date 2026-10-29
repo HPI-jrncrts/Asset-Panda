@@ -1,0 +1,113 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/pricing-calculator",
+	"title": "AP Pricing Calculator",
+	"category": "design",
+	"icon": "calculator",
+	"description": "Interactive ROI calculator card: range sliders (people, hourly cost, tracked asset value, weekly manual hours) beside an annual-return panel with a gradient total, a three-row breakdown, an ROI note and a button, plus a centred sales line below. Live: `.ap-roi-calculator-section` on /new-pricing/. Stands alone (no dependency on the pricing hero); every number, rate and label is a prop and behaviour.js recomputes on input. Model: hours saved = round(hours/wk x weeks x time_saved_pct% x people / people_baseline); labour = round(hours saved x hourly); loss prevented = round(asset value x loss_pct%); total = labour + loss prevented. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"inputs_label": {
+			"type": "string",
+			"default": ""
+		},
+		"inputs_text": {
+			"type": "string",
+			"default": ""
+		},
+		"sliders": {
+			"type": "array",
+			"default": []
+		},
+		"note": {
+			"type": "string",
+			"default": ""
+		},
+		"results_label": {
+			"type": "string",
+			"default": ""
+		},
+		"results_text": {
+			"type": "string",
+			"default": ""
+		},
+		"total_label": {
+			"type": "string",
+			"default": ""
+		},
+		"total_text": {
+			"type": "string",
+			"default": ""
+		},
+		"rows": {
+			"type": "array",
+			"default": []
+		},
+		"roi_text": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_label": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_url": {
+			"type": "string",
+			"default": ""
+		},
+		"footer_text": {
+			"type": "string",
+			"default": ""
+		},
+		"footer_link_label": {
+			"type": "string",
+			"default": ""
+		},
+		"footer_link_url": {
+			"type": "string",
+			"default": ""
+		},
+		"time_saved_pct": {
+			"type": "number",
+			"default": 70
+		},
+		"loss_pct": {
+			"type": "number",
+			"default": 2
+		},
+		"weeks": {
+			"type": "number",
+			"default": 52
+		},
+		"people_baseline": {
+			"type": "number",
+			"default": 10
+		},
+		"variant": {
+			"type": "string",
+			"default": "classic",
+			"enum": [
+				"classic",
+				"2026"
+			]
+		},
+		"disclaimer": {
+			"type": "string",
+			"default": ""
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

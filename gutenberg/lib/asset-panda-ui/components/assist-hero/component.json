@@ -1,0 +1,21 @@
+{
+	"name": "assist-hero",
+	"description": "Help desk hero: copy and badges beside a stage holding the employee photo, an employee request card, the assistant's reply card with its actions, floating icon tiles and a chip strip. Live: .epx-hero on /solutions/help-desk-ticketing/.",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the title." },
+		"title": { "type": "string", "required": true, "description": "Title (the page H1)." },
+		"title_accent": { "type": "string", "required": false, "default": "", "description": "Part of the title painted with the brand gradient." },
+		"lede": { "type": "string", "required": false, "default": "", "description": "Paragraph under the title." },
+		"cta_label": { "type": "string", "required": false, "default": "Free Demo", "description": "Button text." },
+		"cta_url": { "type": "string", "required": false, "default": "/get-a-demo/", "description": "Button destination." },
+		"badges": { "type": "array", "required": false, "default": [], "description": "Compliance badges. Each: image, alt." },
+		"background": { "type": "string", "required": false, "default": "", "description": "Backdrop art behind the stage." },
+		"photo": { "type": "string", "required": false, "default": "", "description": "Cut-out photo on the stage." },
+		"photo_alt": { "type": "string", "required": false, "default": "", "description": "Alt text for the photo." },
+		"features": { "type": "array", "required": false, "default": [], "description": "Chips in the strip under the stage. Each: label; icon (URL) or icon_svg." },
+		"message": { "type": "object", "required": false, "default": {}, "description": "The request card: avatar, name, time, title, shot (screenshot URL), dept, dept_icon_svg, category." },
+		"assistant": { "type": "object", "required": false, "default": {}, "description": "The assistant reply card: orb (image), name, when, body, actions (array of {label, icon_svg}; the first is the primary button)." },
+		"response": { "type": "object", "required": false, "default": {}, "description": "The follow-up card: icon_svg, title, body, link_label, link_icon_svg." },
+		"tiles": { "type": "array", "required": false, "default": [], "description": "Up to three floating icon tiles. Each: icon_svg; optional tone (ticket, flag, history)." }
+	}
+}

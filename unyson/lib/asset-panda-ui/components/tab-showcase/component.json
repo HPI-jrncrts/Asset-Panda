@@ -1,0 +1,21 @@
+{
+	"name": "tab-showcase",
+	"description": "Tabbed before/after panel: an asset record card beside the intelligence it gains, with an AI insight and a closing definition band. Tabs are CSS-only radio inputs. Live: .apx-bat on /asset-intelligence-platform/.",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading. Also names the section for assistive tech." },
+		"title": { "type": "string", "required": true, "description": "Heading. Line breaks are kept." },
+		"title_accent": { "type": "string", "required": false, "default": "", "description": "Part of the heading painted with the brand gradient." },
+		"lede": { "type": "string", "required": false, "default": "", "description": "Paragraph under the heading." },
+		"track_label": { "type": "string", "required": false, "default": "", "description": "Image labelling the tracking card." },
+		"track_label_alt": { "type": "string", "required": false, "default": "", "description": "Alt text for the tracking card's label image." },
+		"track_connector": { "type": "string", "required": false, "default": "", "description": "Connector line image beside the tracking card." },
+		"intel_label": { "type": "string", "required": false, "default": "", "description": "Image labelling the intelligence card." },
+		"intel_label_alt": { "type": "string", "required": false, "default": "", "description": "Alt text for the intelligence card's label image." },
+		"intel_connector": { "type": "string", "required": false, "default": "", "description": "Connector line image beside the intelligence card." },
+		"panels": { "type": "array", "required": true, "description": "One per tab. Each: slot (fire, police), tab_prefix, tab_label, asset {image, image_alt, name, tag, rows: [{label, value, icon, tone (ok paints the value teal with a dot)}]}, features [{title, note, chip, tone (due, over, ok, info), icon}], insight {title, body, note, cta_label, cta_url, confidence, spark (sparkle image in the corner)}." },
+		"definition_title": { "type": "string", "required": false, "default": "", "description": "Heading of the closing band." },
+		"definition_body": { "type": "string", "required": false, "default": "", "description": "Paragraph of the closing band." },
+		"definition_orb": { "type": "string", "required": false, "default": "", "description": "Orb image in the closing band." },
+		"definition_orb_alt": { "type": "string", "required": false, "default": "", "description": "Alt text for the orb. Empty marks the orb decorative." }
+	}
+}

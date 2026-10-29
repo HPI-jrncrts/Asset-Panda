@@ -608,7 +608,12 @@ img.ap-vhero__layer {
 		inset: auto;
 		display: block;
 		min-height: 100%;
-		padding: 32px 0 24px;
+		padding: var(--m-top, 32px) 0 24px;
+	}
+
+	/* Live phone copy runs the full width less 24px gutters, up to 440px. */
+	.ap-vhero__container {
+		width: min(var(--ap-host-container, 1120px), 100% - 48px);
 	}
 
 	.ap-vhero__copy {
@@ -649,6 +654,15 @@ img.ap-vhero__layer {
 	.ap-vhero__certs img {
 		height: 42px;
 	}
+}
+
+/* Flowing phone hero (K-12): the hero is as tall as its copy plus --m-pad, and
+ * the visual is an --m-art box pinned to the bottom (its top may run above the
+ * hero and is clipped), so every m* placement is a percentage of that box. */
+@media (max-width: 767px) {
+	.ap-vhero--mflow { aspect-ratio: auto; }
+	.ap-vhero--mflow .ap-vhero__stage { inset: auto 0 0; height: var(--m-art); }
+	.ap-vhero--mflow .ap-vhero__in { min-height: 0; padding-bottom: var(--m-pad); }
 }
 
 /* Phone-only composite of the cards (live .epx-hero__mobcards). */
@@ -720,3 +734,30 @@ img.ap-vhero__layer {
 }
 
 .ap-vhero__ico.ap-inline-icon svg { width: 24px; height: 24px; display: block; }
+
+/* tablet "overlay" (Police): between 768 and 1180px live keeps the copy at full
+ * size over the scaled visual instead of scaling it with the viewport. The visual
+ * pins to the top at its ratio; the copy flows, so the hero grows to fit it. */
+@media (min-width: 768px) and (max-width: 1180px) {
+	.ap-vhero--overlay .ap-vhero__stage { position: absolute; top: 0; left: 0; right: 0; }
+	.ap-vhero--overlay .ap-vhero__in { position: relative; inset: auto; min-height: 540px; align-items: flex-start; padding: 80px 0; }
+	/* Live's plain .ap-container (1168px, 24px gutters) and the copy's own 56/8px
+	   padding, not the scaled container the "scale" pages use. */
+	.ap-vhero--overlay .ap-vhero__container { width: 100%; max-width: 1168px; margin: 0 auto; padding: 0 24px; box-sizing: border-box; }
+	.ap-vhero--overlay .ap-vhero__copy { max-width: 490px; margin-top: 0; padding: 56px 0 8px; }
+}
+
+/* At exactly 768px live's phone copy padding (max-width: 768px) already applies. */
+@media (min-width: 768px) and (max-width: 768px) {
+	.ap-vhero--overlay .ap-vhero__copy { padding: 40px 0 4px; }
+}
+
+@media (min-width: 768px) and (max-width: 1180px) {
+	.ap-vhero--overlay .ap-vhero__eyebrow { margin-bottom: 16px; font-size: 14px; }
+	.ap-vhero--overlay .ap-vhero__title { font-size: 42px; }
+	.ap-vhero--overlay .ap-vhero__lede { margin-top: 16px; font-size: 17px; }
+	.ap-vhero--overlay .ap-vhero__cta { gap: 22px; margin-top: 32px; }
+	.ap-vhero--overlay .ap-vhero__btn { padding: 14px 16px; border-radius: 4px; font-size: 16px; }
+	.ap-vhero--overlay .ap-vhero__certs { gap: 18px; }
+	.ap-vhero--overlay .ap-vhero__certs img { height: 54px; }
+}

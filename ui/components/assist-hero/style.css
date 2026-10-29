@@ -1,0 +1,732 @@
+/*
+ * assist-hero — the Help Desk Ticketing hero.
+ *
+ * Ported from the live .epx-hero on /solutions/help-desk-ticketing/: a stage with
+ * the employee photo, a request card, the Ursa reply card with its actions, three
+ * floating icon tiles and a chip strip. The live sheet owns the whole section, so
+ * every selector here is scoped under the component root and the keyframes are
+ * renamed; the inner epx-* class names are kept so the port stays diffable.
+ */
+
+.ap-assist-hero,.ap-assist-hero *{box-sizing:border-box;margin:0;padding:0}
+.ap-assist-hero{position:relative;width:100%;background:#fff;overflow:hidden;font-family:'Manrope',Arial,sans-serif}
+/* Stage (QA 2026-10-29, "a lot of space at the top of the section", every solution page): the band was 640px
+   with the copy centred (eyebrow 132px under the header) and the art 100px down. Now 584px: the eyebrow
+   starts one section inset (--ap-section-y, 64px on desktop) below the header and the art box is
+   bottom-anchored, so the cards start 44px down. The backdrop spans the whole band. */
+.ap-assist-hero__stage{position:relative;max-width:1440px;height:584px;margin:0 auto}
+.ap-assist-hero__orbs{position:absolute;left:0;right:0;top:0;bottom:0;background:#fff var(--ap-assist-bg, none) center / cover no-repeat}
+.ap-assist-hero__veil{position:absolute;left:0;right:0;bottom:-1px;height:191px;z-index:1;background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0) 25.86%,rgba(255,255,255,.846) 85.385%,#fff 100%);pointer-events:none}
+/* Art box (QA 2026-10-29): anchored bottom-right of the stage like the solution hero (right = the copy
+   column's 160px inset, so it ends on the chip strip's edge); --ap-ah-fit scales it a step on narrow
+   desktops so no card is cut by the viewport (it used to bleed 60px off the right edge). It is layered
+   above the white veil (z 2 over 1; the chip strip is 3 and the copy 4), so the veil only whitens the
+   backdrop behind the chips and never washes a card; the photo fades out through its own mask. */
+.ap-assist-hero__vwrap{--ap-ah-fit:1;position:absolute;left:auto;right:160px;top:auto;bottom:0;z-index:2;width:calc(644px * var(--ap-ah-fit));height:calc(540px * var(--ap-ah-fit))}
+.ap-assist-hero__visual{position:relative;width:644px;height:540px;transform:scale(var(--ap-ah-fit,1));transform-origin:top left}
+/* Floating cards (QA 2026-10-29, "add spacing on the floating containers... they should not have a white
+   overlay... sitting on top of the overlay before the lady"): the request card, the Ursa reply and the
+   follow-up card stacked over each other (68x183px and 251x8px overlaps), the request card sat behind the
+   photo at 80% opacity, and the white veil washed the follow-up card. They now sit in two clear columns
+   (request card left; reply and follow-up right, top-aligned with it): 36px between the columns, 24px
+   between the rows, the photo 14px under the request card, the tiles in the gaps; nothing overlaps.
+   Every card is opaque and the whole group sits in front of the photo and above the veil (see the art
+   box). The photo fades out through its own mask, which ends at the bottom of the art box (276 + 264 =
+   540), so she still dissolves into the chip strip and is never cut by the band's edge. */
+.ap-assist-hero__photo{position:absolute;left:0;top:276px;width:486px;height:729px;max-width:none;display:block;z-index:1;-webkit-mask-image:linear-gradient(to bottom,#000 0,#000 204px,transparent 264px);mask-image:linear-gradient(to bottom,#000 0,#000 204px,transparent 264px)}
+.ap-assist-hero .epx-hv{position:absolute;z-index:3}
+.ap-assist-hero .epx-hv__rev,.ap-assist-hero .epx-hv__flo{display:block}
+.ap-assist-hero .epx-hv--msg{left:110px;top:0;width:247px}
+.ap-assist-hero .epx-hv--ursa{left:393px;top:0;width:251px}
+.ap-assist-hero .epx-hv--resp{left:393px;top:273px;width:251px}
+.ap-assist-hero .epx-htile{display:block;width:32px;height:32px}
+.ap-assist-hero .epx-htile .epx-hv__flo{display:flex;align-items:center;justify-content:center;width:32px;height:32px;padding:4px;border-radius:4px}
+.ap-assist-hero .epx-htile--ticket{left:118px;top:300px}
+.ap-assist-hero .epx-htile--ticket .epx-hv__flo{background:#fdf8e9;border:1px solid #eea521}
+.ap-assist-hero .epx-htile--flag{left:430px;top:391px}
+.ap-assist-hero .epx-htile--flag .epx-hv__flo{background:#effefa;border:1px solid #1de4c0}
+.ap-assist-hero .epx-htile--history{left:612px;top:391px}
+.ap-assist-hero .epx-htile--history .epx-hv__flo{background:#f9f7fc;border:1px solid #60a5fa}
+.ap-assist-hero .epx-htile__ico{display:block;width:24px;height:24px}
+.ap-assist-hero .epx-hmsg{display:flex;flex-direction:column;gap:10px;padding:12px;border-radius:16px;background:#fff}
+.ap-assist-hero .epx-hmsg__head{display:flex;gap:8px;align-items:center}
+.ap-assist-hero .epx-hmsg__avatar{width:28px;height:28px;border-radius:100px;object-fit:cover;flex:0 0 auto}
+.ap-assist-hero .epx-hmsg__meta{display:flex;flex-direction:column;gap:1px;min-width:0;flex:1 1 0}
+.ap-assist-hero .epx-hmsg__name{font-size:10px;font-weight:700;line-height:1.2;color:#25272c;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ap-assist-hero .epx-hmsg__time{font-size:8px;font-weight:400;line-height:1.2;color:#6b7280;white-space:nowrap}
+.ap-assist-hero .epx-hmsg__title{font-size:12px;font-weight:700;line-height:1.4;color:#4a4e5a}
+.ap-assist-hero .epx-hmsg__shot{display:block;width:223px;height:131px;border-radius:6px;object-fit:cover}
+.ap-assist-hero .epx-hmsg__foot{display:flex;justify-content:space-between;align-items:center;padding-top:4px;font-size:8px;line-height:normal}
+.ap-assist-hero .epx-hmsg__dept{display:inline-flex;gap:4px;align-items:center;font-weight:600;color:#00a991}
+.ap-assist-hero .epx-hmsg__dico{display:block;width:10px;height:10px}
+.ap-assist-hero .epx-hmsg__cat{font-weight:400;color:#6b7280}
+.ap-assist-hero .epx-hursa{display:flex;flex-direction:column;gap:16px;padding:24px 16px;border-radius:16px;background:#fff}
+.ap-assist-hero .epx-hursa__head{display:flex;gap:12px;align-items:center}
+.ap-assist-hero .epx-hursa__slot{flex:0 0 40px;width:40px;height:40px;position:relative}
+.ap-assist-hero__orb{position:absolute;left:-20px;top:-20px;width:80px;height:80px;max-width:none;display:block}
+.ap-assist-hero .epx-hursa__who{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1 1 0;position:relative;z-index:1}
+.ap-assist-hero .epx-hursa__brand{font-size:14px;font-weight:700;line-height:normal;color:#1a1c23}
+.ap-assist-hero .epx-hursa__when{font-size:11px;font-weight:400;line-height:normal;color:#6b7280}
+.ap-assist-hero .epx-hursa__body{font-size:12px;font-weight:400;line-height:1.5;color:#1a1c23}
+.ap-assist-hero .epx-hursa__actions{display:flex;flex-direction:column;gap:8px}
+.ap-assist-hero .epx-hursa__btn{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-radius:8px;font-size:12px;line-height:normal;white-space:nowrap}
+.ap-assist-hero .epx-hursa__btn--primary{background:#f1eefd;border:1px solid #f6f6fe;font-weight:600;color:#5044e1}
+.ap-assist-hero .epx-hursa__btn--secondary{background:#f9fafb;border:1px solid #e5e7eb;font-weight:500;color:#1a1c23}
+.ap-assist-hero .epx-hursa__bico{display:block;width:24px;height:24px;flex:0 0 auto}
+.ap-assist-hero .epx-hresp{display:flex;flex-direction:column;gap:8.62px;padding:9.23px 9.85px;border-radius:14.77px;background:#fff}
+/* One crisp card treatment (QA 2026-10-29): solid white, the same soft indigo shadow on all three — the
+   request card had no real shadow and 80% opacity, the follow-up card no shadow at all. box-shadow rather
+   than filter: drop-shadow, which is repainted on every frame of the float. */
+.ap-assist-hero .epx-hmsg,.ap-assist-hero .epx-hursa,.ap-assist-hero .epx-hresp{box-shadow:0 8px 20px rgba(200,210,253,.4),0 1px 2px rgba(16,24,40,.06)}
+.ap-assist-hero .epx-hresp__row{display:flex;gap:8.62px;align-items:flex-start}
+.ap-assist-hero .epx-hresp__ico{flex:0 0 25.24px;width:25.24px;height:24.83px;display:inline-flex;align-items:center;justify-content:center}
+.ap-assist-hero .epx-hresp__sico{display:block;width:20.7px;height:20.7px}
+.ap-assist-hero .epx-hresp__text{display:flex;flex-direction:column;line-height:1.5;min-width:0;flex:1 1 0}
+.ap-assist-hero .epx-hresp__ttl{font-size:9.28px;font-weight:700;color:#25272c}
+.ap-assist-hero .epx-hresp__body{font-size:8.1px;font-weight:400;color:#6b7280}
+.ap-assist-hero .epx-hresp__btn{display:flex;justify-content:space-between;align-items:center;padding:7.39px 9.85px;border-radius:7.39px;background:#f1eefd;border:.616px solid #f6f6fe;font-size:8.62px;font-weight:600;line-height:1.2;color:#5044e1;white-space:nowrap}
+.ap-assist-hero .epx-hresp__bico{display:block;width:12.31px;height:12.31px;flex:0 0 auto}
+/* Copy column (QA 2026-10-29, "diminish the space at the top"): top-anchored like the solution hero instead
+   of centred in the band. The eyebrow starts one section inset (--ap-section-y, 64px on desktop; the spacer
+   is that less the column's 16px gap) below the header instead of 132px, and the spacer shrinks only when
+   long copy would otherwise reach the chips. Above the art box (z 4 over 2): the two overlap by ~80px on
+   desktop, where the art is empty backdrop. */
+.ap-assist-hero__content{position:absolute;left:160px;top:0;height:calc(100% - 58px);width:554px;display:flex;flex-direction:column;gap:16px;z-index:4}
+.ap-assist-hero__content::before{content:"";flex:0 1 calc(var(--ap-section-y,64px) - 16px);min-height:8px}
+.ap-assist-hero__content::after{content:"";flex:0 0 16px}
+.ap-assist-hero__content>*{flex-shrink:0}
+.ap-assist-hero__eyebrow{font-size:14px;font-weight:800;letter-spacing:.56px;text-transform:uppercase;color:#5044e1;line-height:1.2}
+.ap-assist-hero__h1{font-size:48px;font-weight:800;line-height:1.2;color:#25272c}
+.ap-assist-hero .epx-g{background:linear-gradient(41.5deg,#5044E1 3.6%,#00A991 50.1%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ap-assist-hero__h1 .epx-g{background-image:linear-gradient(53.03deg,#5044E1 3.63%,#00A991 50.12%)}
+.ap-assist-hero__lede{font-size:18px;line-height:1.5;color:#4a4e5a;font-weight:400}
+.ap-assist-hero__cta{display:flex;gap:24px;align-items:center;padding-top:16px;flex-wrap:wrap}
+.ap-assist-hero .epx-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:16px;border-radius:4px;font-size:16px;font-weight:600;line-height:1.2;text-decoration:none;transition:translate var(--ap-dur-base) var(--ap-ease-standard),scale var(--ap-dur-base) var(--ap-ease-standard),box-shadow var(--ap-dur-base) var(--ap-ease-standard),background-color var(--ap-dur-base) var(--ap-ease-standard),border-color var(--ap-dur-base) var(--ap-ease-standard),color var(--ap-dur-base) var(--ap-ease-standard)}
+.ap-assist-hero .epx-btn--primary{background:linear-gradient(55.1deg,#5044E1 0%,#00A991 70.44%);border:1px solid #5044e1;color:#fff}
+/* Hover moves translate / scale, never transform (kit motion rule; the solution hero already does this). */
+.ap-assist-hero .epx-btn:hover{translate:0 -2px;box-shadow:0 6px 18px rgba(80,68,225,.28)}
+.ap-assist-hero .epx-btn:active{scale:.98}
+.ap-assist-hero .epx-btn:focus-visible{outline:3px solid #5044e1;outline-offset:2px}
+.ap-assist-hero .epx-btn--primary:hover,.ap-assist-hero .epx-btn--primary:focus,.ap-assist-hero .epx-btn--primary:active,.ap-assist-hero .epx-btn--primary:visited{color:#fff;text-decoration:none}
+.ap-assist-hero__badges{display:inline-flex;gap:28px;align-items:center}
+.ap-assist-hero__badges img{display:block}
+.ap-assist-hero__ticker{position:absolute;left:50%;transform:translateX(-50%);bottom:16px;width:min(1120px,calc(100% - 80px));z-index:3}
+.ap-assist-hero__strip{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;row-gap:12px}
+.ap-assist-hero__pill{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:8px;font-size:16px;line-height:1.6;color:#25272c;white-space:nowrap}
+.ap-assist-hero__pico{display:block;width:24px;height:24px;flex:0 0 auto}
+.ap-assist-hero__strip .ap-assist-hero__pill--dup{display:none}
+@keyframes apAssistEpxUp{from{opacity:0;transform:translateY(24px)}
+}
+/* LCP (QA 2026-10-28): the H1 and the hero photo enter from 40% opacity instead of 0, so they are painted
+   (and count for Largest Contentful Paint) on the first frame; the rise is unchanged. */
+@keyframes apAssistEpxUpLcp{from{opacity:.4;transform:translateY(24px)}
+}
+@keyframes apAssistEpxIn{from{opacity:0;transform:scale(.96)}
+}
+@keyframes apAssistEpxFloat{0%,100%{transform:translateY(0)}
+50%{transform:translateY(-6px)}
+}
+.ap-assist-hero__eyebrow{animation:apAssistEpxUp .6s cubic-bezier(.16,1,.3,1) 0s backwards}
+.ap-assist-hero__h1{animation:apAssistEpxUpLcp .6s cubic-bezier(.16,1,.3,1) .08s backwards}
+.ap-assist-hero__lede{animation:apAssistEpxUp .6s cubic-bezier(.16,1,.3,1) .16s backwards}
+.ap-assist-hero__cta{animation:apAssistEpxUp .6s cubic-bezier(.16,1,.3,1) .24s backwards}
+.ap-assist-hero__photo{animation:apAssistEpxUpLcp .7s cubic-bezier(.16,1,.3,1) .3s backwards}
+.ap-assist-hero .epx-hv--msg .epx-hv__rev{animation:apAssistEpxIn .5s cubic-bezier(.16,1,.3,1) .4s backwards}
+.ap-assist-hero .epx-hv--ursa .epx-hv__rev{animation:apAssistEpxIn .5s cubic-bezier(.16,1,.3,1) .52s backwards}
+.ap-assist-hero .epx-hv--resp .epx-hv__rev{animation:apAssistEpxIn .5s cubic-bezier(.16,1,.3,1) .7s backwards}
+.ap-assist-hero .epx-htile--flag .epx-hv__rev{animation:apAssistEpxIn .5s cubic-bezier(.16,1,.3,1) .82s backwards}
+.ap-assist-hero .epx-htile--ticket .epx-hv__rev{animation:apAssistEpxIn .5s cubic-bezier(.16,1,.3,1) .94s backwards}
+.ap-assist-hero .epx-htile--history .epx-hv__rev{animation:apAssistEpxIn .5s cubic-bezier(.16,1,.3,1) 1.06s backwards}
+.ap-assist-hero .epx-hv__flo{animation:apAssistEpxFloat 4s ease-in-out infinite}
+.ap-assist-hero .epx-hv--ursa .epx-hv__flo{animation-delay:-1.3s}
+.ap-assist-hero .epx-hv--resp .epx-hv__flo{animation-delay:-2.6s}
+.ap-assist-hero .epx-htile--ticket .epx-hv__flo{animation-delay:-.7s}
+.ap-assist-hero .epx-htile--flag .epx-hv__flo{animation-delay:-2s}
+.ap-assist-hero .epx-htile--history .epx-hv__flo{animation-delay:-3.3s}
+@media (prefers-reduced-motion: reduce){.ap-assist-hero *{animation:none !important}
+.ap-assist-hero__strip{flex-wrap:wrap;width:auto}
+.ap-assist-hero__strip .ap-assist-hero__pill--dup{display:none !important}
+}
+@media (max-width:1280px){.ap-assist-hero__content{left:40px;width:500px}
+.ap-assist-hero__vwrap{right:40px}
+}
+/* Narrow desktops: the art box scales a step and hangs from the top instead (one section inset down, level
+   with the eyebrow), so the smaller box does not open a gap under the header; its bottom, where the photo's
+   mask has already faded her out, lands at the chip strip. The copy narrows to 440px (as on the solution
+   hero) so the lede keeps clear of the request card. */
+@media (max-width:1180px){.ap-assist-hero__vwrap{--ap-ah-fit:.86;right:16px;top:var(--ap-section-y,56px);bottom:auto}
+.ap-assist-hero__content{width:440px}
+}
+@media (max-width:1000px){.ap-assist-hero__stage{height:auto;padding:56px 0 8px;display:flex;flex-direction:column}
+.ap-assist-hero__content{order:0}
+.ap-assist-hero__vwrap{order:1}
+.ap-assist-hero__ticker{order:2}
+.ap-assist-hero__orbs{height:100%;background:#fff var(--ap-assist-bg, none) left center / cover no-repeat}
+.ap-assist-hero__veil{display:none}
+.ap-assist-hero__content{position:static;transform:none;width:auto;height:auto;max-width:640px;padding:0 40px;animation:apAssistEpxUpLcp .6s cubic-bezier(.16,1,.3,1) 0s backwards}
+.ap-assist-hero__content::before,.ap-assist-hero__content::after{display:none}
+.ap-assist-hero__eyebrow,.ap-assist-hero__h1,.ap-assist-hero__lede,.ap-assist-hero__cta{animation:none}
+.ap-assist-hero__vwrap{--vs:1;position:relative;left:auto;right:auto;top:auto;bottom:auto;width:100%;height:calc(540px * var(--vs));margin:32px 0 0;display:flex;justify-content:center;overflow:hidden}
+.ap-assist-hero__visual{flex:0 0 644px;transform:scale(var(--vs));transform-origin:top center}
+.ap-assist-hero .epx-hv__flo{animation:none}
+.ap-assist-hero__ticker{position:static;transform:none;width:auto;margin:8px 40px 24px}
+.ap-assist-hero__strip{justify-content:flex-start;gap:16px}
+}
+@media (max-width:700px){.ap-assist-hero__stage{padding-bottom:0}
+.ap-assist-hero__content{align-items:center;text-align:center}
+.ap-assist-hero__cta{flex-direction:column;align-items:center;gap:16px;width:100%}
+.ap-assist-hero__cta .epx-btn{width:100%;max-width:none}
+.ap-assist-hero__badges{justify-content:center}
+.ap-assist-hero__orbs{background:url('/wp-content/uploads/2026/09/Group-5476.png.webp') center calc(100% - 72px) / 100% auto no-repeat,url('/wp-content/uploads/2026/09/hdt-hero-orbs.png.webp') left center / cover no-repeat #fff}
+.ap-assist-hero__vwrap{height:auto;aspect-ratio:393/470;margin-top:8px;overflow:visible}
+.ap-assist-hero__visual{display:none}
+.ap-assist-hero__ticker{order:3;margin:12px 0 16px;overflow:hidden;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 32px,#000 calc(100% - 32px),transparent 100%);
+    mask-image:linear-gradient(90deg,transparent 0,#000 32px,#000 calc(100% - 32px),transparent 100%)}
+.ap-assist-hero__strip{flex-wrap:nowrap;width:max-content;gap:0;justify-content:flex-start;animation:apAssistEpxMarq 16s linear infinite}
+.ap-assist-hero__strip .ap-assist-hero__pill{margin-right:28px;padding:8px 0}
+.ap-assist-hero__strip .ap-assist-hero__pill--dup{display:inline-flex}
+}
+@keyframes apAssistEpxMarq{to{transform:translateX(-50%)}
+}
+@media (max-width:640px){.ap-assist-hero__h1{font-size:36px}
+.ap-assist-hero__content{padding:0 20px}
+.ap-assist-hero__badges{gap:16px}
+}
+@media (max-width:520px){.ap-assist-hero__vwrap{--vs:.56}
+}
+.ap-assist-hero .epx-sup{font-size:.64em;vertical-align:super;font-weight:700}
+.ap-assist-hero .epx-g.epx-g{padding-top:1em;padding-bottom:.4em}
+.ap-assist-hero .epx-g .epx-sup{color:#00A991;-webkit-text-fill-color:#00A991}
+@media (max-width:700px){.ap-assist-hero__vwrap{
+    width:100%;
+    height:clamp(340px, 96vw, 410px) !important;
+    aspect-ratio:auto !important;
+
+    margin-top:8px;
+
+    overflow:hidden !important;
+  }
+.ap-assist-hero__orbs{
+    background:
+      url("/wp-content/uploads/2026/09/Group-5476.png.webp")
+        center calc(100% - 62px) / 100% auto no-repeat,
+
+      url("/wp-content/uploads/2026/09/hdt-hero-orbs.png.webp")
+        left center / cover no-repeat,
+
+      #ffffff !important;
+  }
+.ap-assist-hero__visual{
+    display:none !important;
+  }
+}
+@media (max-width:430px){.ap-assist-hero__vwrap{
+    height:clamp(320px, 92vw, 380px) !important;
+  }
+}
+@media (max-width:375px){.ap-assist-hero__vwrap{
+    height:330px !important;
+  }
+}
+@media (max-width:700px){.ap-assist-hero{
+    overflow:hidden;
+  }
+.ap-assist-hero__orbs{
+    background:#fff !important;
+  }
+.ap-assist-hero__vwrap{
+    --hero-mobile-offset: 36px;
+
+    position:relative !important;
+    width:100%;
+    height:clamp(300px, 76vw, 360px) !important;
+    aspect-ratio:auto !important;
+
+    margin:8px 0 -18px !important;
+    overflow:visible !important;
+
+    background:
+      url("/wp-content/uploads/2026/09/Group-5476.png.webp")
+      center var(--hero-mobile-offset) / 100% auto no-repeat !important;
+  }
+.ap-assist-hero__visual{
+    display:none !important;
+  }
+.ap-assist-hero__vwrap::after{
+    content:"";
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:-44px;
+    height:150px;
+    pointer-events:none;
+    z-index:2;
+    background:linear-gradient(
+      180deg,
+      rgba(255,255,255,0) 0%,
+      rgba(255,255,255,.72) 48%,
+      rgba(255,255,255,.92) 72%,
+      #ffffff 100%
+    );
+  }
+.ap-assist-hero__ticker{
+    position:relative;
+    z-index:3;
+    margin:0 0 16px !important;
+    padding-top:10px;
+  }
+}
+@media (max-width:430px){.ap-assist-hero__vwrap{
+    --hero-mobile-offset: 46px;
+    height:clamp(280px, 72vw, 320px) !important;
+  }
+}
+@media (max-width:390px){.ap-assist-hero__vwrap{
+    --hero-mobile-offset: 52px;
+    height:285px !important;
+  }
+}
+@media (max-width:700px){.ap-assist-hero__orbs{
+    background:
+      #ffffff
+      url("/wp-content/uploads/2026/09/hdt-hero-orbs.png.webp")
+      center top / cover no-repeat !important;
+
+    height:100% !important;
+  }
+.ap-assist-hero__stage{
+    height:auto !important;
+    padding-bottom:0 !important;
+  }
+.ap-assist-hero__visual{
+    display:block !important;
+
+    width:644px !important;
+    height:540px !important;
+
+    flex:0 0 644px !important;
+
+    transform:scale(.62) !important;
+    transform-origin:top center !important;
+  }
+.ap-assist-hero__vwrap{
+    position:relative !important;
+
+    left:auto !important;
+    right:auto !important;
+    top:auto !important;
+
+    order:1;
+
+    width:100% !important;
+
+    height:335px !important;
+    aspect-ratio:auto !important;
+
+    margin:24px 0 0 !important;
+
+    display:flex !important;
+    justify-content:center !important;
+    align-items:flex-start !important;
+
+    overflow:hidden !important;
+
+    background:none !important;
+
+    z-index:1;
+  }
+.ap-assist-hero__vwrap::after{
+    display:none !important;
+    content:none !important;
+  }
+.ap-assist-hero__vwrap::before{
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    right:0;
+    bottom:0;
+
+    height:95px;
+
+    z-index:10;
+
+    pointer-events:none;
+
+    background:linear-gradient(
+      180deg,
+      rgba(255,255,255,0) 0%,
+      rgba(255,255,255,.65) 55%,
+      rgba(255,255,255,.95) 82%,
+      #ffffff 100%
+    );
+  }
+.ap-assist-hero__ticker{
+    position:relative !important;
+
+    order:2;
+
+    left:auto !important;
+    bottom:auto !important;
+
+    transform:none !important;
+
+    width:100% !important;
+
+    margin:0 0 16px !important;
+    padding:0 !important;
+
+    overflow:hidden !important;
+
+    z-index:20;
+  }
+.ap-assist-hero__strip{
+    position:relative;
+    z-index:21;
+
+    flex-wrap:nowrap !important;
+    width:max-content;
+
+    gap:0 !important;
+
+    justify-content:flex-start !important;
+
+    animation:apAssistEpxMarq 16s linear infinite;
+  }
+.ap-assist-hero__strip .ap-assist-hero__pill{
+    margin-right:28px;
+    padding:8px 0;
+  }
+.ap-assist-hero__strip .ap-assist-hero__pill--dup{
+    display:inline-flex !important;
+  }
+}
+@media (max-width:430px){.ap-assist-hero__visual{
+    transform:scale(.59) !important;
+  }
+.ap-assist-hero__vwrap{
+    height:319px !important;
+  }
+}
+@media (max-width:390px){.ap-assist-hero__visual{
+    transform:scale(.54) !important;
+  }
+.ap-assist-hero__vwrap{
+    height:292px !important;
+  }
+}
+@media (max-width:350px){.ap-assist-hero__visual{
+    transform:scale(.49) !important;
+  }
+.ap-assist-hero__vwrap{
+    height:265px !important;
+  }
+}
+@media (max-width:700px){.ap-assist-hero__vwrap::before{
+    display:none !important;
+    content:none !important;
+  }
+.ap-assist-hero__ticker{
+    position:relative !important;
+    order:2;
+    left:auto !important;
+    bottom:auto !important;
+    transform:none !important;
+
+    width:100% !important;
+    margin:-18px 0 16px !important;
+    padding:26px 0 14px !important;
+
+    overflow:hidden !important;
+    z-index:20;
+
+    background:linear-gradient(
+      180deg,
+      rgba(255,255,255,0) 0%,
+      rgba(255,255,255,.82) 18%,
+      rgba(255,255,255,.96) 38%,
+      #ffffff 62%,
+      #ffffff 100%
+    ) !important;
+  }
+.ap-assist-hero__ticker::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+      180deg,
+      rgba(255,255,255,0) 0%,
+      rgba(255,255,255,.82) 18%,
+      rgba(255,255,255,.96) 38%,
+      #ffffff 62%,
+      #ffffff 100%
+    );
+    pointer-events:none;
+    z-index:0;
+  }
+.ap-assist-hero__strip{
+    position:relative;
+    z-index:1;
+  }
+.ap-assist-hero__pill{
+    background:transparent !important;
+  }
+}
+@media (max-width:700px){.ap-assist-hero__vwrap{
+    position:relative !important;
+
+    margin:20px 0 0 !important;
+
+    
+    overflow:hidden !important;
+
+    background:none !important;
+  }
+.ap-assist-hero__vwrap::before{
+    content:"" !important;
+    display:block !important;
+
+    position:absolute;
+
+    left:0;
+    right:0;
+    bottom:0;
+
+    height:115px;
+
+    z-index:10;
+    pointer-events:none;
+
+    background:linear-gradient(
+      180deg,
+      rgba(255,255,255,0) 0%,
+      rgba(255,255,255,.35) 30%,
+      rgba(255,255,255,.78) 58%,
+      rgba(255,255,255,.96) 82%,
+      #ffffff 100%
+    );
+  }
+.ap-assist-hero__vwrap::after{
+    display:none !important;
+    content:none !important;
+  }
+.ap-assist-hero__ticker{
+    position:relative !important;
+
+    order:2;
+
+    left:auto !important;
+    right:auto !important;
+    bottom:auto !important;
+
+    transform:none !important;
+
+    width:100% !important;
+
+    
+    margin:-54px 0 0 !important;
+
+    padding:0 !important;
+
+    min-height:54px;
+
+    display:flex;
+    align-items:center;
+
+    overflow:hidden !important;
+
+    background:transparent !important;
+
+    z-index:20;
+
+    
+    -webkit-mask-image:linear-gradient(
+      90deg,
+      transparent 0,
+      #000 22px,
+      #000 calc(100% - 22px),
+      transparent 100%
+    );
+
+    mask-image:linear-gradient(
+      90deg,
+      transparent 0,
+      #000 22px,
+      #000 calc(100% - 22px),
+      transparent 100%
+    );
+  }
+.ap-assist-hero__ticker::before{
+    content:"";
+
+    position:absolute;
+
+    
+    left:0;
+    right:0;
+    top:-30px;
+    bottom:0;
+
+    pointer-events:none;
+
+    background:linear-gradient(
+      180deg,
+      rgba(255,255,255,0) 0%,
+      rgba(255,255,255,.75) 45%,
+      rgba(255,255,255,.96) 72%,
+      #ffffff 100%
+    );
+
+    z-index:0;
+  }
+.ap-assist-hero__strip{
+    position:relative;
+
+    z-index:2;
+
+    display:flex !important;
+    align-items:center;
+
+    flex-wrap:nowrap !important;
+
+    width:max-content !important;
+
+    gap:0 !important;
+
+    justify-content:flex-start !important;
+
+    animation:apAssistEpxMarq 16s linear infinite;
+  }
+.ap-assist-hero__strip .ap-assist-hero__pill{
+    display:inline-flex;
+    align-items:center;
+
+    margin:0 28px 0 0 !important;
+    padding:12px 0 !important;
+
+    background:transparent !important;
+
+    white-space:nowrap;
+  }
+.ap-assist-hero__strip .ap-assist-hero__pill--dup{
+    display:inline-flex !important;
+  }
+}
+@media (max-width:430px){.ap-assist-hero__vwrap::before{
+    height:105px;
+  }
+.ap-assist-hero__ticker{
+    margin-top:-50px !important;
+    min-height:50px;
+  }
+.ap-assist-hero__strip .ap-assist-hero__pill{
+    padding:10px 0 !important;
+  }
+}
+/* ---- kit type scale (QA 2026-10-28) ----
+ * Eyebrow, H1 and lede (the H1 was 48px with -1px tracking from the old live baseline, 36px on phones).
+ * One heading scale across every hero (ui/src/tokens.css --ap-type-*): same size, weight 800, zero
+ * tracking at every width, so no H1 reads thicker or tighter than another. */
+.ap-assist-hero .ap-assist-hero__eyebrow {
+	font-size: var(--ap-type-eyebrow-size);
+	font-weight: var(--ap-type-eyebrow-weight);
+	line-height: var(--ap-type-eyebrow-line);
+	letter-spacing: var(--ap-type-eyebrow-track);
+	text-transform: uppercase;
+}
+.ap-assist-hero .ap-assist-hero__h1 {
+	font-size: var(--ap-type-h1-size);
+	font-weight: var(--ap-type-h1-weight);
+	line-height: var(--ap-type-h1-line);
+	letter-spacing: var(--ap-type-h1-track);
+}
+.ap-assist-hero .ap-assist-hero__lede {
+	font-size: var(--ap-type-lede-size);
+	line-height: var(--ap-type-lede-line);
+}
+
+/* phone top padding (QA 2026-10-28): 40px above the eyebrow on phones, as on the solution and hub heroes. */
+@media (max-width: 640px) {
+	.ap-assist-hero .ap-assist-hero__stage { padding-top: 40px; }
+}
+
+/* ---- phone layering (QA 2026-10-29, "they should not have a white overlay") ----
+ * On phones the chip strip rides up over the bottom 50-54px of the art box, and two white gradients (the
+ * box's own ::before and the strip's ::before, 30px taller than the strip) faded the follow-up card and
+ * the lower tiles. The art box now sits above the strip, so no gradient reaches a card or tile; the photo
+ * fades out through its mask before the strip's top (276 + 163 = 439 in box units, the highest the strip
+ * reaches, at 350px), so the chips stay clear. The cards and tiles end by 423. */
+@media (max-width: 700px) {
+	.ap-assist-hero .ap-assist-hero__vwrap { z-index: 21 !important; pointer-events: none; }
+	.ap-assist-hero .ap-assist-hero__vwrap::before { content: none !important; display: none !important; }
+	.ap-assist-hero .ap-assist-hero__photo {
+		-webkit-mask-image: linear-gradient(to bottom, #000 0, #000 103px, transparent 163px);
+		mask-image: linear-gradient(to bottom, #000 0, #000 103px, transparent 163px);
+	}
+}
+
+/* QA 2026-10-29 (Joseph, sitewide): on phones the hero's eyebrow sits 16px under the header, as on the K-12 page
+ * (his reference for the spacing). */
+@media (max-width: 767px) {
+	html body .ap-assist-hero .ap-assist-hero__stage {
+		padding-top: 16px !important;
+	}
+}
+
+/* QA 2026-10-29 (Joseph): the help-desk hero takes the Ursa AI hero's background — its gradient only (orbit-hero
+ * .ap-orbit-hero__bg and its white fade at the foot), in place of the orbs image, at every width. */
+html body .ap-assist-hero .ap-assist-hero__orbs {
+	background:
+		linear-gradient(180deg, rgba(255, 255, 255, 0) 62%, rgba(255, 255, 255, .55) 84%, #fff 100%),
+		radial-gradient(58% 55% at 8% 10%, rgba(0, 169, 145, .30), transparent 70%),
+		radial-gradient(42% 44% at 93% 6%, rgba(255, 180, 150, .48), transparent 72%),
+		radial-gradient(55% 60% at 84% 40%, rgba(120, 108, 240, .30), transparent 72%),
+		radial-gradient(34% 36% at 80% 30%, rgba(255, 214, 110, .42), transparent 72%),
+		radial-gradient(58% 46% at 58% 96%, rgba(255, 138, 150, .28), transparent 72%),
+		radial-gradient(42% 42% at 30% 74%, rgba(150, 140, 235, .22), transparent 72%),
+		#fff !important;
+}
+
+/* ------------------------------------------------------------ Copy / art spacing on desktops (QA 2026-10-29)
+ * Joseph: "There should be space between the headers and content on the left from the images on the right", as
+ * on /asset-intelligence-platform/ (130px at 1440, 109px at 1280, 67px at 1024). The art (request card, Ursa
+ * reply, follow-up card, tiles and the photo) sat 59px from the copy at 1440 and ran 37px into it at 1366, where
+ * the column jumped to a 160px inset. Same rules as the solution hero, wherever copy and art sit side by side
+ * (1001px up): the copy keeps its width and text and, from 1281px, starts where the chip strip starts
+ * ((stage - 1120px) / 2); the art keeps 10% of the stage width (8% up to 1180px) clear of the copy column's edge
+ * and scales down as one unit to the room that is left (never up), anchored on the strip's right edge and hung
+ * one section inset below the header (level with the eyebrow). The art itself is the right 534px of the 644px
+ * box (the request card starts 110px in), so that is what has to fit; tan(atan2(room, 534px)) is room / 534px.
+ * The photo already fades out through its own mask. Phones and tablets (1000px and down) are untouched. */
+@media (min-width: 1001px) {
+	.ap-assist-hero__vwrap { --ap-ah-fit: .78; top: var(--ap-section-y, 56px); bottom: auto; }
+}
+@media (min-width: 1181px) {
+	.ap-assist-hero__vwrap { --ap-ah-fit: .88; }
+}
+@media (min-width: 1281px) {
+	.ap-assist-hero__content { left: max(40px, (100% - 1120px) / 2); }
+	.ap-assist-hero__vwrap { --ap-ah-fit: .78; right: max(40px, (100% - 1120px) / 2); }
+}
+@supports (width: 1cqw) and (scale: tan(atan2(1px, 2px))) {
+	@media (min-width: 1001px) {
+		.ap-assist-hero {
+			container-type: inline-size;
+			--ap-ah-s: min(100cqw, 1440px);
+			--ap-ah-cl: 40px;
+			--ap-ah-cw: 440px;
+			--ap-ah-ar: 16px;
+			--ap-ah-gap: calc(var(--ap-ah-s) * .08);
+			--ap-ah-cap: .86;
+		}
+		.ap-assist-hero__vwrap { --ap-ah-fit: clamp(.3, tan(atan2(calc(var(--ap-ah-s) - var(--ap-ah-ar) - var(--ap-ah-cl) - var(--ap-ah-cw) - var(--ap-ah-gap)), 534px)), var(--ap-ah-cap)); }
+	}
+	@media (min-width: 1181px) {
+		.ap-assist-hero { --ap-ah-cw: 500px; --ap-ah-ar: 40px; --ap-ah-gap: calc(var(--ap-ah-s) * .1); --ap-ah-cap: 1; }
+	}
+	@media (min-width: 1281px) {
+		.ap-assist-hero { --ap-ah-cl: max(40px, (var(--ap-ah-s) - 1120px) / 2); --ap-ah-cw: 554px; --ap-ah-ar: var(--ap-ah-cl); }
+	}
+}

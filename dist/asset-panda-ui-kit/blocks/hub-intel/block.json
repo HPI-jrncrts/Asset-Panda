@@ -1,0 +1,61 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/hub-intel",
+	"title": "AP Hub Intel",
+	"category": "design",
+	"icon": "align-pull-left",
+	"description": "Industry-hub platform band: copy-and-scene rows (floating images and soft glows) over a heading beside numbered feature cards. Live: #ap-gov-intel on the Government, Healthcare, Construction and Manufacturing hubs and #ap-eduhub-ursa on the Education hub (sheets and markup ported). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"variant": {
+			"type": "string",
+			"default": "gov",
+			"enum": [
+				"gov",
+				"eduhub"
+			]
+		},
+		"phone": {
+			"type": "string",
+			"default": "scaled",
+			"enum": [
+				"scaled",
+				"plain"
+			]
+		},
+		"rows": {
+			"type": "array",
+			"default": []
+		},
+		"features_eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"features_title": {
+			"type": "string",
+			"default": ""
+		},
+		"features_title_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"features": {
+			"type": "array",
+			"default": []
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

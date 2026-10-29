@@ -2,10 +2,12 @@
 /**
  * industries — sector cards on a dark indigo panel.
  *
- * Figma: Home Page > Industries (4331:24718). A 1200px indigo-900 panel
- * (radius 24, padding 64/40) floats over a decorative colour field; cards are
- * indigo-950 with a 232px photo fading into the card, a teal sector icon,
- * white title/body and an "Explore" link.
+ * Mirrors the live homepage "Design to adapt" section
+ * (#ap-sector-intelligence-v4) element for element, so the ported stylesheet
+ * applies class for class: a blurred colour field behind a rounded indigo
+ * panel that widens to the browser edges on hover, a heading, a sticky row of
+ * sector chips on phones, and a grid of whole-card links, each with a photo
+ * fading into the card, a sector icon, copy and an "Explore" line.
  *
  * Sector icons ship with the component (WordPress refuses SVG uploads), so an
  * item names its sector rather than uploading an icon.
@@ -31,89 +33,111 @@ if ( '' === $title || empty( $items ) ) {
 	return;
 }
 
-// Nonprofit reuses the education glyph, exactly as the Figma card does.
 $icons = array(
 	'government'    => 'icon-government.svg',
 	'manufacturing' => 'icon-manufacturing.svg',
 	'healthcare'    => 'icon-healthcare.svg',
 	'education'     => 'icon-education.svg',
 	'construction'  => 'icon-construction.svg',
-	'nonprofit'     => 'icon-education.svg',
+	'nonprofit'     => 'icon-nonprofit.svg',
 );
 
-$eyebrow = trim( (string) $props['eyebrow'] );
-$reveal  = (bool) $props['reveal'];
-$arrow   = ap_ui_asset_url( 'industries', 'arrow.svg' );
+$eyebrow    = trim( (string) $props['eyebrow'] );
+$tabs_label = trim( (string) $props['tabs_label'] );
+$reveal     = (bool) $props['reveal'];
 
-// Anchor ids for the phone chip list; unique across the page.
-$uid = 'ap-ind-' . substr( md5( uniqid( '', true ) ), 0, 8 );
+// Anchor ids for the phone chip row: an item's own `anchor`, else one unique
+// to this render.
+// Each card also carries its sector as a class (ap-sector-government …), as on
+// live; only the known sector keys ever reach it.
+$uid       = 'ap-ind-' . substr( md5( uniqid( '', true ) ), 0, 8 );
+$anchors   = array();
+$icon_urls = array();
+$sectors   = array();
+foreach ( $items as $i => $item ) {
+	$own             = isset( $item['anchor'] ) && is_string( $item['anchor'] ) ? sanitize_html_class( trim( $item['anchor'] ) ) : '';
+	$anchors[ $i ]   = '' !== $own ? $own : $uid . '-' . $i;
+	$sectors[ $i ]   = isset( $item['icon'] ) && is_string( $item['icon'] ) && isset( $icons[ $item['icon'] ] ) ? $item['icon'] : '';
+	$icon_urls[ $i ] = '' !== $sectors[ $i ] ? ap_ui_asset_url( 'industries', $icons[ $sectors[ $i ] ] ) : '';
+}
 ?>
 <section class="ap-industries">
-	<img class="ap-industries__decor" src="<?php echo esc_url( ap_ui_asset_url( 'industries', 'colorset.svg' ) ); ?>" alt="" aria-hidden="true" />
-	<div class="ap-industries__box">
-		<img class="ap-industries__orb ap-industries__orb--a" src="<?php echo esc_url( ap_ui_asset_url( 'industries', 'orb-a.svg' ) ); ?>" alt="" aria-hidden="true" />
-		<img class="ap-industries__orb ap-industries__orb--b" src="<?php echo esc_url( ap_ui_asset_url( 'industries', 'orb-b.svg' ) ); ?>" alt="" aria-hidden="true" />
-
-		<div class="ap-industries__inner">
-			<div class="ap-industries__head"<?php echo $reveal ? ' data-ap-reveal' : ''; ?>>
+	<div class="ap-sector-bg" aria-hidden="true">
+		<svg class="ap-sector-bg-svg" viewBox="0 0 1440 1207" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
+			<defs>
+				<filter id="<?php echo esc_attr( $uid ); ?>-aurora" x="-35%" y="-35%" width="170%" height="170%" color-interpolation-filters="sRGB">
+					<feGaussianBlur stdDeviation="120"></feGaussianBlur>
+				</filter>
+			</defs>
+			<rect width="1440" height="1207" fill="#ffffff"></rect>
+			<g filter="url(#<?php echo esc_attr( $uid ); ?>-aurora)">
+				<circle cx="214.5" cy="663.5" r="426.5" fill="#5044E1"></circle>
+				<circle cx="1150.5" cy="622.5" r="518.5" fill="#5044E1"></circle>
+				<circle cx="546" cy="956" r="523" fill="#F3BF51"></circle>
+				<circle cx="484.5" cy="737.5" r="426.5" fill="#00A991"></circle>
+				<circle cx="1442.5" cy="1002.5" r="426.5" fill="#00A991"></circle>
+				<ellipse cx="684.5" cy="1206" rx="980.5" ry="438" fill="#ffffff"></ellipse>
+				<ellipse cx="751.5" cy="-49" rx="980.5" ry="438" fill="#F9FAFB"></ellipse>
+			</g>
+			<rect width="1440" height="1207" fill="#ffffff" opacity="0.15"></rect>
+		</svg>
+	</div>
+	<div class="ap-sector-box">
+		<div class="ap-sector-box-bg" aria-hidden="true"></div>
+		<div class="ap-sector-inner">
+			<div class="ap-sector-heading"<?php echo $reveal ? ' data-ap-reveal' : ''; ?>>
 				<?php if ( '' !== $eyebrow ) : ?>
-					<p class="ap-industries__eyebrow"><?php echo esc_html( $eyebrow ); ?></p>
+					<p><?php echo esc_html( $eyebrow ); ?></p>
 				<?php endif; ?>
-				<h2 class="ap-industries__title"><?php echo ap_ui_lines( $title ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped by ap_ui_lines(). ?></h2>
+				<h2><?php echo ap_ui_lines( $title ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped by ap_ui_lines(). ?></h2>
 			</div>
 
 			<?php if ( count( $items ) > 1 ) : ?>
-				<nav class="ap-industries__chips" aria-label="<?php echo esc_attr( $title ); ?>">
-					<ul>
-						<?php
-						foreach ( $items as $i => $item ) :
-							$chip_icon = isset( $item['icon'], $icons[ $item['icon'] ] ) ? $icons[ $item['icon'] ] : '';
-							?>
-							<li>
-								<a class="ap-industries__chip" href="#<?php echo esc_attr( $uid . '-' . $i ); ?>">
-									<?php if ( '' !== $chip_icon ) : ?>
-										<img src="<?php echo esc_url( ap_ui_asset_url( 'industries', $chip_icon ) ); ?>" alt="" width="24" height="24" />
-									<?php endif; ?>
-									<span><?php echo esc_html( $item['title'] ); ?></span>
-								</a>
-							</li>
-						<?php endforeach; ?>
-					</ul>
+				<nav class="ap-sector-tabs" aria-label="<?php echo esc_attr( '' !== $tabs_label ? $tabs_label : $title ); ?>">
+					<?php foreach ( $items as $i => $item ) : ?>
+						<a class="ap-sector-tab" href="#<?php echo esc_attr( $anchors[ $i ] ); ?>">
+							<?php if ( '' !== $icon_urls[ $i ] ) : ?>
+								<img src="<?php echo esc_url( $icon_urls[ $i ] ); ?>" alt="" aria-hidden="true" width="20" height="20" />
+							<?php endif; ?>
+							<span><?php echo esc_html( $item['title'] ); ?></span>
+						</a>
+					<?php endforeach; ?>
 				</nav>
 			<?php endif; ?>
 
-			<ul class="ap-industries__grid">
+			<div class="ap-sector-grid">
 				<?php
 				foreach ( $items as $i => $item ) :
-					$icon     = isset( $item['icon'], $icons[ $item['icon'] ] ) ? $icons[ $item['icon'] ] : '';
-					$has_link = ! empty( $item['link_label'] ) && ! empty( $item['link_url'] );
+					$link_url   = isset( $item['link_url'] ) ? trim( (string) $item['link_url'] ) : '';
+					$link_label = isset( $item['link_label'] ) ? trim( (string) $item['link_label'] ) : '';
+					$tag        = '' !== $link_url ? 'a' : 'div';
 					?>
-					<li class="ap-industries__card" id="<?php echo esc_attr( $uid . '-' . $i ); ?>"
-						<?php if ( $reveal ) : ?>
-							data-ap-reveal data-ap-reveal-delay="<?php echo esc_attr( (string) ( ( $i % 3 ) + 1 ) ); ?>"
-						<?php endif; ?>
-					>
-						<?php if ( ! empty( $item['image'] ) ) : ?>
-							<div class="ap-industries__media">
-								<img src="<?php echo esc_url( $item['image'] ); ?>" alt="<?php echo esc_attr( $item['image_alt'] ?? '' ); ?>" loading="lazy" decoding="async" />
+					<<?php echo $tag; // phpcs:ignore WordPress.Security.EscapeOutput -- fixed 'a' or 'div'. ?> class="ap-sector-card<?php echo '' !== $sectors[ $i ] ? ' ap-sector-' . esc_attr( $sectors[ $i ] ) : ''; ?>" id="<?php echo esc_attr( $anchors[ $i ] ); ?>"<?php if ( 'a' === $tag ) : ?> href="<?php echo esc_url( $link_url ); ?>"<?php endif; ?><?php if ( $reveal ) : ?> data-ap-reveal data-ap-reveal-delay="<?php echo esc_attr( (string) ( ( $i % 3 ) + 1 ) ); ?>"<?php endif; ?>>
+						<span class="ap-card-image" aria-hidden="true">
+							<?php if ( ! empty( $item['image'] ) && is_string( $item['image'] ) ) : ?>
+								<img src="<?php echo esc_url( $item['image'] ); ?>" alt="" loading="lazy" decoding="async" />
+							<?php endif; ?>
+						</span>
+						<span class="ap-card-base-overlay" aria-hidden="true"></span>
+						<span class="ap-card-hover-overlay" aria-hidden="true"></span>
+						<span class="ap-card-bamboo" aria-hidden="true"></span>
+						<div class="ap-sector-content">
+							<?php if ( '' !== $icon_urls[ $i ] ) : ?>
+								<div class="ap-sector-icon" aria-hidden="true">
+									<img src="<?php echo esc_url( $icon_urls[ $i ] ); ?>" alt="" width="24" height="24" />
+								</div>
+							<?php endif; ?>
+							<div class="ap-sector-text">
+								<h3><?php echo esc_html( $item['title'] ); ?></h3>
+								<p><?php echo esc_html( $item['body'] ); ?></p>
 							</div>
-						<?php endif; ?>
-						<?php if ( '' !== $icon ) : ?>
-							<img class="ap-industries__icon" src="<?php echo esc_url( ap_ui_asset_url( 'industries', $icon ) ); ?>" alt="" width="24" height="24" />
-						<?php endif; ?>
-						<div class="ap-industries__text">
-							<h3 class="ap-industries__card-title"><?php echo esc_html( $item['title'] ); ?></h3>
-							<p class="ap-industries__card-body"><?php echo esc_html( $item['body'] ); ?></p>
+							<?php if ( '' !== $link_label ) : ?>
+								<span class="ap-sector-link"><?php echo esc_html( $link_label ); ?> <strong aria-hidden="true">&rarr;</strong></span>
+							<?php endif; ?>
 						</div>
-						<?php if ( $has_link ) : ?>
-							<a class="ap-industries__link" href="<?php echo esc_url( $item['link_url'] ); ?>">
-								<span><?php echo esc_html( $item['link_label'] ); ?></span>
-								<img src="<?php echo esc_url( $arrow ); ?>" alt="" width="24" height="24" />
-							</a>
-						<?php endif; ?>
-					</li>
+					</<?php echo $tag; // phpcs:ignore WordPress.Security.EscapeOutput -- fixed 'a' or 'div'. ?>>
 				<?php endforeach; ?>
-			</ul>
+			</div>
 		</div>
 	</div>
 </section>

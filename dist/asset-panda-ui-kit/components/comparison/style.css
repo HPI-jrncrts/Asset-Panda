@@ -1,0 +1,299 @@
+/*
+ * comparison — ported from the live #ap-asset-intel-compare-v1 section.
+ *
+ * The homepage and the Asset Intelligence Platform page each style the section with
+ * their own stack of sheets; each is ported whole and scoped under its variant class
+ * (--home, --platform), the section id becoming that class so every rule keeps its
+ * relative order. The stacked header's " vs. …" is a real span (.ap-compare-vs),
+ * hidden until a ported rule shows it below 1280px.
+ */
+
+.ap-compare .ap-compare-vs { display: none; }
+
+/* ---- home (live home sheet) ---- */
+.ap-compare--home .ap-compare-table .ap-left-empty {grid-column:1;grid-row:7}
+.ap-compare--home .ap-compare-table .ap-center-cta {grid-column:2;grid-row:7}
+.ap-compare--home .ap-compare-table .ap-right-empty {grid-column:3;grid-row:7}
+.ap-compare--home {width: 100%; max-width: none; margin: 0 !important; padding: 80px 24px 40px; background: #fff; font-family: "Manrope", Arial, sans-serif !important; overflow: hidden;}
+.ap-compare--home, .ap-compare--home * {box-sizing: border-box;}
+.ap-compare--home .ap-compare-inner {position: relative; width: 100%; max-width: 1120px; margin: 0 auto;}
+.ap-compare--home .ap-compare-heading {position: relative; width: 100%; max-width: 640px; margin: 0 auto 40px; text-align: center;}
+.ap-compare--home .ap-eyebrow {margin: 0 0 16px; color: #5044E1; font-size: 14px; line-height: 1.2; font-weight: 800; text-align: center; letter-spacing: 0.04em; text-transform: uppercase;}
+.ap-compare--home h2 {margin: 0; color: #25272C; font-size: 40px; line-height: 1.2; font-weight: 800; text-align: center; letter-spacing: -0.02em;}
+.ap-compare--home h2 span {display: block;}
+.ap-compare--home .ap-gradient-text {background: linear-gradient( 76.7deg, #5044E1 3.63%, #00A991 50.12% ); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;}
+.ap-compare--home .ap-compare-heading p:not(.ap-eyebrow) {margin: 16px 0 0; color: #5B616E; font-size: 18px; line-height: 1.5; font-weight: 400;}
+.ap-compare--home .ap-compare-table {position: relative; width: 100%; display: grid; grid-template-columns: 347px 427px 347px; grid-template-rows: 160px 88px repeat(4, minmax(127px, auto)) auto; justify-content: center; align-items: stretch;}
+.ap-compare--home .ap-compare-table::before {box-sizing: border-box; content: ""; position: absolute; top: 0; bottom: 0; left: 347px; width: 427px; background: linear-gradient( 180deg, #FFFFFF 80.94%, #A7B3FA 108.27% ); border: 0; border-radius: 16px; box-shadow: inset 0 0 0 1px #838CF6, 0 2px 24px #E1E6FE; pointer-events: none; z-index: 0;}
+.ap-compare--home .ap-compare-table::after {display: none;}
+.ap-compare--home .ap-cell {position: relative; z-index: 1; min-width: 0;}
+.ap-compare--home .ap-left-spacer, .ap-compare--home .ap-left-empty, .ap-compare--home .ap-right-empty {background: transparent;}
+.ap-compare--home .ap-right-empty {visibility: hidden !important; border: 0 !important; outline: 0 !important; box-shadow: none !important;}
+.ap-compare--home .ap-right-empty::before, .ap-compare--home .ap-right-empty::after {display: none !important; content: none !important;}
+.ap-compare--home .ap-center-top {overflow: hidden; border: 0 !important; border-radius: 16px 16px 0 0; background: linear-gradient( 101.9deg, #5044E1 25.94%, #35307F 57.56%, #201C4A 89.17% );}
+.ap-compare--home .ap-center-top-img {display: block; width: 100%; height: 160px; object-fit: cover; object-position: center;}
+.ap-compare--home .ap-right-top {align-self: end; height: 105px; display: flex; align-items: center; padding: 24px; background: #F2F5F8; border: 1px solid #D1DDE6; border-left: 0; border-bottom: 0; border-radius: 0 16px 0 0;}
+.ap-compare--home .ap-file-icon-img {display: block; width: 48px; height: 58px; object-fit: contain;}
+.ap-compare--home .ap-left-title, .ap-compare--home .ap-center-title, .ap-compare--home .ap-right-title {display: flex; align-items: center; min-height: 88px; font-size: 20px; line-height: 1.2; font-weight: 800;}
+.ap-compare--home .ap-left-title {padding: 32px; color: #334859;}
+.ap-compare--home .ap-center-title {padding: 32px; color: #201C4A; border-top: 1px solid #838CF6; border-left: 0 !important; border-right: 0 !important;}
+.ap-compare--home .ap-right-title {padding: 32px 32px 32px 24px; color: #7B9DB5; background: #F2F5F8; border-left: 0; border-right: 1px solid #D1DDE6;}
+.ap-compare--home .ap-left-label {display: flex; align-items: center; padding: 35px 32px; color: #4B5563; font-size: 16px; line-height: 1.2; font-weight: 800; border-top: 1px solid #D1DDE6;}
+.ap-compare--home .ap-center-copy {display: flex; align-items: flex-start; gap: 8px; padding: 32px; border-top: 1px solid #838CF6; border-left: 0 !important; border-right: 0 !important;}
+.ap-compare--home .ap-center-copy p {margin: 0; color: #201C4A; font-size: 14px; line-height: 1.5; font-weight: 400;}
+.ap-compare--home .ap-right-copy {display: flex; align-items: flex-start; gap: 8px; padding: 32px 32px 32px 24px; background: #F2F5F8; border-top: 1px solid #D1DDE6; border-right: 1px solid #D1DDE6; border-left: 0;}
+.ap-compare--home .ap-right-copy p {margin: 0; color: #5B616E; font-family: var(--ap-font-body); font-size: 14px; line-height: 1.5; font-weight: 400;}
+@media (min-width: 1280px) {
+	.ap-compare--home .ap-right-copy-end {border-bottom: 1px solid #D1DDE6 !important; border-radius: 0 0 16px 0;}
+	.ap-compare--home .ap-right-empty {visibility: hidden !important; border: 0 !important; outline: 0 !important; box-shadow: none !important; background: transparent !important;}
+}
+.ap-compare--home .ap-panda-mini-img, .ap-compare--home .ap-table-mini-img {display: block; flex: 0 0 24px; width: 24px; height: 24px; margin-top: 1px; object-fit: contain;}
+.ap-compare--home .ap-center-cta {display: flex; align-items: center; justify-content: center; padding: 32px 32px 24px; border-top: 1px solid #838CF6; border-left: 0 !important; border-right: 0 !important; border-radius: 0 0 16px 16px;}
+.ap-compare--home .ap-compare-cta {display: inline-flex; align-items: center; justify-content: center; width: 363px; max-width: 100%; min-height: 47px; padding: 14px 16px; border-radius: 4px; background: linear-gradient( 54.33deg, #5044E1 0%, #00A991 70.44% ); color: #FFFFFF !important; font-size: 16px; line-height: 1.2; font-weight: 700; text-align: center; text-decoration: none !important;}
+.ap-compare--home .ap-compare-cta:hover, .ap-compare--home .ap-compare-cta:focus {color: #FFFFFF !important; text-decoration: none !important; filter: brightness(1.03);}
+.ap-compare--home .ap-ursa {display: inline; font-weight: 700; background: linear-gradient( 75.71deg, #806991 6.52%, #00A991 60% ); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; white-space: nowrap;}
+.ap-compare--home .ap-ursa sup {position: relative; top: -0.15em; margin-left: 1px; font-size: 0.55em; line-height: 1; vertical-align: super;}
+.ap-compare--home .ap-deco, .ap-compare--home .ap-deco-top, .ap-compare--home .ap-deco-bottom, .ap-compare--home .ap-deco-section-bottom {display: none !important;}
+@media (max-width: 1279px) {
+	.ap-compare--home {padding: 80px 24px 48px;}
+	.ap-compare--home .ap-compare-table {display: block; width: 100%; max-width: 460px; margin: 0 auto; grid-template-columns: none; grid-template-rows: none; background: linear-gradient( 180deg, #FFFFFF 86%, #EEF2FF 100% ); border: 0 !important; border-radius: 16px; box-shadow: 0 2px 24px #E1E6FE; overflow: hidden; isolation: isolate;}
+	.ap-compare--home .ap-compare-table::before {display: none;}
+	.ap-compare--home .ap-compare-table::after {content: ""; display: block; position: absolute; inset: 0; border: 1px solid #838CF6; border-radius: 16px; pointer-events: none; z-index: 20;}
+	.ap-compare--home .ap-left-spacer, .ap-compare--home .ap-right-top, .ap-compare--home .ap-left-title, .ap-compare--home .ap-right-title, .ap-compare--home .ap-left-empty, .ap-compare--home .ap-right-empty {display: none !important;}
+	.ap-compare--home .ap-center-top {display: block; border: 0 !important; border-radius: 16px 16px 0 0;}
+	.ap-compare--home .ap-center-top-img {height: auto;}
+	.ap-compare--home .ap-center-title {display: block; min-height: 0; padding: 18px 24px 14px; border: 0 !important; font-size: 16px; line-height: 1.35; color: #201C4A;}
+	.ap-compare--home .ap-center-title .ap-compare-vs {display: inline; color: #00A991; font-weight: 800;}
+	.ap-compare--home .ap-left-label {display: block; padding: 16px 24px 2px; border-top: 1px solid #E1E6FE; border-left: 0 !important; border-right: 0 !important; color: #201C4A; font-size: 14px; font-weight: 800;}
+	.ap-compare--home .ap-center-copy {display: flex; align-items: flex-start; gap: 8px; padding: 8px 24px 4px; border: 0 !important; background: transparent;}
+	.ap-compare--home .ap-center-copy p {color: #201C4A;}
+	.ap-compare--home .ap-right-copy, .ap-compare--home .ap-right-copy-end {display: flex; align-items: flex-start; gap: 8px; padding: 4px 24px 16px; background: transparent; border: 0 !important; border-radius: 0;}
+	.ap-compare--home .ap-right-copy p {color: #8E99A8;}
+	.ap-compare--home .ap-center-cta {display: flex; padding: 20px 24px 24px; border-top: 1px solid #E1E6FE !important; border-left: 0 !important; border-right: 0 !important; border-bottom: 0 !important; border-radius: 0 0 16px 16px;}
+	.ap-compare--home .ap-compare-cta {width: 100%;}
+}
+@media (max-width: 767px) {
+	.ap-compare--home {padding: 56px 16px 40px;}
+	.ap-compare--home .ap-compare-heading {max-width: 360px; margin-bottom: 24px; text-align: left;}
+	.ap-compare--home .ap-eyebrow {margin-top: 0; font-size: 12px; text-align: left;}
+	.ap-compare--home h2 {font-size: 24px; text-align: left;}
+	.ap-compare--home .ap-compare-heading p:not(.ap-eyebrow) {font-size: 16px;}
+	.ap-compare--home .ap-compare-table {max-width: 360px;}
+}
+.ap-compare--home .ap-center-cta {flex-direction: column; gap: 24px;}
+.ap-compare--home .ap-compare-link {display: inline-flex; align-items: center; gap: 8px; font-size: 16px; line-height: 1.2; font-weight: 600; color: #25272C !important; text-decoration: none !important;}
+.ap-compare--home .ap-compare-link svg {display: block; transition: transform 0.2s ease;}
+.ap-compare--home .ap-compare-link:hover svg {transform: translateX(4px);}
+.ap-compare--home .ap-cell.ap-center-top, .ap-compare--home .ap-cell.ap-center-title, .ap-compare--home .ap-cell.ap-center-copy, .ap-compare--home .ap-cell.ap-center-cta {border-left:.9px solid #838CF6!important;border-right:.9px solid #838CF6!important}
+.ap-compare--home .ap-cell.ap-center-cta {border-bottom:.9px solid #838CF6!important}
+.ap-compare--home .ap-cell.ap-right-empty {border-bottom:.9px solid #D1DDE6!important}
+.ap-compare--home .ap-cell.ap-center-top, .ap-compare--home .ap-cell.ap-center-title, .ap-compare--home .ap-cell.ap-center-copy, .ap-compare--home .ap-cell.ap-center-cta {border-left:.9px solid #838CF6!important;border-right:.9px solid #838CF6!important}
+.ap-compare--home .ap-cell.ap-center-cta {border-bottom:.9px solid #838CF6!important}
+.ap-compare--home .ap-cell.ap-right-empty {border-bottom:.9px solid #D1DDE6!important}
+
+/* ---- QA 2026-10-29 (Joseph, homepage batch 1) ----
+ * Phones (the stacked card): the card's outline is drawn once by .ap-compare-table::after, so the centre cells must not
+ * draw their own left/right/bottom hairlines on top of it — that was the "double line" on the CTA's right edge. */
+@media (max-width: 767px) {
+	.ap-compare--home .ap-compare-table .ap-cell.ap-center-top, .ap-compare--home .ap-compare-table .ap-cell.ap-center-title, .ap-compare--home .ap-compare-table .ap-cell.ap-center-copy, .ap-compare--home .ap-compare-table .ap-cell.ap-center-cta {border-left: 0 !important; border-right: 0 !important;}
+	.ap-compare--home .ap-compare-table .ap-cell.ap-center-cta {border-bottom: 0 !important;}
+}
+/* Tablets keep the three columns (fluid 31 / 38 / 31 instead of the desktop's 347 / 427 / 347 px); the stacked
+ * card is for phones only. Every rule here answers one the stacked block above sets for ≤1279. */
+@media (min-width: 768px) and (max-width: 1279px) {
+	.ap-compare--home .ap-compare-table {display: grid; width: 100%; max-width: 100%; margin: 0; grid-template-columns: 31% 38% 31%; grid-template-rows: 150px 80px repeat(4, minmax(110px, auto)) auto; justify-content: center; align-items: stretch; background: none; border: 0 !important; border-radius: 0; box-shadow: none; overflow: visible; isolation: auto;}
+	.ap-compare--home .ap-compare-table::before {display: block; left: 31%; width: 38%;}
+	.ap-compare--home .ap-compare-table::after {display: none;}
+	.ap-compare--home .ap-left-spacer, .ap-compare--home .ap-left-empty, .ap-compare--home .ap-right-empty {display: block !important;}
+	.ap-compare--home .ap-right-top, .ap-compare--home .ap-left-title, .ap-compare--home .ap-right-title {display: flex !important;}
+	.ap-compare--home .ap-right-empty {visibility: hidden !important;}
+	.ap-compare--home .ap-right-top {height: 98px; padding: 20px;}
+	.ap-compare--home .ap-center-top-img {height: 150px;}
+	.ap-compare--home .ap-left-title, .ap-compare--home .ap-center-title, .ap-compare--home .ap-right-title {min-height: 80px; padding: 20px; font-size: 17px; line-height: 1.2;}
+	.ap-compare--home .ap-center-title {display: flex; border-top: 1px solid #838CF6 !important; border-left: 0 !important; border-right: 0 !important; color: #201C4A;}
+	.ap-compare--home .ap-center-title .ap-compare-vs {display: inline; color: inherit; font-weight: inherit;}
+	.ap-compare--home .ap-right-title {padding-left: 16px;}
+	.ap-compare--home .ap-left-label {display: flex; align-items: center; padding: 24px 20px; border-top: 1px solid #D1DDE6; border-left: 0 !important; border-right: 0 !important; color: #4B5563; font-size: 15px; font-weight: 800;}
+	.ap-compare--home .ap-center-copy {padding: 24px 20px; border-top: 1px solid #838CF6 !important; border-left: 0 !important; border-right: 0 !important; background: transparent;}
+	.ap-compare--home .ap-right-copy, .ap-compare--home .ap-right-copy-end {padding: 24px 20px 24px 16px; background: #F2F5F8; border-top: 1px solid #D1DDE6 !important; border-right: 1px solid #D1DDE6 !important; border-left: 0 !important; border-bottom: 0 !important; border-radius: 0;}
+	.ap-compare--home .ap-right-copy-end {border-bottom: 1px solid #D1DDE6 !important; border-radius: 0 0 16px 0;}
+	.ap-compare--home .ap-right-copy p {color: #5B616E;}
+	.ap-compare--home .ap-center-cta {padding: 24px 20px 20px; border-top: 1px solid #838CF6 !important; border-left: 0 !important; border-right: 0 !important; border-bottom: 0 !important; border-radius: 0 0 16px 16px;}
+	.ap-compare--home .ap-compare-cta {width: 100%;}
+}
+
+/* ---- platform (live platform sheet) ---- */
+.ap-compare--platform .ap-compare-table .ap-left-empty {grid-column:1;grid-row:7}
+.ap-compare--platform .ap-compare-table .ap-center-cta {grid-column:2;grid-row:7}
+.ap-compare--platform .ap-compare-table .ap-right-empty {grid-column:3;grid-row:7}
+.ap-compare--platform {width: 100%; max-width: none; margin: 0 !important; padding: 80px 24px 80px; background: #fff; font-family: "Manrope", Arial, sans-serif !important; overflow: hidden;}
+.ap-compare--platform, .ap-compare--platform * {box-sizing: border-box;}
+.ap-compare--platform .ap-compare-inner {position: relative; width: 100%; max-width: 1121px; margin: 0 auto;}
+.ap-compare--platform .ap-compare-heading {position: relative; width: 100%; max-width: 800px; margin: 0 auto 40px; text-align: center;}
+.ap-compare--platform .ap-eyebrow {margin: 0 0 16px; color: #5044E1; font-size: 14px; line-height: 1.2; font-weight: 800; text-align: center; letter-spacing: 0.04em; text-transform: uppercase;}
+.ap-compare--platform h2 {margin: 0; color: #25272C; font-size: 40px; line-height: 1.2; font-weight: 800; text-align: center; letter-spacing: -0.02em;}
+.ap-compare--platform h2 span {display: block;}
+.ap-compare--platform .ap-gradient-text {background: linear-gradient(76.7deg, #5044E1 3.63%, #00A991 50.12%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;}
+.ap-compare--platform .ap-compare-heading p:not(.ap-eyebrow) {margin: 16px 0 0; color: #5B616E; font-size: 18px; line-height: 1.5; font-weight: 400;}
+.ap-compare--platform .ap-compare-table {position: relative; width: 100%; display: grid; grid-template-columns: 347px 427px 347px; grid-template-rows: 160px 88px repeat(5, minmax(127px, auto)); justify-content: center; align-items: stretch;}
+.ap-compare--platform .ap-compare-table::before {box-sizing: border-box; content: ""; position: absolute; top: 0; bottom: 0; left: 347px; width: 427px; background: linear-gradient(180deg, #FFFFFF 80.94%, #A7B3FA 108.27%); border: 0; border-radius: 16px; box-shadow: inset 0 0 0 1px #838CF6, 0 2px 24px #E1E6FE; pointer-events: none; z-index: 0;}
+.ap-compare--platform .ap-compare-table::after {display: none;}
+.ap-compare--platform .ap-cell {position: relative; z-index: 1; min-width: 0;}
+.ap-compare--platform .ap-left-spacer {background: transparent;}
+.ap-compare--platform .ap-center-top {overflow: hidden; border: 0 !important; border-radius: 16px 16px 0 0; background: linear-gradient(101.9deg, #5044E1 25.94%, #35307F 57.56%, #201C4A 89.17%);}
+.ap-compare--platform .ap-center-top-img {display: block; width: 100%; height: 160px; object-fit: cover; object-position: center;}
+.ap-compare--platform .ap-right-top {align-self: end; height: 105px; display: flex; align-items: center; padding: 24px; background: #F2F5F8; border: 1px solid #D1DDE6; border-left: 0; border-bottom: 0; border-radius: 0 16px 0 0;}
+.ap-compare--platform .ap-file-icon-img {display: block; width: 48px; height: 58px; object-fit: contain;}
+.ap-compare--platform .ap-left-title, .ap-compare--platform .ap-center-title, .ap-compare--platform .ap-right-title {display: flex; align-items: center; min-height: 88px; font-size: 20px; line-height: 1.2; font-weight: 800;}
+.ap-compare--platform .ap-left-title {padding: 32px; color: #334859;}
+.ap-compare--platform .ap-center-title {padding: 32px; color: #201C4A; border-top: 1px solid #838CF6; border-left: 0 !important; border-right: 0 !important;}
+.ap-compare--platform .ap-right-title {padding: 32px 32px 32px 24px; color: #7B9DB5; background: #F2F5F8; border-left: 0; border-right: 1px solid #D1DDE6;}
+.ap-compare--platform .ap-left-label {display: flex; align-items: center; padding: 35px 32px; color: #4B5563; font-size: 16px; line-height: 1.2; font-weight: 800; border-top: 1px solid #D1DDE6;}
+.ap-compare--platform .ap-center-copy {display: flex; align-items: flex-start; gap: 8px; padding: 32px; border-top: 1px solid #838CF6; border-left: 0 !important; border-right: 0 !important;}
+.ap-compare--platform .ap-center-copy p {margin: 0; color: #201C4A; font-size: 14px; line-height: 1.5; font-weight: 400;}
+.ap-compare--platform .ap-center-copy-end {border-radius: 0 0 16px 16px; padding-bottom: 56px;}
+.ap-compare--platform .ap-right-copy {display: flex; align-items: flex-start; gap: 8px; padding: 32px 32px 32px 24px; background: #F2F5F8; border-top: 1px solid #D1DDE6; border-right: 1px solid #D1DDE6; border-left: 0;}
+.ap-compare--platform .ap-right-copy p {margin: 0; color: #5B616E; font-family: var(--ap-font-body); font-size: 14px; line-height: 1.5; font-weight: 400;}
+.ap-compare--platform .ap-right-copy-end {border-bottom: 1px solid #D1DDE6; border-radius: 0 0 16px 0;}
+.ap-compare--platform .ap-panda-mini-img, .ap-compare--platform .ap-table-mini-img {display: block; flex: 0 0 24px; width: 24px; height: 24px; margin-top: 1px; object-fit: contain;}
+.ap-compare--platform .ap-ursa {display: inline; font-weight: 700; background: linear-gradient(75.71deg, #806991 6.52%, #00A991 60%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; white-space: nowrap;}
+.ap-compare--platform .ap-ursa sup {position: relative; top: -0.15em; margin-left: 1px; font-size: 0.55em; line-height: 1; vertical-align: super;}
+.ap-compare--platform .ap-connected {position: relative; z-index: 2; width: calc(100% + 20px); max-width: none; margin: -32px -10px 0; display: flex; gap: 24px; align-items: flex-end; padding: 20px 40px 0; background: #FFFFFF; border: 1px solid #C8D2FD; border-radius: 16px; box-shadow: 0 3px 52px rgba(167, 179, 250, 0.16); overflow: hidden;}
+.ap-compare--platform .ap-connected-text {flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 12px; padding-bottom: 28px;}
+.ap-compare--platform .ap-connected-title {margin: 0; color: #25272C; font-size: 20px; line-height: 1.4; font-weight: 800;}
+.ap-compare--platform .ap-connected-body {margin: 0; color: #4A4E5A; font-size: 15px; line-height: 1.5; font-weight: 400;}
+.ap-compare--platform .ap-connected-link {display: inline-flex; align-items: center; gap: 8px; margin-top: 4px; color: #25272C; font-size: 14px; line-height: 1.2; font-weight: 600; text-decoration: none !important; transition: gap 0.15s ease, color 0.15s ease;}
+.ap-compare--platform .ap-connected-link:hover {color: #5044E1; gap: 12px;}
+.ap-compare--platform .ap-connected-link svg {flex: none; width: 24px; height: 24px; display: block;}
+.ap-compare--platform .ap-connected-shot {flex: none; width: 44%; max-width: 440px; height: auto; display: block; border-radius: 8px;}
+@media (max-width: 1279px) {
+	.ap-compare--platform {padding: 80px 24px 64px;}
+	.ap-compare--platform .ap-compare-table {display: block; width: 100%; max-width: 460px; margin: 0 auto; grid-template-columns: none; grid-template-rows: none; background: linear-gradient(180deg, #FFFFFF 86%, #EEF2FF 100%); border: 0 !important; border-radius: 16px; box-shadow: 0 2px 24px #E1E6FE; overflow: hidden; isolation: isolate;}
+	.ap-compare--platform .ap-compare-table::before {display: none;}
+	.ap-compare--platform .ap-compare-table::after {content: ""; display: block; position: absolute; inset: 0; border: 1px solid #838CF6; border-radius: 16px; pointer-events: none; z-index: 20;}
+	.ap-compare--platform .ap-left-spacer, .ap-compare--platform .ap-right-top, .ap-compare--platform .ap-left-title, .ap-compare--platform .ap-right-title {display: none !important;}
+	.ap-compare--platform .ap-center-top {display: block; border: 0 !important; border-radius: 16px 16px 0 0;}
+	.ap-compare--platform .ap-center-top-img {height: auto;}
+	.ap-compare--platform .ap-center-title {display: block; min-height: 0; padding: 18px 24px 14px; border: 0 !important; font-size: 16px; line-height: 1.35; color: #201C4A;}
+	.ap-compare--platform .ap-center-title .ap-compare-vs {display: inline; color: #00A991; font-weight: 800;}
+	.ap-compare--platform .ap-left-label {display: block; padding: 16px 24px 2px; border-top: 1px solid #E1E6FE; border-left: 0 !important; border-right: 0 !important; color: #201C4A; font-size: 14px; font-weight: 800;}
+	.ap-compare--platform .ap-center-copy, .ap-compare--platform .ap-center-copy-end {display: flex; align-items: flex-start; gap: 8px; padding: 8px 24px 4px; border: 0 !important; border-radius: 0; background: transparent;}
+	.ap-compare--platform .ap-center-copy p {color: #201C4A;}
+	.ap-compare--platform .ap-right-copy, .ap-compare--platform .ap-right-copy-end {display: flex; align-items: flex-start; gap: 8px; padding: 4px 24px 16px; background: transparent; border: 0 !important; border-radius: 0;}
+	.ap-compare--platform .ap-right-copy p {color: #8E99A8;}
+	.ap-compare--platform .ap-connected {width: 100%; max-width: 460px; margin: -8px auto 0; flex-direction: column; align-items: stretch; padding: 24px 24px 0;}
+	.ap-compare--platform .ap-connected-text {padding-bottom: 4px;}
+	.ap-compare--platform .ap-connected-shot {width: 100%; max-width: none; margin-top: 16px;}
+}
+@media (max-width: 767px) {
+	.ap-compare--platform {padding: 56px 16px 48px;}
+	.ap-compare--platform .ap-compare-heading {max-width: 360px; margin-bottom: 24px; text-align: left;}
+	.ap-compare--platform .ap-eyebrow {margin-top: 0; font-size: 12px; text-align: left;}
+	.ap-compare--platform h2 {font-size: 24px; text-align: left;}
+	.ap-compare--platform h2 span {display: inline;}
+	.ap-compare--platform .ap-compare-heading p:not(.ap-eyebrow) {font-size: 16px;}
+	.ap-compare--platform .ap-compare-table, .ap-compare--platform .ap-connected {max-width: 360px;}
+}
+
+/* ---- guide (the comparison guides, e.g. Asset Panda vs EZO): the home look with any number of rows, a winner pill under each criterion and a footnote ---- */
+.ap-compare--guide {width: 100%; max-width: none; margin: 0 !important; padding: 80px 24px 64px; background: #fff; font-family: "Manrope", Arial, sans-serif !important; overflow: hidden;}
+.ap-compare--guide, .ap-compare--guide * {box-sizing: border-box;}
+.ap-compare--guide .ap-compare-inner {position: relative; width: 100%; max-width: 1120px; margin: 0 auto;}
+.ap-compare--guide .ap-compare-heading {position: relative; width: 100%; max-width: 800px; margin: 0 auto 40px; text-align: center;}
+.ap-compare--guide .ap-eyebrow {margin: 0 0 16px; color: #5044E1; font-size: 14px; line-height: 1.2; font-weight: 800; text-align: center; letter-spacing: 0.04em; text-transform: uppercase;}
+.ap-compare--guide h2 {margin: 0; color: #25272C; font-size: 40px; line-height: 1.2; font-weight: 800; text-align: center; letter-spacing: -0.02em;}
+.ap-compare--guide h2 span {display: block;}
+.ap-compare--guide .ap-gradient-text {background: linear-gradient( 76.7deg, #5044E1 3.63%, #00A991 50.12% ); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;}
+.ap-compare--guide .ap-compare-heading p:not(.ap-eyebrow) {margin: 16px 0 0; color: #5B616E; font-size: 18px; line-height: 1.5; font-weight: 400;}
+.ap-compare--guide .ap-compare-table {position: relative; width: 100%; display: grid; grid-template-columns: 347px 427px 347px; grid-template-rows: 160px 88px; grid-auto-rows: minmax(96px, auto); justify-content: center; align-items: stretch;}
+.ap-compare--guide .ap-compare-table::before {box-sizing: border-box; content: ""; position: absolute; top: 0; bottom: 0; left: 347px; width: 427px; background: linear-gradient( 180deg, #FFFFFF 80.94%, #A7B3FA 108.27% ); border: 0; border-radius: 16px; box-shadow: inset 0 0 0 1px #838CF6, 0 2px 24px #E1E6FE; pointer-events: none; z-index: 0;}
+.ap-compare--guide .ap-compare-table::after {display: none;}
+.ap-compare--guide .ap-cell {position: relative; z-index: 1; min-width: 0;}
+.ap-compare--guide .ap-left-spacer, .ap-compare--guide .ap-left-empty, .ap-compare--guide .ap-right-empty {background: transparent;}
+.ap-compare--guide .ap-right-empty {visibility: hidden !important; border: 0 !important; outline: 0 !important; box-shadow: none !important;}
+.ap-compare--guide .ap-right-empty::before, .ap-compare--guide .ap-right-empty::after {display: none !important; content: none !important;}
+.ap-compare--guide .ap-center-top {overflow: hidden; border: 0 !important; border-radius: 16px 16px 0 0; background: linear-gradient( 101.9deg, #5044E1 25.94%, #35307F 57.56%, #201C4A 89.17% );}
+.ap-compare--guide .ap-center-top-img {display: block; width: 100%; height: 160px; object-fit: cover; object-position: center;}
+.ap-compare--guide .ap-right-top {align-self: end; height: 105px; display: flex; align-items: center; padding: 24px; background: #F2F5F8; border: 1px solid #D1DDE6; border-left: 0; border-bottom: 0; border-radius: 0 16px 0 0;}
+.ap-compare--guide .ap-file-icon-img {display: block; width: 48px; height: 58px; object-fit: contain;}
+.ap-compare--guide .ap-left-title, .ap-compare--guide .ap-center-title, .ap-compare--guide .ap-right-title {display: flex; align-items: center; min-height: 88px; font-size: 20px; line-height: 1.2; font-weight: 800;}
+.ap-compare--guide .ap-left-title {padding: 32px; color: #334859;}
+.ap-compare--guide .ap-center-title {padding: 32px; color: #201C4A; border-top: 1px solid #838CF6; border-left: 0 !important; border-right: 0 !important;}
+.ap-compare--guide .ap-right-title {padding: 32px 32px 32px 24px; color: #7B9DB5; background: #F2F5F8; border-left: 0; border-right: 1px solid #D1DDE6;}
+.ap-compare--guide .ap-left-label {display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 8px; padding: 24px 32px; color: #4B5563; font-size: 16px; line-height: 1.2; font-weight: 800; border-top: 1px solid #D1DDE6;}
+.ap-compare--guide .ap-center-copy {display: flex; align-items: flex-start; gap: 8px; padding: 24px 32px; border-top: 1px solid #838CF6; border-left: 0 !important; border-right: 0 !important;}
+.ap-compare--guide .ap-center-copy p {margin: 0; color: #201C4A; font-size: 14px; line-height: 1.5; font-weight: 400;}
+.ap-compare--guide .ap-right-copy {display: flex; align-items: flex-start; gap: 8px; padding: 24px 32px 24px 24px; background: #F2F5F8; border-top: 1px solid #D1DDE6; border-right: 1px solid #D1DDE6; border-left: 0;}
+.ap-compare--guide .ap-right-copy p {margin: 0; color: #5B616E; font-family: var(--ap-font-body); font-size: 14px; line-height: 1.5; font-weight: 400;}
+.ap-compare--guide .ap-panda-mini-img, .ap-compare--guide .ap-table-mini-img {display: block; flex: 0 0 24px; width: 24px; height: 24px; margin-top: 1px; object-fit: contain;}
+.ap-compare--guide .ap-compare-winner {display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 999px; font-size: 12px; line-height: 1.2; font-weight: 700; letter-spacing: 0.02em; white-space: nowrap;}
+.ap-compare--guide .ap-compare-winner__k {font-weight: 600; opacity: 0.75;}
+.ap-compare--guide .ap-compare-winner__k::after {content: ":";}
+.ap-compare--guide .ap-compare-winner--ap {background: #E3F6F1; color: #007A68;}
+.ap-compare--guide .ap-compare-winner--other {background: #EEF2FF; color: #3B33A8;}
+.ap-compare--guide .ap-compare-winner--tie {background: #EEF0F3; color: #4B5563;}
+.ap-compare--guide .ap-compare-note {max-width: 1120px; margin: 24px auto 0; color: #5B616E; font-size: 14px; line-height: 1.5; font-weight: 400;}
+.ap-compare--guide .ap-compare-table .ap-left-empty {grid-column: 1; grid-row: calc(3 + var(--ap-compare-rows, 4));}
+.ap-compare--guide .ap-compare-table .ap-center-cta {grid-column: 2; grid-row: calc(3 + var(--ap-compare-rows, 4));}
+.ap-compare--guide .ap-compare-table .ap-right-empty {grid-column: 3; grid-row: calc(3 + var(--ap-compare-rows, 4));}
+.ap-compare--guide .ap-center-cta {display: flex; flex-direction: column; gap: 24px; align-items: center; justify-content: center; padding: 32px 32px 24px; border-top: 1px solid #838CF6; border-left: 0 !important; border-right: 0 !important; border-radius: 0 0 16px 16px;}
+.ap-compare--guide .ap-compare-cta {display: inline-flex; align-items: center; justify-content: center; width: 363px; max-width: 100%; min-height: 47px; padding: 14px 16px; border-radius: 4px; background: linear-gradient( 54.33deg, #5044E1 0%, #00A991 70.44% ); color: #FFFFFF !important; font-size: 16px; line-height: 1.2; font-weight: 700; text-align: center; text-decoration: none !important;}
+.ap-compare--guide .ap-compare-cta:hover, .ap-compare--guide .ap-compare-cta:focus {color: #FFFFFF !important; text-decoration: none !important; filter: brightness(1.03);}
+.ap-compare--guide .ap-compare-link {display: inline-flex; align-items: center; gap: 8px; font-size: 16px; line-height: 1.2; font-weight: 600; color: #25272C !important; text-decoration: none !important;}
+.ap-compare--guide .ap-compare-link svg {display: block; transition: transform 0.2s ease;}
+.ap-compare--guide .ap-compare-link:hover svg {transform: translateX(4px);}
+.ap-compare--guide .ap-ursa {display: inline; font-weight: 700; background: linear-gradient( 75.71deg, #806991 6.52%, #00A991 60% ); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; white-space: nowrap;}
+.ap-compare--guide .ap-ursa sup {position: relative; top: -0.15em; margin-left: 1px; font-size: 0.55em; line-height: 1; vertical-align: super;}
+.ap-compare--guide .ap-cell.ap-center-top, .ap-compare--guide .ap-cell.ap-center-title, .ap-compare--guide .ap-cell.ap-center-copy, .ap-compare--guide .ap-cell.ap-center-cta {border-left: .9px solid #838CF6 !important; border-right: .9px solid #838CF6 !important;}
+.ap-compare--guide .ap-cell.ap-center-cta, .ap-compare--guide .ap-cell.ap-center-copy-end {border-bottom: .9px solid #838CF6 !important;}
+.ap-compare--guide .ap-cell.ap-center-copy-end {border-radius: 0 0 16px 16px;}
+@media (min-width: 1280px) {
+	.ap-compare--guide .ap-right-copy-end {border-bottom: 1px solid #D1DDE6 !important; border-radius: 0 0 16px 0;}
+}
+@media (max-width: 1279px) {
+	.ap-compare--guide {padding: 80px 24px 48px;}
+	.ap-compare--guide .ap-compare-table {display: block; width: 100%; max-width: 460px; margin: 0 auto; grid-template-columns: none; grid-template-rows: none; background: linear-gradient( 180deg, #FFFFFF 86%, #EEF2FF 100% ); border: 0 !important; border-radius: 16px; box-shadow: 0 2px 24px #E1E6FE; overflow: hidden; isolation: isolate;}
+	.ap-compare--guide .ap-compare-table::before {display: none;}
+	.ap-compare--guide .ap-compare-table::after {content: ""; display: block; position: absolute; inset: 0; border: 1px solid #838CF6; border-radius: 16px; pointer-events: none; z-index: 20;}
+	.ap-compare--guide .ap-left-spacer, .ap-compare--guide .ap-right-top, .ap-compare--guide .ap-left-title, .ap-compare--guide .ap-right-title, .ap-compare--guide .ap-left-empty, .ap-compare--guide .ap-right-empty {display: none !important;}
+	.ap-compare--guide .ap-center-top {display: block; border: 0 !important; border-radius: 16px 16px 0 0;}
+	.ap-compare--guide .ap-center-top-img {height: auto;}
+	.ap-compare--guide .ap-center-title {display: block; min-height: 0; padding: 18px 24px 14px; border: 0 !important; font-size: 16px; line-height: 1.35; color: #201C4A;}
+	.ap-compare--guide .ap-center-title .ap-compare-vs {display: inline; color: #00A991; font-weight: 800;}
+	.ap-compare--guide .ap-left-label {display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 6px 12px; padding: 16px 24px 2px; border-top: 1px solid #E1E6FE; border-left: 0 !important; border-right: 0 !important; color: #201C4A; font-size: 14px; font-weight: 800;}
+	.ap-compare--guide .ap-center-copy, .ap-compare--guide .ap-center-copy-end {display: flex; align-items: flex-start; gap: 8px; padding: 8px 24px 4px; border: 0 !important; border-radius: 0; background: transparent;}
+	.ap-compare--guide .ap-center-copy p {color: #201C4A;}
+	.ap-compare--guide .ap-right-copy, .ap-compare--guide .ap-right-copy-end {display: flex; align-items: flex-start; gap: 8px; padding: 4px 24px 16px; background: transparent; border: 0 !important; border-radius: 0;}
+	.ap-compare--guide .ap-right-copy p {color: #8E99A8;}
+	.ap-compare--guide .ap-center-cta {display: flex; padding: 20px 24px 24px; border-top: 1px solid #E1E6FE !important; border-left: 0 !important; border-right: 0 !important; border-bottom: 0 !important; border-radius: 0 0 16px 16px;}
+	.ap-compare--guide .ap-compare-cta {width: 100%;}
+	.ap-compare--guide .ap-compare-note {max-width: 460px;}
+}
+@media (max-width: 767px) {
+	.ap-compare--guide {padding: 56px 16px 40px;}
+	.ap-compare--guide .ap-compare-heading {max-width: 360px; margin-bottom: 24px; text-align: left;}
+	.ap-compare--guide .ap-eyebrow {margin-top: 0; font-size: 12px; text-align: left;}
+	.ap-compare--guide h2 {font-size: 24px; text-align: left;}
+	.ap-compare--guide h2 span {display: inline;}
+	.ap-compare--guide .ap-compare-heading p:not(.ap-eyebrow) {font-size: 16px;}
+	.ap-compare--guide .ap-compare-table, .ap-compare--guide .ap-compare-note {max-width: 360px;}
+}
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: --ap-section-y top and bottom (home was 80 / 40, 80 / 48,
+ * 56 / 40; platform 80 / 80, 80 / 64 by width), --ap-section-head-gap under
+ * the heading (was 40 / 24). */
+html body .ap-compare.ap-compare { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+html body .ap-compare .ap-compare-heading { margin-bottom: var(--ap-section-head-gap, 48px); }
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-compare.ap-compare.ap-compare h2 { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+/* Section eyebrow on the type scale too: 12px at 390 to 14px at 1440, 800, 4% tracking, upper case. */
+html body .ap-compare.ap-compare.ap-compare .ap-eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }
+
+/* Motion (QA 2026-10-28, motion agent's R4): hover moves use translate / scale, never transform (scroll entrances own transform), on the house timing. */
+html body .ap-compare .ap-compare-link svg { transition: translate var(--ap-dur-base, .3s) var(--ap-ease-standard, ease); }
+html body .ap-compare .ap-compare-link:hover svg { transform: none; translate: 4px 0; }

@@ -1,0 +1,426 @@
+/*
+ * demo-stories — Customer stories slider of the Get a Demo flow (live #ap-demo-stories); .ap-d26-stories--cta
+ * (the thank-you page) shows the story links and the View All button.
+ *
+ * Ported class-for-class from the live sheet (worktree get-a-demo-calcom @5ae4e90,
+ * regenerate with scratchpad agents/demo/port-css.mjs): every selector is scoped under the
+ * component root, live's section id becomes the root class, and the inner class names are kept
+ * so the port stays diffable against live. Source comments say Page A for the weekly page
+ * (split layout, now www /get-a-demo/) and Page B for the month page (centered layout).
+ *
+ * Weights: live serves Manrope as static 300/400/700/800 faces, so its 600 draws as 700 and its
+ * 500 as 400; the dev theme's Manrope is variable, so this port states the weight live shows.
+ */
+
+
+/* Same font guard the live ap-* pages ship; the theme otherwise forces its own font. */
+.ap-demo-stories,
+.ap-demo-stories h1,
+.ap-demo-stories h2,
+.ap-demo-stories h3,
+.ap-demo-stories p,
+.ap-demo-stories span,
+.ap-demo-stories a,
+.ap-demo-stories li,
+.ap-demo-stories button,
+.ap-demo-stories input,
+.ap-demo-stories select,
+.ap-demo-stories label,
+.ap-demo-stories div {
+	font-family: "Manrope",Arial,sans-serif!important;
+}
+.ap-demo-stories.ap-d26-sec,
+.ap-demo-stories.ap-d26-sec *,
+.ap-demo-stories.ap-d26-sec *::before,
+.ap-demo-stories.ap-d26-sec *::after {
+	box-sizing: border-box;
+}
+.ap-demo-stories.ap-d26-sec {
+	position: relative;
+	width: 100%;
+	margin: 0;
+}
+.ap-demo-stories .ap-d26-sr {
+	position: absolute!important;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* Dots: an 8px dot inside a 14px button (a bigger target, same 6px spacing). */
+.ap-demo-stories .ap-d26-dots {
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+}
+.ap-demo-stories.ap-d26-sec .ap-d26-dot {
+	display: block;
+	width: 14px;
+	height: 14px;
+	min-height: 0;
+	margin: 0;
+	padding: 3px;
+	border: 0;
+	border-radius: 50%;
+	background: #e1e4ec;
+	background-clip: content-box;
+	box-shadow: none;
+	cursor: pointer;
+	transition: background-color .3s cubic-bezier(.25,.45,.45,.95);
+}
+.ap-demo-stories.ap-d26-sec .ap-d26-dot.is-active {
+	background-color: #4a4e5a;
+}
+.ap-demo-stories.ap-d26-sec .ap-d26-dot:focus-visible {
+	outline: 2px solid #5044e1;
+	outline-offset: 0;
+}
+
+/* ---------- Customer stories: the homepage's testimonial slider (#ap-home-case) ---------- */
+.ap-demo-stories.ap-d26-sec {
+	padding: 40px 160px;
+	background: #fff;
+}
+.ap-demo-stories .ap-d26-stories {
+	max-width: 1120px;
+	margin: 0 auto;
+}
+.ap-demo-stories .ap-d26-cases {
+	display: grid;
+	grid-template-columns: minmax(0,1fr);
+	row-gap: 36px;
+}
+.ap-demo-stories .ap-d26-case-slides {
+	display: grid;
+	min-width: 0;
+}
+.ap-demo-stories .ap-d26-case {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 40px;
+	min-width: 0;
+	grid-area: 1/1;
+	visibility: hidden;
+	opacity: 0;
+	translate: 18px 0;
+	transition: opacity .26s cubic-bezier(.25,.45,.45,.95),translate .52s cubic-bezier(.25,.45,.45,.95),visibility 0s linear .52s;
+}
+.ap-demo-stories .ap-d26-case.is-active {
+	visibility: visible;
+	opacity: 1;
+	translate: 0 0;
+	transition: opacity .48s cubic-bezier(.25,.45,.45,.95) .12s,translate .55s cubic-bezier(.25,.45,.45,.95) .05s,visibility 0s;
+}
+.ap-demo-stories .ap-d26-case-copy {
+	display: flex;
+	flex: 0 0 auto;
+	flex-direction: column;
+	gap: 16px;
+	width: 325px;
+}
+.ap-demo-stories .ap-d26-case-icon {
+	display: block;
+	width: 32px;
+	height: 32px;
+}
+.ap-demo-stories.ap-d26-sec .ap-d26-case-cat {
+	margin: 0;
+	font-size: 12px;
+	font-weight: 800;
+	line-height: 1.3;
+	letter-spacing: .48px;
+	text-transform: uppercase;
+	color: #5044e1;
+}
+.ap-demo-stories.ap-d26-sec .ap-d26-case-title {
+	margin: 0;
+	font-size: 24px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: 0;
+	color: #25272c;
+}
+.ap-demo-stories.ap-d26-sec .ap-d26-case-quote {
+	margin: 0;
+	font-size: 18px;
+	line-height: 1.5;
+	color: #25272c;
+}
+.ap-demo-stories .ap-d26-case-author {
+	margin-top: 8px;
+}
+.ap-demo-stories.ap-d26-sec .ap-d26-case-name {
+	margin: 0;
+	font-size: 18px;
+	font-weight: 800;
+	line-height: 1.2;
+	color: #25272c;
+}
+.ap-demo-stories.ap-d26-sec .ap-d26-case-role {
+	margin: 0;
+	font-size: 12px;
+	line-height: 1.5;
+	color: #4a4e5a;
+}
+.ap-demo-stories.ap-d26-sec .ap-d26-case-link,
+.ap-demo-stories.ap-d26-sec .ap-d26-case-all {
+	display: none;
+	align-items: center;
+	gap: 8px;
+	width: fit-content;
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1.5;
+	color: #25272c!important;
+	text-decoration: none;
+	white-space: nowrap;
+}
+.ap-demo-stories.ap-d26-sec .ap-d26-case-link {
+	margin-top: 16px;
+}
+.ap-demo-stories.ap-d26-stories--cta .ap-d26-case-link,
+.ap-demo-stories.ap-d26-stories--cta .ap-d26-case-all {
+	display: inline-flex;
+}
+.ap-demo-stories .ap-d26-case-link img,
+.ap-demo-stories .ap-d26-case-all img {
+	display: block;
+	width: 24px;
+	height: 24px;
+	transition: translate .3s cubic-bezier(.25,.45,.45,.95);
+}
+.ap-demo-stories .ap-d26-case-link:hover img,
+.ap-demo-stories .ap-d26-case-all:hover img {
+	translate: 4px 0;
+}
+.ap-demo-stories .ap-d26-case-media {
+	position: relative;
+	flex: 1 1 0;
+	min-width: 0;
+	max-width: 737px;
+	aspect-ratio: 737/413;
+	overflow: hidden;
+	border-radius: 16px;
+	background: #eef0f4;
+}
+.ap-demo-stories .ap-d26-case-media>img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+}
+.ap-demo-stories .ap-d26-case-logo {
+	position: absolute;
+	right: 16px;
+	bottom: 16px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 120px;
+	height: 80px;
+	padding: 0 8px;
+	border-radius: 8px;
+	background: linear-gradient(75deg,#eef2ff 0%,#fff 100%);
+}
+.ap-demo-stories .ap-d26-case-logo img {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
+.ap-demo-stories .ap-d26-case-controls {
+	display: flex;
+	align-items: center;
+	gap: 24px;
+}
+.ap-demo-stories .ap-d26-case-arrows {
+	display: flex;
+	flex-shrink: 0;
+	gap: 16px;
+}
+.ap-demo-stories.ap-d26-sec .ap-d26-case-arrow {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	min-height: 0;
+	margin: 0;
+	padding: 0;
+	border: 1px solid #e6e9f2;
+	border-radius: 50%;
+	background: #fff;
+	box-shadow: none;
+	font-size: 18px;
+	line-height: 1;
+	color: #25272c;
+	cursor: pointer;
+	-webkit-tap-highlight-color: transparent;
+	transition: border-color var(--ap-dur-base) var(--ap-ease-standard),box-shadow var(--ap-dur-base) var(--ap-ease-standard),translate var(--ap-dur-base) var(--ap-ease-standard);
+}
+.ap-demo-stories.ap-d26-sec .ap-d26-case-arrow:hover {
+	translate: 0 -2px;
+	border-color: #cfd4df;
+	box-shadow: 0 5px 14px rgba(37,39,44,.08);
+}
+.ap-demo-stories.ap-d26-sec .ap-d26-case-arrow:focus-visible {
+	outline: 2px solid #5044e1;
+	outline-offset: 2px;
+}
+.ap-demo-stories .ap-d26-case-progress {
+	position: relative;
+	flex: 1 1 0;
+	min-width: 80px;
+	height: 1px;
+	overflow: hidden;
+	background: #e6e9f2;
+}
+.ap-demo-stories .ap-d26-case-bar {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 1px;
+	background: #25272c;
+	transition: transform .55s cubic-bezier(.25,.45,.45,.95);
+}
+.ap-demo-stories .ap-d26-cases .ap-d26-dot {
+	background-color: #e6e9f2;
+}
+.ap-demo-stories.ap-d26-sec .ap-d26-cases .ap-d26-dot.is-active {
+	background-color: #25272c;
+}
+@media (max-width:1279px) {
+	.ap-demo-stories.ap-d26-sec {
+		padding: 40px;
+	}
+}
+@media (max-width:900px) {
+	.ap-demo-stories.ap-d26-sec {
+		padding: 32px 16px;
+	}
+	.ap-demo-stories .ap-d26-cases {
+		row-gap: 28px;
+	}
+	.ap-demo-stories .ap-d26-case {
+		flex-direction: column;
+		align-items: stretch;
+		justify-content: flex-start;
+		gap: 0;
+		translate: 0 14px;
+	}
+	.ap-demo-stories .ap-d26-case.is-active {
+		translate: 0 0;
+	}
+	.ap-demo-stories .ap-d26-case-copy {
+		display: contents;
+	}
+	.ap-demo-stories .ap-d26-case-icon {
+		order: 0;
+		width: 30px;
+		height: 30px;
+		margin: 0 0 14px;
+	}
+	.ap-demo-stories.ap-d26-sec .ap-d26-case-cat {
+		order: 1;
+		margin: 0 0 10px;
+	}
+	.ap-demo-stories.ap-d26-sec .ap-d26-case-title {
+		order: 1;
+	}
+	.ap-demo-stories .ap-d26-case-media {
+		order: 2;
+		flex: 0 0 auto;
+		width: 100%;
+		max-width: none;
+		margin-top: 24px;
+		border-radius: 14px;
+	}
+	.ap-demo-stories .ap-d26-case-logo {
+		right: 12px;
+		bottom: 12px;
+		width: 110px;
+		height: 73px;
+		padding: 0 7px;
+	}
+	.ap-demo-stories.ap-d26-sec .ap-d26-case-quote {
+		order: 3;
+		margin-top: 24px;
+		font-size: 17px;
+		line-height: 1.55;
+	}
+	.ap-demo-stories .ap-d26-case-author {
+		order: 4;
+		margin-top: 22px;
+	}
+	.ap-demo-stories.ap-d26-sec .ap-d26-case-name {
+		font-size: 17px;
+		line-height: 1.25;
+	}
+	.ap-demo-stories.ap-d26-sec .ap-d26-case-link {
+		order: 5;
+		margin-top: 22px;
+		font-weight: 700;
+	}
+	.ap-demo-stories .ap-d26-case-controls {
+		display: grid;
+		grid-template-columns: auto minmax(24px,1fr) auto;
+		grid-template-areas: "arrows progress dots" "all all all";
+		column-gap: 16px;
+		row-gap: 20px;
+	}
+	.ap-demo-stories .ap-d26-case-arrows {
+		grid-area: arrows;
+		gap: 10px;
+	}
+	.ap-demo-stories .ap-d26-case-progress {
+		grid-area: progress;
+		min-width: 0;
+	}
+	.ap-demo-stories .ap-d26-cases .ap-d26-dots {
+		grid-area: dots;
+	}
+	.ap-demo-stories.ap-d26-sec .ap-d26-cases .ap-d26-dot {
+		width: 12px;
+		height: 12px;
+		padding: 2.5px;
+	}
+	.ap-demo-stories.ap-d26-sec .ap-d26-case-all {
+		grid-area: all;
+		justify-content: center;
+		width: 100%;
+		padding: 15px 20px;
+		border-radius: 4px;
+		background: linear-gradient(90deg,#5044e1 0%,#00a991 70.44%);
+		font-weight: 700;
+		color: #fff!important;
+	}
+	.ap-demo-stories .ap-d26-case-all img {
+		display: none;
+	}
+}
+@media (max-width:390px) {
+	.ap-demo-stories.ap-d26-sec .ap-d26-case-title {
+		font-size: 22px;
+	}
+	.ap-demo-stories.ap-d26-sec .ap-d26-case-quote {
+		font-size: 16px;
+	}
+}
+@media (prefers-reduced-motion:reduce) {
+	.ap-demo-stories .ap-d26-case,
+	.ap-demo-stories .ap-d26-case-bar {
+		transition: none!important;
+		translate: none!important;
+	}
+}
+
+/* Autoplay swipe (behaviour.js): how far a slide travels as it enters or leaves;
+ * inside the side padding on phones. */
+.ap-demo-stories { --d26-swipe: 40px; }
+@media (max-width: 767px) { .ap-demo-stories { --d26-swipe: 16px; } }

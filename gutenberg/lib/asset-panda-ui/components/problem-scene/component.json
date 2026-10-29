@@ -72,6 +72,20 @@
 			"required": false,
 			"default": 0,
 			"description": "Height of the photo scene in px. 0 keeps the default 260."
-		}
+		},
+		"variant": {
+			"type": "string",
+			"required": false,
+			"default": "default",
+			"enum": [ "default", "readiness", "eduhub" ],
+			"description": "readiness: the Emergency Preparedness / School Reunification problem section, which stacks at 900px into one column with full-width callouts (the hubs stack at 1024px). eduhub: the Education hub (live #ap-eduhub-problem, ported whole): the photo pair and four chips stay side by side, scaling with the width, down to 641px; at 640px and below the scene becomes one photo and four full-width chips over mobile_background. The eduhub chips take their colour and place from their order; left, right and top are ignored."
+		},
+		"mobile_background": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "eduhub only: the colour wash behind the section at 640px and below (live swaps in a phone image). Empty keeps background."
+		},
+		"stack": { "type": "string", "required": false, "default": "1024", "enum": [ "1024", "900" ], "description": "Width at which the layout stacks: 1024px (the hubs) or 900px (the Education hub)." }
 	}
 }

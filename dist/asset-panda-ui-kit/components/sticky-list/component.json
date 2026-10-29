@@ -1,0 +1,66 @@
+{
+	"name": "sticky-list",
+	"description": "Solution list: a heading that sticks beside rows of capabilities, each row a coloured left rule with an icon, a title and a checklist. Live: the `.ap-features` section on every vertical and the numbered variant on the solution pages.",
+	"props": {
+		"eyebrow": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Small label above the heading."
+		},
+		"title": {
+			"type": "string",
+			"required": true,
+			"description": "Heading beside the rows. Line breaks are kept."
+		},
+		"items": {
+			"type": "array",
+			"required": true,
+			"description": "Each may carry num (a numeral shown instead of the icon). Rows. Each: title (required); optional icon (URL), icon_svg (inline SVG), icon_alt, accent (hex colour for the rule and check marks), checks (array of strings), body, link_label and link_url."
+		},
+		"reveal": {
+			"type": "boolean",
+			"required": false,
+			"default": true,
+			"description": "Reveal the rows on scroll."
+		},
+		"lede": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Supporting paragraph under the sticky heading."
+		},
+		"variant": {
+			"type": "string",
+			"required": false,
+			"default": "default",
+			"enum": [
+				"default",
+				"solution"
+			],
+			"description": "solution: the industry hubs' and solution pages' feature list (item headings at line-height 1.3)."
+		},
+		"head_space": {
+			"type": "object",
+			"required": false,
+			"default": {},
+			"description": "Space above and below the heading per step, in px, keyed 1024, 991, 768, 560, each [top, bottom] (live Police: its own 991px step). Leave empty for the shared spacing."
+		},
+		"stack": {
+			"type": "string",
+			"required": false,
+			"default": "1024",
+			"enum": [
+				"1024",
+				"900"
+			],
+			"description": "Width at which the layout stacks: 1024px (the hubs) or 900px (the Education hub)."
+		},
+		"index": {
+			"type": "boolean",
+			"required": false,
+			"default": true,
+			"description": "From 1025px, list the groups under the sticky heading; the group in view is highlighted and a click jumps to it. Needs three or more groups."
+		}
+	}
+}

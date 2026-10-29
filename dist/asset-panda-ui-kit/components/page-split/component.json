@@ -1,0 +1,28 @@
+{
+	"name": "page-split",
+	"description": "Copy-and-image row for the 2026 company and resource pages: eyebrow, heading (or a large pull quote), paragraphs with inline links, bullets, a person line, arrow links (one or two columns), and up to two buttons beside a photo, illustration or framed screenshot; image left or right, stacked on phones. Without an image the copy centres (an intro band). Tones: white, the soft brand wash, or a rounded off-white panel (live's rounded sections).",
+	"props": {
+		"anchor": { "type": "string", "required": false, "default": "", "description": "id on the section (letters, digits, hyphens)." },
+		"tone": { "type": "string", "required": false, "default": "white", "enum": [ "white", "soft", "panel" ], "description": "white; soft: slate-50 with brand orbs; panel: a rounded off-white card holding the row." },
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small uppercase label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading. Line breaks are kept." },
+		"title_tag": { "type": "string", "required": false, "default": "h2", "enum": [ "h2", "h3" ], "description": "Heading level." },
+		"quote": { "type": "boolean", "required": false, "default": false, "description": "Set the heading as a large pull quote (quote mark, 32px) — live's CEO quote on /our-company/ is the page's first h2." },
+		"body": { "type": "string", "required": false, "default": "", "description": "Copy. A blank line starts a new paragraph; single line breaks are kept; [label](url) links, **bold**." },
+		"bullets": { "type": "array", "required": false, "default": [], "description": "Check list under the copy (plain strings; [label](url) and **bold** allowed)." },
+		"person_name": { "type": "string", "required": false, "default": "", "description": "Attribution or contact name (bold), e.g. Nick Child." },
+		"person_role": { "type": "string", "required": false, "default": "", "description": "Line under the name, e.g. Manager of Channels and Alliances." },
+		"links": { "type": "array", "required": false, "default": [], "description": "Arrow links under the copy. Each: label (required), url (required), optional note (a line under the label)." },
+		"links_columns": { "type": "string", "required": false, "default": "1", "enum": [ "1", "2" ], "description": "Link list columns from 768px." },
+		"cta_label": { "type": "string", "required": false, "default": "", "description": "Primary (gradient) button. Renders only with cta_url." },
+		"cta_url": { "type": "string", "required": false, "default": "", "description": "Primary button destination (page, #anchor, http(s), mailto: or tel:)." },
+		"secondary_label": { "type": "string", "required": false, "default": "", "description": "Secondary (outline) button. Renders only with secondary_url." },
+		"secondary_url": { "type": "string", "required": false, "default": "", "description": "Secondary button destination." },
+		"image": { "type": "string", "required": false, "default": "", "description": "Image URL (PNG/WebP/SVG). Lazy-loaded." },
+		"image_alt": { "type": "string", "required": false, "default": "", "description": "Image alt text (empty when decorative)." },
+		"image_width": { "type": "integer", "required": false, "default": 0, "description": "Intrinsic width in px (0 omits it)." },
+		"image_height": { "type": "integer", "required": false, "default": 0, "description": "Intrinsic height in px." },
+		"image_style": { "type": "string", "required": false, "default": "photo", "enum": [ "photo", "circle", "card", "plain" ], "description": "photo: rounded 16px corners with a soft shadow; circle: round crop (a headshot); card: inside a white frame (screenshots); plain: as is (illustrations)." },
+		"reverse": { "type": "boolean", "required": false, "default": false, "description": "Image on the left from 1001px." }
+	}
+}

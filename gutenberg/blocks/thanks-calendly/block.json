@@ -1,0 +1,57 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/thanks-calendly",
+	"title": "AP Thanks Calendly",
+	"category": "design",
+	"icon": "calendar-alt",
+	"description": "Booking card under a thank-you hero: the event (logo, name, duration, description) beside an inline Calendly scheduler. Several tracks can be given; the first whose sessionStorage rule matches is shown (live: 'transition' vs 'implementation' demo calendars by the visitor's current-solution answer), otherwise the default. Live: the legacy pricing / trial / demo thank-you pages (bs-section--thank-you-calendar). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"logo": {
+			"type": "string",
+			"default": ""
+		},
+		"logo_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"logo_width": {
+			"type": "number",
+			"default": 0
+		},
+		"logo_height": {
+			"type": "number",
+			"default": 0
+		},
+		"tracks": {
+			"type": "array",
+			"default": []
+		},
+		"hide_international": {
+			"type": "boolean",
+			"default": false
+		},
+		"height": {
+			"type": "number",
+			"default": 600
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

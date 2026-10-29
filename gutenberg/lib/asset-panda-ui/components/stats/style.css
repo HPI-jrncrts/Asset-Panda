@@ -1,148 +1,155 @@
 /*
- * stats — headline statistics grid.
+ * stats — ported from the live homepage stats band (#ap-stats-v3).
  *
- * Figma: Home Page > Stats Section (node 4331:24519).
- *   Section padding 40px y / 160px x at 1440, container 1120px, row gap 32px.
- *   Value  48px ExtraBold, indigo -> green gradient fill.
- *   Label  18px ExtraBold, body colour.
- *   Desc   16px Regular, body colour.
- *
- * Every value below comes from tokens.css. The one Figma colour NOT tokenised
- * is #4b5563 on the label/description — the Color Scheme defines body text as
- * #4a4e5a, a one-step difference that reads identically. Using the token.
+ * The section id became the component root class, so every rule keeps its
+ * relative order; the inner class names are live's, so the port stays diffable
+ * against live. Page-level hacks in the live sheet (html/body overflow, the
+ * Unyson full-bleed wrapper) stay behind: the block wrapper is already full width.
  */
 
 .ap-stats {
-	padding-block: var(--ap-pad-y-sm);
-	padding-inline: var(--ap-pad-x-xs);
-	background: var(--ap-surface);
-	font-family: var(--ap-font-body);
-}
-
-.ap-stats--dark {
-	background: var(--ap-surface-dark);
-}
-
-.ap-stats__inner {
-	max-width: var(--ap-page-max-content-xl);
-	margin-inline: auto;
-}
-
-.ap-stats__grid {
-	display: grid;
-	grid-template-columns: 1fr;
-	gap: var(--ap-surf-gap-4xl) var(--ap-surf-gap-3xl);
+	position: relative;
+	z-index: 1;
+	width: 100%;
+	max-width: none;
 	margin: 0;
-	padding: 0;
-	list-style: none;
+	padding: 80px 24px;
+	background: #F9FAFB;
+	font-family: 'Manrope', Arial, sans-serif;
+	overflow: hidden;
 }
 
-.ap-stats__item {
+/* Theme variants: live is the slate-50 band (alt). */
+.ap-stats--light { background: #FFFFFF; }
+.ap-stats--alt { background: #F9FAFB; }
+.ap-stats--dark { background: var(--ap-surface-dark); }
+
+.ap-stats,
+.ap-stats * {
+	box-sizing: border-box;
+}
+
+.ap-stats .ap-stats-inner {
+	width: 100%;
+	max-width: 1120px;
+	margin: 0 auto;
+}
+
+.ap-stats .ap-stats-grid {
+	width: 100%;
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	column-gap: 40px;
+	row-gap: 40px;
+	align-items: start;
+}
+
+.ap-stats--cols-2 .ap-stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.ap-stats--cols-4 .ap-stats-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+.ap-stats .ap-stat {
+	width: 100%;
 	display: flex;
 	flex-direction: column;
-	gap: var(--ap-surf-gap-sm);
-	min-width: 0;
+	align-items: flex-start;
+	text-align: left;
+	gap: 8px;
 }
 
-.ap-stats__value {
-	margin: 0;
-	font-size: var(--ap-fs-h1-sm);
-	font-weight: var(--ap-weight-display);
-	line-height: var(--ap-line-h1);
-
-	/* Gradient numeral, per the Figma fill. `background-clip: text` paints only
-	 * inside the text box, so a tall glyph or a superscript can be sliced off
-	 * the top — the padding is the standing fix for that, not decoration. */
-	padding-top: 0.12em;
-	background-image: linear-gradient(
-		90deg,
-		var(--ap-btn-primary-from) 0%,
-		var(--ap-btn-primary-to) 100%
-	);
+.ap-stats .ap-stat-number {
+	font-size: 48px;
+	line-height: 1.2;
+	font-weight: 800;
+	letter-spacing: -0.02em;
+	background: linear-gradient(76.7deg, #5044E1 3.63%, #00A991 50.12%);
 	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
 	background-clip: text;
 	color: transparent;
 }
 
-/* Forced-colours mode and any engine without background-clip:text would render
- * the value invisible. Restore a real colour in both cases. */
-@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
-	.ap-stats__value {
-		background-image: none;
-		color: var(--ap-brand-indigo);
-	}
+.ap-stats .ap-stat-label {
+	max-width: 300px;
+	color: #4B5563;
+	font-size: 18px;
+	line-height: 1.25;
+	font-weight: 800;
+	text-align: left;
 }
 
+/* Kit addition (not on live): optional supporting copy under the label. */
+.ap-stats .ap-stat-desc {
+	max-width: 300px;
+	color: #4B5563;
+	font-size: 16px;
+	line-height: 1.5;
+	font-weight: 400;
+}
+
+.ap-stats--dark .ap-stat-label,
+.ap-stats--dark .ap-stat-desc {
+	color: var(--ap-text-body-inverse);
+}
+
+/* Forced-colours mode would render the clipped gradient numeral invisible. */
 @media (forced-colors: active) {
-	.ap-stats__value {
-		background-image: none;
+	.ap-stats .ap-stat-number {
+		background: none;
+		-webkit-text-fill-color: CanvasText;
 		color: CanvasText;
 	}
 }
 
-.ap-stats__label {
-	margin: 0;
-	font-size: var(--ap-fs-text-md);
-	font-weight: var(--ap-weight-body-bold);
-	line-height: var(--ap-line-h5);
-	color: var(--ap-text-body);
-}
+@media (max-width: 991px) {
+	.ap-stats {
+		padding: 64px 32px;
+	}
 
-.ap-stats__desc {
-	margin: 0;
-	max-width: 40ch;
-	font-size: var(--ap-fs-text-reg);
-	font-weight: var(--ap-weight-body);
-	line-height: var(--ap-line-body);
-	color: var(--ap-text-body);
-}
-
-.ap-stats--dark .ap-stats__label,
-.ap-stats--dark .ap-stats__desc {
-	color: var(--ap-text-body-inverse);
-}
-
-/* Columns. Phones get two (end of file); the declared count applies from
- * the small-tablet breakpoint up, matching the Figma responsive modes. */
-@media (min-width: 768px) {
-	.ap-stats--cols-2 .ap-stats__grid {
+	.ap-stats .ap-stats-grid {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
+		column-gap: 32px;
+		row-gap: 36px;
 	}
-	.ap-stats--cols-3 .ap-stats__grid,
-	.ap-stats--cols-4 .ap-stats__grid {
+
+	.ap-stats .ap-stat-number {
+		font-size: 40px;
+	}
+
+	.ap-stats .ap-stat-label {
+		font-size: 16px;
+	}
+}
+
+@media (max-width: 767px) {
+	.ap-stats {
+		padding: 40px 28px;
+	}
+
+	.ap-stats .ap-stats-inner {
+		max-width: 340px;
+	}
+
+	.ap-stats .ap-stats-grid {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
+		column-gap: 24px;
+		row-gap: 28px;
+	}
+
+	.ap-stats .ap-stat-number {
+		font-size: 28px;
+	}
+
+	.ap-stats .ap-stat-label {
+		font-size: 14px;
 	}
 }
 
-@media (min-width: 992px) {
-	.ap-stats--cols-3 .ap-stats__grid {
-		grid-template-columns: repeat(3, minmax(0, 1fr));
+@media (max-width: 360px) {
+	.ap-stats .ap-stat-number {
+		font-size: 26px;
 	}
-	.ap-stats--cols-4 .ap-stats__grid {
-		grid-template-columns: repeat(4, minmax(0, 1fr));
+
+	.ap-stats .ap-stat-label {
+		font-size: 13px;
 	}
-}
-
-/* Figma: the homepage stats band sits on slate-50. */
-.ap-stats--alt {
-	background: var(--ap-surface-alt);
-}
-
-/* Phones: two columns and 14px labels (Figma Home Mobile 4333:40799). */
-@media (max-width: 767.98px) {
-	.ap-stats { padding-block: var(--ap-pad-y-md); }
-	.ap-stats__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-	.ap-stats__label { font-size: var(--ap-fs-text-reg); }
-}
-
-/* Border-box sizing for everything in the component, as on the live homepage;
- * :where() keeps it at zero specificity. */
-:where(.ap-stats, .ap-stats *, .ap-stats *::before, .ap-stats *::after) { box-sizing: border-box; }
-
-/* Live homepage rhythm (stats): 40px bands on phones, 80px on desktop, and
- * 28px phone gutters. */
-.ap-stats { padding-block: var(--ap-pad-y-md); }
-
-@media (max-width: 767.98px) {
-	.ap-stats { padding-inline: 28px; }
 }

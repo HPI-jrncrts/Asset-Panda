@@ -1,0 +1,105 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/plans-compare",
+	"title": "AP Plans Compare",
+	"category": "design",
+	"icon": "editor-table",
+	"description": "Pricing v2 'Compare plans' section: centred heading and lead, a feature-by-plan table (grouped, indented rows; ticks, dashes or values), and an 'on every plan' pill list. On phones a plan switch shows one plan column at a time; a pick in plans-picker focuses that plan's column. Source: the Asset Panda Pricing v2 mockup. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"section_id": {
+			"type": "string",
+			"default": "compare"
+		},
+		"variant": {
+			"type": "string",
+			"default": "classic",
+			"enum": [
+				"classic",
+				"clean"
+			]
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"plans": {
+			"type": "array",
+			"default": []
+		},
+		"featured_plan": {
+			"type": "string",
+			"default": ""
+		},
+		"featured_label": {
+			"type": "string",
+			"default": "Most popular"
+		},
+		"art": {
+			"type": "string",
+			"default": ""
+		},
+		"art_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"art_width": {
+			"type": "number",
+			"default": 0
+		},
+		"art_height": {
+			"type": "number",
+			"default": 0
+		},
+		"rows": {
+			"type": "array",
+			"default": []
+		},
+		"focus_plan": {
+			"type": "string",
+			"default": ""
+		},
+		"switch_label": {
+			"type": "string",
+			"default": "Show plan"
+		},
+		"table_label": {
+			"type": "string",
+			"default": "Plan comparison"
+		},
+		"included_label": {
+			"type": "string",
+			"default": "Included"
+		},
+		"excluded_label": {
+			"type": "string",
+			"default": "Not included"
+		},
+		"everything_title": {
+			"type": "string",
+			"default": ""
+		},
+		"everything": {
+			"type": "string",
+			"default": ""
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

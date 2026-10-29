@@ -16,3 +16,7 @@ refs/*.fig
 # Local-only — not part of the repo
 NEW-SESSION-PROMPT.md
 ap-verification-layer.zip
+
+# unlazy ledgers (local)
+.unlazy/
+.unlazy-hook-state.json

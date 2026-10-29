@@ -1,0 +1,1005 @@
+/*
+ * plans-compare — the pricing v2 "Compare plans" section.
+ *
+ * Values are the mockup's measured ones (.diff table in a 16px panel). Brand
+ * colours come from tokens; the neutrals without a token are named once, on
+ * the root.
+ */
+
+.ap-plans-compare {
+	--pv-ink: #1d2331;
+	--pv-muted: #5b616e;
+	--pv-muted2: #4b5563;
+	--pv-indigo: var(--ap-indigo-600);
+	--pv-tint: var(--ap-indigo-50);
+	--pv-soft: #f7f6fe;
+	--pv-teal: var(--ap-green-600);
+	--pv-line: #e5e7eb;
+	--pv-shadow: 0 0 30px rgb(230, 234, 238);
+
+	padding: 80px 24px;
+	background: #fff;
+	font-family: var(--ap-font-display);
+	color: var(--pv-ink);
+}
+
+:where(.ap-plans-compare, .ap-plans-compare *, .ap-plans-compare *::before, .ap-plans-compare *::after) {
+	box-sizing: border-box;
+}
+
+/* The staging theme styles bare headings, paragraphs, lists and tables. */
+.ap-plans-compare :where(h2, p, ul, li) {
+	margin: 0;
+	padding: 0;
+	text-wrap: wrap;
+}
+
+.ap-plans-compare :where(ul) {
+	list-style: none;
+}
+
+.ap-plans-compare__inner {
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+.ap-plans-compare__sr {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* ---- heading ---- */
+
+.ap-plans-compare__head {
+	max-width: 760px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.ap-plans-compare__title {
+	color: var(--pv-ink);
+	font-family: var(--ap-font-display);
+	font-size: clamp(28px, 3.4vw, 36px);
+	font-weight: 700;
+	line-height: 1.2;
+	letter-spacing: -0.4px;
+	text-wrap: balance;
+}
+
+.ap-plans-compare__lede {
+	margin-top: 14px;
+	color: var(--pv-muted);
+	font-size: 18px;
+	line-height: 27px;
+}
+
+/* ---- phone plan switch (shown by behaviour.js below 768px) ---- */
+
+.ap-plans-compare__switch {
+	display: none;
+}
+
+.ap-plans-compare__switch-btn {
+	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2px;
+	margin: 0;
+	padding: 8px 12px;
+	border: 1.5px solid var(--pv-line);
+	border-radius: 10px;
+	background: #fff;
+	color: var(--pv-ink);
+	font-family: var(--ap-font-display);
+	line-height: 1.2;
+	letter-spacing: normal;
+	text-transform: none;
+	cursor: pointer;
+	transition: border-color var(--ap-dur-fast, 0.2s) ease, background-color var(--ap-dur-fast, 0.2s) ease;
+}
+
+.ap-plans-compare__switch-btn span {
+	font-size: 14px;
+	font-weight: 800;
+}
+
+.ap-plans-compare__switch-btn small {
+	color: var(--pv-indigo);
+	font-size: 11.5px;
+	font-weight: 700;
+}
+
+.ap-plans-compare__switch-btn:hover {
+	border-color: var(--pv-indigo);
+	background: #fff;
+	color: var(--pv-ink);
+}
+
+.ap-plans-compare__switch-btn[aria-pressed="true"] {
+	border-color: var(--pv-indigo);
+	background: var(--pv-tint);
+	color: var(--pv-ink);
+}
+
+.ap-plans-compare__switch-btn:focus-visible {
+	outline: 2px solid var(--pv-indigo);
+	outline-offset: 2px;
+}
+
+/* ---- the table ---- */
+
+.ap-plans-compare__box {
+	margin-top: 40px;
+	overflow-x: auto;
+	border: 1px solid var(--pv-line);
+	border-radius: 16px;
+	background: #fff;
+	box-shadow: var(--pv-shadow);
+	-webkit-overflow-scrolling: touch;
+}
+
+.ap-plans-compare__box:focus-visible {
+	outline: 2px solid var(--pv-indigo);
+	outline-offset: 2px;
+}
+
+.ap-plans-compare__table {
+	width: 100%;
+	min-width: 860px;
+	margin: 0;
+	border: 0;
+	border-collapse: collapse;
+	font-size: 14.5px;
+	line-height: 1.5;
+}
+
+.ap-plans-compare__table :is(th, td) {
+	padding: 14px 16px;
+	border: 0;
+	border-bottom: 1px solid var(--pv-line);
+	background: #fff;
+	color: inherit;
+	font-family: var(--ap-font-display);
+	font-size: inherit;
+	text-align: center;
+	vertical-align: middle;
+	transition: background-color var(--ap-dur-fast, 0.2s) ease;
+}
+
+.ap-plans-compare__table thead :is(th, td) {
+	padding: 18px 12px 14px;
+	border-bottom: 2px solid var(--pv-line);
+}
+
+.ap-plans-compare__pn {
+	display: block;
+	color: var(--pv-ink);
+	font-size: 16px;
+	font-weight: 800;
+}
+
+.ap-plans-compare__pp {
+	display: block;
+	margin-top: 3px;
+	color: var(--pv-indigo);
+	font-size: 12.5px;
+	font-weight: 700;
+}
+
+.ap-plans-compare__table .ap-plans-compare__rh {
+	min-width: 190px;
+	color: var(--pv-ink);
+	font-weight: 800;
+	text-align: left;
+}
+
+.ap-plans-compare__table tr.is-top .ap-plans-compare__rh {
+	font-size: 15px;
+}
+
+.ap-plans-compare__table td.is-value {
+	color: var(--pv-ink);
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+}
+
+.ap-plans-compare__y {
+	color: var(--pv-teal);
+	font-size: 17px;
+	font-weight: 800;
+}
+
+.ap-plans-compare__n {
+	color: #c9cdd4;
+	font-weight: 700;
+}
+
+.ap-plans-compare__hint {
+	display: block;
+	margin-top: 2px;
+	color: #8a90a0;
+	font-size: 12px;
+	font-weight: 400;
+}
+
+/* section band */
+.ap-plans-compare__table tr.is-group th {
+	padding: 11px 16px;
+	background: var(--pv-tint);
+	color: var(--pv-indigo);
+	font-size: 12px;
+	font-weight: 800;
+	letter-spacing: 0.09em;
+	text-align: left;
+	text-transform: uppercase;
+}
+
+/* keeps the band label on screen while the table scrolls sideways */
+.ap-plans-compare__table tr.is-group th span {
+	position: sticky;
+	left: 16px;
+}
+
+/* indented rows */
+.ap-plans-compare__table tr.is-sub .ap-plans-compare__rh,
+.ap-plans-compare__table tr.is-sub2 .ap-plans-compare__rh {
+	position: relative;
+	padding-left: 38px;
+	color: var(--pv-muted2);
+	font-weight: 500;
+}
+
+.ap-plans-compare__table tr.is-sub .ap-plans-compare__rh::before,
+.ap-plans-compare__table tr.is-sub2 .ap-plans-compare__rh::before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 20px;
+	width: 8px;
+	height: 1.5px;
+	background: #c9cdd4;
+}
+
+.ap-plans-compare__table tr.is-sub2 .ap-plans-compare__rh {
+	padding-left: 58px;
+	font-size: 13.5px;
+}
+
+.ap-plans-compare__table tr.is-sub2 .ap-plans-compare__rh::before {
+	left: 40px;
+}
+
+.ap-plans-compare__table tr:is(.is-sub, .is-sub2) > * {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.ap-plans-compare__table tbody tr:last-child > * {
+	border-bottom: 0;
+}
+
+/* row hover, and the column of a plan picked in plans-picker */
+.ap-plans-compare__table tbody tr:not(.is-group):hover > * {
+	background: #f9fafb;
+}
+
+.ap-plans-compare__table [data-col].is-focus {
+	background: var(--pv-soft);
+}
+
+.ap-plans-compare__table thead th.is-focus {
+	box-shadow: inset 0 3px 0 var(--pv-indigo);
+}
+
+/* ---- on every plan ---- */
+
+.ap-plans-compare__every {
+	margin-top: 26px;
+	text-align: center;
+}
+
+.ap-plans-compare__every-title {
+	color: var(--pv-ink);
+	font-size: 15px;
+	font-weight: 700;
+	line-height: 1.5;
+}
+
+.ap-plans-compare__pills {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 8px;
+	margin-top: 12px;
+}
+
+.ap-plans-compare__pills li {
+	padding: 7px 13px;
+	border: 1px solid var(--pv-line);
+	border-radius: 999px;
+	background: #fff;
+	color: var(--pv-muted2);
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 1.5;
+}
+
+.ap-plans-compare__pills li span {
+	margin-right: 6px;
+	color: var(--pv-teal);
+	font-weight: 800;
+}
+
+/* ---- the table scrolls sideways: pin the feature column ---- */
+
+@media (max-width: 920px) {
+	.ap-plans-compare__table .ap-plans-compare__rh {
+		position: sticky;
+		left: 0;
+		z-index: 1;
+		box-shadow: 1px 0 0 var(--pv-line);
+	}
+}
+
+/* ---- phones ---- */
+
+@media (max-width: 767px) {
+	.ap-plans-compare {
+		padding: 56px 20px;
+	}
+
+	.ap-plans-compare__lede {
+		font-size: 16px;
+		line-height: 24px;
+	}
+
+	.ap-plans-compare__table .ap-plans-compare__rh {
+		min-width: 160px;
+	}
+
+	.ap-plans-compare__table :is(th, td) {
+		padding: 12px;
+	}
+
+	.ap-plans-compare__table tr.is-sub .ap-plans-compare__rh {
+		padding-left: 30px;
+	}
+
+	.ap-plans-compare__table tr.is-sub .ap-plans-compare__rh::before {
+		left: 14px;
+	}
+
+	.ap-plans-compare__table tr.is-sub2 .ap-plans-compare__rh {
+		padding-left: 44px;
+	}
+
+	.ap-plans-compare__table tr.is-sub2 .ap-plans-compare__rh::before {
+		left: 28px;
+	}
+
+	/* One plan column at a time, chosen with the switch. */
+	.ap-plans-compare.is-switchable .ap-plans-compare__switch {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 6px;
+		margin-top: 28px;
+	}
+
+	.ap-plans-compare.is-switchable .ap-plans-compare__box {
+		margin-top: 16px;
+	}
+
+	.ap-plans-compare.is-switchable .ap-plans-compare__table {
+		min-width: 0;
+		table-layout: fixed;
+	}
+
+	/* relative, not static: the indented rows' dash (::before) is positioned against it */
+	.ap-plans-compare.is-switchable .ap-plans-compare__table .ap-plans-compare__rh {
+		position: relative;
+		left: auto;
+		width: 62%;
+		min-width: 0;
+		box-shadow: none;
+	}
+
+	.ap-plans-compare.is-switchable .ap-plans-compare__table [data-col].is-off {
+		display: none;
+	}
+
+	.ap-plans-compare.is-switchable .ap-plans-compare__table [data-col].is-focus {
+		background: #fff;
+	}
+
+	.ap-plans-compare.is-switchable .ap-plans-compare__table thead th.is-focus {
+		box-shadow: none;
+	}
+}
+
+/*
+ * ==== clean variant ====
+ * An open table: no panel, plain section headings in place of the indigo
+ * bands, quiet dividers, round ticks.
+ */
+
+.ap-plans-compare--clean {
+	--pv-ink: #101828;
+	--pv-muted: #475467;
+	--pv-muted2: #344054;
+	--pv-line: #eaecf0;
+
+	padding: 96px 24px;
+	scroll-margin-top: 24px;
+}
+
+.ap-plans-compare--clean .ap-plans-compare__inner {
+	max-width: 1240px;
+}
+
+.ap-plans-compare--clean .ap-plans-compare__title {
+	color: var(--pv-ink);
+	font-size: clamp(30px, 4vw, 44px);
+	font-weight: 800;
+	line-height: 1.1;
+	letter-spacing: -0.03em;
+}
+
+.ap-plans-compare--clean .ap-plans-compare__lede {
+	max-width: 640px;
+	margin: 14px auto 0;
+	font-size: 17px;
+	line-height: 1.6;
+}
+
+.ap-plans-compare--clean .ap-plans-compare__box {
+	margin-top: 48px;
+	border: 0;
+	border-radius: 0;
+	box-shadow: none;
+}
+
+.ap-plans-compare--clean .ap-plans-compare__table :is(th, td) {
+	padding: 15px 16px;
+	border-bottom-color: #f2f4f7;
+}
+
+.ap-plans-compare--clean .ap-plans-compare__table thead :is(th, td) {
+	padding: 0 16px 18px;
+	border-bottom: 1px solid #d0d5dd;
+}
+
+.ap-plans-compare--clean .ap-plans-compare__pn {
+	font-size: 17px;
+	font-weight: 700;
+}
+
+.ap-plans-compare--clean .ap-plans-compare__pp {
+	margin-top: 4px;
+	color: var(--pv-muted);
+	font-size: 14px;
+	font-weight: 500;
+}
+
+.ap-plans-compare--clean .ap-plans-compare__table .ap-plans-compare__rh {
+	color: var(--pv-ink);
+	font-weight: 600;
+}
+
+.ap-plans-compare--clean .ap-plans-compare__table tr.is-sub .ap-plans-compare__rh,
+.ap-plans-compare--clean .ap-plans-compare__table tr.is-sub2 .ap-plans-compare__rh {
+	padding-left: 16px;
+	color: var(--pv-muted2);
+	font-weight: 400;
+}
+
+.ap-plans-compare--clean .ap-plans-compare__table tr.is-sub2 .ap-plans-compare__rh {
+	padding-left: 36px;
+	color: var(--pv-muted);
+	font-size: 14px;
+}
+
+.ap-plans-compare--clean .ap-plans-compare__table tr.is-sub .ap-plans-compare__rh::before {
+	display: none;
+}
+
+.ap-plans-compare--clean .ap-plans-compare__table tr.is-sub2 .ap-plans-compare__rh::before {
+	left: 18px;
+	width: 8px;
+	background: #d0d5dd;
+}
+
+.ap-plans-compare--clean .ap-plans-compare__table tr:is(.is-sub, .is-sub2) > * {
+	padding-top: 13px;
+	padding-bottom: 13px;
+}
+
+.ap-plans-compare--clean .ap-plans-compare__table tr.is-group th {
+	padding: 40px 16px 12px;
+	border-bottom: 1px solid #d0d5dd;
+	background: #fff;
+	color: var(--pv-ink);
+	font-size: 16px;
+	font-weight: 700;
+	letter-spacing: 0;
+	text-transform: none;
+}
+
+.ap-plans-compare--clean .ap-plans-compare__table td.is-value {
+	font-weight: 600;
+}
+
+.ap-plans-compare--clean .ap-plans-compare__y {
+	display: inline-grid;
+	place-items: center;
+	width: 22px;
+	height: 22px;
+	border-radius: 50%;
+	background: rgba(0, 169, 145, 0.12);
+	font-size: 12px;
+	line-height: 1;
+	vertical-align: middle;
+}
+
+.ap-plans-compare--clean .ap-plans-compare__n {
+	color: #d0d5dd;
+}
+
+.ap-plans-compare--clean .ap-plans-compare__hint {
+	color: #667085;
+	font-size: 12.5px;
+}
+
+.ap-plans-compare--clean .ap-plans-compare__table [data-col].is-focus {
+	background: rgba(80, 68, 225, 0.05);
+}
+
+.ap-plans-compare--clean .ap-plans-compare__every {
+	margin-top: 48px;
+}
+
+.ap-plans-compare--clean .ap-plans-compare__every-title {
+	font-size: 16px;
+}
+
+.ap-plans-compare--clean .ap-plans-compare__pills li {
+	padding: 8px 14px;
+	border: 0;
+	background: #f2f4f7;
+	color: var(--pv-muted2);
+	font-size: 14px;
+	font-weight: 500;
+}
+
+@media (max-width: 767px) {
+	.ap-plans-compare--clean {
+		padding: 64px 20px;
+	}
+
+	.ap-plans-compare--clean .ap-plans-compare__lede {
+		font-size: 16px;
+	}
+
+	.ap-plans-compare--clean .ap-plans-compare__box {
+		margin-top: 28px;
+	}
+
+	.ap-plans-compare--clean .ap-plans-compare__table :is(th, td) {
+		padding: 13px 12px;
+	}
+
+	.ap-plans-compare--clean .ap-plans-compare__table tr.is-sub .ap-plans-compare__rh,
+	.ap-plans-compare--clean .ap-plans-compare__table tr.is-group th {
+		padding-left: 12px;
+	}
+
+	.ap-plans-compare--clean .ap-plans-compare__table tr.is-group th span {
+		left: 12px;
+	}
+
+	.ap-plans-compare--clean .ap-plans-compare__table tr.is-sub2 .ap-plans-compare__rh {
+		padding-left: 28px;
+	}
+
+	.ap-plans-compare--clean .ap-plans-compare__table tr.is-sub2 .ap-plans-compare__rh::before {
+		left: 12px;
+	}
+
+	/*
+	 * the phone plan switch as one segmented control, all five plans on one
+	 * row (Joseph 2026-10-19): full width up to 480px, each segment as wide as
+	 * its label and sharing what is left, labels a size smaller.
+	 */
+	.ap-plans-compare--clean.is-switchable .ap-plans-compare__switch {
+		flex-wrap: nowrap;
+		gap: 2px;
+		width: 100%;
+		max-width: 480px;
+		margin: 28px auto 0;
+		padding: 4px;
+		border: 1px solid var(--pv-line);
+		border-radius: 14px;
+		background: #f2f4f7;
+	}
+
+	.ap-plans-compare--clean .ap-plans-compare__switch-btn {
+		flex: 1 1 auto;
+		min-width: 0;
+		padding: 8px 4px;
+		border: 0;
+		border-radius: 10px;
+		background: transparent;
+	}
+
+	.ap-plans-compare--clean .ap-plans-compare__switch-btn :is(span, small) {
+		white-space: nowrap;
+	}
+
+	.ap-plans-compare--clean .ap-plans-compare__switch-btn span {
+		font-size: 13px;
+		letter-spacing: -0.01em;
+	}
+
+	.ap-plans-compare--clean .ap-plans-compare__switch-btn small {
+		font-size: 11px;
+	}
+
+	/* "on every plan": an even two-column grid instead of centred pills (Joseph 2026-10-19) */
+	.ap-plans-compare--clean .ap-plans-compare__pills {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 8px;
+	}
+
+	.ap-plans-compare--clean .ap-plans-compare__pills li {
+		display: flex;
+		align-items: center;
+		padding: 10px 12px;
+		border-radius: 14px;
+		font-size: 13px;
+		line-height: 1.4;
+		text-align: left;
+	}
+
+	.ap-plans-compare--clean .ap-plans-compare__pills li span {
+		flex: none;
+		margin-right: 8px;
+	}
+
+	.ap-plans-compare--clean .ap-plans-compare__switch-btn:hover {
+		border: 0;
+		background: rgba(255, 255, 255, 0.7);
+	}
+
+	.ap-plans-compare--clean .ap-plans-compare__switch-btn[aria-pressed="true"] {
+		background: #fff;
+		box-shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.1);
+	}
+
+	.ap-plans-compare--clean .ap-plans-compare__switch-btn small {
+		color: var(--pv-muted);
+	}
+
+	.ap-plans-compare--clean .ap-plans-compare__switch-btn[aria-pressed="true"] small {
+		color: var(--pv-indigo);
+	}
+}
+
+/*
+ * ==== clean variant: colour ====
+ * Joseph 2026-10-16: the table was "too white". Each plan column carries its
+ * accent (header cap, price pill, values, ticks), the featured plan's column
+ * is tinted and tagged, section labels are gradient pills, and the panda
+ * peeks over the table's top edge.
+ */
+
+.ap-plans-compare :where(.is-acc-slate) { --pc: #667085; --pc-soft: rgba(102, 112, 133, 0.12); }
+.ap-plans-compare :where(.is-acc-teal) { --pc: var(--ap-green-600); --pc-soft: rgba(0, 169, 145, 0.12); }
+.ap-plans-compare :where(.is-acc-indigo) { --pc: var(--ap-indigo-600); --pc-soft: rgba(80, 68, 225, 0.12); }
+.ap-plans-compare :where(.is-acc-violet) { --pc: #7a4fc4; --pc-soft: rgba(122, 79, 196, 0.12); }
+.ap-plans-compare :where(.is-acc-amber) { --pc: #c97c0a; --pc-soft: rgba(222, 141, 20, 0.14); }
+.ap-plans-compare :where(.is-acc-rose) { --pc: #e61c55; --pc-soft: rgba(230, 28, 85, 0.12); }
+
+/* white section; the colour is a glow just around the table (Joseph: "shining around the table") */
+.ap-plans-compare--clean {
+	overflow-x: hidden;
+	overflow-x: clip;
+	background: #fff;
+}
+
+/* heading and lead right-aligned, over the table's top-right corner */
+.ap-plans-compare--clean .ap-plans-compare__head {
+	max-width: 560px;
+	margin: 0 0 0 auto;
+	text-align: right;
+}
+
+.ap-plans-compare__stage {
+	position: relative;
+	isolation: isolate;
+}
+
+.ap-plans-compare--clean .ap-plans-compare__stage {
+	margin-top: 64px;
+}
+
+.ap-plans-compare--clean .ap-plans-compare__stage::before {
+	content: "";
+	position: absolute;
+	inset: -8% -10%;
+	z-index: -1;
+	pointer-events: none;
+	background:
+		radial-gradient(30% 36% at 10% 16%, rgba(80, 68, 225, 0.26), transparent 70%),
+		radial-gradient(30% 34% at 92% 20%, rgba(0, 169, 145, 0.22), transparent 70%),
+		radial-gradient(34% 38% at 86% 84%, rgba(230, 28, 85, 0.12), transparent 70%),
+		radial-gradient(34% 38% at 14% 86%, rgba(0, 169, 145, 0.16), transparent 70%),
+		radial-gradient(44% 30% at 50% 50%, rgba(80, 68, 225, 0.1), transparent 70%);
+	filter: blur(30px);
+}
+
+.ap-plans-compare--clean .ap-plans-compare__box {
+	position: relative;
+	z-index: 1;
+	margin-top: 0;
+	border: 1px solid #eceafd;
+	border-radius: 24px;
+	background: #fff;
+	box-shadow: 0 30px 80px rgba(32, 28, 74, 0.12), 0 2px 6px rgba(32, 28, 74, 0.04);
+}
+
+/* the panda: in the header's empty top-left corner, standing on the header rule */
+.ap-plans-compare__corner {
+	position: relative;
+	vertical-align: bottom;
+}
+
+.ap-plans-compare__art {
+	position: absolute;
+	bottom: 0;
+	left: 20px;
+	width: auto;
+	max-width: none;
+	height: 260px;
+	pointer-events: none;
+	user-select: none;
+}
+
+/*
+ * Wide screens: the table needs no sideways scroll, so the frame stops
+ * clipping and the panda rises above the table's top edge. Cells go
+ * transparent (the white frame shows through) so the corners stay rounded.
+ */
+@media (min-width: 921px) {
+	.ap-plans-compare--clean .ap-plans-compare__box {
+		overflow: visible;
+	}
+
+	.ap-plans-compare--clean .ap-plans-compare__table :is(th, td) {
+		background: transparent;
+	}
+}
+
+.ap-plans-compare--clean .ap-plans-compare__table :is(th, td):first-child,
+.ap-plans-compare--clean .ap-plans-compare__table tr.is-sub .ap-plans-compare__rh {
+	padding-left: 24px;
+}
+
+.ap-plans-compare--clean .ap-plans-compare__table tr.is-sub2 .ap-plans-compare__rh {
+	padding-left: 44px;
+}
+
+.ap-plans-compare--clean .ap-plans-compare__table tr.is-sub2 .ap-plans-compare__rh::before {
+	left: 26px;
+}
+
+/* plan headers: accent cap, name, price pill */
+.ap-plans-compare--clean .ap-plans-compare__table thead :is(th, td) {
+	padding: 26px 12px 18px;
+	border-bottom: 1px solid #e4e2fb;
+}
+
+.ap-plans-compare--clean .ap-plans-compare__table thead th {
+	position: relative;
+	vertical-align: bottom;
+}
+
+.ap-plans-compare--clean .ap-plans-compare__table thead th::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	right: 14px;
+	left: 14px;
+	height: 4px;
+	border-radius: 0 0 4px 4px;
+	background: var(--pc, #d0d5dd);
+}
+
+.ap-plans-compare--clean .ap-plans-compare__pp {
+	display: inline-block;
+	margin-top: 8px;
+	padding: 3px 10px;
+	border-radius: 999px;
+	background: var(--pc-soft, #f2f4f7);
+	color: var(--pc, #475467);
+	font-size: 13px;
+	font-weight: 700;
+}
+
+.ap-plans-compare__tag {
+	display: inline-block;
+	margin-bottom: 8px;
+	padding: 3px 10px;
+	border-radius: 999px;
+	background: linear-gradient(54deg, var(--ap-indigo-600) 0%, var(--ap-green-600) 100%);
+	color: #fff;
+	font-size: 11px;
+	font-weight: 800;
+	letter-spacing: 0.06em;
+	line-height: 1.5;
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+
+/* the featured column: tinted top to bottom, gradient cap */
+.ap-plans-compare--clean .ap-plans-compare__table .is-featured-col {
+	background: rgba(80, 68, 225, 0.06);
+}
+
+.ap-plans-compare--clean .ap-plans-compare__table thead th.is-featured-col::before {
+	height: 5px;
+	background: linear-gradient(90deg, var(--ap-indigo-600), var(--ap-green-600));
+}
+
+.ap-plans-compare--clean .ap-plans-compare__table tbody tr:not(.is-group):hover > * {
+	background: rgba(80, 68, 225, 0.035);
+}
+
+.ap-plans-compare--clean .ap-plans-compare__table tbody tr:not(.is-group):hover > .is-featured-col {
+	background: rgba(80, 68, 225, 0.09);
+}
+
+/* values and ticks take the column colour */
+.ap-plans-compare--clean .ap-plans-compare__table td.is-value {
+	color: var(--pc, var(--pv-ink));
+	font-weight: 700;
+}
+
+.ap-plans-compare--clean .ap-plans-compare__table td.is-tick .ap-plans-compare__y {
+	background: var(--pc, var(--ap-green-600));
+	color: #fff;
+	box-shadow: 0 4px 10px var(--pc-soft, rgba(0, 169, 145, 0.2));
+}
+
+.ap-plans-compare--clean .ap-plans-compare__table td.is-featured-col .ap-plans-compare__y {
+	background: linear-gradient(135deg, var(--ap-indigo-600), var(--ap-green-600));
+}
+
+/* section labels: gradient pills on a fading band */
+.ap-plans-compare--clean .ap-plans-compare__table tr.is-group th {
+	padding: 28px 16px 12px 24px;
+	border-bottom: 1px solid #e4e2fb;
+	background: linear-gradient(90deg, rgba(80, 68, 225, 0.05), rgba(255, 255, 255, 0) 60%);
+}
+
+.ap-plans-compare--clean .ap-plans-compare__table tr.is-group th span {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 6px 14px;
+	border-radius: 999px;
+	background: linear-gradient(90deg, rgba(80, 68, 225, 0.14), rgba(0, 169, 145, 0.14));
+	color: #3b2fc9;
+	font-size: 12px;
+	font-weight: 800;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.ap-plans-compare--clean .ap-plans-compare__table tr.is-group th span::before {
+	content: "";
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: linear-gradient(135deg, var(--ap-indigo-600), var(--ap-green-600));
+}
+
+/* "on every plan" pills: white chips with checks cycling through the brand colours */
+.ap-plans-compare--clean .ap-plans-compare__pills li {
+	border: 1px solid #eceafd;
+	background: #fff;
+	box-shadow: 0 2px 6px rgba(32, 28, 74, 0.04);
+}
+
+.ap-plans-compare--clean .ap-plans-compare__pills li:nth-child(4n + 1) span { color: var(--ap-indigo-600); }
+.ap-plans-compare--clean .ap-plans-compare__pills li:nth-child(4n + 2) span { color: var(--ap-green-600); }
+.ap-plans-compare--clean .ap-plans-compare__pills li:nth-child(4n + 3) span { color: #7a4fc4; }
+.ap-plans-compare--clean .ap-plans-compare__pills li:nth-child(4n + 4) span { color: #c97c0a; }
+
+/* phone switch: a coloured dot per plan */
+.ap-plans-compare--clean .ap-plans-compare__switch-btn small {
+	color: var(--pv-muted);
+}
+
+/* narrower desktops: a smaller panda, still clear of the right-aligned heading */
+@media (max-width: 1279px) {
+	.ap-plans-compare__art {
+		height: 210px;
+	}
+}
+
+/*
+ * Tablets and phones: the table may scroll sideways, so its frame clips. The
+ * panda then sits inside the corner cell (in flow, so the header row grows to
+ * fit it) instead of rising above the table.
+ */
+@media (max-width: 920px) {
+	.ap-plans-compare--clean .ap-plans-compare__stage {
+		margin-top: 32px;
+	}
+
+	.ap-plans-compare--clean .ap-plans-compare__table thead .ap-plans-compare__corner {
+		padding-bottom: 0;
+	}
+
+	.ap-plans-compare__art {
+		position: static;
+		display: block;
+		height: 132px;
+	}
+}
+
+@media (max-width: 767px) {
+	.ap-plans-compare--clean .ap-plans-compare__head {
+		margin: 0 auto;
+		text-align: center;
+	}
+
+	.ap-plans-compare--clean .ap-plans-compare__stage {
+		margin-top: 20px;
+	}
+
+	.ap-plans-compare__art {
+		height: 120px;
+	}
+
+	.ap-plans-compare--clean .ap-plans-compare__box {
+		border-radius: 18px;
+	}
+
+	/* the one visible plan column is narrow: let the tag wrap rather than widen the table */
+	.ap-plans-compare__tag {
+		padding: 2px 8px;
+		font-size: 10px;
+		letter-spacing: 0.04em;
+		white-space: normal;
+	}
+
+	.ap-plans-compare--clean .ap-plans-compare__table :is(th, td):first-child,
+	.ap-plans-compare--clean .ap-plans-compare__table tr.is-sub .ap-plans-compare__rh,
+	.ap-plans-compare--clean .ap-plans-compare__table tr.is-group th {
+		padding-left: 14px;
+	}
+
+	.ap-plans-compare--clean .ap-plans-compare__table tr.is-sub2 .ap-plans-compare__rh {
+		padding-left: 30px;
+	}
+
+	.ap-plans-compare--clean .ap-plans-compare__table tr.is-sub2 .ap-plans-compare__rh::before {
+		left: 16px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-plans-compare__switch-btn,
+	.ap-plans-compare__table :is(th, td) {
+		transition: none;
+	}
+}

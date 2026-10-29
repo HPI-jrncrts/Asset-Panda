@@ -1,0 +1,14 @@
+{
+	"name": "lp-prose",
+	"description": "One section of a long-form page (legal pages, guides, webinar notes): an optional anchored heading over rich text (paragraphs, lists, tables, quotes, images, links) set in the kit's reading type on a centred 760px column. Stack one per heading so the page-toc panel can jump between them. lead: the opening paragraph(s) in larger type; panel: the section on a soft rounded panel (contact boxes, summaries).",
+	"props": {
+		"anchor": { "type": "string", "required": false, "default": "", "description": "id of the section heading, for page-toc and #links (letters, digits, hyphens, underscores)." },
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small uppercase label above the heading." },
+		"title": { "type": "string", "required": false, "default": "", "description": "Section heading. Empty renders the text alone." },
+		"title_tag": { "type": "string", "required": false, "default": "h2", "enum": [ "h2", "h3" ], "description": "Heading level." },
+		"html": { "type": "string", "required": true, "description": "The section text as HTML. Kept: p, h3-h6, ul, ol, li, a (href, title), strong, b, em, i, u, br, sup, sub, small, mark, code, blockquote, hr, figure, figcaption, img (src, alt, width, height), table, caption, thead, tbody, tfoot, tr, th, td (colspan, rowspan, scope); an id on h3-h6. Everything else (classes, styles, scripts, iframes) is removed; links off the site open in a new tab." },
+		"variant": { "type": "string", "required": false, "default": "body", "enum": [ "body", "lead", "panel" ], "description": "body: the reading type. lead: larger opening text. panel: on a soft rounded panel." },
+		"width": { "type": "string", "required": false, "default": "narrow", "enum": [ "narrow", "wide" ], "description": "narrow: 760px reading column. wide: 960px (wide tables)." },
+		"space": { "type": "string", "required": false, "default": "normal", "enum": [ "normal", "start", "end" ], "description": "Vertical space: normal between sections; start adds room above (first section after a full-width band); end adds room below (the last section before the footer)." }
+	}
+}

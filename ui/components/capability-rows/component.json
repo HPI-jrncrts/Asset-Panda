@@ -22,7 +22,7 @@
 		"items": {
 			"type": "array",
 			"required": true,
-			"description": "Rows. Each: title (required), body, link_label, url, tone (indigo, green, yellow, blue, red, cyan); icon (URL) or icon_svg."
+			"description": "Rows. Each: title (required), body, link_label, url, tone (indigo, green, yellow, blue, red, cyan); icon (URL) or icon_svg. A row may carry number (shown instead of the icon)."
 		},
 		"ender_title": {
 			"type": "string",
@@ -59,6 +59,20 @@
 			"required": false,
 			"default": "",
 			"description": "Supporting paragraph under the heading."
-		}
+		},
+		"plain": {
+			"type": "boolean",
+			"required": false,
+			"default": false,
+			"description": "Drop the tinted card and keep only the coloured left rule (the platform page job list)."
+		},
+		"variant": {
+			"type": "string",
+			"required": false,
+			"default": "default",
+			"enum": [ "default", "readiness", "eduhub" ],
+			"description": "readiness: the Emergency Preparedness / School Reunification list (427px title column, rows side by side down to 1001px). eduhub: the Education hub's capability list (live #ap-eduhub-solution, ported whole)."
+		},
+		"stack": { "type": "string", "required": false, "default": "1024", "enum": [ "1024", "900" ], "description": "Width at which the layout stacks: 1024px (the hubs) or 900px (the Education hub)." }
 	}
 }

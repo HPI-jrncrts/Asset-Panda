@@ -1,0 +1,105 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/readiness-hero",
+	"title": "AP Readiness Hero",
+	"category": "design",
+	"icon": "cover-image",
+	"description": "Readiness hero: copy, demo button and badges beside a photo with three stat cards joined by connector lines to the Asset Panda badge, over a feature ticker; stacks at tablet width, swaps to a single cards image on phones. Live: .epx-hero on the Emergency Preparedness and School Reunification pages. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"variant": {
+			"type": "string",
+			"default": "readiness",
+			"enum": [
+				"readiness",
+				"reunification"
+			]
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"title_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_label": {
+			"type": "string",
+			"default": "Free Demo"
+		},
+		"cta_url": {
+			"type": "string",
+			"default": "/get-a-demo/"
+		},
+		"badges": {
+			"type": "array",
+			"default": []
+		},
+		"background": {
+			"type": "string",
+			"default": ""
+		},
+		"background_mobile": {
+			"type": "string",
+			"default": ""
+		},
+		"photo": {
+			"type": "string",
+			"default": ""
+		},
+		"photo_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"mobile_image": {
+			"type": "string",
+			"default": ""
+		},
+		"mobile_image_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"defs_svg": {
+			"type": "string",
+			"default": ""
+		},
+		"lines": {
+			"type": "array",
+			"default": []
+		},
+		"cards": {
+			"type": "array",
+			"default": []
+		},
+		"logo_badge": {
+			"type": "string",
+			"default": ""
+		},
+		"features": {
+			"type": "array",
+			"default": []
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

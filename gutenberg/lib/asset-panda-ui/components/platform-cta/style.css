@@ -1,0 +1,111 @@
+/*
+ * platform-cta — ported from the live closing band on the Asset Intelligence
+ * Platform page (.apx-cta-bleed: a page-local copy of the global final-CTA band).
+ *
+ * Rules keep live's order and !important flags (live needed them to beat the
+ * theme); the inner class names are live's, so the port stays diffable.
+ */
+
+.ap-platform-cta {width:100%; padding:80px 24px 0;}
+.ap-platform-cta .ap-final-cta-section {max-width:1120px; margin:0 auto; padding:0;}
+.ap-platform-cta .apx-cta-sup {font-weight:700; font-size:.62em; vertical-align:.42em; margin-left:1px;}
+.ap-platform-cta, .ap-platform-cta * {box-sizing: border-box !important;}
+.ap-platform-cta .ap-eyebrow, .ap-platform-cta h2, .ap-platform-cta p {font-family: Manrope, Arial, sans-serif;}
+.ap-platform-cta .ap-final-cta-section {width: 100% !important; max-width: 1120px !important; margin: 0 auto !important; padding: 0px 0px 72px !important;}
+.ap-platform-cta .ap-final-cta-card {position: relative !important; width: 100% !important; min-height: 532px !important; border-radius: 16px !important; overflow: hidden !important; background: linear-gradient(256.98deg, rgb(102, 102, 238) -2.19%, rgb(32, 28, 74) 99.99%) !important; box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 12px !important; padding: 80px 64px !important;}
+.ap-platform-cta .ap-final-cta-card::after {content: "" !important; position: absolute !important; z-index: 1 !important; right: -140px !important; top: -140px !important; width: 520px !important; height: 520px !important; border-radius: 999px !important; background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 68%) !important; pointer-events: none !important;}
+.ap-platform-cta .ap-final-cta-copy {position: relative !important; z-index: 3 !important; width: 488px !important; max-width: 100% !important; display: flex !important; flex-direction: column !important; align-items: flex-start !important; gap: 40px !important;}
+.ap-platform-cta .ap-text-group, .ap-platform-cta .ap-heading-group, .ap-platform-cta .ap-paragraph-group {width: 488px !important; max-width: 100% !important;}
+.ap-platform-cta .ap-text-group, .ap-platform-cta .ap-heading-group {display: flex !important; flex-direction: column !important; align-items: flex-start !important;}
+.ap-platform-cta .ap-text-group {gap: 24px !important;}
+.ap-platform-cta .ap-heading-group {gap: 16px !important;}
+.ap-platform-cta .ap-eyebrow {margin: 0px !important; width: 100% !important; color: rgb(131, 140, 246) !important; font-size: 16px !important; line-height: 1.2 !important; font-weight: 800 !important;}
+.ap-platform-cta h2 {margin: 0px !important; width: 100% !important; color: rgb(255, 255, 255) !important; font-size: 40px !important; line-height: 1.2 !important; font-weight: 800 !important; letter-spacing: -0.02em !important;}
+.ap-platform-cta .ap-paragraph-group p {margin: 0px !important; width: 100% !important; color: rgb(255, 255, 255) !important; font-size: 18px !important; line-height: 1.5 !important; font-weight: 400 !important;}
+.ap-platform-cta .ap-btn-group {position: relative !important; z-index: 4 !important; display: flex !important; flex-flow: row !important; align-items: center !important; justify-content: flex-start !important; gap: 16px !important; width: auto !important; max-width: 100% !important;}
+.ap-platform-cta .ap-btn {display: inline-flex !important; justify-content: center !important; align-items: center !important; flex: 0 0 auto !important; width: auto !important; min-height: 47px !important; padding: 14px 16px !important; border-radius: 4px !important; font-family: Manrope, Arial, sans-serif !important; font-size: 16px !important; line-height: 1.2 !important; font-weight: 700 !important; text-align: center !important; text-decoration: none !important; white-space: nowrap !important; box-shadow: none !important; cursor: pointer !important; transition: transform 0.2s, opacity 0.2s, background-color 0.2s !important;}
+.ap-platform-cta .ap-btn:hover, .ap-platform-cta .ap-btn:focus {translate: 0 -1px !important; text-decoration: none !important;}
+.ap-platform-cta .ap-btn-primary {min-width: 131px !important; color: rgb(255, 255, 255) !important; background: linear-gradient(54.33deg, rgb(80, 68, 225) 0%, rgb(0, 169, 145) 70.44%) !important; border: 1px solid transparent !important;}
+.ap-platform-cta .ap-btn-primary:hover, .ap-platform-cta .ap-btn-primary:focus {color: rgb(255, 255, 255) !important; opacity: 0.9 !important;}
+.ap-platform-cta .ap-btn-outline {min-width: 129px !important; color: rgb(0, 169, 145) !important; background: transparent !important; border: 1px solid rgb(0, 169, 145) !important;}
+.ap-platform-cta .ap-btn-outline:hover, .ap-platform-cta .ap-btn-outline:focus {color: rgb(255, 255, 255) !important; background: rgb(0, 169, 145) !important; border-color: rgb(0, 169, 145) !important;}
+.ap-platform-cta .ap-grad-hov-ov {display: none !important;}
+.ap-platform-cta .ap-final-cta-art {position: absolute !important; z-index: 2 !important; right: 0px !important; bottom: 0px !important; width: 563px !important; max-width: 54% !important; height: 384px !important; display: flex !important; align-items: flex-end !important; justify-content: flex-end !important; pointer-events: none !important;}
+.ap-platform-cta .ap-final-cta-art img {display: block !important; width: 563px !important; max-width: 100% !important; height: auto !important; object-fit: contain !important; object-position: right bottom !important;}
+@media (max-width: 1279px) {
+	.ap-platform-cta .ap-final-cta-card {min-height: 500px !important; padding: 64px 48px !important;}
+}
+@media (max-width: 1279px) {
+	.ap-platform-cta .ap-final-cta-art {width: 520px !important; max-width: 52% !important;}
+}
+@media (max-width: 991px) {
+	.ap-platform-cta .ap-final-cta-section {padding-bottom: 64px !important;}
+}
+@media (max-width: 991px) {
+	.ap-platform-cta .ap-final-cta-card {min-height: auto !important; padding: 48px 32px 0px !important;}
+}
+@media (max-width: 991px) {
+	.ap-platform-cta .ap-final-cta-copy {width: 100% !important; max-width: 520px !important;}
+}
+@media (max-width: 991px) {
+	.ap-platform-cta .ap-final-cta-art {position: relative !important; right: auto !important; bottom: auto !important; width: 100% !important; max-width: 100% !important; height: auto !important; min-height: 260px !important; margin-top: 32px !important; justify-content: flex-end !important;}
+}
+@media (max-width: 991px) {
+	.ap-platform-cta .ap-final-cta-art img {width: 500px !important; max-width: 100% !important;}
+}
+@media (max-width: 767px) {
+	.ap-platform-cta .ap-final-cta-section {padding-bottom: 56px !important;}
+}
+@media (max-width: 767px) {
+	.ap-platform-cta .ap-final-cta-card {padding: 40px 18px 0px !important;}
+}
+@media (max-width: 767px) {
+	.ap-platform-cta .ap-final-cta-copy {gap: 24px !important;}
+}
+@media (max-width: 767px) {
+	.ap-platform-cta .ap-text-group, .ap-platform-cta .ap-heading-group, .ap-platform-cta .ap-paragraph-group {width: 100% !important;}
+}
+@media (max-width: 767px) {
+	.ap-platform-cta .ap-eyebrow {font-size: 16px !important;}
+}
+@media (max-width: 767px) {
+	.ap-platform-cta h2 {font-size: 24px !important;}
+}
+@media (max-width: 767px) {
+	.ap-platform-cta .ap-paragraph-group p {font-size: 16px !important;}
+}
+@media (max-width: 767px) {
+	.ap-platform-cta .ap-btn-group {flex-wrap: wrap !important; gap: 16px !important;}
+}
+@media (max-width: 767px) {
+	.ap-platform-cta .ap-btn {font-size: 16px !important; padding: 14px 16px !important;}
+}
+@media (max-width: 767px) {
+	.ap-platform-cta .ap-final-cta-art {min-height: 220px !important; margin-top: 28px !important;}
+}
+@media (max-width: 767px) {
+	.ap-platform-cta .ap-final-cta-art img {width: 390px !important;}
+}
+@media (max-width: 480px) {
+	.ap-platform-cta .ap-final-cta-card {padding: 40px 18px 0px !important;}
+}
+@media (max-width: 480px) {
+	.ap-platform-cta h2 {font-size: 24px !important;}
+}
+@media (max-width: 480px) {
+	.ap-platform-cta .ap-final-cta-art {min-height: 190px !important;}
+}
+@media (max-width: 480px) {
+	.ap-platform-cta .ap-final-cta-art img {width: 340px !important;}
+}
+@media (max-width: 360px) {
+	.ap-platform-cta .ap-btn-group {width: 100% !important; flex-direction: column !important; align-items: stretch !important;}
+}
+@media (max-width: 360px) {
+	.ap-platform-cta .ap-btn {width: 100% !important;}
+}
+
+/* Phones: the two buttons stack full width instead of overflowing (live's nowrap row cut "Explore the Resource Center" off at 390px). */
+@media (max-width: 479px) {
+	.ap-platform-cta .ap-btn-group .ap-btn {flex: 1 1 100% !important; width: 100% !important; white-space: normal !important;}
+}

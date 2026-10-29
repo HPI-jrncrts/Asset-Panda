@@ -1,0 +1,420 @@
+/*
+ * faq — accordion of questions. Ported from the live `.ap-faq` section: a
+ * centred heading over ruled rows; the open row's question turns indigo and
+ * its chevron points up.
+ */
+
+:where(.ap-faq, .ap-faq *, .ap-faq *::before, .ap-faq *::after) {
+	box-sizing: border-box;
+}
+
+.ap-faq {
+	padding: 80px 0 40px;
+	background: #fff;
+}
+
+.ap-faq__inner {
+	width: min(var(--ap-host-container, 1120px), 100% - 48px);
+	margin: 0 auto;
+}
+
+.ap-faq__eyebrow {
+	margin: 0 0 12px;
+	color: var(--ap-text-eyebrow);
+	font-family: var(--ap-font-utility);
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	text-align: center;
+}
+
+.ap-faq__title {
+	margin: 0 0 40px;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: clamp(28px, 3.2vw, 40px);
+	font-weight: 800;
+	line-height: 1.2;
+	text-align: center;
+}
+
+.ap-faq__list {
+	border-top: 1px solid #edeef1;
+}
+
+.ap-faq__item {
+	border-bottom: 1px solid #edeef1;
+}
+
+.ap-faq__q {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 24px;
+	padding: 20px 16px;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: 20px;
+	font-weight: 800;
+	line-height: 1.4;
+	list-style: none;
+	cursor: pointer;
+	-webkit-tap-highlight-color: transparent;
+	transition: color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-faq__q::-webkit-details-marker {
+	display: none;
+}
+
+@media (hover: hover) {
+	.ap-faq__q:hover {
+		color: var(--ap-indigo-600);
+	}
+}
+
+/* No box on the open row. The theme's `:where(.wp-site-blocks :focus)` draws a
+ * 2px outline on any focused element, and a mouse click focuses the <summary>,
+ * so every opened question used to sit in a square. Keyboard focus gets an
+ * underline on the question instead; mouse and tap show nothing. */
+.ap-faq :is(.ap-faq__q, .apg-faq-q, .apf-q):focus {
+	outline: none;
+}
+
+.ap-faq__q:focus-visible {
+	color: var(--ap-indigo-600);
+}
+
+.ap-faq :is(.ap-faq__q:focus-visible .ap-faq__q-text, .apg-faq-q:focus-visible .apg-q-text, .apf-q:focus-visible) {
+	text-decoration: underline;
+	text-decoration-thickness: 2px;
+	text-underline-offset: 4px;
+}
+
+/* :where() keeps the specificity of the plain [open] selectors. data-ap-closing
+ * is set by motion.js while a row animates shut, so the row drops its open look
+ * as the motion starts, not when it ends. */
+.ap-faq__item[open]:where(:not([data-ap-closing])) > .ap-faq__q {
+	color: var(--ap-indigo-600);
+}
+
+.ap-faq__q-text {
+	min-width: 0;
+}
+
+.ap-faq__chev {
+	width: 32px;
+	height: 32px;
+	flex: 0 0 32px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--ap-green-600);
+	transition: rotate var(--ap-dur-base) var(--ap-ease-standard), color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-faq__chev svg {
+	width: 18px;
+	height: 18px;
+	display: block;
+}
+
+.ap-faq__item[open]:where(:not([data-ap-closing])) > .ap-faq__q .ap-faq__chev {
+	color: var(--ap-indigo-600);
+	rotate: -90deg;
+}
+
+.ap-faq__a {
+	padding: 0 16px 24px;
+}
+
+/* The open question used to drop its bottom padding to 8px, which jumped the
+ * chevron up 6px as the row opened. The question keeps its padding; the answer
+ * tucks up under it instead, so the open row measures exactly as before. */
+.ap-faq:not(.ap-faq--vertical) .ap-faq__a {
+	margin-top: -12px;
+}
+
+.ap-faq__a p {
+	max-width: 62rem;
+	margin: 0;
+	color: var(--ap-text-body);
+	font-family: var(--ap-font-body);
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+	.ap-faq {
+		padding: 56px 0 32px;
+	}
+
+	.ap-faq__q {
+		gap: 16px;
+		padding: 20px 4px;
+		font-size: 16px;
+	}
+
+	.ap-faq__a {
+		padding: 0 4px 20px;
+	}
+}
+
+@media (max-width: 560px) {
+	.ap-faq {
+		padding: 40px 0 24px;
+	}
+
+	.ap-faq__chev {
+		width: 24px;
+		height: 24px;
+		flex: 0 0 24px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-faq * {
+		transition: none !important;
+	}
+}
+
+/* Plain white section (live Higher Education and Local Government). */
+.ap-faq--white {
+	background: #fff;
+}
+
+/*
+ * Vertical variant — the product pages' live `.ap-faq`: rows inset 24px inside
+ * the 1120px container, a rule above each row only, questions at 1.2 line
+ * height, a chevron that swaps (green right, indigo up), and the heading's own
+ * steps. The space under the heading is measured per page (live mixes a
+ * margin with stray <br>s): 82px on most pages, 54 on Fire, 28 on Police.
+ */
+.ap-faq--vertical .ap-faq__inner {
+	width: auto;
+	max-width: var(--ap-host-container, 1120px);
+	padding: 0 24px;
+}
+
+.ap-faq--vertical .ap-faq__title {
+	margin: 0 0 var(--ap-faq-gap, 28px);
+	font-size: 40px;
+}
+
+.ap-faq--vertical .ap-faq__list {
+	border-top: 0;
+}
+
+.ap-faq--vertical .ap-faq__item {
+	border-top: 1px solid #b6bac3;
+	border-bottom: 0;
+}
+
+.ap-faq--vertical .ap-faq__q,
+.ap-faq--vertical .ap-faq__item[open] > .ap-faq__q {
+	gap: 24px;
+	padding: 20px 16px;
+	font-size: 20px;
+	line-height: 1.2;
+}
+
+.ap-faq--vertical .ap-faq__item:not([open]) > .ap-faq__q:hover,
+.ap-faq--vertical .ap-faq__item[data-ap-closing] > .ap-faq__q {
+	color: var(--ap-text-heading);
+}
+
+.ap-faq--vertical .ap-faq__chev,
+.ap-faq--vertical .ap-faq__item[open] > .ap-faq__q .ap-faq__chev {
+	position: relative;
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	flex: 0 0 32px;
+	rotate: none;
+}
+
+.ap-faq--vertical .ap-faq__chev svg {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+	transition: opacity var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-faq--vertical .ap-faq__chev .ap-faq__chev-closed {
+	width: 10.67px;
+	height: 18.67px;
+}
+
+.ap-faq--vertical .ap-faq__chev .ap-faq__chev-open {
+	width: 18.67px;
+	height: 10.67px;
+	opacity: 0;
+}
+
+.ap-faq--vertical .ap-faq__item[open]:where(:not([data-ap-closing])) > .ap-faq__q .ap-faq__chev-closed {
+	opacity: 0;
+}
+
+.ap-faq--vertical .ap-faq__item[open]:where(:not([data-ap-closing])) > .ap-faq__q .ap-faq__chev-open {
+	opacity: 1;
+}
+
+.ap-faq--vertical .ap-faq__a {
+	padding: 0 16px 24px;
+}
+
+.ap-faq--vertical .ap-faq__a p {
+	max-width: none;
+	line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+	.ap-faq--vertical .ap-faq__title {
+		font-size: 32px;
+	}
+
+	.ap-faq--vertical .ap-faq__q,
+	.ap-faq--vertical .ap-faq__item[open] > .ap-faq__q {
+		gap: 16px;
+		padding: 20px 16px;
+		font-size: 18px;
+	}
+
+	.ap-faq--vertical .ap-faq__a {
+		padding: 0 16px 24px;
+	}
+}
+
+/* Live's later .ap-faq .ap-faq__chev rule keeps the chevron box at 32px on
+   phones too, so only the heading steps down here. */
+@media (max-width: 560px) {
+	.ap-faq--vertical .ap-faq__title {
+		font-size: 28px;
+	}
+}
+
+/* Fire and Police pad the heading on phones, so their gap changes there. */
+@media (max-width: 767px) {
+	.ap-faq--vertical .ap-faq__title {
+		margin-bottom: var(--ap-faq-gap-m, var(--ap-faq-gap, 28px));
+	}
+}
+
+/*
+ * Hub variants — the live industry-hub FAQ sheets, ported whole (selectors
+ * re-rooted from #ap-gov-faq / #ap-eduhub-faq; class names are live's own).
+ * Live toggles .is-open from a script; here the rows are <details>, so the
+ * open state is [open] and the closed answer simply is not rendered.
+ */
+.ap-faq.ap-faq--hub{position:relative;font-family:Manrope,sans-serif;padding:80px 24px 40px;background:none}
+.ap-faq.ap-faq--hub::before{content:"";position:absolute;top:0;bottom:0;left:0;width:100%;background:#fff;pointer-events:none;z-index:0}
+.ap-faq.ap-faq--hub > *{position:relative;z-index:1}
+.ap-faq.ap-faq--hub h2.apg-h2{font-size:40px;font-weight:800;line-height:1.2;color:#25272c;margin:0 auto 40px;text-align:center;max-width:1120px}
+.ap-faq.ap-faq--hub .apg-faq-list{max-width:1120px;margin:0 auto}
+.ap-faq.ap-faq--hub .apg-faq-item{border-top:1px solid #b6bac3}
+.ap-faq.ap-faq--hub .apg-faq-q{display:flex;align-items:center;gap:24px;width:100%;padding:20px 16px;background:none;border:0;cursor:pointer;text-align:left;font-family:Manrope,sans-serif;list-style:none;-webkit-tap-highlight-color:transparent}
+.ap-faq.ap-faq--hub .apg-faq-q::-webkit-details-marker{display:none}
+.ap-faq.ap-faq--hub .apg-faq-q span.apg-q-text{flex:1;font-size:20px;font-weight:800;line-height:1.4;color:#25272c;transition:color var(--ap-dur-base) var(--ap-ease-standard)}
+.ap-faq.ap-faq--hub.ap-faq--q-accent .apg-faq-q span.apg-q-text{color:#5044e1}
+.ap-faq.ap-faq--hub .apg-faq-item[open]:where(:not([data-ap-closing])) .apg-q-text{color:#5044e1}
+.ap-faq.ap-faq--hub .apg-faq-ico{position:relative;width:32px;height:32px;flex:0 0 32px}
+.ap-faq.ap-faq--hub .apg-faq-ico::before,.ap-faq.ap-faq--hub .apg-faq-ico::after{content:"";position:absolute;background:#5044e1;transition:transform var(--ap-dur-base) var(--ap-ease-standard),opacity var(--ap-dur-base) var(--ap-ease-standard)}
+.ap-faq.ap-faq--hub .apg-faq-ico::before{left:7px;right:7px;top:15px;height:2px}
+.ap-faq.ap-faq--hub .apg-faq-ico::after{top:7px;bottom:7px;left:15px;width:2px}
+.ap-faq.ap-faq--hub .apg-faq-item[open]:where(:not([data-ap-closing])) .apg-faq-ico::after{transform:scaleY(0)}
+.ap-faq.ap-faq--hub .apg-faq-a{display:grid;grid-template-rows:minmax(0,1fr)}
+.ap-faq.ap-faq--hub .apg-faq-a-in{min-height:0}
+.ap-faq.ap-faq--hub .apg-faq-a-in p{font-size:16px;line-height:1.5;color:#4a4e5a;margin:0;padding:0 16px 24px}
+.ap-faq.ap-faq--hub .apg-faq-a-in a{color:#5044e1;font-weight:600;text-decoration:none}
+.ap-faq.ap-faq--hub .apg-faq-a-in a:hover{text-decoration:underline}
+@media (max-width:767px){
+	.ap-faq.ap-faq--hub{padding:48px 24px 32px}
+	.ap-faq.ap-faq--hub h2.apg-h2{font-size:28px}
+	.ap-faq.ap-faq--hub .apg-faq-q span.apg-q-text{font-size:17px}
+}
+
+.ap-faq.ap-faq--eduhub{position:relative;background:transparent;padding:80px 24px}
+.ap-faq.ap-faq--eduhub::before{content:"";position:absolute;top:0;bottom:0;left:0;width:100%;background:#fff;pointer-events:none}
+.ap-faq.ap-faq--eduhub > *{position:relative}
+.ap-faq.ap-faq--eduhub .apf-container{max-width:1120px;margin:0 auto;font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif}
+.ap-faq.ap-faq--eduhub .apf-h2{margin:0 0 32px;font-weight:800;font-size:40px;line-height:1.2;color:#25272c;text-align:center}
+.ap-faq.ap-faq--eduhub .apf-list{border-top:1px solid #e6e9f2}
+.ap-faq.ap-faq--eduhub .apf-item{border-bottom:1px solid #e6e9f2}
+.ap-faq.ap-faq--eduhub .apf-q{width:100%;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:24px 0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-weight:700;font-size:18px;line-height:1.3;color:#25272c;transition:color var(--ap-dur-base) var(--ap-ease-standard);list-style:none;-webkit-tap-highlight-color:transparent}
+.ap-faq.ap-faq--eduhub .apf-q::-webkit-details-marker{display:none}
+.ap-faq.ap-faq--eduhub .apf-item[open]:where(:not([data-ap-closing])) .apf-q{color:#5044e1}
+.ap-faq.ap-faq--eduhub .apf-q-icon{flex-shrink:0;width:24px;height:24px;position:relative}
+.ap-faq.ap-faq--eduhub .apf-q-icon::before,.ap-faq.ap-faq--eduhub .apf-q-icon::after{content:'';position:absolute;top:50%;left:50%;background:#5044e1;transform:translate(-50%,-50%);transition:transform var(--ap-dur-base) var(--ap-ease-standard),opacity var(--ap-dur-base) var(--ap-ease-standard)}
+.ap-faq.ap-faq--eduhub .apf-q-icon::before{width:14px;height:2px}
+.ap-faq.ap-faq--eduhub .apf-q-icon::after{width:2px;height:14px}
+.ap-faq.ap-faq--eduhub .apf-item[open]:where(:not([data-ap-closing])) .apf-q-icon::after{opacity:0;transform:translate(-50%,-50%) rotate(90deg)}
+.ap-faq.ap-faq--eduhub .apf-a-wrap{overflow:visible}
+.ap-faq.ap-faq--eduhub .apf-a{margin:0 0 24px;font-weight:400;font-size:16px;line-height:1.6;color:#4a4e5a;max-width:960px}
+@media (max-width:900px){
+	.ap-faq.ap-faq--eduhub .apf-h2{font-size:28px}
+	.ap-faq.ap-faq--eduhub .apf-q{font-size:16px}
+}
+/* Live's page-level phone spacing for every Education hub band. */
+@media (max-width:767px){
+	.ap-faq.ap-faq--eduhub{padding-top:48px;padding-bottom:48px}
+}
+/* The staging theme sets text-wrap:pretty on headings and paragraphs; live wraps plainly. */
+.ap-faq--hub :is(h2, p, summary), .ap-faq--eduhub :is(h2, p, summary) {text-wrap:wrap}
+
+/* ------------------------------------------------------------ Section rhythm + type scale (QA 2026-10-28, sections agent)
+ * Padding on the kit section rhythm (tokens.css "section rhythm") and the
+ * section title / eyebrow on the type-scale tokens, like every other section. */
+/* Section rhythm: --ap-section-y top and bottom (was 80 / 40, 56 / 32, 40 / 24 by width and variant). */
+html body .ap-faq.ap-faq.ap-faq { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+/* Type scale: section title and eyebrow on the kit tokens. */
+html body .ap-faq.ap-faq.ap-faq :is(.ap-faq__title, h2.apf-h2, h2.apg-h2) { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+html body .ap-faq.ap-faq.ap-faq .ap-faq__eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }
+
+/* ------------------------------------------------------------ Integrations pages (2026-10-28)
+ * Additive: nothing here applies unless a page sets tone "fade" (any variant
+ * but eduhub), tone "white" / "fade" on the hub variant, or layout "split".
+ * Figma: Integrations hub FAQ (7310:163738, white fading to light grey, heading
+ * beside the questions) and the detail-page FAQ (7318:171324, plain white). */
+.ap-faq--fade { background: #fff; } /* was white → slate-50 (QA 2026-10-29: no grey sections) */
+.ap-faq.ap-faq--hub.ap-faq--fade::before { background: #fff; }
+.ap-faq.ap-faq--hub.ap-faq--white::before { background: #fff; }
+
+
+/* Split: the heading is a left column (259px in Figma, 80px from the list) from
+ * 1025px; below that it sits above the questions, left-aligned like the rows. */
+.ap-faq.ap-faq--hub.ap-faq--split .apg-faq-split { max-width: 1120px; margin: 0 auto; }
+.ap-faq.ap-faq--hub.ap-faq--split h2.apg-h2 { max-width: none; margin: 0 0 var(--ap-section-head-gap, 40px); padding: 0 16px; text-align: left; }
+@media (min-width: 1025px) {
+	.ap-faq.ap-faq--hub.ap-faq--split .apg-faq-split { display: grid; grid-template-columns: 259px minmax(0, 1fr); column-gap: 48px; align-items: start; }
+	.ap-faq.ap-faq--hub.ap-faq--split h2.apg-h2 { margin: 0; padding: 0; }
+	.ap-faq.ap-faq--hub.ap-faq--split .apg-faq-list { max-width: none; margin: 0; }
+}
+@media (min-width: 1280px) {
+	.ap-faq.ap-faq--hub.ap-faq--split .apg-faq-split { column-gap: 80px; }
+}
+
+/* QA 2026-10-29 (Joseph, sitewide): sections without a colour gradient are pure white — the white-to-#f9fafb fades
+ * showed as a grey band against the next section. */
+
+/* Opt-in eyebrow over the hub heading (stack layout; Figma Desktop - Compare > FAQ Section 7379:186008:
+ * FREQUENTLY ASKED QUESTIONS 14/800 indigo, 16px above the centred H2). */
+.ap-faq.ap-faq--hub .apg-eyebrow {
+	max-width: 1120px;
+	margin: 0 auto var(--ap-section-title-gap, 16px);
+	color: var(--ap-type-eyebrow-color, var(--ap-text-eyebrow));
+	font-family: var(--ap-font-utility);
+	font-size: var(--ap-type-eyebrow-size);
+	font-weight: var(--ap-type-eyebrow-weight);
+	line-height: var(--ap-type-eyebrow-line);
+	letter-spacing: var(--ap-type-eyebrow-track);
+	text-align: center;
+	text-transform: uppercase;
+}
+/* Figma's section header under that eyebrow is 800px wide, so the question breaks over two balanced lines. */
+.ap-faq.ap-faq--hub .apg-eyebrow + h2.apg-h2 {
+	max-width: 800px;
+}

@@ -1,0 +1,18 @@
+{
+	"name": "readiness-problem",
+	"description": "Problem section of Emergency Preparedness and School Reunification: centred heading, a product photo ringed by four coloured issue pills (stacked under the photo below 901px) and a closing CTA strip with the panda mark. Live: the .epx-prob section on those pages (rules ported).",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading." },
+		"lede": { "type": "string", "required": false, "default": "", "description": "Paragraph under the heading." },
+		"background": { "type": "string", "required": false, "default": "", "description": "Soft orb artwork stretched behind the section." },
+		"image": { "type": "string", "required": false, "default": "", "description": "Product photo (live 547x364)." },
+		"image_alt": { "type": "string", "required": false, "default": "", "description": "Photo alt text." },
+		"chips": { "type": "array", "required": false, "default": [], "description": "Up to four issue pills, placed and tinted by position (red, green, blue, yellow). Each: text; optional icon_svg." },
+		"cta_title": { "type": "string", "required": false, "default": "", "description": "CTA strip heading." },
+		"cta_body": { "type": "string", "required": false, "default": "", "description": "CTA strip paragraph." },
+		"cta_icon": { "type": "string", "required": false, "default": "", "description": "CTA strip mark (live: the panda mark, 42x46)." },
+		"cta_label": { "type": "string", "required": false, "default": "", "description": "CTA button text. Renders only with cta_url." },
+		"cta_url": { "type": "string", "required": false, "default": "", "description": "CTA button destination." }
+	}
+}

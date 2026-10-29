@@ -1,0 +1,10 @@
+{
+	"name": "solution-trust",
+	"description": "Customer logo strip: a short label (its end in the brand gradient) beside a row of logos; a masked marquee below 901px. Live: the .epx-trust section on the solution pages, Emergency Preparedness, School Reunification and Help Desk (rules ported).",
+	"props": {
+		"label": { "type": "string", "required": false, "default": "", "description": "Label beside the logos, e.g. \"Trusted across departments and locations.\"" },
+		"accent": { "type": "string", "required": false, "default": "", "description": "The end of the label painted with the brand gradient; must appear in label." },
+		"items": { "type": "array", "required": true, "description": "Logos, in order. Each: image (required), alt; optional fit (cover) for a logo live crops to fill its box." },
+		"variant": { "type": "string", "required": false, "default": "solution", "enum": [ "solution", "readiness", "service" ], "description": "solution: the six solution pages (deeper padding from 901px). readiness: Emergency Preparedness and School Reunification (110x80 logos that may wrap). service: Help Desk." }
+	}
+}

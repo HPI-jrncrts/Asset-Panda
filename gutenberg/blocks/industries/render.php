@@ -22,10 +22,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $props = array(
-	'eyebrow' => $attributes['eyebrow'] ?? '',
-	'title'   => $attributes['title'] ?? '',
-	'items'   => $attributes['items'] ?? array(),
-	'reveal'  => $attributes['reveal'] ?? true,
+	'section_id' => $attributes['section_id'] ?? 'industries',
+	'eyebrow'    => $attributes['eyebrow'] ?? '',
+	'title'      => $attributes['title'] ?? '',
+	'tabs_label' => $attributes['tabs_label'] ?? 'Jump to an industry',
+	'items'      => $attributes['items'] ?? array(),
+	'reveal'     => $attributes['reveal'] ?? true,
 );
 
 $ap_html = ap_render_component( 'industries', $props );

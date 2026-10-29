@@ -1,0 +1,132 @@
+{
+	"name": "page-directory",
+	"description": "Directory grid of logo cards with optional category chips and an instant search: centred heading, a chip row built from the cards' tags (each with its count), a search box, then white cards (logo, name, tag pills, description, optional arrow link; the whole card is the link when it has a url), an optional 'more coming soon' tile and a closing line with a button. Built for /integrations/ (live's logo-expand gridder, every description shown instead of hidden behind a click; on phones long descriptions fold to three lines and a tap unfolds them) and the /compare/ guides. Filtering is behaviour.js; without it every card shows.",
+	"props": {
+		"anchor": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "id on the section (letters, digits, hyphens)."
+		},
+		"tone": {
+			"type": "string",
+			"required": false,
+			"default": "white",
+			"enum": [
+				"white",
+				"soft"
+			],
+			"description": "Section background: white, or the soft wash (slate-50 with brand orbs)."
+		},
+		"eyebrow": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Small uppercase label above the heading."
+		},
+		"title": {
+			"type": "string",
+			"required": true,
+			"description": "Heading (h2). Line breaks are kept."
+		},
+		"lede": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Paragraph under the heading. Line breaks kept; [label](url) links, **bold**."
+		},
+		"filter": {
+			"type": "boolean",
+			"required": false,
+			"default": false,
+			"description": "Show the category chips (from the cards' tags, biggest category first, each with its count)."
+		},
+		"all_label": {
+			"type": "string",
+			"required": false,
+			"default": "All",
+			"description": "Text of the chip that shows every card."
+		},
+		"filter_label": {
+			"type": "string",
+			"required": false,
+			"default": "Filter by category",
+			"description": "Accessible name of the chip group."
+		},
+		"search": {
+			"type": "boolean",
+			"required": false,
+			"default": false,
+			"description": "Show the search box (matches name, tags and description as you type)."
+		},
+		"search_label": {
+			"type": "string",
+			"required": false,
+			"default": "Search",
+			"description": "Search box label (visually hidden) and placeholder."
+		},
+		"count_label": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Live result line under the controls, {n} = cards shown, e.g. Showing {n} integrations. Empty hides it."
+		},
+		"empty_text": {
+			"type": "string",
+			"required": false,
+			"default": "Nothing matches that search.",
+			"description": "Shown when a search or chip leaves no card."
+		},
+		"columns": {
+			"type": "string",
+			"required": false,
+			"default": "4",
+			"enum": [
+				"3",
+				"4"
+			],
+			"description": "Cards per row on desktop (two on tablets, one compact row per card on phones)."
+		},
+		"link_label": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Default arrow-link text for cards with a url and no link_label of their own."
+		},
+		"items": {
+			"type": "array",
+			"required": true,
+			"description": "Cards. Each: name (required; the card heading), logo (image URL), logo_alt, logo_w and logo_h (intrinsic px), logo_crop ([x, y, w, h] in the logo image’s own pixels: the box to show when the logo sits in a padded canvas, e.g. live’s 400x300 PNG logos; needs logo_w/logo_h), tags (array of strings: pills, and the chips’ categories), body (description), url and link_label (arrow link; the whole card links), badge (small corner label, e.g. New)."
+		},
+		"soon_title": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Closing tile text, e.g. More Integrations Coming Soon (shown only while no filter or search is active)."
+		},
+		"soon_image": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Closing tile illustration (SVG/PNG/WebP URL)."
+		},
+		"foot_text": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Centred line under the grid."
+		},
+		"foot_label": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Button under the line. Renders only with foot_url."
+		},
+		"foot_url": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Button destination (page, #anchor, http(s) or mailto:)."
+		}
+	}
+}

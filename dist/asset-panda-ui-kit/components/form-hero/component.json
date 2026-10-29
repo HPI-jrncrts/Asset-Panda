@@ -1,0 +1,25 @@
+{
+	"name": "form-hero",
+	"description": "Form page hero: eyebrow, heading, copy, a check list and badges beside a white card holding a HubSpot form (classic v2 embed or the new-editor developer embed), with live's 'Form not loading?' fallback. light: a page hero on the colour wash (/get-a-quote-pro/). dark: white copy on a backdrop picture (/start-a-free-trial-email-only/). section: an in-page band with an h2 (the /barcode-labels/ order form).",
+	"props": {
+		"variant": { "type": "string", "required": false, "default": "light", "enum": [ "light", "dark", "section", "banner" ], "description": "light: page hero on the soft colour wash. dark: white copy over the backdrop picture. section: a band inside a page (heading is an h2, softer padding). banner: the Integrations hub hero banner (integrations-hero: its soft brand glows on white, type, spacing and height) with the form card where that hero's art sits, stacked under the copy on phones; the card and its fields take the Get a Demo form look (demo-booking). background is not drawn in this variant." },
+		"anchor": { "type": "string", "required": false, "default": "", "description": "id on the section, so links can jump to the form (letters, digits, hyphens)." },
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small uppercase label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading. Line breaks are kept." },
+		"title_tag": { "type": "string", "required": false, "default": "h1", "enum": [ "h1", "h2" ], "description": "Heading level: h1 when the section is the page hero, h2 inside a page." },
+		"body": { "type": "string", "required": false, "default": "", "description": "Paragraph under the heading. Line breaks are kept; wrap a run in **double asterisks** to bold it." },
+		"bullets": { "type": "array", "required": false, "default": [], "description": "Check list under the copy. Plain strings; **double asterisks** bold a lead-in, e.g. **Solution Fit**: We'll match you…" },
+		"badges": { "type": "array", "required": false, "default": [], "description": "Badge images under the copy. Each: image (URL), alt, optional w and h (intrinsic px)." },
+		"background": { "type": "string", "required": false, "default": "", "description": "Backdrop picture URL, drawn cover-sized behind the section (light: the colour wash; dark: the brand picture)." },
+		"form_title": { "type": "string", "required": false, "default": "", "description": "Heading inside the form card, e.g. Create your account." },
+		"form_intro": { "type": "string", "required": false, "default": "", "description": "Line under the card heading, e.g. Enter your work email to get started." },
+		"form_note": { "type": "string", "required": false, "default": "", "description": "Small line under the form, e.g. No credit card required." },
+		"hubspot_portal": { "type": "string", "required": false, "default": "", "description": "HubSpot portal ID (digits). The form renders only with a portal and a form ID." },
+		"hubspot_form": { "type": "string", "required": false, "default": "", "description": "HubSpot form ID (GUID). Where the form sends the visitor after submitting is set in HubSpot." },
+		"hubspot_region": { "type": "string", "required": false, "default": "na1", "description": "HubSpot region, e.g. na1 or na2. Picks the embed script host." },
+		"form_embed": { "type": "string", "required": false, "default": "v2", "enum": [ "v2", "developer" ], "description": "v2: the classic embed (hbspt.forms.create, drawn unstyled into the page). developer: a form built in HubSpot's new editor, drawn as plain HTML by the developer embed script (live /start-a-free-trial-email-only/)." },
+		"form_submit": { "type": "string", "required": false, "default": "", "description": "v2 only: submit button text, set once the form is drawn. Empty keeps HubSpot's." },
+		"fallback_email": { "type": "string", "required": false, "default": "", "description": "Email offered when the form fails to load (live: info@assetpanda.com). With fallback_phone, turns on live's 'Form not loading?' box, shown only if no form appears within 6 seconds." },
+		"fallback_phone": { "type": "string", "required": false, "default": "", "description": "Phone number offered in the fallback box, e.g. (888) 928-6112. Hidden for international visitors (html.ap-intl), as on live." }
+	}
+}

@@ -1,0 +1,14 @@
+{
+	"name": "solution-cta",
+	"description": "Closing call to action: a deep indigo card with eyebrow, heading, lede and button on the left and a product image pinned to its right edge (under the copy below 1001px). Live: the .epx-fcta section on the solution pages, Emergency Preparedness, School Reunification and Help Desk (rules ported).",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading. Line breaks are kept." },
+		"body": { "type": "string", "required": false, "default": "", "description": "Paragraph under the heading." },
+		"cta_label": { "type": "string", "required": false, "default": "", "description": "Button text. Renders only with cta_url." },
+		"cta_url": { "type": "string", "required": false, "default": "", "description": "Button destination." },
+		"image": { "type": "string", "required": false, "default": "", "description": "Product image (live 488x452)." },
+		"image_alt": { "type": "string", "required": false, "default": "", "description": "Image alt text." },
+		"variant": { "type": "string", "required": false, "default": "solution", "enum": [ "solution", "readiness", "service" ], "description": "solution: the six solution pages (deeper bottom space, upper-case button). readiness / service: Emergency Preparedness, School Reunification / Help Desk." }
+	}
+}

@@ -1,0 +1,130 @@
+/*
+ * solution-awards — ported from the live .epx-awards section.
+ *
+ * Live's rules re-namespaced from .epx-awards__* / .epx-arev to
+ * .ap-solution-awards__*; one sheet serves every family. Live's 100vw
+ * full-bleed trick is left out (the block is already full width).
+ */
+
+.ap-solution-awards,
+.ap-solution-awards * {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+.ap-solution-awards {
+	background: #fff; /* white by default since QA 2026-10-29 (sitewide: no off-white sections); tone grey keeps the old band */
+}
+
+.ap-solution-awards.ap-solution-awards--grey {
+	background: #f9fafb;
+}
+
+.ap-solution-awards.ap-solution-awards--white {
+	background: #fff;
+}
+
+.ap-solution-awards {
+	overflow: hidden;
+	font-family: var(--ap-font-body, 'Manrope', Arial, sans-serif);
+}
+
+.ap-solution-awards__wrap {
+	max-width: 1200px;
+	min-height: 181px;
+	margin: 0 auto;
+	padding: 40px;
+	display: flex;
+	align-items: center;
+}
+
+.ap-solution-awards__ticker { width: 100%; }
+
+.ap-solution-awards__row {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	gap: 32px 24px;
+}
+
+.ap-solution-awards__row img { display: block; }
+.ap-solution-awards__row .ap-solution-awards__dup { display: none; }
+
+@keyframes apSolutionAwardsFade {
+	from { opacity: 0; }
+}
+
+@keyframes apSolutionAwardsMarquee {
+	to { transform: translateX(-50%); }
+}
+
+/* Scroll reveal: a CSS scroll timeline, staggered per badge (no script). */
+@media (prefers-reduced-motion: no-preference) {
+	.ap-solution-awards .ap-solution-awards__rev {
+		animation: apSolutionAwardsFade 1ms linear both;
+		animation-timeline: view();
+		animation-range: entry 5% entry 40%;
+	}
+
+	.ap-solution-awards .ap-solution-awards__rev--d1 { animation-range: entry 8% entry 43%; }
+	.ap-solution-awards .ap-solution-awards__rev--d2 { animation-range: entry 11% entry 46%; }
+	.ap-solution-awards .ap-solution-awards__rev--d3 { animation-range: entry 14% entry 49%; }
+	.ap-solution-awards .ap-solution-awards__rev--d4 { animation-range: entry 17% entry 52%; }
+	.ap-solution-awards .ap-solution-awards__rev--d5 { animation-range: entry 20% entry 55%; }
+	.ap-solution-awards .ap-solution-awards__rev--d6 { animation-range: entry 23% entry 58%; }
+}
+
+@media (max-width: 900px) {
+	.ap-solution-awards__wrap {
+		min-height: 0;
+		padding: 32px 0;
+	}
+
+	.ap-solution-awards__ticker {
+		flex: 0 0 auto;
+		overflow: hidden;
+		-webkit-mask-image: linear-gradient(90deg, transparent 0, #000 32px, #000 calc(100% - 32px), transparent 100%);
+		mask-image: linear-gradient(90deg, transparent 0, #000 32px, #000 calc(100% - 32px), transparent 100%);
+	}
+
+	.ap-solution-awards__row {
+		flex-wrap: nowrap;
+		justify-content: flex-start;
+		gap: 0;
+		width: max-content;
+		animation: apSolutionAwardsMarquee 22s linear infinite;
+	}
+
+	.ap-solution-awards__row img { margin-right: 32px; }
+	.ap-solution-awards__row .ap-solution-awards__dup { display: block; }
+	.ap-solution-awards .ap-solution-awards__rev { animation: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-solution-awards__row {
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 28px 32px;
+		width: auto;
+		animation: none !important;
+	}
+
+	.ap-solution-awards__row img { margin-right: 0; }
+	.ap-solution-awards__row .ap-solution-awards__dup { display: none !important; }
+}
+
+@media (max-width: 640px) {
+	.ap-solution-awards__wrap { padding: 24px 0; }
+
+	.ap-solution-awards__row img {
+		scale: .9;
+		transform-origin: center;
+	}
+}
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: a compact band, --ap-section-y-sm top and bottom (was 40 /
+ * 32 / 24 by breakpoint). */
+.ap-solution-awards .ap-solution-awards__wrap { padding-top: var(--ap-section-y-sm, 40px); padding-bottom: var(--ap-section-y-sm, 40px); }

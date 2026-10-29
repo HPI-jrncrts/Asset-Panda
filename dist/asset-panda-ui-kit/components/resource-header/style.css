@@ -1,0 +1,535 @@
+/*
+ * resource-header — live's article band (blog / case study / success story / white paper /
+ * press pages on www.assetpanda.com) on 2026 tokens: breadcrumbs above a rounded deep-indigo
+ * band with the white H1, the letter-spaced type label, category chips and share links on one
+ * side and the featured photo on the other.
+ */
+
+:where(.ap-resource-header, .ap-resource-header *, .ap-resource-header *::before, .ap-resource-header *::after) {
+	box-sizing: border-box;
+}
+
+.ap-resource-header {
+	max-width: 1168px;
+	margin: 0 auto;
+	padding: 40px 24px 0;
+	font-family: var(--ap-font-body);
+}
+
+/* Breadcrumbs */
+.ap-resource-header__crumbs ol {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 4px;
+	margin: 0 0 24px;
+	padding: 0;
+	list-style: none;
+	font-size: 14px;
+	font-weight: var(--ap-weight-medium);
+	line-height: 1.4;
+}
+
+.ap-resource-header__crumbs li {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	min-width: 0;
+	margin: 0;
+	padding: 0;
+	color: var(--ap-slate-500);
+}
+
+.ap-resource-header__crumbs svg {
+	flex: none;
+	color: var(--ap-slate-300);
+}
+
+.ap-resource-header__crumbs a {
+	color: var(--ap-slate-500);
+	text-decoration: none;
+	transition: color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-resource-header__crumbs a:hover {
+	color: var(--ap-text-heading);
+	text-decoration: underline;
+}
+
+.ap-resource-header__current {
+	display: block;
+	max-width: 48ch;
+	overflow: hidden;
+	color: var(--ap-text-heading);
+	font-weight: var(--ap-weight-heading);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+/* Band */
+.ap-resource-header__band {
+	position: relative;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	align-items: center;
+	gap: 48px;
+	overflow: hidden;
+	padding: 40px 56px;
+	border-radius: var(--ap-radius-xl);
+	background-color: var(--ap-surface-dark);
+	background-image:
+		radial-gradient(70% 120% at 100% 0%, rgba(80, 68, 225, 0.55), transparent 60%),
+		radial-gradient(60% 110% at 0% 100%, rgba(105, 67, 136, 0.55), transparent 65%),
+		radial-gradient(40% 60% at 70% 110%, rgba(0, 169, 145, 0.18), transparent 70%);
+	color: var(--ap-text-inverse);
+}
+
+.ap-resource-header--img-left .ap-resource-header__media {
+	order: -1;
+}
+
+.ap-resource-header--no-img .ap-resource-header__band {
+	grid-template-columns: minmax(0, 1fr);
+	padding-top: 64px;
+	padding-bottom: 64px;
+}
+
+.ap-resource-header--no-img .ap-resource-header__copy {
+	max-width: 880px;
+}
+
+.ap-resource-header__copy {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 24px;
+	min-width: 0;
+}
+
+.ap-resource-header .ap-resource-header__title {
+	margin: 0;
+	color: var(--ap-text-heading-inverse);
+	font-family: var(--ap-font-display);
+	font-size: 40px;
+	font-weight: var(--ap-weight-display);
+	line-height: var(--ap-line-h1);
+	letter-spacing: -0.01em;
+	overflow-wrap: break-word;
+}
+
+.ap-resource-header__label {
+	margin: 0;
+	color: var(--ap-text-eyebrow-inverse);
+	font-size: 14px;
+	font-weight: var(--ap-weight-medium);
+	line-height: 1.2;
+	letter-spacing: 0.32em;
+	text-transform: uppercase;
+}
+
+.ap-resource-header__label a {
+	color: inherit;
+	text-decoration: none;
+	transition: color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-resource-header__label a:hover {
+	color: var(--ap-text-inverse);
+}
+
+.ap-resource-header__cats {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ap-resource-header__cats li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ap-resource-header__cats a,
+.ap-resource-header__cats span {
+	display: inline-flex;
+	align-items: center;
+	min-height: 30px;
+	padding: 4px 12px;
+	border: 1px solid var(--ap-white-20);
+	border-radius: var(--ap-radius-pill);
+	background: var(--ap-white-10);
+	color: var(--ap-text-inverse);
+	font-size: 14px;
+	font-weight: var(--ap-weight-medium);
+	line-height: 1.2;
+	text-decoration: none;
+	transition: background-color var(--ap-dur-base) var(--ap-ease-standard), border-color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-resource-header__cats a:hover {
+	background: var(--ap-white-20);
+	border-color: var(--ap-white-40);
+}
+
+.ap-resource-header__meta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px 24px;
+	color: var(--ap-text-body-inverse);
+	font-size: 14px;
+	line-height: 1.4;
+}
+
+.ap-resource-header__share {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.ap-resource-header__share-label {
+	margin-right: 2px;
+}
+
+.ap-resource-header__share a {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border-radius: var(--ap-radius-pill);
+	background: var(--ap-white-10);
+	color: var(--ap-text-inverse);
+	transition: background-color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-resource-header__share a:hover {
+	background: var(--ap-white-30);
+}
+
+.ap-resource-header a:focus-visible {
+	outline: 2px solid var(--ap-indigo-300);
+	outline-offset: 2px;
+}
+
+.ap-resource-header__crumbs a:focus-visible {
+	outline-color: var(--ap-brand-indigo);
+}
+
+.ap-resource-header__media {
+	margin: 0;
+	overflow: hidden;
+	aspect-ratio: 16 / 10;
+	border-radius: var(--ap-radius-lg);
+	background: var(--ap-white-10);
+}
+
+.ap-resource-header__img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+@media (max-width: 1023px) {
+	.ap-resource-header__band {
+		gap: 32px;
+		padding: 32px;
+	}
+
+	.ap-resource-header .ap-resource-header__title {
+		font-size: 32px;
+	}
+}
+
+@media (max-width: 767px) {
+	.ap-resource-header {
+		padding: 24px 16px 0;
+	}
+
+	.ap-resource-header__crumbs ol {
+		margin-bottom: 16px;
+		font-size: 12px;
+	}
+
+	.ap-resource-header__current {
+		max-width: 24ch;
+	}
+
+	.ap-resource-header__band {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 24px;
+		padding: 24px 20px;
+		border-radius: var(--ap-radius-lg);
+	}
+
+	.ap-resource-header--img-left .ap-resource-header__media {
+		order: 0;
+	}
+
+	.ap-resource-header .ap-resource-header__title {
+		font-size: 28px;
+	}
+
+	.ap-resource-header__copy {
+		gap: 16px;
+	}
+
+	.ap-resource-header__label {
+		letter-spacing: 0.2em;
+		font-size: 12px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-resource-header a,
+	.ap-resource-header__cats a,
+	.ap-resource-header__share a {
+		transition: none;
+	}
+}
+
+/*
+ * ── Article variant ───────────────────────────────────────────────────────
+ * The 2026 post design (Figma Blog Detail 5434:79954, compare post 7219:87997):
+ * a 928px column holding the breadcrumbs, the indigo eyebrow, the H1 and the
+ * "Share on:" row above a hairline, then the featured image full width with
+ * rounded corners. A soft gradient wash sits behind the header and fades to
+ * white into the first lines of the body; the root spans the page so the wash
+ * can, the inner column carries the 976px (928 + padding) width.
+ */
+.ap-resource-header--article {
+	position: relative;
+	isolation: isolate;
+	max-width: none;
+	padding: 0;
+}
+
+.ap-resource-header--article .ap-resource-header__inner {
+	display: flex;
+	flex-direction: column;
+	gap: 28px;
+	max-width: 976px;
+	margin: 0 auto;
+	padding: 44px 24px 0;
+}
+
+/*
+ * The wash: the design's blurred colour orbs (pink, indigo twice, green, yellow)
+ * centred on the featured image — the same recipe the listicle design pass
+ * draws on core posts — kept behind the header's own content (z-index -1
+ * inside the isolated header) and sized from the header's bottom edge so it
+ * fades out a few hundred pixels into the body. The pink has no token.
+ */
+.ap-resource-header__wash {
+	position: absolute;
+	z-index: -1;
+	top: calc(100% - 760px);
+	right: 0;
+	left: 0;
+	height: 1180px;
+	pointer-events: none;
+	background:
+		radial-gradient(22% 30% at 1% 40%, rgba(236, 92, 128, 0.42), transparent 72%),
+		radial-gradient(32% 28% at 12% 56%, color-mix(in srgb, var(--ap-brand-indigo) 55%, transparent), transparent 72%),
+		radial-gradient(30% 28% at 90% 50%, color-mix(in srgb, var(--ap-brand-indigo) 50%, transparent), transparent 72%),
+		radial-gradient(38% 26% at 50% 52%, color-mix(in srgb, var(--ap-brand-green) 48%, transparent), transparent 72%),
+		radial-gradient(14% 16% at 99% 30%, color-mix(in srgb, var(--ap-brand-yellow) 28%, transparent), transparent 72%);
+	filter: blur(24px);
+}
+
+/* Breadcrumbs: body-grey 14px medium, the current page bold; home icon first. */
+.ap-resource-header--article .ap-resource-header__crumbs ol {
+	margin: 0;
+	color: var(--ap-slate-700);
+}
+
+.ap-resource-header--article .ap-resource-header__crumbs li,
+.ap-resource-header--article .ap-resource-header__crumbs a {
+	color: var(--ap-slate-700);
+}
+
+.ap-resource-header--article .ap-resource-header__crumbs a:hover {
+	color: var(--ap-text-heading);
+}
+
+.ap-resource-header--article .ap-resource-header__crumbs svg {
+	width: 16px;
+	height: 16px;
+}
+
+.ap-resource-header--article .ap-resource-header__crumbs a svg {
+	color: var(--ap-text-heading);
+}
+
+.ap-resource-header__sr {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+.ap-resource-header--article .ap-resource-header__current {
+	max-width: 46ch;
+	color: var(--ap-slate-700);
+	font-weight: 700;
+}
+
+/* Eyebrow + H1 + share row, 40px under the crumbs, 32px of air and a rule below. */
+.ap-resource-header--article .ap-resource-header__head {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 16px;
+	padding: 40px 0 32px;
+	border-bottom: 1px solid var(--ap-slate-200);
+}
+
+.ap-resource-header--article .ap-resource-header__eyebrow {
+	margin: 0;
+	color: var(--ap-text-eyebrow);
+	font-family: var(--ap-font-utility);
+	font-size: 14px;
+	font-weight: var(--ap-weight-eyebrow);
+	line-height: var(--ap-line-eyebrow);
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.ap-resource-header--article .ap-resource-header__eyebrow a {
+	color: inherit;
+	text-decoration: none;
+	transition: color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-resource-header--article .ap-resource-header__eyebrow a:hover {
+	color: var(--ap-indigo-900);
+	text-decoration: underline;
+}
+
+.ap-resource-header--article .ap-resource-header__title {
+	max-width: 928px;
+	color: var(--ap-text-heading);
+	font-size: 56px;
+	letter-spacing: normal;
+}
+
+.ap-resource-header--article .ap-resource-header__meta {
+	gap: 8px 24px;
+	margin-top: 16px;
+	color: var(--ap-slate-500);
+	font-size: 14px;
+	line-height: 20px;
+}
+
+.ap-resource-header--article .ap-resource-header__date {
+	color: var(--ap-slate-700);
+	font-weight: var(--ap-weight-medium);
+}
+
+.ap-resource-header--article .ap-resource-header__share {
+	gap: 8px;
+}
+
+.ap-resource-header--article .ap-resource-header__share-label {
+	margin: 0;
+	white-space: nowrap;
+}
+
+.ap-resource-header--article .ap-resource-header__share-icons {
+	display: flex;
+	align-items: center;
+	gap: 7px;
+}
+
+.ap-resource-header--article .ap-resource-header__share a {
+	width: 24px;
+	height: 24px;
+	border-radius: var(--ap-radius-sm);
+	background: none;
+	color: var(--ap-slate-700);
+	transition: opacity var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-resource-header--article .ap-resource-header__share a:hover {
+	background: none;
+	opacity: 0.65;
+}
+
+.ap-resource-header--article a:focus-visible {
+	outline-color: var(--ap-brand-indigo);
+}
+
+/* The featured image: the full 928px column, 16:10, 16px corners. */
+.ap-resource-header--article .ap-resource-header__media {
+	aspect-ratio: 16 / 10;
+	border-radius: var(--ap-radius-xl);
+	background: var(--ap-slate-100);
+}
+
+@media (max-width: 1023px) {
+	.ap-resource-header--article .ap-resource-header__inner {
+		padding-top: 40px;
+	}
+
+	.ap-resource-header--article .ap-resource-header__title {
+		font-size: 40px;
+	}
+}
+
+@media (max-width: 781px) {
+	.ap-resource-header__wash {
+		top: calc(100% - 420px);
+		height: 680px;
+	}
+}
+
+@media (max-width: 767px) {
+	.ap-resource-header--article .ap-resource-header__inner {
+		gap: 20px;
+		padding: 24px 16px 0;
+	}
+
+	.ap-resource-header--article .ap-resource-header__crumbs ol {
+		font-size: 12px;
+	}
+
+	.ap-resource-header--article .ap-resource-header__crumbs svg {
+		width: 14px;
+		height: 14px;
+	}
+
+	.ap-resource-header--article .ap-resource-header__current {
+		max-width: 18ch;
+	}
+
+	.ap-resource-header--article .ap-resource-header__head {
+		gap: 12px;
+		padding: 20px 0 24px;
+	}
+
+	.ap-resource-header--article .ap-resource-header__title {
+		font-size: 30px;
+	}
+
+	.ap-resource-header--article .ap-resource-header__meta {
+		margin-top: 8px;
+	}
+
+	.ap-resource-header--article .ap-resource-header__media {
+		border-radius: var(--ap-radius-lg);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-resource-header--article .ap-resource-header__eyebrow a,
+	.ap-resource-header--article .ap-resource-header__share a {
+		transition: none;
+	}
+}

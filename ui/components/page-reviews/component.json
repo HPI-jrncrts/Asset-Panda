@@ -1,0 +1,11 @@
+{
+	"name": "page-reviews",
+	"description": "Customer review wall for /client-reviews/: industry chips (with counts) over one industry at a time — a featured story card (client logo, large quote, name and role beside a photo) and a grid of review cards (logo, quote, round headshot, name, role, organisation). Every review is in the page; behaviour.js shows the chosen industry (or all of them) without reloading, where live reloads the page per industry. Without JavaScript every industry shows under its own heading.",
+	"props": {
+		"anchor": { "type": "string", "required": false, "default": "", "description": "id on the section (letters, digits, hyphens)." },
+		"filter_label": { "type": "string", "required": false, "default": "Filter reviews by industry", "description": "Accessible name of the chip group." },
+		"all_label": { "type": "string", "required": false, "default": "", "description": "Text of a chip that shows every industry (empty: no such chip)." },
+		"default_group": { "type": "integer", "required": false, "default": 0, "description": "Index of the industry shown first (0 = the first group); -1 starts on All." },
+		"groups": { "type": "array", "required": true, "description": "Industries, in chip order. Each: label (required; chip text and the group's h2), featured ({quote, name, role, org (the logo alt), logo, logo_w, logo_h, photo, photo_w, photo_h}; optional), items (array of {quote (required), name, role, org, logo, logo_w, logo_h, photo, photo_w, photo_h})." }
+	}
+}

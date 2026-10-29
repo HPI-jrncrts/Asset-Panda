@@ -1,0 +1,1481 @@
+/*
+ * demo-booking — Booking hero of the 2026 Get a Demo flow (live #ap-demo-hero): the split layout
+ * (.ap-d26-v1, www /get-a-demo/: copy + booking widget left, testimonial card + award marquee
+ * right, fixed to one screen on desktop) and the centered layout (the draft month-calendar page:
+ * copy, widget, stats, award row), plus the booking widget itself (.ap-dw, live widget.css).
+ *
+ * Ported class-for-class from the live sheet (worktree get-a-demo-calcom @f2006d8: page.css and
+ * widget.css; first generated with scratchpad agents/demo/port-css.mjs): every selector is scoped under the
+ * component root, live's section id becomes the root class, and the inner class names are kept
+ * so the port stays diffable against live. Source comments say Page A for the weekly page
+ * (split layout, now www /get-a-demo/) and Page B for the month page (centered layout).
+ *
+ * Weights: live serves Manrope as static 300/400/700/800 faces, so its 600 draws as 700 and its
+ * 500 as 400; the dev theme's Manrope is variable, so this port states the weight live shows.
+ */
+
+
+/* Same font guard the live ap-* pages ship; the theme otherwise forces its own font. */
+.ap-demo-booking,
+.ap-demo-booking h1,
+.ap-demo-booking h2,
+.ap-demo-booking h3,
+.ap-demo-booking p,
+.ap-demo-booking span,
+.ap-demo-booking a,
+.ap-demo-booking li,
+.ap-demo-booking button,
+.ap-demo-booking input,
+.ap-demo-booking select,
+.ap-demo-booking label,
+.ap-demo-booking div {
+	font-family: "Manrope",Arial,sans-serif!important;
+}
+.ap-demo-booking.ap-d26-sec,
+.ap-demo-booking.ap-d26-sec *,
+.ap-demo-booking.ap-d26-sec *::before,
+.ap-demo-booking.ap-d26-sec *::after {
+	box-sizing: border-box;
+}
+.ap-demo-booking.ap-d26-sec {
+	position: relative;
+	width: 100%;
+	margin: 0;
+}
+
+/* ---------- Hero backgrounds: one flattened Figma export each, set inline from the background prop ----------
+   heroBgUrl = 7019:103390 "Decorative background" (the v1 frames use the same layers);
+   thanksBgUrl = 7019:102447. The fade (Figma "Background fade") sits on the hero's bottom edge. */
+.ap-demo-booking.ap-d26-hero {
+	background-color: #eef0f8;
+	background-position: 50% 0;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+.ap-demo-booking .ap-d26-fade {
+	position: absolute;
+	right: 0;
+	bottom: -5px;
+	left: 0;
+	height: 147px;
+	pointer-events: none;
+	background: linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0) 25.86%,rgba(255,255,255,.847) 85.39%,#fff 100%);
+}
+
+/* ---------- v2 centered hero, Page B (7019:103015) ---------- */
+.ap-demo-booking.ap-d26-sec {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 24px;
+	padding: 60px 160px 40px;
+	overflow: hidden;
+}
+.ap-demo-booking.ap-d26-sec>.ap-d26-content,
+.ap-demo-booking.ap-d26-sec>.ap-d26-awards {
+	position: relative;
+	z-index: 1;
+}
+.ap-demo-booking .ap-d26-content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 24px;
+	width: 554px;
+	max-width: 100%;
+}
+.ap-demo-booking .ap-d26-content:has(.ap-dw-fallback:not([hidden])) {
+	width: 966px;
+}
+.ap-demo-booking .ap-d26-content:has(.ap-dw-fallback:not([hidden])) .ap-dw {
+	max-width: none;
+}
+
+/* Page B's month calendar: the month and its times side by side, no wider than they need. */
+.ap-demo-booking .ap-d26-content:has(.ap-dw[data-view="month"] .ap-dw-cal:not([hidden])) .ap-dw {
+	max-width: none;
+}
+@media (min-width:900px) {
+	.ap-demo-booking .ap-d26-content:has(.ap-dw[data-view="month"] .ap-dw-cal:not([hidden])) {
+		width: 720px;
+	}
+}
+
+/* Wide enough for Cal.com's three-column booker, which fills the card (7019:103387: 966 x 480). */
+.ap-demo-booking .ap-d26-content .ap-dw-fallback {
+	overflow: hidden;
+	padding: 0;
+}
+@media (min-width:768px) {
+	.ap-demo-booking .ap-d26-content .ap-dw-fallback-cal {
+		min-height: 480px;
+	}
+}
+.ap-demo-booking .ap-d26-content .ap-dw-fallback:has(.ap-dw-note:not([hidden])) {
+	padding: 12px 0 0;
+}
+.ap-demo-booking .ap-d26-head {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	max-width: 480px;
+	text-align: center;
+}
+.ap-demo-booking.ap-d26-sec h1 {
+	margin: 0;
+	font-size: 48px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: 0;
+	color: #25272c;
+}
+.ap-demo-booking.ap-d26-sec .ap-d26-lead {
+	margin: 0;
+	font-size: 18px;
+	line-height: 1.5;
+	color: #4a4e5a;
+}
+
+/* The pricing page's three points (the points prop). They give way to the calendar and to short screens. */
+.ap-demo-booking.ap-d26-sec .ap-d26-points {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	font-size: 15px;
+	line-height: 1.5;
+	color: #4a4e5a;
+}
+.ap-demo-booking.ap-d26-sec .ap-d26-points li {
+	position: relative;
+	margin: 0;
+	padding-left: 22px;
+}
+.ap-demo-booking.ap-d26-sec .ap-d26-points li::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 7px;
+	width: 12px;
+	height: 7px;
+	border-left: 2px solid #00a991;
+	border-bottom: 2px solid #00a991;
+	transform: rotate(-45deg);
+}
+.ap-demo-booking.ap-d26-sec .ap-d26-points strong {
+	color: #1a1d26;
+}
+.ap-demo-booking .ap-d26-stats {
+	display: flex;
+	gap: 40px;
+	width: 100%;
+	max-width: 554px;
+	margin: 0;
+	padding: 16px 24px;
+	list-style: none;
+}
+.ap-demo-booking .ap-d26-stats li {
+	display: flex;
+	flex: 1 1 0;
+	flex-direction: column;
+	gap: 8px;
+	min-width: 0;
+	margin: 0;
+	padding: 0;
+}
+
+/* The number box hugs its digits (as the homepage's .ap-stat does), so the gradient runs across
+   them rather than the whole column; a hidden copy of the final value (.ap-d26-stat-ghost) holds
+   that width while behaviour.js counts up from 0. */
+.ap-demo-booking .ap-d26-stat-num {
+	display: inline-grid;
+	align-self: flex-start;
+	justify-items: start;
+	font-size: 28px;
+	font-weight: 800;
+	line-height: 1.2;
+	font-variant-numeric: tabular-nums;
+	background-image: linear-gradient(45.36deg,#5044e1 3.63%,#00a991 50.12%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	-webkit-text-fill-color: transparent;
+}
+.ap-demo-booking .ap-d26-stat-num>span {
+	grid-area: 1/1;
+}
+.ap-demo-booking .ap-d26-stat-ghost {
+	visibility: hidden;
+}
+.ap-demo-booking .ap-d26-stat-label {
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1.5;
+	color: #4b5563;
+}
+.ap-demo-booking .ap-d26-awards {
+	width: 100%;
+	max-width: 1120px;
+	overflow: hidden;
+}
+.ap-demo-booking .ap-d26-awards-track {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 54px;
+	width: 100%;
+}
+.ap-demo-booking .ap-d26-awards img {
+	display: block;
+	flex: 0 0 auto;
+	width: auto;
+	max-width: none;
+}
+.ap-demo-booking .ap-d26-awards-dup {
+	display: none;
+}
+@media (max-width:1279px) {
+	.ap-demo-booking.ap-d26-sec {
+		padding: 60px 40px 40px;
+	}
+}
+@media (max-width:1179px) {
+	.ap-demo-booking .ap-d26-awards-track {
+		justify-content: flex-start;
+		width: max-content;
+		animation: apDemoBookingMarquee 30s linear infinite;
+	}
+	.ap-demo-booking .ap-d26-awards-dup {
+		display: contents;
+	}
+}
+@media (max-width:767px) {
+	.ap-demo-booking.ap-d26-sec {
+		padding: 52px 16px 32px;
+	}
+	.ap-demo-booking.ap-d26-sec h1 {
+		font-size: 36px;
+	}
+	.ap-demo-booking.ap-d26-sec .ap-d26-lead {
+		font-size: 16px;
+	}
+	.ap-demo-booking .ap-d26-stats {
+		padding: 16px 0;
+	}
+}
+@media (prefers-reduced-motion:reduce) {
+	.ap-demo-booking .ap-d26-awards-track {
+		flex-wrap: wrap;
+		justify-content: center;
+		width: 100%;
+		animation: none;
+	}
+	.ap-demo-booking .ap-d26-awards-dup {
+		display: none;
+	}
+}
+
+/* ---------- v1 two-column hero, Page A (6931:128467) ----------
+   Email-only, the row centres its columns (6931:128361); once the name fields show it aligns
+   them to the top (6937:66825 onwards), and the fade grows from 147 to 291px. */
+.ap-demo-booking.ap-d26-sec.ap-d26-v1 {
+	display: block;
+	padding: 60px 160px 40px;
+}
+.ap-demo-booking.ap-d26-v1 .ap-d26-fade {
+	height: 291px;
+}
+.ap-demo-booking.ap-d26-sec.ap-d26-v1:has(.ap-dw-names[hidden]) .ap-d26-fade {
+	height: 147px;
+}
+.ap-demo-booking .ap-d26-v1-row {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 80px;
+	max-width: 1120px;
+	margin: 0 auto;
+}
+.ap-demo-booking.ap-d26-sec.ap-d26-v1:has(.ap-dw-names[hidden]) .ap-d26-v1-row {
+	align-items: center;
+}
+.ap-demo-booking .ap-d26-v1-main {
+	display: flex;
+	flex: 0 1 554px;
+	flex-direction: column;
+	gap: 32px;
+	min-width: 0;
+}
+.ap-demo-booking .ap-d26-v1-side {
+	display: flex;
+	flex: 0 1 486px;
+	flex-direction: column;
+	gap: 40px;
+	min-width: 0;
+}
+.ap-demo-booking.ap-d26-v1 .ap-d26-head {
+	max-width: none;
+	text-align: left;
+}
+
+/* Testimonial card (6931:128499), filled with the homepage's testimonials. */
+.ap-demo-booking .ap-d26-qcard {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 24px;
+	width: 100%;
+	padding: 24px 40px 40px;
+	border-radius: 16px;
+	background: #fff;
+	box-shadow: 0 8px 24px rgba(10,10,10,.08);
+}
+.ap-demo-booking .ap-d26-qslides {
+	display: grid;
+	width: 100%;
+}
+.ap-demo-booking .ap-d26-qslide {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	min-width: 0;
+	grid-area: 1/1;
+	visibility: hidden;
+	opacity: 0;
+	translate: 18px 0;
+	transition: opacity .42s cubic-bezier(.25,.45,.45,.95),translate .52s cubic-bezier(.25,.45,.45,.95),visibility 0s linear .52s;
+}
+.ap-demo-booking .ap-d26-qslide.is-active {
+	visibility: visible;
+	opacity: 1;
+	translate: 0 0;
+	transition: opacity .48s cubic-bezier(.25,.45,.45,.95) .05s,translate .55s cubic-bezier(.25,.45,.45,.95) .05s,visibility 0s;
+}
+.ap-demo-booking .ap-d26-qicon {
+	display: block;
+	width: 32px;
+	height: 32px;
+}
+.ap-demo-booking.ap-d26-sec .ap-d26-qtitle {
+	margin: 0;
+	font-size: 24px;
+	font-weight: 800;
+	line-height: 1.2;
+	color: #25272c;
+}
+.ap-demo-booking.ap-d26-sec .ap-d26-qtext {
+	margin: 0;
+	font-size: 16px;
+	line-height: 1.5;
+	color: #4a4e5a;
+}
+
+/* The card is as tall as its longest slide at every width, so auto-advance (behaviour.js) never
+   moves the content below it; the author row sits at the bottom of every slide. */
+.ap-demo-booking .ap-d26-qauthor {
+	display: flex;
+	align-items: center;
+	gap: 24px;
+	margin-top: auto;
+	padding-top: 8px;
+}
+.ap-demo-booking .ap-d26-qwho {
+	display: flex;
+	flex: 1 1 0;
+	flex-direction: column;
+	gap: 2px;
+	min-width: 0;
+}
+.ap-demo-booking.ap-d26-sec .ap-d26-qname {
+	margin: 0;
+	font-size: 18px;
+	font-weight: 800;
+	line-height: 1.2;
+	color: #25272c;
+}
+.ap-demo-booking.ap-d26-sec .ap-d26-qrole {
+	margin: 0;
+	font-size: 12px;
+	line-height: 1.5;
+	color: #4a4e5a;
+}
+.ap-demo-booking .ap-d26-qlogo {
+	display: flex;
+	flex: 0 0 120px;
+	align-items: center;
+	justify-content: center;
+	width: 120px;
+	height: 80px;
+	padding: 0 8px;
+	border-radius: 8px;
+	background: #fff;
+}
+.ap-demo-booking .ap-d26-qlogo img {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
+
+/* Dots: an 8px dot inside a 14px button (a bigger target, same 6px spacing). */
+.ap-demo-booking .ap-d26-dots {
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+}
+.ap-demo-booking.ap-d26-sec .ap-d26-dot {
+	display: block;
+	width: 14px;
+	height: 14px;
+	min-height: 0;
+	margin: 0;
+	padding: 3px;
+	border: 0;
+	border-radius: 50%;
+	background: #e1e4ec;
+	background-clip: content-box;
+	box-shadow: none;
+	cursor: pointer;
+	transition: background-color .3s cubic-bezier(.25,.45,.45,.95);
+}
+.ap-demo-booking.ap-d26-sec .ap-d26-dot.is-active {
+	background-color: #4a4e5a;
+}
+.ap-demo-booking.ap-d26-sec .ap-d26-dot:focus-visible {
+	outline: 2px solid #5044e1;
+	outline-offset: 0;
+}
+
+/* Award badges (Component 2, 6978:95093): a 486px marquee under the card. */
+.ap-demo-booking .ap-d26-v1-awards {
+	width: 100%;
+	overflow: hidden;
+	-webkit-mask-image: linear-gradient(90deg,transparent 0,#000 24px,#000 calc(100% - 24px),transparent 100%);
+	mask-image: linear-gradient(90deg,transparent 0,#000 24px,#000 calc(100% - 24px),transparent 100%);
+}
+.ap-demo-booking .ap-d26-v1-awards .ap-d26-awards-track {
+	gap: 65px;
+	width: max-content;
+	animation: apDemoBookingMarqueeV1 32s linear infinite;
+}
+.ap-demo-booking .ap-d26-v1-awards .ap-d26-awards-dup {
+	display: contents;
+}
+@media (prefers-reduced-motion:reduce) {
+	.ap-demo-booking .ap-d26-v1-awards .ap-d26-awards-track {
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 24px 40px;
+		width: 100%;
+		animation: none;
+	}
+	.ap-demo-booking .ap-d26-v1-awards .ap-d26-awards-dup {
+		display: none;
+	}
+}
+@media (max-width:1279px) {
+	.ap-demo-booking.ap-d26-sec.ap-d26-v1 {
+		padding-right: 40px;
+		padding-left: 40px;
+	}
+	.ap-demo-booking .ap-d26-v1-row {
+		gap: 48px;
+	}
+}
+@media (max-width:1023px) {
+	.ap-demo-booking.ap-d26-sec.ap-d26-v1 .ap-d26-v1-row {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 40px;
+		max-width: 600px;
+	}
+	.ap-demo-booking .ap-d26-v1-main,
+	.ap-demo-booking .ap-d26-v1-side {
+		flex: 0 0 auto;
+		width: 100%;
+	}
+}
+@media (max-width:767px) {
+	.ap-demo-booking.ap-d26-sec.ap-d26-v1 {
+		padding: 52px 16px 32px;
+	}
+	.ap-demo-booking .ap-d26-v1-main {
+		gap: 24px;
+	}
+	.ap-demo-booking .ap-d26-qcard {
+		padding: 24px 20px 28px;
+	}
+	.ap-demo-booking.ap-d26-sec .ap-d26-qtitle {
+		font-size: 22px;
+	}
+	.ap-demo-booking .ap-d26-qauthor {
+		gap: 16px;
+	}
+	.ap-demo-booking .ap-d26-qlogo {
+		flex-basis: 104px;
+		width: 104px;
+		height: 70px;
+	}
+}
+
+/* Phones, both pages: the three stats stack, centred and big (Joseph 2026-10-09). */
+@media (max-width:767px) {
+	.ap-demo-booking .ap-d26-stats {
+		flex-direction: column;
+		align-items: center;
+		gap: 32px;
+		text-align: center;
+	}
+	.ap-demo-booking .ap-d26-stats li {
+		flex: none;
+		align-items: center;
+		width: 100%;
+	}
+	.ap-demo-booking .ap-d26-stat-num {
+		align-self: center;
+		justify-items: center;
+		font-size: 56px;
+		line-height: 1.1;
+	}
+	.ap-demo-booking .ap-d26-stat-label {
+		font-size: 18px;
+		font-weight: 800;
+		line-height: 1.25;
+	}
+}
+
+/* ---------- Page A above the fold, desktop (Joseph + Jephonie 2026-10-13; no stats band and
+   no scroll at all, Joseph 2026-10-16) ----------
+   The hero fills exactly one screen under the site header, down to whatever follows it (a stats
+   band, the compact footer), and never changes height with its content, so revealing the names or
+   opening the calendar cannot push the footer down. behaviour.js measures the window (--ap-d26-vh),
+   where the hero starts (--ap-d26-fold-top) and everything under it, footer included
+   (--ap-d26-below), on load and resize only. Inside the fixed hero, the times scroll in their
+   own box, and on shorter screens the testimonial text, the badges and the lead line shrink. */
+@media (min-width:1024px) {
+	.ap-demo-booking.ap-d26-sec.ap-d26-v1:has(.ap-dw-cal:not([hidden])) .ap-d26-points {
+		display: none;
+	}
+	.ap-demo-booking.ap-d26-sec.ap-d26-v1 {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		height: calc(var(--ap-d26-vh,100vh) - var(--ap-d26-fold-top,72px) - var(--ap-d26-below,140px));
+		min-height: 420px;
+		padding-top: 40px;
+		padding-bottom: 24px;
+	}
+	.ap-demo-booking.ap-d26-sec.ap-d26-v1 .ap-d26-v1-row,
+	.ap-demo-booking.ap-d26-sec.ap-d26-v1:has(.ap-dw-names[hidden]) .ap-d26-v1-row {
+		flex: 1 1 auto;
+		align-items: stretch;
+		width: 100%;
+		min-height: 0;
+	}
+	.ap-demo-booking .ap-d26-v1-main {
+		justify-content: center;
+		min-height: 0;
+	}
+	.ap-demo-booking .ap-d26-v1-side {
+		justify-content: center;
+		min-height: 0;
+		gap: 24px;
+	}
+	.ap-demo-booking .ap-d26-v1-side .ap-d26-qcard {
+		flex: 0 1 auto;
+		min-height: 0;
+		overflow: hidden;
+	}
+	.ap-demo-booking .ap-d26-v1-awards .ap-d26-awards-track {
+		zoom: .8;
+	}
+
+	/* Calendar open: as tall as its times need, never taller (no empty space under them); on a
+     short screen it shrinks and the times scroll inside it. */
+	.ap-demo-booking .ap-d26-v1-main:has(.ap-dw-cal:not([hidden])) .ap-dw {
+		flex: 0 1 auto;
+		min-height: 0;
+		gap: 16px;
+	}
+	/* On a short screen the card scrolls inside the hero rather than spilling over what follows. */
+	.ap-demo-booking.ap-d26-v1 .ap-dw-cal:not([hidden]) {
+		flex: 0 1 auto;
+		min-height: 0;
+		gap: 12px;
+		overflow-y: auto;
+	}
+	.ap-demo-booking.ap-d26-v1 .ap-dw-week {
+		gap: 8px;
+	}
+	.ap-demo-booking.ap-d26-v1 .ap-dw .ap-dw-day {
+		gap: 4px;
+	}
+	.ap-demo-booking.ap-d26-v1 .ap-dw-date {
+		height: 46px;
+	}
+	.ap-demo-booking.ap-d26-v1 .ap-dw-times {
+		flex: 0 1 auto;
+		min-height: 0;
+		gap: 8px;
+		padding-top: 12px;
+	}
+	.ap-demo-booking.ap-d26-v1 .ap-dw-slots {
+		flex: 0 1 auto;
+		min-height: 48px;
+		overflow-y: auto;
+		padding: 2px;
+	}
+}
+@media (min-width:1024px) and (max-height:899px) {
+
+	/* The lead line gives way to the calendar. */
+	.ap-demo-booking.ap-d26-sec.ap-d26-v1:has(.ap-dw-cal:not([hidden])) .ap-d26-lead {
+		display: none;
+	}
+	.ap-demo-booking.ap-d26-sec .ap-d26-points {
+		display: none;
+	}
+	.ap-demo-booking .ap-d26-v1-main {
+		gap: 20px;
+	}
+	.ap-demo-booking.ap-d26-sec.ap-d26-v1 h1 {
+		font-size: 40px;
+	}
+	.ap-demo-booking .ap-d26-v1-side .ap-d26-qcard {
+		gap: 14px;
+		padding: 20px 28px 22px;
+	}
+	.ap-demo-booking.ap-d26-sec .ap-d26-qslide {
+		gap: 10px;
+	}
+	.ap-demo-booking.ap-d26-sec .ap-d26-qicon {
+		width: 24px;
+		height: 24px;
+	}
+	.ap-demo-booking.ap-d26-sec .ap-d26-qtitle {
+		font-size: 20px;
+	}
+	.ap-demo-booking.ap-d26-sec .ap-d26-qtext {
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 5;
+		overflow: hidden;
+		font-size: 15px;
+		line-height: 1.45;
+	}
+	.ap-demo-booking.ap-d26-sec .ap-d26-qlogo {
+		height: 60px;
+	}
+	.ap-demo-booking .ap-d26-v1-awards .ap-d26-awards-track {
+		zoom: .62;
+	}
+}
+@media (min-width:1024px) and (max-height:760px) {
+	.ap-demo-booking.ap-d26-sec.ap-d26-v1 {
+		padding-top: 28px;
+		padding-bottom: 16px;
+	}
+	.ap-demo-booking .ap-d26-v1-main {
+		gap: 16px;
+	}
+	.ap-demo-booking.ap-d26-sec.ap-d26-v1 h1 {
+		font-size: 36px;
+	}
+	.ap-demo-booking.ap-d26-sec .ap-d26-v1 .ap-d26-lead,
+	.ap-demo-booking.ap-d26-sec.ap-d26-v1 .ap-d26-lead {
+		font-size: 16px;
+	}
+	.ap-demo-booking.ap-d26-sec .ap-d26-qtext {
+		-webkit-line-clamp: 3;
+	}
+
+	/* Calendar open on a short screen: the calendar's own "who" line says enough, the title gives way. */
+	.ap-demo-booking.ap-d26-sec.ap-d26-v1:has(.ap-dw-cal:not([hidden])) .ap-d26-head {
+		display: none;
+	}
+	.ap-demo-booking .ap-d26-v1-side {
+		gap: 16px;
+	}
+	.ap-demo-booking .ap-d26-v1-awards .ap-d26-awards-track {
+		zoom: .5;
+	}
+}
+@media (prefers-reduced-motion:reduce) {
+	.ap-demo-booking .ap-d26-qslide {
+		transition: none!important;
+		translate: none!important;
+	}
+}
+
+/* ===== Booking widget (live widget.css) ===== */
+
+/* Booking widget: card, floating-label inputs, weekly picker (markup: render.php).
+   Base = the v2 centered page (Figma 7019:103015); .ap-dw--v1 = the two-column page (6931:128467). */
+.ap-demo-booking .ap-dw {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	width: 100%;
+	max-width: 554px;
+	margin: 0 auto;
+	color: #25272c;
+}
+.ap-demo-booking .ap-dw [hidden] {
+	display: none!important;
+}
+.ap-demo-booking .ap-dw input,
+.ap-demo-booking .ap-dw select,
+.ap-demo-booking .ap-dw button {
+	min-height: 0;
+	margin: 0;
+	box-shadow: none;
+	letter-spacing: normal;
+	text-transform: none;
+}
+.ap-demo-booking .ap-dw .ap-dw-ribbon {
+	margin: 0;
+	padding: 8px 12px;
+	border-radius: 8px;
+	background: #fff4d6;
+	color: #7a4b00;
+	font-size: 13px;
+	font-weight: 700;
+	line-height: 1.4;
+	text-align: center;
+}
+.ap-demo-booking .ap-dw-card {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	padding: 24px;
+	border-radius: 16px;
+	background: #fff;
+	box-shadow: 0 8px 24px rgba(10,10,10,.08);
+	text-align: left;
+}
+.ap-demo-booking .ap-dw-card[tabindex="-1"]:focus {
+	outline: none;
+}
+.ap-demo-booking .ap-dw-fields {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+.ap-demo-booking .ap-dw-names {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+.ap-demo-booking .ap-dw-pair {
+	display: flex;
+	gap: 16px;
+}
+.ap-demo-booking .ap-dw-pair .ap-dw-field {
+	flex: 1 1 0;
+	min-width: 0;
+}
+/* Step 2 (company and phone) inside the calendar card, above the days. */
+.ap-demo-booking .ap-dw-details {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+/* White fields with a clear edge, so they read well over the hero (Joseph 2026-10-13). */
+.ap-demo-booking .ap-dw-field {
+	position: relative;
+	display: block;
+	margin: 0;
+	border: 1px solid #cfd4de;
+	border-radius: 4px;
+	background: #fff;
+	cursor: text;
+	transition: border-color .3s cubic-bezier(.25,.45,.45,.95);
+}
+.ap-demo-booking .ap-dw-field:focus-within {
+	border-color: #00a991;
+}
+.ap-demo-booking .ap-dw-label {
+	position: absolute;
+	top: 12px;
+	left: 12px;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #4a4e5a;
+	pointer-events: none;
+	transition: top .2s ease,font-size .2s ease;
+}
+.ap-demo-booking .ap-dw .ap-dw-field input {
+	display: block;
+	width: 100%;
+	height: 46px;
+	padding: 12px!important;
+	border: 0!important;
+	border-radius: 4px;
+	outline: none;
+	background: transparent;
+	font-size: 14px;
+	line-height: 1.5;
+	color: #4a4e5a;
+}
+.ap-demo-booking .ap-dw-field:focus-within .ap-dw-label,
+.ap-demo-booking .ap-dw-field.has-value .ap-dw-label,
+.ap-demo-booking .ap-dw-pair:focus-within .ap-dw-label,
+.ap-demo-booking .ap-dw-pair.has-value .ap-dw-label {
+	top: 8px;
+	font-size: 12px;
+}
+.ap-demo-booking .ap-dw .ap-dw-field:focus-within input,
+.ap-demo-booking .ap-dw .ap-dw-field.has-value input,
+.ap-demo-booking .ap-dw .ap-dw-pair:focus-within input,
+.ap-demo-booking .ap-dw .ap-dw-pair.has-value input {
+	height: 55px;
+	padding: 26px 12px 7px!important;
+}
+.ap-demo-booking .ap-dw .ap-dw-err {
+	margin: -8px 0 0;
+	font-size: 13px;
+	line-height: 1.4;
+	color: #c0262d;
+}
+.ap-demo-booking .ap-dw-btn {
+	display: inline-flex;
+	align-self: flex-start;
+	align-items: center;
+	justify-content: center;
+	padding: 13px 15px;
+	border: 1px solid #5044e1;
+	border-radius: 4px;
+	background: linear-gradient(60.14deg,#5044e1 0%,#00a991 70.44%);
+	color: #fff;
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 1.2;
+	cursor: pointer;
+	transition: background-color .3s cubic-bezier(.25,.45,.45,.95),border-color .3s cubic-bezier(.25,.45,.45,.95),color .3s cubic-bezier(.25,.45,.45,.95),opacity .3s cubic-bezier(.25,.45,.45,.95);
+}
+.ap-demo-booking .ap-dw-btn:hover {
+	background: linear-gradient(60.14deg,#4237c9 0%,#00957f 70.44%);
+}
+.ap-demo-booking .ap-dw-btn:focus-visible {
+	outline: 2px solid #5044e1;
+	outline-offset: 2px;
+}
+.ap-demo-booking .ap-dw-btn.is-wait,
+.ap-demo-booking .ap-dw-btn:disabled {
+	border-color: rgba(80,68,225,.4);
+	background: linear-gradient(54.49deg,rgba(80,68,225,.4) 0%,rgba(0,169,145,.4) 70.44%);
+	color: #fff;
+	cursor: progress;
+}
+.ap-demo-booking .ap-dw-sr {
+	position: absolute!important;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* Weekly picker, drawn like the v1 calendar card (6948:63641): white, #edeef1 border, 8px
+   radius; Sun-Sat headers over day tiles (number + month), the chosen day filled purple,
+   past and closed days greyed; then "What time works?" and a grid of outlined times (6978:88690). */
+.ap-demo-booking .ap-dw-cal {
+	gap: 16px;
+	padding: 16px;
+	border: 1px solid #edeef1;
+	border-radius: 8px;
+	box-shadow: none;
+}
+.ap-demo-booking .ap-dw .ap-dw-who {
+	margin: 0;
+	font-size: 13px;
+	line-height: 1.5;
+	color: #4a4e5a;
+}
+.ap-demo-booking .ap-dw-link {
+	display: inline-block;
+	padding: 2px 0;
+	border: 0;
+	background: none;
+	font-size: 13px;
+	font-weight: 700;
+	line-height: 1.5;
+	color: #5044e1;
+	text-decoration: underline;
+	cursor: pointer;
+}
+.ap-demo-booking .ap-dw .ap-dw-alert {
+	margin: 0;
+	padding: 10px 12px;
+	border-radius: 8px;
+	background: #fdecec;
+	color: #a11d24;
+	font-size: 14px;
+	line-height: 1.4;
+}
+.ap-demo-booking .ap-dw-alert:empty {
+	display: none;
+}
+.ap-demo-booking .ap-dw-week {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+.ap-demo-booking .ap-dw-week-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+.ap-demo-booking .ap-dw .ap-dw-h,
+.ap-demo-booking .ap-dw .ap-dw-h2 {
+	margin: 0;
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1.4;
+	letter-spacing: 0;
+	color: #25272c;
+	text-align: left;
+	outline: none;
+}
+.ap-demo-booking .ap-dw-navs {
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+	gap: 8px;
+}
+.ap-demo-booking .ap-dw .ap-dw-nav {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	padding: 0;
+	border: 0;
+	border-radius: 6px;
+	background: transparent;
+	color: #25272c;
+	cursor: pointer;
+	transition: background-color .3s cubic-bezier(.25,.45,.45,.95),color .3s cubic-bezier(.25,.45,.45,.95);
+}
+.ap-demo-booking .ap-dw .ap-dw-nav:not(:disabled):hover {
+	background: #f1f2f4;
+}
+.ap-demo-booking .ap-dw .ap-dw-nav:disabled {
+	color: #c9ccd3;
+	cursor: default;
+}
+.ap-demo-booking .ap-dw-nav svg {
+	display: block;
+}
+.ap-demo-booking .ap-dw-nav:focus-visible {
+	outline: 2px solid #5044e1;
+	outline-offset: 2px;
+}
+.ap-demo-booking .ap-dw-days {
+	display: grid;
+	grid-template-columns: repeat(7,minmax(0,1fr));
+	gap: 8px;
+}
+.ap-demo-booking .ap-dw .ap-dw-day {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 8px;
+	min-width: 0;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: #25272c;
+	cursor: pointer;
+}
+.ap-demo-booking .ap-dw-dow {
+	display: flex;
+	align-items: center;
+	height: 16px;
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 1;
+	text-transform: uppercase;
+	color: #8e95a2;
+}
+.ap-demo-booking .ap-dw-date {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 2px;
+	width: 100%;
+	height: 52px;
+	border-radius: 8px;
+	background: #f9fafb;
+	transition: background-color .3s cubic-bezier(.25,.45,.45,.95),color .3s cubic-bezier(.25,.45,.45,.95);
+}
+.ap-demo-booking .ap-dw-num {
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1.2;
+}
+.ap-demo-booking .ap-dw-mon {
+	font-size: 11px;
+	font-weight: 700;
+	line-height: 1.2;
+	color: #8e95a2;
+}
+.ap-demo-booking .ap-dw-day:not(:disabled):hover .ap-dw-date {
+	background: #eeedfc;
+}
+.ap-demo-booking .ap-dw-day[aria-pressed="true"] .ap-dw-date,
+.ap-demo-booking .ap-dw-day[aria-pressed="true"]:hover .ap-dw-date {
+	background: #5044e1;
+	color: #fff;
+}
+.ap-demo-booking .ap-dw-day[aria-pressed="true"] .ap-dw-mon {
+	color: #fff;
+}
+.ap-demo-booking .ap-dw .ap-dw-day:disabled {
+	cursor: default;
+}
+.ap-demo-booking .ap-dw-day:disabled .ap-dw-date {
+	background: transparent;
+	color: #c4c8d0;
+}
+.ap-demo-booking .ap-dw-day:disabled .ap-dw-mon {
+	color: #d3d6dc;
+}
+.ap-demo-booking .ap-dw .ap-dw-day:focus-visible {
+	outline: none;
+}
+.ap-demo-booking .ap-dw-day:focus-visible .ap-dw-date {
+	outline: 2px solid #5044e1;
+	outline-offset: 2px;
+}
+.ap-demo-booking .ap-dw-times {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	padding-top: 16px;
+	border-top: 1px solid #edeef1;
+}
+.ap-demo-booking .ap-dw .ap-dw-meta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px;
+	margin: 0;
+	font-size: 13px;
+	line-height: 1.5;
+	color: #5b616e;
+}
+.ap-demo-booking .ap-dw .ap-dw-tz select {
+	max-width: 260px;
+	height: auto;
+	padding: 4px 8px!important;
+	border: 1px solid #e1e4ec!important;
+	border-radius: 6px;
+	background: #fff;
+	font-size: 13px;
+	color: #25272c;
+}
+.ap-demo-booking .ap-dw-slots {
+	display: grid;
+	grid-template-columns: repeat(3,minmax(0,1fr));
+	gap: 8px;
+}
+.ap-demo-booking .ap-dw .ap-dw-slot {
+	height: 40px;
+	padding: 0 8px;
+	border: 1px solid #5b616e;
+	border-radius: 4px;
+	background: #fff;
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 1.2;
+	color: #25272c;
+	cursor: pointer;
+	transition: border-color .3s cubic-bezier(.25,.45,.45,.95),background-color .3s cubic-bezier(.25,.45,.45,.95),color .3s cubic-bezier(.25,.45,.45,.95);
+}
+.ap-demo-booking .ap-dw .ap-dw-slot:hover {
+	border-color: #5044e1;
+	color: #5044e1;
+}
+.ap-demo-booking .ap-dw .ap-dw-slot[aria-pressed="true"] {
+	border-color: #5044e1;
+	background: #5044e1;
+	color: #fff;
+}
+.ap-demo-booking .ap-dw-slot:focus-visible {
+	outline: 2px solid #5044e1;
+	outline-offset: 2px;
+}
+.ap-demo-booking .ap-dw .ap-dw-empty {
+	margin: 0;
+	font-size: 14px;
+	color: #5b616e;
+}
+.ap-demo-booking .ap-dw .ap-dw-slot:disabled {
+	cursor: progress;
+	opacity: .5;
+}
+.ap-demo-booking .ap-dw .ap-dw-slot.is-booking {
+	opacity: 1;
+	border-color: #5044e1;
+	background: #5044e1;
+	color: #fff;
+}
+.ap-demo-booking .ap-dw-cal.is-busy .ap-dw-days,
+.ap-demo-booking .ap-dw-cal.is-busy .ap-dw-navs,
+.ap-demo-booking .ap-dw-cal.is-busy .ap-dw-tz,
+.ap-demo-booking .ap-dw-cal.is-busy .ap-dw-link {
+	pointer-events: none;
+	opacity: .55;
+}
+.ap-demo-booking .ap-dw .ap-dw-hint {
+	margin: 0;
+	font-size: 13px;
+	line-height: 1.5;
+	color: #5b616e;
+}
+
+/* Book Now with the homepage's compliance badges beside it (Page A; order per Jephonie: SOC 2,
+   GovRAMP, HIPAA; the homepage's sizes at three quarters). */
+.ap-demo-booking .ap-dw-cta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 16px 32px;
+}
+.ap-demo-booking .ap-dw-cta .ap-dw-btn {
+	align-self: auto;
+}
+.ap-demo-booking .ap-dw-trust {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 4px;
+}
+.ap-demo-booking .ap-dw .ap-dw-trust-label {
+	margin: 0;
+	font-size: 12px;
+	line-height: 1.5;
+	color: #25272c;
+}
+.ap-demo-booking .ap-dw-trust-logos {
+	display: flex;
+	align-items: center;
+	gap: 24px;
+}
+.ap-demo-booking .ap-dw-trust-logos img {
+	display: block;
+	width: auto;
+	max-width: none;
+}
+.ap-demo-booking .ap-dw .ap-dw-trust-soc2 {
+	height: 45px;
+}
+.ap-demo-booking .ap-dw .ap-dw-trust-govramp {
+	height: 45px;
+}
+.ap-demo-booking .ap-dw .ap-dw-trust-hipaa {
+	height: 36px;
+}
+.ap-demo-booking .ap-dw-fallback {
+	gap: 8px;
+	padding: 12px;
+}
+.ap-demo-booking .ap-dw .ap-dw-note {
+	margin: 0 12px;
+	font-size: 14px;
+	line-height: 1.5;
+	color: #4a4e5a;
+}
+.ap-demo-booking .ap-dw-fallback-cal {
+	width: 100%;
+	min-height: 640px;
+	overflow: visible;
+}
+.ap-demo-booking .ap-dw .ap-dw-none p,
+.ap-demo-booking .ap-dw .ap-dw-done p {
+	margin: 0;
+	font-size: 16px;
+	line-height: 1.5;
+	color: #25272c;
+}
+.ap-demo-booking .ap-dw .ap-dw-none a,
+.ap-demo-booking .ap-dw .ap-dw-done a {
+	font-weight: 700;
+	color: #5044e1;
+}
+.ap-demo-booking .ap-dw .ap-dw-reach p {
+	margin: 0 0 8px;
+	font-size: 16px;
+	line-height: 1.5;
+	color: #25272c;
+}
+.ap-demo-booking .ap-dw .ap-dw-reach-h {
+	font-weight: 700;
+}
+.ap-demo-booking .ap-dw .ap-dw-reach .ap-dw-link {
+	font-size: 14px;
+}
+
+/* Month view (Page B, data-view="month"): Cal.com's booker layout drawn by us, so there is no
+   iframe to load and no second form. The month grid on the left (open days filled, today dotted,
+   the duration and time-zone line under it), the chosen day's times in a column on the right;
+   stacked on phones. */
+.ap-demo-booking .ap-dw .ap-dw-month {
+	margin-right: 4px;
+	font-size: 15px;
+	font-weight: 700;
+	line-height: 1.2;
+	color: #25272c;
+	white-space: nowrap;
+}
+.ap-demo-booking .ap-dw[data-view="month"] .ap-dw-days {
+	gap: 4px;
+}
+.ap-demo-booking .ap-dw-dowh {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 24px;
+	font-size: 11px;
+	font-weight: 700;
+	line-height: 1;
+	text-transform: uppercase;
+	color: #8e95a2;
+}
+.ap-demo-booking .ap-dw[data-view="month"] .ap-dw-day {
+	gap: 0;
+}
+.ap-demo-booking .ap-dw[data-view="month"] .ap-dw-date {
+	position: relative;
+	height: 44px;
+	border-radius: 6px;
+}
+.ap-demo-booking .ap-dw[data-view="month"] .ap-dw-day:not(:disabled):not([aria-pressed="true"]) .ap-dw-date {
+	background: #eef0f6;
+}
+.ap-demo-booking .ap-dw[data-view="month"] .ap-dw-day:not(:disabled):not([aria-pressed="true"]):hover .ap-dw-date {
+	background: #e2e0fb;
+}
+.ap-demo-booking .ap-dw[data-view="month"] .ap-dw-day:disabled .ap-dw-num {
+	font-weight: 400;
+}
+.ap-demo-booking .ap-dw[data-view="month"] .ap-dw-tz select {
+	max-width: 220px;
+}
+.ap-demo-booking .ap-dw[data-view="month"] .ap-dw-day.is-today .ap-dw-date::after {
+	content: "";
+	position: absolute;
+	bottom: 5px;
+	left: 50%;
+	width: 4px;
+	height: 4px;
+	margin-left: -2px;
+	border-radius: 50%;
+	background: currentColor;
+}
+.ap-demo-booking .ap-dw[data-view="month"] .ap-dw-week .ap-dw-meta {
+	padding-top: 12px;
+	border-top: 1px solid #edeef1;
+}
+@media (min-width:768px) {
+	.ap-demo-booking .ap-dw[data-view="month"] .ap-dw-cal {
+		display: grid;
+		grid-template-columns: minmax(0,1fr) 200px;
+		align-items: start;
+		gap: 16px 24px;
+	}
+	.ap-demo-booking .ap-dw[data-view="month"] .ap-dw-cal>.ap-dw-who,
+	.ap-demo-booking .ap-dw[data-view="month"] .ap-dw-cal>.ap-dw-alert,
+	.ap-demo-booking .ap-dw[data-view="month"] .ap-dw-cal>.ap-dw-details {
+		grid-column: 1/-1;
+	}
+	.ap-demo-booking .ap-dw[data-view="month"] .ap-dw-times {
+		align-self: stretch;
+		padding: 0 0 0 24px;
+		border-top: 0;
+		border-left: 1px solid #edeef1;
+	}
+	.ap-demo-booking .ap-dw[data-view="month"] .ap-dw-slots {
+		grid-template-columns: minmax(0,1fr);
+		max-height: 336px;
+		overflow-y: auto;
+		padding: 2px 4px 2px 2px;
+	}
+}
+@media (max-width:600px) {
+	.ap-demo-booking .ap-dw[data-view="month"] .ap-dw-week-head {
+		flex-wrap: wrap;
+		row-gap: 8px;
+	}
+	.ap-demo-booking .ap-dw[data-view="month"] .ap-dw-h {
+		flex-basis: 100%;
+	}
+	.ap-demo-booking .ap-dw[data-view="month"] .ap-dw-navs {
+		flex: 1 1 100%;
+	}
+	.ap-demo-booking .ap-dw[data-view="month"] .ap-dw-month {
+		margin-right: auto;
+	}
+	.ap-demo-booking .ap-dw[data-view="month"] .ap-dw-date {
+		height: 40px;
+	}
+}
+
+/* The button row and the legal line sit close to the fields (Joseph 2026-10-13: 32px looked detached). */
+.ap-demo-booking .ap-dw--v1 {
+	gap: 16px;
+	max-width: none;
+	margin: 0;
+}
+.ap-demo-booking .ap-dw--v1 .ap-dw-form {
+	gap: 16px;
+	padding: 0;
+	border-radius: 0;
+	background: none;
+	box-shadow: none;
+}
+.ap-demo-booking .ap-dw--v1 .ap-dw-btn {
+	min-height: 48px;
+	padding: 0 16px;
+	border-color: #5044e1;
+	background: linear-gradient(60.14deg,#5044e1 0%,#00a991 70.44%);
+	font-weight: 700;
+}
+.ap-demo-booking .ap-dw--v1 .ap-dw-btn:hover {
+	background: linear-gradient(60.14deg,#4237c9 0%,#00957f 70.44%);
+}
+.ap-demo-booking .ap-dw--v1 .ap-dw-btn.is-wait,
+.ap-demo-booking .ap-dw--v1 .ap-dw-btn:disabled {
+	border-color: rgba(80,68,225,.4);
+	background: linear-gradient(54.49deg,rgba(80,68,225,.4) 0%,rgba(0,169,145,.4) 70.44%);
+	color: #fff;
+}
+@media (max-width:600px) {
+	.ap-demo-booking .ap-dw-card {
+		padding: 16px;
+	}
+	.ap-demo-booking .ap-dw-slots {
+		grid-template-columns: repeat(2,minmax(0,1fr));
+	}
+	.ap-demo-booking .ap-dw-cal {
+		padding: 12px;
+	}
+	.ap-demo-booking .ap-dw-pair {
+		flex-direction: column;
+	}
+	.ap-demo-booking .ap-dw-days {
+		gap: 4px;
+	}
+	.ap-demo-booking .ap-dw-dow {
+		font-size: 11px;
+	}
+	.ap-demo-booking .ap-dw-date {
+		height: 48px;
+	}
+	.ap-demo-booking .ap-dw-num {
+		font-size: 13px;
+	}
+	.ap-demo-booking .ap-dw-mon {
+		font-size: 10px;
+	}
+	.ap-demo-booking .ap-dw .ap-dw-slot {
+		font-size: 15px;
+	}
+}
+@media (prefers-reduced-motion:reduce) {
+	.ap-demo-booking .ap-dw * {
+		transition: none!important;
+	}
+}
+
+@keyframes apDemoBookingMarquee {
+	to { transform:translateX(calc(-50% - 27px)) }
+}
+
+@keyframes apDemoBookingMarqueeV1 {
+	to { transform:translateX(calc(-50% - 32.5px)) }
+}
+
+/* ===== Live theme base the widget inherits =====
+ * The live theme's element rules reach the time-zone picker where the widget sets nothing:
+ * label { margin-bottom: 6px } and select { appearance: none; line-height: 1.2 !important;
+ * text-indent: 1px } (e25 base theme), so live draws it without the native arrow. */
+.ap-demo-booking .ap-dw .ap-dw-tz {
+	margin-bottom: 6px;
+}
+.ap-demo-booking .ap-dw .ap-dw-tz select {
+	-webkit-appearance: none;
+	appearance: none;
+	line-height: 1.2;
+	text-indent: 1px;
+}
+
+
+/* QA 2026-10-29: the hero is one screen tall on desktop, so on most laptop screens the testimonial card
+   was squeezed and its overflow cut the author's name and logo in half. The slides now fit the card's
+   room: behaviour.js (fitQuotes) clamps each quote to the lines that fit, so it ends on "…", and the
+   title and author row always show in full. Screens up to 999px tall get the compact card the ≤899px
+   rule already uses. */
+@media (min-width:1024px) {
+	.ap-demo-booking .ap-d26-v1-side .ap-d26-qslides {
+		flex: 1 1 auto;
+		min-height: 0;
+		grid-template-rows: minmax(0,1fr);
+	}
+	.ap-demo-booking .ap-d26-v1-side .ap-d26-qslide {
+		min-height: 0;
+	}
+	.ap-demo-booking .ap-d26-v1-side .ap-d26-qicon,
+	.ap-demo-booking.ap-d26-sec .ap-d26-v1-side .ap-d26-qtitle,
+	.ap-demo-booking .ap-d26-v1-side .ap-d26-qauthor {
+		flex-shrink: 0;
+	}
+	.ap-demo-booking.ap-d26-sec .ap-d26-v1-side .ap-d26-qtext {
+		display: -webkit-box;
+		flex: 0 1 auto;
+		min-height: 0;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 5;
+		overflow: hidden;
+	}
+}
+@media (min-width:1024px) and (max-height:999px) {
+	.ap-demo-booking .ap-d26-v1-side .ap-d26-qcard {
+		gap: 14px;
+		padding: 20px 28px 22px;
+	}
+	.ap-demo-booking.ap-d26-sec .ap-d26-v1-side .ap-d26-qslide {
+		gap: 10px;
+	}
+	.ap-demo-booking.ap-d26-sec .ap-d26-v1-side .ap-d26-qicon {
+		width: 24px;
+		height: 24px;
+	}
+	.ap-demo-booking.ap-d26-sec .ap-d26-v1-side .ap-d26-qtitle {
+		font-size: 20px;
+	}
+	.ap-demo-booking.ap-d26-sec .ap-d26-v1-side .ap-d26-qtext {
+		font-size: 15px;
+		line-height: 1.45;
+	}
+	.ap-demo-booking.ap-d26-sec .ap-d26-v1-side .ap-d26-qlogo {
+		height: 60px;
+	}
+}
+@media (min-width:1024px) and (max-height:760px) {
+	.ap-demo-booking.ap-d26-sec .ap-d26-v1-side .ap-d26-qtext {
+		-webkit-line-clamp: 3;
+	}
+}

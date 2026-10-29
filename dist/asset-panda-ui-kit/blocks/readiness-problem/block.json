@@ -1,0 +1,73 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/readiness-problem",
+	"title": "AP Readiness Problem",
+	"category": "design",
+	"icon": "warning",
+	"description": "Problem section of Emergency Preparedness and School Reunification: centred heading, a product photo ringed by four coloured issue pills (stacked under the photo below 901px) and a closing CTA strip with the panda mark. Live: the .epx-prob section on those pages (rules ported). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"background": {
+			"type": "string",
+			"default": ""
+		},
+		"image": {
+			"type": "string",
+			"default": ""
+		},
+		"image_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"chips": {
+			"type": "array",
+			"default": []
+		},
+		"cta_title": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_body": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_icon": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_label": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_url": {
+			"type": "string",
+			"default": ""
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

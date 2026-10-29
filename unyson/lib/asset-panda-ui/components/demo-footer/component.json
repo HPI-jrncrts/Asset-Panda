@@ -1,0 +1,14 @@
+{
+	"name": "demo-footer",
+	"description": "Compact footer of the 2026 Get a Demo pages (live #ap-demo-footer): logo and copyright left; app-store badges, address, legal links and social icons right. behaviour.js moves it into the global footer, whose CTA band and link columns this page hides.",
+	"props": {
+		"logo": { "type": "string", "required": true, "description": "Logo image URL (shown 140px wide)." },
+		"logo_alt": { "type": "string", "required": false, "default": "Asset Panda", "description": "Logo alt text." },
+		"logo_url": { "type": "string", "required": false, "default": "/", "description": "Logo link." },
+		"copyright": { "type": "string", "required": false, "default": "", "description": "Line under the logo, e.g. © 2026 Asset Panda." },
+		"apps": { "type": "array", "required": false, "default": [], "description": "App-store badges. Each: image, alt, url, w, h (shown 56px tall, 44px on narrow screens)." },
+		"address": { "type": "string", "required": false, "default": "", "description": "Postal address, shown with a map-pin icon." },
+		"links": { "type": "array", "required": false, "default": [], "description": "Legal links. Each: label, url." },
+		"social": { "type": "array", "required": false, "default": [], "description": "Social icons. Each: image (18px icon), label (accessible name), url." }
+	}
+}

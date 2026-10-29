@@ -1,0 +1,14 @@
+{
+	"name": "integration-hero",
+	"description": "Integration detail page hero: a centred eyebrow, a frosted card pairing the partner logo with the Asset Panda PRO mark, the H1 and one call to action, over the soft colour wash of the 2026 heroes. Figma: Integrations Detail Page Template > Hero Section (7318:166961).",
+	"props": {
+		"title": { "type": "string", "required": true, "description": "The H1, e.g. Slack + Asset Panda PRO. Line breaks are kept." },
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the logo card, e.g. Integrations." },
+		"logo": { "type": "string", "required": false, "default": "", "description": "Partner logo URL (SVG preferred). Shown 64px tall on the left of the card; wide wordmarks are capped at 136px." },
+		"logo_alt": { "type": "string", "required": false, "default": "", "description": "Alt text of the partner logo, e.g. Slack. Leave empty to treat the logo pair as decoration (the H1 already names both products)." },
+		"brand_logo": { "type": "string", "required": false, "default": "", "description": "Asset Panda mark on the right of the card. Empty uses the component's own Asset Panda PRO panda (assets/panda-pro.svg)." },
+		"brand_logo_alt": { "type": "string", "required": false, "default": "Asset Panda PRO", "description": "Alt text of the Asset Panda mark. Only used when logo_alt is set, so the pair reads as one phrase." },
+		"cta_label": { "type": "string", "required": false, "default": "", "description": "Button text, e.g. Book a Demo. Renders only with cta_url." },
+		"cta_url": { "type": "string", "required": false, "default": "", "description": "Button destination, e.g. /get-a-demo/." }
+	}
+}

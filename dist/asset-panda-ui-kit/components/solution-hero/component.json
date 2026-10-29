@@ -1,0 +1,24 @@
+{
+	"name": "solution-hero",
+	"description": "Solution-page hero: copy, demo button and badges beside a stage with a cut-out photo and floating mock UI cards, over a chip strip. Live: .epx-hero on the September 2026 solution pages (asset management, inventory, fixed asset, ITAM, tool tracking, equipment).",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the title." },
+		"title": { "type": "string", "required": true, "description": "Title (the page H1). Line breaks are kept." },
+		"title_accent": { "type": "string", "required": false, "default": "", "description": "Part of the title painted with the brand gradient." },
+		"lede": { "type": "string", "required": false, "default": "", "description": "Paragraph under the title." },
+		"cta_label": { "type": "string", "required": false, "default": "Free Demo", "description": "Button text." },
+		"cta_url": { "type": "string", "required": false, "default": "/get-a-demo/", "description": "Button destination." },
+		"badges": { "type": "array", "required": false, "default": [], "description": "Compliance badges. Each: image, alt, and optional w, h (rendered size in px)." },
+		"background": { "type": "string", "required": false, "default": "", "description": "Backdrop art behind the stage." },
+		"photo": { "type": "string", "required": false, "default": "", "description": "Cut-out photo on the stage." },
+		"photo_alt": { "type": "string", "required": false, "default": "", "description": "Alt text for the photo." },
+		"visual": { "type": "object", "required": false, "default": {}, "description": "The visual box, in px: w, h (the size the photo_box and cards were laid out in) and scale (phone scale step per breakpoint: keys 754, 736, 717, 667, 640, 614, 480, 430, 400, 360). On desktop the kit anchors the box bottom-right of the stage and scales it to a fixed 520px art height (at most 700px wide), so x, y and right are accepted for compatibility but no longer change the layout. Leave out a key to keep the asset-management value." },
+		"photo_box": { "type": "object", "required": false, "default": {}, "description": "Photo placement inside the visual box, in px: x, y, w, h." },
+		"cards": { "type": "array", "required": false, "default": [], "description": "Floating mock UI cards. Each: slot (c1-c3 or f1-f3), below (sits under the photo), x, y, w (px in the stage box), flo_class (the card's own class), markup (the card body; sanitised by ap_ui_markup)." },
+		"features": { "type": "array", "required": false, "default": [], "description": "Chips in the strip under the stage. Each: label; icon_svg or icon (URL)." },
+		"secondary_label": { "type": "string", "required": false, "default": "", "description": "Optional second (green outline) button beside the first, e.g. Deal Registration. Renders only with secondary_url." },
+		"secondary_url": { "type": "string", "required": false, "default": "", "description": "Second button destination (a page, #anchor, http(s) or mailto:)." },
+		"badges_below": { "type": "boolean", "required": false, "default": false, "description": "Badges in their own row under the buttons (32px apart) instead of beside them (Partners page). On phones the art then starts 10px under that row." },
+		"title_accent_fill": { "type": "string", "required": false, "default": "slice", "enum": [ "slice", "heading" ], "description": "slice: the accent words carry their own gradient (the solution pages). heading: the gradient spans the whole title box, as Figma paints a gradient text range, so an accent that wraps reads green on its first line and indigo on its second (Partners: Join Our Reseller / Program)." }
+	}
+}

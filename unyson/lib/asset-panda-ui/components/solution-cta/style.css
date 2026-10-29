@@ -1,0 +1,187 @@
+/*
+ * solution-cta — ported from the live .epx-fcta section.
+ *
+ * Live's rules re-namespaced from .epx-fcta__* / .epx-frev2 / .epx-btn to
+ * .ap-solution-cta__*. The button carries the .epx-btn rules that end up
+ * applying inside this section on live (min-height 48, 16px padding, the
+ * 55.1deg gradient, white focus ring). --solution adds the six solution
+ * pages' deeper bottom space and upper-case button. Live's 100vw full-bleed
+ * trick is left out; the button's hover lift uses translate, not transform.
+ */
+
+.ap-solution-cta,
+.ap-solution-cta * {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+.ap-solution-cta {
+	background: #fff;
+	overflow: hidden;
+	font-family: var(--ap-font-body, 'Manrope', Arial, sans-serif);
+}
+
+.ap-solution-cta__wrap {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 80px 40px 0;
+}
+
+.ap-solution-cta--solution .ap-solution-cta__wrap { padding-bottom: 40px; }
+
+.ap-solution-cta__card {
+	position: relative;
+	min-height: 532px;
+	overflow: hidden;
+	border-radius: 16px;
+	background: linear-gradient(244.06deg, #6666ee 2.19%, #201c4a 99.99%);
+	box-shadow: 0 2px 12px rgba(0, 0, 0, .08);
+}
+
+.ap-solution-cta__content {
+	position: relative;
+	z-index: 1;
+	max-width: 552px;
+	padding: 80px 0 80px 64px;
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+}
+
+.ap-solution-cta__eyebrow {
+	font-size: 16px;
+	font-weight: 800;
+	letter-spacing: .5px;
+	text-transform: uppercase;
+	color: #838cf6;
+	line-height: 1.2;
+}
+
+.ap-solution-cta .ap-solution-cta__title {
+	margin-top: 16px;
+	font-size: 40px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: normal;
+	color: #fff;
+}
+
+.ap-solution-cta__lede {
+	margin-top: 24px;
+	font-size: 18px;
+	line-height: 1.5;
+	color: rgba(255, 255, 255, .7);
+}
+
+.ap-solution-cta__btn,
+.ap-solution-cta__btn:visited {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	align-self: flex-start;
+	min-height: 48px;
+	margin-top: 40px;
+	padding: 16px;
+	border: 1px solid #5044e1;
+	border-radius: 4px;
+	background: linear-gradient(55.1deg, #5044e1 0%, #00a991 70.44%);
+	color: #fff;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 1.2;
+	white-space: nowrap;
+	text-decoration: none;
+	transition: translate .2s cubic-bezier(.4, 0, .2, 1), scale .2s cubic-bezier(.4, 0, .2, 1), box-shadow .2s cubic-bezier(.4, 0, .2, 1);
+}
+
+.ap-solution-cta--solution .ap-solution-cta__btn { text-transform: uppercase; }
+
+.ap-solution-cta__btn:hover,
+.ap-solution-cta__btn:focus,
+.ap-solution-cta__btn:active {
+	color: #fff;
+	text-decoration: none;
+}
+
+.ap-solution-cta__btn:hover {
+	translate: 0 -2px;
+	box-shadow: 0 6px 18px rgba(0, 169, 145, .35);
+}
+
+.ap-solution-cta__btn:active { scale: .98; }
+
+.ap-solution-cta__btn:focus-visible {
+	outline: 3px solid #fff;
+	outline-offset: 2px;
+}
+
+.ap-solution-cta__media {
+	position: absolute;
+	right: 0;
+	top: 80px;
+	width: 488px;
+	height: 452px;
+	object-fit: cover;
+	object-position: left top;
+}
+
+/* Scroll reveal: a CSS scroll timeline (no script). */
+@keyframes apSolutionCtaUp {
+	from {
+		opacity: 0;
+		transform: translateY(24px);
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.ap-solution-cta .ap-solution-cta__rev {
+		animation: apSolutionCtaUp 1ms linear both;
+		animation-timeline: view();
+		animation-range: entry 5% entry 40%;
+	}
+}
+
+@media (max-width: 1140px) {
+	.ap-solution-cta__media {
+		width: 420px;
+		height: 389px;
+		top: auto;
+		bottom: 0;
+	}
+}
+
+@media (max-width: 1000px) {
+	.ap-solution-cta__card { min-height: 0; }
+
+	.ap-solution-cta__content {
+		max-width: none;
+		padding: 48px 40px 24px;
+	}
+
+	.ap-solution-cta .ap-solution-cta__title { font-size: 32px; }
+
+	.ap-solution-cta__media {
+		position: static;
+		display: block;
+		width: 100%;
+		max-width: 488px;
+		height: auto;
+		aspect-ratio: 488 / 452;
+		margin: 0 0 0 auto;
+	}
+}
+
+@media (max-width: 640px) {
+	.ap-solution-cta__wrap { padding: 56px 20px 0; }
+	.ap-solution-cta--solution .ap-solution-cta__wrap { padding-bottom: 40px; }
+	.ap-solution-cta__content { padding: 32px 24px 16px; }
+	.ap-solution-cta .ap-solution-cta__title { font-size: 28px; }
+
+	.ap-solution-cta__btn {
+		align-self: stretch;
+		width: 100%;
+	}
+
+	.ap-solution-cta--solution :is(h2, .ap-solution-cta__eyebrow) { text-wrap: balance; }
+}

@@ -3,14 +3,25 @@
  * site-header — the global header: the desktop bar with tab-rail mega menus,
  * the phone header with its drawer, and the phone app banner.
  *
- * Matches the live 2026 header (#ap-presentation-header-v5,
- * #ap-mobile-header-v1, #ap-app-banner-v1) and adds the Figma Global Megamenu
- * options it lacks (4374:23298), such as the case-study cards on Who We Help.
+ * Built on the live 2026 header (#ap-presentation-header-v5,
+ * #ap-mobile-header-v1, #ap-app-banner-v1). Since 2026-10-19 the menu content
+ * (Products, Solutions, Who We Help) follows the Asset Panda Navigation
+ * Implementation Map, which supersedes the Figma Global Megamenu (4374:23298):
+ * Solutions in its five revised groups, and two featured resource cards per
+ * Who We Help group in place of Figma's single case-study card. The card
+ * markup is kept for a tab that has a card but no featured list.
  *
  * One nav prop drives the desktop panels and the phone drawer, so the two
  * cannot drift. A tab with a url renders as a link (a hub page); the others
  * are buttons that only switch the panel. On phones a tab whose groups all
  * have headings splits into one section per group, as on live.
+ *
+ * A top-level item may set layout "columns" (Resources, since 2026-10-23): its
+ * tabs then show all at once, side by side — one column per tab — instead of
+ * the tab rail. A tab's heading tops its column (as a link when the tab has a
+ * url); only when no tab has a heading is the item's label drawn once as an
+ * eyebrow, so the panel is never unlabelled. Featured lists and cards are not
+ * drawn in that layout. The phone drawer is the same for both layouts.
  *
  * The logo, icons and card images are file names in this component's assets/
  * folder or full URLs.
@@ -31,9 +42,16 @@ $ap_sh_src = static function ( $value ) {
 	return ap_ui_asset_url( 'site-header', $value );
 };
 
-// Inline custom property carrying an icon URL for the CSS hover mask.
+// Inline custom property carrying an icon URL for the CSS hover mask. Only a
+// plain http(s) URL or site path survives, and none of the characters that
+// could end the CSS string or the declaration (quotes, parentheses, semicolon,
+// backslash, whitespace) may appear in it; anything else yields no declaration.
 $ap_sh_icon_var = static function ( $name, $url ) {
-	return $name . ":url('" . esc_url_raw( $url ) . "')";
+	$url = esc_url_raw( (string) $url );
+	if ( '' === $url || ! preg_match( '#^(?:https?://|/)[^\s"\'()\\\\<>;]+$#i', $url ) ) {
+		return '';
+	}
+	return $name . ':url("' . $url . '")';
 };
 
 $ap_sh_tabs = static function ( $item ) {
@@ -109,11 +127,12 @@ $ap_sh_key = static function ( $tab ) {
 };
 
 $ap_sh_link = static function ( $link ) use ( $ap_sh_src, $ap_sh_icon_var ) {
-	$icon = $ap_sh_src( $link['icon'] ?? '' );
-	$desc = trim( (string) ( $link['desc'] ?? '' ) );
+	$icon       = $ap_sh_src( $link['icon'] ?? '' );
+	$desc       = trim( (string) ( $link['desc'] ?? '' ) );
+	$icon_style = '' !== $icon ? $ap_sh_icon_var( '--ap-icon-url', $icon ) : '';
 	?>
 	<a class="ap-mega-link" href="<?php echo esc_url( $link['url'] ); ?>">
-		<span class="ap-icon-box" aria-hidden="true"<?php echo '' !== $icon ? ' style="' . esc_attr( $ap_sh_icon_var( '--ap-icon-url', $icon ) ) . '"' : ''; ?>>
+		<span class="ap-icon-box" aria-hidden="true"<?php echo '' !== $icon_style ? ' style="' . esc_attr( $icon_style ) . '"' : ''; ?>>
 			<?php if ( '' !== $icon ) : ?>
 				<img class="ap-icon-img" src="<?php echo esc_url( $icon ); ?>" alt="" width="24" height="24" loading="lazy" decoding="async" />
 			<?php endif; ?>
@@ -148,7 +167,16 @@ $ap_sh_group_block = static function ( $groups ) use ( $ap_sh_link ) {
 	}
 };
 
-$ap_sh_card = static function ( $card ) use ( $ap_sh_src ) {
+/*
+ * The case-card art is the heaviest thing in the header, and its panel is laid out (hidden, but
+ * inside the viewport) on every page, so loading="lazy" still downloads it. It ships as
+ * data-ap-sh-src over a transparent 1px placeholder instead; behaviour.js swaps it in on the
+ * first pointer or focus on the desktop bar, before a menu has faded in. The placeholder is a
+ * constant, not a prop: esc_url() would strip its data: scheme, so it is escaped as an attribute.
+ */
+$ap_sh_blank = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+
+$ap_sh_card = static function ( $card ) use ( $ap_sh_src, $ap_sh_blank ) {
 	$image = $ap_sh_src( $card['image'] ?? '' );
 	$logo  = $ap_sh_src( $card['logo'] ?? '' );
 	$url   = trim( (string) ( $card['url'] ?? '' ) );
@@ -160,9 +188,9 @@ $ap_sh_card = static function ( $card ) use ( $ap_sh_src ) {
 	?>
 		<?php if ( '' !== $image ) : ?>
 			<span class="ap-mega-card__media">
-				<img class="ap-mega-card__img" src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( $card['image_alt'] ?? '' ); ?>" loading="lazy" decoding="async" />
+				<img class="ap-mega-card__img" src="<?php echo esc_attr( $ap_sh_blank ); ?>" data-ap-sh-src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( $card['image_alt'] ?? '' ); ?>" decoding="async" />
 				<?php if ( '' !== $logo ) : ?>
-					<span class="ap-mega-card__logo"><img src="<?php echo esc_url( $logo ); ?>" alt="<?php echo esc_attr( $card['logo_alt'] ?? '' ); ?>" loading="lazy" decoding="async" /></span>
+					<span class="ap-mega-card__logo"><img src="<?php echo esc_attr( $ap_sh_blank ); ?>" data-ap-sh-src="<?php echo esc_url( $logo ); ?>" alt="<?php echo esc_attr( $card['logo_alt'] ?? '' ); ?>" decoding="async" /></span>
 				<?php endif; ?>
 			</span>
 		<?php endif; ?>
@@ -191,11 +219,52 @@ $ap_sh_card = static function ( $card ) use ( $ap_sh_src ) {
 	echo '' !== $url ? '</a>' : '</div>';
 };
 
+// A tab's featured resources, reduced to the entries that have a title and a url.
+$ap_sh_featured = static function ( $tab ) {
+	$items = isset( $tab['featured'] ) && is_array( $tab['featured'] ) ? $tab['featured'] : array();
+	return array_values(
+		array_filter(
+			$items,
+			static function ( $item ) {
+				return is_array( $item )
+					&& '' !== trim( (string) ( $item['title'] ?? '' ) )
+					&& '' !== trim( (string) ( $item['url'] ?? '' ) );
+			}
+		)
+	);
+};
+
+// Featured resource cards (Navigation Implementation Map, "Featured"): type, title, description, call to action.
+$ap_sh_feature_list = static function ( $items ) {
+	echo '<div class="ap-mega-featured">';
+	foreach ( $items as $item ) {
+		$type = trim( (string) ( $item['type'] ?? '' ) );
+		$desc = trim( (string) ( $item['desc'] ?? '' ) );
+		$cta  = trim( (string) ( $item['cta'] ?? '' ) );
+		?>
+		<a class="ap-mega-feature" href="<?php echo esc_url( $item['url'] ); ?>">
+			<?php if ( '' !== $type ) : ?>
+				<span class="ap-mega-feature__type"><?php echo esc_html( $type ); ?></span>
+			<?php endif; ?>
+			<span class="ap-mega-feature__title"><?php echo esc_html( $item['title'] ); ?></span>
+			<?php if ( '' !== $desc ) : ?>
+				<span class="ap-mega-feature__desc"><?php echo esc_html( $desc ); ?></span>
+			<?php endif; ?>
+			<?php if ( '' !== $cta ) : ?>
+				<span class="ap-mega-feature__cta"><?php echo esc_html( $cta ); ?> <span class="ap-mega-feature__arrow" aria-hidden="true">&rarr;</span></span>
+			<?php endif; ?>
+		</a>
+		<?php
+	}
+	echo '</div>';
+};
+
 $ap_sh_mobile_item = static function ( $link ) use ( $ap_sh_src, $ap_sh_icon_var ) {
-	$icon = $ap_sh_src( $link['icon'] ?? '' );
+	$icon       = $ap_sh_src( $link['icon'] ?? '' );
+	$icon_style = '' !== $icon ? $ap_sh_icon_var( '--ap-mobile-icon-url', $icon ) : '';
 	?>
 	<a class="ap-mobile-item" href="<?php echo esc_url( $link['url'] ); ?>">
-		<span class="ap-mobile-link-icon" aria-hidden="true"<?php echo '' !== $icon ? ' style="' . esc_attr( $ap_sh_icon_var( '--ap-mobile-icon-url', $icon ) ) . '"' : ''; ?>>
+		<span class="ap-mobile-link-icon" aria-hidden="true"<?php echo '' !== $icon_style ? ' style="' . esc_attr( $icon_style ) . '"' : ''; ?>>
 			<?php if ( '' !== $icon ) : ?>
 				<img class="ap-mobile-icon-img" src="<?php echo esc_url( $icon ); ?>" alt="" width="22" height="22" loading="lazy" decoding="async" />
 			<?php endif; ?>
@@ -226,7 +295,8 @@ $login_links = array_values(
 $logo     = $ap_sh_src( $props['logo'] );
 $logo_alt = (string) $props['logo_alt'];
 $home_url = '' !== trim( (string) $props['home_url'] ) ? $props['home_url'] : '/';
-$tel      = preg_replace( '/[^0-9+]/', '', (string) $props['phone_tel'] );
+// Digits, "+" and "-" only, so the link reads tel:888-928-6112 exactly as on live.
+$tel      = preg_replace( '/[^0-9+\-]/', '', (string) $props['phone_tel'] );
 $phone    = trim( (string) $props['phone_label'] );
 $trial    = '' !== trim( (string) $props['trial_url'] ) && '' !== trim( (string) $props['trial_label'] );
 $demo     = '' !== trim( (string) $props['demo_url'] ) && '' !== trim( (string) $props['demo_label'] );
@@ -269,7 +339,57 @@ $menu_id  = 'ap-site-header-menu';
 							<?php else : ?>
 								<button class="ap-nav-top" type="button" aria-haspopup="true" aria-expanded="false"><?php echo esc_html( $label ); ?> <span class="ap-caret" aria-hidden="true"></span></button>
 							<?php endif; ?>
+							<?php $columns = 'columns' === trim( (string) ( $item['layout'] ?? '' ) ); ?>
 							<div class="ap-mega-panel ap-mega-<?php echo esc_attr( sanitize_title( $label ) ); ?>">
+								<?php if ( $columns ) : ?>
+									<?php
+									// Every tab at once: one column per tab that has links.
+									$cols   = array();
+									$headed = false;
+									foreach ( $tabs as $tab ) {
+										$groups = $ap_sh_groups( $tab );
+										if ( $groups ) {
+											$cols[] = array(
+												'tab'    => $tab,
+												'groups' => $groups,
+											);
+											if ( '' !== trim( (string) ( $tab['heading'] ?? '' ) ) ) {
+												$headed = true;
+											}
+										}
+									}
+									?>
+									<div class="ap-mega-shell ap-mega-columns" style="<?php echo esc_attr( '--ap-mega-cols:' . count( $cols ) ); ?>">
+										<?php if ( ! $headed ) : ?>
+											<p class="ap-mega-eyebrow"><?php echo esc_html( $label ); ?></p>
+										<?php endif; ?>
+										<div class="ap-mega-cols">
+											<?php foreach ( $cols as $col ) : ?>
+												<?php
+												$heading = trim( (string) ( $col['tab']['heading'] ?? '' ) );
+												$tab_url = trim( (string) ( $col['tab']['url'] ?? '' ) );
+												?>
+												<div class="ap-mega-col" data-ap-mega-col="<?php echo esc_attr( $ap_sh_key( $col['tab'] ) ); ?>">
+													<?php if ( '' !== $heading && '' !== $tab_url ) : ?>
+														<a class="ap-mega-heading" href="<?php echo esc_url( $tab_url ); ?>"><?php echo esc_html( $heading ); ?></a>
+													<?php elseif ( '' !== $heading ) : ?>
+														<p class="ap-mega-heading"><?php echo esc_html( $heading ); ?></p>
+													<?php endif; ?>
+													<?php foreach ( $col['groups'] as $group ) : ?>
+														<div class="ap-mega-group">
+															<?php if ( '' !== $group['heading'] ) : ?>
+																<p class="ap-mega-heading"><?php echo esc_html( $group['heading'] ); ?></p>
+															<?php endif; ?>
+															<?php foreach ( $group['links'] as $link ) : ?>
+																<?php $ap_sh_link( $link ); ?>
+															<?php endforeach; ?>
+														</div>
+													<?php endforeach; ?>
+												</div>
+											<?php endforeach; ?>
+										</div>
+									</div>
+								<?php else : ?>
 								<div class="ap-mega-shell ap-help-grid">
 									<div class="ap-help-tabs">
 										<?php foreach ( $tabs as $t => $tab ) : ?>
@@ -290,13 +410,19 @@ $menu_id  = 'ap-site-header-menu';
 											<?php
 											$groups  = $ap_sh_groups( $tab );
 											$heading = trim( (string) ( $tab['heading'] ?? '' ) );
-											$card    = isset( $tab['card'] ) && is_array( $tab['card'] ) && ! empty( $tab['card']['title'] ) ? $tab['card'] : null;
+											$featured = $ap_sh_featured( $tab );
+											$card     = ! $featured && isset( $tab['card'] ) && is_array( $tab['card'] ) && ! empty( $tab['card']['title'] ) ? $tab['card'] : null;
 											?>
 											<div class="ap-help-panel<?php echo 0 === $t ? ' is-active' : ''; ?>" data-ap-help-panel="<?php echo esc_attr( $ap_sh_key( $tab ) ); ?>">
 												<?php if ( '' !== $heading ) : ?>
 													<p class="ap-mega-heading"><?php echo esc_html( $heading ); ?></p>
 												<?php endif; ?>
-												<?php if ( $card ) : ?>
+												<?php if ( $featured ) : ?>
+													<div class="ap-help-split">
+														<div class="ap-help-links"><?php $ap_sh_group_block( $groups ); ?></div>
+														<?php $ap_sh_feature_list( $featured ); ?>
+													</div>
+												<?php elseif ( $card ) : ?>
 													<div class="ap-help-split">
 														<div class="ap-help-links"><?php $ap_sh_group_block( $groups ); ?></div>
 														<?php $ap_sh_card( $card ); ?>
@@ -308,6 +434,7 @@ $menu_id  = 'ap-site-header-menu';
 										<?php endforeach; ?>
 									</div>
 								</div>
+								<?php endif; ?>
 							</div>
 						</div>
 					<?php elseif ( '' !== $url ) : ?>
@@ -353,11 +480,6 @@ $menu_id  = 'ap-site-header-menu';
 				<?php endif; ?>
 				<?php if ( $demo ) : ?>
 					<a class="ap-mobile-demo" href="<?php echo esc_url( $props['demo_url'] ); ?>"><?php echo esc_html( $props['demo_label'] ); ?></a>
-				<?php endif; ?>
-				<?php if ( '' !== $tel ) : ?>
-					<a class="ap-mobile-phone" href="<?php echo esc_url( 'tel:' . $tel ); ?>" aria-label="<?php echo esc_attr( '' !== $phone ? 'Call ' . $phone : 'Call sales' ); ?>">
-						<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/></svg>
-					</a>
 				<?php endif; ?>
 				<button class="ap-mobile-burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="<?php echo esc_attr( $menu_id ); ?>"><span></span><span></span><span></span></button>
 			</div>

@@ -164,3 +164,112 @@
 	.ap-story-slider .apc-wordmark--osage strong { font-size: 23px; }
 	.ap-story-slider .apc-controls--solo { display: flex; }
 }
+
+/* Category label above a story's title (live homepage, 2026-10-08). It adds a
+ * sixth child to the copy column, so the entrance stagger gains a step. */
+.ap-story-slider .apc-cat { margin: 0; font-weight: 800; font-size: 12px; line-height: 1.3; letter-spacing: 0.48px; text-transform: uppercase; color: #5044e1; }
+.ap-story-slider .apc-slide.is-active .apc-copy > *:nth-child(6) { transition-delay: 0.3s; }
+@media (max-width: 900px) { .ap-story-slider .apc-cat { order: 1; margin: 0 0 10px; } }
+
+/* variant "home": taller logo plate, and twelve dots that still fit a phone. */
+.ap-story-slider--home .apc-logo { height: 80px; max-height: none; padding: 0 8px; }
+.ap-story-slider--home .apc-logo img { max-width: 100%; height: auto; }
+@media (max-width: 900px) {
+	.ap-story-slider--home .apc-logo { height: 73px; padding: 0 7px; }
+	.ap-story-slider--home .apc-controls { grid-template-columns: auto minmax(24px, 1fr) auto; }
+	.ap-story-slider--home .apc-dots { gap: 5px; }
+	.ap-story-slider--home .apc-dot { width: 7px; height: 7px; }
+}
+@media (max-width: 360px) {
+	.ap-story-slider--home .apc-controls { column-gap: 12px; }
+	.ap-story-slider--home .apc-dots { gap: 4px; }
+	.ap-story-slider--home .apc-dot { width: 6px; height: 6px; }
+}
+
+/* variant "solution": the September 2026 solution pages set story titles smaller. */
+.ap-story-slider--solution .apc-title { font-size: 22px; line-height: 1.25; }
+
+/* stack "wide": the hub-style sliders (live .apg-case on the hubs, Help Desk and the September
+ * solution pages) stack below 1181px, not 901px. Same stacked layout as the 900px rules above. */
+@media (min-width: 901px) and (max-width: 1180px) {
+	.ap-story-slider--wide .apc-h2 { font-size: 28px; }
+	.ap-story-slider--wide .apc-story { flex-direction: column; }
+	.ap-story-slider--wide .apc-copy { display: contents; width: 100%; }
+	.ap-story-slider--wide .apc-quote-icon { order: 0; }
+	.ap-story-slider--wide .apc-title { order: 1; }
+	.ap-story-slider--wide .apc-media { order: 2; flex: 0 0 auto; width: 100%; max-width: none; height: auto; aspect-ratio: 737 / 413; }
+	.ap-story-slider--wide .apc-quote { order: 3; }
+	.ap-story-slider--wide .apc-author { order: 4; }
+	.ap-story-slider--wide .apc-link { order: 5; }
+	.ap-story-slider--wide .apc-controls { flex-direction: column; gap: 16px; align-items: stretch; }
+	.ap-story-slider--wide .apc-progress { display: block; width: 100%; flex: 0 0 auto; }
+	.ap-story-slider--wide .apc-arrows { justify-content: center; }
+	.ap-story-slider--wide .apc-dots { justify-content: center; }
+	.ap-story-slider--wide .apc-viewall { width: 100%; justify-content: center; background: linear-gradient(90deg, rgb(80, 68, 225) 0%, rgb(0, 169, 145) 70.44%); color: rgb(255, 255, 255); font-weight: 700; padding: 14px 16px; border-radius: 4px; }
+	.ap-story-slider--wide .apc-viewall img { display: none; }
+	.ap-story-slider--wide .apc-slider { row-gap: 28px; }
+	.ap-story-slider--wide .apc-slide { transform: translateY(14px); }
+	.ap-story-slider--wide .apc-slide.is-active { transform: translateY(0px); }
+	.ap-story-slider--wide .apc-slide .apc-media { transform: translateY(14px) scale(0.985); }
+	.ap-story-slider--wide .apc-slide.is-active .apc-media { transform: translateY(0px) scale(1); }
+	.ap-story-slider--wide .apc-controls { grid-area: 2 / 1; }
+	.ap-story-slider--wide { padding: 56px 20px 64px; }
+	.ap-story-slider--wide .apc-container { gap: 40px; }
+	.ap-story-slider--wide .apc-header { max-width: 430px; gap: 12px; }
+	.ap-story-slider--wide .apc-eyebrow { font-size: 13px; line-height: 1.2; }
+	.ap-story-slider--wide .apc-h2 { font-size: 30px; line-height: 1.16; }
+	.ap-story-slider--wide .apc-slider { width: 100%; row-gap: 28px; }
+	.ap-story-slider--wide .apc-story { width: 100%; flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 0px; }
+	.ap-story-slider--wide .apc-copy { display: contents; }
+	.ap-story-slider--wide .apc-quote-icon { order: 0; width: 30px; height: 30px; margin: 0px 0px 14px; }
+	.ap-story-slider--wide .apc-title { order: 1; width: 100%; margin: 0px; font-size: 24px; line-height: 1.2; text-align: left; }
+	.ap-story-slider--wide .apc-media { order: 2; width: 100%; max-width: none; margin: 24px 0px 0px; aspect-ratio: 737 / 413; border-radius: 14px; }
+	.ap-story-slider--wide .apc-media > img { width: 100%; height: 100%; object-fit: cover; object-position: center center; }
+	.ap-story-slider--wide .apc-logo { right: 12px; bottom: 12px; width: 110px; padding: 13px 18px; border-radius: 8px; }
+	.ap-story-slider--wide .apc-logo img { width: 62px; }
+	.ap-story-slider--wide .apc-quote { order: 3; width: 100%; margin: 24px 0px 0px; font-size: 17px; line-height: 1.55; text-align: left; }
+	.ap-story-slider--wide .apc-author { order: 4; width: 100%; margin: 22px 0px 0px; text-align: left; }
+	.ap-story-slider--wide .apc-author-name { margin: 0px; font-size: 17px; line-height: 1.25; }
+	.ap-story-slider--wide .apc-author-role { margin-top: 3px; font-size: 12px; line-height: 1.4; }
+	.ap-story-slider--wide .apc-link { order: 5; margin: 22px 0px 0px; font-size: 14px; font-weight: 700; align-self: flex-start; }
+	.ap-story-slider--wide .apc-controls { grid-area: 2 / 1; display: grid; grid-template-columns: auto minmax(60px, 1fr) auto; grid-template-areas: "arrows progress dots" "viewall viewall viewall"; gap: 20px 16px; align-items: center; width: 100%; margin: 0px; }
+	.ap-story-slider--wide .apc-arrows { grid-area: arrows; display: flex; justify-content: flex-start; gap: 10px; }
+	.ap-story-slider--wide .apc-arrow-btn { width: 40px; height: 40px; }
+	.ap-story-slider--wide .apc-progress { grid-area: progress; position: relative; width: 100%; height: 1px; min-width: 0px; background: rgb(225, 229, 237); overflow: hidden; display: block !important; }
+	.ap-story-slider--wide .apc-progress-bar { width: 50%; height: 1px; background: rgb(37, 39, 44); }
+	.ap-story-slider--wide .apc-dots { grid-area: dots; display: flex; justify-content: flex-end; align-items: center; gap: 6px; }
+	.ap-story-slider--wide .apc-dot { width: 8px; height: 8px; }
+	.ap-story-slider--wide .apc-viewall { grid-area: viewall; width: 100%; margin: 0px; padding: 15px 20px; display: flex; justify-content: center; align-items: center; background: linear-gradient(90deg, rgb(80, 68, 225) 0%, rgb(0, 169, 145) 70.44%); border-radius: 4px; color: rgb(255, 255, 255); font-size: 14px; font-weight: 700; text-align: center; }
+	.ap-story-slider--wide .apc-viewall img { display: none; }
+	.ap-story-slider--wide .apc-vid-play svg { width: 54px; height: 38px; }
+	.ap-story-slider--wide .apc-slide:not(.is-active) { position: absolute; top: 0px; left: 0px; width: 100%; }
+	.ap-story-slider--wide .apc-slide.is-active { position: relative; }
+	.ap-story-slider--wide .apc-logo--wordmark { width: auto; min-width: 84px; min-height: 52px; padding: 8px 12px; }
+	.ap-story-slider--wide .apc-wordmark--hospice strong { font-size: 17px; }
+	.ap-story-slider--wide .apc-wordmark--osage strong { font-size: 23px; }
+	.ap-story-slider--wide .apc-controls--solo { display: flex; }
+	.ap-story-slider--wide .apc-cat { order: 1; margin: 0 0 10px; }
+}
+
+/* Education hub (live #ap-eduhub-case): the page sheet sets 48px above and below every
+ * band on phones. */
+@media (max-width: 767px) {
+	section.ap-story-slider.ap-story-slider--eduhub { padding-top: 48px; padding-bottom: 48px; }
+}
+.ap-story-slider--eduhub :is(h2, h3, p) { text-wrap: wrap; }
+
+/*
+ * No sideways scroll. The slides share one grid cell, and the waiting ones sit
+ * shifted right (the slide-in start: translateX on the slide and on its photo),
+ * so they overhang the band by up to ~40px; at 1024 the homepage photo column
+ * ended 11px past the viewport. Live hides that with a page-level
+ * html/body{overflow-x:hidden}; the kit clips it at the band instead. The band is
+ * full width, so the clip edge is the viewport edge, exactly where live's clip
+ * falls: nothing visible changes, and clip (unlike hidden) keeps the vertical
+ * axis and the layout untouched.
+ */
+.ap-story-slider { overflow-x: clip; }
+
+/* A client logo on a video poster (2026-10 Figma): clicks pass through to the play button; gone once the player loads. */
+.ap-story-slider .apc-media--video .apc-logo { z-index: 1; pointer-events: none; }
+.ap-story-slider .apc-media--video:has(iframe) .apc-logo { display: none; }

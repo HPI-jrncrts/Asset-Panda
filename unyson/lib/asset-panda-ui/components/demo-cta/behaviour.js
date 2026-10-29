@@ -28,6 +28,49 @@
 		style.appendChild(doc.createTextNode(FORM_CSS));
 		(doc.head || doc.documentElement).appendChild(style);
 	}
+	/*
+	 * The live vertical pages relabel HubSpot's fields once the form is drawn:
+	 * placeholder text per field name (a message box without one takes the
+	 * "textarea" entry) and their own submit label. Both arrive as data
+	 * attributes; anything missing leaves HubSpot's own text alone.
+	 */
+	function relabelForm(form, el) {
+		var node = form && form[0] ? form[0] : form;
+		if (!node || !node.querySelectorAll) {
+			return;
+		}
+		var map = {};
+		try {
+			map = JSON.parse(el.getAttribute('data-ap-hs-placeholders') || '{}') || {};
+		} catch (e) {
+			map = {};
+		}
+		Array.prototype.forEach.call(node.querySelectorAll('input[name], select[name], textarea[name]'), function (input) {
+			var name = (input.getAttribute('name') || '').toLowerCase();
+			var type = (input.getAttribute('type') || '').toLowerCase();
+			var tag = input.tagName.toLowerCase();
+			if (type === 'hidden' || type === 'submit' || type === 'checkbox' || type === 'radio' || tag === 'select') {
+				return;
+			}
+			if (tag === 'textarea' && !input.getAttribute('placeholder') && map.textarea) {
+				input.setAttribute('placeholder', map.textarea);
+			} else if (Object.prototype.hasOwnProperty.call(map, name)) {
+				input.setAttribute('placeholder', map[name]);
+			}
+		});
+		var label = el.getAttribute('data-ap-hs-submit');
+		if (label) {
+			var submitInput = node.querySelector('input[type="submit"]');
+			var submitButton = node.querySelector('button[type="submit"]');
+			if (submitInput) {
+				submitInput.value = label;
+			}
+			if (submitButton) {
+				submitButton.textContent = label;
+			}
+		}
+	}
+
 	var loading = null;
 
 	function loadHubSpot() {
@@ -62,6 +105,9 @@
 				onFormReady: function (form) {
 					try {
 						styleForm(form);
+					} catch (e) {}
+					try {
+						relabelForm(form, el);
 					} catch (e) {}
 				}
 			});

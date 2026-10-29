@@ -63,7 +63,7 @@
 									"heading": "Education",
 									"links": [
 										{
-											"title": "Asset Panda for K-12 School Districts",
+											"title": "Asset Panda for K-12",
 											"desc": "Track devices, equipment, and assignments district-wide.",
 											"url": "/products/asset-panda-for-k12/",
 											"icon": "k-12-icn.svg"
@@ -94,7 +94,7 @@
 											"icon": "Asset-Intelligence-Platform-icn.svg"
 										},
 										{
-											"title": "UrsaAI",
+											"title": "Ursa AI",
 											"desc": "Turn asset data into answers and insights.",
 											"url": "/ursa-ai/",
 											"icon": "URSA-AI-icn.svg"
@@ -122,37 +122,31 @@
 					"url": "",
 					"tabs": [
 						{
-							"key": "visibility",
-							"label": "Asset Visibility & Control",
+							"key": "asset-management-and-visibility",
+							"label": "Asset Management & Visibility",
 							"url": "",
-							"heading": "Asset Visibility & Control",
+							"heading": "Asset Management & Visibility",
 							"groups": [
 								{
 									"heading": "",
 									"links": [
 										{
-											"title": "Asset Management & Tracking",
-											"desc": "Know where assets are.",
+											"title": "Asset Management",
+											"desc": "Centralize asset records, activity, and lifecycle history.",
 											"url": "/solutions/asset-management/",
 											"icon": "Asset-Tracking-icn.svg"
 										},
 										{
 											"title": "Inventory Management",
-											"desc": "Track and manage inventory and stock.",
+											"desc": "Track inventory, stock, and asset availability.",
 											"url": "/solutions/inventory-management/",
 											"icon": "Inventory-Management-icn.svg"
 										},
 										{
 											"title": "IT Asset Management",
-											"desc": "Track hardware, software, and IT inventory.",
+											"desc": "Manage hardware, software, users, and IT lifecycle.",
 											"url": "/solutions/it-asset-tracking/",
 											"icon": "IT-Asset-Management-icn.svg"
-										},
-										{
-											"title": "Fixed Asset Management",
-											"desc": "Manage your assets throughout their lifecycle.",
-											"url": "/solutions/fixed-asset-tracking/",
-											"icon": "Fixed-Asset-Management-icn.svg"
 										}
 									]
 								},
@@ -160,20 +154,20 @@
 									"heading": "",
 									"links": [
 										{
+											"title": "Fixed Asset Management",
+											"desc": "Maintain accurate records for finance and audits.",
+											"url": "/solutions/fixed-asset-tracking/",
+											"icon": "Fixed-Asset-Management-icn.svg"
+										},
+										{
 											"title": "Barcode Tracking",
-											"desc": "Scan and locate assets with barcode labels.",
+											"desc": "Scan assets using barcode and QR labels.",
 											"url": "/solutions/barcode-tracking/",
 											"icon": "Barcode-Tracking-icn.svg"
 										},
 										{
-											"title": "Mobile Asset Auditing",
-											"desc": "Conduct field audits from any mobile device.",
-											"url": "/solutions/mobile-audit/",
-											"icon": "Mobile-Asset-Auditing-icn.svg"
-										},
-										{
 											"title": "Reservation Management",
-											"desc": "Schedule and manage shared asset bookings.",
+											"desc": "Schedule and manage shared asset availability.",
 											"url": "/solutions/reservations/",
 											"icon": "Reservation-Management-icn.svg"
 										}
@@ -182,29 +176,54 @@
 							]
 						},
 						{
-							"key": "maintenance",
-							"label": "Maintenance & Quality",
+							"key": "audit-and-compliance",
+							"label": "Audit & Compliance",
 							"url": "",
-							"heading": "Maintenance & Quality",
+							"heading": "Audit & Compliance",
+							"groups": [
+								{
+									"heading": "",
+									"links": [
+										{
+											"title": "Compliance & Audit Readiness",
+											"desc": "Keep records and evidence ready for audits.",
+											"url": "/solutions/compliance-management/",
+											"icon": "Audit-Readiness-icn.svg"
+										},
+										{
+											"title": "Asset Auditing",
+											"desc": "Verify assets and document audit discrepancies.",
+											"url": "/solutions/mobile-audit/",
+											"icon": "Mobile-Asset-Auditing-icn.svg"
+										}
+									]
+								}
+							]
+						},
+						{
+							"key": "maintenance-and-workflows",
+							"label": "Maintenance & Workflows",
+							"url": "",
+							"heading": "Maintenance & Workflows",
 							"groups": [
 								{
 									"heading": "",
 									"links": [
 										{
 											"title": "Maintenance Management",
-											"desc": "Streamline maintenance and reduce downtime.",
+											"desc": "Schedule preventive maintenance and preserve service history.",
 											"url": "/solutions/cmms-maintenance-management/",
 											"icon": "Maintenance-Management-icn.svg"
 										},
 										{
-											"title": "Facilities Management",
-											"desc": "Manage buildings, sites, and equipment.",
-											"url": "/solutions/facilities-management/",
-											"icon": "Facilities-Management-icn.svg"
+											"title": "Help Desk Ticketing",
+											"desc": "Use Ursa AI to answer, act, or escalate requests.",
+											"url": "/solutions/help-desk-ticketing/",
+											"icon": "Asset-Inspections-icn.svg"
 										},
 										{
 											"title": "Asset Inspections",
-											"desc": "Standardize inspections and ensure compliance.",
+											"desc": "Standardize inspections and document proof of completion.",
 											"url": "/solutions/asset-inspection/",
 											"icon": "Asset-Inspections-icn.svg"
 										}
@@ -215,28 +234,28 @@
 									"links": [
 										{
 											"title": "Repair Tracking",
-											"desc": "Log and resolve repair work orders faster.",
+											"desc": "Track corrective work from issue through resolution.",
 											"url": "/solutions/repair-tracking/",
 											"icon": "Repair-Tracking-icn.svg"
 										},
 										{
 											"title": "Calibration Management",
-											"desc": "Ensure instruments meet precision standards.",
+											"desc": "Maintain calibration history and compliance records.",
 											"url": "/solutions/calibration-management/",
 											"icon": "Calibration-Management-icn.svg"
 										},
 										{
-											"title": "Help Desk Ticketing",
-											"desc": "AI ticketing that answers, acts, and escalates.",
-											"url": "/solutions/help-desk-ticketing/",
-											"icon": "Asset-Inspections-icn.svg"
+											"title": "Facilities Management",
+											"desc": "Manage facilities, equipment, and maintenance activity.",
+											"url": "/solutions/facilities-management/",
+											"icon": "Facilities-Management-icn.svg"
 										}
 									]
 								}
 							]
 						},
 						{
-							"key": "facilities",
+							"key": "equipment-and-lifecycle",
 							"label": "Equipment & Lifecycle",
 							"url": "",
 							"heading": "Equipment & Lifecycle",
@@ -246,20 +265,20 @@
 									"links": [
 										{
 											"title": "Equipment Management",
-											"desc": "Centralize equipment records and status.",
+											"desc": "Centralize equipment records, condition, and service history.",
 											"url": "/solutions/equipment-management/",
 											"icon": "Equipment-Management-icn.svg"
 										},
 										{
-											"title": "Tool Tracking",
-											"desc": "Know where every tool is, in real time.",
-											"url": "/solutions/tool-tracking/",
-											"icon": "tools-icn.svg"
+											"title": "Lifecycle Management",
+											"desc": "Manage assets from acquisition through disposition.",
+											"url": "/solutions/lifecycle-management/",
+											"icon": "Lifecycle-Management-icn.svg"
 										},
 										{
 											"title": "Fleet Management",
-											"desc": "Track and optimize your fleet.",
-											"url": "/solutions/government/fleet-management/",
+											"desc": "Track vehicle condition, maintenance, and lifecycle.",
+											"url": "/solutions/fleet-management/",
 											"icon": "Fleet-Management-icn.svg"
 										}
 									]
@@ -268,51 +287,39 @@
 									"heading": "",
 									"links": [
 										{
-											"title": "Lifecycle Management",
-											"desc": "Plan from acquisition through retirement.",
-											"url": "/solutions/lifecycle-management/",
-											"icon": "Lifecycle-Management-icn.svg"
+											"title": "Tool Tracking",
+											"desc": "Track tools, assignments, condition, and availability.",
+											"url": "/solutions/tool-tracking/",
+											"icon": "tools-icn.svg"
 										},
 										{
 											"title": "Leased Equipment Tracking",
-											"desc": "Track leased assets and important details.",
+											"desc": "Manage leased assets, obligations, and return dates.",
 											"url": "/solutions/leased-equipment-tracking/",
 											"icon": "Leased-Equipment-Tracking-icn.svg"
-										},
-										{
-											"title": "Warehouse Management",
-											"desc": "Optimize storage, picking, and fulfillment.",
-											"url": "/solutions/transportation-logistics/warehouse/",
-											"icon": "Warehouse-Management-icn.svg"
 										}
 									]
 								}
 							]
 						},
 						{
-							"key": "compliance",
-							"label": "Compliance & Emergency Response",
+							"key": "readiness-and-response",
+							"label": "Readiness & Response",
 							"url": "",
-							"heading": "Compliance & Emergency Response",
+							"heading": "Readiness & Response",
 							"groups": [
 								{
 									"heading": "",
 									"links": [
 										{
-											"title": "Compliance & Audit Readiness",
-											"desc": "Stay audit-ready with complete asset records.",
-											"url": "/solutions/compliance-management/",
-											"icon": "Audit-Readiness-icn.svg"
-										},
-										{
 											"title": "Emergency Preparedness",
-											"desc": "Prepare response plans for critical events.",
+											"desc": "Maintain resource readiness through critical events.",
 											"url": "/solutions/emergency-preparedness/",
 											"icon": "Emergency-Response-Alert-icn.svg"
 										},
 										{
 											"title": "School Reunification",
-											"desc": "Reunite students and guardians safely.",
+											"desc": "Support student accountability during emergency reunification.",
 											"url": "/solutions/school-reunification-software/",
 											"icon": "School-Reunification-icn.svg"
 										}
@@ -327,7 +334,7 @@
 					"url": "",
 					"tabs": [
 						{
-							"key": "public",
+							"key": "public-sector",
 							"label": "Public Sector",
 							"url": "/solutions/government/",
 							"heading": "Public Sector",
@@ -362,17 +369,22 @@
 									]
 								}
 							],
-							"card": {
-								"image": "case-okc.png",
-								"image_alt": "Downtown Oklahoma City skyline",
-								"logo": "logo-okc.png",
-								"logo_alt": "City of Oklahoma City seal",
-								"title": "Oklahoma City becomes more responsive and organized",
-								"quote": "“Now, we can streamline our process, be more responsive to customer requests, and improve overall compliance with auditing.”",
-								"author": "Jack Gallemore",
-								"role": "Customer Support Manager",
-								"url": ""
-							}
+							"featured": [
+								{
+									"type": "Case Study",
+									"title": "Georgia Sheriff’s Office Modernizes Operations",
+									"desc": "Improve accountability without adding administrative overhead.",
+									"url": "/resource-center/case-studies/how-a-georgia-county-sheriffs-office-modernized-public-operations/",
+									"cta": "Read the case study"
+								},
+								{
+									"type": "White Paper",
+									"title": "Security Framework for Public Sector Assets",
+									"desc": "Strengthen security, oversight, and asset accountability.",
+									"url": "/resource-center/white-papers/a-security-framework-for-managing-public-sector-assets/",
+									"cta": "Read the white paper"
+								}
+							]
 						},
 						{
 							"key": "education",
@@ -384,7 +396,7 @@
 									"heading": "",
 									"links": [
 										{
-											"title": "K–12 School Districts",
+											"title": "K-12 School Districts",
 											"desc": "Manage assets across districts.",
 											"url": "/products/asset-panda-for-k12/",
 											"icon": "k-12-icn.svg"
@@ -398,17 +410,22 @@
 									]
 								}
 							],
-							"card": {
-								"image": "case-creston.png",
-								"image_alt": "Students working together at a laptop",
-								"logo": "logo-creston.png",
-								"logo_alt": "Creston Community School District logo",
-								"title": "Creston Community School District gets 3 hours back per day",
-								"quote": "“I have a wealth of data right in the palm of my hands about all of our district’s assets. I can even scan an asset on the spot and see if it’s in our inventory or not. If it isn’t, then I can add it right in instantly...and Asset Panda will track its entire lifecycle moving forward.”",
-								"author": "Brendalee Lyell-Keate",
-								"role": "Technology Department",
-								"url": ""
-							}
+							"featured": [
+								{
+									"type": "Case Study",
+									"title": "Texas A&M Standardizes Asset Tracking",
+									"desc": "Standardize asset management across campus departments.",
+									"url": "/resource-center/case-studies/texas-am-university-standardizes-asset-tracking-across-departments-with-asset-panda-on-aws/",
+									"cta": "Read the case study"
+								},
+								{
+									"type": "Case Study",
+									"title": "Muskegon School District Saves 100 Hours a Year",
+									"desc": "See how a district saves 100 hours yearly.",
+									"url": "/resource-center/case-studies/muskegon-area-intermediate-school-district-saves-100-hours-a-year/",
+									"cta": "Read the case study"
+								}
+							]
 						},
 						{
 							"key": "healthcare",
@@ -439,13 +456,29 @@
 										}
 									]
 								}
+							],
+							"featured": [
+								{
+									"type": "Case Study",
+									"title": "Accufix Surgical Tracks Surgical Trays",
+									"desc": "Improve visibility across critical surgical equipment.",
+									"url": "/resource-center/case-studies/how-accufix-surgical-effectively-tracks-surgical-trays-using-asset-panda/",
+									"cta": "Read the case study"
+								},
+								{
+									"type": "Comparison",
+									"title": "Healthcare Asset Tracking Software Comparison",
+									"desc": "Compare asset management options for healthcare teams.",
+									"url": "/resource-center/blog/healthcare-asset-tracking-software-comparison-guide/",
+									"cta": "Read the comparison"
+								}
 							]
 						},
 						{
-							"key": "industry",
-							"label": "Industry & Field Operations",
+							"key": "industrial-and-field-operations",
+							"label": "Industrial & Field Operations",
 							"url": "",
-							"heading": "Industry & Field Operations",
+							"heading": "Industrial & Field Operations",
 							"groups": [
 								{
 									"heading": "",
@@ -470,10 +503,26 @@
 										}
 									]
 								}
+							],
+							"featured": [
+								{
+									"type": "Case Study",
+									"title": "Construction Company Saves Hours Every Day",
+									"desc": "Save hours managing tools and jobsite equipment.",
+									"url": "/resource-center/case-studies/electrical-construction-company-saves-several-hours-of-work-per-day-with-asset-panda/",
+									"cta": "Read the case study"
+								},
+								{
+									"type": "White Paper",
+									"title": "How Equipment Leasing Companies Handle Demand Shifts",
+									"desc": "Improve equipment visibility across rental operations.",
+									"url": "/resource-center/white-papers/fluctuations-no-more-how-equipment-leasing-companies-can-ride-out-supply-and-demand/",
+									"cta": "Read the white paper"
+								}
 							]
 						},
 						{
-							"key": "energy",
+							"key": "energy-and-utilities",
 							"label": "Energy & Utilities",
 							"url": "/solutions/energy-utilities/",
 							"heading": "Energy & Utilities",
@@ -507,10 +556,26 @@
 										}
 									]
 								}
+							],
+							"featured": [
+								{
+									"type": "Case Study",
+									"title": "Track Utilities Earns Back a Day a Week",
+									"desc": "Save time managing field equipment and crews.",
+									"url": "/resource-center/case-studies/track-utilities/",
+									"cta": "Read the case study"
+								},
+								{
+									"type": "White Paper",
+									"title": "How to Reduce Maintenance Costs",
+									"desc": "Reduce maintenance costs and improve equipment uptime.",
+									"url": "/resource-center/white-papers/reduce-maintenance-costs-increase-companys-bottom-line/",
+									"cta": "Read the white paper"
+								}
 							]
 						},
 						{
-							"key": "transportation",
+							"key": "transportation-and-logistics",
 							"label": "Transportation & Logistics",
 							"url": "/solutions/transportation-logistics/",
 							"heading": "Transportation & Logistics",
@@ -544,10 +609,26 @@
 										}
 									]
 								}
+							],
+							"featured": [
+								{
+									"type": "Case Study",
+									"title": "On-Wing Saves 4,000+ Hours a Year",
+									"desc": "Save thousands of hours across aviation operations.",
+									"url": "/resource-center/case-studies/on-wing-services-team/",
+									"cta": "Read the case study"
+								},
+								{
+									"type": "Blog",
+									"title": "How to Track Inventory Across Locations",
+									"desc": "Keep distributed assets visible across every location.",
+									"url": "/resource-center/blog/how-to-track-assets/",
+									"cta": "Read the article"
+								}
 							]
 						},
 						{
-							"key": "business",
+							"key": "business-and-nonprofit",
 							"label": "Business & Nonprofit",
 							"url": "",
 							"heading": "Business & Nonprofit",
@@ -569,6 +650,22 @@
 										}
 									]
 								}
+							],
+							"featured": [
+								{
+									"type": "Case Study",
+									"title": "Team Gleason Recovers 2 Hours a Week",
+									"desc": "Spend less time tracking mission-critical equipment.",
+									"url": "/resource-center/case-studies/team-gleason/",
+									"cta": "Read the case study"
+								},
+								{
+									"type": "White Paper",
+									"title": "ITAM Best Practices for MSPs",
+									"desc": "Manage client IT assets with greater control.",
+									"url": "/resource-center/white-papers/effective-it-asset-management-for-managed-service-providers/",
+									"cta": "Read the white paper"
+								}
 							]
 						}
 					]
@@ -576,6 +673,7 @@
 				{
 					"label": "Resources",
 					"url": "/resource-center/",
+					"layout": "columns",
 					"tabs": [
 						{
 							"key": "learn",
@@ -626,7 +724,7 @@
 										{
 											"title": "Success Stories",
 											"desc": "Real customer wins and measurable outcomes.",
-											"url": "/success-stories/",
+											"url": "/resource-center/success-stories/",
 											"icon": "ap-res-icn-success-stories.svg"
 										},
 										{
@@ -697,10 +795,10 @@
 				},
 				{
 					"label": "Pricing",
-					"url": "/get-a-quote-pro/"
+					"url": "https://www.assetpanda.com/get-a-quote-pro/"
 				}
 			],
-			"description": "Top-level items. Each: label, url; optional tabs, each with key, label, url (renders the tab as a link), heading, groups [{ heading, links [{ title, desc, url, icon }] }] and an optional card { image, image_alt, logo, logo_alt, title, quote, author, role, url }. Items without tabs render as plain links. Icons and images are files in assets/ or URLs."
+			"description": "Top-level items. Each: label, url; optional layout (\"columns\" shows every tab at once, one column per tab topped by its heading, instead of the tab rail; the item's label is drawn as an eyebrow only when no tab has a heading; featured lists and cards are not drawn then); optional tabs, each with key, label, url (renders the tab as a link), heading, groups [{ heading, links [{ title, desc, url, icon }] }] an optional featured list [{ type, title, desc, url, cta }] (resource cards beside the links; desktop only) and an optional card { image, image_alt, logo, logo_alt, title, quote, author, role, url } (used when a tab has no featured list). Items without tabs render as plain links. Icons and images are files in assets/ or URLs."
 		},
 		"login_url": {
 			"type": "string",
@@ -735,7 +833,7 @@
 		},
 		"demo_label": {
 			"type": "string",
-			"default": "Book a Demo",
+			"default": "Free Demo",
 			"description": "Demo button text."
 		},
 		"demo_url": {

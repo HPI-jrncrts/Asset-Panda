@@ -1,0 +1,5 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icon/Solid/table">
+<path id="Icon" fill-rule="evenodd" clip-rule="evenodd" d="M6 4.8C4.01177 4.8 2.4 6.41177 2.4 8.4V15.6C2.4 17.5882 4.01178 19.2 6 19.2H18C19.9882 19.2 21.6 17.5882 21.6 15.6V8.4C21.6 6.41177 19.9882 4.8 18 4.8H6ZM4.8 15.6V14.4H10.8V16.8H6C5.33726 16.8 4.8 16.2627 4.8 15.6ZM13.2 16.8H18C18.6627 16.8 19.2 16.2627 19.2 15.6V14.4H13.2V16.8ZM13.2 12H19.2V9.6H13.2V12ZM10.8 9.6H4.8V12H10.8V9.6Z" fill="var(--fill-0, #A9BFD0)"/>
+</g>
+</svg>

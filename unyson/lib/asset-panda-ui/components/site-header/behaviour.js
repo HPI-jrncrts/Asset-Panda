@@ -1,11 +1,13 @@
 /**
  * site-header — behaviour for the global header.
  *
+ * - Case-card art (data-ap-sh-src) loads on the first pointer or focus on the bar.
  * - Tab rails: hovering, focusing or clicking a tab shows its panel.
  * - Desktop menus open on hover and focus (CSS). A mouse leaving a menu, or
  *   Escape, drops focus so a clicked menu never stays pinned open.
  * - Login dropdown, the phone drawer (one section open at a time) and the app
  *   banner (Google Play link on Android, dismiss).
+ * - Geo: html.ap-intl for visitors outside US/CA/GB/NZ/AU, as on live.
  *
  * Bound once per [data-ap-site-header] root; safe with several on a page.
  */
@@ -19,6 +21,26 @@
 			return;
 		}
 		root.setAttribute('data-ap-sh-ready', '1');
+
+		/*
+		 * Deferred art. The case cards' photo and logo ship as data-ap-sh-src (render.php):
+		 * their panel is laid out while hidden, so loading="lazy" would still fetch them on every
+		 * page. The first pointer or focus on the desktop bar loads them, ahead of a menu fading in.
+		 */
+		var deferred = root.querySelectorAll('img[data-ap-sh-src]');
+		var bar = root.querySelector('.ap-site-header__desk');
+		if (deferred.length && bar) {
+			var hydrate = function () {
+				bar.removeEventListener('pointerover', hydrate);
+				bar.removeEventListener('focusin', hydrate);
+				deferred.forEach(function (img) {
+					img.setAttribute('src', img.getAttribute('data-ap-sh-src'));
+					img.removeAttribute('data-ap-sh-src');
+				});
+			};
+			bar.addEventListener('pointerover', hydrate);
+			bar.addEventListener('focusin', hydrate);
+		}
 
 		/* Tab rails. */
 		root.querySelectorAll('.ap-mega-panel').forEach(function (panel) {
@@ -189,8 +211,39 @@
 		});
 	}
 
+	/*
+	 * International visitors. As on live, html.ap-intl is added when the CDN
+	 * trace places the visitor outside these countries; style.css then makes
+	 * Try for Free the primary action and hides the US sales number. Runs once
+	 * per page; any failure leaves the US layout in place.
+	 */
+	var HOME_COUNTRIES = ['US', 'CA', 'GB', 'NZ', 'AU'];
+
+	function geo() {
+		var html = document.documentElement;
+		if (html.getAttribute('data-ap-sh-geo') || html.classList.contains('ap-intl') || !window.fetch) {
+			return;
+		}
+		html.setAttribute('data-ap-sh-geo', '1');
+		try {
+			window.fetch('/cdn-cgi/trace', { cache: 'no-store' })
+				.then(function (response) { return response.ok ? response.text() : ''; })
+				.then(function (text) {
+					var match = /loc=([A-Z]{2})/.exec(text || '');
+					if (match && HOME_COUNTRIES.indexOf(match[1]) === -1) {
+						html.classList.add('ap-intl');
+					}
+				})
+				.catch(function () {});
+		} catch (e) {}
+	}
+
 	function boot() {
-		document.querySelectorAll('[data-ap-site-header]').forEach(init);
+		var roots = document.querySelectorAll('[data-ap-site-header]');
+		roots.forEach(init);
+		if (roots.length) {
+			geo();
+		}
 	}
 
 	if (document.readyState === 'loading') {

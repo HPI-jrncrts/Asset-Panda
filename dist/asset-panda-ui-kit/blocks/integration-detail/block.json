@@ -1,0 +1,69 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/integration-detail",
+	"title": "AP Integration Detail",
+	"category": "design",
+	"icon": "block-default",
+	"description": "Integration detail body: a section head over a sticky numbered index (from 1025px) beside up to four parts — Overview (copy + product video), Key Capabilities (tinted cards), How It Works (numbered steps) and Requirements (copy + help card). Every part is optional; the index numbers whatever is present. Figma: Integrations Detail Page Template > Platform Section (7318:168656). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"id_prefix": {
+			"type": "string",
+			"default": "integration"
+		},
+		"head_width": {
+			"type": "string",
+			"default": "default",
+			"enum": [
+				"default",
+				"full"
+			]
+		},
+		"nav_label": {
+			"type": "string",
+			"default": "On this page"
+		},
+		"overview": {
+			"type": "object",
+			"default": {}
+		},
+		"capabilities": {
+			"type": "object",
+			"default": {}
+		},
+		"steps": {
+			"type": "object",
+			"default": {}
+		},
+		"requirements": {
+			"type": "object",
+			"default": {}
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

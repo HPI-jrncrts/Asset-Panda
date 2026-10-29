@@ -22,11 +22,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $props = array(
-	'label'   => $attributes['label'] ?? '',
-	'accent'  => $attributes['accent'] ?? '',
-	'items'   => $attributes['items'] ?? array(),
-	'marquee' => $attributes['marquee'] ?? true,
-	'reveal'  => $attributes['reveal'] ?? true,
+	'label'       => $attributes['label'] ?? '',
+	'accent'      => $attributes['accent'] ?? '',
+	'items'       => $attributes['items'] ?? array(),
+	'layout'      => $attributes['layout'] ?? 'inline',
+	'label_width' => $attributes['label_width'] ?? 0,
+	'gap'         => $attributes['gap'] ?? 0,
+	'marquee'     => $attributes['marquee'] ?? true,
+	'reveal'      => $attributes['reveal'] ?? true,
 );
 
 $ap_html = ap_render_component( 'trust-strip', $props );

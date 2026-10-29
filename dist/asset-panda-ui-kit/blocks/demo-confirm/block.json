@@ -1,0 +1,49 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/demo-confirm",
+	"title": "AP Demo Confirm",
+	"category": "design",
+	"icon": "yes-alt",
+	"description": "Booking-confirmed hero of the 2026 Get a Demo flow (live #ap-ty-hero on /demo-confirmed/): a check badge, heading, gradient sub-heading, a line of copy and a back link over a soft background image. The page also hides the global footer's CTA card. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"subtitle": {
+			"type": "string",
+			"default": ""
+		},
+		"body": {
+			"type": "string",
+			"default": ""
+		},
+		"back_label": {
+			"type": "string",
+			"default": ""
+		},
+		"back_url": {
+			"type": "string",
+			"default": ""
+		},
+		"background": {
+			"type": "string",
+			"default": ""
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

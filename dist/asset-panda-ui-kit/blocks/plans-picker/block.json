@@ -1,0 +1,158 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/plans-picker",
+	"title": "AP Plans Picker",
+	"category": "design",
+	"icon": "tag",
+	"description": "Pricing v2 plans section: centred heading, a 'how many records' chip picker that flags the plan that fits, a row of plan cards (one may be featured), and a 'what counts as a record' strip. Source: the Asset Panda Pricing v2 mockup. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"section_id": {
+			"type": "string",
+			"default": "plans"
+		},
+		"variant": {
+			"type": "string",
+			"default": "classic",
+			"enum": [
+				"classic",
+				"clean"
+			]
+		},
+		"heading_level": {
+			"type": "string",
+			"default": "h2",
+			"enum": [
+				"h2",
+				"h1"
+			]
+		},
+		"notice_label": {
+			"type": "string",
+			"default": ""
+		},
+		"notice": {
+			"type": "string",
+			"default": ""
+		},
+		"art": {
+			"type": "string",
+			"default": ""
+		},
+		"art_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"art_width": {
+			"type": "number",
+			"default": 0
+		},
+		"art_height": {
+			"type": "number",
+			"default": 0
+		},
+		"compare_label": {
+			"type": "string",
+			"default": ""
+		},
+		"compare_url": {
+			"type": "string",
+			"default": ""
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"lead_position": {
+			"type": "string",
+			"default": "top",
+			"enum": [
+				"top",
+				"bottom",
+				"none"
+			]
+		},
+		"head_style": {
+			"type": "string",
+			"default": "plain",
+			"enum": [
+				"plain",
+				"hero"
+			]
+		},
+		"hero_background": {
+			"type": "string",
+			"default": "hero-bg.webp"
+		},
+		"title_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"question": {
+			"type": "string",
+			"default": ""
+		},
+		"chips": {
+			"type": "array",
+			"default": []
+		},
+		"default_plan": {
+			"type": "string",
+			"default": ""
+		},
+		"hint": {
+			"type": "string",
+			"default": ""
+		},
+		"fit_label": {
+			"type": "string",
+			"default": "Fits you"
+		},
+		"plans": {
+			"type": "array",
+			"default": []
+		},
+		"records_title": {
+			"type": "string",
+			"default": ""
+		},
+		"records_body": {
+			"type": "string",
+			"default": ""
+		},
+		"counts_label": {
+			"type": "string",
+			"default": ""
+		},
+		"counts": {
+			"type": "string",
+			"default": ""
+		},
+		"never_label": {
+			"type": "string",
+			"default": ""
+		},
+		"never": {
+			"type": "string",
+			"default": ""
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

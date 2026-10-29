@@ -1,0 +1,197 @@
+/*
+ * solution-faq — ported from the live .epx-faq section.
+ *
+ * Live's rules re-namespaced from .epx-faq__* / .epx-qrev to
+ * .ap-solution-faq__*. The base is the six solution pages' sheet; --readiness
+ * (Emergency Preparedness, School Reunification) sits deeper at the bottom and
+ * sets answers flush under the question; --service (Help Desk) matches the
+ * base. The open/close tween on ::details-content is left out (see render.php).
+ */
+
+.ap-solution-faq,
+.ap-solution-faq * {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+.ap-solution-faq {
+	background: linear-gradient(180deg, #f9fafb 0%, #fff 100%);
+	overflow: hidden;
+	font-family: var(--ap-font-body, 'Manrope', Arial, sans-serif);
+}
+
+/* tone "white" (pricing page) */
+.ap-solution-faq.ap-solution-faq--white {
+	background: #fff;
+}
+
+.ap-solution-faq__wrap {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 80px 40px 40px;
+	display: flex;
+	flex-direction: column;
+	gap: 40px;
+	align-items: center;
+}
+
+.ap-solution-faq--readiness .ap-solution-faq__wrap { padding-bottom: 80px; }
+
+.ap-solution-faq .ap-solution-faq__title {
+	font-size: 40px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: normal;
+	color: #25272c;
+	text-align: center;
+}
+
+.ap-solution-faq__list {
+	width: 100%;
+	max-width: 1120px;
+}
+
+.ap-solution-faq__item {
+	border-top: 1px solid #b6bac3;
+	transition: background .2s cubic-bezier(.4, 0, .2, 1);
+}
+
+.ap-solution-faq__item:hover { background: rgba(80, 68, 225, .04); }
+
+.ap-solution-faq__item summary {
+	display: flex;
+	gap: 24px;
+	align-items: center;
+	padding: 20px 16px;
+	cursor: pointer;
+	list-style: none;
+	font-size: 20px;
+	font-weight: 800;
+	line-height: 1.4;
+	color: #25272c;
+}
+
+.ap-solution-faq__item summary::-webkit-details-marker { display: none; }
+
+.ap-solution-faq__item summary > .ap-solution-faq__q {
+	flex: 1 1 0;
+	min-width: 0;
+}
+
+.ap-solution-faq .ap-solution-faq__item summary > h3.ap-solution-faq__q {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: none;
+	font: inherit;
+	color: inherit;
+	letter-spacing: inherit;
+	text-transform: inherit;
+	text-align: inherit;
+}
+
+.ap-solution-faq__item summary:focus-visible {
+	outline: 3px solid #5044e1;
+	outline-offset: -3px;
+}
+
+.ap-solution-faq__item[open] summary { color: #5044e1; }
+
+.ap-solution-faq__mark {
+	position: relative;
+	flex: 0 0 32px;
+	width: 32px;
+	height: 32px;
+}
+
+.ap-solution-faq__mark::before,
+.ap-solution-faq__mark::after {
+	content: "";
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	translate: -50% -50%;
+	background: #00a991;
+	border-radius: 2px;
+	transition: rotate .3s cubic-bezier(.4, 0, .2, 1), background .2s;
+}
+
+.ap-solution-faq__mark::before { width: 19px; height: 2.7px; }
+.ap-solution-faq__mark::after { width: 2.7px; height: 19px; }
+
+.ap-solution-faq__item[open] .ap-solution-faq__mark::before { background: #5044e1; }
+
+.ap-solution-faq__item[open] .ap-solution-faq__mark::after {
+	rotate: 90deg;
+	background: #5044e1;
+}
+
+.ap-solution-faq__panel { padding: 10px 16px 24px; }
+.ap-solution-faq--readiness .ap-solution-faq__panel { padding-top: 0; }
+
+.ap-solution-faq__panel p {
+	font-size: 16px;
+	line-height: 1.5;
+	color: #4a4e5a;
+	max-width: 1080px;
+}
+
+/* UrsaAI as live's .epx-g mark: a gradient word and a green superscript that
+ * does not grow the line (live's theme sets sup line-height 0). */
+.ap-solution-faq .ap-ursa {
+	background: linear-gradient(41.5deg, #5044e1 3.6%, #00a991 50.1%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	-webkit-text-fill-color: transparent;
+}
+
+.ap-solution-faq .ap-ursa sup {
+	font-size: .64em;
+	font-weight: 700;
+	line-height: 0;
+	vertical-align: super;
+	color: #00a991;
+	-webkit-text-fill-color: #00a991;
+}
+
+/* Scroll reveal: a CSS scroll timeline (no script). */
+@keyframes apSolutionFaqUp {
+	from {
+		opacity: 0;
+		transform: translateY(24px);
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.ap-solution-faq .ap-solution-faq__rev {
+		animation: apSolutionFaqUp 1ms linear both;
+		animation-timeline: view();
+		animation-range: entry 5% entry 38%;
+	}
+
+	.ap-solution-faq .ap-solution-faq__rev--d1 { animation-range: entry 10% entry 43%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-solution-faq__mark::before,
+	.ap-solution-faq__mark::after { transition: none; }
+}
+
+@media (max-width: 640px) {
+	.ap-solution-faq__wrap { padding: 56px 20px 24px; }
+	.ap-solution-faq--readiness .ap-solution-faq__wrap { padding-bottom: 56px; }
+	.ap-solution-faq .ap-solution-faq__title { font-size: 28px; }
+
+	.ap-solution-faq__item summary {
+		font-size: 17px;
+		gap: 12px;
+		padding: 16px 8px;
+	}
+
+	.ap-solution-faq__panel { padding: 10px 8px 20px; }
+	.ap-solution-faq--readiness .ap-solution-faq__panel { padding-top: 0; }
+
+	.ap-solution-faq--solution :is(h2, h3) { text-wrap: balance; }
+}

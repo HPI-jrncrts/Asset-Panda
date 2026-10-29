@@ -1,0 +1,62 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/solution-rows",
+	"title": "AP Solution Rows",
+	"category": "design",
+	"icon": "excerpt-view",
+	"description": "Centred heading over full-width capability rows: a tinted, colour-ruled card per row with an icon and title on the left and copy plus an optional link on the right; stacked below 1001px. Live: the .epx-sol section on the solution pages, Emergency Preparedness, School Reunification and Help Desk (rules ported). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"title_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"items": {
+			"type": "array",
+			"default": []
+		},
+		"variant": {
+			"type": "string",
+			"default": "solution",
+			"enum": [
+				"solution",
+				"readiness",
+				"service"
+			]
+		},
+		"tone_arrows": {
+			"type": "boolean",
+			"default": false
+		},
+		"head_width": {
+			"type": "number",
+			"default": 800
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

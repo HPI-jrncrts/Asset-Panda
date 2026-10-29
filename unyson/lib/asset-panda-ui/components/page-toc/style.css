@@ -1,0 +1,204 @@
+/*
+ * page-toc — floating "On this page" pill + panel.
+ * Figma: Floating TOC Panel (7224:2): 284px card, 18px radius, #e8e6f0 border,
+ * 0 12px 30px rgba(43,5,72,.13) shadow; items 12.5px, the active one on a
+ * #f2f0ff plate with a 3px indigo bar; a 7px progress bar. The pill is the
+ * collapsed state drawn at the article's left margin.
+ */
+
+.ap-page-toc {
+	position: fixed;
+	/* Centred in the left margin beside the 848px article box: the margin is (100% − 848px) / 2 wide, so
+	   its centre is 25% − 212px; the pill (149px) is placed around that centre, never closer than 20px to
+	   the viewport edge nor nearer than 16px to the article (when the margin is too small, 20px wins). */
+	left: clamp(20px, calc(25% - 287px), calc(50% - 589px));
+	right: auto;
+	top: 50%;
+	z-index: 60;
+	transform: translateY(-50%);
+	font-family: var(--ap-font-body, Manrope, Arial, sans-serif);
+	color: #252037;
+}
+
+.ap-page-toc,
+.ap-page-toc * { box-sizing: border-box; }
+
+/* Pill (collapsed). */
+.ap-page-toc__chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 10px 14px 10px 12px;
+	border: 1px solid #d9d6ea;
+	border-radius: 999px;
+	background: #fff;
+	box-shadow: 0 8px 24px rgba(43, 5, 72, 0.14);
+	font-family: inherit;
+	font-size: 13px;
+	font-weight: 700;
+	line-height: 1.2;
+	color: #252037;
+	cursor: pointer;
+	transition: box-shadow 0.3s cubic-bezier(0.25, 0.45, 0.45, 0.95), translate 0.3s cubic-bezier(0.25, 0.45, 0.45, 0.95);
+}
+
+.ap-page-toc__chip svg { display: block; color: #5044e1; }
+.ap-page-toc__chip:hover { translate: 0 -1px; box-shadow: 0 10px 28px rgba(43, 5, 72, 0.18); }
+.ap-page-toc__chip:focus-visible { outline: 2px solid #5044e1; outline-offset: 2px; }
+
+/* Panel (open). */
+.ap-page-toc__panel {
+	display: none;
+	width: 284px;
+	max-height: calc(100vh - 40px); /* the whole list shows; it only scrolls on a viewport shorter than the panel */
+	overflow: auto;
+	padding: 17px 19px 20px;
+	border: 1px solid #e8e6f0;
+	border-radius: 18px;
+	background: #fff;
+	box-shadow: 0 12px 30px rgba(43, 5, 72, 0.13);
+	scrollbar-width: thin;
+}
+
+.ap-page-toc.is-open .ap-page-toc__chip { display: none; }
+.ap-page-toc.is-open .ap-page-toc__panel { display: block; }
+.ap-page-toc.is-open { left: clamp(20px, calc(25% - 354px), calc(50% - 724px)); } /* the 284px panel around the same centre */
+
+/* Without the script the panel is the usable state. */
+html:not(.ap-page-toc-js) .ap-page-toc .ap-page-toc__chip { display: none; }
+html:not(.ap-page-toc-js) .ap-page-toc .ap-page-toc__panel { display: block; }
+
+.ap-page-toc__head {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 2px 0 14px;
+	border-bottom: 1px solid #eae8f1;
+}
+
+.ap-page-toc__head > svg { display: block; flex: none; color: #5044e1; }
+
+.ap-page-toc .ap-page-toc__title {
+	flex: 1;
+	margin: 0;
+	font-size: 15px;
+	font-weight: 700;
+	line-height: 1.4;
+	color: #252037;
+}
+
+.ap-page-toc__close {
+	display: inline-flex;
+	flex: none;
+	padding: 2px;
+	border: 0;
+	background: transparent;
+	color: #5044e1;
+	cursor: pointer;
+}
+
+.ap-page-toc__close svg { display: block; }
+.ap-page-toc__close:focus-visible { outline: 2px solid #5044e1; outline-offset: 2px; border-radius: 4px; }
+
+/* The host themes number and indent article lists; the panel's list is plain. */
+.ap-page-toc .ap-page-toc__list,
+.ap-page-toc ol.ap-page-toc__list {
+	margin: 12px 0 14px !important;
+	padding: 0 !important;
+	list-style: none !important;
+	counter-reset: none !important;
+	font-size: 12.5px;
+}
+
+.ap-page-toc .ap-page-toc__item,
+.ap-page-toc .ap-page-toc__list > li {
+	position: relative;
+	margin: 0 0 3px !important;
+	padding: 0 !important;
+	list-style: none !important;
+	font-size: 12.5px;
+}
+
+.ap-page-toc .ap-page-toc__list > li::marker { content: none !important; }
+.ap-page-toc .ap-page-toc__list > li:not(.is-active)::before { content: none !important; display: none !important; }
+
+.ap-page-toc .ap-page-toc__link,
+.ap-page-toc .ap-page-toc__link:link,
+.ap-page-toc .ap-page-toc__link:visited {
+	display: block;
+	padding: 8px 10px;
+	border-radius: 7px;
+	font-size: 12.5px;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #333047 !important;
+	text-decoration: none !important;
+	transition: background 0.2s ease, color 0.2s ease;
+}
+
+.ap-page-toc .ap-page-toc__link:hover { background: #f7f6fd; color: #252037 !important; }
+
+.ap-page-toc .ap-page-toc__item.is-active .ap-page-toc__link {
+	padding-left: 16px;
+	background: #f2f0ff;
+	font-weight: 700;
+	color: #5044e1 !important;
+}
+
+.ap-page-toc .ap-page-toc__item.is-active::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 3px;
+	height: 24px;
+	border-radius: 2px;
+	background: #5044e1;
+	transform: translateY(-50%);
+}
+
+.ap-page-toc__progress {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px 12px;
+	padding-top: 16px;
+	border-top: 1px solid #eae8f1;
+	font-size: 12px;
+	line-height: 1.4;
+}
+
+.ap-page-toc__progress-label { color: #252037; }
+.ap-page-toc__pct { font-weight: 700; color: #5044e1; }
+
+.ap-page-toc__bar {
+	display: block;
+	flex: 0 0 100%;
+	height: 7px;
+	border-radius: 5px;
+	background: #e8e8ef;
+	overflow: hidden;
+}
+
+.ap-page-toc__fill {
+	display: block;
+	width: 0;
+	height: 100%;
+	border-radius: 5px;
+	background: #5044e1;
+	transition: width 0.15s linear;
+}
+
+/* The margin beside the article column exists from about 1200px; below that the panel would cover the text. */
+@media (max-width: 1199px) {
+	.ap-page-toc { display: none; }
+}
+
+@media print {
+	.ap-page-toc { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-page-toc__chip, .ap-page-toc__fill, .ap-page-toc .ap-page-toc__link { transition: none; }
+}

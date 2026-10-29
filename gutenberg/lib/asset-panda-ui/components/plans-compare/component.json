@@ -1,0 +1,25 @@
+{
+	"name": "plans-compare",
+	"description": "Pricing v2 'Compare plans' section: centred heading and lead, a feature-by-plan table (grouped, indented rows; ticks, dashes or values), and an 'on every plan' pill list. On phones a plan switch shows one plan column at a time; a pick in plans-picker focuses that plan's column. Source: the Asset Panda Pricing v2 mockup.",
+	"props": {
+		"section_id": { "type": "string", "required": false, "default": "compare", "description": "Section id, so plan cards can link to #compare." },
+		"variant": { "type": "string", "required": false, "default": "classic", "enum": [ "classic", "clean" ], "description": "classic: the mockup's banded table. clean: open table with plain section headings and round ticks." },
+		"title": { "type": "string", "required": true, "description": "Heading." },
+		"lede": { "type": "string", "required": false, "default": "", "description": "Lead paragraph under the heading." },
+		"plans": { "type": "array", "required": true, "description": "Table columns, in order. Each: name, price (the small purple line under the name), accent (clean variant column colour: slate, teal, indigo, violet, amber or rose)." },
+		"featured_plan": { "type": "string", "required": false, "default": "", "description": "Plan whose column is tinted top to bottom and tagged in its header (clean variant), e.g. Growth." },
+		"featured_label": { "type": "string", "required": false, "default": "Most popular", "description": "Tag in the featured plan's header." },
+		"art": { "type": "string", "required": false, "default": "", "description": "Illustration in the table header's empty top-left corner, standing on the header rule and (on wide screens) rising above the table's top edge (clean variant): a URL, or a file name in this component's assets folder, e.g. panda-ursa.webp." },
+		"art_alt": { "type": "string", "required": false, "default": "", "description": "Alt text for the illustration. Empty marks it decorative." },
+		"art_width": { "type": "integer", "required": false, "default": 0, "description": "Illustration's intrinsic width in px. 0 leaves it out." },
+		"art_height": { "type": "integer", "required": false, "default": 0, "description": "Illustration's intrinsic height in px." },
+		"rows": { "type": "array", "required": true, "description": "Table rows, in order. Each: label, hint (small grey line under the label), kind (top = bold row, group = section band, sub = indented row, sub2 = doubly indented), values (one per plan, separated by |; yes = tick, no = dash, anything else is shown as written)." },
+		"focus_plan": { "type": "string", "required": false, "default": "", "description": "Plan the phone switch shows first. Empty shows the first plan." },
+		"switch_label": { "type": "string", "required": false, "default": "Show plan", "description": "Accessible name of the phone plan switch." },
+		"table_label": { "type": "string", "required": false, "default": "Plan comparison", "description": "Accessible name of the scrollable table region." },
+		"included_label": { "type": "string", "required": false, "default": "Included", "description": "Screen-reader text for a tick." },
+		"excluded_label": { "type": "string", "required": false, "default": "Not included", "description": "Screen-reader text for a dash." },
+		"everything_title": { "type": "string", "required": false, "default": "", "description": "Line above the pill list." },
+		"everything": { "type": "string", "required": false, "default": "", "description": "Pills, one per line." }
+	}
+}

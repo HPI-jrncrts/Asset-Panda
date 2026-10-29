@@ -116,31 +116,139 @@
 	to   { translate: -50% 0; }
 }
 
-/* ---- Single-row layouts (product pages and industry hubs) ----
- * Live #ap-badges-row-v3 on the product pages and #ap-gov-awards on the hubs:
- * one row of badges up to 100px tall, 40px above and below. Phones keep the
- * shared marquee above. */
+/* ---- Spread layout (industry hubs) ----
+ * Live #ap-gov-awards: one row of badges up to 100px tall, spread edge to edge,
+ * 40px above and below. Phones keep the shared marquee above. */
 @media (min-width: 768px) {
-	.ap-awards--layout-row,
 	.ap-awards--layout-spread { padding: 40px 24px; }
-
-	.ap-awards--layout-row .ap-awards__grid,
-	.ap-awards--layout-spread .ap-awards__grid { flex-wrap: nowrap; gap: 24px 40px; }
-
-	.ap-awards--layout-spread .ap-awards__grid { justify-content: space-between; }
-
-	.ap-awards--layout-row .ap-awards__img,
+	.ap-awards--layout-spread .ap-awards__grid { flex-wrap: nowrap; gap: 24px 40px; justify-content: space-between; }
 	.ap-awards--layout-spread .ap-awards__img { height: auto; max-height: 101px; max-width: 165px; }
 }
-
 @media (min-width: 768px) and (max-width: 1100px) {
-	.ap-awards--layout-row .ap-awards__grid,
 	.ap-awards--layout-spread .ap-awards__grid { gap: 16px 20px; }
-
-	.ap-awards--layout-row .ap-awards__img,
 	.ap-awards--layout-spread .ap-awards__img { max-width: 12vw; }
+}
+
+/* ---- Row layout (home, platform and product pages) ----
+ * Live #ap-badges-row-v3, ported rule for rule: a centred row (28px gaps, 20
+ * below 1280px) on a white-to-grey fade; each badge has its own width per step
+ * (--aw-d / -t / -m / -s from the item's w), and phones run 36vw marquee cells
+ * (42vw at 480px and below) on a 126px track. */
+.ap-awards--layout-row {
+	padding: 40px 24px;
+	background: #fff;
+}
+.ap-awards--layout-row .ap-awards__inner { width: 100%; max-width: 1120px; margin: 0 auto; }
+.ap-awards--layout-row .ap-awards__grid {
+	width: 100%;
+	min-height: 101px;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+	gap: 28px;
+}
+.ap-awards--layout-row .ap-awards__item { flex: 0 0 auto; }
+.ap-awards--layout-row .ap-awards__img {
+	width: var(--aw-d, auto);
+	height: auto;
+	max-width: 100%;
+	max-height: none;
+	object-fit: contain;
+	user-select: none;
+	-webkit-user-drag: none;
+}
+@media (max-width: 1279px) {
+	.ap-awards--layout-row { padding: 40px 36px; }
+	.ap-awards--layout-row .ap-awards__grid { gap: 20px; }
+	.ap-awards--layout-row .ap-awards__img { width: var(--aw-t, var(--aw-d, auto)); }
+}
+@media (max-width: 767px) {
+	.ap-awards--layout-row { padding: 36px 0; }
+	.ap-awards--layout-row .ap-awards__inner { max-width: none; }
+	.ap-awards--layout-row .ap-awards__grid { justify-content: flex-start; gap: 0; width: max-content; min-height: 126px; }
+	.ap-awards--layout-row .ap-awards__item { width: 36vw; min-width: 36vw; flex: 0 0 36vw; min-height: 126px; padding: 0 10px; }
+	.ap-awards--layout-row .ap-awards__img { width: var(--aw-m, var(--aw-t, auto)); height: auto; max-width: 100%; }
+}
+@media (max-width: 480px) {
+	.ap-awards--layout-row .ap-awards__item { width: 42vw; min-width: 42vw; flex-basis: 42vw; min-height: 118px; padding: 0 8px; }
+	.ap-awards--layout-row .ap-awards__img { width: var(--aw-s, var(--aw-m, auto)); }
 }
 
 /* Border-box sizing for everything in the component, as on the live homepage;
  * :where() keeps it at zero specificity. */
 :where(.ap-awards, .ap-awards *, .ap-awards *::before, .ap-awards *::after) { box-sizing: border-box; }
+
+/*
+ * ---- Hub layout (Government, Healthcare, Construction, Manufacturing) ----
+ * Live #ap-gov-awards, ported whole (selectors re-rooted at
+ * .ap-awards--layout-hub, keyframes renamed): one row spread edge to edge, 40px
+ * above and below; from 1024px down the row is a 25s marquee with 48px between
+ * badges. Live sizes each badge by a position class (.apg-aw-1 … 7); the kit
+ * carries the same w x h (and Forbes' 4px radius) per item as --aw-w / --aw-h /
+ * --aw-r. Live's full-bleed grey backdrop (left:calc(50% - 50vw); width:100vw)
+ * becomes the block's own width: the block is already full width, and 100vw
+ * scrolls sideways wherever the browser shows a scrollbar.
+ */
+.ap-awards.ap-awards--layout-hub{position:relative;font-family:Manrope,sans-serif;padding:40px 24px;overflow:visible;background:none}
+.ap-awards.ap-awards--layout-hub::before{content:"";position:absolute;top:0;bottom:0;left:0;width:100%;background:#fff;pointer-events:none;z-index:0}
+.ap-awards.ap-awards--layout-hub .apg-aw-viewport{position:relative;z-index:1;max-width:1120px;margin:0 auto;overflow:hidden}
+.ap-awards.ap-awards--layout-hub .apg-aw-track{display:flex;align-items:center;justify-content:space-between;width:100%}
+.ap-awards.ap-awards--layout-hub .apg-aw-track img{display:block;object-fit:contain;width:var(--aw-w,auto);height:var(--aw-h,auto);max-width:165px;max-height:101px;border-radius:var(--aw-r,0)}
+.ap-awards.ap-awards--layout-hub .apg-aw-track img.apg-aw-dup,.ap-awards.ap-awards--layout-hub .apg-aw-track a.apg-aw-dup{display:none}
+@media (max-width:1024px){
+.ap-awards.ap-awards--layout-hub .apg-aw-track{width:max-content;max-width:none;gap:0;justify-content:flex-start;animation:apAwardsHubApgAwMarq 25s linear infinite}
+.ap-awards.ap-awards--layout-hub .apg-aw-track img{margin-right:48px}
+.ap-awards.ap-awards--layout-hub .apg-aw-track img.apg-aw-dup,.ap-awards.ap-awards--layout-hub .apg-aw-track a.apg-aw-dup{display:block}
+}
+@keyframes apAwardsHubApgAwMarq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/*
+ * ---- Eduhub layout (Education) ----
+ * Live #ap-eduhub-awards (its three sheets plus the page's phone padding rule),
+ * ported whole: badges up to 64px tall in 70px cells, each at its own width
+ * (--aw-w; live sizes them by .apw-best / .apw-forbes … classes); a centred row
+ * with 48px gaps from 1025px, a 22s marquee with 56px gaps below; 24px above and
+ * below on phones. Full-bleed backdrop as in the hub layout.
+ */
+.ap-awards.ap-awards--layout-eduhub{position:relative;width:100%;overflow:visible;background:#fff;padding:40px 24px;font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif}
+.ap-awards.ap-awards--layout-eduhub::before{content:"";position:absolute;top:0;bottom:0;left:0;width:100%;background:#fff;pointer-events:none}
+.ap-awards.ap-awards--layout-eduhub>.apw-viewport{position:relative}
+.ap-awards.ap-awards--layout-eduhub *{box-sizing:border-box}
+.ap-awards.ap-awards--layout-eduhub .apw-viewport{width:100%;max-width:1120px;margin:0 auto;overflow:hidden}
+.ap-awards.ap-awards--layout-eduhub .apw-track{display:flex;flex-wrap:nowrap;align-items:center;width:max-content;gap:56px;animation:apAwardsEduApwScrollX 22s linear infinite}
+.ap-awards.ap-awards--layout-eduhub .apw-track:hover{animation-play-state:paused}
+.ap-awards.ap-awards--layout-eduhub .apw-item{flex:0 0 auto;display:flex;align-items:center;justify-content:center;min-height:70px}
+.ap-awards.ap-awards--layout-eduhub .apw-item img{display:block;width:var(--aw-w,auto);height:auto;max-height:64px;object-fit:contain;user-select:none;-webkit-user-drag:none}
+@keyframes apAwardsEduApwScrollX{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){
+.ap-awards.ap-awards--layout-eduhub .apw-track{animation:none}
+}
+@media (min-width:1025px){
+.ap-awards.ap-awards--layout-eduhub .apw-track{animation:none;width:100%;justify-content:center;gap:48px}
+.ap-awards.ap-awards--layout-eduhub .apw-item[aria-hidden="true"]{display:none}
+}
+@media (max-width:767px){
+.ap-awards.ap-awards--layout-eduhub{padding-top:24px;padding-bottom:24px}
+}
+/* Without motion the hub marquees show the badges once, wrapped and centred. */
+@media (max-width:1024px) and (prefers-reduced-motion:reduce){
+.ap-awards.ap-awards--layout-hub .apg-aw-track{animation:none;width:100%;flex-wrap:wrap;justify-content:center;row-gap:24px}
+.ap-awards.ap-awards--layout-hub .apg-aw-track img.apg-aw-dup,.ap-awards.ap-awards--layout-hub .apg-aw-track a.apg-aw-dup{display:none}
+.ap-awards.ap-awards--layout-eduhub .apw-track{width:100%;flex-wrap:wrap;justify-content:center;gap:24px 48px}
+.ap-awards.ap-awards--layout-eduhub .apw-item[aria-hidden="true"]{display:none}
+}
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: every layout is a compact band, --ap-section-y-sm top and
+ * bottom at every width (was 40 / 36 / 24 by layout and width). */
+html body .ap-awards.ap-awards { padding-top: var(--ap-section-y-sm, 40px); padding-bottom: var(--ap-section-y-sm, 40px); }
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-awards.ap-awards.ap-awards .ap-awards__title { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+
+/* QA 2026-10-29 (Joseph, sitewide): sections without a colour gradient are pure white — the white-to-#f9fafb fades
+ * showed as a grey band against the next section. */

@@ -48,6 +48,27 @@
 			"type": "string",
 			"default": ""
 		},
+		"plain": {
+			"type": "boolean",
+			"default": false
+		},
+		"variant": {
+			"type": "string",
+			"default": "default",
+			"enum": [
+				"default",
+				"readiness",
+				"eduhub"
+			]
+		},
+		"stack": {
+			"type": "string",
+			"default": "1024",
+			"enum": [
+				"1024",
+				"900"
+			]
+		},
 		"align": {
 			"type": "string",
 			"default": "full"

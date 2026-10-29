@@ -1,0 +1,647 @@
+/*
+ * roi-hero — Figma "Pricing - New Jun 11 2026 - Opt 1", hero section
+ * (file VW6cE9oR0LeIeowjwJvEqY, node 7169:88796), restyled per QA 2026-10-29:
+ *
+ * - The page is white end to end: the hero's --ap-indigo-50 band is gone, so
+ *   the only colour on /roi-calculator/ is the calculator's splash
+ *   (pricing-calculator variant 2026).
+ * - The quote form follows the Get a Demo booking UI (demo-booking, .ap-dw-*):
+ *   the same white card (16px radius, 0 8px 24px shadow, 24px padding), white
+ *   fields with a #cfd4de edge and a floating label, the indigo-to-green
+ *   gradient button at its own width, and the optional compliance row (label +
+ *   badges) beside it, or under it on a narrow card. Copy left (516px), card
+ *   right (536px) in an 1100px row;
+ *   stacked from 900px down. No testimonial column.
+ *
+ * HubSpot draws its form straight into the page (no iframe, css: ""), so the
+ * form rules style HubSpot's own markup (.hs-form-field > label + .input >
+ * input.hs-input, .hs_submit .actions input.hs-button, .hs-error-msgs; the
+ * hs-form__* names cover HubSpot's newer renderer) and keep !important: the
+ * host theme styles bare inputs and buttons. The floating label is HubSpot's
+ * own <label for>, which behaviour.js fills from form_placeholders; it floats
+ * on focus, on a value (.has-value from the script, :placeholder-shown as the
+ * CSS fallback) and on autofill, the way .ap-dw-label does. The placeholder
+ * stays on the input but is drawn transparent: the label carries the text.
+ *
+ * Type: the site-wide hero scale (tokens.css --ap-type-*); the lede is the
+ * site's body text (18px at desktop, 16px on phones, 1.5, --ap-text-body).
+ */
+
+.ap-roi-hero {
+	width: 100%;
+	padding: 52px var(--ap-section-x, 24px) 40px;
+	background: var(--ap-white);
+	box-sizing: border-box;
+	font-family: var(--ap-font-body);
+	color: var(--ap-text-body);
+	text-align: left;
+}
+
+.ap-roi-hero,
+.ap-roi-hero * {
+	box-sizing: border-box;
+}
+
+.ap-roi-hero :where(h1, h2, p) {
+	text-wrap: wrap;
+}
+
+.ap-roi-hero .ap-roi-hero__inner {
+	width: 100%;
+	max-width: 1100px;
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: minmax(0, 516fr) minmax(0, 536fr);
+	gap: 48px;
+	align-items: start;
+}
+
+/* Figma lines the card's top up with the headline, one eyebrow (+16px) down. */
+.ap-roi-hero .ap-roi-hero__content:has(.ap-roi-hero__eyebrow) + .ap-roi-hero__card {
+	margin-top: calc(var(--ap-type-eyebrow-size) * var(--ap-type-eyebrow-line) + 16px);
+}
+
+.ap-roi-hero--copy-only .ap-roi-hero__inner {
+	grid-template-columns: minmax(0, 720px);
+}
+
+/* ---- copy ---- */
+.ap-roi-hero .ap-roi-hero__eyebrow {
+	margin: 0 0 16px;
+	padding: 0;
+	font-family: var(--ap-font-body);
+	font-size: var(--ap-type-eyebrow-size);
+	font-weight: var(--ap-type-eyebrow-weight);
+	line-height: var(--ap-type-eyebrow-line);
+	letter-spacing: var(--ap-type-eyebrow-track);
+	text-transform: uppercase;
+	color: var(--ap-brand-indigo);
+}
+
+.ap-roi-hero .ap-roi-hero__title {
+	margin: 0;
+	padding: 0;
+	font-family: var(--ap-font-body);
+	font-size: var(--ap-type-h1-size);
+	font-weight: var(--ap-type-h1-weight);
+	line-height: var(--ap-type-h1-line);
+	letter-spacing: var(--ap-type-h1-track);
+	text-transform: none;
+	color: var(--ap-text-heading);
+}
+
+/* Body text: 18px at desktop, 16px on phones (the lede token), 1.5. */
+.ap-roi-hero .ap-roi-hero__body {
+	margin: 16px 0 0;
+	font-family: var(--ap-font-body);
+	font-size: var(--ap-type-lede-size);
+	font-weight: 400;
+	line-height: 1.5;
+	color: var(--ap-text-body);
+}
+
+/* ---- form card (= .ap-dw-card) ----
+   One grid column, so the compliance row can share the button's row (below). */
+.ap-roi-hero .ap-roi-hero__card {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	align-content: start;
+	gap: 16px;
+	width: 100%;
+	padding: 24px;
+	background: var(--ap-white);
+	border-radius: var(--ap-radius-xl, 16px);
+	box-shadow: 0 8px 24px rgba(10, 10, 10, 0.08);
+	color: var(--ap-text-body-strong);
+}
+
+.ap-roi-hero .ap-roi-hero__form {
+	grid-area: 1 / 1;
+	--ap-roi-field-h: 46px;
+	--ap-roi-field-h-float: 55px;
+	--ap-roi-gap: 16px;
+	width: 100%;
+}
+
+/* Reserve the drawn form's height (two fields + button) while HubSpot loads,
+   so nothing below moves; the empty mount shows quiet placeholder bars. */
+.ap-roi-hero .ap-roi-hero__form:not(.is-ready):not(.is-failed) {
+	min-height: 172px;
+}
+
+.ap-roi-hero .ap-roi-hero__form:empty:not(.is-failed) {
+	background:
+		linear-gradient(#f3f4f7, #f3f4f7) 0 0 / 100% 46px no-repeat,
+		linear-gradient(#f3f4f7, #f3f4f7) 0 62px / 100% 46px no-repeat,
+		linear-gradient(var(--ap-indigo-100), var(--ap-indigo-100)) 0 124px / 196px 48px no-repeat;
+	border-radius: var(--ap-radius-sm, 4px);
+	animation: apRoiHeroWait 1.4s var(--ap-ease-standard) infinite alternate;
+}
+
+/* HubSpot blocked: the empty mount leaves no gap above the contact line. */
+.ap-roi-hero .ap-roi-hero__form.is-failed {
+	display: none;
+}
+
+@keyframes apRoiHeroWait {
+	from { opacity: 1; }
+	to { opacity: 0.55; }
+}
+
+.ap-roi-hero .ap-roi-hero__form form,
+.ap-roi-hero .ap-roi-hero__form .hs-form,
+.ap-roi-hero .ap-roi-hero__form .hs-form__pagination-content-container {
+	width: 100% !important;
+	max-width: 100% !important;
+	display: flex !important;
+	flex-direction: column !important;
+	gap: var(--ap-roi-gap) !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.ap-roi-hero .ap-roi-hero__form fieldset,
+.ap-roi-hero .ap-roi-hero__form .form-columns-1,
+.ap-roi-hero .ap-roi-hero__form .form-columns-2,
+.ap-roi-hero .ap-roi-hero__form .form-columns-3,
+.ap-roi-hero .ap-roi-hero__form .hs-form__row,
+.ap-roi-hero .ap-roi-hero__form .hs-form__group,
+.ap-roi-hero .ap-roi-hero__form .hs-form__field-row {
+	width: 100% !important;
+	max-width: 100% !important;
+	display: flex !important;
+	flex-direction: column !important;
+	gap: var(--ap-roi-gap) !important;
+	align-items: stretch !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 0 !important;
+}
+
+.ap-roi-hero .ap-roi-hero__form .hs-form__field-row__column,
+.ap-roi-hero .ap-roi-hero__form .hs-form__field,
+.ap-roi-hero .ap-roi-hero__form .hs-form-field,
+.ap-roi-hero .ap-roi-hero__form .input,
+.ap-roi-hero .ap-roi-hero__form .hs_submit,
+.ap-roi-hero .ap-roi-hero__form .actions,
+.ap-roi-hero .ap-roi-hero__form .hs-form__actions {
+	width: 100% !important;
+	max-width: 100% !important;
+	flex: 1 1 100% !important;
+	float: none !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+/* ---- field (= .ap-dw-field): the shell positions the floating label ---- */
+.ap-roi-hero .ap-roi-hero__form .hs-form-field,
+.ap-roi-hero .ap-roi-hero__form .hs-form__field {
+	position: relative !important;
+}
+
+/* HubSpot's description/legend slots are empty here. */
+.ap-roi-hero .ap-roi-hero__form legend.hs-field-desc,
+.ap-roi-hero .ap-roi-hero__form .hs-field-desc:empty {
+	display: none !important;
+}
+
+/* The floating label (= .ap-dw-label): HubSpot's own <label>, filled by behaviour.js. */
+.ap-roi-hero .ap-roi-hero__form .hs-form-field > label:not(.hs-error-msg),
+.ap-roi-hero .ap-roi-hero__form .hs-form__field > label:not(.hs-error-msg) {
+	position: absolute !important;
+	top: 12px !important;
+	left: 12px !important;
+	right: 12px !important;
+	z-index: 1;
+	display: block !important;
+	width: auto !important;
+	max-width: none !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	overflow: hidden;
+	font-family: var(--ap-font-body) !important;
+	font-size: 14px !important;
+	font-weight: 400 !important;
+	line-height: 1.5 !important;
+	letter-spacing: normal !important;
+	text-transform: none !important;
+	text-align: left !important;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	color: var(--ap-text-body) !important;
+	pointer-events: none;
+	transition: top var(--ap-dur-fast) var(--ap-ease-standard), font-size var(--ap-dur-fast) var(--ap-ease-standard);
+}
+
+.ap-roi-hero .ap-roi-hero__form .hs-form-required {
+	color: inherit !important;
+}
+
+/* Floated: focus, a value (script class, then the sheet's own test), autofill. */
+.ap-roi-hero .ap-roi-hero__form .hs-form-field:focus-within > label:not(.hs-error-msg),
+.ap-roi-hero .ap-roi-hero__form .hs-form-field.has-value > label:not(.hs-error-msg),
+.ap-roi-hero .ap-roi-hero__form .hs-form__field:focus-within > label:not(.hs-error-msg),
+.ap-roi-hero .ap-roi-hero__form .hs-form__field.has-value > label:not(.hs-error-msg) {
+	top: 8px !important;
+	font-size: 12px !important;
+}
+
+.ap-roi-hero .ap-roi-hero__form .hs-form-field:has(.hs-input:not(:placeholder-shown)) > label:not(.hs-error-msg),
+.ap-roi-hero .ap-roi-hero__form .hs-form__field:has(.hs-form__field__input:not(:placeholder-shown)) > label:not(.hs-error-msg) {
+	top: 8px !important;
+	font-size: 12px !important;
+}
+
+.ap-roi-hero .ap-roi-hero__form .hs-form-field:has(.hs-input:-webkit-autofill) > label:not(.hs-error-msg) {
+	top: 8px !important;
+	font-size: 12px !important;
+}
+
+.ap-roi-hero .ap-roi-hero__form .hs-form-field:has(.hs-input:autofill) > label:not(.hs-error-msg) {
+	top: 8px !important;
+	font-size: 12px !important;
+}
+
+/* ---- input (= .ap-dw-field input): white, #cfd4de edge, 46px; 55px once the label floats ---- */
+.ap-roi-hero .ap-roi-hero__form input.hs-input:not([type="hidden"]),
+.ap-roi-hero .ap-roi-hero__form select.hs-input,
+.ap-roi-hero .ap-roi-hero__form textarea.hs-input,
+.ap-roi-hero .ap-roi-hero__form input[type="email"],
+.ap-roi-hero .ap-roi-hero__form input[type="tel"],
+.ap-roi-hero .ap-roi-hero__form input[type="text"],
+.ap-roi-hero .ap-roi-hero__form input[type="number"],
+.ap-roi-hero .ap-roi-hero__form select,
+.ap-roi-hero .ap-roi-hero__form textarea,
+.ap-roi-hero .ap-roi-hero__form .hs-form__field__input {
+	display: block !important;
+	width: 100% !important;
+	max-width: 100% !important;
+	height: var(--ap-roi-field-h) !important;
+	min-height: var(--ap-roi-field-h) !important;
+	margin: 0 !important;
+	padding: 12px !important;
+	border: 1px solid #cfd4de !important;
+	border-radius: var(--ap-radius-sm, 4px) !important;
+	background: var(--ap-white) !important;
+	color: var(--ap-text-body) !important;
+	font-family: var(--ap-font-body) !important;
+	font-size: 14px !important;
+	font-weight: 400 !important;
+	line-height: 1.5 !important;
+	letter-spacing: normal !important;
+	box-shadow: none !important;
+	outline: none !important;
+	appearance: none !important;
+	-webkit-appearance: none !important;
+	transition: border-color var(--ap-dur-base) var(--ap-ease-standard) !important;
+}
+
+.ap-roi-hero .ap-roi-hero__form textarea.hs-input,
+.ap-roi-hero .ap-roi-hero__form textarea {
+	height: auto !important;
+	min-height: 96px !important;
+}
+
+.ap-roi-hero .ap-roi-hero__form .hs-form-field:focus-within .hs-input:not([type="hidden"]),
+.ap-roi-hero .ap-roi-hero__form .hs-form-field.has-value .hs-input:not([type="hidden"]),
+.ap-roi-hero .ap-roi-hero__form .hs-form-field:has(.hs-input:not(:placeholder-shown)) .hs-input:not([type="hidden"]),
+.ap-roi-hero .ap-roi-hero__form .hs-form__field:focus-within .hs-form__field__input,
+.ap-roi-hero .ap-roi-hero__form .hs-form__field.has-value .hs-form__field__input,
+.ap-roi-hero .ap-roi-hero__form .hs-form__field:has(.hs-form__field__input:not(:placeholder-shown)) .hs-form__field__input {
+	height: var(--ap-roi-field-h-float) !important;
+	min-height: var(--ap-roi-field-h-float) !important;
+	padding: 26px 12px 7px !important;
+}
+
+.ap-roi-hero .ap-roi-hero__form .hs-form-field:has(.hs-input:-webkit-autofill) .hs-input:not([type="hidden"]) {
+	height: var(--ap-roi-field-h-float) !important;
+	min-height: var(--ap-roi-field-h-float) !important;
+	padding: 26px 12px 7px !important;
+}
+
+.ap-roi-hero .ap-roi-hero__form .hs-form-field:has(.hs-input:autofill) .hs-input:not([type="hidden"]) {
+	height: var(--ap-roi-field-h-float) !important;
+	min-height: var(--ap-roi-field-h-float) !important;
+	padding: 26px 12px 7px !important;
+}
+
+/* The label carries the text; the placeholder only tells the sheet an empty field from a filled one. */
+.ap-roi-hero .ap-roi-hero__form input::placeholder,
+.ap-roi-hero .ap-roi-hero__form textarea::placeholder {
+	color: transparent !important;
+	opacity: 0 !important;
+}
+
+/* (0,7,0): outranks the field rule above, which is (0,4,1) and !important too. */
+.ap-roi-hero.ap-roi-hero .ap-roi-hero__form :is(input, select, textarea, .hs-form__field__input):not([type="hidden"]):not([type="submit"]):focus {
+	border-color: var(--ap-brand-green) !important;
+	background: var(--ap-white) !important;
+	box-shadow: none !important;
+}
+
+.ap-roi-hero .ap-roi-hero__form .hs-input.invalid.error,
+.ap-roi-hero .ap-roi-hero__form .hs-input.error {
+	border-color: #c0262d !important;
+}
+
+/* ---- button (= .ap-dw--v1 .ap-dw-btn): its own width, left, indigo-to-green ---- */
+.ap-roi-hero .ap-roi-hero__form input[type="submit"],
+.ap-roi-hero .ap-roi-hero__form button[type="submit"],
+.ap-roi-hero .ap-roi-hero__form .hs-button,
+.ap-roi-hero .ap-roi-hero__form .hs-form__actions__submit {
+	display: inline-block !important;
+	width: auto !important;
+	max-width: 100% !important;
+	height: auto !important;
+	min-height: 48px !important;
+	margin: 0 !important;
+	padding: 0 16px !important;
+	border: 1px solid var(--ap-brand-indigo) !important;
+	border-radius: var(--ap-radius-sm, 4px) !important;
+	background: linear-gradient(60.14deg, var(--ap-brand-indigo) 0%, var(--ap-brand-green) 70.44%) !important;
+	color: var(--ap-white) !important;
+	font-family: var(--ap-font-body) !important;
+	font-size: 16px !important;
+	font-weight: 700 !important;
+	line-height: 1.2 !important;
+	letter-spacing: normal !important;
+	text-align: center !important;
+	text-transform: none !important;
+	text-shadow: none !important;
+	box-shadow: none !important;
+	cursor: pointer !important;
+	appearance: none !important;
+	-webkit-appearance: none !important;
+	transition: border-color var(--ap-dur-base) var(--ap-ease-standard), color var(--ap-dur-base) var(--ap-ease-standard), opacity var(--ap-dur-base) var(--ap-ease-standard) !important;
+}
+
+.ap-roi-hero .ap-roi-hero__form input[type="submit"]:hover,
+.ap-roi-hero .ap-roi-hero__form button[type="submit"]:hover,
+.ap-roi-hero .ap-roi-hero__form .hs-button:hover,
+.ap-roi-hero .ap-roi-hero__form .hs-form__actions__submit:hover {
+	background: linear-gradient(60.14deg, #4237c9 0%, #00957f 70.44%) !important;
+}
+
+.ap-roi-hero .ap-roi-hero__form input[type="submit"]:focus-visible,
+.ap-roi-hero .ap-roi-hero__form button[type="submit"]:focus-visible,
+.ap-roi-hero .ap-roi-hero__form .hs-button:focus-visible,
+.ap-roi-hero .ap-roi-hero__form .hs-form__actions__submit:focus-visible {
+	outline: 2px solid var(--ap-brand-indigo) !important;
+	outline-offset: 2px !important;
+}
+
+.ap-roi-hero .ap-roi-hero__form input[type="submit"]:disabled,
+.ap-roi-hero .ap-roi-hero__form button[type="submit"]:disabled,
+.ap-roi-hero .ap-roi-hero__form .hs-button:disabled {
+	border-color: rgba(80, 68, 225, 0.4) !important;
+	background: linear-gradient(54.49deg, rgba(80, 68, 225, 0.4) 0%, rgba(0, 169, 145, 0.4) 70.44%) !important;
+	cursor: progress !important;
+}
+
+/* ---- messages (= .ap-dw-err) ---- */
+.ap-roi-hero .ap-roi-hero__form .hs-error-msgs,
+.ap-roi-hero .ap-roi-hero__form .hs-form__field__messages,
+.ap-roi-hero .ap-roi-hero__form .hs-form__messages {
+	position: static !important;
+	display: block !important;
+	width: 100% !important;
+	margin: 6px 0 0 !important;
+	padding: 0 !important;
+	list-style: none !important;
+}
+
+.ap-roi-hero .ap-roi-hero__form .hs-error-msg,
+.ap-roi-hero .ap-roi-hero__form .hs-error-msgs label,
+.ap-roi-hero .ap-roi-hero__form .hs-form__field__error-message,
+.ap-roi-hero .ap-roi-hero__form .hs_error_rollup label {
+	position: static !important;
+	display: block !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	color: #c0262d !important;
+	font-family: var(--ap-font-body) !important;
+	font-size: 13px !important;
+	font-weight: 400 !important;
+	line-height: 1.4 !important;
+	text-align: left !important;
+}
+
+.ap-roi-hero .ap-roi-hero__form .legal-consent-container,
+.ap-roi-hero .ap-roi-hero__form .hs-richtext {
+	font-family: var(--ap-font-body) !important;
+	font-size: 12px !important;
+	line-height: 1.5 !important;
+	color: var(--ap-text-body) !important;
+}
+
+.ap-roi-hero .ap-roi-hero__form .submitted-message {
+	margin: 0 !important;
+	font-family: var(--ap-font-body) !important;
+	font-weight: 700 !important;
+	font-size: 16px !important;
+	line-height: 1.5 !important;
+	color: var(--ap-text-body-strong) !important;
+}
+
+/* Fields and rows the script holds back (enrichment, tracking-only rows). */
+.ap-roi-hero .ap-roi-hero__hidden {
+	display: none !important;
+	height: 0 !important;
+	min-height: 0 !important;
+	max-height: 0 !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	overflow: hidden !important;
+	visibility: hidden !important;
+	opacity: 0 !important;
+}
+
+/* ---- compliance row (= .ap-dw-trust): under the button by default ---- */
+.ap-roi-hero .ap-roi-hero__trust {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 4px;
+}
+
+.ap-roi-hero .ap-roi-hero__trust-label {
+	margin: 0;
+	font-family: var(--ap-font-body);
+	font-size: 12px;
+	font-weight: 400;
+	line-height: 1.5;
+	color: var(--ap-text-body-strong);
+}
+
+.ap-roi-hero .ap-roi-hero__trust-logos {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 16px 24px;
+}
+
+.ap-roi-hero .ap-roi-hero__trust-logos img {
+	display: block;
+	width: auto;
+	max-width: none;
+}
+
+/* Beside the button (= .ap-dw-cta) on a card with room for both. render.php
+   adds --cta only for a compact row and passes its width and height; the row
+   shares the form's grid cell, bottom right, centred on the 48px button, and
+   the button keeps clear of it. As in .ap-dw-cta, the field above clears the
+   taller row by the form's 16px gap: the submit row drops by half the
+   difference (and the loading reserve grows with it). The row goes back under
+   the button on narrow cards, when HubSpot fails or shows its thank-you
+   text, and in browsers without container queries or :has(). */
+.ap-roi-hero .ap-roi-hero__card--cta {
+	container: ap-roi-card / inline-size;
+}
+
+@container ap-roi-card (min-width: 420px) {
+	.ap-roi-hero .ap-roi-hero__form:not(.is-failed):not(:has(.submitted-message)) + .ap-roi-hero__trust {
+		grid-area: 1 / 1;
+		align-self: end;
+		justify-self: end;
+		translate: 0 calc(50% - 24px);
+		pointer-events: none;
+	}
+
+	.ap-roi-hero.ap-roi-hero .ap-roi-hero__form :is(input[type="submit"], button[type="submit"], .hs-button, .hs-form__actions__submit) {
+		max-width: calc(100% - var(--ap-roi-trust-w, 200px) - 32px) !important;
+		white-space: normal !important;
+	}
+
+	.ap-roi-hero.ap-roi-hero .ap-roi-hero__form :is(.hs_submit, .hs-form__actions) {
+		margin-top: max(0px, (var(--ap-roi-trust-h, 48px) - 48px) / 2) !important;
+	}
+
+	.ap-roi-hero .ap-roi-hero__form:not(.is-ready):not(.is-failed) {
+		min-height: calc(172px + max(0px, (var(--ap-roi-trust-h, 48px) - 48px) / 2));
+	}
+}
+
+/* ---- fallback when HubSpot cannot load ---- */
+.ap-roi-hero .ap-roi-hero__fallback {
+	margin: 0;
+	font-family: var(--ap-font-body);
+	font-size: 14px;
+	line-height: 1.5;
+	color: var(--ap-text-body);
+}
+
+.ap-roi-hero .ap-roi-hero__fallback[hidden] {
+	display: none;
+}
+
+.ap-roi-hero .ap-roi-hero__fallback a {
+	white-space: nowrap;
+	font-weight: 700;
+	color: var(--ap-brand-indigo);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.ap-roi-hero .ap-roi-hero__fallback a:focus-visible {
+	outline: 2px solid var(--ap-brand-indigo);
+	outline-offset: 2px;
+}
+
+html.ap-intl .ap-roi-hero .ap-roi-hero__fallback-phone {
+	display: none;
+}
+
+/* ---- load entrance (above the fold: the hero animates itself, motion.js does not) ---- */
+@keyframes apRoiHeroUp {
+	from { opacity: 0; translate: 0 16px; }
+	to { opacity: 1; translate: 0 0; }
+}
+
+/* The headline is the likely LCP element: it starts visible enough to count. */
+@keyframes apRoiHeroUpLcp {
+	from { opacity: 0.4; translate: 0 16px; }
+	to { opacity: 1; translate: 0 0; }
+}
+
+.ap-roi-hero .ap-roi-hero__eyebrow { animation: apRoiHeroUp var(--ap-dur-slow) var(--ap-ease-out) 0s backwards; }
+.ap-roi-hero .ap-roi-hero__title { animation: apRoiHeroUpLcp var(--ap-dur-slow) var(--ap-ease-out) 0.06s backwards; }
+/* The lede is the page's Largest Contentful Paint: it enters from 40% like the title (never from 0), so its first paint counts. */
+.ap-roi-hero .ap-roi-hero__body { animation: apRoiHeroUpLcp var(--ap-dur-slow) var(--ap-ease-out) 0.12s backwards; }
+.ap-roi-hero .ap-roi-hero__card { animation: apRoiHeroUp var(--ap-dur-slow) var(--ap-ease-out) 0.18s backwards; }
+
+/* ---- responsive ---- */
+@media (max-width: 1100px) {
+	.ap-roi-hero .ap-roi-hero__inner {
+		gap: 40px;
+	}
+}
+
+@media (max-width: 900px) {
+	.ap-roi-hero {
+		padding-top: 40px;
+		padding-bottom: 32px;
+	}
+
+	.ap-roi-hero .ap-roi-hero__inner {
+		max-width: 720px;
+		grid-template-columns: minmax(0, 1fr);
+		gap: 28px;
+		align-items: start;
+	}
+
+	.ap-roi-hero .ap-roi-hero__content {
+		max-width: 600px;
+	}
+
+	.ap-roi-hero .ap-roi-hero__content:has(.ap-roi-hero__eyebrow) + .ap-roi-hero__card {
+		margin-top: 0;
+	}
+}
+
+@media (max-width: 767px) {
+	.ap-roi-hero {
+		padding-top: 32px;
+		padding-bottom: 24px;
+	}
+
+	.ap-roi-hero .ap-roi-hero__eyebrow {
+		margin-bottom: 12px;
+	}
+
+	.ap-roi-hero .ap-roi-hero__body {
+		margin-top: 12px;
+	}
+}
+
+/* Phones: the card's 16px inset (= .ap-dw-card at 600px). */
+@media (max-width: 600px) {
+	.ap-roi-hero .ap-roi-hero__card {
+		padding: 16px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-roi-hero .ap-roi-hero__eyebrow,
+	.ap-roi-hero .ap-roi-hero__title,
+	.ap-roi-hero .ap-roi-hero__body,
+	.ap-roi-hero .ap-roi-hero__card,
+	.ap-roi-hero .ap-roi-hero__form:empty {
+		animation: none;
+	}
+
+	html body .ap-roi-hero .ap-roi-hero__form input.hs-input:not([type="hidden"]),
+	html body .ap-roi-hero .ap-roi-hero__form input[type="submit"],
+	html body .ap-roi-hero .ap-roi-hero__form .hs-button,
+	html body .ap-roi-hero .ap-roi-hero__form .hs-form-field > label,
+	html body .ap-roi-hero .ap-roi-hero__form .hs-form__field > label {
+		transition: none !important;
+	}
+}
+
+/* QA 2026-10-29 (Joseph, sitewide): on phones the hero's eyebrow sits 16px under the header, as on the K-12 page
+ * (his reference for the spacing). */
+@media (max-width: 767px) {
+	html body .ap-roi-hero {
+		padding-top: 16px !important;
+	}
+}

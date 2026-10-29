@@ -1,0 +1,115 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/form-hero",
+	"title": "AP Form Hero",
+	"category": "design",
+	"icon": "feedback",
+	"description": "Form page hero: eyebrow, heading, copy, a check list and badges beside a white card holding a HubSpot form (classic v2 embed or the new-editor developer embed), with live's 'Form not loading?' fallback. light: a page hero on the colour wash (/get-a-quote-pro/). dark: white copy on a backdrop picture (/start-a-free-trial-email-only/). section: an in-page band with an h2 (the /barcode-labels/ order form). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"variant": {
+			"type": "string",
+			"default": "light",
+			"enum": [
+				"light",
+				"dark",
+				"section",
+				"banner"
+			]
+		},
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"title_tag": {
+			"type": "string",
+			"default": "h1",
+			"enum": [
+				"h1",
+				"h2"
+			]
+		},
+		"body": {
+			"type": "string",
+			"default": ""
+		},
+		"bullets": {
+			"type": "array",
+			"default": []
+		},
+		"badges": {
+			"type": "array",
+			"default": []
+		},
+		"background": {
+			"type": "string",
+			"default": ""
+		},
+		"form_title": {
+			"type": "string",
+			"default": ""
+		},
+		"form_intro": {
+			"type": "string",
+			"default": ""
+		},
+		"form_note": {
+			"type": "string",
+			"default": ""
+		},
+		"hubspot_portal": {
+			"type": "string",
+			"default": ""
+		},
+		"hubspot_form": {
+			"type": "string",
+			"default": ""
+		},
+		"hubspot_region": {
+			"type": "string",
+			"default": "na1"
+		},
+		"form_embed": {
+			"type": "string",
+			"default": "v2",
+			"enum": [
+				"v2",
+				"developer"
+			]
+		},
+		"form_submit": {
+			"type": "string",
+			"default": ""
+		},
+		"fallback_email": {
+			"type": "string",
+			"default": ""
+		},
+		"fallback_phone": {
+			"type": "string",
+			"default": ""
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

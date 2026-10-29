@@ -1,0 +1,152 @@
+/*
+ * ursa-band — Ursa AI frame 7261:114286 ("Your data. Your operational context. Your control.").
+ * Card: 1120px, radius 16, padding 8/40/8/16, gap 24, gradient 34deg indigo 600 to indigo 950,
+ * 0 0 40px indigo glow; orb 163x160 (its art bleeds past that box); heading 24/1.3/800 white;
+ * paragraph 18/1.5 indigo 100; gradient button bottom-right. The section continues the stats
+ * row's white-to-slate-50 fade.
+ */
+.ap-ursa-band,
+.ap-ursa-band * { box-sizing: border-box; }
+
+.ap-ursa-band {
+	width: 100%;
+	padding: var(--ap-section-y, 64px) 24px;
+	background: #fff;
+	font-family: var(--ap-font-body, 'Manrope'), Arial, sans-serif;
+}
+.ap-ursa-band--joined { padding-top: 0; }
+.ap-ursa-band :where(h2, p) { text-wrap: wrap; }
+
+.ap-ursa-band__wrap {
+	width: 100%;
+	max-width: var(--ap-host-container, 1120px);
+	margin: 0 auto;
+}
+
+.ap-ursa-band__card {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	gap: 24px;
+	padding: 8px 40px 8px 16px;
+	border-radius: 16px;
+	background: linear-gradient(34.18deg, var(--ap-brand-indigo, #5044e1) 0%, #201c4a 102.19%);
+	box-shadow: 0 0 40px rgba(131, 140, 246, .4);
+}
+
+/* Teal glow behind the orb (frame "Green", 353x263 blurred, top-left). */
+.ap-ursa-band__glow {
+	position: absolute;
+	z-index: -1;
+	left: -294px;
+	top: -312px;
+	width: 729px;
+	height: 639px;
+	max-width: none;
+	pointer-events: none;
+}
+
+.ap-ursa-band__orb {
+	position: relative;
+	flex: none;
+	width: 163px;
+	height: 160px;
+}
+.ap-ursa-band__orb img {
+	position: absolute;
+	left: -14.12px;
+	top: -20.37px;
+	width: 191.32px;
+	height: 199.08px;
+	max-width: none;
+	display: block;
+}
+
+.ap-ursa-band__content {
+	flex: 1 1 0;
+	min-width: 0;
+	display: flex;
+	align-items: flex-end;
+	justify-content: flex-end;
+	gap: 24px;
+}
+.ap-ursa-band__copy {
+	flex: 1 1 0;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+.ap-ursa-band .ap-ursa-band__title {
+	margin: 0;
+	color: var(--ap-white, #fff);
+	font-family: inherit;
+	font-size: 24px;
+	font-weight: 800;
+	line-height: 1.3;
+	letter-spacing: 0;
+	text-transform: none;
+}
+.ap-ursa-band .ap-ursa-band__body {
+	margin: 0;
+	color: #e1e6fe;
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 1.5;
+}
+.ap-ursa-band .ap-ursa-band__body .ap-ursa { font-weight: inherit; }
+
+.ap-ursa-band__btn,
+.ap-ursa-band__btn:visited {
+	flex: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 48px;
+	padding: 0 16px;
+	border: 1px solid var(--ap-brand-indigo, #5044e1);
+	border-radius: 4px;
+	background: linear-gradient(55.1deg, var(--ap-brand-indigo, #5044e1) 0%, var(--ap-brand-green, #00a991) 70.44%);
+	color: var(--ap-white, #fff);
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 1.2;
+	text-decoration: none;
+	white-space: nowrap;
+	transition: translate var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), box-shadow var(--ap-dur-base, .3s) var(--ap-ease-standard, ease);
+}
+.ap-ursa-band__btn:hover {
+	color: var(--ap-white, #fff);
+	translate: 0 -2px;
+	box-shadow: 0 10px 24px rgba(0, 0, 0, .28);
+}
+.ap-ursa-band__btn:focus-visible {
+	outline: 2px solid var(--ap-white, #fff);
+	outline-offset: 3px;
+}
+
+@media (max-width: 991px) {
+	.ap-ursa-band__card { padding: 16px 32px 16px 16px; }
+	.ap-ursa-band__content { flex-direction: column; align-items: flex-start; gap: 20px; }
+}
+
+@media (max-width: 767px) {
+	.ap-ursa-band { padding-left: 16px; padding-right: 16px; }
+	.ap-ursa-band--joined { padding-top: 0; }
+	.ap-ursa-band__card { flex-direction: column; text-align: center; gap: 4px; padding: 16px 20px 28px; }
+	.ap-ursa-band__orb { width: 120px; height: 118px; }
+	.ap-ursa-band__orb img { left: -10.4px; top: -15px; width: 140.8px; height: 146.5px; }
+	.ap-ursa-band__content { align-items: center; }
+	.ap-ursa-band .ap-ursa-band__title { font-size: 20px; }
+	.ap-ursa-band .ap-ursa-band__body { font-size: 16px; }
+	.ap-ursa-band__glow { left: 50%; translate: -50% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-ursa-band__btn { transition: none; }
+}
+
+/* QA 2026-10-29 (Joseph, sitewide): sections without a colour gradient are pure white — the white-to-#f9fafb fades
+ * showed as a grey band against the next section. */

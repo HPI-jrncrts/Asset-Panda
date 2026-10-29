@@ -40,6 +40,46 @@
 			"type": "array",
 			"default": []
 		},
+		"sub_title": {
+			"type": "string",
+			"default": ""
+		},
+		"bullets": {
+			"type": "array",
+			"default": []
+		},
+		"chips": {
+			"type": "array",
+			"default": []
+		},
+		"scene_width": {
+			"type": "number",
+			"default": 0
+		},
+		"scene_height": {
+			"type": "number",
+			"default": 0
+		},
+		"pad_top": {
+			"type": "number",
+			"default": 0
+		},
+		"pad_bottom": {
+			"type": "number",
+			"default": 0
+		},
+		"heading_above": {
+			"type": "boolean",
+			"default": false
+		},
+		"stack": {
+			"type": "string",
+			"default": "1024",
+			"enum": [
+				"1024",
+				"900"
+			]
+		},
 		"align": {
 			"type": "string",
 			"default": "full"

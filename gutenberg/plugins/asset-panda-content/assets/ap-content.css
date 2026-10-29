@@ -1,0 +1,937 @@
+/*
+ * Asset Panda Content — additions to the 2026 blog design ("AP Blog 2026 Templates",
+ * whose stylesheet ap26-blog-inline-css this plugin also loads on resource views).
+ */
+
+/*
+ * Form panel (white papers, pages): the mini CTA box (.ap26-cta-mini), stacked, holding the
+ * HubSpot form. The box is restated here so it also looks right on pages that do not load the
+ * blog stylesheet (kit pages).
+ */
+.ap26-cta-mini.ap-content-gate,
+.ap-content-gate {
+	display: block;
+	box-sizing: border-box;
+	max-width: 800px;
+	margin: 32px auto;
+	padding: 28px 32px;
+	background: #edecfb;
+	border: 1px solid #d8dbdf;
+	border-radius: 8px;
+	font-family: Manrope, sans-serif;
+	scroll-margin-top: 96px;
+}
+.ap-content-gate .ap26-cta-mini__text {
+	margin: 0 0 8px;
+	font-size: 16px;
+	line-height: 1.5;
+	color: #4a4e5a;
+}
+.ap-content-gate-jump-row {
+	margin-bottom: 24px;
+}
+.ap-content-gate .ap-content-gate__heading,
+.ap26-article .ap-content-gate .ap-content-gate__heading {
+	margin: 0 0 8px;
+	font-family: Manrope, sans-serif;
+	font-size: 24px;
+	font-weight: 800;
+	line-height: 1.3;
+	color: #25272c;
+}
+.ap-content-gate__form {
+	margin-top: 16px;
+	min-height: 208px;
+}
+.ap-content-gate__form:has(form, iframe) {
+	min-height: 0;
+}
+
+/*
+ * 1.1.2 — Buttons. Core buttons in the article body of resources, press releases and legacy
+ * pages, and the submit button of raw HubSpot forms in the form panel, use the blog's own button:
+ * the mini CTA's (.ap26-cta-mini__btn: indigo-to-teal fill, white 16/600 text, 6px radius,
+ * 12px 20px). Scoped to body.ap-content (this plugin's views) + .ap26-article (the article
+ * column), so kit pages, the header and the footer are untouched. To use live's flat teal
+ * instead, set --ap-content-btn-bg: #00a991 on body.ap-content.
+ */
+.ap-content .ap26-article .wp-block-button__link,
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .hs-button {
+	--ap-content-btn-bg-default: linear-gradient(90deg, #5044e1 0%, #00a991 100%);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 12px 20px;
+	border: 0;
+	border-radius: 6px;
+	background: var(--ap-content-btn-bg, var(--ap-content-btn-bg-default));
+	color: #fff;
+	font-family: Manrope, sans-serif;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 1.2;
+	letter-spacing: normal;
+	text-align: center;
+	text-decoration: none;
+	text-transform: none;
+	white-space: normal;
+	cursor: pointer;
+	box-shadow: none;
+	-webkit-appearance: none;
+	appearance: none;
+	transition: opacity .3s cubic-bezier(.25, .45, .45, .95), background-color .3s cubic-bezier(.25, .45, .45, .95);
+}
+.ap-content .ap26-article .wp-block-button__link:hover,
+.ap-content .ap26-article .wp-block-button__link:focus,
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .hs-button:hover,
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .hs-button:focus {
+	color: #fff;
+	text-decoration: none;
+	opacity: .9;
+}
+.ap-content .ap26-article .wp-block-button__link:focus-visible,
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .hs-button:focus-visible {
+	outline: 2px solid #5044e1;
+	outline-offset: 2px;
+	opacity: 1;
+}
+/* Outline variant: the blog's outline button (.ap26-jump: teal 1px rule, teal text, mint hover). */
+.ap-content .ap26-article .wp-block-button.is-style-outline > .wp-block-button__link,
+.ap-content .ap26-article .wp-block-button__link.is-style-outline {
+	padding: 11px 19px;
+	border: 1px solid #00a991;
+	background: transparent;
+	color: #00a991;
+}
+.ap-content .ap26-article .wp-block-button.is-style-outline > .wp-block-button__link:hover,
+.ap-content .ap26-article .wp-block-button.is-style-outline > .wp-block-button__link:focus,
+.ap-content .ap26-article .wp-block-button__link.is-style-outline:hover {
+	background: #eaf7f4;
+	color: #00a991;
+	opacity: 1;
+}
+.ap-content .ap26-article .wp-block-button.is-style-outline > .wp-block-button__link:focus-visible,
+.ap-content .ap26-article .wp-block-button__link.is-style-outline:focus-visible {
+	outline: 2px solid #00a991;
+	outline-offset: 2px;
+}
+
+/*
+ * 1.1.2 — Raw HubSpot forms in the form panel (forms set to "raw HTML", e.g. partner
+ * registration). They render straight into the page with no styles. Themed forms (the white
+ * papers) render inside HubSpot's own iframe, which page CSS cannot reach, so they are unchanged.
+ * Fields take the look of the themed white-paper field (40px, #f5f8fa fill, #cbd6e2 rule, 3px
+ * radius, 15px side padding); fieldsets become grids (form-columns-2/3 collapse under 600px).
+ * The doubled .ap-content-gate class outranks the per-form sheet HubSpot injects
+ * (fieldset max-width 500px, 50% floats, 95% inputs on phones).
+ */
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form {
+	width: 100%;
+	max-width: none;
+	margin: 0;
+	color: #33475b;
+	font-family: Manrope, sans-serif;
+	font-size: 16px;
+	line-height: 1.5;
+}
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form fieldset {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 16px;
+	min-width: 0;
+	max-width: none;
+	margin: 0 0 16px;
+	padding: 0;
+	border: 0;
+}
+/* A fieldset whose fields are all hidden (UTM fields) takes no room. */
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form fieldset:not(:has(> :not([style*="display: none"]):not([style*="display:none"]))) {
+	display: none;
+}
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form fieldset.form-columns-2 {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form fieldset.form-columns-3 {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form fieldset .hs-form-field,
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .hs-form-field {
+	float: none;
+	width: auto;
+	min-width: 0;
+	margin: 0;
+	padding: 0;
+}
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .hs-form-field > label {
+	display: block;
+	margin: 0 0 6px;
+	padding: 0;
+	color: #25272c;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.4;
+}
+/* Placeholder-only fields carry an empty <label><span></span></label>. */
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .hs-form-field > label:has(> span:only-child:empty),
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .hs-form-field > label:empty {
+	display: none;
+}
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .hs-form-required {
+	margin-left: 2px;
+	color: #e61c55;
+}
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .hs-form-field .input {
+	margin: 0;
+}
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .hs-form-field .hs-input:where(:not([type="checkbox"], [type="radio"], [type="file"], [type="submit"])) {
+	display: block;
+	box-sizing: border-box;
+	width: 100%;
+	max-width: none;
+	height: 40px;
+	margin: 0;
+	padding: 0 15px;
+	border: 1px solid #cbd6e2;
+	border-radius: 3px;
+	background: #f5f8fa;
+	box-shadow: none;
+	color: #33475b;
+	font-family: Manrope, sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 22px;
+	outline: 0;
+	transition: border-color .3s cubic-bezier(.25, .45, .45, .95);
+}
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .hs-form-field textarea.hs-input {
+	height: auto;
+	min-height: 96px;
+	padding: 10px 15px;
+	resize: vertical;
+}
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .hs-form-field .hs-input::placeholder {
+	color: #8a94a6;
+	opacity: 1;
+}
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .hs-form-field .hs-input:focus {
+	border-color: #5044e1;
+	box-shadow: 0 0 0 1px #5044e1;
+}
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .hs-form-field .hs-input.invalid,
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .hs-form-field .hs-input.error {
+	border-color: #e61c55;
+}
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .inputs-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .inputs-list li {
+	margin: 0 0 6px;
+	font-size: 15px;
+}
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .inputs-list input[type="checkbox"],
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .inputs-list input[type="radio"] {
+	width: auto;
+	margin: 0 8px 0 0;
+}
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .hs-error-msgs {
+	margin: 6px 0 0;
+	padding: 0;
+	list-style: none;
+}
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .hs-error-msgs li {
+	margin: 0;
+}
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .hs-error-msgs label,
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .hs-error-msg {
+	display: block;
+	margin: 0;
+	color: #e61c55;
+	font-size: 13px;
+	font-weight: 500;
+	line-height: 1.4;
+}
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .hs_error_rollup {
+	margin: 0 0 12px;
+}
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .hs-richtext,
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .legal-consent-container {
+	color: #4a4e5a;
+	font-size: 13px;
+	line-height: 1.5;
+}
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .hs-richtext p,
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .legal-consent-container p {
+	margin: 0 0 8px;
+	color: inherit;
+	font-size: inherit;
+	line-height: inherit;
+}
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .hs_submit,
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .actions {
+	margin: 0;
+	padding: 0;
+}
+.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form .hs_submit {
+	margin-top: 8px;
+}
+.ap-content-gate.ap-content-gate .ap-content-gate__form .submitted-message {
+	color: #25272c;
+	font-size: 16px;
+	line-height: 1.5;
+}
+@media (max-width: 600px) {
+	.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form fieldset.form-columns-2,
+	.ap-content-gate.ap-content-gate .ap-content-gate__form form.hs-form fieldset.form-columns-3 {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+/* Legacy article pages (template page-article). */
+.ap-content-page-hero .ap26-cat-hero__head {
+	padding-bottom: 8px;
+}
+.ap-content-article {
+	padding-top: 40px;
+}
+
+@media (max-width: 767px) {
+	.ap26-cta-mini.ap-content-gate,
+	.ap-content-gate {
+		padding: 20px;
+	}
+	.ap-content-gate .ap-content-gate__heading,
+	.ap26-article .ap-content-gate .ap-content-gate__heading {
+		font-size: 20px;
+	}
+}
+
+/*
+ * Listicles (the Blog Detail design, Figma 5434:79954; drawn by snippet 8's design pass).
+ * "Jump to the comparison table" is the design's outlined teal button.
+ */
+.ap26-article .entry-content p.ap-jump {
+	margin: 24px auto 8px;
+}
+/* 1.3.9: the design's Secondary CTA — 48px tall, 16px padding, 16/600 label, 16px arrow (was 14px, 8px 14px). */
+.ap26-article .entry-content p.ap-jump a {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	box-sizing: border-box;
+	min-height: 48px;
+	padding: 0 16px;
+	border: 1px solid #00a991;
+	border-radius: 4px;
+	color: #00a991;
+	font: 600 16px/1.2 Manrope, sans-serif;
+	text-decoration: none;
+	transition: background-color 0.3s cubic-bezier(0.25, 0.45, 0.45, 0.95);
+}
+.ap26-article .entry-content p.ap-jump a::after {
+	content: "\2193";
+	display: inline-block;
+	width: 16px;
+	font-size: 16px;
+	line-height: 1;
+	text-align: center;
+}
+.ap26-article .entry-content p.ap-jump a:hover {
+	background-color: #e6f6f4;
+}
+
+/* The comparison tables run wider than the 800px text column (1120px in the design). */
+.single-resource .ap26-article .entry-content figure.ap-wide-table.ap26x-table {
+	--ap-wide: min(1120px, calc(100vw - 32px));
+	width: var(--ap-wide);
+	max-width: none;
+	margin-left: calc(50% - var(--ap-wide) / 2);
+	margin-right: calc(50% - var(--ap-wide) / 2);
+}
+
+/* App Store / Google Play badges side by side. */
+.ap26-article .entry-content .ap-store-badges {
+	gap: 12px;
+	margin: 16px 0 24px;
+}
+.ap26-article .entry-content .ap-store-badges figure {
+	margin: 0;
+}
+.ap26-article .entry-content .ap-store-badges img {
+	display: block;
+	width: auto;
+	height: 48px;
+}
+
+/*
+ * 1.3.0 — live's article band. The kit's resource-header renders inside a .ap26-post-header
+ * wrapper only so the ap26 sticky title bar (which watches that class) still knows when the
+ * header has scrolled away; the wrapper itself takes no room.
+ */
+.ap26-post-header.ap-content-header {
+	display: block;
+	max-width: none;
+	margin: 0;
+	padding: 0;
+	gap: 0;
+}
+.ap-content-header ~ .ap26-article {
+	padding-top: 48px;
+}
+@media (max-width: 767px) {
+	.ap-content-header ~ .ap26-article {
+		padding-top: 32px;
+	}
+}
+
+/*
+ * 1.3.1 — Articles that carry the floating "On this page" pill (kit page-toc, e.g. the compare
+ * guides) keep the band to the 928px width of their wide elements (compare table, article CTAs),
+ * so the pill — which sits in the left margin from 1200px up — never lies over the band.
+ */
+body:has(.ap-page-toc) .ap-content-header .ap-resource-header:not(.ap-resource-header--article) {
+	max-width: 976px;
+}
+
+/*
+ * 1.3.3 — the design pass's article-header glow (.ap26-post-header::before, from snippet 8) is 100vw wide, which
+ * includes the scrollbar, so with a visible scrollbar (Windows) every resource single scrolled sideways by ~8px.
+ * The header wrapper is already the full page width, so the glow simply fills it.
+ */
+body:is(.single-resource, .single-newsroom) .ap26-post-header.ap26-post-header::before {
+	left: 0;
+	width: 100%;
+	margin-left: 0;
+}
+
+/*
+ * 1.3.4 — Blog and compare posts follow the Figma post designs (Blog Detail 5434:79954, compare 7219:87997)
+ * instead of live's band: the body starts 28px under the featured image, as in the design (the band keeps
+ * its 48px).
+ */
+.ap-content-header--article ~ .ap26-article,
+.ap-content-header--ap26 ~ .ap26-article {
+	padding-top: 28px;
+}
+@media (max-width: 767px) {
+	.ap-content-header--article ~ .ap26-article,
+	.ap-content-header--ap26 ~ .ap26-article {
+		padding-top: 20px;
+	}
+}
+
+/*
+ * With a kit whose resource-header has the "article" variant (.ap-content-header--article), the variant draws
+ * its own wash, so the design pass's glow on the wrapper is dropped (one class more than the 1.3.3 rule, which
+ * the snippet's inline sheet follows in the cascade).
+ */
+body:is(.single-resource, .single-newsroom) .ap26-post-header.ap26-post-header.ap-content-header--article::before {
+	content: none;
+}
+
+/*
+ * Otherwise (.ap-content-header--ap26) the header is the 2026 templates' own ap26-post-header inside the
+ * full-width wrapper: the wrapper keeps the design pass's glow (as on the band), the inner header's copy of it
+ * is switched off, and the template's spacing (96px above the crumbs, made for the old theme's overlaid menu)
+ * becomes the design's (Figma 5476:17675): 44px under the site header, 68px from the crumbs to the eyebrow,
+ * 32px from the H1 to the "Share on:" row, a 928px column (the template's 976px max-width is content-box here)
+ * and the featured image at the design's 16:10 — the same geometry as the kit's article variant.
+ */
+body:is(.single-resource, .single-newsroom) .ap-content-header--ap26.ap-content-header--ap26 > .ap26-post-header::before {
+	content: none;
+}
+.ap-content-header--ap26 > .ap26-post-header {
+	box-sizing: border-box;
+	padding-top: 44px;
+}
+.ap-content-header--ap26 > .ap26-post-header > .ap26-post-header__head {
+	padding-top: 40px;
+}
+.ap-content-header--ap26 .ap26-post-header__head > .ap26-share {
+	margin-top: 16px;
+}
+.ap-content-header--ap26 .ap26-post-header__img {
+	height: auto;
+	aspect-ratio: 16 / 10;
+}
+@media (max-width: 1023px) {
+	.ap-content-header--ap26 > .ap26-post-header {
+		padding-top: 40px;
+	}
+}
+@media (max-width: 767px) {
+	.ap-content-header--ap26 > .ap26-post-header {
+		padding-top: 24px;
+	}
+	.ap-content-header--ap26 > .ap26-post-header > .ap26-post-header__head {
+		gap: 12px;
+		padding: 20px 0 24px;
+	}
+	.ap-content-header--ap26 .ap26-post-header__head > .ap26-share {
+		margin-top: 8px;
+	}
+}
+
+/*
+ * Body copy weight (QA 2026-10-29, Joseph: "some normal text is thicker, some thinner"). The theme's global body
+ * style is Manrope 300; the Figma post designs and every kit section use 400. Article paragraphs, list items and
+ * table cells now match.
+ */
+/*
+ * 1.3.9: only the article's own text (the body's direct children), so the kit boxes inside it keep their own
+ * weights — the rule used to reach .ap-article-cta__title and set the CTA titles to 400 instead of 800.
+ */
+.ap26-article .entry-content > :is(p, ul, ol, blockquote),
+.ap26-article .entry-content > :is(ul, ol) li,
+.ap26-article .entry-content > blockquote :is(p, li),
+.ap26-article .entry-content > :is(figure, table) td {
+	font-weight: 400;
+}
+
+/*
+ * The listing/hub templates' main group sat 1.2rem (19px) under the header — WordPress's default block gap between
+ * the header template part and the page body. The hub hero now starts right under the header like every other hero
+ * (QA 2026-10-29: eyebrow 16px under the header on phones, K-12 reference).
+ */
+.wp-site-blocks > .ap26-blog-main {
+	margin-block-start: 0;
+}
+
+/*
+ * ═══ 1.3.9 — Post body to the two Figma post designs (file VW6cE9oR0LeIeowjwJvEqY, "Resources Tab - Blog") ═══
+ * QA 2026-10-29, Joseph: "do not change content. Just the style needs to follow" / "Not all posts are the same".
+ *
+ *   Listicle    (5434:79954) — ranked best-of posts. Marker: the design pass's ranked H2s (h2.ap26x-rank).
+ *   Blog Detail (7219:87997) — every other post (Asset Panda vs X, how-to and news posts).
+ *
+ * Shared type (both designs): body Manrope 400 18/1.5 #4a4e5a · H2 800 40/1.2 #25272c · H3 800 28/1.4 · paragraphs
+ * 8px apart · lists disc/decimal, 27px indent, no gap between items · links underlined in the text colour.
+ * Spacing: Blog Detail H2 64px above / 40px below, H3 40px above / 8px below. Listicle: entries 64px apart, the
+ * H2→logo→body blocks 40px apart, the entry's text a 680px column; the general sections after the entries keep the
+ * 800px column with H2 8px / H3 16px (32px straight after an H2). The opening group (everything before the first
+ * section H2: intro, Key Takeaways, jump button) is a 660px column in both designs.
+ * Only the article body (.ap26-article .entry-content and its direct children) is touched; kit sections inside it
+ * keep their own styles except where noted.
+ */
+
+/* Paragraph and list rhythm. Horizontal margins stay auto (the 800px column). */
+.ap26-article .entry-content > p {
+	margin-top: 0;
+	margin-bottom: 8px;
+}
+.ap26-article .entry-content > :is(ul, ol) {
+	margin-top: 0;
+	margin-bottom: 8px;
+	padding-left: 27px;
+}
+.ap26-article .entry-content > :is(ul, ol) li {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+.ap26-article .entry-content > :is(ul, ol) li > :is(ul, ol) {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+.ap26-article .entry-content > h3 {
+	line-height: 1.4;
+}
+
+/* Inline links: underlined in the text colour (the designs' links); bold runs keep the text colour. */
+.ap26-article .entry-content > :is(p, ul, ol, blockquote):not(.ap-jump, .ap26x-rating) a:not([class]) {
+	color: inherit;
+	text-decoration: underline;
+	text-decoration-thickness: from-font;
+	text-underline-position: from-font;
+}
+article.ap26-article .entry-content > :is(p, ul, ol) :is(strong, b):not([class]) {
+	color: inherit;
+	font-weight: 700;
+}
+
+/* Blog Detail: section spacing. */
+.ap26-article .entry-content:not(:has(> .ap26x-rank)) > h2 {
+	margin-top: 64px;
+	margin-bottom: 40px;
+}
+.ap26-article .entry-content:not(:has(> .ap26x-rank)) > h3 {
+	margin-top: 40px;
+	margin-bottom: 8px;
+}
+
+/* The opening group (before the first section H2) is the designs' 660px column. */
+.ap26-article .entry-content:has(> h2:not(.ap26-key__head)) > :is(p, ul, ol, h2.ap26-key__head, h3, h4, h5, h6, blockquote, hr, .ap-vs-badges, .wp-block-buttons):not(h2:not(.ap26-key__head) ~ *) {
+	max-width: 660px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/*
+ * Key content (QA 2026-10-29, Joseph): Key Takeaways, Quick Answer, Key Summary, TL;DR, an opening "Summary" … all
+ * take the Key Takeaways look — the teal 20/800 label, 8px over the body text at the normal weight, no box, 40px
+ * from the blocks around it. The text and elements are the post's own; includes/callouts.php only adds the classes.
+ */
+.ap26-article .ap26-key__title {
+	font-family: inherit;
+	font-size: 20px !important;
+	font-weight: 800 !important;
+	font-style: normal;
+	line-height: 1.4;
+	letter-spacing: normal;
+	text-transform: none;
+	color: #00a991 !important;
+}
+.ap26-article .entry-content > :is(h2, h3, h4, h5, h6).ap26-key__head {
+	margin: 40px auto 8px;
+	padding: 0;
+	border: 0;
+	background: none;
+	text-align: left;
+}
+.ap26-article :is(h2, h3, h4, h5, h6).ap26-key__head::before,
+.ap26-article :is(h2, h3, h4, h5, h6).ap26-key__head::after {
+	content: none !important;
+	display: none !important;
+}
+.ap26-article .entry-content > .ap26-key__head + :is(p, ul, ol) {
+	margin-top: 0;
+}
+.ap26-article .entry-content > .ap26-key__head + :is(ul, ol) li {
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #4a4e5a;
+}
+/* A paragraph that opens with the label: the label sits on its own line, 8px above the text. */
+.ap26-article .entry-content > p.ap26-key--para {
+	margin: 40px auto;
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #4a4e5a;
+}
+.ap26-article .ap26-key .ap26-key__title {
+	display: block;
+	margin: 0 0 8px;
+}
+/* A quote box that opens with the label: no box, no rule, text at the normal weight. */
+.ap26-article .entry-content > blockquote.ap26-key.ap26-key--quote {
+	margin: 40px auto;
+	padding: 0 !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	background: none !important;
+	box-shadow: none !important;
+	font-style: normal;
+}
+.ap26-article blockquote.ap26-key.ap26-key--quote::before,
+.ap26-article blockquote.ap26-key.ap26-key--quote::after {
+	content: none !important;
+	display: none !important;
+}
+.ap26-article blockquote.ap26-key.ap26-key--quote p,
+.ap26-article blockquote.ap26-key.ap26-key--quote li {
+	font-size: 18px !important;
+	font-weight: 400 !important;
+	line-height: 1.5;
+	color: #4a4e5a !important;
+}
+
+/*
+ * Other label headings (the design pass's h5 "mini heading", e.g. "Four pricing questions to ask"): Blog Detail draws
+ * them teal 800 28/1.4 over their list, without the indigo side rule.
+ */
+.ap26-article .entry-content > h5.ap26x-minihead {
+	margin: 40px auto 16px;
+	padding-left: 0;
+	border-left: 0;
+	font: 800 28px/1.4 Manrope, sans-serif;
+	color: #00a991;
+}
+.ap26-article .entry-content > h5.ap26x-minihead + :is(ul, ol, p) {
+	margin-top: 0;
+}
+
+/*
+ * FAQ (Blog Detail): the FAQ H2 centred, questions 800 20/1.4 #25272c, answers 16/1.5, 20px between question and
+ * answer. callouts.php marks the FAQ H2 (.ap26-faq__head); everything after it up to the next section H2 is FAQ.
+ */
+.ap26-article .entry-content > h2.ap26-faq__head.ap26-faq__head.ap26-faq__head {
+	margin-bottom: 24px;
+	text-align: center;
+}
+.ap26-article .entry-content > .ap26-faq__head.ap26-faq__head ~ :is(h3, h4, h5, h6):not(.ap26-faq__head ~ h2:not(.ap26-faq__head) ~ *, .ap26-key__head) {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	font-size: 20px;
+	font-weight: 800;
+	line-height: 1.4;
+	color: #25272c;
+}
+.ap26-article .entry-content > .ap26-faq__head.ap26-faq__head ~ :is(p, ul, ol):not(.ap26-faq__head ~ h2:not(.ap26-faq__head) ~ *, .ap26-key),
+.ap26-article .entry-content > .ap26-faq__head.ap26-faq__head ~ :is(ul, ol):not(.ap26-faq__head ~ h2:not(.ap26-faq__head) ~ *) li {
+	font-size: 16px;
+	line-height: 1.5;
+}
+
+/*
+ * Mini CTA boxes in the body — the 2026 templates' ap26/cta-mini and the kit's article-cta — both drawn as the designs'
+ * "CTA / Mini": 1px #c8d2fd rule, 16px radius, indigo-50 → white wash, 20px 24px, the panda mark (42×48, 16px to the
+ * copy), title 800 20/1.4 #25272c, copy 18/1.5 #4a4e5a 4px under it, gradient button (4px radius, 48px tall, 16/600)
+ * at the bottom right. Blog Detail draws the box 928px wide (out of the text column, like the kit's article-cta);
+ * the Listicle keeps it at the 800px column. The ap26 box has no mark of its own, so the kit's panda.svg is drawn
+ * from the kit plugin's folder (nothing shows if the kit is absent). The article-cta values below should move into
+ * ui/components/article-cta in the next kit build; these overrides can then go.
+ */
+.ap26-article .entry-content > .ap26-cta-mini:not(.ap-content-gate),
+.ap26-article .entry-content .ap-article-cta.ap-article-cta {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-end;
+	gap: 24px;
+	box-sizing: border-box;
+	margin-top: 40px;
+	margin-bottom: 40px;
+	padding: 20px 24px;
+	border: 1px solid #c8d2fd;
+	border-radius: 16px;
+	background: linear-gradient(42deg, #eef2ff 0%, #fff 100%);
+	box-shadow: none;
+}
+.ap26-article .entry-content:not(:has(> .ap26x-rank)) > .ap26-cta-mini:not(.ap-content-gate) {
+	--ap-content-cta-w: min(928px, calc(100vw - 32px));
+	width: var(--ap-content-cta-w);
+	max-width: none;
+	margin-left: calc(50% - var(--ap-content-cta-w) / 2);
+	margin-right: 0;
+}
+.ap26-article .entry-content > .ap26-cta-mini:not(.ap-content-gate)::before {
+	content: "";
+	flex: none;
+	align-self: flex-start;
+	width: 42px;
+	height: 48px;
+	margin-right: -8px;
+	background: url("../../asset-panda-ui-kit/components/article-cta/assets/panda.svg") center / contain no-repeat;
+}
+.ap26-article .entry-content > .ap26-cta-mini:has(> .ap26-cta-mini__logo)::before {
+	content: none;
+}
+.ap26-article .entry-content .ap-article-cta.ap-article-cta .ap-article-cta__icon {
+	width: 42px;
+	height: 48px;
+	margin-right: -8px;
+	align-self: flex-start;
+}
+.ap26-article .entry-content > .ap26-cta-mini .ap26-cta-mini__copy,
+.ap26-article .entry-content .ap-article-cta .ap-article-cta__copy {
+	flex: 1 1 auto;
+	min-width: 0;
+	max-width: 640px;
+}
+.ap26-article .entry-content > .ap26-cta-mini p.ap26-cta-mini__heading.ap26-cta-mini__heading,
+.ap26-article .entry-content .ap-article-cta p.ap-article-cta__title.ap-article-cta__title {
+	margin: 0;
+	font-family: Manrope, sans-serif;
+	font-size: 20px;
+	font-weight: 800;
+	line-height: 1.4;
+	color: #25272c;
+}
+.ap26-article .entry-content > .ap26-cta-mini p.ap26-cta-mini__text.ap26-cta-mini__text,
+.ap26-article .entry-content .ap-article-cta p.ap-article-cta__text.ap-article-cta__text {
+	margin: 4px 0 0;
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #4a4e5a;
+}
+.ap26-article .entry-content > .ap26-cta-mini a.ap26-cta-mini__btn.ap26-cta-mini__btn,
+.ap26-article .entry-content .ap-article-cta a.ap-article-cta__btn.ap-article-cta__btn {
+	display: inline-flex;
+	flex: none;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	min-height: 48px;
+	max-width: 200px;
+	padding: 0 16px;
+	border-radius: 4px;
+	background: linear-gradient(43deg, #5044e1 0%, #00a991 70.44%);
+	font-family: Manrope, sans-serif;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 1.2;
+	text-align: center;
+}
+
+/* Listicle: the ranked entry. */
+.ap26-article .entry-content:has(> .ap26x-rank) > h2:not(.ap26x-rank) {
+	margin-top: 64px;
+	margin-bottom: 8px;
+}
+.ap26-article .entry-content:has(> .ap26x-rank) > h3 {
+	margin-top: 40px;
+	margin-bottom: 8px;
+}
+/* The rank number hangs in the margin (an ordered-list marker in the design): the name and the wrapped line align. */
+.ap26-article .entry-content:has(> .ap26x-rank) > h2.ap26x-rank {
+	position: relative;
+	margin-top: 64px;
+	margin-bottom: 40px;
+	padding-left: 1.5em;
+}
+.ap26-article .entry-content > h2.ap26x-rank .ap26x-rank__num {
+	position: absolute;
+	top: 0;
+	right: calc(100% - 1.2em);
+	white-space: nowrap;
+}
+/* Number and name are dark; only Asset Panda's own entry (the one with the brand logo) is indigo. */
+.ap26-article .entry-content > h2.ap26x-rank .ap26x-rank__lead {
+	color: #25272c;
+}
+.ap26-article .entry-content > h2.ap26x-rank:has(+ .ap26x-logo--brand) .ap26x-rank__lead {
+	color: #5044e1;
+}
+.ap26-article .entry-content:has(> .ap26x-rank) > .ap26x-logo {
+	margin-top: 40px;
+	margin-bottom: 40px;
+}
+.ap26-article .entry-content:has(> .ap26x-rank) > .ap26x-logo:has(+ .ap26x-rating) {
+	margin-bottom: 28px;
+}
+.ap26-article .entry-content:has(> .ap26x-rank) > p.ap26x-rating {
+	max-width: 680px;
+	margin: 0 auto 28px;
+	padding-bottom: 28px;
+}
+.ap26-article .entry-content:has(> .ap26x-rank) > .ap26x-badges {
+	max-width: 680px;
+	margin: 0 auto 40px;
+}
+/* The entry's text is a 680px column inside the 800px block; the CTA box and the logo keep their own widths. */
+.ap26-article .entry-content:has(> .ap26x-rank) > .ap26x-rank ~ :is(p, h3, h4, h5, h6, ul, ol, blockquote, .ap-store-badges, .wp-block-buttons):not(.ap26x-rank ~ h2:not(.ap26x-rank) ~ *) {
+	max-width: 680px;
+	margin-left: auto;
+	margin-right: auto;
+}
+/* After the entries: the general sections (H2 8px over its text; H3 groups 16px apart, 32px under the H2). */
+.ap26-article .entry-content:has(> .ap26x-rank) > .ap26x-rank ~ h2:not(.ap26x-rank) ~ h3 {
+	margin-top: 16px;
+}
+.ap26-article .entry-content:has(> .ap26x-rank) > .ap26x-rank ~ h2:not(.ap26x-rank) + h3 {
+	margin-top: 32px;
+}
+.ap26-article .entry-content:has(> .ap26x-rank) > h2:not(.ap26x-rank) + figure.ap-wide-table {
+	margin-top: 40px;
+}
+
+@media (max-width: 767px) {
+	.ap26-article .ap26-key__title {
+		font-size: 18px !important;
+	}
+	.ap26-article .entry-content > p.ap26-key--para,
+	.ap26-article .entry-content > .ap26-key__head + :is(ul, ol) li,
+	.ap26-article blockquote.ap26-key.ap26-key--quote p {
+		font-size: 16px !important;
+	}
+	.ap26-article .entry-content:not(:has(> .ap26x-rank)) > h2,
+	.ap26-article .entry-content:has(> .ap26x-rank) > h2.ap26x-rank {
+		margin-top: 48px;
+		margin-bottom: 24px;
+	}
+	.ap26-article .entry-content:has(> .ap26x-rank) > h2:not(.ap26x-rank) {
+		margin-top: 48px;
+	}
+	.ap26-article .entry-content:not(:has(> .ap26x-rank)) > h3,
+	.ap26-article .entry-content:has(> .ap26x-rank) > h3 {
+		margin-top: 32px;
+	}
+	.ap26-article .entry-content > :is(h2, h3, h4, h5, h6).ap26-key__head {
+		margin-top: 32px;
+		margin-bottom: 8px;
+	}
+	.ap26-article .entry-content > p.ap26-key--para,
+	.ap26-article .entry-content > blockquote.ap26-key.ap26-key--quote {
+		margin-top: 32px;
+		margin-bottom: 32px;
+	}
+	.ap26-article .entry-content > h5.ap26x-minihead {
+		margin-top: 32px;
+		font-size: 22px;
+	}
+	.ap26-article .entry-content > .ap26-faq__head.ap26-faq__head ~ :is(h3, h4, h5, h6):not(.ap26-faq__head ~ h2:not(.ap26-faq__head) ~ *, .ap26-key__head) {
+		font-size: 18px;
+	}
+	.ap26-article .entry-content:has(> .ap26x-rank) > .ap26x-logo {
+		margin-top: 24px;
+		margin-bottom: 24px;
+	}
+	.ap26-article .entry-content:has(> .ap26x-rank) > .ap26x-logo:has(+ .ap26x-rating) {
+		margin-bottom: 20px;
+	}
+	.ap26-article .entry-content:has(> .ap26x-rank) > p.ap26x-rating {
+		margin-bottom: 20px;
+		padding-bottom: 20px;
+	}
+	.ap26-article .entry-content:has(> .ap26x-rank) > .ap26x-badges {
+		margin-bottom: 32px;
+	}
+	.ap26-article .entry-content > .ap26-cta-mini:not(.ap-content-gate),
+	.ap26-article .entry-content .ap-article-cta.ap-article-cta {
+		margin-top: 32px;
+		margin-bottom: 32px;
+	}
+}
+/* The body's first element starts 28px under the featured image (the article's own top padding), as in both designs. */
+.ap26-article.ap26-article .entry-content.entry-content > :first-child {
+	margin-top: 0;
+}
+
+@media (max-width: 640px) {
+	.ap26-article .entry-content > .ap26-cta-mini:not(.ap-content-gate),
+	.ap26-article .entry-content .ap-article-cta.ap-article-cta {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 14px;
+		padding: 20px;
+	}
+	.ap26-article .entry-content > .ap26-cta-mini:not(.ap-content-gate)::before,
+	.ap26-article .entry-content .ap-article-cta.ap-article-cta .ap-article-cta__icon {
+		margin-right: 0;
+	}
+	.ap26-article .entry-content > .ap26-cta-mini a.ap26-cta-mini__btn.ap26-cta-mini__btn,
+	.ap26-article .entry-content .ap-article-cta a.ap-article-cta__btn.ap-article-cta__btn {
+		width: 100%;
+		max-width: none;
+	}
+}
+
+
+/* QA 2026-10-29 (full-site QA): the article buttons in resource posts ("Talk to an Expert", "Book a Demo",
+   "Jump to the comparison table", core button blocks) were 48px / 16px / 600, outside the site's CTA scale
+   (every CTA = the header buttons: 42.8px / 14px / 800 above 1100px, 36px / 13px below). Same values here. */
+html body .ap26-article :is(.ap26-cta-mini__btn, p.ap-jump a, .wp-block-button__link):not(#ap-cta-scale) {
+	box-sizing: border-box !important;
+	min-width: 0 !important;
+	height: auto !important;
+	min-height: 42.8px !important;
+	padding: 12px 16px !important;
+	border-radius: 4px !important;
+	font-size: 14px !important;
+	font-weight: 800 !important;
+	line-height: 1.2 !important;
+	letter-spacing: normal !important;
+}
+@media (max-width: 1100px) {
+	html body .ap26-article :is(.ap26-cta-mini__btn, p.ap-jump a, .wp-block-button__link):not(#ap-cta-scale) {
+		min-height: 36px !important;
+		padding: 9px 12px !important;
+		font-size: 13px !important;
+	}
+}

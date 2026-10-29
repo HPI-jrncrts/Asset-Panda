@@ -1,0 +1,142 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/comparison",
+	"title": "AP Comparison",
+	"category": "design",
+	"icon": "columns",
+	"description": "Three-column comparison: value pillars, an elevated Asset Panda column under a panda banner and a muted old-way column; one stacked card below 1280px. Live: #ap-asset-intel-compare-v1 on the homepage (--home) and the Asset Intelligence Platform page (--platform), markup and sheets ported. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"variant": {
+			"type": "string",
+			"default": "home",
+			"enum": [
+				"home",
+				"platform",
+				"guide"
+			]
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"title_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"intro": {
+			"type": "string",
+			"default": ""
+		},
+		"table_label": {
+			"type": "string",
+			"default": ""
+		},
+		"pillar_title": {
+			"type": "string",
+			"default": "Value Pillar"
+		},
+		"after_title": {
+			"type": "string",
+			"default": "Asset Panda (Powered by UrsaAI)"
+		},
+		"before_title": {
+			"type": "string",
+			"default": "Spreadsheets & Siloed Tools"
+		},
+		"vs_label": {
+			"type": "string",
+			"default": ""
+		},
+		"rows": {
+			"type": "array",
+			"default": []
+		},
+		"winner_title": {
+			"type": "string",
+			"default": "Winner"
+		},
+		"note": {
+			"type": "string",
+			"default": ""
+		},
+		"banner": {
+			"type": "string",
+			"default": ""
+		},
+		"banner_w": {
+			"type": "number",
+			"default": 1708
+		},
+		"banner_h": {
+			"type": "number",
+			"default": 640
+		},
+		"cta_label": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_url": {
+			"type": "string",
+			"default": ""
+		},
+		"link_label": {
+			"type": "string",
+			"default": ""
+		},
+		"link_url": {
+			"type": "string",
+			"default": ""
+		},
+		"connected_title": {
+			"type": "string",
+			"default": ""
+		},
+		"connected_body": {
+			"type": "string",
+			"default": ""
+		},
+		"connected_label": {
+			"type": "string",
+			"default": ""
+		},
+		"connected_url": {
+			"type": "string",
+			"default": ""
+		},
+		"connected_image": {
+			"type": "string",
+			"default": ""
+		},
+		"connected_image_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"connected_w": {
+			"type": "number",
+			"default": 0
+		},
+		"connected_h": {
+			"type": "number",
+			"default": 0
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

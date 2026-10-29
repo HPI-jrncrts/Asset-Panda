@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/demo-stats",
+	"title": "AP Demo Stats",
+	"category": "design",
+	"icon": "chart-bar",
+	"description": "Stats band under the split Get a Demo booking hero (live #ap-demo-stats on /test-calendar-demo-weekly/): three big gradient numbers that count up on first view, each over a label. On desktop it is 128px tall (108px on short screens) so it and the hero fill one screen. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"items": {
+			"type": "array",
+			"default": []
+		},
+		"label": {
+			"type": "string",
+			"default": "Asset Panda by the numbers"
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

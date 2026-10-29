@@ -1,0 +1,104 @@
+/*
+ * article-cta — in-article call-to-action box (Figma 7219:87997, the three CTA
+ * boxes of the compare article): a soft indigo panel with the panda mark, a
+ * bold title and a line of copy, the gradient button on the right.
+ */
+
+.ap-article-cta {
+	/* Its own 928px element (the Figma width), centred on the page by breaking out of the text column. */
+	--ap-article-cta-w: min(928px, calc(100vw - 32px));
+	width: var(--ap-article-cta-w);
+	max-width: none;
+	display: flex;
+	align-items: center;
+	gap: 20px;
+	margin: 32px 0 32px calc(50% - var(--ap-article-cta-w) / 2);
+	padding: 22px 24px;
+	border: 1px solid #c9cff5;
+	border-radius: 14px;
+	background: linear-gradient(180deg, #eef0ff 0%, #f5f6ff 100%);
+	box-shadow: 0 2px 10px rgba(80, 68, 225, 0.08);
+	font-family: var(--ap-font-body, Manrope, Arial, sans-serif);
+}
+
+.ap-article-cta,
+.ap-article-cta * { box-sizing: border-box; }
+
+.ap-article-cta .ap-article-cta__icon {
+	display: block;
+	flex: none;
+	width: 40px;
+	height: 44px;
+	align-self: flex-start;
+	border-radius: 0;
+}
+
+.ap-article-cta__copy { flex: 1 1 auto; min-width: 0; }
+
+.ap-article-cta .ap-article-cta__title {
+	margin: 0;
+	font-size: 18px;
+	font-weight: 800;
+	line-height: 1.4;
+	color: #25272c;
+}
+
+.ap-article-cta .ap-article-cta__text {
+	margin: 4px 0 0;
+	font-size: 17px;
+	line-height: 1.5;
+	color: #4a4e5a;
+}
+
+/* The host themes underline and recolour every article link (www: a (0,2,1) rule); the button opts out hard. */
+.ap-article-cta a.ap-article-cta__btn,
+.ap-article-cta a.ap-article-cta__btn:link,
+.ap-article-cta a.ap-article-cta__btn:visited,
+.ap-article-cta a.ap-article-cta__btn:hover,
+.ap-article-cta a.ap-article-cta__btn:focus,
+.ap-article-cta a.ap-article-cta__btn:active {
+	display: inline-flex;
+	flex: none;
+	align-items: center;
+	justify-content: center;
+	padding: 12px 20px;
+	border: 0;
+	border-radius: 6px;
+	background: linear-gradient(90deg, #5044e1 0%, #00a991 100%);
+	font-size: 15px;
+	font-weight: 600;
+	line-height: 1.2;
+	color: #fff !important;
+	text-decoration: none !important;
+	white-space: nowrap;
+	transition: box-shadow 0.3s cubic-bezier(0.25, 0.45, 0.45, 0.95), translate 0.3s cubic-bezier(0.25, 0.45, 0.45, 0.95);
+}
+
+.ap-article-cta a.ap-article-cta__btn:hover {
+	translate: 0 -1px;
+	box-shadow: 0 6px 16px rgba(80, 68, 225, 0.25);
+}
+
+.ap-article-cta .ap-article-cta__btn:focus-visible { outline: 2px solid #5044e1; outline-offset: 2px; }
+
+.ap-article-cta .ap-ursa {
+	display: inline;
+	font-weight: 700;
+	background: linear-gradient(75.71deg, #806991 6.52%, #00a991 60%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
+	white-space: nowrap;
+}
+
+.ap-article-cta .ap-ursa sup { font-size: 0.55em; line-height: 1; vertical-align: super; }
+
+@media (max-width: 640px) {
+	.ap-article-cta { flex-direction: column; align-items: flex-start; gap: 14px; padding: 20px; }
+	.ap-article-cta .ap-article-cta__btn { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-article-cta .ap-article-cta__btn { transition: none; }
+}

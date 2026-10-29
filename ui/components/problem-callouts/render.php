@@ -17,6 +17,45 @@ if ( ! defined( 'ABSPATH' ) ) {
 $tones = array( 'indigo', 'rose', 'mint', 'slate', 'amber' );
 
 $cards = array();
+/*
+ * Each vertical page places its cards differently in each width band (live
+ * layers its own overrides at 1181, 1025, 901 and 769px). A card's bands carry
+ * live's computed values for that band; they reach CSS as custom properties,
+ * and only values of a known shape (a length, a keyword) get through.
+ */
+$ap_bands = static function ( $bands ) {
+	if ( ! is_array( $bands ) ) {
+		return '';
+	}
+	$len  = '/^(?:auto|max-content|min-content|fit-content|none|-?\d+(?:\.\d+)?(?:px|%)|0)$/';
+	$keys = array(
+		'pos'  => '/^(?:absolute|relative|static)$/',
+		'l'    => $len,
+		'r'    => $len,
+		't'    => $len,
+		'w'    => $len,
+		'minw' => $len,
+		'maxw' => $len,
+		'ws'   => '/^(?:nowrap|normal)$/',
+		'fg'   => '/^\d+(?:\.\d+)?$/',
+		'fb'   => $len,
+	);
+	$out  = array();
+	foreach ( array( 1181, 1025, 901, 769 ) as $bp ) {
+		$band = $bands[ (string) $bp ] ?? null;
+		if ( ! is_array( $band ) ) {
+			continue;
+		}
+		foreach ( $keys as $key => $shape ) {
+			$value = trim( (string) ( $band[ $key ] ?? '' ) );
+			if ( '' !== $value && preg_match( $shape, $value ) ) {
+				$out[] = '--b' . $bp . '-' . $key . ':' . $value;
+			}
+		}
+	}
+	return implode( ';', $out );
+};
+
 foreach ( is_array( $props['cards'] ) ? $props['cards'] : array() as $card ) {
 	if ( ! is_array( $card ) || '' === trim( (string) ( $card['text'] ?? '' ) ) ) {
 		continue;
@@ -29,6 +68,11 @@ foreach ( is_array( $props['cards'] ) ? $props['cards'] : array() as $card ) {
 		'icon_alt' => (string) ( $card['icon_alt'] ?? '' ),
 		// Fall back to the design's own order of tones.
 		'tone'     => in_array( $tone, $tones, true ) ? $tone : $tones[ count( $cards ) % count( $tones ) ],
+		// A page's own placement on the stage (px), used from 1181px.
+		'x'        => isset( $card['x'] ) && is_numeric( $card['x'] ) ? round( (float) $card['x'], 1 ) : null,
+		'y'        => isset( $card['y'] ) && is_numeric( $card['y'] ) ? round( (float) $card['y'], 1 ) : null,
+		'w'        => isset( $card['w'] ) && is_numeric( $card['w'] ) && $card['w'] > 0 ? round( (float) $card['w'], 1 ) : null,
+		'bands'    => $ap_bands( $card['bands'] ?? null ),
 	);
 }
 
@@ -50,9 +94,20 @@ $cta_label  = trim( (string) $props['cta_label'] );
 $cta_url    = trim( (string) $props['cta_url'] );
 $has_cta    = '' !== $cta_title || '' !== $cta_sub || ( '' !== $cta_label && '' !== $cta_url );
 ?>
-<section class="ap-problem-callouts">
+<?php
+// Phone spacing differs by page (live splits it between the theme's grid and
+// each page's flex column): whole pixel values only.
+$ap_phone = array();
+foreach ( array( 'stage_mt' => '--ph-stage-mt', 'gap' => '--ph-gap', 'note_mt' => '--ph-note-mt', 'pb_m' => '--ph-pb-m', 'pb_s' => '--ph-pb-s' ) as $key => $var ) {
+	$value = is_array( $props['phone'] ) ? ( $props['phone'][ $key ] ?? null ) : null;
+	if ( is_numeric( $value ) && abs( (float) $value ) <= 200 ) {
+		$ap_phone[] = $var . ':' . round( (float) $value ) . 'px';
+	}
+}
+?>
+<section class="ap-problem-callouts<?php echo $props['cta_accent_inline'] ? ' ap-problem-callouts--accent-inline' : ''; ?><?php echo $props['cta_nowrap'] ? ' ap-problem-callouts--cta-nowrap' : ''; ?>"<?php echo $ap_phone ? ' style="' . esc_attr( implode( ';', $ap_phone ) ) . '"' : ''; ?>>
 	<?php if ( '' !== $background ) : ?>
-		<img class="ap-problem-callouts__bg" src="<?php echo esc_url( $background ); ?>" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+		<img class="ap-problem-callouts__bg" src="<?php echo esc_url( $background ); ?>" alt="" aria-hidden="true" loading="eager" fetchpriority="low" decoding="async" />
 	<?php endif; ?>
 
 	<div class="ap-problem-callouts__inner">
@@ -76,7 +131,13 @@ $has_cta    = '' !== $cta_title || '' !== $cta_sub || ( '' !== $cta_label && '' 
 				<?php endif; ?>
 
 				<?php foreach ( $cards as $card ) : ?>
-					<div class="ap-problem-callouts__card ap-problem-callouts__card--<?php echo esc_attr( $card['tone'] ); ?>">
+					<?php
+					$ap_placed = null !== $card['x'] && null !== $card['y'];
+					$ap_place  = $ap_placed ? '--card-x:' . $card['x'] . 'px;--card-y:' . $card['y'] . 'px' . ( null !== $card['w'] ? ';--card-w:' . $card['w'] . 'px' : '' ) : '';
+					$ap_banded = '' !== $card['bands'];
+					$ap_style  = implode( ';', array_filter( array( $ap_place, $card['bands'] ) ) );
+					?>
+					<div class="ap-problem-callouts__card ap-problem-callouts__card--<?php echo esc_attr( $card['tone'] ); ?><?php echo $ap_placed ? ' ap-problem-callouts__card--placed' : ''; ?><?php echo $ap_banded ? ' ap-problem-callouts__card--banded' : ''; ?>"<?php echo '' !== $ap_style ? ' style="' . esc_attr( $ap_style ) . '"' : ''; ?>>
 						<?php if ( '' !== $card['icon_svg'] ) : ?>
 							<span class="ap-problem-callouts__ico" aria-hidden="true"><?php echo $card['icon_svg']; // phpcs:ignore WordPress.Security.EscapeOutput -- sanitised by ap_ui_svg(). ?></span>
 						<?php elseif ( '' !== $card['icon'] ) : ?>

@@ -34,7 +34,7 @@
 .ap-dashboard-showcase__inner {
 	position: relative;
 	z-index: 1;
-	width: min(var(--ap-page-max-content-xl, 1120px), 100% - 48px);
+	width: min(var(--ap-host-container, 1120px), 100% - 48px);
 	margin: 0 auto;
 }
 
@@ -44,13 +44,15 @@
 	text-align: center;
 }
 
+/* Live's own 16px margin loses to the section reset (.ap-sec p), and the line
+   height comes from the section (1.5). */
 .ap-dashboard-showcase__eyebrow {
-	margin: 0 0 16px;
+	margin: 0;
 	color: var(--ap-text-eyebrow);
 	font-family: var(--ap-font-utility);
 	font-size: 14px;
 	font-weight: 600;
-	line-height: 1.2;
+	line-height: 1.5;
 	letter-spacing: 0.08em;
 	text-transform: uppercase;
 }
@@ -74,7 +76,7 @@
 
 .ap-dashboard-showcase__stage {
 	position: relative;
-	max-width: var(--ap-page-max-content-xl, 1120px);
+	max-width: var(--ap-host-container, 1120px);
 	height: 546px;
 	margin: 64px auto 0;
 }
@@ -251,11 +253,98 @@
 	line-height: 1.5;
 }
 
+/* Live sets the location line under a station name at 8px. */
 .ap-dashboard-showcase__tip-sub {
+	color: var(--ap-text-body);
+	font-family: var(--ap-font-body);
+	font-size: 8px;
+	line-height: 1.5;
+}
+
+/* Typed row parts, as live sizes them (live .ap-dashboard-tip-code/-num/-sub/-sub14). */
+.ap-dashboard-showcase__tip-code {
 	color: var(--ap-text-body);
 	font-family: var(--ap-font-body);
 	font-size: 14px;
 	line-height: 1.5;
+}
+
+.ap-dashboard-showcase__tip-code--muted {
+	color: #a4a9b4;
+}
+
+.ap-dashboard-showcase__tip-num {
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-body);
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 1.5;
+}
+
+.ap-dashboard-showcase__tip-sub14 {
+	color: var(--ap-text-body);
+	font-family: var(--ap-font-body);
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+/* Avatar rows: Local Government stacks the text beside a 36px avatar; Public
+   Works wraps a 40px avatar, the name and the yard. */
+.ap-dashboard-showcase__tip-row--person {
+	flex-direction: row;
+	align-items: center;
+	gap: 8px;
+}
+
+.ap-dashboard-showcase__tip-row--person .ap-dashboard-showcase__tip-avatar {
+	display: block;
+	flex: 0 0 auto;
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+.ap-dashboard-showcase__tip-person-txt {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 2px;
+	min-width: 0;
+}
+
+.ap-dashboard-showcase__tip-row--oper {
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 4px 8px;
+}
+
+.ap-dashboard-showcase__tip-row--oper .ap-dashboard-showcase__tip-avatar {
+	display: block;
+	flex: 0 0 auto;
+	width: 40px;
+	max-width: none;
+	height: 40px;
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+.ap-dashboard-showcase__tip-row--oper .ap-dashboard-showcase__tip-sub14 {
+	flex: 1 1 100%;
+}
+
+.ap-dashboard-showcase__tip-row--oper .ap-dashboard-showcase__tip-title {
+	flex: 0 1 auto;
+}
+
+/* The theme's Bootstrap reset sets a button's superscript without growing the line. */
+.ap-dashboard-showcase__btn sup {
+	position: relative;
+	top: -0.5em;
+	font-size: 75%;
+	line-height: 0;
+	vertical-align: baseline;
 }
 
 .ap-dashboard-showcase__chip {
@@ -287,6 +376,19 @@
 	background: #f0f9ff;
 	border-color: #bae6fd;
 	color: #0284c7;
+}
+
+/* Violet and blue chips (live K-12 and Higher Education). */
+.ap-dashboard-showcase__chip--vi {
+	background: #f9f7fc;
+	border-color: #e6dcf2;
+	color: #7e54a5;
+}
+
+.ap-dashboard-showcase__chip--bl {
+	background: #eff6ff;
+	border-color: #bfdbfe;
+	color: #2563eb;
 }
 
 .ap-dashboard-showcase__chip--yl {
@@ -502,8 +604,10 @@
 		opacity: 1;
 	}
 
+	/* Block, so no descender space under the image (live's sits flush). */
 	.ap-dashboard-showcase__shot img {
 		position: static;
+		display: block;
 		width: 100%;
 		max-width: 100%;
 		height: auto;
@@ -581,7 +685,7 @@
 	flex-wrap: wrap;
 	justify-content: center;
 	gap: 16px 40px;
-	max-width: var(--ap-page-max-content-xl, 1120px);
+	max-width: var(--ap-host-container, 1120px);
 	margin: 40px auto 0;
 	padding: 0;
 	list-style: none;
@@ -607,39 +711,104 @@
 	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16.5 11.5' fill='none'%3E%3Cpath d='M0.75 5.75L5.75 10.75L15.75 0.75' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 16px no-repeat;
 }
 
+/*
+ * Button row (live .ap-dashboard-cta / -ctas / -sub-cta / .aplg-dash-cta): the
+ * site's .ap-btn — 14px 16px, no border, bold, the brand gradient — with the
+ * second button outlined in green. Police tightens the space above on tablets;
+ * K-12 stacks the buttons full width on phones.
+ */
 .ap-dashboard-showcase__ctas {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
 	gap: 16px;
-	margin-top: 32px;
+	margin-top: 24px;
 }
 
 .ap-dashboard-showcase__btn {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	min-height: 48px;
-	padding: 16px 24px;
-	border: 1px solid var(--ap-indigo-600, #5044e1);
-	border-radius: var(--ap-radius-sm, 4px);
-	background: linear-gradient(55deg, #5044e1 0%, #00a991 70.44%);
+	padding: 14px 16px;
+	border: 0;
+	border-radius: 4px;
+	background-image: linear-gradient(54.6deg, #5044e1 0%, #00a991 70.44%);
 	color: #fff;
 	font-family: var(--ap-font-display);
 	font-size: 16px;
-	font-weight: 600;
+	font-weight: 700;
 	line-height: 1.2;
 	text-decoration: none;
-	transition: translate .3s var(--ap-ease-standard), box-shadow .3s var(--ap-ease-standard);
+	transition: filter .2s ease, translate .2s ease, box-shadow .2s ease, background-color .3s var(--ap-ease-standard), color .3s var(--ap-ease-standard);
+}
+
+.ap-dashboard-showcase__btn:hover,
+.ap-dashboard-showcase__btn:focus-visible {
+	color: #fff;
+	filter: brightness(1.08);
+	translate: 0 -1px;
+	box-shadow: 0 8px 20px rgba(80, 68, 225, .25);
 }
 
 .ap-dashboard-showcase__btn--outline {
+	border: 1px solid #00a991;
 	background: #fff;
-	color: var(--ap-text-heading);
-	border-color: #d8dbdf;
+	color: #00a991;
 }
 
-.ap-dashboard-showcase__btn:hover {
-	translate: 0 -2px;
-	box-shadow: 0 8px 20px rgba(80, 68, 225, .25);
+.ap-dashboard-showcase__btn--outline:hover,
+.ap-dashboard-showcase__btn--outline:focus-visible {
+	background: #00a991;
+	color: #fff;
+}
+
+@media (max-width: 768px) {
+	.ap-dashboard-showcase__ctas {
+		margin-top: var(--ap-dash-cta-top-t, 24px);
+	}
+
+	.ap-dashboard-showcase--stack-768 .ap-dashboard-showcase__ctas {
+		flex-direction: column;
+	}
+
+	.ap-dashboard-showcase--stack-768 .ap-dashboard-showcase__btn {
+		width: 100%;
+	}
+}
+
+@media (max-width: 640px) {
+	.ap-dashboard-showcase--stack-640 .ap-dashboard-showcase__ctas {
+		flex-direction: column;
+	}
+
+	.ap-dashboard-showcase--stack-640 .ap-dashboard-showcase__btn {
+		width: 100%;
+	}
+}
+
+/* Lede under the title, where a page carries one (live .ap-dashboard-lede). */
+.ap-dashboard-showcase__lede { margin: 16px auto 0; max-width: 856px; font-size: 18px; line-height: 1.5; color: var(--ap-slate-500); }
+
+/* Lede width and phone size vary by page (Higher Education caps it at 650px;
+   only Police drops it to 16px on phones). */
+.ap-dashboard-showcase__lede {
+	max-width: var(--ap-dash-lede-max, 856px);
+}
+
+@media (max-width: 768px) {
+	.ap-dashboard-showcase__lede {
+		font-size: var(--ap-dash-lede-m, 18px);
+	}
+}
+
+/* Higher Education's outline button: a fixed 48px, 16px all round, semibold. */
+.ap-dashboard-showcase--outline-fixed .ap-dashboard-showcase__btn--outline {
+	flex: none;
+	gap: 8px;
+	min-width: 120px;
+	height: 48px;
+	min-height: 48px;
+	max-height: 48px;
+	padding: 16px;
+	font-weight: 600;
 }

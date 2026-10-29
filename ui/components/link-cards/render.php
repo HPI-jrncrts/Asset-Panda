@@ -49,9 +49,55 @@ if ( empty( $items ) ) {
 	return;
 }
 $arrow = ap_ui_asset_url( 'link-cards', 'icon-arrow.svg' );
+
+/*
+ * Education hub: live #ap-eduhub-picker, ported whole with its own class names
+ * (.apk-*) — two tall photo cards side by side that stack at 900px.
+ */
+if ( 'eduhub' === $props['variant'] ) :
+	?>
+<section class="ap-link-cards ap-link-cards--eduhub">
+	<div class="apk-orb apk-orb-green"></div>
+	<div class="apk-orb apk-orb-indigo"></div>
+	<div class="apk-container">
+		<div class="apk-header">
+			<?php if ( '' !== trim( (string) $props['eyebrow'] ) ) : ?>
+				<p class="apk-eyebrow"><?php echo esc_html( $props['eyebrow'] ); ?></p>
+			<?php endif; ?>
+			<h2 class="apk-h2"><?php echo $ap_accent( $props['title'], $props['title_accent'], 'apk-grad' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?></h2>
+		</div>
+		<div class="apk-cards">
+			<?php foreach ( $items as $item ) : ?>
+				<?php $ap_tag = '' !== trim( (string) ( $item['url'] ?? '' ) ) ? 'a' : 'div'; ?>
+				<<?php echo $ap_tag; // phpcs:ignore WordPress.Security.EscapeOutput -- fixed tag name. ?> class="apk-card"<?php echo 'a' === $ap_tag ? ' href="' . esc_url( $item['url'] ) . '"' : ''; ?>>
+					<?php if ( ! empty( $item['image'] ) ) : ?>
+						<img class="apk-card-bg" src="<?php echo esc_url( $item['image'] ); ?>" alt="" loading="lazy" decoding="async" />
+					<?php endif; ?>
+					<div class="apk-card-veil"></div>
+					<div class="apk-card-body">
+						<?php echo $ap_icon( $item, 'apk-card-icon' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?>
+						<h3 class="apk-card-title"><?php echo esc_html( $item['title'] ); ?></h3>
+						<?php if ( '' !== trim( (string) ( $item['body'] ?? '' ) ) ) : ?>
+							<p class="apk-card-desc"><?php echo esc_html( $item['body'] ); ?></p>
+						<?php endif; ?>
+						<?php if ( '' !== trim( (string) ( $item['link_label'] ?? '' ) ) ) : ?>
+							<span class="apk-card-cta"><?php echo esc_html( $item['link_label'] ); ?><img class="apk-arrow" src="<?php echo esc_url( $arrow ); ?>" alt="" decoding="async" /></span>
+						<?php endif; ?>
+					</div>
+				</<?php echo $ap_tag; // phpcs:ignore WordPress.Security.EscapeOutput -- fixed tag name. ?>>
+			<?php endforeach; ?>
+		</div>
+	</div>
+</section>
+	<?php
+	return;
+endif;
 ?>
-<?php $ap_plain = ! array_filter( $items, static function ( $i ) { return ! empty( $i['image'] ); } ); ?>
-<section class="ap-link-cards<?php echo 3 === count( $items ) ? ' ap-link-cards--thirds' : ''; ?><?php echo $ap_plain ? ' ap-link-cards--plain' : ''; ?>">
+<?php
+$ap_plain = ! array_filter( $items, static function ( $i ) { return ! empty( $i['image'] ); } );
+$ap_head  = (int) $props['head_width']; // the heading's width cap (frames differ: 560, 640…); 0 keeps the variant's own
+?>
+<section class="ap-link-cards<?php echo 'hub26' === $props['variant'] ? ' ap-link-cards--hub26' : ''; ?><?php echo '900' === (string) $props['stack'] ? ' ap-link-cards--stack-900' : ''; ?><?php echo 3 === count( $items ) ? ' ap-link-cards--thirds' : ''; ?><?php echo $ap_plain ? ' ap-link-cards--plain' : ''; ?>"<?php echo $ap_head >= 320 && $ap_head <= 1120 ? ' style="--apg-pick-head-w:' . (int) $ap_head . 'px"' : ''; ?>>
 	<div class="apg-pick-orb apg-pick-orb-green"></div>
 	<div class="apg-pick-orb apg-pick-orb-indigo"></div>
 	<div class="apg-pick-head">

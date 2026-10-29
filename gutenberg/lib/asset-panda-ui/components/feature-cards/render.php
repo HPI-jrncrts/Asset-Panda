@@ -50,7 +50,7 @@ $uid = 'ap-fcards-' . substr( md5( uniqid( '', true ) ), 0, 8 );
 				<?php endif; ?>
 			</h2>
 			<?php if ( '' !== $intro ) : ?>
-				<p class="ap-fcards__intro"><?php echo esc_html( $intro ); ?></p>
+				<p class="ap-fcards__intro"><?php echo ap_ui_lines( $intro ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped by ap_ui_lines(). ?></p>
 			<?php endif; ?>
 		</div>
 

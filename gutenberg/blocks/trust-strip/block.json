@@ -20,6 +20,25 @@
 			"type": "array",
 			"default": []
 		},
+		"layout": {
+			"type": "string",
+			"default": "inline",
+			"enum": [
+				"inline",
+				"stacked",
+				"solution",
+				"hub",
+				"eduhub"
+			]
+		},
+		"label_width": {
+			"type": "number",
+			"default": 0
+		},
+		"gap": {
+			"type": "number",
+			"default": 0
+		},
 		"marquee": {
 			"type": "boolean",
 			"default": true

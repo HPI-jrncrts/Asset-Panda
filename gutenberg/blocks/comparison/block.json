@@ -5,9 +5,18 @@
 	"title": "AP Comparison",
 	"category": "design",
 	"icon": "columns",
-	"description": "Three-column comparison: value pillars, an elevated Asset Panda column (panda banner, UrsaAI rows, call to action) and a muted Spreadsheets column. Figma: Home Page > Why Asset Intelligence (4331:24561). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"description": "Three-column comparison: value pillars, an elevated Asset Panda column under a panda banner and a muted old-way column; one stacked card below 1280px. Live: #ap-asset-intel-compare-v1 on the homepage (--home) and the Asset Intelligence Platform page (--platform), markup and sheets ported. This block is an adapter — it holds no markup; it maps attributes to kit props.",
 	"textdomain": "assetpanda",
 	"attributes": {
+		"variant": {
+			"type": "string",
+			"default": "home",
+			"enum": [
+				"home",
+				"platform",
+				"guide"
+			]
+		},
 		"eyebrow": {
 			"type": "string",
 			"default": ""
@@ -24,25 +33,49 @@
 			"type": "string",
 			"default": ""
 		},
+		"table_label": {
+			"type": "string",
+			"default": ""
+		},
 		"pillar_title": {
 			"type": "string",
 			"default": "Value Pillar"
 		},
 		"after_title": {
 			"type": "string",
-			"default": "Asset Panda"
-		},
-		"after_note": {
-			"type": "string",
-			"default": "Powered by:"
+			"default": "Asset Panda (Powered by UrsaAI)"
 		},
 		"before_title": {
 			"type": "string",
 			"default": "Spreadsheets & Siloed Tools"
 		},
+		"vs_label": {
+			"type": "string",
+			"default": ""
+		},
 		"rows": {
 			"type": "array",
 			"default": []
+		},
+		"winner_title": {
+			"type": "string",
+			"default": "Winner"
+		},
+		"note": {
+			"type": "string",
+			"default": ""
+		},
+		"banner": {
+			"type": "string",
+			"default": ""
+		},
+		"banner_w": {
+			"type": "number",
+			"default": 1708
+		},
+		"banner_h": {
+			"type": "number",
+			"default": 640
 		},
 		"cta_label": {
 			"type": "string",
@@ -60,9 +93,37 @@
 			"type": "string",
 			"default": ""
 		},
-		"reveal": {
-			"type": "boolean",
-			"default": true
+		"connected_title": {
+			"type": "string",
+			"default": ""
+		},
+		"connected_body": {
+			"type": "string",
+			"default": ""
+		},
+		"connected_label": {
+			"type": "string",
+			"default": ""
+		},
+		"connected_url": {
+			"type": "string",
+			"default": ""
+		},
+		"connected_image": {
+			"type": "string",
+			"default": ""
+		},
+		"connected_image_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"connected_w": {
+			"type": "number",
+			"default": 0
+		},
+		"connected_h": {
+			"type": "number",
+			"default": 0
 		},
 		"align": {
 			"type": "string",

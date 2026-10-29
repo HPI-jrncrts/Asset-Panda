@@ -1,11 +1,15 @@
 /**
  * site-header — behaviour for the global header.
  *
+ * - Deferred art (data-ap-sh-src: post images, case-card photos) loads per pane: the
+ *   first pointer or focus on the bar warms every menu's shown pane, and showing a
+ *   tab loads its pane. Loaded images get .is-loaded (the posts fade in on it).
  * - Tab rails: hovering, focusing or clicking a tab shows its panel.
  * - Desktop menus open on hover and focus (CSS). A mouse leaving a menu, or
  *   Escape, drops focus so a clicked menu never stays pinned open.
  * - Login dropdown, the phone drawer (one section open at a time) and the app
  *   banner (Google Play link on Android, dismiss).
+ * - Geo: html.ap-intl for visitors outside US/CA/GB/NZ/AU, as on live.
  *
  * Bound once per [data-ap-site-header] root; safe with several on a page.
  */
@@ -20,6 +24,43 @@
 		}
 		root.setAttribute('data-ap-sh-ready', '1');
 
+		/*
+		 * Deferred art. Post images and the case cards' photo and logo ship as data-ap-sh-src
+		 * (render.php): their panes are laid out while hidden, so loading="lazy" would still fetch
+		 * them on every page. A pane's images load when the bar is first pointed at or focused (the
+		 * pane each menu shows first) and when its tab is shown, so a visitor who never opens a menu
+		 * downloads none of them, and one who does sees the shown pane's images arrive with the panel
+		 * rather than every pane's at once.
+		 */
+		function hydrate(scope) {
+			scope.querySelectorAll('img[data-ap-sh-src]').forEach(function (img) {
+				img.addEventListener('load', function () { img.classList.add('is-loaded'); }, { once: true });
+				img.setAttribute('src', img.getAttribute('data-ap-sh-src'));
+				img.removeAttribute('data-ap-sh-src');
+			});
+		}
+
+		// What a menu shows right now: its active tab panes, or the whole panel when it has none.
+		function hydrateShown(panel) {
+			var panes = panel.querySelectorAll('[data-ap-help-panel].is-active');
+			if (panes.length) {
+				panes.forEach(hydrate);
+			} else {
+				hydrate(panel);
+			}
+		}
+
+		var bar = root.querySelector('.ap-site-header__desk');
+		if (bar && root.querySelector('img[data-ap-sh-src]')) {
+			var warm = function () {
+				bar.removeEventListener('pointerover', warm);
+				bar.removeEventListener('focusin', warm);
+				bar.querySelectorAll('.ap-mega-panel').forEach(hydrateShown);
+			};
+			bar.addEventListener('pointerover', warm);
+			bar.addEventListener('focusin', warm);
+		}
+
 		/* Tab rails. */
 		root.querySelectorAll('.ap-mega-panel').forEach(function (panel) {
 			var tabs = panel.querySelectorAll('[data-ap-help-tab]');
@@ -30,7 +71,11 @@
 					tab.classList.toggle('is-active', tab.getAttribute('data-ap-help-tab') === key);
 				});
 				panes.forEach(function (pane) {
-					pane.classList.toggle('is-active', pane.getAttribute('data-ap-help-panel') === key);
+					var shown = pane.getAttribute('data-ap-help-panel') === key;
+					pane.classList.toggle('is-active', shown);
+					if (shown) {
+						hydrate(pane);
+					}
 				});
 			}
 
@@ -40,7 +85,72 @@
 				tab.addEventListener('focus', function () { activate(key); });
 				tab.addEventListener('click', function () { activate(key); });
 			});
+
+			if (panel.classList.contains('ap-mega-panel--figma-2026')) {
+				railKeys(panel, tabs, activate);
+			}
 		});
+
+		/*
+		 * Keyboard order for the Figma rail (Who We Help). Every category sits
+		 * above every link in the DOM and only the active category's links are
+		 * displayed, so plain Tab walked the rail and reached only the last
+		 * category's links. Here Tab runs as if each category's links followed
+		 * it: category, its links, next category ... and Shift+Tab mirrors that.
+		 */
+		function railKeys(panel, tabs, activate) {
+			var list = Array.prototype.slice.call(tabs);
+
+			function items(index) {
+				var key = list[index].getAttribute('data-ap-help-tab');
+				var pane = panel.querySelector('[data-ap-help-panel="' + key + '"]');
+				return pane ? Array.prototype.slice.call(pane.querySelectorAll('a[href], button:not([disabled])')) : [];
+			}
+
+			function plainTab(event) {
+				return event.key === 'Tab' && !event.altKey && !event.ctrlKey && !event.metaKey;
+			}
+
+			list.forEach(function (tab, index) {
+				tab.addEventListener('keydown', function (event) {
+					if (!plainTab(event)) {
+						return;
+					}
+					if (!event.shiftKey) {
+						var own = items(index);
+						if (own.length) {
+							event.preventDefault();
+							activate(tab.getAttribute('data-ap-help-tab'));
+							own[0].focus();
+						}
+					} else if (index > 0) {
+						var before = items(index - 1);
+						event.preventDefault();
+						activate(list[index - 1].getAttribute('data-ap-help-tab'));
+						(before.length ? before[before.length - 1] : list[index - 1]).focus();
+					}
+				});
+
+				var key = tab.getAttribute('data-ap-help-tab');
+				var pane = panel.querySelector('[data-ap-help-panel="' + key + '"]');
+				if (!pane) {
+					return;
+				}
+				pane.addEventListener('keydown', function (event) {
+					if (!plainTab(event)) {
+						return;
+					}
+					var own = items(index);
+					if (!event.shiftKey && own.length && document.activeElement === own[own.length - 1] && list[index + 1]) {
+						event.preventDefault();
+						list[index + 1].focus();
+					} else if (event.shiftKey && own.length && document.activeElement === own[0]) {
+						event.preventDefault();
+						tab.focus();
+					}
+				});
+			});
+		}
 
 		/* Desktop menus: report state, and never leave one pinned open. */
 		root.querySelectorAll('.ap-nav-item.ap-has-mega').forEach(function (item) {
@@ -189,8 +299,39 @@
 		});
 	}
 
+	/*
+	 * International visitors. As on live, html.ap-intl is added when the CDN
+	 * trace places the visitor outside these countries; style.css then makes
+	 * Try for Free the primary action and hides the US sales number. Runs once
+	 * per page; any failure leaves the US layout in place.
+	 */
+	var HOME_COUNTRIES = ['US', 'CA', 'GB', 'NZ', 'AU'];
+
+	function geo() {
+		var html = document.documentElement;
+		if (html.getAttribute('data-ap-sh-geo') || html.classList.contains('ap-intl') || !window.fetch) {
+			return;
+		}
+		html.setAttribute('data-ap-sh-geo', '1');
+		try {
+			window.fetch('/cdn-cgi/trace', { cache: 'no-store' })
+				.then(function (response) { return response.ok ? response.text() : ''; })
+				.then(function (text) {
+					var match = /loc=([A-Z]{2})/.exec(text || '');
+					if (match && HOME_COUNTRIES.indexOf(match[1]) === -1) {
+						html.classList.add('ap-intl');
+					}
+				})
+				.catch(function () {});
+		} catch (e) {}
+	}
+
 	function boot() {
-		document.querySelectorAll('[data-ap-site-header]').forEach(init);
+		var roots = document.querySelectorAll('[data-ap-site-header]');
+		roots.forEach(init);
+		if (roots.length) {
+			geo();
+		}
 	}
 
 	if (document.readyState === 'loading') {

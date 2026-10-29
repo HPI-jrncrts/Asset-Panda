@@ -1,0 +1,65 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/thanks-hero",
+	"title": "AP Thanks Hero",
+	"category": "design",
+	"icon": "calendar-alt",
+	"description": "Demo thank-you hero: success tick, heading, gradient subheading and paragraph on the colour-wash backdrop, then the inline Cal.com booking calendar. Live: #ap-demo-thank-you on the seven 2026 demo thank-you pages (/thank-you-fire/, /thank-you-police/, the K-12 / Higher Ed / Local Government / Public Works pages, /thank-you-schedule-demo/) and the restyled hero of /thanks-guided-trial-pro/ (variant trial). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"title_tag": {
+			"type": "string",
+			"default": "h1",
+			"enum": [
+				"h1",
+				"h2"
+			]
+		},
+		"subtitle": {
+			"type": "string",
+			"default": ""
+		},
+		"body": {
+			"type": "string",
+			"default": ""
+		},
+		"background": {
+			"type": "string",
+			"default": ""
+		},
+		"cal_link": {
+			"type": "string",
+			"default": "team/asset-panda-sales/asset-panda-demo"
+		},
+		"cal_namespace": {
+			"type": "string",
+			"default": "asset-panda-demo"
+		},
+		"variant": {
+			"type": "string",
+			"default": "demo",
+			"enum": [
+				"demo",
+				"trial"
+			]
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

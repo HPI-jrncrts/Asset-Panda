@@ -1,0 +1,9 @@
+
+/* QA 2026-10-29: on phones the event artwork (e.g. the 480px Panda Pit Stop logo) ran off the right edge
+   of the screen. Below 576px every art image fits the column; wider screens keep live's behaviour. */
+@media (max-width: 575.98px) {
+	.ap-login-splash__art img,
+	.ap-login-splash__art--wide img {
+		max-width: 100%;
+	}
+}

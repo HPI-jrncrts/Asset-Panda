@@ -1,0 +1,75 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/lp-prose",
+	"title": "AP Lp Prose",
+	"category": "design",
+	"icon": "block-default",
+	"description": "One section of a long-form page (legal pages, guides, webinar notes): an optional anchored heading over rich text (paragraphs, lists, tables, quotes, images, links) set in the kit's reading type on a centred 760px column. Stack one per heading so the page-toc panel can jump between them. lead: the opening paragraph(s) in larger type; panel: the section on a soft rounded panel (contact boxes, summaries). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"title_tag": {
+			"type": "string",
+			"default": "h2",
+			"enum": [
+				"h2",
+				"h3"
+			]
+		},
+		"html": {
+			"type": "string",
+			"default": ""
+		},
+		"variant": {
+			"type": "string",
+			"default": "body",
+			"enum": [
+				"body",
+				"lead",
+				"panel"
+			]
+		},
+		"width": {
+			"type": "string",
+			"default": "narrow",
+			"enum": [
+				"narrow",
+				"wide"
+			]
+		},
+		"space": {
+			"type": "string",
+			"default": "normal",
+			"enum": [
+				"normal",
+				"start",
+				"end"
+			]
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

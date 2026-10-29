@@ -1,0 +1,209 @@
+/*
+ * solution-features — ported from the live .epx-feat section.
+ *
+ * Live's rules re-namespaced from .epx-feat__* / .epx-fcard / .epx-frev to
+ * .ap-solution-features__*. One sheet serves every family; the solution pages
+ * also balance their phone headings. Live's full-bleed 100vw trick is left out
+ * (the block is already full width), and the card hover lifts with translate
+ * rather than transform, which the scroll entrance owns.
+ */
+
+.ap-solution-features,
+.ap-solution-features * {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+.ap-solution-features {
+	position: relative;
+	background: #fff;
+	overflow: hidden;
+	font-family: var(--ap-font-body, 'Manrope', Arial, sans-serif);
+}
+
+.ap-solution-features__wrap {
+	position: relative;
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 40px 40px;
+	display: flex;
+	gap: 40px;
+	align-items: flex-start;
+}
+
+.ap-solution-features__head {
+	position: sticky;
+	top: 0;
+	flex: 0 0 450px;
+	width: 450px;
+	max-width: 640px;
+	padding: 80px 0;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.ap-solution-features__eyebrow {
+	font-size: 14px;
+	font-weight: 800;
+	letter-spacing: .56px;
+	text-transform: uppercase;
+	color: #5044e1;
+	line-height: 1.2;
+}
+
+.ap-solution-features .ap-solution-features__title {
+	font-size: 40px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: normal;
+	color: #25272c;
+}
+
+/* The heading's accent words: live's .epx-g gradient text. */
+.ap-solution-features__g {
+	padding-top: 1em;
+	padding-bottom: .4em;
+	background: linear-gradient(41.5deg, #5044e1 3.6%, #00a991 50.1%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+
+.ap-solution-features__lede {
+	font-size: 18px;
+	line-height: 1.5;
+	color: #4a4e5a;
+}
+
+.ap-solution-features__list {
+	flex: 1 1 0;
+	min-width: 0;
+	padding: 80px 0;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+.ap-solution-features__card {
+	display: flex;
+	gap: 16px;
+	align-items: flex-start;
+	padding: 24px 40px;
+	border-left: 3px solid;
+	background: transparent;
+	transition: translate .25s cubic-bezier(.4, 0, .2, 1), box-shadow .25s cubic-bezier(.4, 0, .2, 1);
+}
+
+.ap-solution-features__card--indigo { border-color: #5044e1; }
+.ap-solution-features__card--red { border-color: #e61c55; }
+.ap-solution-features__card--green { border-color: #00a991; }
+.ap-solution-features__card--yellow { border-color: #de8d14; }
+
+.ap-solution-features__card:hover {
+	translate: 0 -4px;
+	box-shadow: 0 10px 28px rgba(37, 39, 44, .10);
+}
+
+.ap-solution-features__card:focus-visible {
+	outline: 3px solid #5044e1;
+	outline-offset: 2px;
+}
+
+.ap-solution-features__num {
+	flex: 0 0 32px;
+	width: 32px;
+	display: flex;
+	justify-content: center;
+}
+
+.ap-solution-features__body {
+	flex: 1 1 0;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.ap-solution-features .ap-solution-features__body h3 {
+	font-size: 24px;
+	font-weight: 800;
+	line-height: 1.3;
+	letter-spacing: normal;
+	color: #25272c;
+}
+
+.ap-solution-features__body p {
+	font-size: 16px;
+	line-height: 1.5;
+	color: #4a4e5a;
+}
+
+/* UrsaAI as live's .epx-g mark: a gradient word and a green superscript that
+ * does not grow the line (live's theme sets sup line-height 0). */
+.ap-solution-features .ap-ursa {
+	background: linear-gradient(41.5deg, #5044e1 3.6%, #00a991 50.1%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	-webkit-text-fill-color: transparent;
+}
+
+.ap-solution-features .ap-ursa sup {
+	font-size: .64em;
+	font-weight: 700;
+	line-height: 0;
+	vertical-align: super;
+	color: #00a991;
+	-webkit-text-fill-color: #00a991;
+}
+
+/* Scroll reveal: a CSS scroll timeline, staggered per card (no script). */
+@keyframes apSolutionFeaturesUp {
+	from {
+		opacity: 0;
+		transform: translateY(32px);
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.ap-solution-features .ap-solution-features__rev {
+		animation: apSolutionFeaturesUp 1ms linear both;
+		animation-timeline: view();
+		animation-range: entry 5% entry 40%;
+	}
+
+	.ap-solution-features .ap-solution-features__rev--d1 { animation-range: entry 11% entry 46%; }
+	.ap-solution-features .ap-solution-features__rev--d2 { animation-range: entry 17% entry 52%; }
+	.ap-solution-features .ap-solution-features__rev--d3 { animation-range: entry 23% entry 58%; }
+}
+
+@media (max-width: 1000px) {
+	.ap-solution-features__wrap {
+		flex-direction: column;
+		gap: 0;
+	}
+
+	.ap-solution-features__head {
+		position: static;
+		width: auto;
+		flex: 0 0 auto;
+		padding: 56px 0 8px;
+	}
+
+	.ap-solution-features__list {
+		padding: 24px 0 56px;
+		width: 100%;
+	}
+
+	.ap-solution-features .ap-solution-features__title { font-size: 32px; }
+	.ap-solution-features__card { padding: 20px 24px; }
+}
+
+@media (max-width: 640px) {
+	.ap-solution-features__wrap { padding: 0 20px 24px; }
+	.ap-solution-features .ap-solution-features__title { font-size: 28px; }
+	.ap-solution-features .ap-solution-features__body h3 { font-size: 20px; }
+	.ap-solution-features--solution :is(h2, h3, .ap-solution-features__eyebrow) { text-wrap: balance; }
+}

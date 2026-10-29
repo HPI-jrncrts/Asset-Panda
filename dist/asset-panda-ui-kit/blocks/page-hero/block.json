@@ -1,0 +1,121 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/page-hero",
+	"title": "AP Page Hero",
+	"category": "design",
+	"icon": "block-default",
+	"description": "Utility page hero for the 2026 company and resource pages (integrations, partners, compare, FAQ, tutorials, about, careers, reviews, ROI calculator): an eyebrow, a headline with an optional gradient phrase, lede paragraphs, check chips, two buttons and badges on the soft brand colour wash; centred, or split beside a framed product image. An optional stat row closes it. The eyebrow can carry the page h1 (live's small-label h1 pattern) with the headline as the h2. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
+		"layout": {
+			"type": "string",
+			"default": "center",
+			"enum": [
+				"center",
+				"split"
+			]
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"eyebrow_tag": {
+			"type": "string",
+			"default": "p",
+			"enum": [
+				"p",
+				"h1"
+			]
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"title_tag": {
+			"type": "string",
+			"default": "h1",
+			"enum": [
+				"h1",
+				"h2"
+			]
+		},
+		"title_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"chips": {
+			"type": "array",
+			"default": []
+		},
+		"cta_label": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_url": {
+			"type": "string",
+			"default": ""
+		},
+		"secondary_label": {
+			"type": "string",
+			"default": ""
+		},
+		"secondary_url": {
+			"type": "string",
+			"default": ""
+		},
+		"badges": {
+			"type": "array",
+			"default": []
+		},
+		"image": {
+			"type": "string",
+			"default": ""
+		},
+		"image_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"image_width": {
+			"type": "number",
+			"default": 0
+		},
+		"image_height": {
+			"type": "number",
+			"default": 0
+		},
+		"image_frame": {
+			"type": "string",
+			"default": "card",
+			"enum": [
+				"card",
+				"plain"
+			]
+		},
+		"stats": {
+			"type": "array",
+			"default": []
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

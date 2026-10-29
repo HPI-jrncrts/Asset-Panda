@@ -1,0 +1,22 @@
+{
+	"name": "media-band",
+	"description": "Centred band: eyebrow, heading, a bold sub line, copy and a button over an optional wide image or a YouTube video (poster that plays in place on click). Used on the form pages (/get-a-quote-pro/, /start-a-free-trial-email-only/) for live's 'Manage your assets your way' video, 'Build with Ursa AI' banner and the closing trial call to action.",
+	"props": {
+		"anchor": { "type": "string", "required": false, "default": "", "description": "id on the section (letters, digits, hyphens)." },
+		"layout": { "type": "string", "required": false, "default": "stack", "enum": [ "stack", "split" ], "description": "stack: copy centred over the media. split: copy left (7/12), media right (5/12) from 992px, as live's Build with Ursa AI band." },
+		"tone": { "type": "string", "required": false, "default": "soft", "enum": [ "soft", "white" ], "description": "soft: a rounded off-white panel (live's rounded off-white sections). white: no panel." },
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small uppercase label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading. Line breaks are kept." },
+		"title_tag": { "type": "string", "required": false, "default": "h2", "enum": [ "h2", "h3" ], "description": "Heading level." },
+		"subtitle": { "type": "string", "required": false, "default": "", "description": "Bold line under the heading." },
+		"body": { "type": "string", "required": false, "default": "", "description": "Paragraph. Line breaks are kept; UrsaAI is set with its superscript." },
+		"cta_label": { "type": "string", "required": false, "default": "", "description": "Button text. Renders only with cta_url." },
+		"cta_url": { "type": "string", "required": false, "default": "", "description": "Button destination (a page, or #anchor of a form on the page)." },
+		"image": { "type": "string", "required": false, "default": "", "description": "Wide image under the copy; with video it is the poster." },
+		"image_alt": { "type": "string", "required": false, "default": "", "description": "Image alt text (empty when decorative)." },
+		"image_width": { "type": "integer", "required": false, "default": 0, "description": "Image intrinsic width in px. 0 omits it." },
+		"image_height": { "type": "integer", "required": false, "default": 0, "description": "Image intrinsic height in px. 0 omits it." },
+		"video": { "type": "string", "required": false, "default": "", "description": "YouTube URL (watch, youtu.be or embed form). The poster becomes a play button that swaps in the player; without JavaScript it opens the video on YouTube." },
+		"video_title": { "type": "string", "required": false, "default": "", "description": "Accessible name of the video, e.g. Asset Panda overview video." }
+	}
+}

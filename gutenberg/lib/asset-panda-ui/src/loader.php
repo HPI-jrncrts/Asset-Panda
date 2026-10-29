@@ -375,6 +375,10 @@ function ap_render_component( $component, array $props = array() ) {
  * an asset — it arrives as a prop from the editor. Escape at the point of
  * output with esc_url().
  *
+ * The kit version rides along as ?ver=, as it does on the stylesheets: hosts
+ * cache these files for a year, so an asset fixed in a release would otherwise
+ * keep serving its old bytes at the same URL.
+ *
  * @param string $component Component name.
  * @param string $file      File name inside components/<name>/assets/.
  * @return string URL, or '' when the kit has no public URL configured.
@@ -383,7 +387,7 @@ function ap_ui_asset_url( $component, $file ) {
 	if ( '' === AP_UI_URL ) {
 		return '';
 	}
-	return AP_UI_URL . '/components/' . rawurlencode( $component ) . '/assets/' . rawurlencode( $file );
+	return AP_UI_URL . '/components/' . rawurlencode( $component ) . '/assets/' . rawurlencode( $file ) . '?ver=' . rawurlencode( AP_UI_VERSION );
 }
 
 /**
@@ -428,12 +432,22 @@ function ap_ui_brandmarks( $escaped ) {
  * @return string Sanitised SVG, or ''.
  */
 function ap_ui_svg( $markup ) {
-	static $allowed = null;
-
 	$markup = trim( (string) $markup );
 	if ( '' === $markup || 0 !== stripos( $markup, '<svg' ) ) {
 		return '';
 	}
+
+	return wp_kses( $markup, ap_ui_svg_allowlist() );
+}
+
+/**
+ * The wp_kses allowlist for inline SVG: drawing elements and presentation
+ * attributes only. Shared by ap_ui_svg() and ap_ui_markup().
+ *
+ * @return array<string, array<string, bool>>
+ */
+function ap_ui_svg_allowlist() {
+	static $allowed = null;
 
 	if ( null === $allowed ) {
 		$attrs   = array_fill_keys(
@@ -446,5 +460,68 @@ function ap_ui_svg( $markup ) {
 		);
 	}
 
-	return wp_kses( $markup, $allowed );
+	return $allowed;
+}
+
+/**
+ * Sanitise a decorative mockup fragment supplied as a prop.
+ *
+ * Some heroes illustrate the product with small mock UI cards (a request, a
+ * record, a status chip) whose structure differs from card to card. They are
+ * decoration, not content, so rather than a schema per card the fragment
+ * arrives as markup and only a fixed vocabulary survives: text-level and
+ * layout tags, images, inline SVG, and class/style attributes. Styles pass
+ * WordPress's safe-CSS filter, widened only by the geometry properties these
+ * cards position themselves with, and narrowed to refuse position: fixed and
+ * sticky so a fragment can never cover the page. No links, forms, scripts,
+ * event handlers or iframes can get through.
+ *
+ * @param string $markup Raw, untrusted markup.
+ * @return string Sanitised markup, or ''.
+ */
+function ap_ui_markup( $markup ) {
+	static $allowed = null;
+
+	$markup = trim( (string) $markup );
+	if ( '' === $markup ) {
+		return '';
+	}
+
+	if ( null === $allowed ) {
+		$common  = array(
+			'class'       => true,
+			'style'       => true,
+			'aria-hidden' => true,
+		);
+		$allowed = ap_ui_svg_allowlist();
+		foreach ( array( 'div', 'span', 'p', 'b', 'strong', 'em', 'i', 'sup', 'sub', 'small', 'ul', 'ol', 'li' ) as $tag ) {
+			$allowed[ $tag ] = $common;
+		}
+		$allowed['br']  = array();
+		$allowed['img'] = $common + array(
+			'src'      => true,
+			'alt'      => true,
+			'width'    => true,
+			'height'   => true,
+			'loading'  => true,
+			'decoding' => true,
+		);
+	}
+
+	$geometry = static function ( $properties ) {
+		return array_merge( $properties, array( 'left', 'top', 'right', 'bottom', 'position', 'z-index', 'transform', 'opacity', 'object-fit', 'gap' ) );
+	};
+	// A decorative card positions itself inside its scene (absolute / relative),
+	// never over the page: fixed and sticky would let a fragment cover the whole
+	// viewport, so those two values are refused even though core allows them.
+	$no_overlay = static function ( $allow, $css ) {
+		return preg_match( '/^\s*position\s*:\s*(?:fixed|sticky)\b/i', (string) $css ) ? false : $allow;
+	};
+	add_filter( 'safe_style_css', $geometry );
+	add_filter( 'safecss_filter_attr_allow_css', $no_overlay, 10, 2 );
+	$out = wp_kses( $markup, $allowed );
+	remove_filter( 'safecss_filter_attr_allow_css', $no_overlay, 10 );
+	remove_filter( 'safe_style_css', $geometry );
+
+	return $out;
 }

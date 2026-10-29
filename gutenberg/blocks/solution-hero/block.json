@@ -1,0 +1,101 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/solution-hero",
+	"title": "AP Solution Hero",
+	"category": "design",
+	"icon": "cover-image",
+	"description": "Solution-page hero: copy, demo button and badges beside a stage with a cut-out photo and floating mock UI cards, over a chip strip. Live: .epx-hero on the September 2026 solution pages (asset management, inventory, fixed asset, ITAM, tool tracking, equipment). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"title_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_label": {
+			"type": "string",
+			"default": "Free Demo"
+		},
+		"cta_url": {
+			"type": "string",
+			"default": "/get-a-demo/"
+		},
+		"badges": {
+			"type": "array",
+			"default": []
+		},
+		"background": {
+			"type": "string",
+			"default": ""
+		},
+		"photo": {
+			"type": "string",
+			"default": ""
+		},
+		"photo_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"visual": {
+			"type": "object",
+			"default": {}
+		},
+		"photo_box": {
+			"type": "object",
+			"default": {}
+		},
+		"cards": {
+			"type": "array",
+			"default": []
+		},
+		"features": {
+			"type": "array",
+			"default": []
+		},
+		"secondary_label": {
+			"type": "string",
+			"default": ""
+		},
+		"secondary_url": {
+			"type": "string",
+			"default": ""
+		},
+		"badges_below": {
+			"type": "boolean",
+			"default": false
+		},
+		"title_accent_fill": {
+			"type": "string",
+			"default": "slice",
+			"enum": [
+				"slice",
+				"heading"
+			]
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

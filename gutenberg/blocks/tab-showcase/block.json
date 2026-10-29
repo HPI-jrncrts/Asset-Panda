@@ -1,0 +1,85 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/tab-showcase",
+	"title": "AP Tab Showcase",
+	"category": "design",
+	"icon": "table-row-before",
+	"description": "Tabbed before/after panel: an asset record card beside the intelligence it gains, with an AI insight and a closing definition band. Tabs are CSS-only radio inputs. Live: .apx-bat on /asset-intelligence-platform/. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"title_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"track_label": {
+			"type": "string",
+			"default": ""
+		},
+		"track_label_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"track_connector": {
+			"type": "string",
+			"default": ""
+		},
+		"intel_label": {
+			"type": "string",
+			"default": ""
+		},
+		"intel_label_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"intel_connector": {
+			"type": "string",
+			"default": ""
+		},
+		"panels": {
+			"type": "array",
+			"default": []
+		},
+		"definition_title": {
+			"type": "string",
+			"default": ""
+		},
+		"definition_body": {
+			"type": "string",
+			"default": ""
+		},
+		"definition_orb": {
+			"type": "string",
+			"default": ""
+		},
+		"definition_orb_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

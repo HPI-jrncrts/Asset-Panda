@@ -1,0 +1,374 @@
+/*
+ * pricing-hero — port of the live `.ap-pricing-hero` section (/new-pricing/).
+ *
+ * Copy on the left, the HubSpot quote form in a white card on the right; the
+ * two stack below 992px. HubSpot draws its form straight into the page (no
+ * iframe, `css: ""`), so the form rules below style HubSpot's own markup. They
+ * keep live's !important flags: the host theme styles bare inputs and buttons.
+ *
+ * The eyebrow and body are 18px at every width: on live the theme rule
+ * `.ap2 p { font-size: 18px }` (0,1,1) outranks the section sheet's own sizes
+ * (eyebrow 16/15px, body 17/16px below 992/768px), and the kit follows what
+ * live shows.
+ */
+
+.ap-pricing-hero {
+	width: 100%;
+	min-height: 404px;
+	padding: 88px 24px 40px;
+	background: var(--ap-white);
+	box-sizing: border-box;
+	font-family: var(--ap-font-body);
+	color: #121212;
+	text-align: left;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.ap-pricing-hero,
+.ap-pricing-hero * {
+	box-sizing: border-box;
+}
+
+/* The dev theme sets text-wrap:pretty on headings and paragraphs; live wraps
+   normally, and pretty moves line breaks. */
+.ap-pricing-hero :where(h1, h2, h3, h4, h5, h6, p, label) {
+	text-wrap: wrap;
+}
+
+.ap-pricing-hero .ap-pricing-hero__inner {
+	width: 100%;
+	max-width: 1100px;
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: minmax(0, 516px) minmax(0, 536px);
+	gap: 48px;
+	align-items: center;
+}
+
+.ap-pricing-hero .ap-pricing-hero__content {
+	width: 100%;
+}
+
+.ap-pricing-hero .ap-pricing-hero__eyebrow {
+	margin: 0 0 16px;
+	font-family: var(--ap-font-body) !important;
+	font-weight: 800;
+	font-size: 18px;
+	line-height: 1.2;
+	color: var(--ap-brand-indigo);
+	text-align: left;
+	letter-spacing: 0;
+}
+
+.ap-pricing-hero .ap-pricing-hero__title {
+	margin: 0;
+	font-family: var(--ap-font-body) !important;
+	font-weight: 800;
+	font-size: 48px;
+	line-height: 1.2;
+	color: #121212;
+	text-align: left;
+	letter-spacing: -0.02em;
+}
+
+.ap-pricing-hero .ap-pricing-hero__body {
+	margin: 16px 0 0;
+	font-family: var(--ap-font-body) !important;
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 1.5;
+	color: #4b5563;
+	text-align: left;
+}
+
+.ap-pricing-hero .ap-pricing-hero__form-card {
+	width: 100%;
+	min-height: auto;
+	margin-top: 0;
+	padding: 28px;
+	background: var(--ap-white);
+	border-radius: 20px;
+	box-shadow:
+		0 0 4px rgba(200, 210, 253, 0.9),
+		0 8px 24px rgba(32, 28, 74, 0.08);
+}
+
+/* ---- HubSpot form ---- */
+
+.ap-pricing-hero .ap-pricing-hero__hubspot-form {
+	--ap-pricing-field-gap: 16px;
+	--ap-pricing-field-height: 42px;
+	width: 100%;
+}
+
+.ap-pricing-hero .ap-pricing-hero__hubspot-form form,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form form.hs-form,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form .hs-form,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form .hs-form__pagination-content-container {
+	width: 100% !important;
+	max-width: 100% !important;
+	display: flex !important;
+	flex-direction: column !important;
+	gap: var(--ap-pricing-field-gap) !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.ap-pricing-hero .ap-pricing-hero__hubspot-form fieldset,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form .form-columns-1,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form .form-columns-2,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form .form-columns-3,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form .hs-form__row,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form .hs-form__group,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form .hs-form__field-row {
+	width: 100% !important;
+	max-width: 100% !important;
+	display: flex !important;
+	flex-direction: column !important;
+	gap: var(--ap-pricing-field-gap) !important;
+	align-items: stretch !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 0 !important;
+}
+
+.ap-pricing-hero .ap-pricing-hero__hubspot-form .hs-form__field-row__column,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form .hs-form__field,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form .hs-form-field,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form .input,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form .hs_submit,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form .actions,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form .hs-form__actions {
+	width: 100% !important;
+	max-width: 100% !important;
+	flex: 1 1 100% !important;
+	float: none !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.ap-pricing-hero .ap-pricing-hero__hubspot-form label:not(.hs-error-msg) {
+	display: none !important;
+}
+
+.ap-pricing-hero .ap-pricing-hero__hubspot-form input.hs-input:not([type="hidden"]),
+.ap-pricing-hero .ap-pricing-hero__hubspot-form select.hs-input,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form textarea.hs-input,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form input[type="email"],
+.ap-pricing-hero .ap-pricing-hero__hubspot-form input[type="tel"],
+.ap-pricing-hero .ap-pricing-hero__hubspot-form input[type="text"],
+.ap-pricing-hero .ap-pricing-hero__hubspot-form input[type="number"],
+.ap-pricing-hero .ap-pricing-hero__hubspot-form select,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form textarea,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form .hs-form__field__input {
+	width: 100% !important;
+	max-width: 100% !important;
+	height: var(--ap-pricing-field-height) !important;
+	min-height: var(--ap-pricing-field-height) !important;
+	margin: 0 !important;
+	padding: 0 14px !important;
+	border: 1px solid #e5edf3 !important;
+	border-radius: 6px !important;
+	background: #f5f8fa !important;
+	background-color: #f5f8fa !important;
+	color: #1f2937 !important;
+	font-family: var(--ap-font-body) !important;
+	font-size: 14px !important;
+	line-height: var(--ap-pricing-field-height) !important;
+	font-weight: 400 !important;
+	letter-spacing: normal !important;
+	box-shadow: none !important;
+	outline: none !important;
+}
+
+.ap-pricing-hero .ap-pricing-hero__hubspot-form input::placeholder,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form textarea::placeholder {
+	color: #a8b2c1 !important;
+	opacity: 1 !important;
+}
+
+.ap-pricing-hero .ap-pricing-hero__hubspot-form input:focus,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form select:focus,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form textarea:focus,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form .hs-form__field__input:focus {
+	border-color: var(--ap-brand-indigo) !important;
+	box-shadow: 0 0 0 2px rgba(80, 68, 225, 0.12) !important;
+}
+
+.ap-pricing-hero .ap-pricing-hero__hubspot-form input[type="submit"],
+.ap-pricing-hero .ap-pricing-hero__hubspot-form button[type="submit"],
+.ap-pricing-hero .ap-pricing-hero__hubspot-form .hs-button,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form .hs-form__actions__submit {
+	display: block !important;
+	width: 100% !important;
+	max-width: 100% !important;
+	height: 56px !important;
+	min-height: 56px !important;
+	margin: 0 !important;
+	padding: 16px 20px !important;
+	border: 0 !important;
+	border-radius: 6px !important;
+	background: var(--ap-brand-green) !important;
+	background-color: var(--ap-brand-green) !important;
+	background-image: none !important;
+	color: var(--ap-white) !important;
+	font-family: var(--ap-font-body) !important;
+	font-size: 14px !important;
+	line-height: 1.2 !important;
+	font-weight: 700 !important;
+	letter-spacing: normal !important;
+	text-align: center !important;
+	text-shadow: none !important;
+	box-shadow: none !important;
+	cursor: pointer !important;
+	appearance: none !important;
+	-webkit-appearance: none !important;
+}
+
+.ap-pricing-hero .ap-pricing-hero__hubspot-form input[type="submit"]:hover,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form button[type="submit"]:hover,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form .hs-button:hover,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form .hs-form__actions__submit:hover {
+	background: #008f7b !important;
+	background-color: #008f7b !important;
+	background-image: none !important;
+}
+
+.ap-pricing-hero .ap-pricing-hero__hubspot-form .hs-error-msgs,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form .hs-form__field__messages,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form .hs-form__messages {
+	position: static !important;
+	display: block !important;
+	width: 100% !important;
+	margin: 6px 0 0 !important;
+	padding: 0 !important;
+	list-style: none !important;
+	clear: both !important;
+}
+
+.ap-pricing-hero .ap-pricing-hero__hubspot-form .hs-error-msg,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form .hs-error-msgs label,
+.ap-pricing-hero .ap-pricing-hero__hubspot-form .hs-form__field__error-message {
+	position: static !important;
+	display: block !important;
+	margin: 0 !important;
+	color: #d93025 !important;
+	font-family: var(--ap-font-body) !important;
+	font-size: 12px !important;
+	line-height: 1.4 !important;
+	text-align: left !important;
+}
+
+.ap-pricing-hero .ap-pricing-hero__hubspot-form .submitted-message {
+	margin: 0 !important;
+	font-family: var(--ap-font-body) !important;
+	font-weight: 600 !important;
+	font-size: 16px !important;
+	line-height: 1.5 !important;
+	color: #121212 !important;
+}
+
+/* Fields and rows the script holds back (enrichment, tracking-only rows). */
+.ap-pricing-hero .ap-pricing-hero__hidden {
+	display: none !important;
+	height: 0 !important;
+	min-height: 0 !important;
+	max-height: 0 !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	overflow: hidden !important;
+	visibility: hidden !important;
+	opacity: 0 !important;
+}
+
+@media (max-width: 1100px) {
+	.ap-pricing-hero .ap-pricing-hero__inner {
+		grid-template-columns: minmax(0, 1fr) minmax(420px, 0.95fr);
+		gap: 36px;
+	}
+
+	.ap-pricing-hero .ap-pricing-hero__title {
+		font-size: 44px;
+	}
+}
+
+@media (max-width: 991px) {
+	.ap-pricing-hero {
+		min-height: auto;
+		padding: 64px 24px 56px;
+	}
+
+	.ap-pricing-hero .ap-pricing-hero__inner {
+		max-width: 760px;
+		grid-template-columns: 1fr;
+		gap: 32px;
+		align-items: stretch;
+	}
+
+	.ap-pricing-hero .ap-pricing-hero__content {
+		max-width: 620px;
+	}
+
+	.ap-pricing-hero .ap-pricing-hero__form-card {
+		max-width: 536px;
+		margin-top: 0;
+	}
+
+	.ap-pricing-hero .ap-pricing-hero__title {
+		font-size: 42px;
+	}
+}
+
+@media (max-width: 767px) {
+	.ap-pricing-hero {
+		padding: 56px 20px 48px;
+	}
+
+	.ap-pricing-hero .ap-pricing-hero__title {
+		font-size: 36px;
+		line-height: 1.15;
+	}
+
+	.ap-pricing-hero .ap-pricing-hero__form-card {
+		padding: 24px 18px;
+		border-radius: 18px;
+	}
+}
+
+@media (max-width: 480px) {
+	.ap-pricing-hero {
+		padding: 48px 18px 42px;
+	}
+
+	.ap-pricing-hero .ap-pricing-hero__title {
+		font-size: 32px;
+	}
+
+	.ap-pricing-hero .ap-pricing-hero__form-card {
+		padding: 20px 16px;
+	}
+}
+
+/* ---- kit type scale (QA 2026-10-28) ----
+ * Eyebrow, H1 and paragraph (the eyebrow was 18px sentence case, the H1 48/44/42/36/32px at -0.02em).
+ * One heading scale across every hero (ui/src/tokens.css --ap-type-*): same size, weight 800, zero
+ * tracking at every width, so no H1 reads thicker or tighter than another. */
+.ap-pricing-hero .ap-pricing-hero__eyebrow {
+	font-size: var(--ap-type-eyebrow-size);
+	font-weight: var(--ap-type-eyebrow-weight);
+	line-height: var(--ap-type-eyebrow-line);
+	letter-spacing: var(--ap-type-eyebrow-track);
+	text-transform: uppercase;
+}
+.ap-pricing-hero .ap-pricing-hero__title {
+	font-size: var(--ap-type-h1-size);
+	font-weight: var(--ap-type-h1-weight);
+	line-height: var(--ap-type-h1-line);
+	letter-spacing: var(--ap-type-h1-track);
+}
+.ap-pricing-hero .ap-pricing-hero__body {
+	font-size: var(--ap-type-lede-size);
+	line-height: var(--ap-type-lede-line);
+}

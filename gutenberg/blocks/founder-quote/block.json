@@ -1,0 +1,81 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/founder-quote",
+	"title": "AP Founder Quote",
+	"category": "design",
+	"icon": "format-quote",
+	"description": "Founder's note: eyebrow and title, then a rounded portrait with the Asset Panda logo beside a pull quote, the note itself and the attribution. Live: .apx-fdr \"Why we built it\" on the Asset Intelligence Platform page. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"photo": {
+			"type": "string",
+			"default": ""
+		},
+		"photo_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"logo": {
+			"type": "string",
+			"default": ""
+		},
+		"quote_svg": {
+			"type": "string",
+			"default": ""
+		},
+		"pull": {
+			"type": "string",
+			"default": ""
+		},
+		"pull_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"body": {
+			"type": "array",
+			"default": []
+		},
+		"author": {
+			"type": "string",
+			"default": ""
+		},
+		"author_role": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_label": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_url": {
+			"type": "string",
+			"default": ""
+		},
+		"photo_fade": {
+			"type": "boolean",
+			"default": true
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

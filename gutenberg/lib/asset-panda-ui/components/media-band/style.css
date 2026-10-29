@@ -1,0 +1,202 @@
+/*
+ * media-band — centred copy and a button over a wide image or a video.
+ *
+ * soft: the band sits in a rounded off-white panel inside the 1120px
+ * container (live's "ap2 rounded solid offwhite" sections); white: no panel.
+ * The video poster keeps its own aspect ratio; once played, the player takes
+ * a 16:9 box of the same width.
+ */
+
+.ap-media-band,
+.ap-media-band * {
+	box-sizing: border-box;
+}
+
+.ap-media-band {
+	width: 100%;
+	padding: 32px 24px;
+	background: var(--ap-white);
+	font-family: var(--ap-font-body);
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.5;
+	color: var(--ap-text-body);
+	text-align: center;
+}
+
+.ap-media-band :where(h2, h3, p) {
+	text-wrap: wrap;
+}
+
+.ap-media-band__inner {
+	width: 100%;
+	max-width: var(--ap-host-container, 1120px);
+	margin: 0 auto;
+	padding: 64px 48px;
+}
+
+.ap-media-band--soft .ap-media-band__inner {
+	border-radius: var(--ap-radius-2xl);
+	background: var(--ap-surface-alt);
+	box-shadow: inset 0 0 0 1px var(--ap-slate-100);
+}
+
+.ap-media-band--white .ap-media-band__inner {
+	padding-top: 40px;
+	padding-bottom: 40px;
+}
+
+.ap-media-band__copy {
+	max-width: 760px;
+	margin: 0 auto;
+}
+
+.ap-media-band .ap-media-band__eyebrow {
+	margin: 0 0 12px;
+	color: var(--ap-text-eyebrow);
+	font-size: 14px;
+	font-weight: var(--ap-weight-eyebrow);
+	line-height: 1.2;
+	letter-spacing: .56px;
+	text-transform: uppercase;
+}
+
+.ap-media-band .ap-media-band__title {
+	margin: 0;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-body);
+	font-size: clamp(28px, 3vw, 40px);
+	font-weight: var(--ap-weight-heading);
+	line-height: 1.2;
+	letter-spacing: -0.02em;
+	text-transform: none;
+}
+
+.ap-media-band .ap-media-band__sub {
+	margin: 12px 0 0;
+	color: var(--ap-text-body-strong);
+	font-size: 20px;
+	font-weight: 700;
+	line-height: 1.4;
+}
+
+.ap-media-band .ap-media-band__body {
+	margin: 12px 0 0;
+	color: var(--ap-text-body);
+	font-size: 18px;
+	line-height: 1.55;
+}
+
+.ap-media-band__btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 48px;
+	margin-top: 28px;
+	padding: 0 28px;
+	border-radius: var(--ap-radius-sm);
+	background: linear-gradient(60.14deg, var(--ap-brand-indigo) 0%, var(--ap-brand-green) 70.44%);
+	color: var(--ap-white);
+	font-size: 16px;
+	font-weight: var(--ap-weight-button);
+	line-height: 1.2;
+	text-decoration: none;
+}
+
+.ap-media-band__btn:hover,
+.ap-media-band__btn:focus-visible {
+	color: var(--ap-white);
+}
+
+.ap-media-band__media {
+	max-width: 880px;
+	margin: 40px auto 0;
+}
+
+.ap-media-band__media img {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+
+.ap-media-band__media--video {
+	position: relative;
+	overflow: hidden;
+	border-radius: var(--ap-radius-xl);
+	box-shadow: 0 8px 24px rgba(32, 28, 74, .12);
+}
+
+.ap-media-band__play {
+	position: relative;
+	display: block;
+	line-height: 0;
+}
+
+.ap-media-band__icon {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 68px;
+	height: 48px;
+	translate: -50% -50%;
+	transition: scale var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-media-band__icon svg {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.ap-media-band__play:hover .ap-media-band__icon,
+.ap-media-band__play:focus-visible .ap-media-band__icon {
+	scale: 1.08;
+}
+
+.ap-media-band__frame {
+	display: block;
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	border: 0;
+}
+
+/* split: copy left, media right (live's col-md-7 / col-md-5 Ursa band). */
+@media (min-width: 992px) {
+	.ap-media-band--split .ap-media-band__inner {
+		display: grid;
+		grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+		gap: 48px;
+		align-items: center;
+	}
+
+	.ap-media-band--split .ap-media-band__media {
+		max-width: 380px;
+		margin: 0 auto;
+	}
+}
+
+.ap-media-band--split .ap-media-band__media {
+	max-width: 380px;
+}
+
+@media (max-width: 767px) {
+	.ap-media-band {
+		padding: 16px 16px;
+	}
+
+	.ap-media-band__inner {
+		padding: 40px 20px;
+	}
+
+	.ap-media-band .ap-media-band__sub {
+		font-size: 18px;
+	}
+
+	.ap-media-band .ap-media-band__body {
+		font-size: 17px;
+	}
+
+	.ap-media-band__media {
+		margin-top: 28px;
+	}
+}

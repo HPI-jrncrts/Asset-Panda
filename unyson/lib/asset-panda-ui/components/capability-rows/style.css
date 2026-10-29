@@ -234,50 +234,73 @@
 }
 
 @media (max-width:1024px) {
-	.ap-capability-rows .apg-sol-row {
+	.ap-capability-rows:not(.ap-capability-rows--stack-900):not(.ap-capability-rows--readiness) .apg-sol-row {
 	flex-direction:column;
 	gap:16px
 }
-
-.ap-capability-rows .apg-sol-left {
+	.ap-capability-rows:not(.ap-capability-rows--stack-900):not(.ap-capability-rows--readiness) .apg-sol-left {
 	flex:none;
 	max-width:none
 }
-
-.ap-capability-rows .apg-sol-ender {
+	.ap-capability-rows:not(.ap-capability-rows--stack-900):not(.ap-capability-rows--readiness) .apg-sol-ender {
 	flex-direction:column;
 	align-items:stretch
 }
-
-.ap-capability-rows .apg-btn {
+	.ap-capability-rows:not(.ap-capability-rows--stack-900):not(.ap-capability-rows--readiness) .apg-btn {
 	width:100%
 }
-
-
+}
+@media (max-width: 900px) {
+	.ap-capability-rows.ap-capability-rows--stack-900:not(.ap-capability-rows--readiness) .apg-sol-row {
+	flex-direction:column;
+	gap:16px
+}
+	.ap-capability-rows.ap-capability-rows--stack-900:not(.ap-capability-rows--readiness) .apg-sol-left {
+	flex:none;
+	max-width:none
+}
+	.ap-capability-rows.ap-capability-rows--stack-900:not(.ap-capability-rows--readiness) .apg-sol-ender {
+	flex-direction:column;
+	align-items:stretch
+}
+	.ap-capability-rows.ap-capability-rows--stack-900:not(.ap-capability-rows--readiness) .apg-btn {
+	width:100%
+}
 }
 
 @media (max-width:767px) {
-	.ap-capability-rows {
+	.ap-capability-rows:not(.ap-capability-rows--stack-900):not(.ap-capability-rows--readiness) {
 	padding:32px 24px 48px
 }
-
-.ap-capability-rows h2.apg-h2 {
+	.ap-capability-rows:not(.ap-capability-rows--stack-900):not(.ap-capability-rows--readiness) h2.apg-h2 {
 	font-size:28px
 }
-
-.ap-capability-rows .apg-sol-row {
+	.ap-capability-rows:not(.ap-capability-rows--stack-900):not(.ap-capability-rows--readiness) .apg-sol-row {
 	padding:20px
 }
-
-.ap-capability-rows .apg-sol-title {
+	.ap-capability-rows:not(.ap-capability-rows--stack-900):not(.ap-capability-rows--readiness) .apg-sol-title {
 	font-size:20px
 }
-
-.ap-capability-rows .apg-sol-body {
+	.ap-capability-rows:not(.ap-capability-rows--stack-900):not(.ap-capability-rows--readiness) .apg-sol-body {
 	font-size:16px
 }
-
-
+}
+@media (max-width:767px) {
+	.ap-capability-rows.ap-capability-rows--stack-900:not(.ap-capability-rows--readiness) {
+	padding:32px 24px 48px
+}
+	.ap-capability-rows.ap-capability-rows--stack-900:not(.ap-capability-rows--readiness) h2.apg-h2 {
+	font-size:28px
+}
+	.ap-capability-rows.ap-capability-rows--stack-900:not(.ap-capability-rows--readiness) .apg-sol-row {
+	padding:20px
+}
+	.ap-capability-rows.ap-capability-rows--stack-900:not(.ap-capability-rows--readiness) .apg-sol-title {
+	font-size:20px
+}
+	.ap-capability-rows.ap-capability-rows--stack-900:not(.ap-capability-rows--readiness) .apg-sol-body {
+	font-size:16px
+}
 }
 
 /*apsolarrow*/.ap-capability-rows .apg-sol-cta img {
@@ -309,3 +332,102 @@
 	line-height: 1.5;
 	text-align: center;
 }
+
+/* Numbered rows with only a coloured rule (live .apx-sol on the platform page). */
+.ap-capability-rows .apg-sol-num {
+	width: 40px;
+	flex: 0 0 40px;
+	color: var(--ap-indigo-600, #5044e1);
+	font-family: var(--ap-font-display);
+	font-size: 20px;
+	font-weight: 800;
+	line-height: 1.2;
+}
+
+.ap-capability-rows .apg-sol-rows--plain .apg-sol-row {
+	background: none;
+	border: 0;
+	border-left: 2px solid var(--ap-indigo-600, #5044e1);
+	border-radius: 0;
+	box-shadow: none;
+}
+
+/* variant "readiness" (Emergency Preparedness, School Reunification; live .epx-sol): tighter
+ * heading, a 427px title column, and rows that stay side by side down to 1001px. */
+.ap-capability-rows--readiness { padding: 80px 40px 40px; }
+.ap-capability-rows--readiness .apg-sol-lede { margin-top: 0; }
+.ap-capability-rows--readiness .apg-sol-row { gap: 40px; }
+.ap-capability-rows--readiness .apg-sol-left { flex: 0 0 427px; max-width: none; }
+.ap-capability-rows--readiness .apg-sol-right { gap: 16px; padding-top: 4px; }
+.ap-capability-rows--readiness .apg-sol-cta { padding-top: 0; }
+@media (max-width:1000px) {
+	.ap-capability-rows--readiness h2.apg-h2 { font-size: 32px; }
+	.ap-capability-rows--readiness .apg-sol-row { flex-direction: column; gap: 16px; padding: 24px 24px 14px; }
+	.ap-capability-rows--readiness .apg-sol-left { flex: 0 0 auto; }
+	.ap-capability-rows--readiness .apg-sol-right { padding-top: 0; }
+}
+@media (max-width:640px) {
+	.ap-capability-rows--readiness { padding: 56px 20px 24px; }
+	.ap-capability-rows--readiness h2.apg-h2 { font-size: 28px; }
+	.ap-capability-rows--readiness .apg-sol-title { font-size: 20px; }
+	.ap-capability-rows--readiness .apg-sol-body { font-size: 16px; }
+}
+
+/* stack-900 variant generated */
+
+
+/*
+ * Education hub variant — live #ap-eduhub-solution, ported whole (selectors re-rooted
+ * from the section id; class names are live's own). The row links draw their arrow as
+ * a tinted mask of the kit's own arrow; plus live's page-level link gradient and the
+ * 48px phone band spacing.
+ */
+.ap-capability-rows.ap-capability-rows--eduhub{position:relative;background:#ffffff;padding:40px 24px 80px}
+.ap-capability-rows.ap-capability-rows--eduhub *{box-sizing:border-box}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-container{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:40px}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-header{max-width:960px;text-align:center;display:flex;flex-direction:column;gap:16px;font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-eyebrow{margin:0;font-weight:800;font-size:14px;line-height:1.2;letter-spacing:.56px;text-transform:uppercase;color:#5044e1}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-h2{margin:0;font-weight:800;font-size:40px;line-height:1.2;color:#25272c}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-grad{background-image:linear-gradient(21.2deg,#5044e1 0%,#00a991 70.44%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-rows{display:flex;flex-direction:column;gap:24px;width:100%}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-row{display:flex;gap:40px;align-items:flex-start;width:100%;min-height:150px;padding:24px 40px 24px 24px;border-radius:12px;border:0.8px solid;background-image:linear-gradient(90deg,#ffffff 0%,var(--aps-tint) 100%);font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-row-1{border-color:#5044e1;--aps-tint:#eef2ff}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-row-2{border-color:#00a991;--aps-tint:#effefa}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-row-3{border-color:#de8d14;--aps-tint:#fdf8e9}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-row-4{border-color:#3b82f6;--aps-tint:#eff6ff}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-row-5{border-color:#e61c55;--aps-tint:#fff1f3}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-row-6{border-color:#06b6d4;--aps-tint:#ecfeff}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-row-head{display:flex;gap:16px;align-items:flex-start;flex:1 1 0;min-width:0;max-width:360px}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-row-icon{width:36px;height:36px;flex-shrink:0;display:block}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-row-title{margin:0;font-weight:800;font-size:24px;line-height:1.3;color:#25272c}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-row-body{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:8px}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-row-desc{margin:0;font-weight:400;font-size:18px;line-height:1.5;color:#4a4e5a}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-row-cta{display:inline-flex;align-items:center;gap:8px;margin-top:8px;font-weight:700;font-size:14px;line-height:1.2;color:#25272c;text-decoration:none}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-row-cta:hover{text-decoration:underline}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-ender{display:flex;gap:16px;align-items:flex-end;max-width:976px;width:100%;font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-ender-text{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:8px}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-ender-title{margin:0;font-weight:800;font-size:24px;line-height:1.3;color:#25272c}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-ender-desc{margin:0;font-weight:400;font-size:18px;line-height:1.5;color:#4a4e5a}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-ender-btn{flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;padding:16px;min-height:48px;border-radius:4px;background:linear-gradient(36.5deg,#5044e1 0%,#00a991 70.44%);color:#ffffff;font-weight:600;font-size:16px;line-height:1.2;text-decoration:none;white-space:nowrap;box-shadow:0 2px 8px rgba(80,68,225,.25);transition:box-shadow .3s cubic-bezier(.25,.45,.45,.95)}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-ender-btn:hover{box-shadow:0 6px 18px rgba(80,68,225,.4)}
+@media(max-width:900px){.ap-capability-rows.ap-capability-rows--eduhub .aps-h2{font-size:30px}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-row{flex-direction:column;gap:16px;padding:20px}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-row-head{max-width:none}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-ender{flex-direction:column;align-items:stretch}
+}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-row-cta::after{content:"";display:inline-block;width:24px;height:24px;background-color:#00a991;-webkit-mask:url("assets/icon-arrow.svg") center/contain no-repeat;mask:url("assets/icon-arrow.svg") center/contain no-repeat}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-row-1 .aps-row-cta::after{background-color:#5044e1}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-row-2 .aps-row-cta::after{background-color:#00a991}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-row-3 .aps-row-cta::after{background-color:#de8d14}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-row-4 .aps-row-cta::after{background-color:#3b82f6}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-row-5 .aps-row-cta::after{background-color:#e61c55}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-row-6 .aps-row-cta::after{background-color:#06b6d4}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-row{transition:box-shadow .3s cubic-bezier(.25,.45,.45,.95),translate .3s cubic-bezier(.25,.45,.45,.95)}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-row:hover{translate:0 -4px;box-shadow:0 12px 32px rgba(37,39,44,.14)}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-row-cta {background-image:linear-gradient(38.8deg,#5044e1 0%,#00a991 70.44%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:currentColor;transition:-webkit-text-fill-color .35s cubic-bezier(.25,.45,.45,.95)}
+.ap-capability-rows.ap-capability-rows--eduhub .aps-row-cta:hover {text-decoration:none;-webkit-text-fill-color:transparent}
+@media (max-width:767px) {
+	/* (0,3,1): outranks the shared phone padding rule (.ap-capability-rows:not(…):not(…)). */
+	section.ap-capability-rows.ap-capability-rows--eduhub:not(.ap-capability-rows--readiness) {padding-top:48px;padding-bottom:48px}
+}
+.ap-capability-rows--eduhub :is(h2, h3, p) {text-wrap:wrap}

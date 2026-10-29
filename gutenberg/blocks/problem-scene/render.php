@@ -22,18 +22,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $props = array(
-	'eyebrow'      => $attributes['eyebrow'] ?? '',
-	'title'        => $attributes['title'] ?? '',
-	'lede'         => $attributes['lede'] ?? '',
-	'background'   => $attributes['background'] ?? '',
-	'images'       => $attributes['images'] ?? array(),
-	'chips'        => $attributes['chips'] ?? array(),
-	'cta_title'    => $attributes['cta_title'] ?? '',
-	'cta_body'     => $attributes['cta_body'] ?? '',
-	'cta_icon'     => $attributes['cta_icon'] ?? '',
-	'cta_label'    => $attributes['cta_label'] ?? '',
-	'cta_url'      => $attributes['cta_url'] ?? '',
-	'scene_height' => $attributes['scene_height'] ?? 0,
+	'eyebrow'           => $attributes['eyebrow'] ?? '',
+	'title'             => $attributes['title'] ?? '',
+	'lede'              => $attributes['lede'] ?? '',
+	'background'        => $attributes['background'] ?? '',
+	'images'            => $attributes['images'] ?? array(),
+	'chips'             => $attributes['chips'] ?? array(),
+	'cta_title'         => $attributes['cta_title'] ?? '',
+	'cta_body'          => $attributes['cta_body'] ?? '',
+	'cta_icon'          => $attributes['cta_icon'] ?? '',
+	'cta_label'         => $attributes['cta_label'] ?? '',
+	'cta_url'           => $attributes['cta_url'] ?? '',
+	'scene_height'      => $attributes['scene_height'] ?? 0,
+	'variant'           => $attributes['variant'] ?? 'default',
+	'mobile_background' => $attributes['mobile_background'] ?? '',
+	'stack'             => $attributes['stack'] ?? '1024',
 );
 
 $ap_html = ap_render_component( 'problem-scene', $props );

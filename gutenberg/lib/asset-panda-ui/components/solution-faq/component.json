@@ -1,0 +1,12 @@
+{
+	"name": "solution-faq",
+	"description": "FAQ accordion of the solution pages: a centred heading over ruled questions with a plus/minus mark. Live: the .epx-faq section on the solution pages, Emergency Preparedness, School Reunification and Help Desk (rules ported).",
+	"props": {
+		"tone": { "type": "string", "required": false, "default": "gradient", "enum": [ "gradient", "white" ], "description": "Section background: the grey-to-white gradient of the solution pages, or plain white (pricing page)." },
+		"title": { "type": "string", "required": true, "description": "Heading." },
+		"items": { "type": "array", "required": true, "description": "Questions. Each: q (question) and a (answer). Line breaks in the answer are kept; UrsaAI is styled as the brand mark." },
+		"variant": { "type": "string", "required": false, "default": "solution", "enum": [ "solution", "readiness", "service" ], "description": "solution: the six solution pages (questions are h3, tighter bottom space). readiness: Emergency Preparedness and School Reunification (deeper bottom space, answers flush under the question). service: Help Desk." },
+		"open_first": { "type": "boolean", "required": false, "default": false, "description": "Start with the first question open (the solution pages do)." },
+		"schema": { "type": "boolean", "required": false, "default": true, "description": "Also output FAQPage structured data for these questions. Use on one FAQ per page." }
+	}
+}

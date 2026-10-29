@@ -1,0 +1,122 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/plans-hero",
+	"title": "AP Plans Hero",
+	"category": "design",
+	"icon": "money-alt",
+	"description": "Pricing v2 hero: optional internal notice strip, centred eyebrow, two-line headline (second line in the brand gradient), bold sub line, lead, two buttons, compliance badges, and a client logo band along the bottom. Source: the Asset Panda Pricing v2 mockup. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"notice_label": {
+			"type": "string",
+			"default": ""
+		},
+		"notice": {
+			"type": "string",
+			"default": ""
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"layout": {
+			"type": "string",
+			"default": "hero",
+			"enum": [
+				"hero",
+				"trust",
+				"split"
+			]
+		},
+		"variant": {
+			"type": "string",
+			"default": "classic",
+			"enum": [
+				"classic",
+				"clean"
+			]
+		},
+		"form_title": {
+			"type": "string",
+			"default": ""
+		},
+		"form_lead": {
+			"type": "string",
+			"default": ""
+		},
+		"form": {
+			"type": "object",
+			"default": {}
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"title_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"subtitle": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_label": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_url": {
+			"type": "string",
+			"default": ""
+		},
+		"secondary_label": {
+			"type": "string",
+			"default": ""
+		},
+		"secondary_url": {
+			"type": "string",
+			"default": ""
+		},
+		"badges_label": {
+			"type": "string",
+			"default": ""
+		},
+		"badges": {
+			"type": "array",
+			"default": []
+		},
+		"band_text": {
+			"type": "string",
+			"default": ""
+		},
+		"band_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"logos": {
+			"type": "array",
+			"default": []
+		},
+		"background": {
+			"type": "string",
+			"default": "hero-bg.webp"
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

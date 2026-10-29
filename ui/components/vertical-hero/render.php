@@ -41,6 +41,19 @@ $place = static function ( $geo, array $keys ) use ( $num ) {
 	return implode( ';', $out );
 };
 
+// The width a layer is drawn at, as a sizes hint (the stage spans the viewport):
+// lets the browser take the 828px copy of a big photo wherever that is enough,
+// desktops included, instead of always fetching the full file.
+$sizes = static function ( $geo ) use ( $num ) {
+	$w  = is_array( $geo ) && isset( $geo['w'] ) ? $num( $geo['w'] ) : null;
+	$mw = is_array( $geo ) && isset( $geo['mw'] ) ? $num( $geo['mw'] ) : null;
+	if ( null === $w || $w <= 0 ) {
+		return '';
+	}
+	$d = (int) ceil( $w ) . 'vw';
+	return null !== $mw && $mw > 0 ? '(max-width: 767px) ' . (int) ceil( $mw ) . 'vw, ' . $d : $d;
+};
+
 $src = static function ( $value ) {
 	$value = trim( (string) $value );
 	if ( '' === $value || preg_match( '#^(?:[a-z][a-z0-9+.\-]*:|/)#i', $value ) ) {
@@ -82,6 +95,9 @@ $orbs_of = static function ( $orbs ) use ( $num ) {
 };
 
 $tones = array( 'amber', 'sky', 'indigo' );
+// A card may name its own tone (Local Government's purple / orange / rose glyphs) so
+// the circle, tag and glow follow the icon's colour instead of the slot's.
+$tone_ok = array( 'amber', 'sky', 'indigo', 'purple', 'orange', 'rose' );
 $cards = array();
 foreach ( is_array( $props['cards'] ) ? $props['cards'] : array() as $card ) {
 	if ( count( $cards ) >= 3 || ! is_array( $card ) || '' === trim( (string) ( $card['title'] ?? '' ) ) ) {
@@ -95,7 +111,7 @@ foreach ( is_array( $props['cards'] ) ? $props['cards'] : array() as $card ) {
 		'icon'         => $src( $card['icon'] ?? '' ),
 		'icon_svg'     => ap_ui_svg( $card['icon_svg'] ?? '' ),
 		'avatar'       => $src( $card['avatar'] ?? '' ),
-		'tone'         => $tones[ count( $cards ) ],
+		'tone'         => in_array( $card['tone'] ?? '', $tone_ok, true ) ? $card['tone'] : $tones[ count( $cards ) ],
 		'place'        => $place( $card, array( 'x', 'y', 'mx', 'my' ) ),
 	);
 }
@@ -146,11 +162,56 @@ $title_tag = '' !== $eyebrow ? 'h2' : 'h1';
 // Only "1440/640"-shaped ratios reach the style attribute; anything else keeps
 // the stylesheet default.
 $ap_ratio = preg_match( '#^\s*(\d+(?:\.\d+)?)\s*/\s*(\d+(?:\.\d+)?)\s*$#', (string) $props['ratio'], $ap_rm ) ? $ap_rm[1] . '/' . $ap_rm[2] : '';
+$ap_style = '' !== $ap_ratio ? array( '--ap-vhero-ratio:' . $ap_ratio ) : array();
+// Phone copy offset and the K-12 flowing phone hero, from numbers alone.
+$ap_m_top = $num( $props['m_top'] );
+if ( null !== $ap_m_top && $ap_m_top >= 0 && $ap_m_top <= 240 ) {
+	$ap_style[] = '--m-top:' . $ap_m_top . 'px';
+}
+$ap_flow   = is_array( $props['m_flow'] ) ? $props['m_flow'] : array();
+$ap_f_px   = $num( $ap_flow['pad_px'] ?? null );
+$ap_f_vw   = $num( $ap_flow['pad_vw'] ?? null );
+$ap_f_art  = $num( $ap_flow['art_vw'] ?? null );
+$ap_m_flow = null !== $ap_f_px && null !== $ap_f_vw && null !== $ap_f_art && $ap_f_art > 0;
+// The highest art layer or card on the phone stage (percent of the art box), shared by both branches below.
+$ap_tops = array();
+foreach ( array( 'dash', 'person', 'mobcards' ) as $ap_k ) {
+	$ap_v = isset( $layout[ $ap_k ] ) && is_array( $layout[ $ap_k ] ) ? $num( $layout[ $ap_k ]['my'] ?? null ) : null;
+	if ( null !== $ap_v && $ap_v >= 0 && $ap_v <= 100 ) {
+		$ap_tops[] = $ap_v;
+	}
+}
+foreach ( is_array( $props['cards'] ) ? $props['cards'] : array() as $ap_c ) {
+	$ap_v = is_array( $ap_c ) ? $num( $ap_c['my'] ?? null ) : null;
+	if ( null !== $ap_v && $ap_v >= 0 && $ap_v <= 100 ) {
+		$ap_tops[] = $ap_v;
+	}
+}
+if ( $ap_m_flow ) {
+	// A page's own art height stays; the space under the strip is re-derived from its highest layer so the art
+	// always starts 10px below the chips (K-12's authored padding was measured from the person, but its dashboard
+	// sits higher and ran 6px under the strip — QA 2026-10-29).
+	if ( $ap_tops ) {
+		$ap_f_px = 10;
+		$ap_f_vw = round( $ap_f_art * ( 1 - min( $ap_tops ) / 100 ), 3 );
+	}
+	$ap_style[] = '--m-pad:calc(' . $ap_f_px . 'px + ' . $ap_f_vw . 'vw)';
+	$ap_style[] = '--m-art:' . $ap_f_art . 'vw';
+} elseif ( '' !== $person || '' !== $dashboard ) {
+	// QA 2026-10-29 (Joseph, product pages): every hero flows on phones — copy, then the chip strip, then the
+	// art 10px below it. A page without its own m_flow numbers gets them from its layout: the art box is the
+	// old 360×680 phone stage (188.889vw tall), and the space reserved under the strip is the part of that box
+	// from its highest art layer or card down.
+	$ap_frac    = $ap_tops ? min( $ap_tops ) / 100 : 0.5;
+	$ap_m_flow  = true;
+	$ap_style[] = '--m-art:188.889vw';
+	$ap_style[] = '--m-pad:calc(10px + ' . round( 188.889 * ( 1 - $ap_frac ), 3 ) . 'vw)';
+}
 ?>
-<section class="ap-vhero"<?php echo '' !== $ap_ratio ? ' style="' . esc_attr( '--ap-vhero-ratio:' . $ap_ratio ) . '"' : ''; ?>>
+<section class="ap-vhero<?php echo 'overlay' === $props['tablet'] ? ' ap-vhero--overlay' : ''; ?><?php echo 'band' === $props['features_style'] ? ' ap-vhero--band' : ''; ?><?php echo $ap_m_flow ? ' ap-vhero--mflow' : ''; ?>"<?php echo $ap_style ? ' style="' . esc_attr( implode( ';', $ap_style ) ) . '"' : ''; ?>>
 	<div class="ap-vhero__stage" aria-hidden="true">
 		<?php if ( '' !== $dashboard ) : ?>
-			<img class="ap-vhero__layer ap-vhero__dash" style="<?php echo esc_attr( $place( $layout['dash'] ?? null, $box ) ); ?>" src="<?php echo esc_url( $dashboard ); ?>" alt="" decoding="async" fetchpriority="high" />
+			<img class="ap-vhero__layer ap-vhero__dash" style="<?php echo esc_attr( $place( $layout['dash'] ?? null, $box ) ); ?>" src="<?php echo esc_url( $dashboard ); ?>"<?php echo '' !== $sizes( $layout['dash'] ?? null ) ? ' sizes="' . esc_attr( $sizes( $layout['dash'] ?? null ) ) . '"' : ''; ?> alt="" decoding="async" fetchpriority="high" />
 			<div class="ap-vhero__layer ap-vhero__dashveil" style="<?php echo esc_attr( $place( $layout['dash'] ?? null, $box ) ); ?>"></div>
 		<?php endif; ?>
 
@@ -168,7 +229,8 @@ $ap_ratio = preg_match( '#^\s*(\d+(?:\.\d+)?)\s*/\s*(\d+(?:\.\d+)?)\s*$#', (stri
 		<?php endforeach; ?>
 
 		<?php if ( '' !== $person ) : ?>
-			<img class="ap-vhero__layer ap-vhero__person" style="<?php echo esc_attr( $place( $layout['person'] ?? null, $box ) ); ?>" src="<?php echo esc_url( $person ); ?>" alt="" decoding="async" />
+			<?php // No fetchpriority: the dashboard layer is the page's largest paint and the person used to share its bandwidth at the same priority (QA 2026-10-29, PageSpeed on the Fire page). ?>
+			<img class="ap-vhero__layer ap-vhero__person" style="<?php echo esc_attr( $place( $layout['person'] ?? null, $box ) ); ?>" src="<?php echo esc_url( $person ); ?>"<?php echo '' !== $sizes( $layout['person'] ?? null ) ? ' sizes="' . esc_attr( $sizes( $layout['person'] ?? null ) ) . '"' : ''; ?> alt="" decoding="async" />
 		<?php endif; ?>
 		<div class="ap-vhero__veil"></div>
 
@@ -196,7 +258,7 @@ $ap_ratio = preg_match( '#^\s*(\d+(?:\.\d+)?)\s*/\s*(\d+(?:\.\d+)?)\s*$#', (stri
 					<?php if ( '' !== $card['icon_svg'] ) : ?>
 						<span class="ap-vhero__ico ap-inline-icon" aria-hidden="true"><?php echo $card['icon_svg']; // phpcs:ignore WordPress.Security.EscapeOutput -- sanitised by ap_ui_svg(). ?></span>
 					<?php elseif ( '' !== $card['icon'] ) : ?>
-						<span class="ap-vhero__ico"><img src="<?php echo esc_url( $card['icon'] ); ?>" alt="" loading="lazy" decoding="async" /></span>
+						<span class="ap-vhero__ico"><img src="<?php echo esc_url( $card['icon'] ); ?>" alt="" decoding="async" /></span>
 					<?php endif; ?>
 					<span class="ap-vhero__body">
 						<?php if ( '' !== $card['label'] ) : ?>
@@ -211,7 +273,7 @@ $ap_ratio = preg_match( '#^\s*(\d+(?:\.\d+)?)\s*/\s*(\d+(?:\.\d+)?)\s*$#', (stri
 						<?php endif; ?>
 					</span>
 					<?php if ( '' !== $card['avatar'] ) : ?>
-						<img class="ap-vhero__avatar" src="<?php echo esc_url( $card['avatar'] ); ?>" alt="" loading="lazy" decoding="async" />
+						<img class="ap-vhero__avatar" src="<?php echo esc_url( $card['avatar'] ); ?>" alt="" decoding="async" />
 					<?php endif; ?>
 				</div>
 			</div>
@@ -226,7 +288,7 @@ $ap_ratio = preg_match( '#^\s*(\d+(?:\.\d+)?)\s*/\s*(\d+(?:\.\d+)?)\s*$#', (stri
 			</div>
 		<?php endif; ?>
 		<?php if ( '' !== $mobile_cards ) : ?>
-			<img class="ap-vhero__layer ap-vhero__mobcards" style="<?php echo esc_attr( $place( $layout['mobcards'] ?? null, $box ) ); ?>" src="<?php echo esc_url( $mobile_cards ); ?>" alt="" loading="lazy" decoding="async" />
+			<img class="ap-vhero__layer ap-vhero__mobcards" style="<?php echo esc_attr( $place( $layout['mobcards'] ?? null, $box ) ); ?>" src="<?php echo esc_url( $mobile_cards ); ?>" alt="" decoding="async" />
 		<?php endif; ?>
 	</div>
 
@@ -270,7 +332,7 @@ $ap_ratio = preg_match( '#^\s*(\d+(?:\.\d+)?)\s*/\s*(\d+(?:\.\d+)?)\s*$#', (stri
 								?>
 								<span class="ap-inline-icon" aria-hidden="true"><?php echo $feat_svg; // phpcs:ignore WordPress.Security.EscapeOutput -- sanitised by ap_ui_svg(). ?></span>
 							<?php elseif ( '' !== trim( (string) ( $feat['icon'] ?? '' ) ) ) : ?>
-								<img src="<?php echo esc_url( $src( $feat['icon'] ) ); ?>" alt="" loading="lazy" decoding="async" />
+								<img src="<?php echo esc_url( $src( $feat['icon'] ) ); ?>" alt="" width="24" height="24" decoding="async" />
 							<?php endif; ?>
 							<span><?php echo esc_html( $feat['label'] ); ?></span>
 						</div>

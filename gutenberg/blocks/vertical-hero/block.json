@@ -26,7 +26,7 @@
 		},
 		"cta_label": {
 			"type": "string",
-			"default": "Book a Demo"
+			"default": "Free Demo"
 		},
 		"cta_url": {
 			"type": "string",
@@ -36,26 +36,26 @@
 			"type": "array",
 			"default": [
 				{
-					"image": "https://www.assetpanda.com/wp-content/uploads/2026/07/badge_govramp-1.svg",
+					"image": "/wp-content/uploads/2026/07/badge_govramp-1.svg",
 					"alt": "GovRAMP authorized"
 				},
 				{
-					"image": "https://www.assetpanda.com/wp-content/uploads/2026/07/police-badge-soc2.png",
+					"image": "/wp-content/uploads/2026/07/police-badge-soc2.png",
 					"alt": "SOC 2 Type 2 certified"
 				},
 				{
-					"image": "https://www.assetpanda.com/wp-content/uploads/2026/07/badge_hipaa-1.svg",
+					"image": "/wp-content/uploads/2026/07/badge_hipaa-1.svg",
 					"alt": "HIPAA compliant"
 				}
 			]
 		},
 		"dashboard": {
 			"type": "string",
-			"default": "https://www.assetpanda.com/wp-content/uploads/2026/08/fire-hero-dash.jpg"
+			"default": "/wp-content/uploads/2026/08/fire-hero-dash.jpg"
 		},
 		"person": {
 			"type": "string",
-			"default": "https://www.assetpanda.com/wp-content/uploads/2026/08/Fireman-1.svg"
+			"default": "/wp-content/uploads/2026/08/Fireman-1.svg"
 		},
 		"layout": {
 			"type": "object",
@@ -100,7 +100,7 @@
 					"title": "Turnout Gear",
 					"status_label": "Status",
 					"tag": "Due Inspection",
-					"icon": "https://www.assetpanda.com/wp-content/uploads/2026/08/fire-item-turnout.png",
+					"icon": "/wp-content/uploads/2026/08/fire-item-turnout.png",
 					"avatar": "",
 					"x": 52.014,
 					"y": 27.634,
@@ -112,7 +112,7 @@
 					"title": "SCBA Unit",
 					"status_label": "Status",
 					"tag": "Ready",
-					"icon": "https://www.assetpanda.com/wp-content/uploads/2026/08/fire-item-scba.png",
+					"icon": "/wp-content/uploads/2026/08/fire-item-scba.png",
 					"avatar": "",
 					"x": 55.207,
 					"y": 54.724,
@@ -124,8 +124,8 @@
 					"title": "Hydraulic Tool",
 					"status_label": "Status",
 					"tag": "In Service",
-					"icon": "https://www.assetpanda.com/wp-content/uploads/2026/08/fire-item-hydraulic.png",
-					"avatar": "https://www.assetpanda.com/wp-content/uploads/2026/08/fire-avatar.jpg",
+					"icon": "/wp-content/uploads/2026/08/fire-item-hydraulic.png",
+					"avatar": "/wp-content/uploads/2026/08/fire-avatar.jpg",
 					"x": 73.818,
 					"y": 46.543,
 					"mx": 59.423,
@@ -281,9 +281,33 @@
 			"type": "array",
 			"default": []
 		},
+		"features_style": {
+			"type": "string",
+			"default": "overlay",
+			"enum": [
+				"overlay",
+				"band"
+			]
+		},
 		"ratio": {
 			"type": "string",
 			"default": "1440/550"
+		},
+		"tablet": {
+			"type": "string",
+			"default": "scale",
+			"enum": [
+				"scale",
+				"overlay"
+			]
+		},
+		"m_top": {
+			"type": "number",
+			"default": 32
+		},
+		"m_flow": {
+			"type": "object",
+			"default": {}
 		},
 		"align": {
 			"type": "string",

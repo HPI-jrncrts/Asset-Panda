@@ -1,0 +1,1018 @@
+/*
+ * vertical-hero — the hero on every vertical product page. Ported from the
+ * live #ap-hero.
+ *
+ * The stage is aspect-locked (1440:550 on desktop, 360:680 on phones) and
+ * sized in design units: --u is 1/1440 of the stage's width, resolved through
+ * container units, so every layer scales as one picture. Layers read their
+ * placement from --x/--y/--w/--h (desktop) and --mx/--my/--mw/--mh (phones),
+ * which render.php sets from numbers only.
+ */
+
+:where(.ap-vhero, .ap-vhero *, .ap-vhero *::before, .ap-vhero *::after) {
+	box-sizing: border-box;
+}
+
+.ap-vhero {
+	position: relative;
+	overflow: hidden;
+	isolation: isolate;
+	background: #fff;
+	font-family: var(--ap-font-display);
+}
+
+/* ----------------------------------------------------------------- stage */
+
+.ap-vhero__stage {
+	position: relative;
+	width: 100%;
+	aspect-ratio: var(--ap-vhero-ratio, 1440 / 550);
+	overflow: hidden;
+	container-type: inline-size;
+	--u: calc(100cqw / 1440);
+	background: #fff;
+	line-height: 0;
+}
+
+.ap-vhero__layer {
+	position: absolute;
+	left: var(--x, 0);
+	top: var(--y, 0);
+	width: var(--w, 100%);
+	height: var(--h, 100%);
+	max-width: none;
+	margin: 0;
+	border: 0;
+}
+
+img.ap-vhero__layer {
+	object-fit: fill;
+}
+
+.ap-vhero__dashveil {
+	background: radial-gradient(64.4% 64.4% at 50% 35.6%, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 86.1%, #fff 100%);
+}
+
+.ap-vhero__orbs,
+.ap-vhero__lines {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+.ap-vhero__orbs--m,
+.ap-vhero__lines--m {
+	display: none;
+}
+
+.ap-vhero__veil {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(rgba(255, 255, 255, 0) 28.909%, rgba(255, 255, 255, 0) 47.345%, rgba(255, 255, 255, 0.847) 80.764%, #fff 100%);
+}
+
+/* Item cards */
+
+.ap-vhero__card {
+	position: absolute;
+	z-index: 3;
+	left: var(--x, 0);
+	top: var(--y, 0);
+	width: calc(200 * var(--u));
+	height: calc(72 * var(--u));
+	line-height: 1;
+}
+
+.ap-vhero__flo {
+	position: relative;
+	display: block;
+	width: 100%;
+	height: 100%;
+	border: calc(1 * var(--u)) solid;
+	border-radius: calc(12 * var(--u));
+}
+
+.ap-vhero__ico {
+	position: absolute;
+	left: calc(12.25 * var(--u));
+	top: calc(8.25 * var(--u));
+	width: calc(55.5 * var(--u));
+	height: calc(55.5 * var(--u));
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	border: calc(0.5 * var(--u)) solid;
+	border-radius: 50%;
+}
+
+.ap-vhero__ico img {
+	display: block;
+	max-width: 88%;
+	max-height: 76%;
+	margin: 0;
+	object-fit: contain;
+}
+
+.ap-vhero__body {
+	position: absolute;
+	left: calc(77 * var(--u));
+	top: calc(8.5 * var(--u));
+	right: calc(4 * var(--u));
+	bottom: calc(8.5 * var(--u));
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.ap-vhero__lab {
+	color: #8e95a2;
+	font-size: calc(8 * var(--u));
+	font-weight: 500;
+	line-height: calc(12 * var(--u));
+	white-space: nowrap;
+}
+
+.ap-vhero__ttl {
+	color: #000;
+	font-size: calc(12 * var(--u));
+	font-weight: 700;
+	line-height: calc(18 * var(--u));
+	white-space: nowrap;
+}
+
+.ap-vhero__ttl + .ap-vhero__lab {
+	margin-top: calc(1 * var(--u));
+}
+
+.ap-vhero__tag {
+	height: calc(12 * var(--u));
+	display: inline-flex;
+	align-items: center;
+	padding: 0 calc(4 * var(--u));
+	border: calc(0.5 * var(--u)) solid;
+	border-radius: calc(4 * var(--u));
+	font-size: calc(8 * var(--u));
+	font-weight: 700;
+	line-height: 1;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+
+.ap-vhero__avatar {
+	position: absolute;
+	left: calc(176 * var(--u));
+	top: calc(-9.5 * var(--u));
+	width: calc(35 * var(--u));
+	height: calc(35 * var(--u));
+	max-width: none;
+	margin: 0;
+	border: calc(1.98 * var(--u)) solid #fff;
+	border-radius: 50%;
+	box-shadow: 0 calc(2.19 * var(--u)) calc(2.19 * var(--u)) rgba(0, 0, 0, 0.08);
+	object-fit: cover;
+}
+
+.ap-vhero__card--amber .ap-vhero__flo {
+	border-color: #fdf8e9;
+	background: linear-gradient(90deg, rgba(255, 255, 255, 0.8), #fdf8e9);
+	box-shadow: 0 calc(2 * var(--u)) calc(24 * var(--u)) rgba(255, 201, 124, 0.2);
+}
+
+.ap-vhero__card--amber .ap-vhero__ico {
+	border-color: #f8db90;
+	background: radial-gradient(circle, #fff, #fdf8e9);
+}
+
+.ap-vhero__card--amber .ap-vhero__tag {
+	border-color: #f8db90;
+	background: #fdf8e9;
+	color: #de8d14;
+}
+
+.ap-vhero__card--sky .ap-vhero__flo {
+	border-color: #f0f9ff;
+	background: linear-gradient(90deg, #f0f9ff, rgba(255, 255, 255, 0.64));
+	box-shadow: 0 calc(2 * var(--u)) calc(24 * var(--u)) rgba(224, 242, 254, 0.4);
+}
+
+.ap-vhero__card--sky .ap-vhero__ico {
+	border-color: #7dd3fc;
+	background: radial-gradient(circle, #fff, #f0f9ff);
+}
+
+.ap-vhero__card--sky .ap-vhero__tag {
+	border-color: #bae6fd;
+	background: #f0f9ff;
+	color: #0284c7;
+}
+
+.ap-vhero__card--indigo .ap-vhero__flo {
+	border-color: var(--ap-indigo-50);
+	background: linear-gradient(90deg, var(--ap-indigo-50), rgba(255, 255, 255, 0.7));
+	box-shadow: 0 calc(2 * var(--u)) calc(24 * var(--u)) rgba(200, 210, 253, 0.4);
+}
+
+.ap-vhero__card--indigo .ap-vhero__ico {
+	border-color: #a7b3fa;
+	background: radial-gradient(circle, #fff, #f0f9ff);
+}
+
+.ap-vhero__card--indigo .ap-vhero__tag {
+	border-color: #c8d2fd;
+	background: #f0f9ff;
+	color: var(--ap-indigo-600);
+}
+
+/* Tones a card can name for itself (live Local Government): the circle, tag and
+ * glow follow the colour of the card's own glyph. */
+.ap-vhero__card--purple .ap-vhero__flo {
+	border-color: #f9f7fc;
+	background: linear-gradient(90deg, rgba(255, 255, 255, 0.8), #f9f7fc);
+	box-shadow: 0 calc(2 * var(--u)) calc(24 * var(--u)) rgba(155, 115, 194, 0.2);
+}
+
+.ap-vhero__card--purple .ap-vhero__ico {
+	border-color: #e6dcf2;
+	background: radial-gradient(circle, #fff, #f9f7fc);
+}
+
+.ap-vhero__card--purple .ap-vhero__tag {
+	border-color: #e6dcf2;
+	background: #f9f7fc;
+	color: #9b73c2;
+}
+
+.ap-vhero__card--orange .ap-vhero__flo {
+	border-color: #fff7ed;
+	background: linear-gradient(90deg, #fff7ed, rgba(255, 255, 255, 0.64));
+	box-shadow: 0 calc(2 * var(--u)) calc(24 * var(--u)) rgba(254, 215, 170, 0.4);
+}
+
+.ap-vhero__card--orange .ap-vhero__ico {
+	border-color: #fed7aa;
+	background: radial-gradient(circle, #fff, #fff7ed);
+}
+
+.ap-vhero__card--orange .ap-vhero__tag {
+	border-color: #fdba74;
+	background: #fff7ed;
+	color: #ea580c;
+}
+
+.ap-vhero__card--rose .ap-vhero__flo {
+	border-color: #fff1f3;
+	background: linear-gradient(90deg, #fff1f3, rgba(255, 255, 255, 0.7));
+	box-shadow: 0 calc(2 * var(--u)) calc(24 * var(--u)) rgba(255, 204, 213, 0.4);
+}
+
+.ap-vhero__card--rose .ap-vhero__ico {
+	border-color: #ffccd5;
+	background: radial-gradient(circle, #fff, #fff1f3);
+}
+
+.ap-vhero__card--rose .ap-vhero__tag {
+	border-color: #ffa2b4;
+	background: #fff1f3;
+	color: #e61c55;
+}
+
+/* Panda badge */
+
+.ap-vhero__badge {
+	position: absolute;
+	z-index: 3;
+	left: var(--x, 0);
+	top: var(--y, 0);
+	width: calc(44 * var(--u));
+	height: calc(44 * var(--u));
+}
+
+.ap-vhero__badge-flo {
+	position: relative;
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.ap-vhero__badge-ring {
+	position: absolute;
+	left: calc(-5 * var(--u));
+	top: calc(-5 * var(--u));
+	width: calc(54 * var(--u));
+	height: calc(54 * var(--u));
+	padding: calc(0.8 * var(--u));
+	border-radius: calc(15.6 * var(--u));
+	background: linear-gradient(90deg, var(--ap-brand-indigo), var(--ap-brand-green));
+	-webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+	-webkit-mask-composite: xor;
+	mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+
+.ap-vhero__badge-tile {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: calc(12 * var(--u));
+	background: linear-gradient(#6666ee, #483bc7);
+	box-shadow: 0 0 calc(24 * var(--u)) rgba(255, 255, 255, 0.9);
+}
+
+.ap-vhero__badge-tile img {
+	display: block;
+	width: calc(21.83 * var(--u));
+	height: calc(25 * var(--u));
+}
+
+/* ------------------------------------------------------------------ copy */
+
+.ap-vhero__in {
+	position: absolute;
+	inset: 0;
+	z-index: 4;
+	display: flex;
+	align-items: center;
+	pointer-events: none;
+}
+
+.ap-vhero__container {
+	width: min(var(--ap-page-max-content-xl, 1120px), 100% - 48px);
+	margin: 0 auto;
+}
+
+.ap-vhero__copy {
+	max-width: 560px;
+	margin-top: 24px;
+	pointer-events: auto;
+}
+
+.ap-vhero__eyebrow {
+	margin: 0 0 16px;
+	color: var(--ap-indigo-600);
+	font-family: var(--ap-font-utility);
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1.1;
+	letter-spacing: 0;
+	text-transform: uppercase;
+}
+
+.ap-vhero__title {
+	margin: 0;
+	color: #1f1f1f;
+	font-family: var(--ap-font-display);
+	font-size: 48px;
+	font-weight: 700;
+	line-height: 1.05;
+	letter-spacing: -0.01em;
+}
+
+.ap-vhero__accent {
+	background: var(--ap-gradient-text);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
+}
+
+.ap-vhero__lede {
+	margin: 16px 0 0;
+	color: var(--ap-text-body);
+	font-family: var(--ap-font-body);
+	font-size: 18px;
+	line-height: 1.5;
+}
+
+.ap-vhero__cta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 22px;
+	margin-top: 32px;
+}
+
+.ap-vhero__btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 14px 16px;
+	border-radius: var(--ap-radius-sm);
+	background: var(--ap-gradient-action);
+	color: #fff;
+	font-family: var(--ap-font-display);
+	font-size: 16px;
+	font-weight: 800;
+	line-height: 1.2;
+	text-decoration: none;
+	transition: box-shadow 0.3s var(--ap-ease-standard), filter 0.3s var(--ap-ease-standard);
+}
+
+.ap-vhero__btn:hover,
+.ap-vhero__btn:focus-visible {
+	color: #fff;
+	box-shadow: 0 8px 20px rgba(80, 68, 225, 0.25);
+	filter: brightness(1.06);
+}
+
+.ap-vhero__certs {
+	display: flex;
+	align-items: center;
+	gap: 18px;
+}
+
+.ap-vhero__certs img {
+	display: block;
+	width: auto;
+	height: 54px;
+	max-width: none;
+	object-fit: contain;
+}
+
+/* ------------------------------------------------------------------ motion
+ * QA 2026-10-28: the entrance finishes by ~1.2s (was 1.84s) — the sequence and its
+ * order are unchanged, only tighter, so the hero no longer reads as still loading. */
+
+@media (prefers-reduced-motion: no-preference) {
+	.ap-vhero__dash {
+		animation: ap-vhero-fade-lcp 0.5s var(--ap-ease-standard) both;
+	}
+
+	.ap-vhero__person {
+		animation: ap-vhero-rise-lcp 0.6s var(--ap-ease-standard) 0.05s both;
+	}
+
+	.ap-vhero__card {
+		animation: ap-vhero-pop 0.45s var(--ap-ease-standard) both;
+	}
+
+	.ap-vhero__card:nth-of-type(1) {
+		animation-delay: 0.2s;
+	}
+
+	.ap-vhero__card:nth-of-type(2) {
+		animation-delay: 0.28s;
+	}
+
+	.ap-vhero__card:nth-of-type(3) {
+		animation-delay: 0.36s;
+	}
+
+	.ap-vhero__badge {
+		animation: ap-vhero-pop 0.4s var(--ap-ease-standard) 0.15s both;
+	}
+
+	.ap-vhero__flo {
+		animation: ap-vhero-float 6s ease-in-out infinite;
+	}
+
+	.ap-vhero__card:nth-of-type(2) .ap-vhero__flo {
+		animation-duration: 7s;
+		animation-delay: -2s;
+	}
+
+	.ap-vhero__card:nth-of-type(3) .ap-vhero__flo {
+		animation-duration: 6.5s;
+		animation-delay: -4s;
+	}
+
+	.ap-vhero__badge-flo {
+		animation: ap-vhero-float 8s ease-in-out -1s infinite;
+	}
+
+	.ap-vhero__ln line {
+		stroke-dasharray: var(--len);
+		stroke-dashoffset: var(--len);
+		animation: ap-vhero-draw 0.4s var(--ap-ease-standard) 0.45s both;
+	}
+
+	.ap-vhero__ln circle {
+		animation: ap-vhero-fade 0.2s linear 0.85s both;
+	}
+
+	.ap-vhero__ln--2 line {
+		animation-delay: 0.51s;
+	}
+
+	.ap-vhero__ln--2 circle {
+		animation-delay: 0.91s;
+	}
+
+	.ap-vhero__ln--3 line {
+		animation-delay: 0.57s;
+	}
+
+	.ap-vhero__ln--3 circle {
+		animation-delay: 0.97s;
+	}
+}
+
+/* LCP (QA 2026-10-28): the H1 and the hero photo enter from 40% opacity instead of 0, so they are painted
+   (and count for Largest Contentful Paint) on the first frame; the rise is unchanged. */
+@keyframes ap-vhero-fade-lcp {
+	from {
+		opacity: 0.4;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes ap-vhero-rise-lcp {
+	from {
+		opacity: 0.4;
+		translate: 0 calc(18 * var(--u));
+	}
+
+	to {
+		opacity: 1;
+		translate: 0 0;
+	}
+}
+
+@keyframes ap-vhero-fade {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes ap-vhero-rise {
+	from {
+		opacity: 0;
+		translate: 0 calc(18 * var(--u));
+	}
+
+	to {
+		opacity: 1;
+		translate: 0 0;
+	}
+}
+
+@keyframes ap-vhero-pop {
+	from {
+		opacity: 0;
+		translate: 0 calc(14 * var(--u));
+		scale: 0.96;
+	}
+
+	to {
+		opacity: 1;
+		translate: 0 0;
+		scale: 1;
+	}
+}
+
+@keyframes ap-vhero-float {
+	0%,
+	100% {
+		translate: 0 0;
+	}
+
+	50% {
+		translate: 0 calc(-6 * var(--u));
+	}
+}
+
+@keyframes ap-vhero-draw {
+	from {
+		stroke-dashoffset: var(--len);
+	}
+
+	to {
+		stroke-dashoffset: 0;
+	}
+}
+
+/* ---------------------------------------------------------------- tablet */
+
+/* Between phone and full desktop the copy scales with the stage, as on live. */
+@media (min-width: 768px) and (max-width: 1180px) {
+	.ap-vhero__container {
+		width: 81.1111vw;
+		padding: 0 1.66667vw;
+	}
+
+	.ap-vhero__copy {
+		max-width: 38.8889vw;
+		margin-top: 1.66667vw;
+	}
+
+	.ap-vhero__eyebrow {
+		margin-bottom: 1.11111vw;
+		font-size: 0.972222vw;
+	}
+
+	.ap-vhero__title {
+		font-size: 3.33333vw;
+	}
+
+	.ap-vhero__lede {
+		margin-top: 1.11111vw;
+		font-size: 1.25vw;
+	}
+
+	.ap-vhero__cta {
+		gap: 1.52778vw;
+		margin-top: 2.22222vw;
+	}
+
+	.ap-vhero__btn {
+		padding: 0.972222vw 1.11111vw;
+		border-radius: 0.277778vw;
+		font-size: 1.11111vw;
+	}
+
+	.ap-vhero__certs {
+		gap: 1.25vw;
+	}
+
+	.ap-vhero__certs img {
+		height: 3.75vw;
+	}
+}
+
+/* ----------------------------------------------------------------- phone */
+
+@media (max-width: 767px) {
+	.ap-vhero {
+		aspect-ratio: 360 / 680;
+	}
+
+	.ap-vhero__stage {
+		position: absolute;
+		inset: 0;
+		height: 100%;
+		aspect-ratio: auto;
+		--u: calc(100cqw * 0.59533 / 360);
+	}
+
+	.ap-vhero__layer {
+		left: var(--mx, var(--x, 0));
+		top: var(--my, var(--y, 0));
+		width: var(--mw, var(--w, 100%));
+		height: var(--mh, var(--h, 100%));
+	}
+
+	.ap-vhero__card,
+	.ap-vhero__badge {
+		left: var(--mx, var(--x, 0));
+		top: var(--my, var(--y, 0));
+	}
+
+	.ap-vhero__orbs--d,
+	.ap-vhero__lines--d {
+		display: none;
+	}
+
+	.ap-vhero__orbs--m,
+	.ap-vhero__lines--m {
+		display: block;
+	}
+
+	.ap-vhero__veil {
+		background: linear-gradient(rgba(255, 255, 255, 0) 67.35%, rgba(255, 255, 255, 0) 75.79%, rgba(255, 255, 255, 0.847) 91.24%, #fff 100%);
+	}
+
+	.ap-vhero__in {
+		position: relative;
+		inset: auto;
+		display: block;
+		min-height: 100%;
+		padding: var(--m-top, 32px) 0 24px;
+	}
+
+	/* Live phone copy runs the full width less 24px gutters, up to 440px. */
+	.ap-vhero__container {
+		width: min(var(--ap-host-container, 1120px), 100% - 48px);
+	}
+
+	.ap-vhero__copy {
+		max-width: 440px;
+		margin: 0 auto;
+		text-align: center;
+	}
+
+	.ap-vhero__eyebrow {
+		margin-bottom: 12px;
+		font-size: 16px;
+	}
+
+	.ap-vhero__title {
+		font-size: 34px;
+	}
+
+	.ap-vhero__lede {
+		font-size: 16px;
+	}
+
+	.ap-vhero__cta {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 14px;
+		margin-top: 24px;
+	}
+
+	.ap-vhero__btn {
+		width: 100%;
+	}
+
+	/* QA 2026-10-29 (Joseph, correction): on phones the compliance badges (SOC 2, HIPAA, GovRAMP — whichever the page
+	 * has) sit right under the Free Demo button, centred; the little feature icons move below the art. */
+	.ap-vhero__cta {
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
+	.ap-vhero__certs {
+		display: flex;
+		justify-content: center;
+		gap: 16px;
+		width: 100%;
+	}
+
+	.ap-vhero__certs img {
+		height: 44px;
+	}
+}
+
+/* Flowing phone hero (every product page since QA 2026-10-29; K-12 brought its
+ * own numbers): the hero is as tall as its copy, the chip strip and --m-pad, and
+ * the visual is an --m-art box pinned to the bottom (its top may run above the
+ * hero and is clipped), so every m* placement is a percentage of that box. The
+ * reserved --m-pad is the visible art plus a 10px gap under the strip. */
+@media (max-width: 767px) {
+	/* Phone order (QA 2026-10-29 correction): copy, button, badges; the art 10px under the badges (the --m-pad
+	 * reserved under the copy block); then the auto-swiping feature icons at the foot of the hero, just above the
+	 * section rule. The art box ends where the icon strip starts. */
+	.ap-vhero--mflow { aspect-ratio: auto; padding-bottom: 0; --ap-vhero-strip: 52px; }
+	.ap-vhero--mflow .ap-vhero__stage { inset: auto 0 var(--ap-vhero-strip); height: var(--m-art); }
+	.ap-vhero--mflow .ap-vhero__in { min-height: 0; padding-bottom: var(--m-pad); }
+	.ap-vhero--mflow .ap-vhero__feats { position: relative; z-index: 3; height: var(--ap-vhero-strip); padding-top: 0 !important; padding-bottom: 0 !important; align-items: center; background: #fff; }
+}
+
+/* Phone-only composite of the cards (live .epx-hero__mobcards). */
+.ap-vhero__mobcards { display: none; }
+
+@media (max-width: 700px) {
+	.ap-vhero__mobcards { display: block; }
+}
+
+/* Chip strip under the stage; a marquee on phones (live .epx-hero__strip). */
+.ap-vhero__feats {
+	position: absolute;
+	left: 50%;
+	translate: -50% 0;
+	bottom: 0;
+	z-index: 3;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: min(var(--ap-page-max-content-xl, 1120px), 100% - 48px);
+	margin: 0 auto;
+	padding: 16px 0;
+}
+
+.ap-vhero__feats-track { display: contents; }
+
+.ap-vhero__feat {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-body);
+	font-size: 16px;
+	line-height: 1.6;
+	white-space: nowrap;
+}
+
+.ap-vhero__feat img,
+.ap-vhero__feat .ap-inline-icon svg { width: 24px; height: 24px; display: block; }
+
+.ap-vhero__feat--dup { display: none; }
+
+@media (max-width: 767px) {
+	.ap-vhero__feats {
+		position: relative;
+		left: auto;
+		translate: none;
+		bottom: auto;
+		width: 100%;
+		overflow: hidden;
+		justify-content: flex-start;
+		padding: 8px 0 16px;
+	}
+
+	.ap-vhero__feats-track {
+		display: flex;
+		align-items: center;
+		width: max-content;
+		animation: apVheroChips 18s linear infinite;
+	}
+
+	.ap-vhero__feat { margin-right: 28px; }
+	.ap-vhero__feat--dup { display: flex; }
+}
+
+/* features_style "band" (product pages): the chips sit in their own ruled band
+ * under the stage, spread across the content width — live .ap-hero-feats-band. */
+.ap-vhero--band .ap-vhero__feats {
+	position: relative;
+	left: auto;
+	translate: none;
+	bottom: auto;
+	width: 100%;
+	max-width: none;
+	padding: 16px max(24px, (100% - 1160px) / 2);
+	border-bottom: 1px solid #e6e9f2;
+	gap: 28px;
+}
+
+.ap-vhero--band .ap-vhero__feat {
+	gap: 10px;
+	font-size: 15px;
+	font-weight: 600;
+	line-height: 1.4;
+}
+
+.ap-vhero--band .ap-vhero__feat img,
+.ap-vhero--band .ap-vhero__feat .ap-inline-icon svg { width: 20px; height: 20px; }
+
+@media (max-width: 767px) {
+	.ap-vhero--band .ap-vhero__feats { padding: 14px 0; gap: 0; border-bottom: 0; }
+}
+
+@keyframes apVheroChips {
+	from { transform: translateX(0); }
+	to { transform: translateX(-50%); }
+}
+
+.ap-vhero__ico.ap-inline-icon svg { width: calc(30 * var(--u)); height: calc(30 * var(--u)); display: block; }
+
+/* tablet "overlay" (Police): between 768 and 1180px live keeps the copy at full
+ * size over the scaled visual instead of scaling it with the viewport. The visual
+ * pins to the top at its ratio; the copy flows, so the hero grows to fit it. */
+@media (min-width: 768px) and (max-width: 1180px) {
+	.ap-vhero--overlay .ap-vhero__stage { position: absolute; top: 0; left: 0; right: 0; }
+	.ap-vhero--overlay .ap-vhero__in { position: relative; inset: auto; min-height: 540px; align-items: flex-start; padding: 80px 0; }
+	/* Live's plain .ap-container (1168px, 24px gutters) and the copy's own 56/8px
+	   padding, not the scaled container the "scale" pages use. */
+	.ap-vhero--overlay .ap-vhero__container { width: 100%; max-width: 1168px; margin: 0 auto; padding: 0 24px; box-sizing: border-box; }
+	.ap-vhero--overlay .ap-vhero__copy { max-width: 490px; margin-top: 0; padding: 56px 0 8px; }
+}
+
+/* At exactly 768px live's phone copy padding (max-width: 768px) already applies. */
+@media (min-width: 768px) and (max-width: 768px) {
+	.ap-vhero--overlay .ap-vhero__copy { padding: 40px 0 4px; }
+}
+
+@media (min-width: 768px) and (max-width: 1180px) {
+	.ap-vhero--overlay .ap-vhero__eyebrow { margin-bottom: 16px; font-size: 14px; }
+	.ap-vhero--overlay .ap-vhero__title { font-size: 42px; }
+	.ap-vhero--overlay .ap-vhero__lede { margin-top: 16px; font-size: 17px; }
+	.ap-vhero--overlay .ap-vhero__cta { gap: 22px; margin-top: 32px; }
+	.ap-vhero--overlay .ap-vhero__btn { padding: 14px 16px; border-radius: 4px; font-size: 16px; }
+	.ap-vhero--overlay .ap-vhero__certs { gap: 18px; }
+	.ap-vhero--overlay .ap-vhero__certs img { height: 54px; }
+}
+
+/* ---- kit type scale (QA 2026-10-28) ----
+ * The product pages' H1 is the eyebrow (as on the homepage) and the big title is an H2 drawn as the
+ * page headline. Both now take the kit type tokens (ui/src/tokens.css --ap-type-*): the title was
+ * weight 700 at -0.01em — visibly thinner than every other hero headline — and is now 800 / zero
+ * tracking like the rest; the eyebrow is 14px / 800 / 4% like every other eyebrow. */
+.ap-vhero .ap-vhero__eyebrow {
+	font-size: var(--ap-type-eyebrow-size);
+	font-weight: var(--ap-type-eyebrow-weight);
+	line-height: var(--ap-type-eyebrow-line);
+	letter-spacing: var(--ap-type-eyebrow-track);
+}
+.ap-vhero .ap-vhero__title {
+	font-size: var(--ap-type-h1-size);
+	font-weight: var(--ap-type-h1-weight);
+	line-height: var(--ap-type-h1-line);
+	letter-spacing: var(--ap-type-h1-track);
+}
+.ap-vhero .ap-vhero__lede {
+	font-size: var(--ap-type-lede-size);
+	line-height: var(--ap-type-lede-line);
+}
+
+/* Tablets (768-1180px): every product page now keeps its copy full size over the visual, as the
+ * Police page ("overlay") always did. The "scale" layout shrank the copy with the viewport down to
+ * 7.5px eyebrows and 9.6px paragraphs at 768px. */
+@media (min-width: 768px) and (max-width: 1180px) {
+	.ap-vhero .ap-vhero__stage { position: absolute; top: 0; left: 0; right: 0; }
+	.ap-vhero .ap-vhero__in { position: relative; inset: auto; min-height: 540px; align-items: flex-start; padding: 80px 0; }
+	.ap-vhero .ap-vhero__container { width: 100%; max-width: 1168px; margin: 0 auto; padding: 0 24px; box-sizing: border-box; }
+	.ap-vhero .ap-vhero__copy { max-width: 490px; margin-top: 0; padding: 56px 0 8px; }
+	.ap-vhero .ap-vhero__eyebrow { margin-bottom: 16px; }
+	.ap-vhero .ap-vhero__lede { margin-top: 16px; }
+	.ap-vhero .ap-vhero__cta { gap: 22px; margin-top: 32px; }
+	.ap-vhero .ap-vhero__btn { padding: 14px 16px; border-radius: 4px; font-size: 16px; }
+	.ap-vhero .ap-vhero__certs { gap: 18px; }
+	.ap-vhero .ap-vhero__certs img { height: 54px; }
+}
+@media (min-width: 768px) and (max-width: 768px) {
+	.ap-vhero .ap-vhero__copy { padding: 40px 0 4px; }
+}
+
+/* QA 2026-10-29 (Joseph): on tablets the stage box (1440/550 ratio) is shorter than the copy, and its flat top and
+ * bottom edges showed as lines through the white panel (a white band above the art at 1024). The stage now fills the
+ * whole hero: it is a size container, its orbs and veil stretch over the full height, and the 1440×550 composition
+ * (dashboard, person, cards, badge, connector lines) is slid down so its bottom meets the chip strip. The strip paints
+ * white over the last few px of the composition, where the veil has already faded it out. */
+@media (min-width: 768px) and (max-width: 1180px) {
+	.ap-vhero { display: block; --ap-vhero-feats-h: 66px; }
+	.ap-vhero.ap-vhero .ap-vhero__stage { position: absolute; top: 0; right: 0; bottom: 0; left: 0; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; container-type: size; overflow: hidden; } /* height:100% (not auto): a size container resolves auto height to 0 even between top/bottom */
+	.ap-vhero.ap-vhero .ap-vhero__stage > * { translate: 0 calc(100cqh - 550 * var(--u) - var(--ap-vhero-feats-h)); }
+	.ap-vhero.ap-vhero .ap-vhero__stage > .ap-vhero__orbs, .ap-vhero.ap-vhero .ap-vhero__stage > .ap-vhero__veil { translate: none; }
+	.ap-vhero .ap-vhero__in, .ap-vhero--overlay .ap-vhero__in { position: relative; z-index: 2; min-height: calc(550 * var(--u, 0.0694vw)); }
+	.ap-vhero .ap-vhero__feats { position: relative; z-index: 3; background: #fff; }
+}
+
+/* QA 2026-10-29 (Joseph, sitewide): on phones the hero's eyebrow sits 16px under the header, as on the K-12 page
+ * (his reference for the spacing). */
+@media (max-width: 767px) {
+	html body .ap-vhero .ap-vhero__in {
+		padding-top: 16px !important;
+	}
+}
+
+/* ------------------------------------------------------------ Copy / art spacing (QA 2026-10-29)
+ * Joseph: "The hero image like the lady, the guy, everything is too big ... It should be the same as
+ * /asset-intelligence-platform/ ... There should be space between the headers and content on the left from the
+ * images on the right." The person, her three cards and the panda tile started 41-88px past the copy at 1440 and
+ * 24-43px at 1024 (AIP: 130px and 67px), at full stage size. From 1024px up they now scale down together, as one
+ * picture, about the copy container's right edge and the stage's foot, so each page keeps its own arrangement and
+ * the art moves away from the copy: x' = edge + (x - edge) * k (and the same for y from the foot), with the
+ * cards and the tile redrawn at k times their size through --u. The connector lines follow on their own (the
+ * behaviour script redraws them from where the tile and the cards are). The translucent dashboard behind the copy
+ * is background and stays where it is. Desktops (1181px up) take k = .8: the art starts 136px or more past the
+ * copy at 1440 and 1280. Tablets in landscape (1024-1180px) take k = .85, 92px or more at 1024. */
+@media (min-width: 1181px) {
+	.ap-vhero { --ap-vhero-k: .8; }
+	.ap-vhero .ap-vhero__person,
+	.ap-vhero .ap-vhero__card,
+	.ap-vhero .ap-vhero__badge {
+		left: calc(50% + 560px + (var(--x, 0%) - 50% - 560px) * var(--ap-vhero-k));
+		top: calc(100% + (var(--y, 0%) - 100%) * var(--ap-vhero-k));
+	}
+	.ap-vhero .ap-vhero__person { width: calc(var(--w, 100%) * var(--ap-vhero-k)); height: calc(var(--h, 100%) * var(--ap-vhero-k)); }
+	.ap-vhero .ap-vhero__card,
+	.ap-vhero .ap-vhero__badge { --u: calc(100cqw / 1440 * var(--ap-vhero-k)); }
+}
+
+/* Tablets in landscape (1024-1180px). Here the stage is stretched to the whole hero and its layers are slid down
+ * so the 1440x550 picture ends on the chip strip — but the layers' top / height percentages were read against the
+ * stretched stage, so the person and the dashboard were drawn up to 1.55x too tall, and the person and cards
+ * (whose entrance animation holds translate at 0) were never slid down at all. In this range the picture is now
+ * placed in its own 550-unit space: top offsets come from margin-top (a percentage of the stage width, so
+ * y% x 550/1440), images keep their own proportions (height: auto; the veil gets its height from padding), and
+ * the art sits at its scaled place above the strip directly instead of through the slide. The edge is the copy
+ * container's right edge (min(100%, 1168px) less its 24px padding). Phones and 768-1023px are untouched. */
+@media (min-width: 1024px) and (max-width: 1180px) {
+	.ap-vhero { --ap-vhero-k: .85; }
+	.ap-vhero.ap-vhero .ap-vhero__stage > .ap-vhero__dash,
+	.ap-vhero.ap-vhero .ap-vhero__stage > .ap-vhero__dashveil { top: 0; margin-top: calc(var(--y, 0%) * 550 / 1440); }
+	.ap-vhero.ap-vhero .ap-vhero__stage > .ap-vhero__dash { height: auto; }
+	.ap-vhero.ap-vhero .ap-vhero__stage > .ap-vhero__dashveil { height: 0; padding-bottom: calc(var(--h, 100%) * 550 / 1440); }
+	.ap-vhero.ap-vhero .ap-vhero__stage > .ap-vhero__person,
+	.ap-vhero.ap-vhero .ap-vhero__stage > .ap-vhero__card,
+	.ap-vhero.ap-vhero .ap-vhero__stage > .ap-vhero__badge {
+		translate: none;
+		left: calc(50% + min(50%, 584px) - 24px + (var(--x, 0%) - 50% - min(50%, 584px) + 24px) * var(--ap-vhero-k));
+		top: calc(100cqh - var(--ap-vhero-feats-h, 66px) - 38.19444cqw * var(--ap-vhero-k));
+		margin-top: calc(var(--y, 0%) * 550 / 1440 * var(--ap-vhero-k));
+	}
+	.ap-vhero.ap-vhero .ap-vhero__stage > .ap-vhero__person { width: calc(var(--w, 100%) * var(--ap-vhero-k)); height: auto; }
+	.ap-vhero.ap-vhero .ap-vhero__stage > .ap-vhero__card,
+	.ap-vhero.ap-vhero .ap-vhero__stage > .ap-vhero__badge { --u: calc(100cqw / 1440 * var(--ap-vhero-k)); }
+}
+
+/* QA 2026-10-29 (Joseph, wide screen: "Why is the hero banner spacing getting bigger?"): the stage is a 1440 x 550
+ * picture scaled to the window, so on a 2560px screen the art and the dashboard grew 1.8x (hero 1032px tall) while
+ * the copy kept its size and sat lower and lower. Wider than 1440 the picture now keeps its 1440 design size,
+ * centred (hero 604px tall, the copy exactly where it is at 1440), and its background layers fade into the white
+ * sides over their outer 120px instead of ending at a hard edge. 1440 and below are unchanged. */
+@media (min-width: 1441px) {
+	.ap-vhero .ap-vhero__stage {
+		max-width: 1440px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.ap-vhero .ap-vhero__stage > .ap-vhero__dash,
+	.ap-vhero .ap-vhero__stage > .ap-vhero__dashveil,
+	.ap-vhero .ap-vhero__stage > .ap-vhero__orbs {
+		-webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 0, #000 120px, #000 calc(100% - 120px), rgba(0, 0, 0, 0) 100%);
+		mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 0, #000 120px, #000 calc(100% - 120px), rgba(0, 0, 0, 0) 100%);
+	}
+}

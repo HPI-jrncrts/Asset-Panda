@@ -1,0 +1,15 @@
+
+/*
+ * QA 2026-10-29: components added after the host-baseline list above. Their unstyled text inherited the
+ * staging theme's 22px / weight 300 / -0.1px (Careers, Client Reviews, FAQ, Our Company, Resource Center,
+ * Tutorials read light and large next to every other page). Same rule, same zero specificity; merge into
+ * the list above when convenient. site-header and site-footer stay out (they style their own type).
+ */
+:where(.ap-article-cta, .ap-compare-hero, .ap-compare-table, .ap-integration-detail, .ap-integration-directory, .ap-integration-hero, .ap-integration-more, .ap-integration-titlebar, .ap-integrations-hero, .ap-lp-booking, .ap-lp-cookies, .ap-lp-ftabs, .ap-lp-hero, .ap-lp-prose, .ap-page-cards, .ap-page-directory, .ap-page-faq-hub, .ap-page-hero, .ap-page-reviews, .ap-page-split, .ap-page-toc, .ap-page-videos, .ap-resource-cards, .ap-resource-header, .ap-resource-hero, .ap-resource-search, .ap-resource-summary, .ap-roi-hero) {
+	font-family: var(--ap-font-body);
+	font-size: 1rem;
+	font-weight: var(--ap-weight-body);
+	line-height: 1.5;
+	letter-spacing: normal;
+	color: #1d2331;
+}

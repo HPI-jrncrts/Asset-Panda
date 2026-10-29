@@ -1,0 +1,85 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/assist-hero",
+	"title": "AP Assist Hero",
+	"category": "design",
+	"icon": "format-chat",
+	"description": "Help desk hero: copy and badges beside a stage holding the employee photo, an employee request card, the assistant's reply card with its actions, floating icon tiles and a chip strip. Live: .epx-hero on /solutions/help-desk-ticketing/. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"title_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_label": {
+			"type": "string",
+			"default": "Free Demo"
+		},
+		"cta_url": {
+			"type": "string",
+			"default": "/get-a-demo/"
+		},
+		"badges": {
+			"type": "array",
+			"default": []
+		},
+		"background": {
+			"type": "string",
+			"default": ""
+		},
+		"photo": {
+			"type": "string",
+			"default": ""
+		},
+		"photo_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"features": {
+			"type": "array",
+			"default": []
+		},
+		"message": {
+			"type": "object",
+			"default": {}
+		},
+		"assistant": {
+			"type": "object",
+			"default": {}
+		},
+		"response": {
+			"type": "object",
+			"default": {}
+		},
+		"tiles": {
+			"type": "array",
+			"default": []
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

@@ -28,7 +28,7 @@
 		"cta_label": {
 			"type": "string",
 			"required": false,
-			"default": "Book a Demo",
+			"default": "Free Demo",
 			"description": "Button text. Renders only with cta_url."
 		},
 		"cta_url": {
@@ -42,15 +42,15 @@
 			"required": false,
 			"default": [
 				{
-					"image": "https://www.assetpanda.com/wp-content/uploads/2026/07/badge_govramp-1.svg",
+					"image": "/wp-content/uploads/2026/07/badge_govramp-1.svg",
 					"alt": "GovRAMP authorized"
 				},
 				{
-					"image": "https://www.assetpanda.com/wp-content/uploads/2026/07/police-badge-soc2.png",
+					"image": "/wp-content/uploads/2026/07/police-badge-soc2.png",
 					"alt": "SOC 2 Type 2 certified"
 				},
 				{
-					"image": "https://www.assetpanda.com/wp-content/uploads/2026/07/badge_hipaa-1.svg",
+					"image": "/wp-content/uploads/2026/07/badge_hipaa-1.svg",
 					"alt": "HIPAA compliant"
 				}
 			],
@@ -59,13 +59,13 @@
 		"dashboard": {
 			"type": "string",
 			"required": false,
-			"default": "https://www.assetpanda.com/wp-content/uploads/2026/08/fire-hero-dash.jpg",
+			"default": "/wp-content/uploads/2026/08/fire-hero-dash.jpg",
 			"description": "Faded dashboard screenshot behind the stage."
 		},
 		"person": {
 			"type": "string",
 			"required": false,
-			"default": "https://www.assetpanda.com/wp-content/uploads/2026/08/Fireman-1.svg",
+			"default": "/wp-content/uploads/2026/08/Fireman-1.svg",
 			"description": "Person cut-out (transparent PNG or SVG)."
 		},
 		"layout": {
@@ -114,7 +114,7 @@
 					"title": "Turnout Gear",
 					"status_label": "Status",
 					"tag": "Due Inspection",
-					"icon": "https://www.assetpanda.com/wp-content/uploads/2026/08/fire-item-turnout.png",
+					"icon": "/wp-content/uploads/2026/08/fire-item-turnout.png",
 					"avatar": "",
 					"x": 52.014,
 					"y": 27.634,
@@ -126,7 +126,7 @@
 					"title": "SCBA Unit",
 					"status_label": "Status",
 					"tag": "Ready",
-					"icon": "https://www.assetpanda.com/wp-content/uploads/2026/08/fire-item-scba.png",
+					"icon": "/wp-content/uploads/2026/08/fire-item-scba.png",
 					"avatar": "",
 					"x": 55.207,
 					"y": 54.724,
@@ -138,15 +138,15 @@
 					"title": "Hydraulic Tool",
 					"status_label": "Status",
 					"tag": "In Service",
-					"icon": "https://www.assetpanda.com/wp-content/uploads/2026/08/fire-item-hydraulic.png",
-					"avatar": "https://www.assetpanda.com/wp-content/uploads/2026/08/fire-avatar.jpg",
+					"icon": "/wp-content/uploads/2026/08/fire-item-hydraulic.png",
+					"avatar": "/wp-content/uploads/2026/08/fire-avatar.jpg",
 					"x": 73.818,
 					"y": 46.543,
 					"mx": 59.423,
 					"my": 78.149
 				}
 			],
-			"description": "Up to three floating item cards (amber, sky, indigo). Each: label, title, status_label, tag, icon, avatar (optional), and position x, y (desktop %) and mx, my (phone %)."
+			"description": "Up to three floating item cards (amber, sky, indigo by slot). Each: label, title, status_label, tag, icon (URL) or icon_svg, avatar (optional), tone (optional: amber, sky, indigo, purple, orange or rose — overrides the slot colour so the circle and tag follow the icon), and position x, y (desktop %) and mx, my (phone %)."
 		},
 		"lines": {
 			"type": "array",
@@ -308,11 +308,43 @@
 			"default": [],
 			"description": "Chips in a strip under the stage. Each: label; icon (URL) or icon_svg."
 		},
+		"features_style": {
+			"type": "string",
+			"required": false,
+			"default": "overlay",
+			"enum": [
+				"overlay",
+				"band"
+			],
+			"description": "overlay lays the chips over the bottom of the stage (Emergency Preparedness); band puts them in a full-width ruled band under the hero (the product pages, live .ap-hero-feats-band)."
+		},
 		"ratio": {
 			"type": "string",
 			"required": false,
 			"default": "1440/550",
 			"description": "Stage aspect ratio, width/height."
+		},
+		"tablet": {
+			"type": "string",
+			"required": false,
+			"default": "scale",
+			"enum": [
+				"scale",
+				"overlay"
+			],
+			"description": "768-1180px: scale shrinks the whole hero with the viewport (Fire and most product pages); overlay keeps the copy at full size over the visual (Police)."
+		},
+		"m_top": {
+			"type": "number",
+			"required": false,
+			"default": 32,
+			"description": "Below 768px: px from the top of the hero to the first line of copy (live: 72 on Fire, 24 on Local Government, 16 on K-12)."
+		},
+		"m_flow": {
+			"type": "object",
+			"required": false,
+			"default": {},
+			"description": "Below 768px, a hero whose height follows its copy (K-12): pad_px + pad_vw is the space under the copy, and the visual is an art_vw-tall box anchored to the bottom. Layer m* geometry is then a percentage of that box. Empty keeps the fixed 360/680 phone hero."
 		}
 	}
 }

@@ -1,0 +1,37 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/solution-awards",
+	"title": "AP Solution Awards",
+	"category": "design",
+	"icon": "awards",
+	"description": "Award badges spaced across one row on a soft grey band; a masked marquee below 901px. Live: the .epx-awards section on the solution pages, Emergency Preparedness, School Reunification and Help Desk (rules ported). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"tone": {
+			"type": "string",
+			"default": "white",
+			"enum": [
+				"grey",
+				"white"
+			]
+		},
+		"items": {
+			"type": "array",
+			"default": []
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

@@ -1,0 +1,202 @@
+/* integration-hero — integration detail page hero.
+ * Figma: Integrations Detail Page Template > Hero Section (7318:166961), 1440 x 480.
+ * Centred 794px column: eyebrow, 16px, frosted logo card (24px padding, 16px
+ * radius, white 24% fill, 1px white rule; two 64px logos around a 9px "+"),
+ * 16px, H1, 32px, button.
+ *
+ * Top padding: Figma draws the 64px nav over the hero and starts the copy at
+ * 128px, so the visible gap under the nav is 64px. On the site the header sits
+ * above the hero, so pad only that gap (40px on a phone). The wash is the
+ * frame's 1440 x 480 render; anchoring it to the bottom shows the same slice
+ * Figma shows under its nav. */
+
+:where(.ap-integration-hero, .ap-integration-hero *, .ap-integration-hero *::before, .ap-integration-hero *::after) {
+	box-sizing: border-box;
+}
+
+/* Live's body type, restated at zero specificity (tokens.css keeps the same list
+ * for the older components; this one is not on it yet). */
+:where(.ap-integration-hero) {
+	font-family: var(--ap-font-body);
+	font-size: 1rem;
+	font-weight: var(--ap-weight-body);
+	line-height: 1.5;
+	letter-spacing: normal;
+	color: #1d2331;
+}
+
+.ap-integration-hero {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	padding: clamp(40px, 31.09px + 2.286vw, 64px) var(--ap-section-x, 16px) clamp(40px, 35.54px + 1.143vw, 52px);
+	background-color: var(--ap-white);
+	background-image: url("assets/hero-bg.webp");
+	background-position: center bottom;
+	background-size: cover;
+	background-repeat: no-repeat;
+	text-align: center;
+}
+
+/* Figma "Decorative / Gradient Overlay": 343px tall, its foot 90px below the
+ * hero, clear to white at 70% — so the hero ends on white. */
+.ap-integration-hero::after {
+	content: "";
+	position: absolute;
+	z-index: -1;
+	left: 0;
+	right: 0;
+	bottom: -90px;
+	height: 343px;
+	background: linear-gradient(180deg, transparent 0%, var(--ap-white) 70.128%);
+	pointer-events: none;
+}
+
+.ap-integration-hero__inner {
+	display: grid;
+	justify-items: center;
+	gap: 16px;
+	max-width: 794px;
+	margin: 0 auto;
+}
+
+.ap-integration-hero__eyebrow {
+	margin: 0;
+	color: var(--ap-type-eyebrow-color, var(--ap-text-eyebrow));
+	font-family: var(--ap-font-utility);
+	font-size: var(--ap-type-eyebrow-size);
+	font-weight: var(--ap-type-eyebrow-weight);
+	line-height: var(--ap-type-eyebrow-line);
+	letter-spacing: var(--ap-type-eyebrow-track);
+	text-transform: uppercase;
+}
+
+/* The frosted card. Width follows the logos (256px with two square marks, as
+ * in Figma); a wide partner wordmark widens it instead of squashing. */
+.ap-integration-hero__card {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 16px;
+	min-width: 256px;
+	max-width: 100%;
+	padding: 24px;
+	background: color-mix(in srgb, var(--ap-white) 24%, transparent);
+	border: 1px solid var(--ap-white);
+	border-radius: var(--ap-radius-xl);
+}
+
+.ap-integration-hero__logo {
+	display: block;
+	width: auto;
+	height: 64px;
+	max-width: 136px;
+	object-fit: contain;
+}
+
+.ap-integration-hero__plus {
+	display: block;
+	flex: none;
+	width: 9px;
+	height: 9px;
+}
+
+.ap-integration-hero__brand {
+	display: block;
+	flex: none;
+	width: 61px;
+	height: 64px;
+}
+
+.ap-integration-hero .ap-integration-hero__title {
+	margin: 0;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: var(--ap-type-h1-size);
+	font-weight: var(--ap-type-h1-weight);
+	line-height: var(--ap-type-h1-line);
+	letter-spacing: var(--ap-type-h1-track);
+	text-transform: none;
+	text-wrap: balance;
+}
+
+.ap-integration-hero__actions {
+	display: flex;
+	justify-content: center;
+	padding-top: 16px;
+}
+
+/* Primary button: the kit's gradient fill (Figma Primary CTA, 48px, 4px radius). */
+.ap-integration-hero .ap-integration-hero__btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 48px;
+	padding: 0 16px;
+	color: var(--ap-btn-primary-text);
+	font-family: var(--ap-font-utility);
+	font-size: var(--ap-fs-button-lg);
+	font-weight: var(--ap-weight-button);
+	line-height: var(--ap-line-button);
+	text-decoration: none;
+	white-space: nowrap;
+	background-image: var(--ap-gradient-action);
+	border: 1px solid var(--ap-brand-indigo);
+	border-radius: var(--ap-radius-sm);
+	transition: translate var(--ap-dur-base) var(--ap-ease-standard), box-shadow var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-integration-hero .ap-integration-hero__btn:hover,
+.ap-integration-hero .ap-integration-hero__btn:focus,
+.ap-integration-hero .ap-integration-hero__btn:visited {
+	color: var(--ap-btn-primary-text);
+	text-decoration: none;
+}
+
+.ap-integration-hero .ap-integration-hero__btn:hover {
+	translate: 0 -2px;
+	box-shadow: 0 6px 18px rgba(80, 68, 225, 0.28);
+}
+
+.ap-integration-hero .ap-integration-hero__btn:focus-visible {
+	outline: 3px solid var(--ap-brand-indigo);
+	outline-offset: 2px;
+}
+
+/* Entrance on load, not on scroll: each block rises in turn from a visible
+ * resting state, so a failed animation never leaves the hero blank. */
+@media (prefers-reduced-motion: no-preference) {
+	.ap-integration-hero__inner > * {
+		animation: ap-integration-hero-in var(--ap-dur-slow) var(--ap-ease-out) backwards;
+	}
+	.ap-integration-hero__inner > :nth-child(2) { animation-delay: var(--ap-stagger-step); }
+	.ap-integration-hero__inner > :nth-child(3) { animation-delay: calc(var(--ap-stagger-step) * 2); }
+	.ap-integration-hero__inner > :nth-child(4) { animation-delay: calc(var(--ap-stagger-step) * 3); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-integration-hero .ap-integration-hero__btn { transition: none; }
+	.ap-integration-hero .ap-integration-hero__btn:hover { translate: none; }
+}
+
+@keyframes ap-integration-hero-in {
+	from { opacity: 0; translate: 0 var(--ap-reveal-distance); }
+	to   { opacity: 1; translate: none; }
+}
+
+/* Phones: a smaller card (52px logos) so a long product name still sits on
+ * two lines under it; the button keeps its own width, centred. */
+@media (max-width: 767.98px) {
+	.ap-integration-hero__card {
+		min-width: 208px;
+		padding: 18px 20px;
+		gap: 14px;
+	}
+	.ap-integration-hero__logo { height: 52px; max-width: 120px; }
+	.ap-integration-hero__brand { width: 50px; height: 52px; }
+	.ap-integration-hero__actions { padding-top: 8px; }
+}
+
+@media (forced-colors: active) {
+	.ap-integration-hero__card { border-color: CanvasText; }
+}

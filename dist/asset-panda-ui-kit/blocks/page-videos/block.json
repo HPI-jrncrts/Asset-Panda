@@ -1,0 +1,73 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/page-videos",
+	"title": "AP Page Videos",
+	"category": "design",
+	"icon": "block-default",
+	"description": "Video gallery for /tutorials/: optional centred heading and intro over a dark theater panel — one large 16:9 player with the playing video's title and copy under it, and every other video as its own card in a deck beside it (the next one in front with its poster, the rest stacked behind it showing their titles; a swipe row under the player on tablets and phones). When the player scrolls into view the first video starts muted (YouTube IFrame API on youtube-nocookie.com, an Unmute pill turns the sound on); when a video ends the next card flies into the player and the old one goes to the back of the deck, looping from the last video to the first. Clicking a card plays it with sound and the cycle continues from it. No autoplay for reduced-motion or Save-Data visitors. Without JavaScript the first video is a poster linking to YouTube and every title is visible in the deck. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
+		"tone": {
+			"type": "string",
+			"default": "white",
+			"enum": [
+				"white",
+				"soft"
+			]
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"intro": {
+			"type": "string",
+			"default": ""
+		},
+		"card_tag": {
+			"type": "string",
+			"default": "h3",
+			"enum": [
+				"h2",
+				"h3"
+			]
+		},
+		"columns": {
+			"type": "string",
+			"default": "2",
+			"enum": [
+				"2",
+				"3"
+			]
+		},
+		"playlist_title": {
+			"type": "string",
+			"default": ""
+		},
+		"items": {
+			"type": "array",
+			"default": []
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

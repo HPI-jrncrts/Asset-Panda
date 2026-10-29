@@ -1,6 +1,6 @@
 {
 	"name": "stats",
-	"description": "A grid of headline statistics. Each stat has a gradient-filled value, a label, and optional supporting copy. Used on the homepage between the hero and the value proposition.",
+	"description": "A grid of headline statistics. Each stat has a gradient-filled value, a label, and optional supporting copy. Ported from the live homepage stats band (#ap-stats-v3); used on the homepage between the hero and the comparison table.",
 	"props": {
 		"items": {
 			"type": "array",
@@ -12,20 +12,20 @@
 			"required": false,
 			"default": 3,
 			"enum": [ 2, 3, 4 ],
-			"description": "Columns at desktop width. Always collapses to one column on mobile."
+			"description": "Columns above 991px. Always two columns at 991px and below, as on live."
 		},
 		"theme": {
 			"type": "string",
 			"required": false,
 			"default": "light",
 			"enum": [ "light", "alt", "dark" ],
-			"description": "Background/foreground colour scheme."
+			"description": "Background/foreground colour scheme. The live homepage band is `alt` (slate-50)."
 		},
 		"reveal": {
 			"type": "boolean",
 			"required": false,
 			"default": true,
-			"description": "Stagger each stat in on scroll. Set false when the section sits above the fold."
+			"description": "Stagger each stat in on scroll. The live homepage band has no entrance animation (false)."
 		}
 	}
 }

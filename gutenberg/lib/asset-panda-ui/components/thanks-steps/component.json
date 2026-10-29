@@ -1,0 +1,9 @@
+{
+	"name": "thanks-steps",
+	"description": "\"What happens next\" band: centred eyebrow and heading over three numbered step cards, each with a coloured pill label. Live: #ap-demo-next-steps, the second section of the seven 2026 demo thank-you pages.",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small uppercase label above the heading, e.g. What happens next." },
+		"title": { "type": "string", "required": true, "description": "Heading, e.g. Here’s what to expect. Line breaks are kept." },
+		"items": { "type": "array", "required": true, "description": "Step cards, in order. Each: label (pill text, e.g. Step 01), tone (yellow, purple or green — the pill colour), title and body." }
+	}
+}

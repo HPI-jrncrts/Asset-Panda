@@ -1,0 +1,53 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/lp-feature-tabs",
+	"title": "AP Lp Feature Tabs",
+	"category": "design",
+	"icon": "block-default",
+	"description": "Feature library: centred heading over pill tabs (CSS-only, no script) that switch between grids of checked features, each a title and a line of copy; three across on desktop, two on tablets, one on phones. With one tab the bar is left out and the grid shows alone. Live: the 'Explore all of our features' tabs (bs-tab-slider) on /solutions/asset-management-ot-ga/. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
+		"tone": {
+			"type": "string",
+			"default": "soft",
+			"enum": [
+				"soft",
+				"white"
+			]
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"intro": {
+			"type": "string",
+			"default": ""
+		},
+		"tabs": {
+			"type": "array",
+			"default": []
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

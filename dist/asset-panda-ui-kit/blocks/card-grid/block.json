@@ -1,0 +1,81 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/card-grid",
+	"title": "AP Card Grid",
+	"category": "design",
+	"icon": "grid-view",
+	"description": "Centred heading over a grid of cards. Each card can carry a top image or an icon, a title, copy with inline links, and a button. Used for the contact page's Support / Sales / General Inquiry cards (heading as the page h1) and the free-trial page's template library. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
+		"tone": {
+			"type": "string",
+			"default": "white",
+			"enum": [
+				"white",
+				"soft"
+			]
+		},
+		"look": {
+			"type": "string",
+			"default": "default",
+			"enum": [
+				"default",
+				"resource"
+			]
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"title_tag": {
+			"type": "string",
+			"default": "h2",
+			"enum": [
+				"h1",
+				"h2"
+			]
+		},
+		"subtitle": {
+			"type": "string",
+			"default": ""
+		},
+		"intro": {
+			"type": "string",
+			"default": ""
+		},
+		"columns": {
+			"type": "string",
+			"default": "3",
+			"enum": [
+				"2",
+				"3"
+			]
+		},
+		"items": {
+			"type": "array",
+			"default": []
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

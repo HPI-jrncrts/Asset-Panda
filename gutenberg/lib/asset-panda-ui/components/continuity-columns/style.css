@@ -1,0 +1,70 @@
+/*
+ * continuity-columns — ported from the live .apx-oc section.
+ *
+ * The live sheet owns its whole section, so every selector is scoped under the
+ * component root and the keyframes are renamed; the inner class names are kept
+ * so the port stays diffable against live.
+ */
+
+.ap-continuity-columns{
+      --i:#5044e1; --t:#00a991; --ink:#25272c; --body:#4a4e5a;
+      position:relative; box-sizing:border-box; overflow:hidden;
+      width:100%; /* live broke out of the theme container with 100vw; the block is already full width */
+      font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+      color:var(--ink); background:#ffffff;
+    }
+.ap-continuity-columns *,.ap-continuity-columns *::before,.ap-continuity-columns *::after{box-sizing:border-box;}
+/* The dev theme sets text-wrap:pretty on headings and paragraphs; live wraps
+   greedily, so line breaks only match with the default restored. :where() keeps
+   this at class weight, so any later rule in this sheet still wins. */
+.ap-continuity-columns :where(h1,h2,h3,h4,h5,h6,blockquote,caption,figcaption,p){text-wrap:wrap;}
+.ap-continuity-columns__wrap{
+      width:100%; max-width:1200px; margin:0 auto; padding:80px 40px;   
+      display:flex; flex-direction:column; gap:40px; align-items:center;
+    }
+.ap-continuity-columns__head{position:static;height:auto;background:none;max-width:800px; display:flex; flex-direction:column; gap:16px; text-align:center;}
+.ap-continuity-columns__eyebrow{margin:0; font-size:14px; font-weight:800; line-height:1.2; letter-spacing:.56px; text-transform:uppercase; color:var(--i);}
+.ap-continuity-columns__title{margin:0; font-size:40px; font-weight:800; line-height:1.2; color:var(--ink);}
+.ap-continuity-columns__lede{margin:0; font-size:18px; font-weight:400; line-height:1.5; color:var(--body);}
+.ap-continuity-columns__cards{width:100%; display:flex; gap:28px; align-items:flex-start;}
+.ap-continuity-columns__card{flex:1 1 0; min-width:0; padding-top:2px; display:flex; flex-direction:column; gap:16px;}
+.ap-continuity-columns__kicker{
+      margin:0; font-size:14px; font-weight:800; line-height:1.2; letter-spacing:.56px; text-transform:uppercase;
+      background:linear-gradient(72deg,#5044e1 4%,#00a991 55%);
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+.ap-continuity-columns__ct{margin:0; font-size:20px; font-weight:800; line-height:1.4; color:var(--ink);}
+.ap-continuity-columns__cb{margin:0; font-size:18px; font-weight:400; line-height:1.5; color:var(--body);}
+.ap-continuity-columns__cardhead{display:flex; flex-direction:column; gap:8px;}
+.ap-continuity-columns__rule{width:100%; margin-top:-18px; line-height:0;}
+.ap-continuity-columns__rule svg{width:100%; height:auto; display:block;}
+.ap-continuity-columns__foot{margin:0; max-width:800px; text-align:center; font-size:18px; font-weight:700; line-height:1.5; color:var(--body);}
+@media (max-width:900px){.ap-continuity-columns__wrap{padding:64px 24px; gap:32px;}
+.ap-continuity-columns__title{font-size:32px;}
+.ap-continuity-columns__rule{display:none;}
+.ap-continuity-columns__cards{flex-direction:column; gap:34px; position:relative; padding-left:34px;}
+.ap-continuity-columns__cards::before{
+        content:""; position:absolute; left:5px; top:4px; bottom:4px; width:2px;
+        background:linear-gradient(180deg,#40444C,#B6BAC3);}
+.ap-continuity-columns__cards::after{
+        content:""; position:absolute; left:0; bottom:-5px; width:0; height:0;
+        border-left:6px solid transparent; border-right:6px solid transparent;
+        border-top:9px solid #B6BAC3;}
+.ap-continuity-columns__card{position:relative;}
+.ap-continuity-columns__card::before{
+        content:""; position:absolute; left:-33px; top:6px; width:12px; height:12px;
+        border-radius:50%; background:#40444C; box-shadow:0 0 0 4px #fff;}
+.ap-continuity-columns__card:nth-child(2)::before{background:#6c7382;}
+.ap-continuity-columns__card:nth-child(3)::before{background:#989fae;}
+}
+@media (max-width:560px){.ap-continuity-columns__wrap{padding:56px 20px;}
+.ap-continuity-columns__title{font-size:27px;}
+.ap-continuity-columns__lede,.ap-continuity-columns__cb,.ap-continuity-columns__foot{font-size:16px;}
+.ap-continuity-columns__ct{font-size:18px;}
+}
+
+/* Optional explore link closing a column (Ursa AI frame 7261:111699: 14px/600 text + the green long arrow). */
+.ap-continuity-columns__link{display:inline-flex;align-self:flex-start;align-items:center;gap:8px;font-size:14px;font-weight:600;line-height:1.2;color:#25272c;text-decoration:none;}
+.ap-continuity-columns__link img{display:block;width:24px;height:24px;transition:translate .3s cubic-bezier(.25,.45,.45,.95);}
+.ap-continuity-columns__link:hover span{text-decoration:underline;}
+.ap-continuity-columns__link:hover img{translate:4px 0;}

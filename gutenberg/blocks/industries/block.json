@@ -5,9 +5,13 @@
 	"title": "AP Industries",
 	"category": "design",
 	"icon": "grid-view",
-	"description": "Dark indigo panel of sector cards, each with a photo, sector icon, description and link to the sector hub. Figma: Home Page > Industries (4331:24718). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"description": "Dark indigo panel of sector cards over a blurred colour field; each card is a whole-card link with a photo, sector icon, description and an Explore line. Ported from the live homepage (#ap-sector-intelligence-v4); phones add a sticky row of sector chips. This block is an adapter — it holds no markup; it maps attributes to kit props.",
 	"textdomain": "assetpanda",
 	"attributes": {
+		"section_id": {
+			"type": "string",
+			"default": "industries"
+		},
 		"eyebrow": {
 			"type": "string",
 			"default": ""
@@ -15,6 +19,10 @@
 		"title": {
 			"type": "string",
 			"default": ""
+		},
+		"tabs_label": {
+			"type": "string",
+			"default": "Jump to an industry"
 		},
 		"items": {
 			"type": "array",

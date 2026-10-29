@@ -1,0 +1,46 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/solution-trust",
+	"title": "AP Solution Trust",
+	"category": "design",
+	"icon": "groups",
+	"description": "Customer logo strip: a short label (its end in the brand gradient) beside a row of logos; a masked marquee below 901px. Live: the .epx-trust section on the solution pages, Emergency Preparedness, School Reunification and Help Desk (rules ported). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"label": {
+			"type": "string",
+			"default": ""
+		},
+		"accent": {
+			"type": "string",
+			"default": ""
+		},
+		"items": {
+			"type": "array",
+			"default": []
+		},
+		"variant": {
+			"type": "string",
+			"default": "solution",
+			"enum": [
+				"solution",
+				"readiness",
+				"service"
+			]
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

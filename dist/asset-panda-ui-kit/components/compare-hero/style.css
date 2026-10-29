@@ -1,0 +1,273 @@
+/* compare-hero — Compare hub hero.
+ * Figma: Desktop - Compare > Hero Section (7333:173311), 1440 x 797.
+ * Centred 928px column: eyebrow 14/800 indigo, 16px, H1 48/800 (two lines),
+ * 16px, lede 18/1.5, 16px + 16px, 48px gradient button. The illustration is a
+ * 1090 x 389 slot whose top sits 36px above the foot of the button row; the
+ * hero ends at the foot of the illustration.
+ *
+ * Top padding: Figma draws the 64px nav over the hero and starts the copy at
+ * 145px, so the visible gap under the nav is 81px (40px on a phone). The wash
+ * is the frame's background container rendered once (assets/hero-bg.webp).
+ *
+ * Stacking: wash (section background) < illustration < white fade (::after,
+ * Figma "Decorative / Gradient Overlay": 289px tall, its foot 86px below the
+ * hero, clear to white at 70.128%) < copy. The fade is sized from the
+ * illustration's width so it always whitens the same share of the art. */
+
+:where(.ap-compare-hero, .ap-compare-hero *, .ap-compare-hero *::before, .ap-compare-hero *::after) {
+	box-sizing: border-box;
+}
+
+/* Live's body type, restated at zero specificity so the host theme's body
+ * type (22px/300 on staging) never leaks in. */
+:where(.ap-compare-hero) {
+	font-family: var(--ap-font-body);
+	font-size: 1rem;
+	font-weight: var(--ap-weight-body);
+	line-height: 1.5;
+	letter-spacing: normal;
+	color: #1d2331;
+}
+
+.ap-compare-hero {
+	/* Illustration width: Figma's 1090px, never wider than the viewport on
+	 * desktop; a touch wider than a phone so the art keeps some presence (its
+	 * outer 7% each side is transparent air and tendrils). */
+	--ap-cmph-w: min(1090px, 100vw);
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	padding: clamp(40px, 24.77px + 3.905vw, 81px) var(--ap-section-x, 16px) 0;
+	background-color: var(--ap-white);
+	background-image: url("assets/hero-bg.webp");
+	background-position: center top;
+	background-size: cover;
+	background-repeat: no-repeat;
+	text-align: center;
+}
+
+.ap-compare-hero::after {
+	content: "";
+	position: absolute;
+	z-index: 1;
+	left: 0;
+	right: 0;
+	bottom: calc(var(--ap-cmph-w) * -0.0789);
+	height: calc(var(--ap-cmph-w) * 0.2651);
+	background: linear-gradient(180deg, transparent 0%, var(--ap-white) 70.128%);
+	pointer-events: none;
+}
+
+/* Copy only (no illustration): pad the foot like a normal section and let the
+ * fade sit at a fixed 289px. */
+.ap-compare-hero--no-art {
+	padding-bottom: clamp(56px, 40.77px + 3.905vw, 97px);
+}
+
+.ap-compare-hero--no-art::after {
+	bottom: -86px;
+	height: 289px;
+}
+
+.ap-compare-hero__inner {
+	position: relative;
+	z-index: 2;
+	display: grid;
+	justify-items: center;
+	gap: 16px;
+	max-width: 928px;
+	margin: 0 auto;
+}
+
+.ap-compare-hero .ap-compare-hero__eyebrow {
+	margin: 0;
+	color: var(--ap-type-eyebrow-color, var(--ap-text-eyebrow));
+	font-family: var(--ap-font-utility);
+	font-size: var(--ap-type-eyebrow-size);
+	font-weight: var(--ap-type-eyebrow-weight);
+	line-height: var(--ap-type-eyebrow-line);
+	letter-spacing: var(--ap-type-eyebrow-track);
+	text-transform: uppercase;
+}
+
+.ap-compare-hero .ap-compare-hero__title {
+	max-width: 100%;
+	margin: 0;
+	padding: 0;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: var(--ap-type-h1-size);
+	font-weight: var(--ap-type-h1-weight);
+	line-height: var(--ap-type-h1-line);
+	letter-spacing: var(--ap-type-h1-track);
+	text-transform: none;
+	text-wrap: balance;
+}
+
+.ap-compare-hero .ap-compare-hero__lede {
+	margin: 0;
+	color: var(--ap-type-lede-color, var(--ap-text-body));
+	font-size: var(--ap-type-lede-size);
+	font-weight: var(--ap-type-lede-weight, 400);
+	line-height: var(--ap-type-lede-line, 1.5);
+	text-wrap: pretty;
+}
+
+.ap-compare-hero__actions {
+	display: flex;
+	justify-content: center;
+	padding-top: 16px;
+}
+
+/* Primary button: the kit's gradient fill (Figma Primary CTA, 48px, 4px radius, Utility/Button/md 16px). */
+.ap-compare-hero .ap-compare-hero__btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 48px;
+	padding: 0 16px;
+	color: var(--ap-btn-primary-text);
+	font-family: var(--ap-font-utility);
+	font-size: var(--ap-fs-button-md);
+	font-weight: var(--ap-weight-button);
+	line-height: var(--ap-line-button);
+	text-decoration: none;
+	white-space: nowrap;
+	background-image: var(--ap-gradient-action);
+	border: 1px solid var(--ap-brand-indigo);
+	border-radius: var(--ap-radius-sm);
+	transition: translate var(--ap-dur-base) var(--ap-ease-standard), box-shadow var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-compare-hero .ap-compare-hero__btn:hover,
+.ap-compare-hero .ap-compare-hero__btn:focus,
+.ap-compare-hero .ap-compare-hero__btn:visited {
+	color: var(--ap-btn-primary-text);
+	text-decoration: none;
+}
+
+.ap-compare-hero .ap-compare-hero__btn:hover {
+	translate: 0 -2px;
+	box-shadow: 0 6px 18px rgba(80, 68, 225, 0.28);
+}
+
+.ap-compare-hero .ap-compare-hero__btn:focus-visible {
+	outline: 3px solid var(--ap-brand-indigo);
+	outline-offset: 2px;
+}
+
+/* The illustration: centred on the hero, wider than the copy column, its top
+ * tucked 36px (at 1090px wide) under the button row. */
+.ap-compare-hero__art {
+	position: relative;
+	z-index: 0;
+	width: var(--ap-cmph-w);
+	margin: calc(var(--ap-cmph-w) * -0.033) 0 0 calc(50% - var(--ap-cmph-w) / 2);
+	pointer-events: none;
+}
+
+.ap-compare-hero .ap-compare-hero__img {
+	display: block;
+	width: 100%;
+	height: auto;
+	max-width: none;
+	margin: 0;
+}
+
+/* Entrance on load, not on scroll: each block rises in turn from a visible
+ * resting state, so a failed animation never leaves the hero blank. */
+@media (prefers-reduced-motion: no-preference) {
+	.ap-compare-hero__inner > *,
+	.ap-compare-hero__art {
+		animation: ap-compare-hero-in var(--ap-dur-slow) var(--ap-ease-out) backwards;
+	}
+	.ap-compare-hero__inner > :nth-child(2) { animation-delay: var(--ap-stagger-step); }
+	.ap-compare-hero__inner > :nth-child(3) { animation-delay: calc(var(--ap-stagger-step) * 2); }
+	.ap-compare-hero__inner > :nth-child(4) { animation-delay: calc(var(--ap-stagger-step) * 3); }
+	.ap-compare-hero__art { animation-delay: calc(var(--ap-stagger-step) * 3); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-compare-hero .ap-compare-hero__btn { transition: none; }
+	.ap-compare-hero .ap-compare-hero__btn:hover { translate: none; box-shadow: none; }
+}
+
+@keyframes ap-compare-hero-in {
+	from { opacity: 0; translate: 0 var(--ap-reveal-distance); }
+	to   { opacity: 1; translate: none; }
+}
+
+/* Tablets: the art keeps the full viewport width. */
+@media (max-width: 1024.98px) {
+	.ap-compare-hero__inner {
+		max-width: 720px;
+	}
+}
+
+/* Phones: the art bleeds a little past both edges (only transparent margin and
+ * the rival's outer tendrils are lost) and tucks closer under the button. */
+@media (max-width: 767.98px) {
+	.ap-compare-hero {
+		--ap-cmph-w: 118vw;
+	}
+	.ap-compare-hero__inner {
+		gap: 12px;
+	}
+	.ap-compare-hero__actions {
+		padding-top: 12px;
+	}
+	.ap-compare-hero__art {
+		margin-top: 4px;
+	}
+}
+
+/* ------------------------------------------------------------ compact layout (opt-in: layout "compact")
+ * Figma Desktop - Compare > Hero Section (7333:173311) after the 2026-10-29 redesign, 1440 x 661 with the
+ * 64px nav drawn over it (597px below the header): the copy column starts 57px under the header; the art is
+ * an 811 x 297 window of the panda illustration (the file arrives cropped to it) sitting on the hero's foot,
+ * its top 56px above the foot of the button row (6.9% of its width); "image 11" glows behind it in a
+ * 1443 x 563 window (1.779 x the art's width, its top 266px = 0.328 x above the art) that the hero clips;
+ * the white fade ("Decorative / Gradient Overlay") is 289px tall (0.3564 x), clear until 38.989%.
+ * Everything below scales with the art width, so phones keep the same composition. */
+.ap-compare-hero--compact {
+	--ap-cmph-w: min(811px, 100vw);
+	padding-top: clamp(16px, 0.77px + 3.905vw, 57px);
+}
+
+.ap-compare-hero--compact::after {
+	bottom: 0;
+	height: calc(var(--ap-cmph-w) * 0.3564);
+	background: linear-gradient(180deg, transparent 0%, transparent 38.989%, var(--ap-white) 100%);
+}
+
+.ap-compare-hero--compact .ap-compare-hero__art {
+	margin-top: calc(var(--ap-cmph-w) * -0.069);
+}
+
+.ap-compare-hero--compact .ap-compare-hero__img {
+	position: relative;
+	z-index: 1;
+}
+
+.ap-compare-hero--compact .ap-compare-hero__glow {
+	position: absolute;
+	z-index: 0;
+	top: calc(var(--ap-cmph-w) * -0.328);
+	left: calc(var(--ap-cmph-w) * -0.3897);
+	display: block;
+	width: calc(var(--ap-cmph-w) * 1.7793);
+	height: calc(var(--ap-cmph-w) * 0.6942);
+	max-width: none;
+	margin: 0;
+}
+
+/* Phones (kit-wide, QA 2026-10-29): the eyebrow sits 16px under the header; the art keeps its tuck. */
+@media (max-width: 767.98px) {
+	.ap-compare-hero--compact {
+		--ap-cmph-w: 100vw;
+		padding-top: 16px;
+	}
+	.ap-compare-hero--compact .ap-compare-hero__art {
+		margin-top: calc(var(--ap-cmph-w) * -0.069);
+	}
+}

@@ -22,19 +22,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $props = array(
-	'eyebrow'      => $attributes['eyebrow'] ?? '',
-	'title'        => $attributes['title'] ?? '',
-	'title_accent' => $attributes['title_accent'] ?? '',
-	'image'        => $attributes['image'] ?? '',
-	'image_alt'    => $attributes['image_alt'] ?? '',
-	'background'   => $attributes['background'] ?? '',
-	'tips'         => $attributes['tips'] ?? array(),
-	'orbs'         => $attributes['orbs'] ?? array(),
-	'sub_title'    => $attributes['sub_title'] ?? '',
-	'sub_body'     => $attributes['sub_body'] ?? '',
-	'reveal'       => $attributes['reveal'] ?? true,
-	'checks'       => $attributes['checks'] ?? array(),
-	'ctas'         => $attributes['ctas'] ?? array(),
+	'eyebrow'        => $attributes['eyebrow'] ?? '',
+	'title'          => $attributes['title'] ?? '',
+	'title_accent'   => $attributes['title_accent'] ?? '',
+	'image'          => $attributes['image'] ?? '',
+	'image_alt'      => $attributes['image_alt'] ?? '',
+	'background'     => $attributes['background'] ?? '',
+	'tips'           => $attributes['tips'] ?? array(),
+	'orbs'           => $attributes['orbs'] ?? array(),
+	'lede'           => $attributes['lede'] ?? '',
+	'sub_title'      => $attributes['sub_title'] ?? '',
+	'sub_body'       => $attributes['sub_body'] ?? '',
+	'reveal'         => $attributes['reveal'] ?? true,
+	'checks'         => $attributes['checks'] ?? array(),
+	'ctas'           => $attributes['ctas'] ?? array(),
+	'lede_max'       => $attributes['lede_max'] ?? 856,
+	'lede_size_m'    => $attributes['lede_size_m'] ?? 18,
+	'outline_fixed'  => $attributes['outline_fixed'] ?? false,
+	'cta_stack'      => $attributes['cta_stack'] ?? 0,
+	'cta_top_tablet' => $attributes['cta_top_tablet'] ?? 24,
 );
 
 $ap_html = ap_render_component( 'dashboard-showcase', $props );

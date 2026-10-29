@@ -1,0 +1,15 @@
+{
+	"name": "platform-cta",
+	"description": "Closing band on the Asset Intelligence Platform page: a dark gradient card with eyebrow, heading, paragraph, a solid and an outline button, and product art pinned bottom-right. Live: the page's .apx-cta-bleed band.",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading." },
+		"body": { "type": "string", "required": false, "default": "", "description": "Paragraph under the heading. UrsaAI is set with its superscript." },
+		"cta_label": { "type": "string", "required": false, "default": "", "description": "Solid button text." },
+		"cta_url": { "type": "string", "required": false, "default": "", "description": "Solid button destination." },
+		"secondary_label": { "type": "string", "required": false, "default": "", "description": "Outline button text." },
+		"secondary_url": { "type": "string", "required": false, "default": "", "description": "Outline button destination." },
+		"image": { "type": "string", "required": false, "default": "", "description": "Product art, bottom-right of the card." },
+		"image_alt": { "type": "string", "required": false, "default": "", "description": "Art alt text (empty when decorative, as live)." }
+	}
+}

@@ -1,0 +1,537 @@
+/*
+ * assist-problem — ported from the live .epx-prob section of Help Desk
+ * Ticketing (its base sheet plus the two phone sheets pasted after it).
+ *
+ * Live's three sheets override each other with important flags; this is the
+ * cascade they resolve to, flattened per breakpoint, so no rule here needs one.
+ * Classes map one to one onto live's, so the port stays diffable:
+ * .epx-prob__X → .ap-assist-problem__X, except __h2 → __title, __h3 → __subtitle,
+ * __orbgrp → __orb, __img10 → __orbimg; .epx-fc → __fc, .epx-fc__flo → __flo,
+ * .epx-prev → __rev, .epx-g → __g; the orb's sphere and wordmark are <img>s
+ * here (assets/), inline SVG there. Live's 100vw full-bleed trick is left out
+ * (the block is already full width). Theme rules live relies on are restated:
+ * the sup offset (position/top/line-height 0), image vertical-align and the
+ * heading type.
+ *
+ * Breakpoints: 1180 (row stacks), 900, 700 (copy above art; art scales and
+ * re-composes; soft glows), 520, 390.
+ */
+
+.ap-assist-problem,
+.ap-assist-problem * {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+/* The dev theme sets text-wrap:pretty on headings and paragraphs; live wraps
+ * greedily, so line breaks only match with the default restored. */
+.ap-assist-problem :where(h1, h2, h3, h4, h5, h6, p, li) { text-wrap: wrap; }
+
+.ap-assist-problem {
+	position: relative;
+	isolation: isolate;
+	background: #fff;
+	overflow: hidden;
+	font-family: var(--ap-font-body, 'Manrope'), Arial, sans-serif;
+}
+
+/* QA 2026-10-29: one soft brand splash behind the whole section, centred on it, under the copy and
+ * the art alike (it used to sit only behind the panda, as the art's blurred backdrop image). The
+ * stops fall off like a bell curve and end at zero well inside each ellipse, so no edge or band
+ * ever shows. Phones get a stronger mix below. */
+.ap-assist-problem::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	pointer-events: none;
+	background:
+		radial-gradient(54% 60% at 50% 56%, rgba(80, 68, 225, .18) 0%, rgba(80, 68, 225, .13) 22%, rgba(80, 68, 225, .07) 48%, rgba(80, 68, 225, .02) 74%, rgba(80, 68, 225, 0) 100%),
+		radial-gradient(42% 52% at 66% 42%, rgba(0, 169, 145, .15) 0%, rgba(0, 169, 145, .10) 26%, rgba(0, 169, 145, .045) 54%, rgba(0, 169, 145, .01) 78%, rgba(0, 169, 145, 0) 100%),
+		radial-gradient(40% 48% at 32% 68%, rgba(120, 108, 240, .13) 0%, rgba(120, 108, 240, .08) 30%, rgba(120, 108, 240, .03) 60%, rgba(120, 108, 240, 0) 100%);
+}
+
+.ap-assist-problem__wrap {
+	position: relative;
+	z-index: 1;
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 80px 40px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 40px;
+}
+
+.ap-assist-problem__head {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	align-items: center;
+	max-width: 560px;
+	text-align: center;
+}
+
+.ap-assist-problem .ap-assist-problem__eyebrow {
+	font-size: 14px;
+	font-weight: 800;
+	letter-spacing: .56px;
+	text-transform: uppercase;
+	color: #5044e1;
+	line-height: 1.2;
+}
+
+.ap-assist-problem .ap-assist-problem__title {
+	font-family: inherit;
+	font-size: 40px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: normal;
+	text-transform: none;
+	color: #25272c;
+}
+
+/* Gradient text (live .epx-g). The padding only widens the painted gradient box. */
+.ap-assist-problem .ap-assist-problem__g {
+	background: linear-gradient(41.5deg, #5044e1 3.6%, #00a991 50.1%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	padding-top: 1em;
+	padding-bottom: .4em;
+}
+
+.ap-assist-problem .ap-assist-problem__title .ap-assist-problem__g {
+	background-image: linear-gradient(33.65deg, #5044e1 0%, #00a991 70.44%);
+}
+
+/* The UrsaAI mark: gradient "Ursa", solid superscript "AI". Live's theme sets
+ * sup to position:relative; top:-.5em; line-height:0, so it never grows the line. */
+.ap-assist-problem .ap-assist-problem__ursa {
+	color: transparent;
+	padding-top: 1em;
+	padding-bottom: .4em;
+}
+
+.ap-assist-problem__ursa sup {
+	position: relative;
+	top: -.5em;
+	font-size: .64em;
+	line-height: 0;
+	vertical-align: super;
+	font-weight: 700;
+	color: #00a991;
+	-webkit-text-fill-color: #00a991;
+}
+
+.ap-assist-problem__row {
+	display: flex;
+	gap: 64px;
+	align-items: center;
+	width: 100%;
+	max-width: 1120px;
+}
+
+/* --- art: the fixed 606x400 Figma frame; layers at their node coordinates. --- */
+.ap-assist-problem__artwrap {
+	--vs: 1;
+	flex: 0 0 auto;
+	width: 606px;
+	height: calc(400px * var(--vs));
+	display: flex;
+	justify-content: center;
+}
+
+.ap-assist-problem__art {
+	position: relative;
+	flex: 0 0 606px;
+	width: 606px;
+	height: 400px;
+	transform: scale(var(--vs));
+	transform-origin: top center;
+}
+
+.ap-assist-problem__art img {
+	position: absolute;
+	display: block;
+	max-width: none;
+	vertical-align: middle;
+}
+
+/* The art's own blurred backdrop stays as the panda's local glow (QA 2026-10-29). The image is an
+ * opaque PNG with a white surround, which showed as a pale box once the section carried a splash;
+ * an elliptical mask feathers it to nothing well inside its edges, so only the coloured core stays. */
+.ap-assist-problem__blur {
+	left: -33px;
+	top: -33px;
+	width: 672px;
+	height: 470px;
+	opacity: .7;
+	-webkit-mask-image: radial-gradient(closest-side at 46% 52%, #000 0%, #000 34%, rgba(0, 0, 0, .55) 60%, rgba(0, 0, 0, .15) 82%, transparent 100%);
+	mask-image: radial-gradient(closest-side at 46% 52%, #000 0%, #000 34%, rgba(0, 0, 0, .55) 60%, rgba(0, 0, 0, .15) 82%, transparent 100%);
+}
+.ap-assist-problem__ring { left: -41px; top: 9px; width: 595px; height: 397px; }
+
+/* The panda: a 259x276 window onto the full image. */
+.ap-assist-problem__pandabox { position: absolute; left: 16px; top: 93px; width: 259px; height: 276px; overflow: hidden; }
+.ap-assist-problem__panda { left: -27.6px; top: -85.4px; width: 610px; height: 407px; }
+
+/* The UrsaAI orb: ring, cropped image, sphere gradient, wordmark. */
+.ap-assist-problem__orb { position: absolute; left: 142px; top: 125px; width: 232px; height: 155px; }
+.ap-assist-problem__orbring { left: 0; top: 0; width: 232px; height: 155px; object-fit: cover; }
+.ap-assist-problem__orbimg { position: absolute; left: 75.3px; top: 37.1px; width: 80.3px; height: 80.3px; overflow: hidden; }
+.ap-assist-problem__orbimg img { left: -40.9px; top: -8.5px; width: 144.2px; height: 100.1px; }
+.ap-assist-problem__sphere { left: 72.3px; top: 33.1px; width: 87.34px; height: 86.33px; }
+.ap-assist-problem__logo { left: 91.35px; top: 67.26px; width: 52.2px; height: 17.07px; }
+
+/* Feature chips: placed by --chip-x/--chip-y/--chip-w (phones: --chip-mx/--chip-my). */
+.ap-assist-problem__fc {
+	position: absolute;
+	display: block;
+	left: var(--chip-x, 0);
+	top: var(--chip-y, 0);
+	width: var(--chip-w, auto);
+}
+
+.ap-assist-problem__flo {
+	display: flex;
+	gap: 9.32px;
+	align-items: center;
+	padding: 9.32px;
+	border-radius: 13.98px;
+	background: rgba(255, 255, 255, .24);
+	border: 1.165px solid #fff;
+	font-size: 11.65px;
+	font-weight: 800;
+	line-height: 1.2;
+	color: #25272c;
+	white-space: nowrap;
+}
+
+.ap-assist-problem__flo > svg {
+	display: block;
+	width: 18.64px;
+	height: 18.64px;
+	flex: 0 0 auto;
+}
+
+/* --- copy --- */
+.ap-assist-problem__copy {
+	flex: 1 1 0;
+	min-width: 0;
+	max-width: 450px;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.ap-assist-problem .ap-assist-problem__subtitle {
+	font-family: inherit;
+	font-size: 28px;
+	font-weight: 800;
+	line-height: 1.4;
+	letter-spacing: normal;
+	text-transform: none;
+	color: #25272c;
+}
+
+.ap-assist-problem__copy p,
+.ap-assist-problem__copy li {
+	font-size: 16px;
+	line-height: 1.5;
+	letter-spacing: normal;
+	color: #4a4e5a;
+	font-weight: 400;
+}
+
+.ap-assist-problem__copy p + p,
+.ap-assist-problem__copy p + ul { margin-top: -8px; }
+
+.ap-assist-problem__copy ul { list-style: disc; padding-left: 27px; }
+
+/* --- entrances: scroll-driven, final state = base (no layout shift) --- */
+@keyframes apAssistProblemUp {
+	from {
+		opacity: 0;
+		transform: translateY(24px);
+	}
+}
+
+@keyframes apAssistProblemIn {
+	from {
+		opacity: 0;
+		transform: scale(.94);
+	}
+}
+
+@keyframes apAssistProblemFloat {
+	0%, 100% { transform: translateY(0); }
+	50% { transform: translateY(-5px); }
+}
+
+@keyframes apAssistProblemFloatPhone {
+	0%, 100% { transform: translateY(0); }
+	50% { transform: translateY(-4px); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	@supports (animation-timeline: view()) {
+		.ap-assist-problem .ap-assist-problem__rev {
+			animation: apAssistProblemUp 1ms linear both;
+			animation-timeline: view();
+			animation-range: entry 5% entry 40%;
+		}
+
+		.ap-assist-problem .ap-assist-problem__fc { animation-name: apAssistProblemIn; }
+		.ap-assist-problem .ap-assist-problem__rev--d1 { animation-range: entry 10% entry 45%; }
+		.ap-assist-problem .ap-assist-problem__rev--d2 { animation-range: entry 15% entry 50%; }
+		.ap-assist-problem .ap-assist-problem__rev--d3 { animation-range: entry 20% entry 55%; }
+		.ap-assist-problem .ap-assist-problem__rev--d4 { animation-range: entry 25% entry 60%; }
+	}
+
+	.ap-assist-problem__flo { animation: apAssistProblemFloat 4s ease-in-out infinite; }
+	.ap-assist-problem__rev--d2 .ap-assist-problem__flo { animation-delay: -1.3s; }
+	.ap-assist-problem__rev--d3 .ap-assist-problem__flo { animation-delay: -2.6s; }
+	.ap-assist-problem__rev--d4 .ap-assist-problem__flo { animation-delay: -.7s; }
+}
+
+@media (max-width: 1180px) {
+	.ap-assist-problem__row { flex-direction: column; gap: 40px; }
+	.ap-assist-problem__copy { max-width: 606px; }
+}
+
+@media (max-width: 900px) {
+	.ap-assist-problem .ap-assist-problem__title { font-size: 32px; }
+}
+
+/* Phones: copy first, then the art, scaled from its top centre and re-composed
+ * (no backdrop image, a lighter ring, a bigger panda and orb, glassier chips).
+ * QA 2026-10-29: the splash is stronger here so it reads as intended, not as a
+ * stray wash; the panda and orb are ~35% larger and the chips keep a fixed,
+ * readable size (13px text) whatever the art's scale. */
+@media (max-width: 700px) {
+	.ap-assist-problem::before {
+		background:
+			radial-gradient(76% 46% at 50% 58%, rgba(80, 68, 225, .30) 0%, rgba(80, 68, 225, .22) 22%, rgba(80, 68, 225, .12) 48%, rgba(80, 68, 225, .035) 74%, rgba(80, 68, 225, 0) 100%),
+			radial-gradient(60% 36% at 70% 44%, rgba(0, 169, 145, .26) 0%, rgba(0, 169, 145, .17) 26%, rgba(0, 169, 145, .07) 54%, rgba(0, 169, 145, .018) 78%, rgba(0, 169, 145, 0) 100%),
+			radial-gradient(64% 34% at 28% 80%, rgba(120, 108, 240, .22) 0%, rgba(120, 108, 240, .13) 30%, rgba(120, 108, 240, .045) 60%, rgba(120, 108, 240, 0) 100%);
+	}
+
+	.ap-assist-problem__wrap {
+		width: 100%;
+		max-width: none;
+		padding: 52px 20px 44px;
+		gap: 30px;
+		align-items: stretch;
+	}
+
+	.ap-assist-problem__head { width: 100%; max-width: 500px; margin: 0 auto; gap: 10px; }
+	.ap-assist-problem .ap-assist-problem__eyebrow { font-size: 12px; line-height: 1.25; letter-spacing: .48px; }
+	.ap-assist-problem .ap-assist-problem__title { font-size: 28px; line-height: 1.18; }
+
+	.ap-assist-problem__row { width: 100%; max-width: none; gap: 34px; align-items: stretch; }
+
+	.ap-assist-problem__copy {
+		order: 1;
+		width: 100%;
+		max-width: 520px;
+		margin: 0 auto;
+		gap: 14px;
+		align-items: flex-start;
+		text-align: left;
+	}
+
+	.ap-assist-problem .ap-assist-problem__subtitle { width: 100%; font-size: 24px; line-height: 1.3; }
+	.ap-assist-problem__copy p + p,
+	.ap-assist-problem__copy p + ul { margin-top: 0; }
+	.ap-assist-problem__copy ul { width: 100%; padding-left: 24px; display: flex; flex-direction: column; gap: 5px; }
+
+	/* QA 2026-10-29 phone composition. The scaled 606x400 frame shrank the chips to ~8px text and,
+	 * enlarged, they covered the orb. Here the frame is not scaled as a whole: the panda, its ring
+	 * and the orb form a centred stage, each piece scaled by --ps from its design coordinates (the
+	 * stage is centred on design x 195 and starts at design y 84), and the four chips leave it for
+	 * a column underneath at a fixed, readable 14px, staggered like the design's chip column. */
+	.ap-assist-problem__artwrap {
+		order: 2;
+		--ps: 1.14;
+		--stage-h: calc(300px * var(--ps));
+		position: relative;
+		isolation: isolate;
+		display: block;
+		width: 100%;
+		max-width: 520px;
+		height: auto;
+		margin: 6px auto 0;
+		overflow: visible;
+	}
+
+	/* The stage's own glow (the backdrop image is off here): stops that reach zero inside the box. */
+	.ap-assist-problem__artwrap::before {
+		content: "";
+		position: absolute;
+		left: 50%;
+		top: -24px;
+		translate: -50% 0;
+		width: min(100%, calc(440px * var(--ps)));
+		height: calc(var(--stage-h) + 48px);
+		pointer-events: none;
+		z-index: 0;
+		background:
+			radial-gradient(50% 48% at 44% 56%, rgba(104, 92, 255, .32) 0%, rgba(104, 92, 255, .21) 28%, rgba(104, 92, 255, .09) 58%, rgba(104, 92, 255, .02) 82%, rgba(104, 92, 255, 0) 100%),
+			radial-gradient(44% 44% at 62% 44%, rgba(0, 169, 145, .26) 0%, rgba(0, 169, 145, .16) 30%, rgba(0, 169, 145, .06) 62%, rgba(0, 169, 145, 0) 100%),
+			radial-gradient(60% 52% at 50% 52%, rgba(255, 255, 255, .7) 0%, rgba(255, 255, 255, .3) 40%, rgba(255, 255, 255, 0) 100%);
+	}
+
+	.ap-assist-problem__art {
+		z-index: 1;
+		flex: none;
+		width: 100%;
+		height: auto;
+		transform: none;
+		padding-top: calc(var(--stage-h) + 8px);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 10px;
+	}
+	.ap-assist-problem__art .ap-assist-problem__blur { display: none; }
+	.ap-assist-problem__ring,
+	.ap-assist-problem__pandabox,
+	.ap-assist-problem__orb {
+		transform: scale(var(--ps));
+		transform-origin: 0 0;
+	}
+	.ap-assist-problem__ring { left: calc(50% - 236px * var(--ps)); top: calc(-75px * var(--ps)); opacity: .38; }
+	.ap-assist-problem__pandabox { left: calc(50% - 179px * var(--ps)); top: calc(9px * var(--ps)); }
+	.ap-assist-problem__orb { left: calc(50% - 53px * var(--ps)); top: calc(41px * var(--ps)); }
+
+	/* Chips: in flow under the stage, unscaled. The inline design coordinates are not used here. */
+	.ap-assist-problem__fc {
+		position: relative;
+		left: var(--chip-dx, 0px);
+		top: auto;
+		width: auto;
+		max-width: 100%;
+		transform: none;
+		z-index: 2;
+	}
+	.ap-assist-problem__rev--d1 { --chip-dx: -8px; }
+	.ap-assist-problem__rev--d2 { --chip-dx: 18px; }
+	.ap-assist-problem__rev--d3 { --chip-dx: 10px; }
+	.ap-assist-problem__rev--d4 { --chip-dx: -20px; }
+
+	.ap-assist-problem__flo {
+		gap: 10px;
+		padding: 10px 14px;
+		border-radius: 14px;
+		font-size: 14px;
+		line-height: 1.25;
+		white-space: normal;
+		background: rgba(255, 255, 255, .55);
+		border: 1px solid rgba(255, 255, 255, .85);
+		box-shadow: 0 10px 24px rgba(80, 68, 225, .10);
+		-webkit-backdrop-filter: blur(10px);
+		backdrop-filter: blur(10px);
+	}
+	.ap-assist-problem__flo > svg { width: 20px; height: 20px; }
+
+	/* No scroll reveal on phones; the chips float together on a calmer loop. */
+	.ap-assist-problem .ap-assist-problem__rev { animation: none; opacity: 1; }
+}
+
+@media (max-width: 700px) and (prefers-reduced-motion: no-preference) {
+	.ap-assist-problem .ap-assist-problem__flo { animation: apAssistProblemFloatPhone 4.6s ease-in-out infinite; }
+}
+
+/* Narrower phones: the same composition, the stage a little smaller (the chips keep their 14px). */
+@media (max-width: 520px) {
+	.ap-assist-problem__wrap { padding: 48px 20px 36px; }
+	.ap-assist-problem__row { gap: 28px; }
+	.ap-assist-problem__artwrap { --ps: .96; }
+}
+
+@media (max-width: 390px) {
+	.ap-assist-problem__wrap { padding-left: 18px; padding-right: 18px; }
+	.ap-assist-problem .ap-assist-problem__title { font-size: 26px; }
+	.ap-assist-problem .ap-assist-problem__subtitle { font-size: 22px; }
+	.ap-assist-problem__artwrap { --ps: .9; }
+}
+
+@media (max-width: 350px) {
+	.ap-assist-problem__artwrap { --ps: .8; }
+	.ap-assist-problem__rev--d1,
+	.ap-assist-problem__rev--d2,
+	.ap-assist-problem__rev--d3,
+	.ap-assist-problem__rev--d4 { --chip-dx: 0px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-assist-problem .ap-assist-problem__rev,
+	.ap-assist-problem .ap-assist-problem__flo { animation: none; }
+}
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: --ap-section-y top and bottom (was 80 / 80, 52 / 44, 48 / 36 by width). */
+html body .ap-assist-problem .ap-assist-problem__wrap { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+/* PageSpeed: the phone backdrop is radial gradients already; drop the blur filter. */
+html body .ap-assist-problem .ap-assist-problem__artwrap::before { filter: none; }
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-assist-problem.ap-assist-problem.ap-assist-problem .ap-assist-problem__title { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+/* Section eyebrow on the type scale too: 12px at 390 to 14px at 1440, 800, 4% tracking, upper case. */
+html body .ap-assist-problem.ap-assist-problem.ap-assist-problem .ap-assist-problem__eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }
+/* QA 2026-10-28: the "AI" of the Ursa mark was raised twice (vertical-align:
+ * super plus top:-.5em) and floated well above the word; it sits like the
+ * mark elsewhere now. */
+html body .ap-assist-problem .ap-assist-problem__ursa sup { vertical-align: baseline; top: -.6em; }
+
+/* body_size "md" (Ursa AI frame 7261:114411): 18px copy on desktop, the kit's lede scale below. */
+html body .ap-assist-problem--body-md .ap-assist-problem__copy p,
+html body .ap-assist-problem--body-md .ap-assist-problem__copy li { font-size: var(--ap-type-lede-size, 18px); line-height: 1.5; }
+
+/* QA 2026-10-29 (Joseph, second pass): the splash lives only around the panda and the copy — an ellipse over that
+ * row that fades to nothing well inside the section, so neither the section's top nor its bottom edge shows. */
+@media (min-width: 701px) {
+	.ap-assist-problem::before {
+		-webkit-mask-image: radial-gradient(ellipse 46% 40% at 50% 60%, #000 35%, rgba(0, 0, 0, .55) 62%, transparent 100%);
+		        mask-image: radial-gradient(ellipse 46% 40% at 50% 60%, #000 35%, rgba(0, 0, 0, .55) 62%, transparent 100%);
+	}
+}
+
+/* ------------------------------------------------------------ heading: beside (2026-10-29)
+ * The eyebrow and heading open the copy column beside the art (render.php prints them there), so a
+ * heading and a short paragraph read as one split row (/start-a-free-trial-email-only/ Build with
+ * UrsaAI). Where the row stacks (1180px and below) the copy leads, centred over the art. */
+.ap-assist-problem.ap-assist-problem--head-beside .ap-assist-problem__copy .ap-assist-problem__head {
+	align-items: flex-start;
+	gap: 12px;
+	max-width: none;
+	margin: 0 0 4px;
+	text-align: left;
+}
+
+@media (max-width: 1180px) {
+	.ap-assist-problem.ap-assist-problem--head-beside .ap-assist-problem__copy {
+		order: -1;
+		align-items: center;
+		max-width: 606px;
+		text-align: center;
+	}
+
+	.ap-assist-problem.ap-assist-problem--head-beside .ap-assist-problem__copy .ap-assist-problem__head {
+		align-items: center;
+		text-align: center;
+	}
+}
+
+@media (max-width: 700px) {
+	.ap-assist-problem.ap-assist-problem--head-beside .ap-assist-problem__copy {
+		max-width: 520px;
+		align-items: center;
+		text-align: center;
+	}
+}

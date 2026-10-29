@@ -1,0 +1,73 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/compare-hero",
+	"title": "AP Compare Hero",
+	"category": "design",
+	"icon": "block-default",
+	"description": "Compare hub hero: a centred eyebrow, H1, lede and one button over the soft 2026 colour wash, above a wide illustration (the Asset Panda panda arm-wrestling a rival) that fades into white at the foot of the hero. Figma: Desktop - Compare > Hero Section (7333:173311). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_label": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_url": {
+			"type": "string",
+			"default": ""
+		},
+		"image": {
+			"type": "string",
+			"default": ""
+		},
+		"image_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"image_w": {
+			"type": "number",
+			"default": 1536
+		},
+		"image_h": {
+			"type": "number",
+			"default": 548
+		},
+		"layout": {
+			"type": "string",
+			"default": "wide",
+			"enum": [
+				"wide",
+				"compact"
+			]
+		},
+		"glow": {
+			"type": "string",
+			"default": ""
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

@@ -121,3 +121,15 @@
 /* Border-box sizing for everything in the component, as on the live homepage;
  * :where() keeps it at zero specificity. */
 :where(.ap-mission, .ap-mission *, .ap-mission *::before, .ap-mission *::after) { box-sizing: border-box; }
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: --ap-section-y top and bottom (was the Figma pad-y steps). */
+html body .ap-mission.ap-mission { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-mission.ap-mission.ap-mission .ap-mission__title { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+/* Section eyebrow on the type scale too: 12px at 390 to 14px at 1440, 800, 4% tracking, upper case. */
+html body .ap-mission.ap-mission.ap-mission .ap-mission__eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }

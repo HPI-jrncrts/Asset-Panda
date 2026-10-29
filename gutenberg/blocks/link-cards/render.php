@@ -25,7 +25,10 @@ $props = array(
 	'eyebrow'      => $attributes['eyebrow'] ?? '',
 	'title'        => $attributes['title'] ?? '',
 	'title_accent' => $attributes['title_accent'] ?? '',
+	'head_width'   => $attributes['head_width'] ?? 0,
 	'items'        => $attributes['items'] ?? array(),
+	'stack'        => $attributes['stack'] ?? '1024',
+	'variant'      => $attributes['variant'] ?? 'default',
 );
 
 $ap_html = ap_render_component( 'link-cards', $props );

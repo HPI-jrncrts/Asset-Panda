@@ -26,17 +26,19 @@ $props = array(
 	'title'             => $attributes['title'] ?? '',
 	'title_accent'      => $attributes['title_accent'] ?? '',
 	'lede'              => $attributes['lede'] ?? '',
-	'cta_label'         => $attributes['cta_label'] ?? 'Book a Demo',
+	'cta_label'         => $attributes['cta_label'] ?? 'Free Demo',
 	'cta_url'           => $attributes['cta_url'] ?? '/get-a-demo/',
 	'badges'            => $attributes['badges'] ?? array(),
 	'background'        => $attributes['background'] ?? '',
 	'mobile_background' => $attributes['mobile_background'] ?? '',
 	'photos'            => $attributes['photos'] ?? array(),
 	'ratio'             => $attributes['ratio'] ?? '1440/640',
+	'mobile_ratio'      => $attributes['mobile_ratio'] ?? '393/378',
 	'veil_height'       => $attributes['veil_height'] ?? 58.125,
 	'content_top'       => $attributes['content_top'] ?? 0,
 	'features_band'     => $attributes['features_band'] ?? false,
 	'features'          => $attributes['features'] ?? array(),
+	'variant'           => $attributes['variant'] ?? 'default',
 );
 
 $ap_html = ap_render_component( 'hub-hero', $props );

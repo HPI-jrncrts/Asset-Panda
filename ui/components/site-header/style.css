@@ -4,7 +4,11 @@
  * Ported from the live 2026 header (#ap-presentation-header-v5,
  * #ap-mobile-header-v1, #ap-app-banner-v1) and renamed under .ap-site-header.
  * The desktop bar shows from 1101px; the phone header and app banner below.
- * Case-study cards follow the Figma Global Megamenu (4374:23298).
+ * Case-study cards follow the Figma Global Megamenu (4374:23298); since the
+ * client QA of 2026-10-29 the Who We Help panels show each group's two latest
+ * blog posts (.ap-mega-posts) in that card's place, a "View All Industries"
+ * link (.ap-help-all) under every option list, and live's gradient label on a
+ * hovered rail tab.
  */
 
 /*
@@ -25,6 +29,47 @@
 .ap-site-header__mob,
 .ap-site-header__banner {
 	display: none;
+}
+
+/*
+ * The base type live inherits from its theme body. Pinned here so the dev
+ * theme's body type (lighter weight, fluid size, -0.1px tracking) cannot leak
+ * into the header and shift the nav, buttons and panels.
+ */
+.ap-site-header__desk,
+.ap-site-header__mob,
+.ap-site-header__banner {
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.5;
+	letter-spacing: normal;
+}
+
+/*
+ * Normal wrapping as on live. The dev theme sets text-wrap: pretty on p and
+ * headings (specificity 0,0,1), which can move line breaks.
+ */
+.ap-site-header__desk :where(p, h1, h2, h3, h4, h5, h6),
+.ap-site-header__mob :where(p, h1, h2, h3, h4, h5, h6),
+.ap-site-header__banner :where(p, h1, h2, h3, h4, h5, h6) {
+	text-wrap: wrap;
+}
+
+/*
+ * Focus rings as on live: the browser default, shown for keyboard focus only.
+ * The dev theme outlines every :focus 2px solid, mouse clicks included.
+ */
+.ap-site-header__desk :focus:not(:focus-visible),
+.ap-site-header__mob :focus:not(:focus-visible),
+.ap-site-header__banner :focus:not(:focus-visible) {
+	outline: none;
+}
+
+.ap-site-header__desk :focus-visible,
+.ap-site-header__mob :focus-visible,
+.ap-site-header__banner :focus-visible {
+	outline-style: auto;
+	outline-width: 1px;
 }
 
 /* ---------------------------------------------------------------- desktop */
@@ -149,6 +194,9 @@
 	flex: 0 0 auto;
 }
 
+/* Login icon (QA 2026-10-29, dev.to #14 "More fancy Icon buttons", icon-fill): on hover a hairline ring appears and
+ * the grey fill closes in from the edges (an inset shadow growing to the full box), while the person icon turns the
+ * brand gradient. */
 .ap-site-header__desk .ap-login-icon {
 	width: 32px;
 	height: 40px;
@@ -158,13 +206,32 @@
 	border-radius: var(--ap-radius-md);
 	color: #4b5563;
 	text-decoration: none;
-	transition: background-color 180ms, box-shadow 180ms;
+	box-shadow: inset 0 0 0 0 var(--ap-athens-50), inset 0 0 0 1px rgba(237, 238, 241, 0);
+	transition: box-shadow 0.5s ease;
 }
 
 .ap-site-header__desk .ap-login-icon:hover,
+.ap-site-header__desk .ap-login-icon:focus-visible,
 .ap-site-header__desk .ap-login-icon.is-open {
-	background-color: var(--ap-athens-50);
-	box-shadow: inset 0 0 0 1px #edeef1;
+	box-shadow: inset 0 0 0 20px var(--ap-athens-50), inset 0 0 0 1px #edeef1;
+}
+
+.ap-site-header__desk .ap-login-icon__grad {
+	opacity: 0;
+	transition: opacity 0.25s ease;
+}
+
+.ap-site-header__desk .ap-login-icon:hover .ap-login-icon__grad,
+.ap-site-header__desk .ap-login-icon:focus-visible .ap-login-icon__grad,
+.ap-site-header__desk .ap-login-icon.is-open .ap-login-icon__grad {
+	opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-site-header__desk .ap-login-icon,
+	.ap-site-header__desk .ap-login-icon__grad {
+		transition: none;
+	}
 }
 
 .ap-site-header__desk .ap-login-icon svg {
@@ -197,6 +264,7 @@
 }
 
 .ap-site-header__desk .ap-header-btn.ap-header-free {
+	position: relative;
 	display: none;
 }
 
@@ -322,7 +390,6 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: 12px;
 	margin: 0;
 	padding: 0 16px;
 	border: 1px solid var(--ap-indigo-50);
@@ -345,8 +412,13 @@
 	border-color: #e0e7ff;
 }
 
-.ap-site-header__desk a.ap-help-tab:hover .ap-help-tab__label,
-.ap-site-header__desk a.ap-help-tab:focus-visible .ap-help-tab__label {
+/* Live: a hovered rail tab shows its label in the brand gradient (#ap-presentation-header-v5
+ * a.ap-help-tab:hover span). Link and button tabs alike, so a rail never mixes the two looks,
+ * and the active tab keeps it (client QA 2026-10-29), so the category whose options are shown
+ * stays marked once the pointer moves on to them. */
+.ap-site-header__desk .ap-mega-who-we-help .ap-help-tab.is-active .ap-help-tab__label,
+.ap-site-header__desk .ap-mega-who-we-help .ap-help-tab:hover .ap-help-tab__label,
+.ap-site-header__desk .ap-mega-who-we-help .ap-help-tab:focus-visible .ap-help-tab__label {
 	background-image: linear-gradient(55deg, var(--ap-brand-indigo) 0%, var(--ap-brand-green) 70.44%);
 	-webkit-background-clip: text;
 	background-clip: text;
@@ -382,6 +454,65 @@
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: 16px 48px;
+}
+
+/*
+ * Column layout (nav item layout "columns"): every tab visible at once, one
+ * column per tab under the item's label, a rule between the columns. The tab
+ * rail above stays the default; Resources uses this.
+ */
+.ap-site-header__desk .ap-mega-columns {
+	padding: 28px 0 34px;
+}
+
+.ap-site-header__desk .ap-mega-eyebrow {
+	margin: 0 0 22px;
+	color: var(--ap-text-eyebrow);
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.ap-site-header__desk .ap-mega-cols {
+	display: grid;
+	grid-template-columns: repeat(var(--ap-mega-cols, 4), minmax(0, 1fr));
+}
+
+.ap-site-header__desk .ap-mega-col {
+	min-width: 0;
+	padding: 0 20px;
+}
+
+.ap-site-header__desk .ap-mega-col:first-child {
+	padding-left: 0;
+}
+
+.ap-site-header__desk .ap-mega-col:last-child {
+	padding-right: 0;
+}
+
+.ap-site-header__desk .ap-mega-col + .ap-mega-col {
+	border-left: 1px solid var(--ap-athens-100);
+}
+
+.ap-site-header__desk .ap-mega-col .ap-mega-group + .ap-mega-group {
+	margin-top: 16px;
+}
+
+.ap-site-header__desk .ap-mega-col .ap-mega-link:last-child {
+	margin-bottom: 0;
+}
+
+.ap-site-header__desk a.ap-mega-heading {
+	display: block;
+	text-decoration: none;
+}
+
+.ap-site-header__desk a.ap-mega-heading:hover,
+.ap-site-header__desk a.ap-mega-heading:focus-visible {
+	text-decoration: underline;
 }
 
 .ap-site-header__desk .ap-mega-link {
@@ -642,6 +773,473 @@
 	color: var(--ap-indigo-600);
 }
 
+/*
+ * Featured resource cards beside a Who We Help group's links (Navigation
+ * Implementation Map, "Featured"): two per group, in the case-study card's
+ * frame, text only so the menu adds no image weight.
+ */
+
+.ap-site-header__desk .ap-mega-featured {
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.ap-site-header__desk .ap-mega-feature {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 8px;
+	padding: 20px 24px;
+	border: 1px solid var(--ap-athens-100);
+	border-radius: var(--ap-radius-md);
+	background: #fff;
+	color: #000;
+	text-decoration: none;
+	transition: background-color var(--ap-dur-base) var(--ap-ease-standard), border-color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-site-header__desk .ap-mega-feature:hover,
+.ap-site-header__desk .ap-mega-feature:focus-visible {
+	background: var(--ap-athens-50);
+	border-color: #edeef1;
+	outline: none;
+}
+
+.ap-site-header__desk .ap-mega-feature__type {
+	display: inline-block;
+	padding: 4px 10px;
+	border-radius: var(--ap-radius-pill);
+	background: var(--ap-indigo-50);
+	color: var(--ap-indigo-600);
+	font-size: 11px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.ap-site-header__desk .ap-mega-feature__title {
+	display: block;
+	font-size: 16px;
+	font-weight: 800;
+	line-height: 1.4;
+	transition: color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-site-header__desk .ap-mega-feature__desc {
+	display: block;
+	color: var(--ap-slate-500);
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.5;
+}
+
+.ap-site-header__desk .ap-mega-feature__cta {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	margin-top: 4px;
+	color: var(--ap-indigo-600);
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.2;
+}
+
+.ap-site-header__desk .ap-mega-feature__arrow {
+	display: inline-block;
+	transition: translate var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-site-header__desk .ap-mega-feature:hover .ap-mega-feature__title,
+.ap-site-header__desk .ap-mega-feature:focus-visible .ap-mega-feature__title {
+	color: var(--ap-indigo-600);
+}
+
+.ap-site-header__desk .ap-mega-feature:hover .ap-mega-feature__arrow,
+.ap-site-header__desk .ap-mega-feature:focus-visible .ap-mega-feature__arrow {
+	translate: 3px 0;
+}
+
+/*
+ * Latest posts beside a tab's links (client QA 2026-10-29, in place of the
+ * customer-story card): a heading and two post cards side by side — image,
+ * category, title, date — each linking to its post. The column measures
+ * itself (container query) and turns the cards into thumbnail rows when it is
+ * too narrow for two, so a narrower desktop never squeezes a title into a
+ * sliver. Images arrive deferred (behaviour.js) and fade in once loaded.
+ * The tab heading moves into the links column here (render.php), so the two
+ * column headings sit level and the cards start level with the first option.
+ */
+.ap-site-header__desk .ap-mega-posts {
+	min-width: 0;
+	container-type: inline-size;
+}
+
+.ap-site-header__desk .ap-mega-posts__heading,
+.ap-site-header__desk .ap-help-links__heading {
+	margin: 0 0 18px;
+}
+
+.ap-site-header__desk .ap-mega-posts__grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	grid-auto-rows: 1fr; /* four posts in a 2×2 grid, every card the same height (QA 2026-10-29) */
+	gap: 12px;
+}
+
+.ap-site-header__desk .ap-mega-post {
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	border: 1px solid var(--ap-athens-100);
+	border-radius: var(--ap-radius-md);
+	background: #fff;
+	color: var(--ap-text-heading);
+	text-decoration: none;
+	transition: background-color var(--ap-dur-base) var(--ap-ease-standard), border-color var(--ap-dur-base) var(--ap-ease-standard), box-shadow var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-site-header__desk .ap-mega-post:hover,
+.ap-site-header__desk .ap-mega-post:focus-visible {
+	background: var(--ap-athens-50);
+	border-color: var(--ap-athens-200);
+	box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+}
+
+.ap-site-header__desk .ap-mega-post:focus-visible {
+	outline: 2px solid var(--ap-indigo-600);
+	outline-offset: 2px;
+}
+
+.ap-site-header__desk .ap-mega-post__media {
+	position: relative;
+	display: block;
+	flex: 0 0 auto;
+	aspect-ratio: 16 / 7;
+	overflow: hidden;
+	background: var(--ap-athens-50);
+}
+
+.ap-site-header__desk .ap-mega-post__img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	opacity: 0;
+	transition: opacity var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-site-header__desk .ap-mega-post__img.is-loaded {
+	opacity: 1;
+}
+
+.ap-site-header__desk .ap-mega-post__media--empty {
+	background: linear-gradient(55deg, var(--ap-indigo-50) 0%, var(--ap-athens-50) 100%);
+}
+
+/* Category, title, date; the date sits at the foot so side-by-side cards share a baseline. */
+.ap-site-header__desk .ap-mega-post__body {
+	min-width: 0;
+	flex: 1 1 auto;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 6px;
+	padding: 10px 14px 12px;
+}
+
+.ap-site-header__desk .ap-mega-post__type {
+	display: inline-block;
+	max-width: 100%;
+	padding: 3px 8px;
+	border-radius: var(--ap-radius-pill);
+	background: var(--ap-indigo-50);
+	color: var(--ap-indigo-600);
+	font-size: 11px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.ap-site-header__desk .ap-mega-post__date {
+	display: none; /* dates hidden (QA 2026-10-29); the <time> stays in the markup */
+	margin-top: auto;
+	color: var(--ap-slate-500);
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1.2;
+	white-space: nowrap;
+}
+
+.ap-site-header__desk .ap-mega-post__title {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	min-height: calc(2 * 1.35em);
+	overflow: hidden;
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.35;
+	overflow-wrap: break-word;
+	transition: color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-site-header__desk .ap-mega-post:hover .ap-mega-post__title,
+.ap-site-header__desk .ap-mega-post:focus-visible .ap-mega-post__title {
+	color: var(--ap-indigo-600);
+}
+
+/* Too narrow for two cards side by side: thumbnail rows instead. */
+@container (max-width: 400px) {
+	.ap-site-header__desk .ap-mega-posts__grid {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 12px;
+	}
+
+	.ap-site-header__desk .ap-mega-post {
+		flex-direction: row;
+		align-items: stretch;
+	}
+
+	.ap-site-header__desk .ap-mega-post__media {
+		flex: 0 0 132px;
+		width: 132px;
+		min-height: 96px;
+		aspect-ratio: auto;
+	}
+
+	.ap-site-header__desk .ap-mega-post__body {
+		padding: 12px 14px;
+	}
+}
+
+/* "View All Industries" under a tab panel's option list (nav item all_label + all_url). */
+.ap-site-header__desk .ap-help-all {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	margin: 16px 0 0;
+	padding: 4px 0;
+	color: var(--ap-indigo-600);
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.2;
+	text-decoration: none;
+	transition: color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-site-header__desk .ap-help-all:hover,
+.ap-site-header__desk .ap-help-all:focus-visible {
+	color: var(--ap-green-600);
+}
+
+.ap-site-header__desk .ap-help-all__arrow {
+	display: inline-block;
+	transition: translate var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-site-header__desk .ap-help-all:hover .ap-help-all__arrow,
+.ap-site-header__desk .ap-help-all:focus-visible .ap-help-all__arrow {
+	translate: 3px 0;
+}
+
+/*
+ * Who We Help per Figma 5886:66455 (nav item variant "figma-2026"). Scoped to
+ * that panel so Products, Solutions and Resources keep their look. Figma
+ * defines the panel at 1440 (40px gutters, 330px rail, 40px gap, 990px
+ * content: links max 487px + 8px + card); narrower desktops shrink the rail.
+ * Figma has no link hover state, so the kit's link hover is kept.
+ *
+ * Figma's frosted panel is white at 80% over a 20px blur. Over the darkest
+ * dev heroes (/solutions/government/, /enterprise/) 80% leaves the 14px
+ * indigo eyebrow at 4.2:1, so the white is 85% (4.7:1 or better there).
+ */
+/* One panel surface for every menu (QA 2026-10-28, Joseph): the glass stays
+ * subtle — 94% white over a 16px blur, so the page only just shows through —
+ * and the hairline edges and soft shadow are the same on Products, Solutions,
+ * Who We Help and Resources. */
+.ap-site-header__desk .ap-mega-panel {
+	background: rgba(255, 255, 255, 0.94);
+	-webkit-backdrop-filter: blur(16px);
+	backdrop-filter: blur(16px);
+	border-top-color: var(--ap-athens-100);
+	border-bottom-color: var(--ap-athens-100);
+	box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+}
+
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-shell {
+	width: min(1360px, 100% - 80px);
+}
+
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-help-grid {
+	padding: 24px 0 40px;
+	grid-template-columns: clamp(276px, 23vw, 330px) minmax(0, 1fr);
+	gap: 40px;
+}
+
+/* Category rail: Figma "menu-sub-dropdown", states Default and Selected. */
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-help-tabs {
+	gap: 16px;
+}
+
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-help-tab {
+	min-height: 0;
+	gap: 8px;
+	padding: 19px 16px;
+	border: 1px solid var(--ap-athens-50);
+	background: #fff;
+	color: var(--ap-text-heading);
+	font-size: 16px;
+	line-height: 1.2;
+	/* Live's tab timing (#ap-presentation-header-v5 .ap-help-tab), as the base rail rule. */
+	transition: background-color 180ms ease, border-color 180ms ease;
+}
+
+/*
+ * Selected and hovered tabs take live's state (client QA 2026-10-29, "check the live site"):
+ * the light indigo fill with its indigo-100 edge (live #EEF2FF / #E0E7FF), and on the active
+ * tab, on hover and on keyboard focus the label in the brand gradient (the base rail rule
+ * above, which this variant no longer cancels). Figma's stroke-less Selected and plain label
+ * were dropped for it. The border is kept 1px so the tab stays 59px tall in every state.
+ */
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-help-tab.is-active,
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-help-tab:hover {
+	background: var(--ap-indigo-50);
+	border-color: var(--ap-indigo-100);
+}
+
+/* The "›" glyph gives way to Figma's 16px chevron-right. */
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-help-tab > span[aria-hidden="true"] {
+	flex: 0 0 16px;
+	width: 16px;
+	height: 16px;
+	background: url("assets/chevron-right.svg") center / 16px 16px no-repeat;
+	color: transparent;
+	font-size: 0;
+}
+
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-help-panel > .ap-mega-heading {
+	margin: 0 0 24px;
+	font-size: 14px;
+	letter-spacing: 0.04em;
+}
+
+/* Links: Figma "link-item-with-icon", 64px rows 16px apart, column max 487px. */
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-group {
+	max-width: 487px;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+/* No stroke at rest (keeps Figma's 64px rows); the hover edge is drawn inside instead. */
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-link {
+	margin: 0;
+	border: 0;
+	transition: background-color var(--ap-dur-base) var(--ap-ease-standard), box-shadow var(--ap-dur-base) var(--ap-ease-standard), translate var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-link:hover,
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-link:focus-visible {
+	box-shadow: inset 0 0 0 1px var(--ap-athens-100);
+}
+
+/* Keyboard focus needs more than the faint hover fill. */
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-link:focus-visible {
+	outline: 2px solid var(--ap-indigo-600);
+	outline-offset: 2px;
+}
+
+/* Icon frames stay a little visible, as on the other menus (Joseph, 2026-10-28):
+ * a solid hairline on white rather than Figma's dashed ghost. */
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-icon-box {
+	border: 1px solid #d7dfff;
+	border-radius: var(--ap-radius-md);
+	background: #fff;
+}
+
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-icon-img,
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-icon-box::after {
+	width: 28px;
+	height: 28px;
+}
+
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-link-copy {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-link strong {
+	margin: 0;
+	color: var(--ap-text-heading);
+	font-size: 16px;
+	line-height: 1.2;
+}
+
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-link small {
+	color: var(--ap-text-body);
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+/* Links and the case-study card side by side, 8px apart (Figma "link-group-cols"). */
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-help-split {
+	display: flex;
+	gap: 8px;
+	align-items: flex-start;
+}
+
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-help-links {
+	flex: 1 1 0;
+	max-width: 487px;
+}
+
+/* The posts column takes the card's place and width; its heading matches the panel's. */
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-posts {
+	flex: 1 1 0;
+}
+
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-posts__heading,
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-help-links__heading {
+	margin: 0 0 24px;
+	font-size: 14px;
+	letter-spacing: 0.04em;
+}
+
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-help-all {
+	margin-top: 20px;
+	font-size: 15px;
+}
+
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-card {
+	flex: 1 1 0;
+	min-width: 0;
+	/* The story card sits in its own visible container: hairline edge, white
+	 * fill, a soft lift, and a divider between the photo and the quote. */
+	border: 1px solid var(--ap-athens-100);
+	border-radius: var(--ap-radius-md);
+	background: #fff;
+	box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+	overflow: hidden;
+}
+
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-card__body {
+	border-top: 1px solid var(--ap-athens-100);
+}
+
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-card__title {
+	transition: color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
 @media (max-width: 1180px) and (min-width: 1101px) {
 	.ap-site-header__desk .ap-head-inner {
 		width: calc(100vw - 32px);
@@ -759,12 +1357,18 @@
 
 	/* Phone header */
 
+	/*
+	 * 60px tall like live, where the theme caps every <header> at 60px below
+	 * 1340px. The 62-64px inner row overflows it, so the page starts 60px
+	 * under the banner and the inner's white covers the bottom border.
+	 */
 	.ap-site-header__mob {
 		position: sticky;
 		top: 0;
 		z-index: 100000;
 		display: block;
 		width: 100%;
+		height: 60px;
 		background: #fff;
 		border-bottom: 1px solid #e5e7eb;
 		font-family: var(--ap-font-display);
@@ -828,25 +1432,6 @@
 		display: none;
 	}
 
-	.ap-site-header__mob .ap-mobile-phone {
-		width: 38px;
-		height: 38px;
-		flex: 0 0 38px;
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		margin-right: 2px;
-		border: 0.5px solid #d7dfff;
-		border-radius: var(--ap-radius-md);
-		background: #fff;
-		color: var(--ap-indigo-600);
-	}
-
-	.ap-site-header__mob .ap-mobile-phone svg {
-		width: 20px;
-		height: 20px;
-	}
-
 	.ap-site-header__mob .ap-mobile-burger {
 		width: 40px;
 		height: 40px;
@@ -860,30 +1445,62 @@
 		border: 1px solid #e1e7ef;
 		border-radius: var(--ap-radius-md);
 		background: #f8fafc;
+		font: inherit;
 		cursor: pointer;
 	}
 
-	.ap-site-header__mob .ap-mobile-burger span {
-		width: 18px;
-		height: 2px;
+	/* Burger (QA 2026-10-29, dev.to #28 "SVG CSS3 Menu/Burger Button"): opening, the middle line runs off to the
+	 * right and curls into a ring around the icon (one stroke dash sliding along a path that is the line and then
+	 * the circle) while the top and bottom lines swing past 45° and settle into an X; closing plays it backwards. */
+	.ap-site-header__mob .ap-mobile-burger .ap-burger {
+		width: 100%;
+		height: 100%;
 		display: block;
-		border-radius: 999px;
-		background: var(--ap-slate-900);
-		transition: translate 240ms cubic-bezier(0.22, 1, 0.36, 1), rotate 240ms cubic-bezier(0.22, 1, 0.36, 1), opacity 180ms;
+		overflow: visible;
+		fill: none;
+		stroke: var(--ap-slate-900);
+		stroke-width: 2;
+		stroke-linecap: round;
 	}
 
-	.ap-site-header__mob.is-open .ap-mobile-burger span:nth-child(1) {
-		translate: 0 7px;
+	.ap-site-header__mob .ap-burger__top,
+	.ap-site-header__mob .ap-burger__bot {
+		transform-box: fill-box;
+		transform-origin: center;
+		transition: translate 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55), rotate 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+	}
+
+	.ap-site-header__mob .ap-burger__mid {
+		stroke-dasharray: 18 200;
+		stroke-dashoffset: 0;
+		transition: stroke-dasharray 0.6s ease-in-out, stroke-dashoffset 0.6s ease-in-out;
+	}
+
+	.ap-site-header__mob.is-open .ap-mobile-burger {
+		border-color: transparent;
+	}
+
+	.ap-site-header__mob.is-open .ap-burger__top {
+		translate: 0 6px;
 		rotate: 45deg;
 	}
 
-	.ap-site-header__mob.is-open .ap-mobile-burger span:nth-child(2) {
-		opacity: 0;
+	.ap-site-header__mob.is-open .ap-burger__bot {
+		translate: 0 -6px;
+		rotate: -45deg;
 	}
 
-	.ap-site-header__mob.is-open .ap-mobile-burger span:nth-child(3) {
-		translate: 0 -7px;
-		rotate: -45deg;
+	.ap-site-header__mob.is-open .ap-burger__mid {
+		stroke-dasharray: 110 200;
+		stroke-dashoffset: -26.5;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.ap-site-header__mob .ap-burger__top,
+		.ap-site-header__mob .ap-burger__bot,
+		.ap-site-header__mob .ap-burger__mid {
+			transition: none;
+		}
 	}
 
 	/* Drawer. behaviour.js pins its top to the header's bottom edge. */
@@ -1011,6 +1628,34 @@
 
 	.ap-site-header__mob .ap-mobile-subhead:hover .ap-mobile-subhead-chev,
 	.ap-site-header__mob .ap-mobile-subhead:focus-visible .ap-mobile-subhead-chev {
+		translate: 3px 0;
+	}
+
+	/* "View All Industries" at the end of a drawer section (nav item all_label + all_url). */
+	.ap-site-header__mob .ap-mobile-all {
+		min-height: 44px;
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		margin: 4px 0 0;
+		padding: 10px 8px 12px 0;
+		color: var(--ap-indigo-600);
+		font-size: 13px;
+		font-weight: 800;
+		line-height: 1.2;
+		text-decoration: none;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	.ap-site-header__mob .ap-mobile-all:hover,
+	.ap-site-header__mob .ap-mobile-all:focus-visible,
+	.ap-site-header__mob .ap-mobile-all:hover .ap-mobile-subhead-chev,
+	.ap-site-header__mob .ap-mobile-all:focus-visible .ap-mobile-subhead-chev {
+		color: var(--ap-green-600);
+	}
+
+	.ap-site-header__mob .ap-mobile-all:hover .ap-mobile-subhead-chev,
+	.ap-site-header__mob .ap-mobile-all:focus-visible .ap-mobile-subhead-chev {
 		translate: 3px 0;
 	}
 
@@ -1187,7 +1832,6 @@ html.ap-intl .ap-site-header__mob .ap-mobile-menu-actions .ap-mobile-menu-demo {
 }
 
 html.ap-intl .ap-site-header__desk .ap-header-sales,
-html.ap-intl .ap-site-header__mob .ap-mobile-phone,
 html.ap-intl .ap-site-header__mob .ap-mobile-menu-actions .ap-mobile-sales {
 	display: none;
 }
@@ -1207,6 +1851,10 @@ html.ap-intl .ap-site-header__mob .ap-mobile-menu-actions .ap-mobile-sales {
 		padding-left: 10px;
 		padding-right: 10px;
 		gap: 8px;
+	}
+
+	html.ap-intl .ap-site-header__mob .ap-mobile-actions {
+		gap: 6px;
 	}
 
 	html.ap-intl .ap-site-header__mob .ap-mobile-free,
@@ -1238,4 +1886,57 @@ html:has(.ap-site-header__mob.is-open) {
 		transition: none !important;
 		animation: none !important;
 	}
+}
+
+/* QA 2026-10-28 (Jeph): "keep the mini descriptions on desktop for now but REMOVE them on mobile".
+ * The phone drawer prints only each link's title; this keeps any description line out of the drawer
+ * even if a link or featured card ever brings one along. Desktop panels are unaffected. */
+.ap-site-header .ap-mobile-menu small,
+.ap-site-header .ap-mobile-menu [class*="desc"] {
+	display: none;
+}
+
+
+/* QA 2026-10-29: phones had no way to log in (the login menu lives in the desktop header only).
+   The drawer now ends with the same logins as the desktop menu, as in Figma's mobile menu. */
+.ap-site-header__mob .ap-mobile-menu-login {
+	display: grid;
+	gap: 8px;
+	margin-top: 18px;
+	padding-top: 14px;
+	border-top: 1px solid #eef0f4;
+}
+.ap-site-header__mob .ap-mobile-menu-login > p {
+	margin: 0 0 2px;
+	color: var(--ap-indigo-600);
+	font-size: 11px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+.ap-site-header__mob .ap-mobile-menu-login a {
+	min-height: 44px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 0 14px;
+	border: 1px solid #dfe3ea;
+	border-radius: 5px;
+	background: #fff;
+	color: #25272c;
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.2;
+	text-decoration: none;
+}
+.ap-site-header__mob .ap-mobile-menu-login a:focus-visible {
+	outline: 2px solid var(--ap-indigo-600);
+	outline-offset: 2px;
+}
+.ap-site-header__mob .ap-mobile-menu-login small {
+	color: #6b7280;
+	font-size: 12px;
+	font-weight: 500;
 }

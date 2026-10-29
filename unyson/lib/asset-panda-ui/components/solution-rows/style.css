@@ -1,0 +1,302 @@
+/*
+ * solution-rows — ported from the live .epx-sol section.
+ *
+ * Live's rules, with its cascade resolved, re-namespaced from .epx-sol__* /
+ * .epx-srow / .epx-srev / .epx-tcta to .ap-solution-rows__*. The base is the
+ * Emergency Preparedness / School Reunification / Help Desk sheet; --solution
+ * adds the six solution pages' own rules: a wider gap and a 360px title column
+ * from 1001px, and a heading block capped at --ap-srows-head (800px on Asset
+ * Management, 640px on the rest). Live's 100vw full-bleed trick is left out.
+ */
+
+.ap-solution-rows,
+.ap-solution-rows * {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+.ap-solution-rows {
+	background: #fff;
+	overflow: hidden;
+	overflow: clip;
+	font-family: var(--ap-font-body, 'Manrope', Arial, sans-serif);
+}
+
+.ap-solution-rows__wrap {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 80px 40px 40px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 40px;
+}
+
+.ap-solution-rows__head {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	align-items: center;
+	max-width: 800px;
+	text-align: center;
+}
+
+.ap-solution-rows__eyebrow {
+	font-size: 14px;
+	font-weight: 800;
+	letter-spacing: .56px;
+	text-transform: uppercase;
+	color: #5044e1;
+	line-height: 1.2;
+}
+
+.ap-solution-rows .ap-solution-rows__title {
+	max-width: 660px;
+	font-size: 40px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: normal;
+	color: #25272c;
+}
+
+.ap-solution-rows__lede {
+	max-width: 660px;
+	font-size: 18px;
+	line-height: 1.5;
+	color: #4a4e5a;
+}
+
+.ap-solution-rows--solution .ap-solution-rows__head,
+.ap-solution-rows--solution .ap-solution-rows__title,
+.ap-solution-rows--solution .ap-solution-rows__lede { max-width: var(--ap-srows-head, 800px); }
+
+/* The heading's accent words: live's .epx-g gradient text. */
+.ap-solution-rows__g {
+	padding-top: 1em;
+	padding-bottom: .4em;
+	background: linear-gradient(41.5deg, #5044e1 3.6%, #00a991 50.1%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+
+.ap-solution-rows__rows {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+.ap-solution-rows__row {
+	position: relative;
+	display: flex;
+	gap: 40px;
+	align-items: flex-start;
+	min-height: 145px;
+	padding: 24px 40px;
+	border: 1px solid;
+	border-radius: 16px;
+	box-shadow: 0 2px 10px rgba(37, 39, 44, .05);
+	translate: 0 0;
+	scale: 1;
+	transition-property: translate, scale, box-shadow, border-color;
+	transition-duration: .3s;
+	transition-timing-function: cubic-bezier(.25, .45, .45, .95);
+	will-change: translate, scale, box-shadow;
+}
+
+.ap-solution-rows__row--indigo { border-color: #5044e1; background: linear-gradient(90deg, #fff 0%, #eef2ff 100%); }
+.ap-solution-rows__row--green { border-color: #00a991; background: linear-gradient(90deg, #fff 0%, #effefa 100%); }
+.ap-solution-rows__row--yellow { border-color: #de8d14; background: linear-gradient(90deg, #fff 0%, #fdf8e9 100%); }
+.ap-solution-rows__row--blue { border-color: #3b82f6; background: linear-gradient(90deg, #fff 0%, #eff6ff 100%); }
+.ap-solution-rows__row--red { border-color: #e61c55; background: linear-gradient(90deg, #fff 0%, #fff1f3 100%); }
+.ap-solution-rows__row--cyan { border-color: #06b6d4; background: linear-gradient(90deg, #fff 0%, #ecfeff 100%); }
+
+.ap-solution-rows__lead {
+	flex: 0 0 427px;
+	display: flex;
+	gap: 16px;
+	align-items: flex-start;
+}
+
+.ap-solution-rows__ico {
+	flex: 0 0 36px;
+	display: inline-flex;
+}
+
+.ap-solution-rows .ap-solution-rows__lead h3 {
+	padding-top: 2px;
+	font-size: 24px;
+	font-weight: 800;
+	line-height: 1.3;
+	letter-spacing: normal;
+	color: #25272c;
+}
+
+.ap-solution-rows__body {
+	flex: 1 1 0;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	padding-top: 4px;
+}
+
+.ap-solution-rows__body p {
+	font-size: 18px;
+	line-height: 1.5;
+	color: #4a4e5a;
+}
+
+.ap-solution-rows__cta,
+.ap-solution-rows__cta:visited {
+	display: inline-flex;
+	gap: 8px;
+	align-items: center;
+	width: fit-content;
+	font-size: 14px;
+	font-weight: 600;
+	color: #25272c;
+	text-decoration: none;
+}
+
+.ap-solution-rows__cta svg { transition: transform .3s cubic-bezier(.25, .45, .45, .95); }
+.ap-solution-rows__cta:hover { text-decoration: underline; }
+.ap-solution-rows__cta:hover svg { transform: translateX(4px); }
+
+.ap-solution-rows__cta:focus-visible {
+	outline: 3px solid #5044e1;
+	outline-offset: 2px;
+	border-radius: 2px;
+}
+
+@media (hover: hover) {
+	.ap-solution-rows__row:hover {
+		translate: 0 -6px;
+		scale: 1.015;
+		box-shadow: 0 22px 46px rgba(37, 39, 44, .17);
+	}
+
+	.ap-solution-rows__row:hover .ap-solution-rows__cta svg { transform: translateX(6px); }
+}
+
+.ap-solution-rows__row:focus-within,
+.ap-solution-rows__row:active {
+	translate: 0 -6px;
+	scale: 1.015;
+	box-shadow: 0 22px 46px rgba(37, 39, 44, .17);
+}
+
+/* UrsaAI as live's .epx-g mark: a gradient word and a green superscript that
+ * does not grow the line (live's theme sets sup line-height 0). */
+.ap-solution-rows .ap-ursa {
+	background: linear-gradient(41.5deg, #5044e1 3.6%, #00a991 50.1%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	-webkit-text-fill-color: transparent;
+}
+
+.ap-solution-rows .ap-ursa sup {
+	font-size: .64em;
+	font-weight: 700;
+	line-height: 0;
+	vertical-align: super;
+	color: #00a991;
+	-webkit-text-fill-color: #00a991;
+}
+
+/* Scroll reveal: a CSS scroll timeline, staggered per row (no script). */
+@keyframes apSolutionRowsUp {
+	from {
+		opacity: 0;
+		transform: translateY(24px);
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.ap-solution-rows .ap-solution-rows__rev {
+		animation: apSolutionRowsUp 1ms linear both;
+		animation-timeline: view();
+		animation-range: entry 5% entry 35%;
+	}
+
+	.ap-solution-rows .ap-solution-rows__rev--d1 { animation-range: entry 8% entry 38%; }
+	.ap-solution-rows .ap-solution-rows__rev--d2 { animation-range: entry 11% entry 41%; }
+	.ap-solution-rows .ap-solution-rows__rev--d3 { animation-range: entry 14% entry 44%; }
+	.ap-solution-rows .ap-solution-rows__rev--d4 { animation-range: entry 17% entry 47%; }
+	.ap-solution-rows .ap-solution-rows__rev--d5 { animation-range: entry 20% entry 50%; }
+	.ap-solution-rows .ap-solution-rows__rev--d6 { animation-range: entry 23% entry 53%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-solution-rows__row,
+	.ap-solution-rows__cta svg { transition-duration: .01ms; }
+
+	.ap-solution-rows__row:hover,
+	.ap-solution-rows__row:focus-within,
+	.ap-solution-rows__row:active {
+		translate: 0 0;
+		scale: 1;
+	}
+}
+
+@media (min-width: 1001px) {
+	.ap-solution-rows--solution .ap-solution-rows__row {
+		gap: 120px;
+		padding: 24px 40px 24px 24px;
+	}
+
+	.ap-solution-rows--solution .ap-solution-rows__lead {
+		flex: 0 1 360px;
+		max-width: 360px;
+	}
+}
+
+@media (max-width: 1000px) {
+	.ap-solution-rows .ap-solution-rows__title { font-size: 32px; }
+
+	.ap-solution-rows__row {
+		flex-direction: column;
+		gap: 16px;
+		min-height: 0;
+		padding: 24px 24px 14px;
+	}
+
+	.ap-solution-rows__lead { flex: 0 0 auto; }
+	.ap-solution-rows__body { padding-top: 0; }
+}
+
+@media (max-width: 640px) {
+	.ap-solution-rows__wrap { padding: 56px 20px 24px; }
+	.ap-solution-rows .ap-solution-rows__title { font-size: 28px; }
+	.ap-solution-rows .ap-solution-rows__lead h3 { font-size: 20px; }
+	.ap-solution-rows__body p { font-size: 16px; }
+	.ap-solution-rows--solution :is(h2, h3, .ap-solution-rows__eyebrow) { text-wrap: balance; }
+}
+
+/* Optional badge under the title (e.g. "Winner: Asset Panda"): the lead wraps so the pill sits on its own line, aligned with the title. */
+.ap-solution-rows__row--badged .ap-solution-rows__lead { flex-wrap: wrap; }
+.ap-solution-rows__badge { flex: 0 0 100%; display: block; padding-left: 52px; }
+.ap-solution-rows__row--no-icon .ap-solution-rows__badge { padding-left: 0; }
+.ap-solution-rows__badge > span {
+	display: inline-flex;
+	align-items: center;
+	padding: 4px 10px;
+	border: 1px solid currentColor;
+	border-radius: 999px;
+	background: #fff;
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 1.2;
+	letter-spacing: .02em;
+}
+.ap-solution-rows__row--indigo .ap-solution-rows__badge { color: #5044e1; }
+.ap-solution-rows__row--green .ap-solution-rows__badge { color: #00a991; }
+.ap-solution-rows__row--yellow .ap-solution-rows__badge { color: #de8d14; }
+.ap-solution-rows__row--blue .ap-solution-rows__badge { color: #3b82f6; }
+.ap-solution-rows__row--red .ap-solution-rows__badge { color: #e61c55; }
+.ap-solution-rows__row--cyan .ap-solution-rows__badge { color: #06b6d4; }
+/* A long title beside a badge keeps shrinking instead of wrapping under the icon. */
+.ap-solution-rows__row--badged .ap-solution-rows__lead h3 { flex: 1 1 0; min-width: 0; }

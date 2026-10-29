@@ -1,10 +1,12 @@
 {
 	"name": "industries",
-	"description": "Dark indigo panel of sector cards, each with a photo, sector icon, description and link to the sector hub. Figma: Home Page > Industries (4331:24718).",
+	"description": "Dark indigo panel of sector cards over a blurred colour field; each card is a whole-card link with a photo, sector icon, description and an Explore line. Ported from the live homepage (#ap-sector-intelligence-v4); phones add a sticky row of sector chips.",
 	"props": {
+		"section_id": { "type": "string", "required": false, "default": "industries", "description": "The section's id, the target of the mega menu's View All Industries link (/#industries). Empty for none." },
 		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading." },
 		"title": { "type": "string", "required": true, "description": "Heading. Line breaks are kept." },
-		"items": { "type": "array", "required": true, "description": "Sector cards. Each: title and body (required); optional image, image_alt, icon (government, manufacturing, healthcare, education, construction, nonprofit), link_label, link_url." },
-		"reveal": { "type": "boolean", "required": false, "default": true, "description": "Stagger cards in on scroll." }
+		"tabs_label": { "type": "string", "required": false, "default": "Jump to an industry", "description": "Accessible name of the phone chip row. Falls back to the title when empty." },
+		"items": { "type": "array", "required": true, "description": "Sector cards. Each: title and body (required); optional image (photo URL), icon (government, manufacturing, healthcare, education, construction, nonprofit — also sets the card's sector class), link_label, link_url (makes the whole card a link) and anchor (the card's id, which its chip jumps to; generated when empty)." },
+		"reveal": { "type": "boolean", "required": false, "default": true, "description": "Stagger cards in on scroll. The live homepage section has no entrance animation (false)." }
 	}
 }

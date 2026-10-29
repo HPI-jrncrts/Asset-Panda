@@ -1,0 +1,510 @@
+/*
+ * problem-scene — ported from the live #ap-gov-problem. The colour wash
+ * arrives as --apg-bg on the root.
+ */
+
+:where(.ap-problem-scene, .ap-problem-scene *, .ap-problem-scene *::before, .ap-problem-scene *::after) {
+	box-sizing: border-box;
+}
+
+.ap-problem-scene {
+	position:relative;
+	font-family:Manrope,sans-serif;
+	padding:20px 24px 80px;
+	overflow:visible
+}
+
+/* The wash (QA 2026-10-29 "make the gradient stronger so it's visible and adds
+   colour"): the page's colour-wash image at full strength, with brand orbs on
+   top of it (indigo left, teal right, periwinkle low centre) at low alpha so
+   every page using the section gets clearly visible colour, image or not.
+   (Was the image alone at .55.) */
+.ap-problem-scene::before {
+	content:"";
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	width:100%;
+	background-image:
+		radial-gradient(820px 520px at 16% 46%, rgba(80,68,225,.26), rgba(80,68,225,0) 70%),
+		radial-gradient(900px 540px at 84% 54%, rgba(0,169,145,.24), rgba(0,169,145,0) 70%),
+		radial-gradient(700px 440px at 50% 96%, rgba(131,140,246,.22), rgba(131,140,246,0) 70%),
+		var(--apg-bg, none);
+	background-size:auto, auto, auto, cover;
+	background-position:center, center, center, center 30%;
+	background-repeat:no-repeat;
+	opacity:1;
+	-webkit-mask-image:linear-gradient(180deg, rgba(0,0,0,0) 0%, #000 14%, #000 88%, rgba(0,0,0,0) 100%);
+	mask-image:linear-gradient(180deg, rgba(0,0,0,0) 0%, #000 14%, #000 88%, rgba(0,0,0,0) 100%);
+	pointer-events:none;
+	z-index:0
+}
+
+.ap-problem-scene > * {
+	position:relative;
+	z-index:1
+}
+
+.ap-problem-scene .apg-prob-head {
+	max-width:640px;
+	margin:0 auto 40px;
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	text-align:center;
+	gap:16px
+}
+
+.ap-problem-scene .apg-eyebrow {
+	font-size:14px;
+	font-weight:800;
+	line-height:1.2;
+	letter-spacing:.56px;
+	text-transform:uppercase;
+	color:#5044e1;
+	margin:0
+}
+
+.ap-problem-scene h2.apg-h2 {
+	font-size:40px;
+	font-weight:800;
+	line-height:1.2;
+	color:#25272c;
+	margin:0
+}
+
+.ap-problem-scene .apg-prob-lede {
+	font-size:18px;
+	line-height:1.5;
+	color:#4a4e5a;
+	margin:0
+}
+
+.ap-problem-scene .apg-prob-scene {
+	position:relative;
+	max-width:1120px;
+	margin:0 auto 40px;
+	height:var(--apg-scene-h, 260px)
+}
+
+.ap-problem-scene .apg-prob-img {
+	position:absolute;
+	width:328px;
+	height:218px;
+	border-radius:12px;
+	object-fit:cover;
+	box-shadow:0 8px 28px rgba(37,39,44,.18)
+}
+
+.ap-problem-scene .apg-prob-img-1 {
+	left:calc(50% - 137px);
+	top:0;
+	transform:translateX(-50%)
+}
+
+.ap-problem-scene .apg-prob-img-2 {
+	left:calc(50% + 137px);
+	top:42px;
+	transform:translateX(-50%)
+}
+
+.ap-problem-scene .apg-prob-chip {
+	position:absolute;
+	display:flex;
+	align-items:flex-start;
+	gap:8px;
+	padding:8px 12px;
+	border-radius:8px;
+	border:1px solid #e6e8f0;
+	box-shadow:0 2px 24px rgba(255,201,124,.08);
+	white-space:nowrap
+}
+
+.ap-problem-scene .apg-prob-chip img {
+	width:24px;
+	height:24px;
+	display:block
+}
+
+.ap-problem-scene .apg-prob-chip span {
+	font-size:16px;
+	line-height:1.6;
+	color:#25272c
+}
+
+.ap-problem-scene .apg-chip-blue {
+	left:13.75%;
+	top:98px;
+	border-color:#eff6ff;
+	background:linear-gradient(90deg,rgba(255,255,255,.8),#eff6ff)
+}
+
+.ap-problem-scene .apg-chip-red {
+	left:63.75%;
+	top:77px;
+	border-color:#fff1f3;
+	background:linear-gradient(90deg,rgba(255,255,255,.8),#fff1f3)
+}
+
+.ap-problem-scene .apg-chip-green {
+	left:20.625%;
+	top:195px;
+	border-color:#effefa;
+	background:linear-gradient(90deg,rgba(255,255,255,.9),#effefa)
+}
+
+.ap-problem-scene .apg-chip-yellow {
+	left:68.125%;
+	top:167px;
+	border-color:#fdf8e9;
+	background:linear-gradient(90deg,rgba(255,255,255,.9),#fdf8e9)
+}
+
+.ap-problem-scene .apg-mini-cta {
+	display:flex;
+	align-items:flex-end;
+	gap:24px;
+	max-width:870px;
+	margin:0 auto;
+	padding:20px 24px;
+	border-radius:16px;
+	border:1px solid #c8d2fd;
+	background:linear-gradient(44.146deg,#eef2ff 0%,#fff 99.927%);
+	transition:translate .3s cubic-bezier(.25,.45,.45,.95),box-shadow .3s cubic-bezier(.25,.45,.45,.95)
+}
+
+.ap-problem-scene .apg-mini-cta:hover {
+	translate:0 -4px;
+	box-shadow:0 12px 28px rgba(80,68,225,.12)
+}
+
+.ap-problem-scene .apg-mini-left {
+	flex:1;
+	display:flex;
+	gap:16px;
+	align-items:flex-start;
+	min-width:0
+}
+
+.ap-problem-scene .apg-mini-left > img {
+	width:42px;
+	height:48px;
+	flex:0 0 42px;
+	display:block
+}
+
+.ap-problem-scene .apg-mini-title {
+	font-size:20px;
+	font-weight:800;
+	line-height:1.4;
+	color:#25272c;
+	margin:0 0 4px
+}
+
+.ap-problem-scene .apg-mini-body {
+	font-size:18px;
+	line-height:1.5;
+	color:#4a4e5a;
+	margin:0
+}
+
+.ap-problem-scene .apg-btn {
+	display:inline-flex;
+	align-items:center;
+	justify-content:center;
+	gap:8px;
+	min-height:48px;
+	padding:16px;
+	border-radius:4px;
+	border:1px solid #5044e1;
+	background:linear-gradient(42.983deg,#5044e1 0%,#00a991 70.44%);
+	color:#fff;
+	font-size:16px;
+	font-weight:600;
+	line-height:1.2;
+	text-decoration:none;
+	white-space:nowrap;
+	flex:0 0 auto;
+	transition:translate .3s cubic-bezier(.25,.45,.45,.95),box-shadow .3s cubic-bezier(.25,.45,.45,.95)
+}
+
+.ap-problem-scene .apg-btn:hover {
+	translate:0 -2px;
+	box-shadow:0 8px 20px rgba(80,68,225,.25)
+}
+
+@media (max-width:1024px) {
+	.ap-problem-scene:not(.ap-problem-scene--stack-900):not(.ap-problem-scene--readiness) .apg-prob-scene {
+	height:auto;
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	gap:16px;
+	padding-bottom:8px
+}
+	.ap-problem-scene:not(.ap-problem-scene--stack-900):not(.ap-problem-scene--readiness) .apg-prob-img {
+	position:relative;
+	left:auto;
+	top:auto;
+	transform:none;
+	width:88%;
+	max-width:440px;
+	height:auto;
+	aspect-ratio:328/218
+}
+	.ap-problem-scene:not(.ap-problem-scene--stack-900):not(.ap-problem-scene--readiness) .apg-prob-img-2 {
+	margin:-40px 0 0 auto
+}
+	.ap-problem-scene:not(.ap-problem-scene--stack-900):not(.ap-problem-scene--readiness) .apg-prob-img-1 {
+	margin-right:auto
+}
+	.ap-problem-scene:not(.ap-problem-scene--stack-900):not(.ap-problem-scene--readiness) .apg-prob-chips-flow {
+	display:flex;
+	flex-wrap:wrap;
+	justify-content:center;
+	gap:8px;
+	width:100%
+}
+	.ap-problem-scene:not(.ap-problem-scene--stack-900):not(.ap-problem-scene--readiness) .apg-prob-chip {
+	position:relative;
+	left:auto!important;
+	right:auto!important;
+	top:auto!important
+}
+}
+@media (max-width: 900px) {
+	.ap-problem-scene.ap-problem-scene--stack-900:not(.ap-problem-scene--readiness) .apg-prob-scene {
+	height:auto;
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	gap:16px;
+	padding-bottom:8px
+}
+	.ap-problem-scene.ap-problem-scene--stack-900:not(.ap-problem-scene--readiness) .apg-prob-img {
+	position:relative;
+	left:auto;
+	top:auto;
+	transform:none;
+	width:88%;
+	max-width:440px;
+	height:auto;
+	aspect-ratio:328/218
+}
+	.ap-problem-scene.ap-problem-scene--stack-900:not(.ap-problem-scene--readiness) .apg-prob-img-2 {
+	margin:-40px 0 0 auto
+}
+	.ap-problem-scene.ap-problem-scene--stack-900:not(.ap-problem-scene--readiness) .apg-prob-img-1 {
+	margin-right:auto
+}
+	.ap-problem-scene.ap-problem-scene--stack-900:not(.ap-problem-scene--readiness) .apg-prob-chips-flow {
+	display:flex;
+	flex-wrap:wrap;
+	justify-content:center;
+	gap:8px;
+	width:100%
+}
+	.ap-problem-scene.ap-problem-scene--stack-900:not(.ap-problem-scene--readiness) .apg-prob-chip {
+	position:relative;
+	left:auto!important;
+	right:auto!important;
+	top:auto!important
+}
+}
+
+@media (min-width:1025px) {
+	.ap-problem-scene:not(.ap-problem-scene--stack-900):not(.ap-problem-scene--readiness) .apg-prob-chips-flow {
+	display:contents
+}
+}
+@media (min-width: 901px) {
+	.ap-problem-scene.ap-problem-scene--stack-900:not(.ap-problem-scene--readiness) .apg-prob-chips-flow {
+	display:contents
+}
+}
+
+@media (max-width:767px) {
+	.ap-problem-scene:not(.ap-problem-scene--stack-900) h2.apg-h2 {
+	font-size:28px
+}
+	.ap-problem-scene:not(.ap-problem-scene--stack-900) .apg-prob-lede {
+	font-size:16px
+}
+	.ap-problem-scene:not(.ap-problem-scene--stack-900) .apg-mini-cta {
+	flex-direction:column;
+	align-items:stretch
+}
+	.ap-problem-scene:not(.ap-problem-scene--stack-900) .apg-btn {
+	width:100%
+}
+	.ap-problem-scene:not(.ap-problem-scene--stack-900) .apg-prob-chip {
+	width:100%;
+	white-space:normal;
+	align-items:center
+}
+	.ap-problem-scene:not(.ap-problem-scene--stack-900) .apg-prob-chip span {
+	font-size:14px
+}
+}
+@media (max-width:767px) {
+	.ap-problem-scene.ap-problem-scene--stack-900 h2.apg-h2 {
+	font-size:28px
+}
+	.ap-problem-scene.ap-problem-scene--stack-900 .apg-prob-lede {
+	font-size:16px
+}
+	.ap-problem-scene.ap-problem-scene--stack-900 .apg-mini-cta {
+	flex-direction:column;
+	align-items:stretch
+}
+	.ap-problem-scene.ap-problem-scene--stack-900 .apg-btn {
+	width:100%
+}
+	.ap-problem-scene.ap-problem-scene--stack-900 .apg-prob-chip {
+	width:100%;
+	white-space:normal;
+	align-items:center
+}
+	.ap-problem-scene.ap-problem-scene--stack-900 .apg-prob-chip span {
+	font-size:14px
+}
+}
+
+.ap-problem-scene .apg-prob-chip .ap-inline-icon svg {
+	width:24px;
+	height:24px;
+	display:block
+}
+
+/* variant "readiness" (Emergency Preparedness, School Reunification): the scene keeps its
+ * desktop placement down to 901px, then stacks into one column - a larger photo,
+ * full-width callouts, and a stacked card with a full-width button. */
+@media (min-width:901px) {
+	.ap-problem-scene--readiness .apg-prob-chips-flow { display: contents; }
+}
+@media (max-width:900px) {
+	.ap-problem-scene--readiness h2.apg-h2 { font-size: 32px; }
+	.ap-problem-scene--readiness .apg-prob-scene { height: auto; display: flex; flex-direction: column; align-items: stretch; gap: 8px; padding-bottom: 8px; }
+	.ap-problem-scene--readiness .apg-prob-img { position: static; left: auto; top: auto; transform: none; width: 100%; max-width: 547px; height: auto; aspect-ratio: 547 / 364; margin: 0 auto 8px; }
+	.ap-problem-scene--readiness .apg-prob-chips-flow { display: flex; flex-direction: column; align-items: stretch; gap: 8px; width: 100%; }
+	.ap-problem-scene--readiness .apg-prob-chip { position: static; left: auto !important; right: auto !important; top: auto !important; width: 100%; justify-content: flex-start; white-space: normal; font-size: 16px; padding: 8px 12px; }
+	.ap-problem-scene--readiness .apg-prob-chip span { font-size: 16px; }
+	.ap-problem-scene--readiness .apg-mini-cta { flex-direction: column; align-items: flex-start; gap: 16px; }
+	.ap-problem-scene--readiness .apg-btn { width: 100%; }
+}
+@media (max-width:640px) {
+	.ap-problem-scene--readiness h2.apg-h2 { font-size: 28px; }
+}
+
+/* stack-900 variant generated */
+
+/*
+ * variant "eduhub" — the Education hub: live #ap-eduhub-problem (its three sheets
+ * plus the page's phone padding rule), ported whole (selectors re-rooted at
+ * .ap-problem-scene--eduhub). The photo pair and chips sit in a 1120/260 scene
+ * that scales with the width down to 641px; at 640px and below the scene is one
+ * photo and four full-width chips. The colour washes come from the background
+ * props (--apr-bg, and --apr-mbg on phones) instead of URLs in the sheet. Live's
+ * full-bleed width:100vw / margin-left:calc(50% - 50vw) is dropped: the block is
+ * already full width, and 100vw scrolls sideways wherever a scrollbar shows.
+ */
+.ap-problem-scene.ap-problem-scene--eduhub{position:relative;background:#ffffff;overflow:hidden;padding:24px 24px 80px}
+.ap-problem-scene.ap-problem-scene--eduhub *{box-sizing:border-box}
+/* Same wash recipe as the default variant: the page's image at full strength under brand orbs, fading out at the top and bottom edges (QA 2026-10-29). */
+.ap-problem-scene.ap-problem-scene--eduhub .apr-wash{position:absolute;top:0;left:0;right:0;height:100%;pointer-events:none;-webkit-mask-image:linear-gradient(180deg, rgba(0,0,0,0) 0%, #000 14%, #000 88%, rgba(0,0,0,0) 100%);mask-image:linear-gradient(180deg, rgba(0,0,0,0) 0%, #000 14%, #000 88%, rgba(0,0,0,0) 100%);background:radial-gradient(820px 520px at 16% 46%, rgba(80,68,225,.26), rgba(80,68,225,0) 70%) center/auto no-repeat,radial-gradient(900px 540px at 84% 54%, rgba(0,169,145,.24), rgba(0,169,145,0) 70%) center/auto no-repeat,radial-gradient(700px 440px at 50% 96%, rgba(131,140,246,.22), rgba(131,140,246,0) 70%) center/auto no-repeat,var(--apr-bg, none) center/cover no-repeat}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-container{position:relative;max-width:1120px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:40px}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-header{max-width:640px;text-align:center;display:flex;flex-direction:column;gap:16px;font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-eyebrow{margin:0;font-weight:800;font-size:14px;line-height:1.2;letter-spacing:.56px;text-transform:uppercase;color:#5044e1}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-h2{margin:0;font-weight:800;font-size:40px;line-height:1.2;color:#25272c}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-body{margin:0;font-weight:400;font-size:18px;line-height:1.5;color:#4a4e5a}
+/* The scene (QA 2026-10-29 "make the 2 main images bigger"): the photo pair now
+   spans 9%-91% of the 1120 container (each photo 44% wide, 493px at 1440; was
+   29.29%, 328px) in a 1120/380 scene, still overlapping and still scaling with
+   the width. The four chips straddle the pair's outer edges: the left two are
+   placed from the scene's left edge, the right two from its right edge (right,
+   not left, so a chip's own pixel width can never push it past the scene).
+   Everything is a percentage of the scene, so nothing overflows at 1024 or
+   below. */
+.ap-problem-scene.ap-problem-scene--eduhub .apr-cards{position:relative;width:100%;max-width:1120px;aspect-ratio:1120/380;margin:0 auto}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-photo{position:absolute;border-radius:12px;overflow:hidden;box-shadow:0 12px 32px rgba(37,39,44,.16)}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-photo img{display:block;width:100%;height:100%;object-fit:cover}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-photo-1{left:9%;top:0;width:44%;height:86%;z-index:1}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-photo-2{left:47%;top:14%;width:44%;height:86%;z-index:2}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-chip{position:absolute;z-index:3;display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;border:1px solid #e6e8f0;box-shadow:0 2px 24px rgba(255,201,124,.08);font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-size:16px;line-height:1.6;color:#25272c;white-space:nowrap}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-chip img,.ap-problem-scene.ap-problem-scene--eduhub .apr-chip .ap-inline-icon svg{display:block;width:24px;height:24px;flex-shrink:0}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-chip-1{left:2%;top:36%;border-color:#eff6ff;background:linear-gradient(90deg,rgba(255,255,255,.8),#eff6ff)}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-chip-2{left:auto;right:4%;top:26%;border-color:#fff1f3;background:linear-gradient(90deg,rgba(255,255,255,.8),#fff1f3)}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-chip-3{left:6%;top:72%;border-color:#effefa;background:linear-gradient(90deg,rgba(255,255,255,.9),#effefa)}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-chip-4{left:auto;right:1%;top:62%;border-color:#fdf8e9;background:linear-gradient(90deg,rgba(255,255,255,.9),#fdf8e9)}
+/* The chips float (QA 2026-10-29 "make sure these are floating"): the kit's
+   ambient float (ease-in-out, about 4s a cycle, as on the assist and
+   readiness pages) at 8px, on translate (never transform), each chip on its
+   own period and phase so the four drift independently. Off at 640px and
+   below, where the chips stack as a static column, and off under
+   prefers-reduced-motion. */
+@keyframes apProblemSceneFloat{0%,100%{translate:0 0}50%{translate:0 -8px}}
+@media (prefers-reduced-motion: no-preference) and (min-width: 641px){
+.ap-problem-scene.ap-problem-scene--eduhub .apr-chip{animation:apProblemSceneFloat 4s ease-in-out infinite}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-chip-2{animation-duration:4.6s;animation-delay:-1.2s}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-chip-3{animation-duration:4.3s;animation-delay:-2.4s}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-chip-4{animation-duration:4.9s;animation-delay:-.6s}
+}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-cta{position:relative;z-index:1;display:flex;align-items:flex-end;gap:24px;width:100%;max-width:870px;padding:20px 24px;border:1px solid #c8d2fd;border-radius:16px;background:linear-gradient(38.64deg,#eef2ff 0%,#ffffff 99.9%);font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-cta-content{display:flex;flex:1 1 0;min-width:0;gap:16px;align-items:flex-start}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-cta-icon{width:42px;height:48px;flex-shrink:0;display:block}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-cta-text{display:flex;flex-direction:column;gap:4px;flex:1;min-width:0}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-cta-title{margin:0;font-weight:800;font-size:20px;line-height:1.4;color:#25272c}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-cta-desc{margin:0;font-weight:400;font-size:18px;line-height:1.5;color:#4a4e5a}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-cta-btn{flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;padding:16px;max-width:200px;min-height:48px;border-radius:4px;background:linear-gradient(43deg,#5044e1 0%,#00a991 70.44%);color:#ffffff;font-weight:600;font-size:16px;line-height:1.2;text-decoration:none;white-space:nowrap;box-shadow:0 2px 8px rgba(80,68,225,.25);transition:box-shadow .3s cubic-bezier(.25,.45,.45,.95)}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-cta-btn:hover{box-shadow:0 6px 18px rgba(80,68,225,.4)}
+@media (max-width:900px){
+.ap-problem-scene.ap-problem-scene--eduhub .apr-h2{font-size:30px}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-chip{font-size:13px;padding:6px 10px}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-chip img,.ap-problem-scene.ap-problem-scene--eduhub .apr-chip .ap-inline-icon svg{width:18px;height:18px}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-cta{flex-direction:column;align-items:stretch}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-cta-btn{max-width:none}
+}
+@media (max-width:767px){
+.ap-problem-scene.ap-problem-scene--eduhub{padding-top:48px;padding-bottom:48px}
+}
+@media (max-width:640px){
+.ap-problem-scene.ap-problem-scene--eduhub .apr-wash{background:radial-gradient(420px 360px at 12% 36%, rgba(80,68,225,.26), rgba(80,68,225,0) 70%) center/auto no-repeat,radial-gradient(460px 380px at 90% 58%, rgba(0,169,145,.24), rgba(0,169,145,0) 70%) center/auto no-repeat,radial-gradient(400px 320px at 50% 96%, rgba(131,140,246,.22), rgba(131,140,246,0) 70%) center/auto no-repeat,var(--apr-mbg, var(--apr-bg, none)) center/cover no-repeat}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-cards{aspect-ratio:auto;height:auto;display:flex;flex-direction:column;gap:12px}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-photo{position:static;width:100%;height:auto;aspect-ratio:16/10}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-photo-1{display:none}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-photo img{width:100%;height:100%;object-fit:cover}
+.ap-problem-scene.ap-problem-scene--eduhub .apr-chip{position:static;width:100%;justify-content:flex-start;font-size:14px;padding:12px 14px;border-radius:10px}
+}
+/* The staging theme sets text-wrap:pretty on headings and paragraphs; live wraps plainly. */
+.ap-problem-scene--eduhub :is(h2, p) {text-wrap:wrap}
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: every variant pads --ap-section-y top and bottom (was 20 /
+ * 80, 24 / 80, 48 / 48 phone) with --ap-section-head-gap under the head
+ * (was 40); the eduhub stack spaces head, scene and card the same way. */
+html body .ap-problem-scene.ap-problem-scene { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+.ap-problem-scene .apg-prob-head { margin-bottom: var(--ap-section-head-gap, 48px); }
+.ap-problem-scene.ap-problem-scene--eduhub .apr-container { gap: var(--ap-section-head-gap, 48px); }
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-problem-scene.ap-problem-scene.ap-problem-scene h2.apg-h2 { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+html body .ap-problem-scene.ap-problem-scene.ap-problem-scene h2.apr-h2 { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+/* Section eyebrow on the type scale too: 12px at 390 to 14px at 1440, 800, 4% tracking, upper case. */
+html body .ap-problem-scene.ap-problem-scene.ap-problem-scene .apg-eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }
+html body .ap-problem-scene.ap-problem-scene.ap-problem-scene .apr-eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }
+
+/* Narrow desktops (QA 2026-10-28): chips placed from the scene's centre
+ * (left / right: calc(50% + Npx), the Healthcare hub) kept one line, so a long
+ * chip ran past the screen edge and the page scrolled sideways (27px at 1190,
+ * 102px at 1040). Those chips now stop 32px short of the screen edge and wrap
+ * when they must; at 1440 they are unchanged. */
+@media (min-width: 1025px) {
+	.ap-problem-scene:not(.ap-problem-scene--stack-900) .apg-prob-chip:is([style*="left:calc(50% +"], [style*="right:calc(50% +"]) { max-width: calc(50vw - 282px); white-space: normal; }
+}
+@media (min-width: 901px) {
+	.ap-problem-scene.ap-problem-scene--stack-900 .apg-prob-chip:is([style*="left:calc(50% +"], [style*="right:calc(50% +"]) { max-width: calc(50vw - 282px); white-space: normal; }
+}

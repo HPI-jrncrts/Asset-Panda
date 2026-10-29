@@ -1,0 +1,11 @@
+{
+	"name": "lp-cookie-declaration",
+	"description": "Cookie Declaration section of the GDPR page: an anchored heading, an optional line of copy and Cookiebot's own cookie declaration (cd.js), which lists the site's cookies by category and lets visitors change or withdraw consent. Set in the same 760px reading column as lp-prose. Live: the Cookie Declaration at the end of /gdpr-policy/.",
+	"props": {
+		"anchor": { "type": "string", "required": false, "default": "cookie-declaration", "description": "id of the heading, for page-toc and #links." },
+		"title": { "type": "string", "required": false, "default": "Cookie Declaration", "description": "Section heading (h2). Empty renders the declaration alone." },
+		"intro": { "type": "string", "required": false, "default": "", "description": "Line of copy under the heading." },
+		"cbid": { "type": "string", "required": true, "description": "Cookiebot domain group ID (the GUID in consent.cookiebot.com/<cbid>/cd.js)." },
+		"culture": { "type": "string", "required": false, "default": "", "description": "Optional language code for the declaration, e.g. en. Empty lets Cookiebot choose." }
+	}
+}

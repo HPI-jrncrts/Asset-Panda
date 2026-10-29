@@ -32,6 +32,9 @@ $props = array(
 	'ender_label'  => $attributes['ender_label'] ?? '',
 	'ender_url'    => $attributes['ender_url'] ?? '',
 	'lede'         => $attributes['lede'] ?? '',
+	'plain'        => $attributes['plain'] ?? false,
+	'variant'      => $attributes['variant'] ?? 'default',
+	'stack'        => $attributes['stack'] ?? '1024',
 );
 
 $ap_html = ap_render_component( 'capability-rows', $props );

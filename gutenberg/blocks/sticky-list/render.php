@@ -22,11 +22,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $props = array(
-	'eyebrow' => $attributes['eyebrow'] ?? '',
-	'title'   => $attributes['title'] ?? '',
-	'items'   => $attributes['items'] ?? array(),
-	'reveal'  => $attributes['reveal'] ?? true,
-	'lede'    => $attributes['lede'] ?? '',
+	'eyebrow'    => $attributes['eyebrow'] ?? '',
+	'title'      => $attributes['title'] ?? '',
+	'items'      => $attributes['items'] ?? array(),
+	'reveal'     => $attributes['reveal'] ?? true,
+	'lede'       => $attributes['lede'] ?? '',
+	'variant'    => $attributes['variant'] ?? 'default',
+	'head_space' => $attributes['head_space'] ?? array(),
+	'stack'      => $attributes['stack'] ?? '1024',
+	'index'      => $attributes['index'] ?? true,
 );
 
 $ap_html = ap_render_component( 'sticky-list', $props );

@@ -1,0 +1,12 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="1012" height="512" viewBox="0 0 1012 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Decorative / Green Orb 01" filter="url(#filter0_f_0_325)">
+<path d="M824 256C824 293.555 681.627 324 506 324C330.373 324 188 293.555 188 256C188 218.445 330.373 188 506 188C681.627 188 824 218.445 824 256Z" fill="#C7FFF1"/>
+</g>
+<defs>
+<filter id="filter0_f_0_325" x="1.20015e-06" y="0" width="1012" height="512" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="94" result="effect1_foregroundBlur_0_325"/>
+</filter>
+</defs>
+</svg>

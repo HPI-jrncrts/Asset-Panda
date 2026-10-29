@@ -1,0 +1,296 @@
+/* case-studies — customer story slider.
+ * Matches the live homepage (dev page 7, #ap-case-studies-v1), built from
+ * Figma Case Studies (4331:24818). Padding 80/40, white -> slate-50.
+ * Phones/tablets: photo on top, the card overlaps it by 40px, the quote mark
+ * beside the quote, the logo under the author. Desktop (>=992): photo inset
+ * left 17.09%, 488px tall; card 57.27% wide, 58px down, logo beside the author. */
+
+.ap-cases {
+	padding-block: var(--ap-pad-y-md) var(--ap-pad-y-sm);
+	padding-inline: var(--ap-pad-x-xs);
+	background: linear-gradient(to bottom, var(--ap-white), var(--ap-slate-50));
+	font-family: var(--ap-font-body);
+}
+
+.ap-cases__inner {
+	max-width: var(--ap-page-max-content-xl);
+	margin-inline: auto;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--ap-surf-gap-4xl);
+}
+
+.ap-cases__head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: var(--ap-surf-gap-xl);
+}
+
+.ap-cases__headings { flex: 1 1 420px; max-width: 640px; display: grid; gap: var(--ap-surf-gap-lg); }
+
+.ap-cases__eyebrow {
+	margin: 0;
+	font-family: var(--ap-font-utility);
+	font-size: var(--ap-fs-eyebrow);
+	font-weight: var(--ap-weight-eyebrow);
+	line-height: var(--ap-line-eyebrow);
+	letter-spacing: var(--ap-ls-eyebrow);
+	text-transform: uppercase;
+	color: var(--ap-text-eyebrow);
+}
+
+.ap-cases__title {
+	margin: 0;
+	font-family: var(--ap-font-display);
+	font-size: var(--ap-fs-h2);
+	font-weight: var(--ap-weight-heading);
+	line-height: var(--ap-line-h2);
+	color: var(--ap-text-heading);
+}
+
+.ap-cases__intro {
+	margin: 0;
+	font-size: var(--ap-fs-text-md);
+	line-height: var(--ap-line-body);
+	color: var(--ap-text-body);
+}
+
+.ap-cases__plain,
+.ap-cases__read {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--ap-surf-gap-md);
+	font-family: var(--ap-font-utility);
+	font-size: var(--ap-fs-button-sm);
+	line-height: var(--ap-line-button);
+	text-decoration: none;
+	border-radius: var(--ap-radius-sm);
+}
+
+.ap-cases__plain { font-weight: var(--ap-weight-button); color: var(--ap-text-heading); white-space: nowrap; }
+.ap-cases__read { font-weight: var(--ap-weight-bold); color: var(--ap-black); }
+.ap-cases__plain img,
+.ap-cases__read img { display: block; inline-size: 24px; block-size: 24px; }
+.ap-cases__plain:hover span,
+.ap-cases__read:hover span { text-decoration: underline; }
+
+/* Track: each slide is a full-width snap point. */
+.ap-cases__track {
+	display: flex;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
+	overscroll-behavior-x: contain;
+}
+
+[data-ap-cases-ready] .ap-cases__track { scrollbar-width: none; }
+[data-ap-cases-ready] .ap-cases__track::-webkit-scrollbar { display: none; }
+
+.ap-cases__slide {
+	flex: 0 0 100%;
+	scroll-snap-align: start;
+	position: relative;
+	display: grid;
+	min-width: 0;
+}
+
+.ap-cases__media {
+	aspect-ratio: 992 / 530;
+	overflow: hidden;
+	border-radius: var(--ap-radius-xl);
+}
+
+.ap-cases__media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.ap-cases__card {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	gap: var(--ap-surf-gap-xl);
+	margin: -40px 0 0;
+	padding: var(--ap-surf-pad-4xl) var(--ap-surf-pad-2xl) var(--ap-surf-gap-xl);
+	background: var(--ap-white);
+	border: var(--ap-border-thin) solid var(--ap-slate-200);
+	border-radius: var(--ap-radius-xl);
+}
+
+.ap-cases__tag {
+	align-self: flex-start;
+	padding: 4px 6px;
+	font-size: var(--ap-fs-text-xs);
+	font-weight: var(--ap-weight-medium);
+	line-height: 1.2;
+	letter-spacing: -0.02em;
+	color: var(--ap-slate-500);
+	background: var(--ap-slate-100);
+	border: 0.5px solid var(--ap-slate-400);
+	border-radius: var(--ap-radius-sm);
+}
+
+.ap-cases__card-title {
+	margin: 0;
+	font-family: var(--ap-font-display);
+	font-size: 22px;
+	font-weight: var(--ap-weight-heading);
+	line-height: var(--ap-line-heading);
+	color: var(--ap-black);
+}
+
+/* Quote mark beside the quote at every width. */
+.ap-cases__quote { display: flex; align-items: flex-start; gap: var(--ap-surf-gap-lg); }
+.ap-cases__quote-icon { flex: none; display: block; inline-size: 26px; block-size: 26px; }
+.ap-cases__quote-text { flex: 1 1 0; display: grid; gap: var(--ap-surf-gap-xl); min-width: 0; }
+.ap-cases__quote-text blockquote { margin: 0; }
+
+.ap-cases__quote-text blockquote p {
+	margin: 0;
+	font-size: var(--ap-fs-text-md);
+	line-height: 1.48;
+	color: var(--ap-black);
+}
+
+/* Author with the logo under it (beside it from 992px). */
+.ap-cases__author {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: var(--ap-surf-gap-lg);
+}
+
+.ap-cases__author-text { display: grid; gap: 2px; margin: 0; }
+
+.ap-cases__author-name {
+	font-size: var(--ap-fs-h5);
+	font-weight: var(--ap-weight-heading);
+	line-height: 1.2;
+	color: var(--ap-black);
+}
+
+.ap-cases__role { font-size: var(--ap-fs-text-xs); line-height: var(--ap-line-body); color: var(--ap-slate-500); }
+
+.ap-cases__logo {
+	flex: none;
+	display: block;
+	inline-size: 84px;
+	block-size: 52px;
+	object-fit: contain;
+	object-position: left center;
+}
+
+.ap-cases__footer {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: auto;
+	padding: 16px 8px 0 0;
+	border-top: var(--ap-border-thin) solid var(--ap-slate-200);
+}
+
+/* Controls: arrows, rule, dots. */
+.ap-cases__controls {
+	display: flex;
+	align-items: center;
+	gap: var(--ap-surf-gap-xl);
+	margin-top: 27px;
+	padding-inline: 2.91%;
+}
+
+.ap-cases__controls[hidden] { display: none; }
+
+.ap-cases__arrows { display: flex; gap: var(--ap-surf-gap-lg); }
+
+.ap-cases__arrow {
+	display: block;
+	inline-size: 40px;
+	block-size: 40px;
+	padding: 0;
+	background: none;
+	border: 0;
+	border-radius: var(--ap-radius-pill);
+	cursor: pointer;
+}
+
+.ap-cases__arrow img { display: block; inline-size: 40px; block-size: 40px; }
+
+.ap-cases__rule { flex: 1 1 auto; height: 1px; background: var(--ap-slate-200); }
+
+.ap-cases__dots { display: flex; gap: 6px; }
+
+.ap-cases__dot {
+	inline-size: 8px;
+	block-size: 8px;
+	padding: 0;
+	background: var(--ap-slate-200);
+	border: 0;
+	border-radius: var(--ap-radius-pill);
+	cursor: pointer;
+}
+
+.ap-cases__dot.is-active { background: var(--ap-text-heading); }
+
+.ap-cases__plain:focus-visible,
+.ap-cases__read:focus-visible,
+.ap-cases__arrow:focus-visible,
+.ap-cases__dot:focus-visible,
+.ap-cases__track:focus-visible { outline: var(--ap-border-medium) solid var(--ap-focus-ring); outline-offset: 3px; }
+
+@media (min-width: 992px) {
+	.ap-cases__slide { display: block; min-height: 488px; }
+
+	.ap-cases__media {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 17.09%;
+		aspect-ratio: auto;
+	}
+
+	.ap-cases__card {
+		width: 57.27%;
+		margin: 58px 0 0;
+		padding: var(--ap-surf-pad-2xl) var(--ap-surf-pad-3xl) 20px var(--ap-surf-pad-2xl);
+		gap: 22px;
+	}
+
+	.ap-cases__card-title { font-size: var(--ap-fs-h4); }
+	.ap-cases__quote { gap: var(--ap-surf-gap-xl); }
+	.ap-cases__quote-icon { inline-size: 32px; block-size: 32px; }
+	.ap-cases__quote-text blockquote p { font-size: var(--ap-fs-text-reg); }
+
+	.ap-cases__author {
+		flex-direction: row;
+		align-items: flex-end;
+		justify-content: space-between;
+		gap: var(--ap-surf-gap-xl);
+	}
+
+	.ap-cases__author-name { font-size: var(--ap-fs-text-md); }
+	.ap-cases__logo { inline-size: 88px; block-size: 56px; object-position: center; }
+}
+
+/* Border-box sizing for everything in the component, as on the live homepage;
+ * :where() keeps it at zero specificity. */
+:where(.ap-cases, .ap-cases *, .ap-cases *::before, .ap-cases *::after) { box-sizing: border-box; }
+
+/* Live homepage spacing (case studies): 64/16/32 on phones; on desktop a
+ * 120px top band and 555px slides whose photo stops 12.07% above the bottom. */
+@media (max-width: 767.98px) {
+	.ap-cases { padding: 64px 16px 32px; }
+}
+
+@media (min-width: 992px) {
+	.ap-cases { padding-top: 120px; }
+	.ap-cases__slide { min-height: 555px; }
+	.ap-cases__media { bottom: 12.07%; }
+}
+
+/* ------------------------------------------------------------ Section rhythm + type scale (QA 2026-10-28, sections agent)
+ * Padding on the kit section rhythm (tokens.css "section rhythm") and the
+ * section title / eyebrow on the type-scale tokens, like every other section. */
+html body .ap-cases.ap-cases { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+html body .ap-cases.ap-cases .ap-cases__title { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }

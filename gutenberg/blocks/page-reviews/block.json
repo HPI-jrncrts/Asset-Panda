@@ -1,0 +1,45 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/page-reviews",
+	"title": "AP Page Reviews",
+	"category": "design",
+	"icon": "block-default",
+	"description": "Customer review wall for /client-reviews/: industry chips (with counts) over one industry at a time — a featured story card (client logo, large quote, name and role beside a photo) and a grid of review cards (logo, quote, round headshot, name, role, organisation). Every review is in the page; behaviour.js shows the chosen industry (or all of them) without reloading, where live reloads the page per industry. Without JavaScript every industry shows under its own heading. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
+		"filter_label": {
+			"type": "string",
+			"default": "Filter reviews by industry"
+		},
+		"all_label": {
+			"type": "string",
+			"default": ""
+		},
+		"default_group": {
+			"type": "number",
+			"default": 0
+		},
+		"groups": {
+			"type": "array",
+			"default": []
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

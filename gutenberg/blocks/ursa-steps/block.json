@@ -1,0 +1,41 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/ursa-steps",
+	"title": "AP Ursa Steps",
+	"category": "design",
+	"icon": "block-default",
+	"description": "Ursa AI \"Ask. Build. Analyze. Act.\" section: a centred heading over stacked glass cards; each card has a numbered label and title beside its copy, then a two-column checklist; a card can be dark (indigo) with the Ursa orb. Ursa AI frame 7261:111601. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"items": {
+			"type": "array",
+			"default": []
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

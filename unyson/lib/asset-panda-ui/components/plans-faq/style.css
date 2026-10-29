@@ -1,0 +1,255 @@
+/*
+ * plans-faq — the pricing v2 FAQ.
+ *
+ * Values are the mockup's measured ones (details.q cards). Brand colours come
+ * from tokens; the neutrals without a token are named once, on the root.
+ */
+
+.ap-plans-faq {
+	--pv-ink: #1d2331;
+	--pv-muted: #5b616e;
+	--pv-indigo: var(--ap-indigo-600);
+	--pv-indigo-lt: var(--ap-indigo-400);
+	--pv-line2: #efefef;
+
+	padding: 80px 24px;
+	background: #f9fafb;
+	font-family: var(--ap-font-display);
+	color: var(--pv-ink);
+}
+
+:where(.ap-plans-faq, .ap-plans-faq *, .ap-plans-faq *::before, .ap-plans-faq *::after) {
+	box-sizing: border-box;
+}
+
+/* The staging theme styles bare headings and paragraphs. */
+.ap-plans-faq :where(h2, p) {
+	margin: 0;
+	padding: 0;
+	text-wrap: wrap;
+}
+
+.ap-plans-faq__inner {
+	max-width: 1120px;
+	margin: 0 auto;
+}
+
+.ap-plans-faq__title {
+	max-width: 760px;
+	margin: 0 auto;
+	color: var(--pv-ink);
+	font-family: var(--ap-font-display);
+	font-size: clamp(28px, 3.4vw, 36px);
+	font-weight: 700;
+	line-height: 1.2;
+	letter-spacing: -0.4px;
+	text-align: center;
+	text-wrap: balance;
+}
+
+.ap-plans-faq__list {
+	display: grid;
+	gap: 12px;
+	max-width: 860px;
+	margin: 36px auto 0;
+}
+
+.ap-plans-faq__item {
+	margin: 0;
+	border: 2px solid var(--pv-line2);
+	border-radius: 8px;
+	background: #fff;
+	transition: border-color var(--ap-dur-fast, 0.2s) ease;
+}
+
+.ap-plans-faq__item[open] {
+	border-color: var(--pv-indigo-lt);
+}
+
+.ap-plans-faq__q {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 17px 22px;
+	color: var(--pv-ink);
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 1.5;
+	list-style: none;
+	cursor: pointer;
+	transition: color var(--ap-dur-fast, 0.2s) ease;
+}
+
+.ap-plans-faq__q::-webkit-details-marker {
+	display: none;
+}
+
+.ap-plans-faq__q::after {
+	content: "+";
+	flex: none;
+	color: var(--pv-indigo);
+	font-size: 21px;
+	font-weight: 800;
+	line-height: 1;
+}
+
+.ap-plans-faq__item[open] .ap-plans-faq__q::after {
+	content: "\2212";
+}
+
+.ap-plans-faq__q:hover {
+	color: var(--pv-indigo);
+}
+
+.ap-plans-faq__q:focus-visible {
+	outline: 2px solid var(--pv-indigo);
+	outline-offset: 2px;
+	border-radius: 6px;
+}
+
+.ap-plans-faq__a {
+	padding: 0 22px 19px;
+	color: var(--pv-muted);
+	font-size: 15.5px;
+	line-height: 1.65;
+}
+
+.ap-plans-faq__a p + p {
+	margin-top: 11px;
+}
+
+@media (max-width: 767px) {
+	.ap-plans-faq {
+		padding: 56px 20px;
+	}
+
+	.ap-plans-faq__list {
+		margin-top: 28px;
+	}
+
+	.ap-plans-faq__q {
+		padding: 16px 18px;
+		font-size: 15.5px;
+	}
+
+	.ap-plans-faq__a {
+		padding: 0 18px 18px;
+		font-size: 15px;
+	}
+}
+
+/*
+ * ==== clean variant ====
+ * Heading on the left, ruled questions on the right; the plus sits in a
+ * small ring and fills with the brand colour when its answer is open.
+ */
+
+.ap-plans-faq--clean {
+	--pv-ink: #101828;
+	--pv-muted: #475467;
+
+	padding: 96px 24px;
+}
+
+.ap-plans-faq--clean .ap-plans-faq__inner {
+	max-width: 1240px;
+}
+
+.ap-plans-faq--clean .ap-plans-faq__title {
+	color: var(--pv-ink);
+	font-size: clamp(30px, 4vw, 44px);
+	font-weight: 800;
+	line-height: 1.1;
+	letter-spacing: -0.03em;
+}
+
+.ap-plans-faq--clean .ap-plans-faq__list {
+	gap: 0;
+	border-top: 1px solid #eaecf0;
+}
+
+.ap-plans-faq--clean .ap-plans-faq__item,
+.ap-plans-faq--clean .ap-plans-faq__item[open] {
+	border: 0;
+	border-bottom: 1px solid #eaecf0;
+	border-radius: 0;
+	background: transparent;
+}
+
+.ap-plans-faq--clean .ap-plans-faq__q {
+	gap: 24px;
+	padding: 22px 0;
+	font-size: 17px;
+	font-weight: 600;
+}
+
+.ap-plans-faq--clean .ap-plans-faq__q::after {
+	display: inline-grid;
+	place-items: center;
+	width: 28px;
+	height: 28px;
+	border: 1px solid #d0d5dd;
+	border-radius: 50%;
+	color: var(--pv-ink);
+	font-size: 17px;
+	font-weight: 500;
+	transition: background-color var(--ap-dur-fast, 0.2s) ease, border-color var(--ap-dur-fast, 0.2s) ease, color var(--ap-dur-fast, 0.2s) ease;
+}
+
+.ap-plans-faq--clean .ap-plans-faq__item[open] .ap-plans-faq__q::after {
+	border-color: var(--pv-indigo);
+	background: var(--pv-indigo);
+	color: #fff;
+}
+
+.ap-plans-faq--clean .ap-plans-faq__a {
+	padding: 0 52px 24px 0;
+	color: var(--pv-muted);
+	font-size: 16px;
+	line-height: 1.7;
+}
+
+@media (min-width: 900px) {
+	.ap-plans-faq--clean .ap-plans-faq__inner {
+		display: grid;
+		grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+		align-items: start;
+		gap: 64px;
+	}
+
+	.ap-plans-faq--clean .ap-plans-faq__title {
+		max-width: none;
+		margin: 0;
+		text-align: left;
+	}
+
+	.ap-plans-faq--clean .ap-plans-faq__list {
+		max-width: none;
+		margin: 0;
+	}
+}
+
+@media (max-width: 767px) {
+	.ap-plans-faq--clean {
+		padding: 64px 20px;
+	}
+
+	.ap-plans-faq--clean .ap-plans-faq__q {
+		padding: 18px 0;
+		font-size: 16px;
+	}
+
+	.ap-plans-faq--clean .ap-plans-faq__a {
+		padding: 0 0 20px;
+		font-size: 15px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-plans-faq__item,
+	.ap-plans-faq__q,
+	.ap-plans-faq--clean .ap-plans-faq__q::after {
+		transition: none;
+	}
+}

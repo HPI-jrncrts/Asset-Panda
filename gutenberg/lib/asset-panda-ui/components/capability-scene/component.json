@@ -1,0 +1,107 @@
+{
+	"name": "capability-scene",
+	"description": "Four capability cards in two columns around a centre panel holding the assistant artwork. Live: .apx-int on /asset-intelligence-platform/.",
+	"props": {
+		"eyebrow": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Small label above the heading. Also names the section for assistive tech."
+		},
+		"title": {
+			"type": "string",
+			"required": true,
+			"description": "Heading. Line breaks are kept."
+		},
+		"title_accent": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Part of the heading painted with the brand gradient."
+		},
+		"title_accents": {
+			"type": "array",
+			"required": false,
+			"default": [],
+			"description": "More parts of the heading painted with the gradient (strings), after title_accent."
+		},
+		"lede": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Paragraph under the heading."
+		},
+		"left": {
+			"type": "array",
+			"required": false,
+			"default": [],
+			"description": "Cards in the left column. Each: kicker, title, body."
+		},
+		"right": {
+			"type": "array",
+			"required": false,
+			"default": [],
+			"description": "Cards in the right column. Each: kicker, title, body."
+		},
+		"lines": {
+			"type": "array",
+			"required": false,
+			"default": [],
+			"description": "Lines at the top of the centre panel. Each: accent (the gradient word) and text."
+		},
+		"meet": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Sentence under those lines. The link label is substituted into it."
+		},
+		"link_label": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Link inside the sentence."
+		},
+		"link_url": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Link destination."
+		},
+		"image": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Artwork at the foot of the centre panel."
+		},
+		"image_alt": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Alt text for the artwork."
+		},
+		"cta_label": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Solid button under the cards (with cta_url)."
+		},
+		"cta_url": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Solid button destination."
+		},
+		"secondary_label": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Outline button, drawn before the solid one (with secondary_url)."
+		},
+		"secondary_url": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Outline button destination."
+		}
+	}
+}

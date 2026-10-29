@@ -1,0 +1,371 @@
+/*
+ * solution-hero — ported from the live .epx-hero section.
+ *
+ * The live sheet owns its whole section, so every selector is scoped under the
+ * component root and the keyframes are renamed; the inner class names are kept
+ * so the port stays diffable against live.
+ */
+
+.ap-solution-hero,.ap-solution-hero *{box-sizing:border-box;margin:0;padding:0}
+.ap-solution-hero{position:relative;width:100%;background:#fff;overflow:hidden;font-family:'Manrope',Arial,sans-serif}
+/* Stage (QA 2026-10-29, "a lot of space at the top of the section"): the band was 640px with the eyebrow
+   131px under the header and the art 108-131px down, so a blank strip sat under the header. Now 584px: the
+   eyebrow starts one section inset (--ap-section-y, 64px on desktop) below the header and the art is 520px
+   tall, bottom-anchored, so it starts at that same 64px. The backdrop spans the whole band. */
+.ap-solution-hero__stage{position:relative;max-width:1440px;height:584px;margin:0 auto}
+.ap-solution-hero__orbs{position:absolute;left:0;right:0;top:0;bottom:0;background:#fff var(--ap-solution-bg, none) center top / max(1440px,100%) auto no-repeat}
+.ap-solution-hero .epx-hv.epx-hv--below{z-index:0}
+.ap-solution-hero .sp-hfl{display:flex;align-items:center;justify-content:center;width:32px;height:32px;padding:4px;border-radius:4px;border:1px solid}
+.ap-solution-hero .sp-hchat{display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:12px;background:#fff;filter:drop-shadow(0 12px 12px rgba(16,24,40,.08))}
+.ap-solution-hero .sp-hchat__av{flex:0 0 32px;width:32px;height:32px;border-radius:50%;object-fit:cover;display:block}
+.ap-solution-hero .sp-hchat__meta{min-width:0;flex:1 1 0;display:flex;flex-direction:column;gap:4px;font-family:Inter,'Manrope',Arial,sans-serif;font-size:12px;line-height:1.4;color:#475467}
+.ap-solution-hero .sp-hchat__meta b{font-weight:700;color:#0c111d}
+.ap-solution-hero .sp-hchat__txt{font-size:11px;line-height:14px;color:#0c111d;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ap-solution-hero .sp-h__bubble--sm{font-size:10px}
+.ap-solution-hero .sp-mt8{margin-top:8px}
+.ap-solution-hero .sp-hloc{list-style:none;display:flex;flex-direction:column;gap:8px;padding:0 4px}
+.ap-solution-hero .sp-hloc li{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#25272c}
+.ap-solution-hero .sp-hloc li span{display:inline-flex;gap:8px;align-items:center}
+.ap-solution-hero .sp-hc{display:flex;flex-direction:column;padding:16px 12px;border-radius:16px;background:#fff}
+.ap-solution-hero .sp-hc--g8{gap:8px}
+.ap-solution-hero .sp-hc--g16{gap:16px}
+.ap-solution-hero .sp-hc__hdr{display:flex;gap:8px;align-items:center}
+.ap-solution-hero .sp-hc__hdr>span{display:flex;flex-direction:column;gap:2px}
+.ap-solution-hero .sp-hc__row16{display:flex;gap:16px;align-items:flex-start}
+.ap-solution-hero .sp-hc__box{position:relative;flex:0 0 auto;border-radius:4px;overflow:hidden;display:block}
+.ap-solution-hero .sp-hc__box img{position:absolute;max-width:none;display:block;object-fit:contain}
+.ap-solution-hero .sp-hc__col{display:flex;flex-direction:column;gap:4px;min-width:0}
+.ap-solution-hero .sp-hc__loc{display:inline-flex;gap:4px;align-items:center}
+.ap-solution-hero .sp-hc__kvs{display:flex;flex-direction:column;gap:8px}
+.ap-solution-hero .sp-hc__kv{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:#4a4e5a}
+.ap-solution-hero .sp-hc__kv b{font-weight:700;color:#25272c}
+.ap-solution-hero .sp-hc--rec{padding:8px 12px;gap:6px}
+.ap-solution-hero .sp-hc--rec .sp-hc__kvs{gap:0}
+.ap-solution-hero .sp-hc--rec .sp-hc__kv{line-height:1.4}
+.ap-solution-hero .sp-hc--rec .sp-hc__row16{gap:12px}
+.ap-solution-hero .sp-hc__lines{display:flex;flex-direction:column;gap:4px;font-size:12px;line-height:1.5;color:#4a4e5a}
+.ap-solution-hero .sp-hc__lines .is-b{font-weight:700;color:#25272c}
+.ap-solution-hero .sp-hdev{display:flex;gap:17.67px;align-items:center;padding:16px 12px;border-radius:8.84px;background:#fff;box-shadow:0 12px 24px rgba(16,24,40,.08)}
+.ap-solution-hero .sp-hdev__frame{flex:0 0 auto;display:flex;align-items:center;justify-content:center;border-radius:8.84px;overflow:hidden;background:#f6f7f9}
+.ap-solution-hero .sp-hdev__frame img{display:block;height:100%;width:auto}
+.ap-solution-hero .sp-hdev__body{display:flex;flex-direction:column;gap:12px;min-width:0}
+.ap-solution-hero .sp-hdev__t{font-size:13.25px;font-weight:800;color:#25272c;line-height:1.2}
+.ap-solution-hero .sp-hdev__s{font-size:9.94px;color:#7a828e;margin-top:-8px}
+.ap-solution-hero .sp-hdev__specs{display:flex;gap:11px;align-items:stretch;font-family:Inter,'Manrope',Arial,sans-serif;font-size:8.28px;line-height:1.2}
+.ap-solution-hero .sp-hdev__k,.ap-solution-hero .sp-hdev__v{display:flex;flex-direction:column;gap:6.63px}
+.ap-solution-hero .sp-hdev__k{width:71.8px;color:#7a828e;font-weight:500}
+.ap-solution-hero .sp-hdev__v{color:#25272c;font-weight:600}
+.ap-solution-hero .sp-hdev__v em{font-style:normal;font-weight:700;font-size:7.18px;padding:2.2px 6.6px;border-radius:3.3px}
+.ap-solution-hero .sp-hdev__div{width:1px;background:#e5e7eb}
+.ap-solution-hero .sp-hstat{display:flex;justify-content:space-between;gap:16px;align-items:center;padding:16px 12px;border-radius:16px}
+.ap-solution-hero .sp-hstat>span{display:flex;flex-direction:column;gap:4px}
+.ap-solution-hero .sp-hstat .sp-hstat__g{flex-direction:row;gap:8px;align-items:center}
+.ap-solution-hero .sp-hstat__g>span{display:flex;flex-direction:column;gap:4px}
+.ap-solution-hero .sp-hsd{display:flex;flex-direction:column;gap:12px;padding:16px;border-radius:16px;background:#fff;filter:drop-shadow(0 8px 12px rgba(10,10,10,.08))}
+.ap-solution-hero .sp-hsd--b{gap:8.75px;padding:11.67px;border-radius:11.67px;background:#fff;filter:none;box-shadow:0 5.83px 17.5px rgba(10,10,10,.08)}
+.ap-solution-hero .sp-hsd__hd{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.ap-solution-hero .sp-hsd__ttl{display:inline-flex;gap:6px;align-items:center;font-size:10px;font-weight:700;color:#121212;white-space:nowrap}
+.ap-solution-hero .sp-hsd__ic{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%}
+.ap-solution-hero .sp-hsd__pill{font-size:8px;font-weight:700;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.ap-solution-hero .sp-hsd__line{display:block;height:1px;background:#eef0f3}
+.ap-solution-hero .sp-hsd__body{display:flex;gap:12px;align-items:flex-start}
+.ap-solution-hero .sp-hsd__rows{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:8px}
+.ap-solution-hero .sp-hsd--b .sp-hsd__rows{gap:4px}
+.ap-solution-hero .sp-hsd__kv{display:flex;justify-content:space-between;gap:6px;font-size:8px;font-weight:500;line-height:1.3}
+.ap-solution-hero .sp-hsd__kv span{color:#9ca3af}
+.ap-solution-hero .sp-hsd__kv b{font-weight:500;color:#121212}
+.ap-solution-hero .sp-hsd__kv b.is-b{font-weight:700}
+.ap-solution-hero .sp-hsd__kv--st{flex-direction:column;gap:2px}
+.ap-solution-hero .sp-hsd__kv--note{padding-top:8px}
+.ap-solution-hero .sp-hsd__kv--note b{max-width:97px}
+.ap-solution-hero .sp-hsd__th{flex:0 0 76px;width:76px;height:76px;border-radius:5.83px;overflow:hidden;display:block}
+.ap-solution-hero .sp-hsd__th img{display:block;width:100%;height:100%;object-fit:cover}
+.ap-solution-hero .epx-hv--f1 .epx-hv__rev{animation:apSolutionHeroEpxIn .5s cubic-bezier(.16,1,.3,1) .52s backwards}
+.ap-solution-hero .epx-hv--f2 .epx-hv__rev{animation:apSolutionHeroEpxIn .5s cubic-bezier(.16,1,.3,1) .58s backwards}
+.ap-solution-hero .epx-hv--f3 .epx-hv__rev{animation:apSolutionHeroEpxIn .5s cubic-bezier(.16,1,.3,1) .64s backwards}
+.ap-solution-hero .epx-hv--c3 .epx-hv__rev{animation:apSolutionHeroEpxIn .5s cubic-bezier(.16,1,.3,1) .46s backwards}
+.ap-solution-hero .epx-hv--c3 .epx-hv__flo,.ap-solution-hero .epx-hv--f2 .epx-hv__flo{animation-delay:-1.3s}
+.ap-solution-hero .epx-hv--f1 .epx-hv__flo{animation-delay:-2.6s}
+.ap-solution-hero .epx-hv--f3 .epx-hv__flo{animation-delay:-3.3s}
+/* Art box (QA 2026-10-29, "make sure the image sizes are consistent"): live sized the box per page (674x532,
+   588x520, 588x509...) and placed it at per-page x/y. The box is now anchored bottom-right of the stage
+   (right = the copy column's 160px inset, so it ends on the chip strip's edge) and scaled as one unit by
+   --ap-sh-k (render.php: 520 / h, capped at 700 / w), so the photo and its cards render 520px tall on every
+   page; --ap-sh-fit
+   shrinks it a step on narrow desktops so nothing is cut by the viewport. The x/y props are no longer read. */
+.ap-solution-hero__vwrap{--ap-sh-fit:1;--ap-sh-z:calc(var(--ap-sh-k,1) * var(--ap-sh-fit));position:absolute;left:auto;right:160px;top:auto;bottom:0;width:calc(var(--ap-sh-vw,637px) * var(--ap-sh-z));height:calc(var(--ap-sh-vh,518px) * var(--ap-sh-z))}
+.ap-solution-hero__visual{position:relative;width:var(--ap-sh-vw,637px);height:var(--ap-sh-vh,518px);transform:scale(var(--ap-sh-z,1));transform-origin:top left}
+.ap-solution-hero__photo{position:absolute;display:block;max-width:none;object-fit:cover;z-index:1}
+.ap-solution-hero .epx-hv{position:absolute;z-index:2}
+.ap-solution-hero .epx-hv__rev,.ap-solution-hero .epx-hv__flo{display:block}
+.ap-solution-hero .epx-hv__flo.sp-hchat,.ap-solution-hero .epx-hv__flo.sp-hfl{display:flex}
+.ap-solution-hero .sp-hc__lines>p,.ap-solution-hero .sp-hchat__meta>p:not(.sp-hchat__txt){font-size:inherit;line-height:inherit;margin:0}
+.ap-solution-hero__veil{position:absolute;left:50%;transform:translateX(-50%);width:100vw;bottom:-1px;height:191px;z-index:3;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0) 25.86%,rgba(255,255,255,.846) 85.385%,#fff 100%)}
+.ap-solution-hero .sp-h__name{display:block;font-size:12px;font-weight:700;line-height:1.5;color:#25272c;white-space:nowrap}
+.ap-solution-hero .sp-h__sub{display:block;font-size:10px;font-weight:400;line-height:1.3;color:#5b616e;white-space:nowrap}
+/* Chat bubbles (QA 2026-10-29, inventory: "How many safety glasses do we have?" ran 36px past the right
+   edge of its 280px white card): the bubble was nowrap, so text longer than the card spilled out of it.
+   A bubble now stays inside its column and wraps there when it has to. */
+.ap-solution-hero .sp-h__bubble{background:#f1f3fc;border-radius:12px;padding:12px 16px;font-size:12px;font-weight:700;line-height:1.5;color:#25272c;max-width:100%;white-space:normal;overflow-wrap:break-word}
+/* The request card hugs its content, as drawn: it grows past the width the page gives it (up to 80px more)
+   so a one-line question stays one line inside the card, and only a longer one wraps. Its height, and so
+   where the next card overlaps it, does not change; its bubble pads 12px a side (not 16) so the wider card
+   still keeps clear of the icon chip beside it. */
+.ap-solution-hero .sp-hq{display:flex;gap:8px;align-items:flex-start;padding:16px 12px;border-radius:16px;background:#fff}
+.ap-solution-hero .epx-hv__flo.sp-hq{width:max-content;min-width:100%;max-width:calc(100% + 80px)}
+.ap-solution-hero .sp-hq__av{flex:0 0 46px;width:46px;height:46px;border-radius:50%;object-fit:cover;display:block}
+.ap-solution-hero .sp-hq__meta{flex:1 1 auto;display:flex;flex-direction:column;align-items:flex-start;gap:4px;min-width:0}
+.ap-solution-hero .sp-hq__meta>.sp-h__name,.ap-solution-hero .sp-hq__meta>.sp-h__sub{max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.ap-solution-hero .sp-hq__meta .sp-h__bubble{margin-top:8px;padding:12px}
+.ap-solution-hero .sp-ha{display:flex;flex-direction:column;gap:8px;padding:16px 12px;border-radius:16px;background:#fff}
+.ap-solution-hero .sp-ha__top{display:flex;gap:8px;align-items:flex-start}
+.ap-solution-hero .sp-ha__orb{flex:0 0 40px;width:40px;height:40px;display:flex;align-items:center;justify-content:center}
+.ap-solution-hero .sp-ha__main{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:10px}
+.ap-solution-hero .sp-ha__hd{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.ap-solution-hero .sp-ha__who{display:flex;flex-direction:column;gap:2px}
+.ap-solution-hero .sp-ha__res{display:inline-flex;align-items:center;gap:4px;padding:2px 8px 2px 4px;border-radius:48px;background:#dbf8e9;font-size:10px;font-weight:500;color:#00a991;white-space:nowrap}
+.ap-solution-hero .sp-ha__item{display:flex;gap:8px;align-items:flex-start;padding:16px 12px;border-radius:16px;background:#fff;box-shadow:inset 0 0 0 1px #eceef3}
+.ap-solution-hero .sp-ha__img{flex:0 0 auto;display:block;width:120px;height:80px;overflow:hidden}
+.ap-solution-hero .sp-ha__img img,.ap-solution-hero .sp-ha__img picture{display:block;width:100%;height:100%;object-fit:contain}
+.ap-solution-hero .sp-ha__imeta{display:flex;flex-direction:column;gap:4px;min-width:0}
+.ap-solution-hero .sp-ha__person{display:flex;gap:7px;align-items:flex-start;margin-top:8px}
+.ap-solution-hero .sp-ha__person img{flex:0 0 40px;width:40px;height:40px;border-radius:50%;object-fit:cover;display:block}
+.ap-solution-hero .sp-ha__person>span{display:flex;flex-direction:column;align-items:flex-start;gap:3px}
+.ap-solution-hero .sp-ha__status{display:inline-flex;align-items:center;gap:4px;padding:3px 8px 3px 4px;border-radius:48px;background:#dbf8e9;font-size:10px;font-weight:500;line-height:1.2;color:#00a991;white-space:nowrap}
+.ap-solution-hero .sp-ha__status::before{content:"";width:6px;height:6px;border-radius:50%;background:#00a991}
+/* Copy column. Top-anchored (QA 2026-10-28: the eyebrow and H1 sit at the same height on every page of the
+   family): the column spans the stage above the chip strip, the ::before spacer holds the copy down, and
+   shrinks only when long copy would otherwise reach the chips. QA 2026-10-29 ("diminish the space at the
+   top"): the eyebrow now starts one section inset (--ap-section-y, 64px on desktop; the spacer is that
+   less the column's 16px gap) below the header instead of 131px, level with the top of the art box. */
+.ap-solution-hero__content{position:absolute;left:160px;top:0;height:calc(100% - 58px);width:554px;display:flex;flex-direction:column;gap:16px;z-index:4}
+.ap-solution-hero__content::before{content:"";flex:0 1 calc(var(--ap-section-y,64px) - 16px);min-height:8px}
+.ap-solution-hero__content::after{content:"";flex:0 0 16px}
+.ap-solution-hero__content>*{flex-shrink:0}
+.ap-solution-hero__eyebrow{font-size:var(--ap-type-eyebrow-size);font-weight:var(--ap-type-eyebrow-weight);letter-spacing:var(--ap-type-eyebrow-track);text-transform:uppercase;color:var(--ap-type-eyebrow-color);line-height:var(--ap-type-eyebrow-line)}
+.ap-solution-hero__h1{font-size:var(--ap-type-h1-size);font-weight:var(--ap-type-h1-weight);line-height:var(--ap-type-h1-line);letter-spacing:var(--ap-type-h1-track);color:var(--ap-text-heading)}
+.ap-solution-hero .epx-g{background:linear-gradient(41.5deg,#5044E1 3.6%,#00A991 50.1%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ap-solution-hero__h1 .epx-g{background-image:linear-gradient(41.53deg,#5044E1 3.63%,#00A991 50.12%)}
+.ap-solution-hero__lede{font-size:var(--ap-type-lede-size);line-height:var(--ap-type-lede-line);color:var(--ap-type-lede-color);font-weight:var(--ap-type-lede-weight)}
+.ap-solution-hero__cta{display:flex;gap:24px;align-items:center;padding-top:16px;flex-wrap:wrap}
+.ap-solution-hero .epx-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:16px;border-radius:4px;font-size:16px;font-weight:600;line-height:1.2;text-decoration:none;transition:translate var(--ap-dur-base) var(--ap-ease-standard),scale var(--ap-dur-base) var(--ap-ease-standard),box-shadow var(--ap-dur-base) var(--ap-ease-standard),background-color var(--ap-dur-base) var(--ap-ease-standard),border-color var(--ap-dur-base) var(--ap-ease-standard),color var(--ap-dur-base) var(--ap-ease-standard)}
+.ap-solution-hero .epx-btn--primary{background:linear-gradient(55.1deg,#5044E1 0%,#00A991 70.44%);border:1px solid #5044e1;color:#fff}
+.ap-solution-hero .epx-btn:hover{translate:0 -2px;box-shadow:0 6px 18px rgba(80,68,225,.28)}
+.ap-solution-hero .epx-btn:active{scale:.98}
+.ap-solution-hero .epx-btn:focus-visible{outline:3px solid #5044e1;outline-offset:2px}
+.ap-solution-hero .epx-btn--primary:hover,.ap-solution-hero .epx-btn--primary:focus,.ap-solution-hero .epx-btn--primary:active,.ap-solution-hero .epx-btn--primary:visited{color:#fff;text-decoration:none}
+.ap-solution-hero__badges{display:inline-flex;gap:28px;align-items:center}
+.ap-solution-hero__badges img{display:block}
+.ap-solution-hero__ticker{position:absolute;left:50%;transform:translateX(-50%);bottom:16px;width:min(1120px,calc(100% - 80px));z-index:4}
+.ap-solution-hero__strip{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;row-gap:12px}
+.ap-solution-hero__pill{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:8px;font-size:16px;line-height:1.6;color:#25272c;white-space:nowrap}
+.ap-solution-hero__pico{display:block;width:24px;height:24px;flex:0 0 auto}
+.ap-solution-hero__strip .ap-solution-hero__pill--dup{display:none}
+@keyframes apSolutionHeroEpxUp{from{opacity:0;transform:translateY(24px)}
+}
+/* LCP (QA 2026-10-28): the H1 and the hero photo enter from 40% opacity instead of 0, so they are painted
+   (and count for Largest Contentful Paint) on the first frame; the rise is unchanged. */
+@keyframes apSolutionHeroEpxUpLcp{from{opacity:.4;transform:translateY(24px)}
+}
+@keyframes apSolutionHeroEpxIn{from{opacity:0;transform:scale(.96)}
+}
+@keyframes apSolutionHeroEpxFloat{0%,100%{transform:translateY(0)}
+50%{transform:translateY(-6px)}
+}
+.ap-solution-hero__eyebrow{animation:apSolutionHeroEpxUp .6s cubic-bezier(.16,1,.3,1) 0s backwards}
+.ap-solution-hero__h1{animation:apSolutionHeroEpxUpLcp .6s cubic-bezier(.16,1,.3,1) .08s backwards}
+.ap-solution-hero__lede{animation:apSolutionHeroEpxUp .6s cubic-bezier(.16,1,.3,1) .16s backwards}
+.ap-solution-hero__cta{animation:apSolutionHeroEpxUp .6s cubic-bezier(.16,1,.3,1) .24s backwards}
+.ap-solution-hero__photo{animation:apSolutionHeroEpxUpLcp .6s cubic-bezier(.16,1,.3,1) .15s backwards}
+.ap-solution-hero .epx-hv--c1 .epx-hv__rev{animation:apSolutionHeroEpxIn .5s cubic-bezier(.16,1,.3,1) .3s backwards}
+.ap-solution-hero .epx-hv--c2 .epx-hv__rev{animation:apSolutionHeroEpxIn .5s cubic-bezier(.16,1,.3,1) .38s backwards}
+.ap-solution-hero .epx-hv__flo{animation:apSolutionHeroEpxFloat 4s ease-in-out infinite}
+.ap-solution-hero .epx-hv--c2 .epx-hv__flo{animation-delay:-2s}
+@media (prefers-reduced-motion: reduce){.ap-solution-hero *{animation:none !important}
+.ap-solution-hero__strip .ap-solution-hero__pill--dup{display:none !important}
+}
+@media (max-width:1320px){.ap-solution-hero__content{left:40px;width:500px}
+.ap-solution-hero__vwrap{right:40px}
+}
+/* Narrow desktops (QA 2026-10-29): the art used to bleed 60px off the right edge, which cut the rightmost
+   card on every page; it now scales down a step and keeps a 16px inset instead. The smaller box hangs from
+   the top (one section inset down, level with the eyebrow) so it opens no gap under the header, and the
+   photo's foot fades out (as on phones) since it now ends above the chip strip. */
+@media (max-width:1180px){.ap-solution-hero__vwrap{--ap-sh-fit:.86;right:16px;top:var(--ap-section-y,56px);bottom:auto}
+.ap-solution-hero__photo{-webkit-mask-image:linear-gradient(to bottom,#000 70%,transparent 100%);mask-image:linear-gradient(to bottom,#000 70%,transparent 100%)}
+.ap-solution-hero__content{width:440px}
+}
+@media (max-width:1000px){.ap-solution-hero__stage{height:auto;padding:56px 0 8px;display:flex;flex-direction:column}
+.ap-solution-hero__orbs{height:100%;background-size:cover;background-position:left top}
+.ap-solution-hero__veil{display:none}
+.ap-solution-hero__content{order:0;position:static;transform:none;width:auto;height:auto;max-width:640px;padding:0 40px}
+.ap-solution-hero__content::before,.ap-solution-hero__content::after{display:none}
+.ap-solution-hero__vwrap{--vs:1;order:1;position:relative;left:auto;right:auto;top:auto;bottom:auto;width:100%;height:calc(var(--ap-sh-vh,518px) * var(--vs));margin:32px 0 0;display:flex;justify-content:center;overflow:hidden}
+.ap-solution-hero__visual{flex:0 0 var(--ap-sh-vw,637px);transform:scale(var(--vs));transform-origin:top center}
+.ap-solution-hero__photo{-webkit-mask-image:linear-gradient(to bottom,#000 70%,transparent 100%);mask-image:linear-gradient(to bottom,#000 70%,transparent 100%)}
+.ap-solution-hero .epx-hv__flo{animation:none}
+.ap-solution-hero__ticker{order:2;position:static;transform:none;width:auto;margin:8px 40px 24px}
+.ap-solution-hero__strip{justify-content:flex-start;gap:16px}
+}
+/* Phone scale steps. Live gives each page its own stepped table; render.php
+   passes that page's effective value at each breakpoint, and the fallbacks are
+   asset-management's. Narrower steps come later so they win. */
+@media (max-width:754px){.ap-solution-hero__vwrap{--vs:var(--ap-sh-vs-754,1)}
+}
+@media (max-width:736px){.ap-solution-hero__vwrap{--vs:var(--ap-sh-vs-736,1)}
+}
+@media (max-width:717px){.ap-solution-hero__vwrap{--vs:var(--ap-sh-vs-717,.879)}
+}
+@media (max-width:667px){.ap-solution-hero__vwrap{--vs:var(--ap-sh-vs-667,.879)}
+}
+@media (max-width:640px){.ap-solution-hero__vwrap{--vs:var(--ap-sh-vs-640,.816)}
+}
+@media (max-width:614px){.ap-solution-hero__vwrap{--vs:var(--ap-sh-vs-614,.816)}
+}
+@media (max-width:480px){.ap-solution-hero__vwrap{--vs:var(--ap-sh-vs-480,.691)}
+}
+@media (max-width:430px){.ap-solution-hero__vwrap{--vs:var(--ap-sh-vs-430,.644)}
+}
+@media (max-width:400px){.ap-solution-hero__vwrap{--vs:var(--ap-sh-vs-400,.597)}
+}
+@media (max-width:360px){.ap-solution-hero__vwrap{--vs:var(--ap-sh-vs-360,.546)}
+}
+@media (max-width:700px){.ap-solution-hero__stage{padding-bottom:0}
+.ap-solution-hero__content{align-items:center;text-align:center}
+.ap-solution-hero__cta{flex-direction:column;align-items:center;gap:16px;width:100%}
+.ap-solution-hero__cta .epx-btn{width:100%}
+.ap-solution-hero__badges{justify-content:center}
+.ap-solution-hero__ticker{margin:12px 0 16px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 32px,#000 calc(100% - 32px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 32px,#000 calc(100% - 32px),transparent 100%)}
+.ap-solution-hero__strip{flex-wrap:nowrap;width:max-content;gap:0;justify-content:flex-start;animation:apSolutionHeroEpxMarq 16s linear infinite}
+.ap-solution-hero__strip .ap-solution-hero__pill{margin-right:28px;padding:8px 0}
+.ap-solution-hero__strip .ap-solution-hero__pill--dup{display:inline-flex}
+}
+@keyframes apSolutionHeroEpxMarq{to{transform:translateX(-50%)}
+}
+@media (max-width:640px){.ap-solution-hero__stage{padding-top:40px}
+.ap-solution-hero__content{padding:0 20px}
+.ap-solution-hero__badges{gap:16px}
+}
+.ap-solution-hero .epx-sup{font-size:.64em;vertical-align:super;font-weight:700}
+.ap-solution-hero .epx-g.epx-g{padding-top:1em;padding-bottom:.4em}
+.ap-solution-hero .epx-g .epx-sup{color:#00A991;-webkit-text-fill-color:#00A991}
+.ap-solution-hero .sp-ha__who .epx-sup{font-size:7.74px;color:#25272c;-webkit-text-fill-color:#25272c}
+@media (max-width:1000px){.ap-solution-hero__orbs{background:linear-gradient(180deg,#fff 0,#fbfbfe 38%,rgba(255,255,255,.55) 62%,rgba(255,255,255,0) 82%),var(--ap-solution-bg, none) calc(50vw - 917px) 100% / auto 600px no-repeat,linear-gradient(180deg,#fff 0,#f4f3fb 100%)}
+.ap-solution-hero__vwrap{margin-bottom:0}
+.ap-solution-hero__ticker{position:relative;left:auto;bottom:auto;transform:none;z-index:5;margin:-64px 0 0;padding:64px 40px 20px;background:linear-gradient(180deg,rgba(255,255,255,0) 0,rgba(255,255,255,.9) 44px,#fff 64px)}
+}
+@media (max-width:700px){.ap-solution-hero__ticker{margin:-64px 0 0;padding:64px 0 18px;-webkit-mask-image:none;mask-image:none;overflow:hidden}
+.ap-solution-hero__ticker::before,.ap-solution-hero__ticker::after{content:'';position:absolute;bottom:0;height:calc(100% - 64px);width:32px;z-index:1;pointer-events:none}
+.ap-solution-hero__ticker::before{left:0;background:linear-gradient(90deg,#fff,rgba(255,255,255,0))}
+.ap-solution-hero__ticker::after{right:0;background:linear-gradient(270deg,#fff,rgba(255,255,255,0))}
+}
+@media (max-width:640px){.ap-solution-hero :is(.epx-hero,.ap-solution-hero .epx-trust,.ap-solution-hero .sp-prob,.ap-solution-hero .epx-feat,.ap-solution-hero .epx-sol,.ap-solution-hero .epx-dash,.ap-solution-hero .epx-why,.ap-solution-hero .epx-faq,.ap-solution-hero .epx-fcta) :is(h1,.ap-solution-hero h2,.ap-solution-hero h3,.ap-solution-hero [class*="eyebrow"],.ap-solution-hero .sp-ptag span),.ap-solution-hero [id^="ap-"][id$="-case"] :is(h2,.ap-solution-hero h3,.ap-solution-hero [class*="eyebrow"]){text-wrap:balance}
+}
+
+/* Floating icon chips (QA 2026-10-27, "icons have black borders instead of
+ * following their colors"): `.sp-hfl` sets `border:1px solid` with no colour,
+ * so the frame fell back to the text colour (#1d2331) around a yellow, teal or
+ * blue icon. The frame and its wash now follow the icon's stroke colour, the
+ * same pairs the help desk hero's chips use; any other icon gets a soft indigo
+ * hairline instead of black. */
+.ap-solution-hero .sp-hfl { border-color: #c8d2fd; background: #f9f7fc; }
+.ap-solution-hero .sp-hfl:has([stroke="#eea521" i], [stroke="#de8d14" i], [stroke="#f59e0b" i]) { border-color: #eea521; background: #fdf8e9; }
+.ap-solution-hero .sp-hfl:has([stroke="#1de4c0" i], [stroke="#00a991" i], [stroke="#04c8a8" i]) { border-color: #1de4c0; background: #effefa; }
+.ap-solution-hero .sp-hfl:has([stroke="#60a5fa" i], [stroke="#3b82f6" i], [stroke="#0284c7" i]) { border-color: #60a5fa; background: #f9f7fc; }
+.ap-solution-hero .sp-hfl:has([stroke="#e61c55" i], [stroke="#ffa2b4" i]) { border-color: #e61c55; background: #fff1f3; }
+.ap-solution-hero .sp-hfl:has([stroke="#5044e1" i], [stroke="#7e54a5" i], [stroke="#b99bd7" i]) { border-color: #b99bd7; background: #f9f7fc; }
+
+/* QA 2026-10-29 (Joseph, sitewide): on phones the hero's eyebrow sits 16px under the header, as on the K-12 page
+ * (his reference for the spacing). */
+@media (max-width: 767px) {
+	html body .ap-solution-hero .ap-solution-hero__stage {
+		padding-top: 16px !important;
+	}
+}
+
+/* ------------------------------------------------------------ Opt-in extras (Partners page, 2026-10-29)
+ * None of these classes exist on the solution pages, so they render as before.
+ * secondary_label / secondary_url: a green outline button beside the gradient one (Figma "Secondary CTA":
+ * 1px green border and text; fills green on hover like the kit's other outline buttons), 16px apart. */
+.ap-solution-hero .epx-btn--outline,
+.ap-solution-hero .epx-btn--outline:visited { border: 1px solid var(--ap-brand-green); background: transparent; color: var(--ap-brand-green); text-decoration: none; }
+.ap-solution-hero .epx-btn--outline:hover,
+.ap-solution-hero .epx-btn--outline:focus-visible { border-color: var(--ap-brand-green); background: var(--ap-brand-green); color: var(--ap-white); box-shadow: 0 6px 18px rgba(0, 169, 145, .28); text-decoration: none; }
+.ap-solution-hero--badges-below .ap-solution-hero__cta { gap: 16px; }
+
+/* badges_below: the badges in their own row under the buttons, 24px over the column's 16px gap and 32px apart
+ * (Figma Partners hero, 7368:183157), entering just after the buttons. */
+.ap-solution-hero .ap-solution-hero__badges--row { display: flex; flex-wrap: wrap; gap: 32px; align-items: center; padding-top: 24px; animation: apSolutionHeroEpxUp .6s cubic-bezier(.16, 1, .3, 1) .32s backwards; }
+@media (max-width: 700px) {
+	.ap-solution-hero .ap-solution-hero__badges--row { justify-content: center; }
+}
+/* Phones: the product pages' flow — copy, buttons, the badge row, then the art 10px under it. */
+@media (max-width: 767px) {
+	.ap-solution-hero--badges-below .ap-solution-hero__vwrap { margin-top: 10px; }
+}
+
+/* Feature chip on the stage (Figma "Feature Card": a frosted white pill with an icon and a bold label). Used as
+ * a card's flo_class with markup = icon svg + <span>label</span>. */
+.ap-solution-hero .sp-hpill,
+.ap-solution-hero .epx-hv__flo.sp-hpill { display: flex; align-items: center; gap: 9.32px; padding: 9.32px; border: 1.17px solid #fff; border-radius: 13.98px; background: rgba(255, 255, 255, .84); font-size: 11.65px; font-weight: 800; line-height: 1.2; color: var(--ap-text-heading, #25272c); white-space: nowrap; }
+.ap-solution-hero .sp-hpill svg { flex: 0 0 auto; display: block; width: 18.64px; height: 18.64px; }
+
+/* title_accent_fill heading: Figma lays a gradient text range against the whole text box, so an accent that
+ * wraps reads green on its first line and indigo on its second ("Join Our Reseller / Program"). The gradient
+ * is painted on the heading and shows only through the accent; the rest of the title keeps its own colour. */
+.ap-solution-hero--accent-heading .ap-solution-hero__h1 { background-image: linear-gradient(44.62deg, #5044e1 3.63%, #00a991 50.12%); -webkit-background-clip: text; background-clip: text; }
+.ap-solution-hero--accent-heading .ap-solution-hero__h1 .epx-g { background: none; color: transparent; -webkit-text-fill-color: transparent; }
+
+/* ------------------------------------------------------------ Copy / art spacing on desktops (QA 2026-10-29)
+ * Joseph: "There should be space between the headers and content on the left from the images on the right", as
+ * on /asset-intelligence-platform/ (its art starts 130px past its copy at 1440, 109px at 1280, 67px at 1024);
+ * /barcode-labels/ marked "MOVE". The art box (photo + cards + chips, laid out per page and scaled as one unit)
+ * ended on the chip strip's right edge but started inside the copy column: up to 129px over it at 1440 and 196px
+ * at 1366, where the column also jumped to a 160px inset. Wherever copy and art sit side by side (1001px up):
+ *  - the copy column keeps its width and text. From 1321px it starts where the chip strip under it starts
+ *    ((stage - 1120px) / 2: 100px at 1321, 160px at 1440) instead of a fixed 160px; the art box still ends where
+ *    the strip ends;
+ *  - the art keeps 10% of the stage width clear of the copy column's edge (144px at 1440, 128px at 1280; 8%, 82px,
+ *    at 1024), never less than the AIP hero's own gap at the same width;
+ *  - the art box scales down as one unit to the room that is left (never up), so each page's photo, cards and
+ *    chips keep their placement, and a card set behind the person stays behind it;
+ *  - the box hangs one section inset below the header (level with the eyebrow, as narrow desktops already did);
+ *    a box shorter than 352px is instead centred on the copy's usual middle (176px under the eyebrow), so a wide,
+ *    flat composition sits level with the copy as AIP's art does; the photo's foot fades out where it now ends
+ *    above the chip strip.
+ * The scale is room / box width. CSS cannot divide two lengths, so it is read as tan(atan2(room, width)), which
+ * equals that ratio. The section is the size container (its width excludes the scrollbar; the stage inside it is
+ * at most 1440px), and the section, not the stage, so the stacking of veil, art and copy inside it is unchanged.
+ * Without trig functions or container units the box takes fixed steps instead. Phones and tablets (1000px and
+ * down) are untouched. */
+@media (min-width: 1001px) {
+	.ap-solution-hero__vwrap { --ap-sh-fit: .75; top: calc(var(--ap-section-y, 56px) + max(0px, 176px - var(--ap-sh-vh, 518px) * var(--ap-sh-z) / 2)); bottom: auto; }
+	.ap-solution-hero__photo { -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent 100%); mask-image: linear-gradient(to bottom, #000 70%, transparent 100%); }
+}
+@media (min-width: 1181px) {
+	.ap-solution-hero__vwrap { --ap-sh-fit: .85; }
+}
+@media (min-width: 1321px) {
+	.ap-solution-hero__content { left: max(40px, (100% - 1120px) / 2); }
+	.ap-solution-hero__vwrap { --ap-sh-fit: .7; right: max(40px, (100% - 1120px) / 2); }
+}
+@supports (width: 1cqw) and (scale: tan(atan2(1px, 2px))) {
+	@media (min-width: 1001px) {
+		.ap-solution-hero {
+			container-type: inline-size;
+			--ap-sh-s: min(100cqw, 1440px);
+			--ap-sh-cl: 40px;
+			--ap-sh-cw: 440px;
+			--ap-sh-ar: 16px;
+			--ap-sh-gap: calc(var(--ap-sh-s) * .08);
+			--ap-sh-cap: .86;
+		}
+		.ap-solution-hero__vwrap { --ap-sh-fit: clamp(.3, tan(atan2(calc(var(--ap-sh-s) - var(--ap-sh-ar) - var(--ap-sh-cl) - var(--ap-sh-cw) - var(--ap-sh-gap)), calc(var(--ap-sh-vw, 637px) * var(--ap-sh-k, 1)))), var(--ap-sh-cap)); }
+	}
+	@media (min-width: 1181px) {
+		.ap-solution-hero { --ap-sh-cw: 500px; --ap-sh-ar: 40px; --ap-sh-gap: calc(var(--ap-sh-s) * .1); --ap-sh-cap: 1; }
+	}
+	@media (min-width: 1321px) {
+		.ap-solution-hero { --ap-sh-cl: max(40px, (var(--ap-sh-s) - 1120px) / 2); --ap-sh-cw: 554px; --ap-sh-ar: var(--ap-sh-cl); }
+	}
+}

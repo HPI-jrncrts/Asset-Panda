@@ -1,0 +1,580 @@
+/*
+ * plans-hero — the pricing v2 hero.
+ *
+ * Values are the mockup's measured ones. Brand colours come from tokens; the
+ * neutrals the mockup uses (#5b616e, #f9fafb …) have no token and are named
+ * once, on the root, so the rest of the sheet reads them by role.
+ */
+
+.ap-plans-hero {
+	--pv-heading: var(--ap-text-heading);
+	--pv-muted: #5b616e;
+	--pv-indigo: var(--ap-indigo-600);
+	--pv-teal: var(--ap-green-600);
+	--pv-grad-btn: linear-gradient(54.33deg, var(--ap-indigo-600) 0%, var(--ap-green-600) 70.44%);
+	--pv-grad-text: linear-gradient(75.56deg, var(--ap-indigo-600) 0%, #287fc0 44%, var(--ap-green-600) 78%);
+
+	position: relative;
+	overflow: hidden;
+	background: #fff;
+	font-family: var(--ap-font-display);
+	color: #1d2331;
+}
+
+:where(.ap-plans-hero, .ap-plans-hero *, .ap-plans-hero *::before, .ap-plans-hero *::after) {
+	box-sizing: border-box;
+}
+
+/* The staging theme styles bare h1/p/ul; restate the mockup's reset. */
+.ap-plans-hero :where(h1, p, ul, li) {
+	margin: 0;
+	padding: 0;
+	text-wrap: wrap;
+}
+
+.ap-plans-hero :where(ul) {
+	list-style: none;
+}
+
+.ap-plans-hero::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	pointer-events: none;
+	background: #fbfbfe var(--ap-plans-hero-bg, none) center top / cover no-repeat;
+}
+
+/* ---- notice strip (internal drafts) ---- */
+
+.ap-plans-hero__notice {
+	position: relative;
+	z-index: 1;
+	padding: 7px 16px;
+	background: #fbf2e4;
+	border-bottom: 1px solid #e6c67a;
+	color: #8a5504;
+	font-size: 12.5px;
+	font-weight: 600;
+	line-height: 1.5;
+	text-align: center;
+}
+
+.ap-plans-hero__notice b {
+	font-weight: 800;
+}
+
+.ap-plans-hero__notice-dot {
+	margin: 0 6px;
+}
+
+/* ---- copy ---- */
+
+.ap-plans-hero__stage {
+	position: relative;
+	z-index: 1;
+	max-width: 1120px;
+	margin: 0 auto;
+	padding: 80px 24px 40px;
+}
+
+.ap-plans-hero__copy {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	max-width: 800px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.ap-plans-hero__eyebrow {
+	color: var(--pv-indigo);
+	font-size: 12px;
+	font-weight: 800;
+	line-height: 1.5;
+	letter-spacing: 0.48px;
+	text-transform: uppercase;
+}
+
+.ap-plans-hero__title {
+	margin-top: 16px;
+	color: var(--pv-heading);
+	font-family: var(--ap-font-display);
+	font-size: clamp(32px, 4.4vw, 48px);
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: -0.96px;
+}
+
+.ap-plans-hero__title span {
+	display: block;
+}
+
+.ap-plans-hero .ap-plans-hero__accent {
+	padding-bottom: 0.06em;
+	background: var(--pv-grad-text);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
+}
+
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+	.ap-plans-hero .ap-plans-hero__accent {
+		background: none;
+		-webkit-text-fill-color: currentColor;
+		color: var(--pv-indigo);
+	}
+}
+
+@media (forced-colors: active) {
+	.ap-plans-hero .ap-plans-hero__accent {
+		background: none;
+		-webkit-text-fill-color: currentColor;
+		color: CanvasText;
+	}
+}
+
+.ap-plans-hero__sub {
+	margin-top: 18px;
+	color: var(--pv-muted);
+	font-size: 18px;
+	font-weight: 700;
+	line-height: 1.5;
+}
+
+.ap-plans-hero__lede {
+	max-width: 640px;
+	margin-top: 10px;
+	color: var(--pv-muted);
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 27px;
+}
+
+/* ---- buttons ---- */
+
+.ap-plans-hero__ctas {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 12px;
+	margin-top: 26px;
+}
+
+.ap-plans-hero__btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	padding: 14px 16px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	font-family: var(--ap-font-display);
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 1.2;
+	text-decoration: none;
+	white-space: nowrap;
+	cursor: pointer;
+	transition: filter var(--ap-dur-fast, 0.2s) ease, background-color var(--ap-dur-fast, 0.2s) ease;
+}
+
+.ap-plans-hero__btn--primary,
+.ap-plans-hero__btn--primary:visited {
+	background: var(--pv-grad-btn);
+	color: #fff;
+}
+
+.ap-plans-hero__btn--primary:hover,
+.ap-plans-hero__btn--primary:focus-visible {
+	color: #fff;
+	filter: brightness(1.06);
+}
+
+.ap-plans-hero__btn--outline,
+.ap-plans-hero__btn--outline:visited {
+	border-color: var(--pv-teal);
+	background: transparent;
+	color: var(--pv-teal);
+}
+
+.ap-plans-hero__btn--outline:hover,
+.ap-plans-hero__btn--outline:focus-visible {
+	background: rgba(0, 169, 145, 0.06);
+	color: var(--pv-teal);
+}
+
+.ap-plans-hero__btn:focus-visible {
+	outline: 2px solid var(--pv-indigo);
+	outline-offset: 2px;
+}
+
+/* ---- compliance badges ---- */
+
+.ap-plans-hero__comp {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 12px;
+	margin-top: 34px;
+}
+
+.ap-plans-hero__comp-label {
+	color: var(--pv-heading);
+	font-size: 12px;
+	line-height: 1.5;
+}
+
+.ap-plans-hero__badges {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: 26px;
+}
+
+.ap-plans-hero__badges img,
+.ap-plans-hero__logos img {
+	display: block;
+	width: auto;
+	max-width: none;
+}
+
+/* ---- client logo band ---- */
+
+.ap-plans-hero__band {
+	position: relative;
+	z-index: 1;
+	padding: 20px 24px;
+	background: linear-gradient(#fff 0%, #f9fafb 100%);
+	box-shadow: rgba(17, 24, 39, 0.04) 0 -8px 28px;
+}
+
+.ap-plans-hero__band-text {
+	color: #121212;
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1.5;
+	text-align: center;
+}
+
+.ap-plans-hero__band-text strong {
+	color: var(--pv-indigo);
+	font-weight: 700;
+}
+
+.ap-plans-hero__logos {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: 22px 44px;
+	max-width: 1120px;
+	margin: 16px auto 0;
+}
+
+/* ---- phones ---- */
+
+@media (max-width: 767px) {
+	.ap-plans-hero__stage {
+		padding: 48px 20px 32px;
+	}
+
+	.ap-plans-hero__sub,
+	.ap-plans-hero__lede {
+		font-size: 16px;
+		line-height: 24px;
+	}
+
+	.ap-plans-hero__badges {
+		gap: 18px;
+	}
+
+	.ap-plans-hero__band {
+		padding: 20px 16px 24px;
+	}
+
+	.ap-plans-hero__logos {
+		gap: 18px 28px;
+	}
+}
+
+@media (max-width: 480px) {
+	.ap-plans-hero__notice {
+		font-size: 12px;
+	}
+
+	.ap-plans-hero__ctas {
+		flex-direction: column;
+		align-items: stretch;
+		width: 100%;
+		max-width: 360px;
+	}
+
+	.ap-plans-hero__logos img {
+		max-height: 26px;
+	}
+}
+
+/* ---- trust layout: logos, then badges, as a proof row under the plans ---- */
+
+.ap-plans-hero--trust {
+	overflow: visible;
+	border-top: 1px solid #eef0f3;
+	background: #fff;
+}
+
+.ap-plans-hero--trust::before {
+	display: none;
+}
+
+.ap-plans-hero__trust {
+	position: relative;
+	z-index: 1;
+	max-width: 1120px;
+	margin: 0 auto;
+	padding: 48px 24px 56px;
+	text-align: center;
+}
+
+.ap-plans-hero--trust .ap-plans-hero__comp {
+	margin-top: 36px;
+}
+
+/* clean: full-colour logos (Joseph 2026-10-16), badges on one line with their label */
+.ap-plans-hero--trust.ap-plans-hero--clean {
+	border-top-color: #eaecf0;
+	border-bottom: 1px solid #eaecf0;
+}
+
+.ap-plans-hero--clean .ap-plans-hero__trust {
+	max-width: 1240px;
+	padding: 56px 24px;
+}
+
+.ap-plans-hero--clean .ap-plans-hero__band-text {
+	color: #475467;
+	font-size: 15px;
+	font-weight: 600;
+}
+
+.ap-plans-hero--clean .ap-plans-hero__band-text strong {
+	color: #101828;
+}
+
+.ap-plans-hero--clean .ap-plans-hero__logos {
+	gap: 24px 56px;
+	margin-top: 24px;
+}
+
+.ap-plans-hero--clean .ap-plans-hero__comp {
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 16px 24px;
+	margin-top: 40px;
+}
+
+.ap-plans-hero--clean .ap-plans-hero__comp-label {
+	color: #475467;
+	font-size: 13px;
+	font-weight: 600;
+}
+
+@media (max-width: 767px) {
+	.ap-plans-hero__trust,
+	.ap-plans-hero--clean .ap-plans-hero__trust {
+		padding: 40px 20px 44px;
+	}
+
+	.ap-plans-hero--clean .ap-plans-hero__logos {
+		gap: 18px 32px;
+	}
+
+	.ap-plans-hero--clean .ap-plans-hero__comp {
+		flex-direction: column;
+	}
+}
+
+/*
+ * ---- split layout: the service-page hero ----
+ * Copy left-aligned, the Book a Demo form (demo-booking, embedded) in a white
+ * card on the right, the homepage's gradient art behind both, and the client
+ * logo band underneath.
+ */
+
+.ap-plans-hero :where(h2) {
+	margin: 0;
+	padding: 0;
+	text-wrap: wrap;
+}
+
+.ap-plans-hero--split::before {
+	background-position: center 58%;
+}
+
+/* clean: a pure white band, so it meets the white plans section without a seam */
+.ap-plans-hero--split.ap-plans-hero--clean .ap-plans-hero__band {
+	background: #fff;
+}
+
+.ap-plans-hero__split {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 500px);
+	align-items: center;
+	gap: 56px;
+	max-width: 1240px;
+	padding: 88px 24px 80px;
+}
+
+/* split hero without a form (Joseph 2026-10-16): one centred column */
+.ap-plans-hero__split.is-copy-only {
+	grid-template-columns: minmax(0, 1fr);
+	justify-items: center;
+}
+
+.ap-plans-hero--split .ap-plans-hero__split.is-copy-only .ap-plans-hero__copy {
+	align-items: center;
+	max-width: 900px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.ap-plans-hero--split .ap-plans-hero__split.is-copy-only :is(.ap-plans-hero__ctas, .ap-plans-hero__badges) {
+	justify-content: center;
+}
+
+.ap-plans-hero--split .ap-plans-hero__split.is-copy-only .ap-plans-hero__comp {
+	align-items: center;
+}
+
+.ap-plans-hero--split .ap-plans-hero__copy {
+	align-items: flex-start;
+	max-width: 620px;
+	margin: 0;
+	text-align: left;
+}
+
+.ap-plans-hero--split .ap-plans-hero__eyebrow {
+	font-size: 14px;
+	letter-spacing: 0.04em;
+}
+
+.ap-plans-hero--split .ap-plans-hero__title {
+	margin-top: 18px;
+	font-size: clamp(36px, 4.4vw, 56px);
+	line-height: 1.1;
+	letter-spacing: -0.03em;
+}
+
+.ap-plans-hero--split .ap-plans-hero__ctas,
+.ap-plans-hero--split .ap-plans-hero__badges {
+	justify-content: flex-start;
+}
+
+.ap-plans-hero--split .ap-plans-hero__comp {
+	align-items: flex-start;
+}
+
+.ap-plans-hero__form {
+	position: relative;
+	padding: 28px 28px 22px;
+	border: 1px solid rgba(255, 255, 255, 0.85);
+	border-radius: 20px;
+	background: rgba(255, 255, 255, 0.86);
+	box-shadow: inset 0 1px 0 #fff, 0 24px 60px rgba(32, 28, 74, 0.14);
+	-webkit-backdrop-filter: blur(18px) saturate(160%);
+	backdrop-filter: blur(18px) saturate(160%);
+}
+
+.ap-plans-hero__form-title {
+	color: var(--pv-heading);
+	font-family: var(--ap-font-display);
+	font-size: 24px;
+	font-weight: 800;
+	line-height: 1.25;
+	letter-spacing: -0.01em;
+}
+
+.ap-plans-hero__form-lead {
+	margin-top: 8px;
+	color: var(--pv-muted);
+	font-size: 15px;
+	line-height: 1.5;
+}
+
+/* the embedded widget keeps its own look; only its section chrome goes */
+.ap-plans-hero__form .ap-demo-booking.ap-d26-sec {
+	gap: 0;
+	align-items: stretch;
+	margin-top: 20px;
+	padding: 0;
+	overflow: visible;
+	background: none;
+}
+
+.ap-plans-hero__form .ap-demo-booking .ap-d26-fade {
+	display: none;
+}
+
+.ap-plans-hero__form .ap-demo-booking .ap-d26-content {
+	width: 100%;
+	align-items: stretch;
+}
+
+@media (max-width: 1023px) {
+	.ap-plans-hero__split {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 36px;
+		padding: 56px 24px 48px;
+	}
+
+	.ap-plans-hero__form {
+		width: 100%;
+		max-width: 640px;
+	}
+}
+
+@media (max-width: 767px) {
+	.ap-plans-hero__split {
+		padding: 40px 20px;
+	}
+
+	.ap-plans-hero--split .ap-plans-hero__title {
+		font-size: clamp(32px, 9vw, 40px);
+	}
+
+	.ap-plans-hero__form {
+		padding: 22px 18px 18px;
+		border-radius: 16px;
+	}
+}
+
+/* ---- kit type scale (QA 2026-10-28) ----
+ * Eyebrow, H1, paragraph and the form title (the H1 was up to 56px at -0.03em on the split layout, -0.96px otherwise).
+ * One heading scale across every hero (ui/src/tokens.css --ap-type-*): same size, weight 800, zero
+ * tracking at every width, so no H1 reads thicker or tighter than another. */
+.ap-plans-hero .ap-plans-hero__eyebrow {
+	font-size: var(--ap-type-eyebrow-size);
+	font-weight: var(--ap-type-eyebrow-weight);
+	line-height: var(--ap-type-eyebrow-line);
+	letter-spacing: var(--ap-type-eyebrow-track);
+	text-transform: uppercase;
+}
+.ap-plans-hero .ap-plans-hero__title {
+	font-size: var(--ap-type-h1-size);
+	font-weight: var(--ap-type-h1-weight);
+	line-height: var(--ap-type-h1-line);
+	letter-spacing: var(--ap-type-h1-track);
+}
+.ap-plans-hero .ap-plans-hero__lede {
+	font-size: var(--ap-type-lede-size);
+	line-height: var(--ap-type-lede-line);
+}
+.ap-plans-hero .ap-plans-hero__form-title {
+	font-size: var(--ap-type-h3-size);
+	font-weight: var(--ap-type-h3-weight);
+	line-height: var(--ap-type-h3-line);
+	letter-spacing: var(--ap-type-h3-track);
+}

@@ -1,0 +1,23 @@
+
+/* QA 2026-10-29 (full-site QA): the article buttons in resource posts ("Talk to an Expert", "Book a Demo",
+   "Jump to the comparison table", core button blocks) were 48px / 16px / 600, outside the site's CTA scale
+   (every CTA = the header buttons: 42.8px / 14px / 800 above 1100px, 36px / 13px below). Same values here. */
+html body .ap26-article :is(.ap26-cta-mini__btn, p.ap-jump a, .wp-block-button__link):not(#ap-cta-scale) {
+	box-sizing: border-box !important;
+	min-width: 0 !important;
+	height: auto !important;
+	min-height: 42.8px !important;
+	padding: 12px 16px !important;
+	border-radius: 4px !important;
+	font-size: 14px !important;
+	font-weight: 800 !important;
+	line-height: 1.2 !important;
+	letter-spacing: normal !important;
+}
+@media (max-width: 1100px) {
+	html body .ap26-article :is(.ap26-cta-mini__btn, p.ap-jump a, .wp-block-button__link):not(#ap-cta-scale) {
+		min-height: 36px !important;
+		padding: 9px 12px !important;
+		font-size: 13px !important;
+	}
+}

@@ -28,6 +28,30 @@
 			"type": "string",
 			"default": ""
 		},
+		"variant": {
+			"type": "string",
+			"default": "default",
+			"enum": [
+				"default",
+				"solution"
+			]
+		},
+		"head_space": {
+			"type": "object",
+			"default": {}
+		},
+		"stack": {
+			"type": "string",
+			"default": "1024",
+			"enum": [
+				"1024",
+				"900"
+			]
+		},
+		"index": {
+			"type": "boolean",
+			"default": true
+		},
 		"align": {
 			"type": "string",
 			"default": "full"

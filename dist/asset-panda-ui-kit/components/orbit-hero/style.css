@@ -1,0 +1,312 @@
+/*
+ * orbit-hero — ported from the live .apx-hero section.
+ *
+ * The live sheet owns its whole section, so every selector is scoped under the
+ * component root and the keyframes are renamed; the inner class names are kept
+ * so the port stays diffable against live.
+ */
+
+.ap-orbit-hero{
+      --apx-indigo:#5044e1; --apx-teal:#00a991; --apx-ink:#25272c; --apx-body:#4a4e5a;
+      position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box;
+      width:100%; min-height:720px; display:flex; flex-direction:column;
+      font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+      color:var(--apx-ink); background:#fff;
+    }
+.ap-orbit-hero *,.ap-orbit-hero *::before,.ap-orbit-hero *::after{box-sizing:border-box;}
+/* The dev theme sets text-wrap:pretty on headings and paragraphs; live wraps
+   greedily, so line breaks only match with the default restored. :where() keeps
+   this at class weight, so any later rule in this sheet still wins. */
+.ap-orbit-hero :where(h1,h2,h3,h4,h5,h6,blockquote,caption,figcaption,p){text-wrap:wrap;}
+/* Holds the shared gradient the inline pill icons stroke with (url(#apg)). */
+.ap-orbit-hero__defs{position:absolute; width:0; height:0; overflow:hidden;}
+.ap-orbit-hero__bg{
+      position:absolute; inset:0; z-index:0; pointer-events:none;
+      background:
+        radial-gradient(58% 55% at 8% 10%,  rgba(0,169,145,.30), transparent 70%),
+        radial-gradient(42% 44% at 93% 6%,  rgba(255,180,150,.48), transparent 72%),
+        radial-gradient(55% 60% at 84% 40%, rgba(120,108,240,.30), transparent 72%),
+        radial-gradient(34% 36% at 80% 30%, rgba(255,214,110,.42), transparent 72%),
+        radial-gradient(58% 46% at 58% 96%, rgba(255,138,150,.28), transparent 72%),
+        radial-gradient(42% 42% at 30% 74%, rgba(150,140,235,.22), transparent 72%),
+        #ffffff;
+    }
+.ap-orbit-hero__bg::after{
+      content:""; position:absolute; inset:0;
+      background:linear-gradient(180deg, rgba(255,255,255,0) 62%, rgba(255,255,255,.55) 84%, #fff 100%);
+    }
+.ap-orbit-hero__wrap{
+      position:relative; z-index:1; width:100%; max-width:1280px; margin:0 auto;
+      padding:88px 40px 40px; display:flex; flex-direction:column; flex:1;
+    }
+.ap-orbit-hero__grid{flex:1; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,600px); gap:32px; align-items:center;}
+.ap-orbit-hero__content{max-width:560px; position:relative; z-index:4;}
+.ap-orbit-hero__eyebrow{margin:0 0 16px; font-size:14px; font-weight:800; line-height:1.2; letter-spacing:.56px; text-transform:uppercase; color:var(--apx-indigo);}
+.ap-orbit-hero__title{margin:0 0 16px; font-weight:800; line-height:1.15; font-size:clamp(34px,4.6vw,48px); letter-spacing:-.01em; color:var(--apx-ink);}
+.ap-orbit-hero .apx-grad{background:linear-gradient(48deg,#5044e1 4%,#00a991 55%); -webkit-background-clip:text; background-clip:text; color:transparent;}
+.ap-orbit-hero__body{margin:0; max-width:520px; font-size:18px; line-height:1.5; font-weight:400; color:var(--apx-body);}
+.ap-orbit-hero__body b{font-weight:700;}
+.ap-orbit-hero .apx-sup{font-weight:700; font-size:.62em; vertical-align:.42em; margin-left:1px;}
+/* The kit renders the brand mark as <span class="ap-ursa">Ursa<sup>AI</sup></span>;
+   live sizes it with .apx-sup and sets it bold in the body copy (<b>). */
+.ap-orbit-hero .ap-ursa sup{font-weight:700; font-size:.62em; vertical-align:.42em; margin-left:1px;}
+.ap-orbit-hero__body .ap-ursa{font-weight:700;}
+/* Buttons are inline-flex: a wrapping span would make "Meet " its own flex item and
+   drop the space. display:contents lets "Meet Ursa" run as one item, as on live. */
+.ap-orbit-hero .apx-btn .ap-ursa{display:contents;}
+.ap-orbit-hero__cta{display:flex; flex-wrap:wrap; gap:16px; margin-top:32px;}
+.ap-orbit-hero .apx-btn{display:inline-flex; align-items:center; justify-content:center; min-height:48px; padding:0 22px; border-radius:4px; font-size:16px; font-weight:600; text-decoration:none; cursor:pointer; transition:translate .15s ease, box-shadow .15s ease, background-color .15s ease; white-space:nowrap;}
+.ap-orbit-hero .apx-btn--primary{color:#fff; border:1px solid transparent; background:linear-gradient(55deg,#5044e1 0%,#00a991 72%); box-shadow:0 8px 20px rgba(80,68,225,.28);}
+.ap-orbit-hero .apx-btn--primary:hover{translate:0 -1px; box-shadow:0 12px 26px rgba(80,68,225,.34);}
+.ap-orbit-hero .apx-btn--ghost{color:var(--apx-teal); background:rgba(255,255,255,.4); border:1px solid var(--apx-teal);}
+.ap-orbit-hero .apx-btn--ghost:hover{background:rgba(0,169,145,.08);}
+.ap-orbit-hero__stage{position:relative; min-height:580px; height:100%;}
+.ap-orbit-hero__panda{position:absolute; left:50%; top:47%; transform:translate(-50%,-50%); width:min(430px,94%); height:auto; z-index:2; user-select:none; -webkit-user-drag:none;}
+.ap-orbit-hero__veil{position:absolute; left:-50vw; right:-50vw; bottom:0; height:57%; z-index:3; pointer-events:none;
+      background:linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 27%, rgba(255,255,255,.85) 49%, #fff 72%);}
+.ap-orbit-hero .apx-orb{position:absolute; left:50%; top:57%; transform:translate(-50%,-50%); width:min(440px,92%); z-index:4; pointer-events:none;}
+.ap-orbit-hero .apx-orb img{width:100%; height:auto; display:block;}
+.ap-orbit-hero .apx-badge{position:absolute; z-index:5; display:flex; align-items:center; gap:9px; white-space:nowrap;}
+.ap-orbit-hero .apx-badge--rev{flex-direction:row;}
+.ap-orbit-hero .apx-badge__icon{
+      flex:none; width:52px; height:52px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+      background:radial-gradient(125% 125% at 34% 26%, rgba(255,255,255,.95), rgba(232,245,255,.42) 68%, rgba(226,240,255,.14));
+      border:1px solid rgba(255,255,255,.8);
+      -webkit-backdrop-filter:blur(7px); backdrop-filter:blur(7px);
+      box-shadow:0 10px 24px rgba(30,60,110,.16), inset 0 1px 3px rgba(255,255,255,.95), inset 0 -9px 16px rgba(120,160,210,.12);
+    }
+.ap-orbit-hero .apx-badge__icon img{width:26px; height:26px; display:block;}
+.ap-orbit-hero .apx-badge__text{display:flex; flex-direction:column; line-height:1.25; text-shadow:0 1px 2px rgba(255,255,255,.7);}
+.ap-orbit-hero .apx-badge--rev .apx-badge__text{text-align:right;}
+.ap-orbit-hero .apx-badge__text b{font-size:13px; font-weight:700; color:#1a1c22;}
+.ap-orbit-hero .apx-badge__text i{font-size:11.5px; font-style:normal; color:#6b7280;}
+.ap-orbit-hero .apx-badge{--ico:26px;}
+.ap-orbit-hero .apx-badge--rev{ left:auto; right:calc(50% - var(--dx) - var(--ico)); top:calc(57% + var(--dy) - var(--ico)); }
+.ap-orbit-hero .apx-badge:not(.apx-badge--rev){ right:auto; left:calc(50% + var(--dx) - var(--ico)); top:calc(57% + var(--dy) - var(--ico)); }
+.ap-orbit-hero .apx-badge--inspect{    --dx:-97px;  --dy:-125px; }
+.ap-orbit-hero .apx-badge--work{       --dx: 97px;  --dy:-125px; }
+.ap-orbit-hero .apx-badge--assets{     --dx:-158px; --dy:   0px; }
+.ap-orbit-hero .apx-badge--analytics{  --dx: 158px; --dy:   0px; }
+.ap-orbit-hero .apx-badge--insights{   --dx:-100px; --dy: 123px; }
+.ap-orbit-hero .apx-badge--compliance{ --dx: 100px; --dy: 123px; }
+.ap-orbit-hero .apx-badge--inspect::before,.ap-orbit-hero .apx-badge--work::before{
+      content:""; position:absolute; left:52%; top:50%; transform:translate(-50%,-50%);
+      z-index:-1; border-radius:50%; pointer-events:none;
+      background:radial-gradient(closest-side, rgba(255,255,255,.92), rgba(255,255,255,0) 74%); filter:blur(3px);
+    }
+.ap-orbit-hero .apx-badge--inspect::before{width:200px; height:150px;}
+.ap-orbit-hero .apx-badge--work::before{width:165px; height:135px;}
+@media (prefers-reduced-motion:no-preference){@keyframes apOrbitHeroApx-float{0%,100%{transform:translateY(0)}
+50%{transform:translateY(-9px)}
+}
+.ap-orbit-hero .apx-badge{animation:apOrbitHeroApx-float 5.4s ease-in-out infinite;}
+.ap-orbit-hero .apx-badge--inspect{animation-duration:5.6s; animation-delay:-.4s;}
+.ap-orbit-hero .apx-badge--work{animation-duration:6.2s; animation-delay:-1.7s;}
+.ap-orbit-hero .apx-badge--assets{animation-duration:5.1s; animation-delay:-2.4s;}
+.ap-orbit-hero .apx-badge--analytics{animation-duration:6.5s; animation-delay:-3.2s;}
+.ap-orbit-hero .apx-badge--insights{animation-duration:5.9s; animation-delay:-.9s;}
+.ap-orbit-hero .apx-badge--compliance{animation-duration:6.1s; animation-delay:-2.8s;}
+}
+.ap-orbit-hero__ticker{position:relative; z-index:6;}
+.ap-orbit-hero__pills{list-style:none; margin:0; padding:24px 0 0; display:flex; flex-wrap:wrap; gap:16px 40px; justify-content:space-between; align-items:center;}
+.ap-orbit-hero .apx-pill{display:flex; align-items:center; gap:10px; font-size:16px; line-height:1.6; color:var(--apx-ink); white-space:nowrap;}
+.ap-orbit-hero .apx-pill .apx-ic{width:24px; height:24px; display:block; flex:none;}
+.ap-orbit-hero .apx-pill--dup{display:none;}
+@media (max-width:980px){.ap-orbit-hero .apx-badge__icon{
+        -webkit-backdrop-filter:none; backdrop-filter:none;
+        background:rgba(255,255,255,.86);
+      }
+.ap-orbit-hero .apx-badge{animation:none !important;}
+.ap-orbit-hero{min-height:0;}
+.ap-orbit-hero__wrap{padding:64px 24px 32px;}
+.ap-orbit-hero__grid{grid-template-columns:1fr; gap:24px;}
+.ap-orbit-hero__content{max-width:640px; margin:0 auto; text-align:center;}
+.ap-orbit-hero__body{margin-inline:auto;}
+.ap-orbit-hero__cta{justify-content:center;}
+.ap-orbit-hero__stage{min-height:540px; order:2;}
+.ap-orbit-hero__pills{justify-content:center; gap:14px 28px;}
+}
+@media (max-width:700px){.ap-orbit-hero__ticker{overflow:hidden; margin-inline:-24px;
+        -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 8%,#000 92%,transparent 100%);
+                mask-image:linear-gradient(90deg,transparent 0,#000 8%,#000 92%,transparent 100%);}
+.ap-orbit-hero__pills{flex-wrap:nowrap; width:max-content; justify-content:flex-start; gap:0; padding:20px 0 4px;
+        animation:apOrbitHeroApx-marquee 22s linear infinite; will-change:transform;}
+.ap-orbit-hero .apx-pill{flex:none; margin-right:38px;}
+.ap-orbit-hero .apx-pill--dup{display:flex;}
+}
+@keyframes apOrbitHeroApx-marquee{from{transform:translateX(0)}
+to{transform:translateX(-50%)}
+}
+@media (prefers-reduced-motion:reduce){.ap-orbit-hero__pills{animation:none !important; flex-wrap:wrap; width:auto; justify-content:center;}
+.ap-orbit-hero .apx-pill--dup{display:none;}
+}
+@media (max-width:560px){.ap-orbit-hero__stage{min-height:480px;}
+.ap-orbit-hero__panda{width:74%;}
+.ap-orbit-hero .apx-orb{width:78%;}
+.ap-orbit-hero .apx-badge{--ico:21px; animation:none; flex-direction:column; gap:3px; text-align:center;}
+.ap-orbit-hero .apx-badge__text,.ap-orbit-hero .apx-badge--rev .apx-badge__text{text-align:center;}
+.ap-orbit-hero .apx-badge,.ap-orbit-hero .apx-badge--rev,.ap-orbit-hero .apx-badge:not(.apx-badge--rev){
+        left:var(--cx); right:auto; top:var(--cy); transform:translate(-50%,-50%);}
+.ap-orbit-hero .apx-badge__icon{width:42px; height:42px;}
+.ap-orbit-hero .apx-badge__icon img{width:21px; height:21px;}
+.ap-orbit-hero .apx-badge__text b{font-size:11px;}
+.ap-orbit-hero .apx-badge__text i{font-size:9.5px;}
+.ap-orbit-hero .apx-badge--inspect{    --cx:27%; --cy:29%; }
+.ap-orbit-hero .apx-badge--work{       --cx:73%; --cy:29%; }
+.ap-orbit-hero .apx-badge--assets{     --cx:15%; --cy:54%; }
+.ap-orbit-hero .apx-badge--analytics{  --cx:85%; --cy:54%; }
+.ap-orbit-hero .apx-badge--insights{   --cx:27%; --cy:80%; }
+.ap-orbit-hero .apx-badge--compliance{ --cx:73%; --cy:80%; }
+.ap-orbit-hero .apx-pill{font-size:15px; margin-right:30px;}
+}
+
+/* Bare hero (no mascot, orb or badges — Ursa AI frame 7261:107107): copy in a 560px column, no stage. */
+.ap-orbit-hero--bare .ap-orbit-hero__grid{grid-template-columns:minmax(0,560px) 1fr;}
+@media (max-width:980px){.ap-orbit-hero--bare .ap-orbit-hero__grid{grid-template-columns:1fr;}}
+
+/* ---- kit type scale (QA 2026-10-28) ----
+ * Eyebrow, H1 and paragraph (the H1 was clamp(34px, 4.6vw, 48px) at line-height 1.15 and -0.01em).
+ * One heading scale across every hero (ui/src/tokens.css --ap-type-*): same size, weight 800, zero
+ * tracking at every width, so no H1 reads thicker or tighter than another. */
+.ap-orbit-hero .ap-orbit-hero__eyebrow {
+	font-size: var(--ap-type-eyebrow-size);
+	font-weight: var(--ap-type-eyebrow-weight);
+	line-height: var(--ap-type-eyebrow-line);
+	letter-spacing: var(--ap-type-eyebrow-track);
+	text-transform: uppercase;
+}
+.ap-orbit-hero .ap-orbit-hero__title {
+	font-size: var(--ap-type-h1-size);
+	font-weight: var(--ap-type-h1-weight);
+	line-height: var(--ap-type-h1-line);
+	letter-spacing: var(--ap-type-h1-track);
+}
+.ap-orbit-hero .ap-orbit-hero__body {
+	font-size: var(--ap-type-lede-size);
+	line-height: var(--ap-type-lede-line);
+}
+
+/* >>> ursa-chat */
+/* ---- Ursa chat scene (prop `chat`; Ursa AI frame 7261:107107, art nodes 7305:119583-119951) ----
+ * The copy keeps the frame's 1120px content width (x 160-1280); the scene is the frame's 560x480 art box
+ * (x 720-1280, y 110-590) drawn to scale: every length is a multiple of --u (1/560 of the scene width), so
+ * the whole composition shrinks as one piece on narrower screens. Decorative and aria-hidden. */
+.ap-orbit-hero--chat .ap-orbit-hero__wrap{max-width:1200px;}
+.ap-orbit-hero--chat .ap-orbit-hero__grid{grid-template-columns:minmax(0,546px) minmax(0,560px); justify-content:space-between; gap:24px;}
+.ap-orbit-hero--chat .ap-orbit-hero__content{max-width:546px;}
+.ap-orbit-hero__chatstage{position:relative; z-index:4; width:100%; max-width:560px; justify-self:end;}
+.ap-orbit-hero__scene{position:relative; width:100%; aspect-ratio:560 / 480; container-type:inline-size; --u:calc(100cqw / 560); font-family:inherit; line-height:normal; color:#263249;}
+.ap-orbit-hero__scene img{display:block; max-width:none;}
+.ap-orbit-hero__glow{position:absolute; pointer-events:none;}
+.ap-orbit-hero__glow--red{left:calc(-78 * var(--u)); top:calc(30 * var(--u)); width:calc(310 * var(--u)); height:calc(286 * var(--u));}
+.ap-orbit-hero__glow--indigo{left:calc(276 * var(--u)); top:calc(100 * var(--u)); width:calc(322 * var(--u)); height:calc(309 * var(--u));}
+.ap-orbit-hero__spark{position:absolute; left:calc(457 * var(--u)); top:calc(113 * var(--u)); width:calc(56 * var(--u)); height:calc(56 * var(--u)); border-radius:50%; border:calc(.5 * var(--u)) solid #fff;
+	background:radial-gradient(circle, rgba(255,255,255,.2), rgba(240,249,255,.2)); display:flex; align-items:center; justify-content:center;
+	-webkit-backdrop-filter:blur(calc(6 * var(--u))); backdrop-filter:blur(calc(6 * var(--u)));}
+.ap-orbit-hero__spark img{width:calc(28 * var(--u)); height:calc(28 * var(--u));}
+
+/* Glass stat cards: one 150x137 design (the frame's Compliance card), scaled for the other two slots. */
+.ap-orbit-hero__glass{position:absolute; width:calc(150 * var(--u)); height:calc(137 * var(--u)); transform-origin:0 0; border-radius:calc(16 * var(--u)); border:calc(1 * var(--u)) solid #fff;
+	background:rgba(255,255,255,.2); -webkit-backdrop-filter:blur(calc(14 * var(--u))); backdrop-filter:blur(calc(14 * var(--u))); box-shadow:0 calc(10 * var(--u)) calc(30 * var(--u)) rgba(80,68,225,.08);}
+.ap-orbit-hero__glass--right{left:calc(379 * var(--u)); top:calc(211 * var(--u));}
+.ap-orbit-hero__glass--left{left:calc(19 * var(--u)); top:calc(140 * var(--u)); scale:.9197;}
+.ap-orbit-hero__glass--back{left:calc(47 * var(--u)); top:calc(305 * var(--u)); scale:.72; filter:blur(calc(2.78 * var(--u)));}
+.ap-orbit-hero__glass-ico{position:absolute; left:calc(15 * var(--u)); top:calc(14 * var(--u)); width:calc(32 * var(--u)); height:calc(32 * var(--u)); display:flex; align-items:center; justify-content:center;}
+.ap-orbit-hero__glass-ico img{width:calc(26 * var(--u)); height:calc(26 * var(--u));}
+.ap-orbit-hero__glass-label,.ap-orbit-hero__glass-value,.ap-orbit-hero__glass-note{position:absolute; left:calc(15 * var(--u)); white-space:nowrap;}
+.ap-orbit-hero__glass-label{top:calc(54 * var(--u)); font-size:calc(12 * var(--u)); font-weight:500; color:#263249;}
+.ap-orbit-hero__glass-value{top:calc(76 * var(--u)); font-size:calc(29 * var(--u)); font-weight:700; color:#152641;}
+.ap-orbit-hero__glass-note{top:calc(110 * var(--u)); font-size:calc(12 * var(--u)); font-weight:400; color:#8091ab;}
+
+/* The assistant's reply card. */
+.ap-orbit-hero__reply{position:absolute; left:calc(125 * var(--u)); top:calc(71.6 * var(--u)); width:calc(301.9 * var(--u)); padding:calc(12.23 * var(--u)); display:flex; flex-direction:column; gap:calc(12.23 * var(--u));
+	background:#fff; border:calc(.764 * var(--u)) solid #fff; border-radius:calc(12.23 * var(--u)); box-shadow:0 calc(18 * var(--u)) calc(44 * var(--u)) rgba(80,68,225,.10);}
+.ap-orbit-hero__reply-head{display:flex; align-items:center; gap:calc(12.23 * var(--u)); padding-bottom:calc(12 * var(--u)); border-bottom:calc(.764 * var(--u)) solid #edeef1;}
+.ap-orbit-hero__reply-orb{position:relative; flex:none; width:calc(43.36 * var(--u)); height:calc(42.52 * var(--u));}
+.ap-orbit-hero__reply-orb img{position:absolute; right:calc(-20.41 * var(--u)); top:50%; translate:0 -50%; width:calc(84.2 * var(--u)); height:calc(83.35 * var(--u));}
+.ap-orbit-hero__reply-text{flex:1 1 0; min-width:0; font-size:calc(9.171 * var(--u)); font-weight:500; line-height:1.364; color:#263249;}
+.ap-orbit-hero__chart{position:relative; width:calc(276.67 * var(--u)); height:calc(87.44 * var(--u)); border-radius:calc(12 * var(--u)); border:calc(.6 * var(--u)) solid #fff;
+	background:radial-gradient(closest-side, #fbfdff, #f3faff); box-shadow:inset 0 0 0 calc(.6 * var(--u)) rgba(216,219,223,.35);}
+.ap-orbit-hero__chart img{position:absolute; bottom:calc(4.9 * var(--u)); left:calc(50% - calc(1.89 * var(--u))); translate:-50% 0; width:calc(251.09 * var(--u)); height:calc(70.44 * var(--u));}
+.ap-orbit-hero__tiles{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:calc(30.57 * var(--u)); row-gap:calc(8.41 * var(--u)); width:calc(276.67 * var(--u));}
+.ap-orbit-hero__tile{display:flex; align-items:center; gap:calc(6.88 * var(--u));}
+.ap-orbit-hero__tile-ico{flex:none; width:calc(32 * var(--u)); height:calc(32 * var(--u)); border-radius:50%; border:calc(.382 * var(--u)) solid #fff; display:flex; align-items:center; justify-content:center;
+	background:radial-gradient(circle, #fff, #f0f9ff); box-shadow:0 calc(1 * var(--u)) calc(5 * var(--u)) rgba(38,50,73,.12);}
+.ap-orbit-hero__tile-ico img{width:calc(17 * var(--u)); height:calc(17 * var(--u));}
+.ap-orbit-hero__tile-text{display:flex; flex-direction:column; font-size:calc(6.114 * var(--u)); line-height:1.5; white-space:nowrap;}
+.ap-orbit-hero__tile-title{font-weight:600; color:#000;}
+.ap-orbit-hero__tile-note{font-weight:400; color:#6b7280;}
+.ap-orbit-hero__actions{display:flex; align-items:center; justify-content:space-between;}
+.ap-orbit-hero__action{display:inline-flex; align-items:center; justify-content:center; padding:calc(7.41 * var(--u)) calc(11.12 * var(--u)); border-radius:calc(3.71 * var(--u)); font-size:calc(8 * var(--u)); font-weight:700; line-height:1.2; white-space:nowrap;
+	color:#25272c; background:linear-gradient(44.46deg,#fff 0%,#d8dbdf 70.44%); filter:drop-shadow(0 0 calc(7.41 * var(--u)) rgba(193,193,193,.51));}
+.ap-orbit-hero__action--primary{color:#fff; background:linear-gradient(50.94deg,#6666ee 0%,#3b32a1 70.44%); filter:drop-shadow(0 0 calc(7.41 * var(--u)) rgba(80,68,225,.51));}
+.ap-orbit-hero__ask{display:flex; align-items:center; gap:calc(7.4 * var(--u)); padding:calc(4 * var(--u)) calc(4 * var(--u)) calc(4 * var(--u)) calc(8 * var(--u)); border-radius:calc(12 * var(--u)); background:#f3f5f8;}
+.ap-orbit-hero__clip{flex:none; width:calc(21.54 * var(--u)); height:calc(21.54 * var(--u));}
+.ap-orbit-hero__field{flex:1 1 0; min-width:0; height:calc(29.6 * var(--u)); padding-left:calc(9.42 * var(--u)); border-radius:calc(5.39 * var(--u)); background:#fff; font-size:calc(8.08 * var(--u)); line-height:calc(29.6 * var(--u)); color:#9aa8bb; white-space:nowrap; overflow:hidden;}
+.ap-orbit-hero__send{flex:none; width:calc(29.6 * var(--u)); height:calc(29.6 * var(--u)); border-radius:50%; background:rgba(0,169,145,.4); display:flex; align-items:center; justify-content:center;}
+.ap-orbit-hero__send img{width:calc(21.54 * var(--u)); height:calc(21.54 * var(--u));}
+
+/* The question bubble with the asker's avatar. */
+.ap-orbit-hero__bubble{position:absolute; left:calc(140 * var(--u)); top:calc(16 * var(--u)); display:flex; align-items:center; gap:calc(12.24 * var(--u));}
+.ap-orbit-hero__q{display:block; width:calc(223.8 * var(--u)); height:calc(41.96 * var(--u)); padding:0 calc(13.99 * var(--u)); border-radius:calc(13.99 * var(--u)); background:#fff; font-size:calc(10.49 * var(--u)); font-weight:500; line-height:calc(41.96 * var(--u)); color:#263249; white-space:nowrap; box-shadow:0 calc(8 * var(--u)) calc(24 * var(--u)) rgba(80,68,225,.08);}
+.ap-orbit-hero__avatar{flex:none; width:calc(41.96 * var(--u)); height:calc(41.96 * var(--u)); border-radius:50%; overflow:hidden; border:calc(.561 * var(--u)) solid #7dd3fc; box-shadow:0 0 calc(16.82 * var(--u)) rgba(2,132,199,.16); background:radial-gradient(circle,#fff,#f0f9ff);}
+.ap-orbit-hero__avatar img{width:100%; height:100%; object-fit:cover;}
+
+/* Entrance on load (heroes animate from their own CSS) and a slow float on the glass cards. */
+@media (prefers-reduced-motion:no-preference){
+	@keyframes apOrbitHeroChatIn{from{opacity:0; transform:translateY(var(--ap-reveal-distance,16px));}}
+	@keyframes apOrbitHeroChatFloat{0%,100%{transform:translateY(0);} 50%{transform:translateY(calc(-7 * var(--u)));}}
+	.ap-orbit-hero__reply,.ap-orbit-hero__bubble,.ap-orbit-hero__glass,.ap-orbit-hero__spark{animation:apOrbitHeroChatIn var(--ap-dur-slow,600ms) var(--ap-ease-out,ease-out) both;}
+	.ap-orbit-hero__bubble{animation-delay:calc(var(--ap-stagger-step,80ms) * 2);}
+	.ap-orbit-hero__glass--left{animation:apOrbitHeroChatIn var(--ap-dur-slow,600ms) var(--ap-ease-out,ease-out) calc(var(--ap-stagger-step,80ms) * 3) both, apOrbitHeroChatFloat 6.2s ease-in-out 1.4s infinite;}
+	.ap-orbit-hero__glass--right{animation:apOrbitHeroChatIn var(--ap-dur-slow,600ms) var(--ap-ease-out,ease-out) calc(var(--ap-stagger-step,80ms) * 4) both, apOrbitHeroChatFloat 5.6s ease-in-out 1.9s infinite;}
+	.ap-orbit-hero__glass--back{animation:apOrbitHeroChatIn var(--ap-dur-slow,600ms) var(--ap-ease-out,ease-out) calc(var(--ap-stagger-step,80ms) * 5) both, apOrbitHeroChatFloat 6.8s ease-in-out 2.3s infinite;}
+	.ap-orbit-hero__spark{animation-delay:calc(var(--ap-stagger-step,80ms) * 6);}
+}
+
+/* Tablets and phones: copy centred over the scene (the base sheet stacks the grid at 980px). */
+@media (max-width:980px){
+	.ap-orbit-hero--chat .ap-orbit-hero__grid{grid-template-columns:1fr; gap:32px;}
+	.ap-orbit-hero--chat .ap-orbit-hero__content{max-width:640px;}
+	.ap-orbit-hero__chatstage{justify-self:center; max-width:520px;}
+	.ap-orbit-hero__glass,.ap-orbit-hero__spark{-webkit-backdrop-filter:none; backdrop-filter:none; background:rgba(255,255,255,.72);}
+}
+@media (max-width:560px){
+	.ap-orbit-hero--chat .ap-orbit-hero__grid{gap:24px;}
+	.ap-orbit-hero__chatstage{width:calc(100% + 24px); max-width:none; margin-inline:-12px;}
+}
+/* Engines without container units: draw the scene at its design size and clip it. */
+@supports not (width:1cqw){
+	.ap-orbit-hero__scene{--u:1px; width:560px; max-width:100%; overflow:hidden;}
+}
+/* <<< ursa-chat */
+
+/* ---- QA 2026-10-29: the Ursa AI mark in the title paints with the brand gradient ----
+ * ap_ui_brandmarks() renders the mark as <span class="ap-ursa">Ursa<sup>AI</sup></span> and the
+ * title showed it in solid ink. background-clip:text paints only inside the span's own box, which
+ * slices a raised <sup>; the box is widened upward with padding so the "AI" keeps its gradient. On
+ * an inline box the vertical padding and the matching negative margin change no layout; the margin
+ * keeps the line metrics if the mark is ever made inline-block. The same guard goes on .apx-grad,
+ * which clips a title_accent slice the same way. */
+.ap-orbit-hero .ap-orbit-hero__title .ap-ursa {
+	background: linear-gradient(55deg, #5044e1 0%, #00a991 70.44%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	-webkit-text-fill-color: transparent;
+}
+.ap-orbit-hero .ap-orbit-hero__title .ap-ursa,
+.ap-orbit-hero .apx-grad {
+	padding-top: .5em;
+	padding-bottom: .25em;
+	margin-top: -.5em;
+	margin-bottom: -.25em;
+}
+
+/* QA 2026-10-29 (Joseph, sitewide): on phones the hero's eyebrow sits 16px under the header, as on the K-12 page
+ * (his reference for the spacing). */
+@media (max-width: 767px) {
+	html body .ap-orbit-hero .ap-orbit-hero__wrap {
+		padding-top: 16px !important;
+	}
+}

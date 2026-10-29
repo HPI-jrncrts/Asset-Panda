@@ -1,0 +1,13 @@
+{
+	"name": "integration-more",
+	"description": "More integrations band for the integration detail pages: eyebrow, heading and lede with a 'View All Integrations' outline button, over a row of up to four cards, each a partner logo + the Asset Panda PRO panda mark with the integration's name, linking to that integration's page. Figma: Integrations Detail Page Template > Problem Section (7318:171385).",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "More integrations", "description": "Small label above the heading (shown in capitals)." },
+		"title": { "type": "string", "required": false, "default": "More ways to connect the tools you rely on.", "description": "Heading. Line breaks are kept." },
+		"lede": { "type": "string", "required": false, "default": "Explore other integrations that bring asset management closer to the systems your business uses every day.", "description": "Paragraph under the heading." },
+		"cta_label": { "type": "string", "required": false, "default": "View All Integrations", "description": "Outline button text. Renders only with cta_url." },
+		"cta_url": { "type": "string", "required": false, "default": "/integrations/", "description": "Outline button destination." },
+		"brand_logo": { "type": "string", "required": false, "default": "", "description": "Mark shown after the + on every card. Empty uses the kit's Asset Panda PRO panda (assets/panda-pro.svg)." },
+		"items": { "type": "array", "required": true, "description": "Integrations to show; the first four with a name are used. Each: name (required), url (the integration's page; the card is a link only when set), icon (partner logo URL, square icon or wordmark — drawn up to 64px tall and 104px wide)." }
+	}
+}

@@ -93,6 +93,7 @@
 	font-size: var(--ap-fs-h1-sm);
 	font-weight: var(--ap-weight-display);
 	line-height: var(--ap-line-h1);
+	letter-spacing: -0.02em;
 	color: var(--ap-text-heading);
 	text-wrap: balance;
 }
@@ -361,4 +362,30 @@
 
 @media (max-width: 767.98px) {
 	.ap-hero__inner { max-width: none; }
+}
+
+/* ---- kit type scale (QA 2026-10-28) ----
+ * Eyebrow, H1 and the paragraphs (the H1 was the stepped --ap-fs-h1-sm at -0.02em).
+ * One heading scale across every hero (ui/src/tokens.css --ap-type-*): same size, weight 800, zero
+ * tracking at every width, so no H1 reads thicker or tighter than another. */
+.ap-hero .ap-hero__eyebrow {
+	font-size: var(--ap-type-eyebrow-size);
+	font-weight: var(--ap-type-eyebrow-weight);
+	line-height: var(--ap-type-eyebrow-line);
+	letter-spacing: var(--ap-type-eyebrow-track);
+	text-transform: uppercase;
+}
+.ap-hero .ap-hero__title {
+	font-size: var(--ap-type-h1-size);
+	font-weight: var(--ap-type-h1-weight);
+	line-height: var(--ap-type-h1-line);
+	letter-spacing: var(--ap-type-h1-track);
+}
+.ap-hero .ap-hero__lede {
+	font-size: var(--ap-type-lede-size);
+	line-height: var(--ap-type-lede-line);
+}
+.ap-hero .ap-hero__subtitle {
+	font-size: var(--ap-type-lede-size);
+	line-height: var(--ap-type-lede-line);
 }

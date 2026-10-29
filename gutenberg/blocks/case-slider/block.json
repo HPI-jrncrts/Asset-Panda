@@ -1,0 +1,67 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/case-slider",
+	"title": "AP Case Slider",
+	"category": "design",
+	"icon": "slides",
+	"description": "Customer story slider: centred heading over one story at a time (quote, author, link beside a photo with an optional client logo), arrows, a progress line and dots. Live: the #ap-<page>-case section (.apg-case-*) on the solution pages and Help Desk, and #ap-gov-case on the industry hubs (sheets and markup ported). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"variant": {
+			"type": "string",
+			"default": "solution",
+			"enum": [
+				"solution",
+				"service",
+				"hub",
+				"hub-industry"
+			]
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"quote_icon": {
+			"type": "string",
+			"default": ""
+		},
+		"items": {
+			"type": "array",
+			"default": []
+		},
+		"viewall_label": {
+			"type": "string",
+			"default": ""
+		},
+		"viewall_url": {
+			"type": "string",
+			"default": ""
+		},
+		"autoplay_ms": {
+			"type": "number",
+			"default": 3000
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

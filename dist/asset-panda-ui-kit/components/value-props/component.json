@@ -1,0 +1,16 @@
+{
+	"name": "value-props",
+	"description": "Heading with calls to action, colour-bordered benefit cards two to a row, and a closing line. Ported from the live homepage section #ap-built-field-v2 (Figma: Why Teams Choose Asset Panda, 4331:24830).",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading. Line breaks are kept." },
+		"intro": { "type": "string", "required": false, "default": "", "description": "Supporting paragraph under the heading." },
+		"primary_label": { "type": "string", "required": false, "default": "", "description": "Primary (gradient) button text. Renders only with primary_url." },
+		"primary_url": { "type": "string", "required": false, "default": "", "description": "Primary button destination." },
+		"secondary_label": { "type": "string", "required": false, "default": "", "description": "Secondary (outline) button text. Renders only with secondary_url." },
+		"secondary_url": { "type": "string", "required": false, "default": "", "description": "Secondary button destination." },
+		"items": { "type": "array", "required": true, "description": "Benefit cards, laid out two to a row. Each: title and body (required), optional accent (yellow, red, green, indigo; default cycles in that order). Titles keep line breaks." },
+		"closing": { "type": "string", "required": false, "default": "", "description": "Centred closing line under the cards." },
+		"reveal": { "type": "boolean", "required": false, "default": true, "description": "Stagger cards in on scroll. The live homepage section has no entrance animation (false)." }
+	}
+}

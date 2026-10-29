@@ -1,0 +1,18 @@
+
+/* QA 2026-10-29: on narrow screens the connector lines were drawn on top of the stacked cards and their text.
+   The "lines behind the cards" rule above (position:relative; z-index:1) loses to the older
+   `position:static !important` block, so the cards stayed unpositioned under the absolutely positioned wires.
+   Same intent, stated strongly enough to win: the cards sit above the wires and the lines show only between them. */
+@media (max-width:1000px){
+	.ap-asset-scene .ap-asset-scene__stage .ap-asset-scene__card{
+		position:relative !important;
+		z-index:1 !important;
+	}
+}
+@media (max-width:1000px){
+	.ap-asset-scene .ap-asset-scene__wrap > .ap-asset-scene__head{
+		position:relative !important;
+		z-index:2 !important;
+		background:#fff;
+	}
+}

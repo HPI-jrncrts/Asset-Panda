@@ -1,0 +1,362 @@
+{
+	"name": "site-footer",
+	"description": "Global site footer: the closing CTA band (Ready to See it in Action?) over the brand column (logo, address, social links, app store badges), four link columns and the legal line. Live 2026 footer (#ap-final-footer-v1, ap-global-header-footer plugin). Hidden CTA band on pages that close with their own CTA, as on live.",
+	"props": {
+		"show_cta": {
+			"type": "boolean",
+			"default": true,
+			"description": "Show the CTA band above the links. Pages that close with their own CTA (solution-cta, demo-cta, platform-cta) hide it regardless, as live does."
+		},
+		"cta_aria": {
+			"type": "string",
+			"default": "Ready to see Asset Panda in action",
+			"description": "Accessible name of the CTA band."
+		},
+		"cta_eyebrow": {
+			"type": "string",
+			"default": "Ready to See it in Action?",
+			"description": "Small label above the CTA title."
+		},
+		"cta_title": {
+			"type": "string",
+			"default": "See everything.\nKnow everything.\nProve everything.",
+			"description": "CTA title. Line breaks are kept."
+		},
+		"cta_body": {
+			"type": "string",
+			"default": "No guesswork. No spreadsheets. No scrambling when audits happen.",
+			"description": "Paragraph under the CTA title."
+		},
+		"cta_buttons_aria": {
+			"type": "string",
+			"default": "Final call to action",
+			"description": "Accessible name of the button group."
+		},
+		"primary_label": {
+			"type": "string",
+			"default": "Free Demo",
+			"description": "Gradient button text."
+		},
+		"primary_url": {
+			"type": "string",
+			"default": "/get-a-demo/",
+			"description": "Gradient button destination."
+		},
+		"secondary_label": {
+			"type": "string",
+			"default": "Talk to Sales",
+			"description": "Outline button text."
+		},
+		"secondary_url": {
+			"type": "string",
+			"default": "tel:888-928-6112",
+			"description": "Outline button destination (live: the sales line)."
+		},
+		"cta_image": {
+			"type": "string",
+			"default": "Group-1.webp",
+			"description": "Art in the CTA card: a file in assets/ or a URL."
+		},
+		"cta_image_alt": {
+			"type": "string",
+			"default": "",
+			"description": "Alt text of the CTA art (empty: decorative)."
+		},
+		"nav_aria": {
+			"type": "string",
+			"default": "Asset Panda footer navigation",
+			"description": "Accessible name of the link area."
+		},
+		"logo": {
+			"type": "string",
+			"default": "logo_asset-panda-2026-crisp.webp",
+			"description": "Logo image: a file in assets/ or a URL."
+		},
+		"logo_alt": {
+			"type": "string",
+			"default": "Asset Panda",
+			"description": "Logo alt text."
+		},
+		"logo_aria": {
+			"type": "string",
+			"default": "Asset Panda",
+			"description": "Accessible name of the logo link."
+		},
+		"home_url": {
+			"type": "string",
+			"default": "/",
+			"description": "Where the logo links."
+		},
+		"address": {
+			"type": "string",
+			"default": "4143 Maple Ave\nSuite 200\nDallas, TX 75219",
+			"description": "Postal address. Line breaks are kept."
+		},
+		"socials_aria": {
+			"type": "string",
+			"default": "Social links",
+			"description": "Accessible name of the social links."
+		},
+		"socials": {
+			"type": "array",
+			"default": [
+				{
+					"label": "Facebook",
+					"url": "https://www.facebook.com/AssetPanda/",
+					"icon": "footer-social-s0.svg"
+				},
+				{
+					"label": "LinkedIn",
+					"url": "https://www.linkedin.com/company/asset-panda/",
+					"icon": "footer-social-s1.svg"
+				},
+				{
+					"label": "YouTube",
+					"url": "https://www.youtube.com/channel/UCmz_q5p4O_NOShFjawIg4Fw",
+					"icon": "footer-social-s2.svg"
+				},
+				{
+					"label": "Reddit",
+					"url": "https://www.reddit.com/r/AssetPanda/",
+					"icon": "footer-social-s3.svg"
+				}
+			],
+			"description": "Social links. Each: label (accessible name), url, icon (a file in assets/ or a URL)."
+		},
+		"apps": {
+			"type": "array",
+			"default": [
+				{
+					"label": "Download on the App Store",
+					"url": "https://apps.apple.com/us/app/asset-panda-pro/id6529526674",
+					"image": "apple-store-logo.png",
+					"alt": "Download on the App Store",
+					"w": 240,
+					"h": 80
+				},
+				{
+					"label": "Get it on Google Play",
+					"url": "https://play.google.com/store/apps/details?id=com.assetpanda2.app&hl=en_US",
+					"image": "google-play-store-logo.png",
+					"alt": "Get it on Google Play",
+					"w": 240,
+					"h": 72
+				}
+			],
+			"description": "App store badges. Each: label (accessible name), url, image (a file in assets/ or a URL), alt, w, h (intrinsic size)."
+		},
+		"columns": {
+			"type": "array",
+			"default": [
+				{
+					"heading": "Products",
+					"links": [
+						{
+							"label": "Asset Intelligence Platform",
+							"url": "/asset-intelligence-platform/"
+						},
+						{
+							"label": "Ursa AI",
+							"url": "/ursa-ai/"
+						},
+						{
+							"label": "Integrations",
+							"url": "/integrations/"
+						},
+						{
+							"label": "Asset Tags & Labels",
+							"url": "/barcode-labels/"
+						},
+						{
+							"label": "Asset Panda for Local Government",
+							"url": "/products/asset-panda-for-local-government/"
+						},
+						{
+							"label": "Asset Panda for Public Works",
+							"url": "/products/asset-panda-for-public-works/"
+						},
+						{
+							"label": "Asset Panda for Fire",
+							"url": "/products/asset-panda-for-fire/"
+						},
+						{
+							"label": "Asset Panda for Police",
+							"url": "/products/asset-panda-for-police/"
+						},
+						{
+							"label": "Asset Panda for K-12",
+							"url": "/products/asset-panda-for-k12/"
+						},
+						{
+							"label": "Asset Panda for Higher Education",
+							"url": "/products/asset-panda-for-higher-education/"
+						}
+					]
+				},
+				{
+					"heading": "Solutions",
+					"links": [
+						{
+							"label": "Asset Management & Tracking",
+							"url": "/solutions/asset-management/"
+						},
+						{
+							"label": "Inventory Management",
+							"url": "/solutions/inventory-management/"
+						},
+						{
+							"label": "IT Asset Management",
+							"url": "/solutions/it-asset-tracking/"
+						},
+						{
+							"label": "Equipment Management",
+							"url": "/solutions/equipment-management/"
+						},
+						{
+							"label": "Maintenance Management",
+							"url": "/solutions/cmms-maintenance-management/"
+						},
+						{
+							"label": "Fleet Management",
+							"url": "/solutions/fleet-management/"
+						},
+						{
+							"label": "Asset Inspections",
+							"url": "/solutions/asset-inspection/"
+						},
+						{
+							"label": "Compliance & Audit Readiness",
+							"url": "/solutions/compliance-management/"
+						}
+					]
+				},
+				{
+					"heading": "Who We Help",
+					"links": [
+						{
+							"label": "Public Sector",
+							"url": "/solutions/government/"
+						},
+						{
+							"label": "Education",
+							"url": "/solutions/education/"
+						},
+						{
+							"label": "Healthcare",
+							"url": "/solutions/healthcare/"
+						},
+						{
+							"label": "Construction",
+							"url": "/solutions/construction/"
+						},
+						{
+							"label": "Manufacturing",
+							"url": "/solutions/manufacturing/"
+						},
+						{
+							"label": "Mining & Materials",
+							"url": "/solutions/mining-material-lims/"
+						},
+						{
+							"label": "Energy & Utilities",
+							"url": "/solutions/energy-utilities/"
+						},
+						{
+							"label": "Transportation & Logistics",
+							"url": "/solutions/transportation-logistics/"
+						},
+						{
+							"label": "Managed Service Providers",
+							"url": "/solutions/msp-it-asset-management/"
+						},
+						{
+							"label": "Non-Profit",
+							"url": "/solutions/non-profit/"
+						}
+					]
+				},
+				{
+					"heading": "Resources",
+					"links": [
+						{
+							"label": "Case Studies",
+							"url": "/resource-center/case-studies/"
+						},
+						{
+							"label": "Blog",
+							"url": "/resource-center/blog/"
+						},
+						{
+							"label": "White Papers",
+							"url": "/resource-center/white-papers/"
+						},
+						{
+							"label": "Webinars",
+							"url": "/resource-center/webinars/"
+						},
+						{
+							"label": "Compare Asset Panda",
+							"url": "/compare/"
+						},
+						{
+							"label": "ROI Calculator",
+							"url": "/roi-calculator/"
+						}
+					]
+				},
+				{
+					"heading": "Company",
+					"links": [
+						{
+							"label": "About",
+							"url": "/our-company/"
+						},
+						{
+							"label": "Partners",
+							"url": "/partners/"
+						},
+						{
+							"label": "Careers",
+							"url": "/careers/"
+						},
+						{
+							"label": "Pressroom",
+							"url": "/pressroom/"
+						},
+						{
+							"label": "Contact Us",
+							"url": "/contact/"
+						},
+						{
+							"label": "GDPR Policy",
+							"url": "/gdpr-policy/"
+						},
+						{
+							"label": "Privacy Policy",
+							"url": "/privacy-policy/"
+						},
+						{
+							"label": "Public Security Information",
+							"url": "/public-security-information/"
+						},
+						{
+							"label": "Terms of Use",
+							"url": "/terms-of-use/"
+						}
+					]
+				}
+			],
+			"description": "Link columns. Each: heading, links (each: label, url)."
+		},
+		"legal": {
+			"type": "string",
+			"default": "© 2026 Asset Panda",
+			"description": "Copyright line."
+		},
+		"background": {
+			"type": "string",
+			"default": "Footer.webp",
+			"description": "Footer backdrop art: a file in assets/ or a URL."
+		}
+	}
+}

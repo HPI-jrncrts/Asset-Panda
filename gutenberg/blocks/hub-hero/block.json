@@ -26,7 +26,7 @@
 		},
 		"cta_label": {
 			"type": "string",
-			"default": "Book a Demo"
+			"default": "Free Demo"
 		},
 		"cta_url": {
 			"type": "string",
@@ -52,6 +52,10 @@
 			"type": "string",
 			"default": "1440/640"
 		},
+		"mobile_ratio": {
+			"type": "string",
+			"default": "393/378"
+		},
 		"veil_height": {
 			"type": "number",
 			"default": 58.125
@@ -67,6 +71,14 @@
 		"features": {
 			"type": "array",
 			"default": []
+		},
+		"variant": {
+			"type": "string",
+			"default": "default",
+			"enum": [
+				"default",
+				"eduhub"
+			]
 		},
 		"align": {
 			"type": "string",

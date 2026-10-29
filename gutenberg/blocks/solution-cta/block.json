@@ -1,0 +1,70 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/solution-cta",
+	"title": "AP Solution Cta",
+	"category": "design",
+	"icon": "megaphone",
+	"description": "Closing call to action: eyebrow, heading, lede and button on the left over a soft brand splash painted on the section (no card), with a product image pinned to the right (under the copy below 1001px). Live: the .epx-fcta section on the solution pages, Emergency Preparedness, School Reunification and Help Desk (rules ported). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"look": {
+			"type": "string",
+			"default": "card",
+			"enum": [
+				"card",
+				"splash"
+			]
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"body": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_label": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_url": {
+			"type": "string",
+			"default": ""
+		},
+		"image": {
+			"type": "string",
+			"default": ""
+		},
+		"image_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"variant": {
+			"type": "string",
+			"default": "solution",
+			"enum": [
+				"solution",
+				"readiness",
+				"service"
+			]
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

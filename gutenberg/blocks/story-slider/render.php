@@ -25,10 +25,13 @@ $props = array(
 	'eyebrow'       => $attributes['eyebrow'] ?? '',
 	'title'         => $attributes['title'] ?? '',
 	'lede'          => $attributes['lede'] ?? '',
+	'variant'       => $attributes['variant'] ?? 'default',
+	'stack'         => $attributes['stack'] ?? 'narrow',
 	'items'         => $attributes['items'] ?? array(),
 	'quote_icon'    => $attributes['quote_icon'] ?? '',
 	'viewall_label' => $attributes['viewall_label'] ?? 'View All Case Studies',
 	'viewall_url'   => $attributes['viewall_url'] ?? '',
+	'autoplay_ms'   => $attributes['autoplay_ms'] ?? 3000,
 );
 
 $ap_html = ap_render_component( 'story-slider', $props );

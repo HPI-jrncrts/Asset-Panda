@@ -68,6 +68,18 @@
 			"type": "string",
 			"default": ""
 		},
+		"cta_accent_inline": {
+			"type": "boolean",
+			"default": false
+		},
+		"cta_nowrap": {
+			"type": "boolean",
+			"default": false
+		},
+		"phone": {
+			"type": "object",
+			"default": {}
+		},
 		"reveal": {
 			"type": "boolean",
 			"default": true

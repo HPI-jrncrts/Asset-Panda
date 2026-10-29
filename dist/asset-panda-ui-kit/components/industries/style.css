@@ -1,0 +1,630 @@
+/*
+ * industries — ported from the live homepage "Design to adapt" section
+ * (#ap-sector-intelligence-v4).
+ *
+ * The section id became the component root class and the inner class names are
+ * live's, so the port stays diffable against live. Live styles the section with
+ * two stacked sheets, the second overriding the first's hover expansion with
+ * !important from 768px up; the effective cascade is written out once here.
+ *
+ * Deliberate departures:
+ * - Live makes the section full bleed from inside a boxed Unyson column (100vw
+ *   wrapper + scripts that measure it). The block wrapper is already full width,
+ *   so the panel's hover expansion is pure CSS: centred, it only needs
+ *   (100% - 100vw) / 2 and 100vw. The section keeps overflow:hidden from 768px
+ *   so a classic scrollbar (100vw > the page) cannot add a horizontal scroll.
+ * - Card photos are <img> (object-fit: cover) instead of a background image.
+ * - Hover motion animates translate/scale; the kit reserves transform for
+ *   scroll entrances.
+ */
+
+.ap-industries,
+.ap-industries * {
+	box-sizing: border-box;
+}
+
+.ap-industries {
+	scroll-margin-top: 80px;
+	width: 100%;
+	max-width: none;
+	margin: 0;
+	position: relative;
+	overflow: hidden;
+	padding: 80px 24px;
+	background: #ffffff;
+	isolation: isolate;
+	font-family: "Manrope", Arial, sans-serif;
+}
+
+.ap-industries .ap-sector-bg {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	overflow: hidden;
+	pointer-events: none;
+}
+
+.ap-industries .ap-sector-bg-svg,
+.ap-industries .ap-sector-bg-img {
+	width: 100%;
+	height: 100%;
+	display: block;
+	max-width: none;
+	object-fit: fill;
+}
+
+.ap-industries .ap-sector-box {
+	--ap-sector-expanded-left: calc((100% - 100vw) / 2);
+	--ap-sector-expanded-width: 100vw;
+	width: min(1200px, calc(100% - 48px));
+	min-height: 1047px;
+	margin: 0 auto;
+	padding: 64px 40px;
+	position: relative;
+	z-index: 1;
+	isolation: isolate;
+	overflow: visible;
+	background: transparent;
+	border-radius: 24px;
+}
+
+/* The rounded indigo panel; from 768px it widens to the browser edges while
+ * the section is hovered or holds focus. */
+.ap-industries .ap-sector-box-bg {
+	position: absolute;
+	top: 0;
+	right: auto;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: auto;
+	z-index: 0;
+	overflow: hidden;
+	pointer-events: none;
+	background: #35307F;
+	border-radius: 24px;
+	clip-path: inset(0 round 24px);
+	will-change: left, width, border-radius, clip-path;
+	transition:
+		left 700ms cubic-bezier(0.22, 1, 0.36, 1),
+		width 700ms cubic-bezier(0.22, 1, 0.36, 1),
+		border-radius 420ms cubic-bezier(0.22, 1, 0.36, 1),
+		clip-path 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ap-industries .ap-sector-box-bg::before,
+.ap-industries .ap-sector-box-bg::after {
+	content: "";
+	position: absolute;
+	border-radius: 999px;
+	pointer-events: none;
+	opacity: 0.12;
+	filter: none; /* was blur(280px): the radial gradients are already soft, and the blur was repainted on every frame of the panel's clip-path animation */
+	transition: opacity 420ms ease;
+}
+
+.ap-industries .ap-sector-box-bg::before {
+	width: 951px;
+	height: 951px;
+	right: 713px;
+	top: 72px;
+	background: #5044E1;
+}
+
+.ap-industries .ap-sector-box-bg::after {
+	width: 853px;
+	height: 853px;
+	right: -304px;
+	top: 699px;
+	background: #00A991;
+}
+
+.ap-industries:hover .ap-sector-box-bg::before,
+.ap-industries:hover .ap-sector-box-bg::after,
+.ap-industries:focus-within .ap-sector-box-bg::before,
+.ap-industries:focus-within .ap-sector-box-bg::after {
+	opacity: 0.28;
+}
+
+.ap-industries .ap-sector-inner {
+	width: 100%;
+	max-width: 1120px;
+	margin: 0 auto;
+	position: relative;
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 40px;
+}
+
+.ap-industries .ap-sector-heading {
+	width: 100%;
+}
+
+.ap-industries .ap-sector-heading p {
+	margin: 0 0 16px;
+	color: #A7B3FA;
+	font-size: 14px;
+	line-height: 1.2;
+	font-weight: 800;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.ap-industries h2 {
+	margin: 0;
+	color: #ffffff;
+	font-size: 40px;
+	line-height: 1.2;
+	font-weight: 800;
+	letter-spacing: -0.02em;
+}
+
+.ap-industries .ap-sector-tabs {
+	display: none;
+}
+
+.ap-industries .ap-sector-grid {
+	width: 100%;
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	align-items: start;
+	gap: 32px;
+}
+
+.ap-industries .ap-sector-card {
+	width: 100%;
+	max-width: 348px;
+	height: 383px;
+	justify-self: center;
+	position: relative;
+	overflow: hidden;
+	isolation: isolate;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	padding: 168px 24px 24px;
+	border: 1px solid #483BC7;
+	border-radius: 16px;
+	background: #201C4A;
+	color: inherit;
+	text-decoration: none;
+	scroll-margin-top: 120px;
+	transition: translate 280ms ease, border-color 280ms ease, background 280ms ease;
+}
+
+/* transform: none — the staging child theme lifts every .ap-sector-card with
+ * transform on hover (a rule written for live's class names); the lift is
+ * translate here, and must not double up. */
+.ap-industries .ap-sector-card:hover,
+.ap-industries .ap-sector-card:focus-visible {
+	transform: none;
+	translate: 0 -4px;
+	border-color: #35307F;
+	background: linear-gradient(22.08deg, #5044E1 -8.27%, #201C4A 24.59%), #35307F;
+}
+
+.ap-industries .ap-sector-card:focus-visible {
+	outline: 2px solid #A7B3FA;
+	outline-offset: 3px;
+}
+
+.ap-industries .ap-card-image {
+	position: absolute;
+	top: -1px;
+	right: 0;
+	left: 0;
+	z-index: 0;
+	height: 245px;
+	transition: scale 450ms ease;
+}
+
+.ap-industries .ap-card-image img {
+	display: block;
+	width: 100%;
+	max-width: none;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+}
+
+.ap-industries .ap-sector-card:hover .ap-card-image,
+.ap-industries .ap-sector-card:focus-visible .ap-card-image {
+	scale: 1.027;
+}
+
+.ap-industries .ap-card-base-overlay {
+	position: absolute;
+	top: -1px;
+	right: 0;
+	left: 0;
+	z-index: 1;
+	height: 252px;
+	pointer-events: none;
+	background: linear-gradient(180deg, rgba(32, 28, 74, 0.18) 0%, rgba(32, 28, 74, 0.42) 46%, rgba(32, 28, 74, 0.82) 76%, #201C4A 100%);
+}
+
+.ap-industries .ap-card-hover-overlay {
+	position: absolute;
+	top: -74px;
+	right: 0;
+	left: 0;
+	z-index: 2;
+	height: 307px;
+	pointer-events: none;
+	opacity: 0;
+	background:
+		linear-gradient(33.56deg, rgba(0, 169, 145, 0) 43.2%, #00A991 114.84%),
+		linear-gradient(180deg, rgba(32, 28, 74, 0.2) 0%, #201C4A 100%);
+	transition: opacity 280ms ease;
+}
+
+.ap-industries .ap-sector-card:hover .ap-card-hover-overlay,
+.ap-industries .ap-sector-card:focus-visible .ap-card-hover-overlay {
+	opacity: 0.9;
+}
+
+.ap-industries .ap-card-bamboo {
+	position: absolute;
+	right: -56px;
+	bottom: -16px;
+	z-index: 2;
+	width: 262px;
+	height: 396px;
+	pointer-events: none;
+	opacity: 0;
+	background:
+		radial-gradient(ellipse at 78% 18%, rgba(53, 48, 127, 0.95) 0 8%, transparent 9%),
+		radial-gradient(ellipse at 54% 42%, rgba(53, 48, 127, 0.95) 0 10%, transparent 11%),
+		radial-gradient(ellipse at 32% 72%, rgba(53, 48, 127, 0.95) 0 12%, transparent 13%),
+		linear-gradient(115deg, transparent 0 42%, rgba(53, 48, 127, 0.9) 43% 46%, transparent 47% 100%);
+	transition: opacity 280ms ease;
+}
+
+.ap-industries .ap-sector-card:hover .ap-card-bamboo,
+.ap-industries .ap-sector-card:focus-visible .ap-card-bamboo {
+	opacity: 0.2;
+}
+
+.ap-industries .ap-sector-card::after {
+	content: "";
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 2;
+	height: 58%;
+	pointer-events: none;
+	background: linear-gradient(180deg, rgba(32, 28, 74, 0) 0%, rgba(32, 28, 74, 0.82) 24%, #201C4A 100%);
+}
+
+.ap-industries .ap-sector-content {
+	position: relative;
+	z-index: 5;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	width: 100%;
+	height: 100%;
+	gap: 24px;
+}
+
+.ap-industries .ap-sector-icon {
+	display: flex;
+	flex: 0 0 24px;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+}
+
+.ap-industries .ap-sector-icon img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.ap-industries .ap-sector-text {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	gap: 8px;
+}
+
+.ap-industries h3 {
+	margin: 0;
+	color: #ffffff;
+	font-size: 20px;
+	line-height: 1.2;
+	font-weight: 800;
+}
+
+.ap-industries p {
+	margin: 0;
+	color: #C8D2FD;
+	font-size: 14px;
+	line-height: 1.5;
+	font-weight: 400;
+}
+
+.ap-industries .ap-sector-link {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: auto;
+	color: #ffffff;
+	font-size: 14px;
+	line-height: 1.2;
+	font-weight: 700;
+}
+
+.ap-industries .ap-sector-link strong {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	color: #00A991;
+	font-size: 24px;
+	line-height: 1;
+	font-weight: 400;
+	transition: translate 280ms ease;
+}
+
+.ap-industries .ap-sector-card:hover .ap-sector-link strong,
+.ap-industries .ap-sector-card:focus-visible .ap-sector-link strong {
+	translate: 4px 0;
+}
+
+/* Desktop and tablet: the panel widens to the browser edges on hover. */
+@media (min-width: 768px) {
+	.ap-industries:hover .ap-sector-box-bg,
+	.ap-industries:focus-within .ap-sector-box-bg {
+		left: var(--ap-sector-expanded-left);
+		width: var(--ap-sector-expanded-width);
+		border-radius: 0;
+		clip-path: inset(0 round 0);
+	}
+}
+
+@media (max-width: 1279px) {
+	.ap-industries {
+		padding: 72px 32px;
+	}
+
+	.ap-industries .ap-sector-box {
+		width: 100%;
+		min-height: auto;
+		padding: 56px 32px;
+	}
+
+	/* QA 2026-10-29 (Joseph): two fluid columns, so the grid fills the tablet width with no empty right-hand track. */
+	.ap-industries .ap-sector-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.ap-industries .ap-sector-card {
+		max-width: none;
+	}
+}
+
+@media (max-width: 767px) {
+	/* Visible, so the chip row can stick; clipped sideways, because that row
+	 * runs past the viewport (live hides the spill with a sitewide
+	 * overflow-x:hidden on html and body). clip, unlike hidden, keeps sticky. */
+	.ap-industries {
+		padding: 56px 0;
+		overflow: visible;
+		overflow-x: clip;
+	}
+
+	.ap-industries .ap-sector-box {
+		width: 100%;
+		padding: 40px 20px;
+		border-radius: 20px;
+	}
+
+	/* Phones keep a regular rounded panel, with no hover expansion. */
+	.ap-industries .ap-sector-box-bg {
+		border-radius: 20px;
+		clip-path: inset(0 round 20px);
+	}
+
+	.ap-industries .ap-sector-inner {
+		gap: 20px;
+	}
+
+	.ap-industries .ap-sector-heading p {
+		font-size: 12px;
+	}
+
+	.ap-industries h2 {
+		font-size: 24px;
+	}
+
+	.ap-industries .ap-sector-tabs {
+		position: sticky;
+		top: 0;
+		z-index: 6;
+		display: flex;
+		width: calc(100% + 40px);
+		/* Live's section sheet says margin 0 -20px / padding 12px 20px, but a
+		 * sitewide html body nav.ap-sector-tabs override (!important, up to
+		 * 1279px) zeroes the margins and the left padding: the chip row starts
+		 * at the panel's content edge and runs 40px past its right edge. */
+		margin: 0;
+		padding: 12px 16px 12px 0;
+		gap: 12px;
+		overflow-x: auto;
+		background: #35307F;
+		-webkit-overflow-scrolling: touch;
+		scrollbar-width: none;
+		scroll-snap-type: x proximity;
+	}
+
+	.ap-industries .ap-sector-tabs::-webkit-scrollbar {
+		display: none;
+	}
+
+	.ap-industries .ap-sector-tab {
+		display: inline-flex;
+		flex: 0 0 auto;
+		align-items: center;
+		gap: 8px;
+		padding: 5px 12px 5px 8px;
+		border-radius: 80px;
+		background: #201C4A;
+		color: #ffffff;
+		font-size: 12px;
+		font-weight: 700;
+		text-decoration: none;
+		white-space: nowrap;
+		scroll-snap-align: start;
+	}
+
+	.ap-industries .ap-sector-tab img {
+		display: block;
+		flex: 0 0 20px;
+		width: 20px;
+		height: 20px;
+		object-fit: contain;
+	}
+
+	.ap-industries .ap-sector-grid {
+		grid-template-columns: 1fr;
+		gap: 20px;
+	}
+
+	.ap-industries .ap-sector-card {
+		width: 100%;
+		max-width: none;
+		height: auto;
+		min-height: 340px;
+	}
+}
+
+@media (max-width: 420px) {
+	.ap-industries .ap-sector-box {
+		padding: 36px 16px;
+	}
+
+	.ap-industries h2 {
+		font-size: 22px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-industries .ap-sector-box-bg,
+	.ap-industries .ap-sector-box-bg::before,
+	.ap-industries .ap-sector-box-bg::after,
+	.ap-industries .ap-sector-card,
+	.ap-industries .ap-card-image,
+	.ap-industries .ap-card-hover-overlay,
+	.ap-industries .ap-card-bamboo,
+	.ap-industries .ap-sector-link strong {
+		transition: none;
+	}
+}
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: --ap-section-y above and below the sector panel (was 80 / 72
+ * / 56 by width); the panel keeps its own inner padding. */
+html body .ap-industries.ap-industries { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+
+/* PageSpeed (QA 2026-10-27): the panel's two backdrop glows were 951px and
+ * 853px solid circles under blur(280px), one of the costliest paints on the
+ * page on phones. The same glows are now radial gradients on circles grown
+ * by the blur radius (solid core, fading to nothing at the old blur edge):
+ * no filter, same look. */
+.ap-industries .ap-sector-box-bg::before,
+.ap-industries .ap-sector-box-bg::after { filter: none; }
+.ap-industries .ap-sector-box-bg::before {
+	width: 1511px;
+	height: 1511px;
+	right: 433px;
+	top: -208px;
+	background: radial-gradient(circle closest-side, #5044E1 26%, rgba(80, 68, 225, .5) 55%, rgba(80, 68, 225, 0) 100%);
+}
+.ap-industries .ap-sector-box-bg::after {
+	width: 1413px;
+	height: 1413px;
+	right: -584px;
+	top: 419px;
+	background: radial-gradient(circle closest-side, #00A991 21%, rgba(0, 169, 145, .5) 52%, rgba(0, 169, 145, 0) 100%);
+}
+
+/* Phones (QA 2026-10-27): the panel ran edge to edge with 20px rounded
+ * corners cut off by the screen edge. It is a full-bleed band there now
+ * (square corners), so it reads as a deliberate dark section. */
+@media (max-width: 767px) {
+	html body .ap-industries .ap-sector-box { border-radius: 0; }
+	html body .ap-industries .ap-sector-box-bg { border-radius: 0; clip-path: none; }
+}
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-industries.ap-industries.ap-industries h2 { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+
+/* ------------------------------------------------------------ Motion (QA 2026-10-28, motion agent's R1)
+ * The panel used to widen to the browser edges by animating left / width /
+ * border-radius: a full-width box with two ~1500px glows re-laid-out and
+ * repainted every frame (30 of ~40 frames slow, worst 67-83ms). Now the
+ * indigo panel is sized to the whole section from the start and only its
+ * clip-path animates: at rest it is clipped to the card-sized rounded panel
+ * (exactly where it sat before), on hover / focus the clip opens to the
+ * section edges. Nothing is laid out per frame. The glows are anchored to the
+ * card area as before, so they no longer slide while the panel opens. */
+@media (min-width: 768px) {
+	html body .ap-industries .ap-sector-box { position: static; }
+	html body .ap-industries .ap-sector-box-bg {
+		--ap-sector-ix: max(48px, calc(50% - 600px));
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		width: auto;
+		border-radius: 0;
+		clip-path: inset(var(--ap-section-y, 64px) var(--ap-sector-ix) var(--ap-section-y, 64px) round 24px);
+		will-change: clip-path;
+		transition: clip-path 700ms cubic-bezier(0.22, 1, 0.36, 1);
+	}
+	html body .ap-industries:hover .ap-sector-box-bg,
+	html body .ap-industries:focus-within .ap-sector-box-bg {
+		left: 0;
+		width: auto;
+		border-radius: 0;
+		clip-path: inset(var(--ap-section-y, 64px) 0 var(--ap-section-y, 64px) round 0);
+	}
+	html body .ap-industries .ap-sector-box-bg::before { right: calc(var(--ap-sector-ix) + 433px); top: calc(var(--ap-section-y, 64px) - 208px); }
+	html body .ap-industries .ap-sector-box-bg::after { right: calc(var(--ap-sector-ix) - 584px); top: calc(var(--ap-section-y, 64px) + 419px); }
+	html body .ap-industries .ap-sector-box-bg::before,
+	html body .ap-industries .ap-sector-box-bg::after { transition: opacity var(--ap-dur-base, 300ms) var(--ap-ease-standard, ease); }
+}
+@media (min-width: 768px) and (max-width: 1279px) {
+	html body .ap-industries .ap-sector-box-bg { --ap-sector-ix: 32px; }
+}
+@media (min-width: 768px) and (prefers-reduced-motion: reduce) {
+	html body .ap-industries .ap-sector-box-bg { transition: none; }
+}
+/* PageSpeed: on phones the section's blurred "aurora" SVG (a 120px Gaussian
+ * blur over the whole section) sits entirely behind the full-bleed panel, so
+ * it is not painted at all there. */
+@media (max-width: 767px) {
+	html body .ap-industries .ap-sector-bg { display: none; }
+}
+
+/* QA 2026-10-29 (Joseph: "something wrong on this section before it fully loads"): the panel animates its own
+ * shape (clip-path / left / width), so a late style change while the page is still loading replayed that animation
+ * and drew the panel offset from its text. Until motion.js has run (it marks <html data-ap-motion-ready> once the
+ * stylesheets are in), the panel and its glows take their final shape with no transition. The section's top edge is
+ * white (the background art's top ellipse was #F9FAFB, a grey band under the section above). */
+:root:not([data-ap-motion-ready]) .ap-industries .ap-sector-box-bg,
+:root:not([data-ap-motion-ready]) .ap-industries .ap-sector-box-bg::before,
+:root:not([data-ap-motion-ready]) .ap-industries .ap-sector-box-bg::after,
+:root:not([data-ap-motion-ready]) .ap-industries .ap-sector-card {
+	transition: none !important;
+}

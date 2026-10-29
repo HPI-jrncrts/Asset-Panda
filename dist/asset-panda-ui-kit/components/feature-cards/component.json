@@ -1,0 +1,12 @@
+{
+	"name": "feature-cards",
+	"description": "Two-column section: heading block on the left, a two-column checklist of capabilities on the right. Figma: Home Page > Intelligence In Action (4331:24627).",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading. Line breaks are kept." },
+		"title_accent": { "type": "string", "required": false, "default": "", "description": "Final heading line rendered in the brand gradient, e.g. 'One source of truth.'" },
+		"intro": { "type": "string", "required": false, "default": "", "description": "Supporting paragraph under the heading. Line breaks are kept." },
+		"items": { "type": "array", "required": true, "description": "Checklist entries. Each: `title` and `body`, both required." },
+		"reveal": { "type": "boolean", "required": false, "default": true, "description": "Stagger items in on scroll." }
+	}
+}

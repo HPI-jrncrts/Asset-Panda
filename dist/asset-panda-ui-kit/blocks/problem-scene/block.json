@@ -1,0 +1,94 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/problem-scene",
+	"title": "AP Problem Scene",
+	"category": "design",
+	"icon": "warning",
+	"description": "Hub problem section: centred heading and lede over two overlapping photos with four coloured chips around them, then a panda CTA bar. Live: #ap-gov-problem on the industry hubs. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"background": {
+			"type": "string",
+			"default": ""
+		},
+		"images": {
+			"type": "array",
+			"default": []
+		},
+		"chips": {
+			"type": "array",
+			"default": []
+		},
+		"cta_title": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_body": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_icon": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_label": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_url": {
+			"type": "string",
+			"default": ""
+		},
+		"scene_height": {
+			"type": "number",
+			"default": 0
+		},
+		"variant": {
+			"type": "string",
+			"default": "default",
+			"enum": [
+				"default",
+				"readiness",
+				"eduhub"
+			]
+		},
+		"mobile_background": {
+			"type": "string",
+			"default": ""
+		},
+		"stack": {
+			"type": "string",
+			"default": "1024",
+			"enum": [
+				"1024",
+				"900"
+			]
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

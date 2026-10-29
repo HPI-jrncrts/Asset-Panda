@@ -29,6 +29,15 @@
 			"required": false,
 			"default": "",
 			"description": "Supporting paragraph under the sticky heading."
-		}
+		},
+		"variant": {
+			"type": "string",
+			"required": false,
+			"default": "default",
+			"enum": [ "default", "solution" ],
+			"description": "solution: the industry hubs' and solution pages' feature list (item headings at line-height 1.3)."
+		},
+		"head_space": { "type": "object", "required": false, "default": {}, "description": "Space above and below the heading per step, in px, keyed 1024, 991, 768, 560, each [top, bottom] (live Police: its own 991px step). Leave empty for the shared spacing." },
+		"stack": { "type": "string", "required": false, "default": "1024", "enum": [ "1024", "900" ], "description": "Width at which the layout stacks: 1024px (the hubs) or 900px (the Education hub)." }
 	}
 }

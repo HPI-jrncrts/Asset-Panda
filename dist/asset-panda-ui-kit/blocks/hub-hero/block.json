@@ -1,0 +1,97 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/hub-hero",
+	"title": "AP Hub Hero",
+	"category": "design",
+	"icon": "cover-image",
+	"description": "Industry hub hero: headline with a gradient lead phrase, badges and a demo button over a dashboard backdrop with up to three cut-out photos, and a strip of three feature chips (a marquee on phones). Live: #ap-gov-hero on the government, healthcare, construction and manufacturing hubs. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"title_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_label": {
+			"type": "string",
+			"default": "Free Demo"
+		},
+		"cta_url": {
+			"type": "string",
+			"default": "/get-a-demo/"
+		},
+		"badges": {
+			"type": "array",
+			"default": []
+		},
+		"background": {
+			"type": "string",
+			"default": ""
+		},
+		"mobile_background": {
+			"type": "string",
+			"default": ""
+		},
+		"photos": {
+			"type": "array",
+			"default": []
+		},
+		"ratio": {
+			"type": "string",
+			"default": "1440/640"
+		},
+		"mobile_ratio": {
+			"type": "string",
+			"default": "393/378"
+		},
+		"veil_height": {
+			"type": "number",
+			"default": 58.125
+		},
+		"content_top": {
+			"type": "number",
+			"default": 0
+		},
+		"features_band": {
+			"type": "boolean",
+			"default": false
+		},
+		"features": {
+			"type": "array",
+			"default": []
+		},
+		"variant": {
+			"type": "string",
+			"default": "default",
+			"enum": [
+				"default",
+				"eduhub"
+			]
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

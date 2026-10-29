@@ -1,0 +1,15 @@
+{
+	"name": "mission",
+	"description": "Values section: heading, then a photo beside a bordered pull quote, supporting copy and one call to action. Figma: Home Page > The Heart Behind Asset Panda (5118:60737).",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading. Line breaks are kept." },
+		"image": { "type": "string", "required": false, "default": "", "description": "Photo URL shown left of the quote." },
+		"image_alt": { "type": "string", "required": false, "default": "", "description": "Alt text for the photo." },
+		"statement": { "type": "string", "required": false, "default": "", "description": "The pull quote." },
+		"body": { "type": "string", "required": false, "default": "", "description": "Paragraph under the quote. Line breaks are kept." },
+		"cta_label": { "type": "string", "required": false, "default": "", "description": "Button text. Renders only with cta_url." },
+		"cta_url": { "type": "string", "required": false, "default": "", "description": "Button destination." },
+		"reveal": { "type": "boolean", "required": false, "default": true, "description": "Reveal on scroll." }
+	}
+}

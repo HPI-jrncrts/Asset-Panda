@@ -1,0 +1,230 @@
+/*
+ * capability-scene — ported from the live .apx-int section.
+ *
+ * The live sheet owns its whole section, so every selector is scoped under the
+ * component root and the keyframes are renamed; the inner class names are kept
+ * so the port stays diffable against live.
+ */
+
+.ap-capability-scene{
+      --i:#5044e1; --t:#00a991; --ink:#25272c; --body:#4a4e5a;
+      position:relative; isolation:isolate; box-sizing:border-box; overflow:hidden;
+      width:100%; /* live broke out of the theme container with 100vw; the block is already full width */
+      font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+      color:var(--ink);
+      background:linear-gradient(180deg,#ffffff 0%, #f9fafb 100%);
+    }
+.ap-capability-scene *,.ap-capability-scene *::before,.ap-capability-scene *::after{box-sizing:border-box;}
+/* The dev theme sets text-wrap:pretty on headings and paragraphs; live wraps
+   greedily, so line breaks only match with the default restored. :where() keeps
+   this at class weight, so any later rule in this sheet still wins. */
+.ap-capability-scene :where(h1,h2,h3,h4,h5,h6,blockquote,caption,figcaption,p){text-wrap:wrap;}
+.ap-capability-scene__glow{position:absolute; inset:0; z-index:0; pointer-events:none;
+      background-image:url('/wp-content/uploads/2026/08/Intelligence-Built-In-Section.png.webp');
+      background-repeat:no-repeat; background-position:center; background-size:100% 100%;
+    }
+.ap-capability-scene__wrap{
+      position:relative; z-index:1;
+      width:100%; max-width:1200px; margin:0 auto; padding:80px 40px 112px;   
+      display:flex; flex-direction:column; gap:80px;
+    }
+.ap-capability-scene__top{display:flex; gap:40px; align-items:flex-end;}
+.ap-capability-scene__head{position:static;height:auto;background:none;flex:1 1 0; min-width:0; max-width:480px; display:flex; flex-direction:column; gap:16px;}
+.ap-capability-scene__eyebrow{margin:0; font-size:14px; font-weight:800; line-height:1.2; letter-spacing:.56px; text-transform:uppercase; color:var(--i);}
+.ap-capability-scene__title{margin:0; font-size:40px; font-weight:800; line-height:1.2; color:var(--ink);}
+.ap-capability-scene__lede{flex:1 1 0; min-width:0; margin:0; font-size:18px; font-weight:400; line-height:1.5; color:var(--body);}
+.ap-capability-scene .apx-g{
+      background:linear-gradient(62deg,#5044e1 4%,#00a991 55%);
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+.ap-capability-scene .apx-sup{font-size:.645em; vertical-align:.42em; margin-left:1px;}
+/* The kit renders the brand mark as <span class="ap-ursa">Ursa<sup>AI</sup></span>;
+   live sizes it with .apx-sup. Same numbers, so the line boxes match. */
+.ap-capability-scene .ap-ursa sup{font-size:.645em; vertical-align:.42em; margin-left:1px;}
+.ap-capability-scene__cards{display:flex; gap:64px; align-items:center; justify-content:center;}
+.ap-capability-scene__col{flex:1 1 0; min-width:0; display:flex; flex-direction:column; gap:40px;}
+.ap-capability-scene__card{display:flex; flex-direction:column; gap:16px;}
+.ap-capability-scene__k{margin:0; font-size:16px; font-weight:800; line-height:1.2;
+      background:linear-gradient(76deg,#5044e1 4%,#00a991 55%);
+      -webkit-background-clip:text; background-clip:text; color:transparent;}
+.ap-capability-scene__ct{margin:0; font-size:20px; font-weight:800; line-height:1.4; color:var(--ink);}
+.ap-capability-scene__cb{margin:0; font-size:18px; font-weight:400; line-height:1.5; color:var(--body);}
+.ap-capability-scene__panel{
+      flex:none; width:330.67px; align-self:stretch; position:relative; z-index:2;
+      border-radius:16px; border:1px solid #fff; background:rgba(255,255,255,.24);
+      min-height:470px;
+    }
+.ap-capability-scene__paneltop{position:absolute; z-index:3; left:23.33px; right:24.33px; top:19px; padding-top:8px; display:flex; flex-direction:column; gap:8px;}
+.ap-capability-scene__lines{margin:0; font-size:16px; font-weight:700; line-height:1.2; color:var(--ink);}
+.ap-capability-scene__lines>span{display:block;}
+.ap-capability-scene__meet{margin:0; font-size:14px; font-weight:400; line-height:1.5; color:var(--body);}
+.ap-capability-scene__meet a{font-weight:700; color:inherit; text-decoration:none;}
+.ap-capability-scene__meet a:hover{text-decoration:underline;}
+.ap-capability-scene__art{position:absolute; z-index:1; left:52%; bottom:0; transform:translateX(-50%);
+      width:128%; max-width:424px; height:auto; display:block;}
+@media (max-width:1080px){.ap-capability-scene__cards{gap:36px;}
+.ap-capability-scene__panel{width:290px;}
+}
+@media (max-width:900px){.ap-capability-scene__wrap{padding:64px 24px 80px; gap:48px;}
+.ap-capability-scene__top{flex-direction:column; align-items:flex-start; gap:16px;}
+.ap-capability-scene__head{max-width:none;}
+.ap-capability-scene__title{font-size:32px;}
+.ap-capability-scene__cards{flex-direction:column; gap:40px;}
+.ap-capability-scene__col{width:100%;}
+.ap-capability-scene__panel{width:100%; max-width:420px; align-self:center; min-height:0; order:1;
+        padding:19px 24px 0; display:flex; flex-direction:column;
+        background:rgba(255,255,255,.55); border:1px solid #fff;
+        box-shadow:0 8px 30px rgba(120,130,200,.12);}
+.ap-capability-scene__col{order:0;}
+.ap-capability-scene__paneltop{position:static; left:auto; right:auto; top:auto;}
+.ap-capability-scene__art{position:static; transform:none; left:auto; bottom:auto;
+        width:calc(100% + 48px); max-width:none; margin:12px -24px -1px;}
+}
+@media (max-width:1000px){.ap-capability-scene__top,.ap-capability-scene__cards,.ap-capability-scene__col,.ap-capability-scene__card{
+        position:static !important;
+        inset:auto !important;
+        transform:none !important;
+        z-index:auto !important;
+        will-change:auto !important;
+      }
+.ap-capability-scene__top{
+        display:flex !important;
+        flex-direction:column !important;
+        align-items:flex-start !important;
+        width:100% !important;
+      }
+.ap-capability-scene__cards{
+        display:flex !important;
+        flex-direction:column !important;
+        align-items:stretch !important;
+        width:100% !important;
+        gap:32px !important;
+      }
+.ap-capability-scene__col{
+        display:flex !important;
+        flex-direction:column !important;
+        width:100% !important;
+        min-width:0 !important;
+        gap:32px !important;
+        order:0 !important;
+      }
+.ap-capability-scene__card{
+        width:100% !important;
+        height:auto !important;
+      }
+.ap-capability-scene__panel{
+        position:relative !important;
+        display:flex !important;
+        flex-direction:column !important;
+        width:100% !important;
+        max-width:420px !important;
+        min-height:0 !important;
+        height:auto !important;
+        align-self:center !important;
+        order:1 !important;
+        padding:19px 24px 0 !important;
+      }
+.ap-capability-scene__paneltop{
+        position:static !important;
+        left:auto !important;
+        right:auto !important;
+        top:auto !important;
+        width:auto !important;
+      }
+.ap-capability-scene__art{
+        position:static !important;
+        left:auto !important;
+        bottom:auto !important;
+        transform:none !important;
+        width:calc(100% + 48px) !important;
+        max-width:none !important;
+        height:auto !important;
+        margin:12px -24px -1px !important;
+      }
+}
+@media (max-width:560px){.ap-capability-scene__wrap{padding:56px 20px 64px;}
+.ap-capability-scene__title{font-size:27px;}
+.ap-capability-scene__lede,.ap-capability-scene__cb{font-size:16px;}
+.ap-capability-scene__ct{font-size:18px;}
+}
+
+/* Optional closing buttons (Ursa AI frame 7261:111751): outline teal, then the solid gradient; centred, 16px apart. */
+.ap-capability-scene__cta{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;}
+.ap-capability-scene__btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:14px 16px;border-radius:4px;font-size:16px;font-weight:600;line-height:1.2;text-decoration:none;white-space:nowrap;transition:box-shadow .3s cubic-bezier(.25,.45,.45,.95),translate .3s cubic-bezier(.25,.45,.45,.95);}
+.ap-capability-scene__btn--solid{background:linear-gradient(42.98deg,#5044e1 0%,#00a991 70.44%);border:1px solid #5044e1;color:#fff;}
+.ap-capability-scene__btn--outline{background:#fff;border:1px solid #00a991;color:#00a991;}
+.ap-capability-scene__btn:hover{translate:0 -2px;box-shadow:0 8px 20px rgba(37,39,44,.12);}
+@media (max-width:560px){.ap-capability-scene__btn{flex:1 1 100%;white-space:normal;}}
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: --ap-section-y top and bottom (was 80 / 112, 64 / 80, 56 / 64 by width). */
+html body .ap-capability-scene .ap-capability-scene__wrap { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-capability-scene.ap-capability-scene.ap-capability-scene .ap-capability-scene__title { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+/* Section eyebrow on the type scale too: 12px at 390 to 14px at 1440, 800, 4% tracking, upper case. */
+html body .ap-capability-scene.ap-capability-scene.ap-capability-scene .ap-capability-scene__eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }
+
+/* lines_size "lg" (Ursa AI frame 7261:111780): 20/1.4/800 lines in a 510px panel. */
+.ap-capability-scene--lines-lg .ap-capability-scene__lines{font-size:20px; font-weight:800; line-height:1.4;}
+@media (min-width:901px){
+	.ap-capability-scene--lines-lg .ap-capability-scene__panel{min-height:510px;}
+}
+@media (max-width:560px){
+	.ap-capability-scene--lines-lg .ap-capability-scene__lines{font-size:18px;}
+}
+
+/* ------------------------------------------------------------ QA 2026-10-29 (Joseph: "make the Ursa AI orb float")
+ * The orb is painted into the panda artwork (Group-5452), so render.php draws that file twice in one box: the
+ * panda layer with the orb masked out, and an orb layer masked to the orb alone (solid to 64px from its centre at
+ * 150, 151 of the 424 × 417 file, feathered out to 76px, short of the paws). The two masks are exact complements
+ * and the orb layer adds with plus-lighter inside the isolated box, so at rest the pair rebuilds the original
+ * pixel for pixel. The orb then drifts up ~1.6% of the art (≈7px at full size) and back on a 6s ease-in-out loop,
+ * with a soft teal/indigo halo behind it brightening at the top of the drift. Compositor-only (translate, opacity).
+ * Reduced motion, or no mask / plus-lighter support: one plain image, exactly as before. */
+.ap-capability-scene .ap-capability-scene__art--orb{
+	--ap-cs-orb-at:35.377% 36.211%;   /* centre: 150, 151 */
+	--ap-cs-orb-r:17.925% 18.225%;    /* 76px across 424 and 417 */
+	--ap-cs-orb-solid:84.21%;         /* 64 / 76 */
+	display:grid; isolation:isolate;
+}
+.ap-capability-scene__art--orb > img,
+.ap-capability-scene__art--orb::before{grid-area:1 / 1; display:block; width:100%; height:auto; max-width:none;}
+.ap-capability-scene__orb{display:none;}
+@supports ((mask-image:none) or (-webkit-mask-image:none)) and (mix-blend-mode:plus-lighter){
+	@media (prefers-reduced-motion:no-preference){
+		.ap-capability-scene__art--orb .ap-capability-scene__artimg{
+			-webkit-mask-image:radial-gradient(var(--ap-cs-orb-r) at var(--ap-cs-orb-at), transparent var(--ap-cs-orb-solid), #000 100%);
+			        mask-image:radial-gradient(var(--ap-cs-orb-r) at var(--ap-cs-orb-at), transparent var(--ap-cs-orb-solid), #000 100%);
+		}
+		.ap-capability-scene__art--orb .ap-capability-scene__orb{
+			display:block; position:relative; z-index:2; mix-blend-mode:plus-lighter;
+			-webkit-mask-image:radial-gradient(var(--ap-cs-orb-r) at var(--ap-cs-orb-at), #000 var(--ap-cs-orb-solid), transparent 100%);
+			        mask-image:radial-gradient(var(--ap-cs-orb-r) at var(--ap-cs-orb-at), #000 var(--ap-cs-orb-solid), transparent 100%);
+			animation:apCapabilitySceneOrbFloat 6s ease-in-out infinite; will-change:translate;
+		}
+		.ap-capability-scene__art--orb::before{
+			content:""; align-self:stretch; z-index:0; pointer-events:none; opacity:.3;
+			background:radial-gradient(25% 25.4% at var(--ap-cs-orb-at), rgba(0,169,145,0) 50%, rgba(0,169,145,.2) 64%, rgba(80,68,225,.12) 80%, rgba(80,68,225,0) 100%);
+			animation:apCapabilitySceneOrbGlow 6s ease-in-out infinite; will-change:translate, opacity;
+		}
+		.ap-capability-scene__art--orb .ap-capability-scene__artimg{position:relative; z-index:1;}
+	}
+}
+@keyframes apCapabilitySceneOrbFloat{0%,100%{translate:0 0;} 50%{translate:0 -1.6%;}}
+@keyframes apCapabilitySceneOrbGlow{0%,100%{translate:0 0; opacity:.3;} 50%{translate:0 -1.6%; opacity:.9;}}
+
+/* ------------------------------------------------------------ QA 2026-10-29 (Figma QA)
+ * Sections without a colour gradient are pure white (Joseph, sitewide): the base white-to-#f9fafb fade ended in a
+ * grey band against the white section below (/asset-intelligence-platform/, /ursa-ai/, /solutions/enterprise/).
+ * The glow artwork (Intelligence-Built-In-Section, stretched over the section) has the same fade baked in — white at
+ * the top, #f9fbfc along the bottom edge — so the base turns white and the artwork fades out over its last 160px
+ * into it. The blooms behind the cards are untouched. */
+.ap-capability-scene { background: #fff; }
+.ap-capability-scene .ap-capability-scene__glow {
+	-webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 160px), transparent 100%);
+	        mask-image: linear-gradient(180deg, #000 calc(100% - 160px), transparent 100%);
+}

@@ -1,0 +1,11 @@
+{
+	"name": "platform-stack",
+	"description": "Capability cards beside a numbered index that tracks the card being read: tinted cards with title, copy, link, a product screenshot and a hover preview. Live: the homepage #ap-platform-stack-v3 section (markup and sheets ported).",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading. Line breaks are kept." },
+		"intro": { "type": "string", "required": false, "default": "", "description": "Supporting paragraph under the heading." },
+		"nav_title": { "type": "string", "required": false, "default": "Platform capabilities", "description": "Accessible name for the index." },
+		"items": { "type": "array", "required": true, "description": "Cards, in order. Each: title and body (required); anchor (card id the index links to and live keys colour by, e.g. ap-card-lifecycle), nav_label (index text, e.g. \"01 Asset Management\"), tone (custom, gold, pink, green), link_tone (purple, gold, pink, green), link_label, link_url, image / image_alt / image_w / image_h (screenshot), image_hover / image_hover_alt / hover_w / hover_h (hover preview), hover_slot (1-7, the preview's placement), hover_bg (image swapped in behind the preview), visual_custom (first card's wider visual). The word UrsaAI is styled as the brand mark." }
+	}
+}

@@ -40,6 +40,10 @@
 			"type": "array",
 			"default": []
 		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
 		"sub_title": {
 			"type": "string",
 			"default": ""
@@ -59,6 +63,31 @@
 		"ctas": {
 			"type": "array",
 			"default": []
+		},
+		"lede_max": {
+			"type": "number",
+			"default": 856
+		},
+		"lede_size_m": {
+			"type": "number",
+			"default": 18
+		},
+		"outline_fixed": {
+			"type": "boolean",
+			"default": false
+		},
+		"cta_stack": {
+			"type": "number",
+			"default": 0,
+			"enum": [
+				0,
+				640,
+				768
+			]
+		},
+		"cta_top_tablet": {
+			"type": "number",
+			"default": 24
 		},
 		"align": {
 			"type": "string",

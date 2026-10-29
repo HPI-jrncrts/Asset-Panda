@@ -1,0 +1,180 @@
+/*
+ * demo-stats — Stats band under the split booking hero (live #ap-demo-stats on www /get-a-demo/).
+ *
+ * Ported class-for-class from the live sheet (worktree get-a-demo-calcom @5ae4e90,
+ * regenerate with scratchpad agents/demo/port-css.mjs): every selector is scoped under the
+ * component root, live's section id becomes the root class, and the inner class names are kept
+ * so the port stays diffable against live. Source comments say Page A for the weekly page
+ * (split layout, now www /get-a-demo/) and Page B for the month page (centered layout).
+ *
+ * Weights: live serves Manrope as static 300/400/700/800 faces, so its 600 draws as 700 and its
+ * 500 as 400; the dev theme's Manrope is variable, so this port states the weight live shows.
+ */
+
+
+/* Same font guard the live ap-* pages ship; the theme otherwise forces its own font. */
+.ap-demo-stats,
+.ap-demo-stats h1,
+.ap-demo-stats h2,
+.ap-demo-stats h3,
+.ap-demo-stats p,
+.ap-demo-stats span,
+.ap-demo-stats a,
+.ap-demo-stats li,
+.ap-demo-stats button,
+.ap-demo-stats input,
+.ap-demo-stats select,
+.ap-demo-stats label,
+.ap-demo-stats div {
+	font-family: "Manrope",Arial,sans-serif!important;
+}
+.ap-demo-stats.ap-d26-sec,
+.ap-demo-stats.ap-d26-sec *,
+.ap-demo-stats.ap-d26-sec *::before,
+.ap-demo-stats.ap-d26-sec *::after {
+	box-sizing: border-box;
+}
+.ap-demo-stats.ap-d26-sec {
+	position: relative;
+	width: 100%;
+	margin: 0;
+}
+
+/* The number box hugs its digits (as the homepage's .ap-stat does), so the gradient runs across
+   them rather than the whole column; a hidden copy of the final value (.ap-d26-stat-ghost) holds
+   that width while behaviour.js counts up from 0. */
+.ap-demo-stats .ap-d26-stat-num {
+	display: inline-grid;
+	align-self: flex-start;
+	justify-items: start;
+	font-size: 28px;
+	font-weight: 800;
+	line-height: 1.2;
+	font-variant-numeric: tabular-nums;
+	background-image: linear-gradient(45.36deg,#5044e1 3.63%,#00a991 50.12%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	-webkit-text-fill-color: transparent;
+}
+.ap-demo-stats .ap-d26-stat-num>span {
+	grid-area: 1/1;
+}
+.ap-demo-stats .ap-d26-stat-ghost {
+	visibility: hidden;
+}
+.ap-demo-stats .ap-d26-stat-label {
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1.5;
+	color: #4b5563;
+}
+
+/* Stats band (6937:66411). */
+.ap-demo-stats.ap-d26-sec {
+	padding: 40px 160px;
+	background: #fff;
+}
+.ap-demo-stats .ap-d26-v1-stats {
+	display: flex;
+	gap: 40px;
+	max-width: 1120px;
+	margin: 0 auto;
+	padding: 0;
+	list-style: none;
+}
+.ap-demo-stats .ap-d26-v1-stats li {
+	display: flex;
+	flex: 1 1 0;
+	flex-direction: column;
+	gap: 8px;
+	min-width: 0;
+	margin: 0;
+	padding: 0;
+}
+.ap-demo-stats .ap-d26-v1-stats .ap-d26-stat-num {
+	font-size: 48px;
+	background-image: linear-gradient(35.28deg,#5044e1 3.63%,#00a991 50.12%);
+}
+.ap-demo-stats .ap-d26-v1-stats .ap-d26-stat-label {
+	font-size: 18px;
+	font-weight: 800;
+	line-height: 1.2;
+}
+@media (max-width:1279px) {
+	.ap-demo-stats.ap-d26-sec {
+		padding-right: 40px;
+		padding-left: 40px;
+	}
+}
+@media (max-width:1023px) {
+	.ap-demo-stats .ap-d26-v1-stats .ap-d26-stat-num {
+		font-size: 40px;
+	}
+	.ap-demo-stats .ap-d26-v1-stats .ap-d26-stat-label {
+		font-size: 16px;
+	}
+}
+@media (max-width:767px) {
+	.ap-demo-stats.ap-d26-sec {
+		padding: 32px 16px;
+	}
+}
+
+/* Phones, both pages: the three stats stack, centred and big (Joseph 2026-10-09). */
+@media (max-width:767px) {
+	.ap-demo-stats .ap-d26-v1-stats {
+		flex-direction: column;
+		align-items: center;
+		gap: 32px;
+		text-align: center;
+	}
+	.ap-demo-stats .ap-d26-v1-stats li {
+		flex: none;
+		align-items: center;
+		width: 100%;
+	}
+	.ap-demo-stats .ap-d26-stat-num,
+	.ap-demo-stats .ap-d26-v1-stats .ap-d26-stat-num {
+		align-self: center;
+		justify-items: center;
+		font-size: 56px;
+		line-height: 1.1;
+	}
+	.ap-demo-stats .ap-d26-stat-label,
+	.ap-demo-stats .ap-d26-v1-stats .ap-d26-stat-label {
+		font-size: 18px;
+		font-weight: 800;
+		line-height: 1.25;
+	}
+}
+
+/* ---------- Page A above the fold, desktop (Joseph + Jephonie 2026-10-13) ----------
+   The hero and the stats band fill exactly one screen under the site header and never change
+   height with their content, so revealing the names or opening the calendar cannot push the
+   stats down. behaviour.js measures the window (--ap-d26-vh) and where the hero starts
+   (--ap-d26-fold-top) on load and resize only. Inside the fixed hero, the times scroll in their
+   own box, and on shorter screens the testimonial text, the badges and the lead line shrink. */
+@media (min-width:1024px) {
+	.ap-demo-stats.ap-d26-sec {
+		display: flex;
+		align-items: center;
+		height: 128px;
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+	.ap-demo-stats.ap-d26-sec .ap-d26-v1-stats {
+		width: 100%;
+	}
+}
+@media (min-width:1024px) and (max-height:760px) {
+	.ap-demo-stats.ap-d26-sec {
+		height: 108px;
+	}
+	.ap-demo-stats.ap-d26-sec .ap-d26-v1-stats .ap-d26-stat-num {
+		font-size: 40px;
+	}
+	.ap-demo-stats.ap-d26-sec .ap-d26-v1-stats .ap-d26-stat-label {
+		font-size: 16px;
+	}
+}

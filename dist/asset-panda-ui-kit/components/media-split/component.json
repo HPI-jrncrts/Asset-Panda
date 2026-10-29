@@ -1,0 +1,111 @@
+{
+	"name": "media-split",
+	"description": "Split row: copy with explore links beside a composed scene of floating images and soft glows (the Ursa and integrations scenes). Live: the rows inside #ap-gov-intel on the industry hubs.",
+	"props": {
+		"eyebrow": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Small label above the heading."
+		},
+		"title": {
+			"type": "string",
+			"required": true,
+			"description": "Heading."
+		},
+		"title_accent": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Part of the heading painted with the brand gradient."
+		},
+		"body": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Paragraph under the heading."
+		},
+		"links": {
+			"type": "array",
+			"required": false,
+			"default": [],
+			"description": "Explore links. Each: label, url."
+		},
+		"reverse": {
+			"type": "boolean",
+			"required": false,
+			"default": false,
+			"description": "Put the scene on the right."
+		},
+		"images": {
+			"type": "array",
+			"required": false,
+			"default": [],
+			"description": "Scene images. Each: image, x, y, w (% of the 546 by 364 scene); optional float and crop (true/false)."
+		},
+		"glows": {
+			"type": "array",
+			"required": false,
+			"default": [],
+			"description": "Soft glows. Each: x, y, w, h (%) and color (rgb/rgba)."
+		},
+		"sub_title": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Sub-heading above the body copy."
+		},
+		"bullets": {
+			"type": "array",
+			"required": false,
+			"default": [],
+			"description": "Bullet list under the body copy. Plain strings."
+		},
+		"chips": {
+			"type": "array",
+			"required": false,
+			"default": [],
+			"description": "Labels pinned over the scene. Each: label, x, y, w (% of the scene); icon (URL) or icon_svg."
+		},
+		"scene_width": {
+			"type": "number",
+			"required": false,
+			"default": 0,
+			"description": "Scene width in px. 0 keeps the default 546."
+		},
+		"scene_height": {
+			"type": "number",
+			"required": false,
+			"default": 0,
+			"description": "Scene height in px. 0 keeps the default 364."
+		},
+		"pad_top": {
+			"type": "integer",
+			"required": false,
+			"default": 0,
+			"description": "Section padding above the row in px from 768px up. 0 keeps 40."
+		},
+		"pad_bottom": {
+			"type": "integer",
+			"required": false,
+			"default": 0,
+			"description": "Section padding below the row in px from 768px up. 0 keeps 40 (the 2026-10 hub frames: 80 above the first row, 160 under the last)."
+		},
+		"heading_above": {
+			"type": "boolean",
+			"required": false,
+			"default": false,
+			"description": "Put the eyebrow and heading centred above the row instead of in the copy column."
+		},
+		"stack": {
+			"type": "string",
+			"required": false,
+			"default": "1024",
+			"enum": [
+				"1024",
+				"900"
+			],
+			"description": "Width at which the layout stacks: 1024px (the hubs) or 900px (the Education hub)."
+		}
+	}
+}

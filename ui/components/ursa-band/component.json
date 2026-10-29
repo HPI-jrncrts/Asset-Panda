@@ -1,0 +1,11 @@
+{
+	"name": "ursa-band",
+	"description": "Ursa AI data-control band: a dark indigo card with the Ursa orb, a heading, a short paragraph and a button on the right. Ursa AI frame 7261:114286 (under the stats row).",
+	"props": {
+		"title": { "type": "string", "required": true, "description": "Heading (an H2). UrsaAI renders as the brand mark." },
+		"body": { "type": "string", "required": false, "default": "", "description": "Paragraph under the heading. Line breaks are kept; UrsaAI renders as the brand mark." },
+		"cta_label": { "type": "string", "required": false, "default": "Free Demo", "description": "Button text. Renders only with cta_url." },
+		"cta_url": { "type": "string", "required": false, "default": "/get-a-demo/", "description": "Button destination." },
+		"joined": { "type": "boolean", "required": false, "default": true, "description": "Sit directly under the section above (the frame's stats row): no top padding. false adds the standard section padding." }
+	}
+}

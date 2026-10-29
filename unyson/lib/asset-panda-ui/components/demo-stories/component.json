@@ -1,0 +1,12 @@
+{
+	"name": "demo-stories",
+	"description": "Customer stories slider of the 2026 Get a Demo flow (live #ap-demo-stories): quote copy beside a photo with a logo chip, then arrows, a progress line, dots and a View All link; one slide at a time, auto-advancing every 3 s (paused on hover or keyboard focus). Live: /get-a-demo-month-calendar/ and, with cta, /demo-confirmed/.",
+	"props": {
+		"items": { "type": "array", "required": true, "description": "Slides. Each: quote (required), category, title, author, role, link_label, link_url, image, image_alt, logo, logo_alt, logo_w, logo_h." },
+		"cta": { "type": "boolean", "required": false, "default": false, "description": "Show each story's link and the View All button (the thank-you page). Off, both stay in the markup but hidden, as on live." },
+		"heading": { "type": "string", "required": false, "default": "Customer stories", "description": "Visually hidden section heading (h2) and the slider's accessible name." },
+		"viewall_label": { "type": "string", "required": false, "default": "View All Case Studies", "description": "View All link text. Renders only with viewall_url." },
+		"viewall_url": { "type": "string", "required": false, "default": "", "description": "View All destination." },
+		"quote_icon": { "type": "string", "required": false, "default": "", "description": "Quote mark image URL. Empty uses the kit's." }
+	}
+}

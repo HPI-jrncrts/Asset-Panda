@@ -1,0 +1,109 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/home-hero",
+	"title": "AP Home Hero",
+	"category": "design",
+	"icon": "cover-image",
+	"description": "Homepage hero: eyebrow, two-line title, lede, demo button and compliance badges beside the live Ursa demo, over a band of client logos that scrolls on phones. Live: #ap-home-hero-v2 on the homepage. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"title_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"lede_strong": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_label": {
+			"type": "string",
+			"default": "Free Demo"
+		},
+		"cta_url": {
+			"type": "string",
+			"default": "/get-a-demo/"
+		},
+		"secondary_label": {
+			"type": "string",
+			"default": ""
+		},
+		"secondary_url": {
+			"type": "string",
+			"default": ""
+		},
+		"compliance_label": {
+			"type": "string",
+			"default": ""
+		},
+		"badges": {
+			"type": "array",
+			"default": []
+		},
+		"background": {
+			"type": "string",
+			"default": ""
+		},
+		"demo_url": {
+			"type": "string",
+			"default": ""
+		},
+		"demo_title": {
+			"type": "string",
+			"default": "Ursa Inspection live demo"
+		},
+		"poster": {
+			"type": "string",
+			"default": ""
+		},
+		"poster_tablet": {
+			"type": "string",
+			"default": ""
+		},
+		"poster_phone": {
+			"type": "string",
+			"default": ""
+		},
+		"poster_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"logos_label": {
+			"type": "string",
+			"default": ""
+		},
+		"logos_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"logos": {
+			"type": "array",
+			"default": []
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

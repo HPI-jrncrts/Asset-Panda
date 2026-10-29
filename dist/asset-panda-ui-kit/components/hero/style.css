@@ -1,0 +1,391 @@
+/* hero — page hero.
+ * Matches the live homepage hero (dev page 7, #ap-home-hero-v2), built from
+ * Figma Hero (4331:28767). Centred 800px copy column; 848px frosted video
+ * frame (24px inset, radius 16/12); six colour orbs under a 140px blur;
+ * client-logo strip (20px padding, logos 32px tall) — a static row on
+ * desktop, a 28s continuous marquee on phones.
+ *
+ * Top padding: Figma pads the hero 112px but draws the 64px nav ON TOP of it,
+ * so the visible gap under the nav is 48px (17px on mobile). On the site the
+ * header sits above the hero, not over it — so pad only the visible gap. */
+
+.ap-hero {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	padding-top: var(--ap-surf-gap-xl);
+	background: var(--ap-white);
+	font-family: var(--ap-font-body);
+}
+
+@media (min-width: 768px) {
+	.ap-hero { padding-top: var(--ap-surf-pad-4xl); }
+}
+
+/* ---- Decorative orbs ----
+ * The design lays six flat orbs under a frosted overlay (140px backdrop blur,
+ * white 15%). Blurring the orb layer itself paints the same picture far more
+ * cheaply than a full-bleed backdrop-filter. Positions are the 1440 frame's. */
+.ap-hero__decor {
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	overflow: hidden;
+	pointer-events: none;
+}
+
+.ap-hero__decor::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: var(--ap-white-15);
+}
+
+/* Orb positions are in Figma frame coordinates, which start under the 64px nav
+ * overlay; the site's hero starts below its header, so lift the layer by it. */
+.ap-hero__orbs { position: absolute; inset: -64px 0 0; filter: blur(140px); }
+
+.ap-hero__orb { position: absolute; max-width: none; user-select: none; }
+.ap-hero__orb--red    { left: -568px; top: 490px; width: 853px; height: 853px; }
+.ap-hero__orb--indigo { left: -133px; top: 622px; width: 853px; height: 853px; }
+.ap-hero__orb--violet { left: calc(66.67% - 23px); top: 514px; width: 1037px; height: 1037px; }
+.ap-hero__orb--yellow { left: calc(100% - 73px); top: 445px; width: 345px; height: 345px; }
+.ap-hero__orb--green  { left: calc(8.33% + 119px); top: 632px; width: 917px; height: 853px; }
+.ap-hero__orb--gray   { left: -248px; top: 872px; width: 1961px; height: 876px; }
+
+/* ---- Copy ---- */
+.ap-hero__inner {
+	max-width: var(--ap-page-max-content-xl);
+	margin-inline: auto;
+	padding-inline: var(--ap-pad-x-xs);
+	display: grid;
+	justify-items: center;
+	gap: var(--ap-surf-gap-3xl);
+}
+
+.ap-hero__copy {
+	display: grid;
+	justify-items: center;
+	gap: var(--ap-surf-gap-xl);
+	max-width: 800px;
+	text-align: center;
+}
+
+.ap-hero--align-left .ap-hero__inner,
+.ap-hero--align-left .ap-hero__copy { justify-items: start; text-align: left; }
+
+.ap-hero__text { display: grid; gap: var(--ap-surf-gap-lg); }
+
+.ap-hero__eyebrow {
+	margin: 0;
+	font-family: var(--ap-font-utility);
+	font-size: var(--ap-fs-eyebrow);
+	font-weight: var(--ap-weight-eyebrow);
+	line-height: var(--ap-line-eyebrow);
+	letter-spacing: var(--ap-ls-eyebrow);
+	text-transform: uppercase;
+	color: var(--ap-text-eyebrow);
+}
+
+.ap-hero__title {
+	margin: 0;
+	font-family: var(--ap-font-display);
+	font-size: var(--ap-fs-h1-sm);
+	font-weight: var(--ap-weight-display);
+	line-height: var(--ap-line-h1);
+	letter-spacing: -0.02em;
+	color: var(--ap-text-heading);
+	text-wrap: balance;
+}
+
+/* Gradient accent line. background-clip:text paints only inside the text box,
+ * so the small top padding keeps tall glyphs from being sliced. */
+.ap-hero__accent {
+	display: block;
+	padding-top: 0.06em;
+	background-image: var(--ap-gradient-text);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+
+@media (forced-colors: active) {
+	.ap-hero__accent { background-image: none; color: CanvasText; }
+}
+
+.ap-hero__body { display: grid; gap: var(--ap-surf-gap-md); }
+
+/* Figma: Manrope Bold (700) — there is no 700 weight token. */
+.ap-hero__lede {
+	margin: 0;
+	font-size: var(--ap-fs-text-md);
+	font-weight: 700;
+	line-height: var(--ap-line-body);
+	color: var(--ap-text-heading);
+}
+
+.ap-hero__subtitle {
+	margin: 0;
+	font-size: var(--ap-fs-text-md);
+	line-height: var(--ap-line-body);
+	color: var(--ap-text-body);
+}
+
+.ap-hero__trust { display: grid; justify-items: center; gap: var(--ap-surf-gap-xl); }
+.ap-hero--align-left .ap-hero__trust { justify-items: start; }
+
+.ap-hero__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--ap-surf-gap-md); }
+
+.ap-hero__btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 48px;
+	padding: 0 var(--ap-surf-pad-lg);
+	font-family: var(--ap-font-utility);
+	font-size: var(--ap-fs-button-md);
+	font-weight: var(--ap-weight-button);
+	line-height: var(--ap-line-button);
+	text-decoration: none;
+	white-space: nowrap;
+	border: var(--ap-border-thin) solid transparent;
+	border-radius: var(--ap-radius-sm);
+}
+
+.ap-hero__btn--primary {
+	color: var(--ap-btn-primary-text);
+	background-image: var(--ap-gradient-action);
+	border-color: var(--ap-brand-indigo);
+}
+
+.ap-hero__btn--outline {
+	color: var(--ap-brand-green);
+	background: transparent;
+	border-color: var(--ap-brand-green);
+}
+
+.ap-hero__btn--outline:hover { color: var(--ap-green-700); background: var(--ap-green-50); border-color: var(--ap-green-200); }
+
+.ap-hero__btn:focus-visible { outline: var(--ap-border-medium) solid var(--ap-focus-ring); outline-offset: 3px; }
+
+.ap-hero__badges { display: grid; justify-items: center; gap: var(--ap-surf-gap-md); }
+
+.ap-hero__badges-label {
+	margin: 0;
+	font-size: var(--ap-fs-text-xs);
+	line-height: var(--ap-line-body);
+	color: var(--ap-text-heading);
+}
+
+.ap-hero__badges-list {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: var(--ap-surf-gap-3xl);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ap-hero__badge { display: block; block-size: 60px; inline-size: auto; max-inline-size: 90px; object-fit: contain; }
+
+/* ---- Frosted product-video frame ---- */
+.ap-hero__frame {
+	width: 100%;
+	max-width: 848px;
+	padding: var(--ap-pad-y-xs) var(--ap-surf-pad-xl) 0;
+	background: color-mix(in srgb, var(--ap-indigo-50) 80%, transparent);
+	-webkit-backdrop-filter: blur(10px);
+	backdrop-filter: blur(10px);
+	border: var(--ap-border-thin) solid var(--ap-white);
+	border-bottom: 0;
+	border-radius: var(--ap-radius-xl) var(--ap-radius-xl) 0 0;
+	box-shadow: 0 4px 24px var(--ap-black-15);
+}
+
+.ap-hero__screen {
+	aspect-ratio: 16 / 9;
+	overflow: hidden;
+	background: var(--ap-white);
+	border: var(--ap-border-thin) solid var(--ap-indigo-200);
+	border-bottom: 0;
+	border-radius: var(--ap-radius-lg) var(--ap-radius-lg) 0 0;
+	box-shadow: 0 0 4px rgba(80, 68, 225, 0.1);
+}
+
+.ap-hero__media { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* ---- Client-logo strip: a white band that overlaps the frame's lower edge ---- */
+.ap-hero__logos {
+	position: relative;
+	z-index: 1;
+	display: grid;
+	justify-items: center;
+	gap: var(--ap-surf-gap-xl);
+	padding: 20px var(--ap-pad-x-xs);
+	background: var(--ap-white);
+}
+
+/* Figma: Manrope Bold (700) — there is no 700 weight token. */
+.ap-hero__logos-label {
+	margin: 0;
+	font-size: var(--ap-fs-eyebrow);
+	font-weight: 700;
+	line-height: var(--ap-line-eyebrow);
+	text-align: center;
+	color: var(--ap-text-heading);
+}
+
+.ap-hero__logos-accent { color: var(--ap-brand-indigo); }
+
+/* min-width:0 keeps a long marquee track from widening the grid column. */
+.ap-hero__logos-viewport { justify-self: stretch; width: 100%; min-width: 0; overflow: hidden; }
+
+.ap-hero__logos-list {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: var(--ap-surf-gap-xl) var(--ap-surf-pad-4xl);
+	max-width: var(--ap-page-max-content-xl);
+	margin: 0 auto;
+	padding: 0;
+	list-style: none;
+}
+
+/* A 120x32 box, as in Figma: tall marks fill the height, wide ones (Toyota,
+ * Carnival) hit the width cap and shrink — so eight logos share one row. */
+.ap-hero__logo { display: block; block-size: 32px; inline-size: auto; max-inline-size: 120px; object-fit: contain; }
+
+/* The marquee's second copy of the list. */
+.ap-hero__logo-dup { display: none; }
+
+/* ---- Dark and brand variants ---- */
+.ap-hero--dark { background: var(--ap-surface-dark); }
+.ap-hero--brand { background-image: linear-gradient(135deg, var(--ap-indigo-950) 0%, var(--ap-indigo-900) 100%); }
+.ap-hero--dark .ap-hero__decor,
+.ap-hero--brand .ap-hero__decor { display: none; }
+.ap-hero--dark .ap-hero__title,
+.ap-hero--dark .ap-hero__lede,
+.ap-hero--brand .ap-hero__title,
+.ap-hero--brand .ap-hero__lede { color: var(--ap-text-heading-inverse); }
+.ap-hero--dark .ap-hero__subtitle,
+.ap-hero--brand .ap-hero__subtitle { color: var(--ap-text-body-inverse); }
+.ap-hero--dark .ap-hero__eyebrow,
+.ap-hero--brand .ap-hero__eyebrow { color: var(--ap-text-eyebrow-inverse); }
+.ap-hero--dark .ap-hero__badges-label,
+.ap-hero--brand .ap-hero__badges-label { color: var(--ap-white-70); }
+
+/* Entrance motion runs on load, not on scroll. Starts from a visible resting
+ * state so a failed animation is invisible, never a blank hero. */
+@media (prefers-reduced-motion: no-preference) {
+	.ap-hero__copy > * { animation: ap-hero-in var(--ap-dur-slow) var(--ap-ease-out) backwards; }
+	.ap-hero__copy > :nth-child(2) { animation-delay: calc(var(--ap-stagger-step) * 2); }
+	.ap-hero__frame { animation: ap-hero-in var(--ap-dur-slow) var(--ap-ease-out) calc(var(--ap-stagger-step) * 3) backwards; }
+}
+
+@keyframes ap-hero-in {
+	from { opacity: 0; translate: 0 var(--ap-reveal-distance); }
+	to   { opacity: 1; translate: none; }
+}
+
+/* ---- Phones ----
+ * Left-aligned copy with the accent running on from the title, and
+ * full-width stacked buttons, as on the live homepage. */
+@media (max-width: 767.98px) {
+	.ap-hero__copy { justify-self: stretch; justify-items: stretch; text-align: left; }
+	.ap-hero__accent { display: inline; }
+	.ap-hero__lede,
+	.ap-hero__subtitle { font-size: var(--ap-fs-text-reg); }
+	.ap-hero__trust { justify-items: stretch; }
+	/* A grid with justify-content:center never stretches its auto column. */
+	.ap-hero__actions { display: grid; grid-template-columns: minmax(0, 1fr); justify-content: stretch; gap: var(--ap-surf-gap-md); }
+	.ap-hero__btn { width: 100%; }
+	.ap-hero__badges { text-align: center; }
+	.ap-hero__logos-accent { display: block; }
+
+	/* Logo marquee: one row, the list twice. Every item — the last included —
+	 * is followed by one gap (the padding supplies the last), so moving the
+	 * track by exactly half its width lands on the start of the copy. */
+	.ap-hero__logos-list {
+		flex-wrap: nowrap;
+		justify-content: flex-start;
+		width: max-content;
+		max-width: none;
+		margin: 0;
+		gap: var(--ap-surf-gap-4xl);
+		padding-right: var(--ap-surf-gap-4xl);
+	}
+
+	.ap-hero__logos-list > li { flex: none; }
+	.ap-hero__logo-dup { display: block; }
+}
+
+@media (max-width: 767.98px) and (prefers-reduced-motion: no-preference) {
+	.ap-hero__logos-list { animation: ap-hero-marquee 28s linear infinite; }
+}
+
+/* Without motion the strip becomes a swipeable row of the logos, once. */
+@media (max-width: 767.98px) and (prefers-reduced-motion: reduce) {
+	.ap-hero__logos-viewport { overflow-x: auto; }
+	.ap-hero__logo-dup { display: none; }
+}
+
+@keyframes ap-hero-marquee {
+	from { translate: 0 0; }
+	to   { translate: -50% 0; }
+}
+
+/* An editor can keep a second button for phones only. */
+@media (min-width: 768px) {
+	.ap-hero__btn--mobile-only { display: none; }
+}
+
+/* Border-box sizing for everything in the component, as on the live homepage;
+ * :where() keeps it at zero specificity. */
+:where(.ap-hero, .ap-hero *, .ap-hero *::before, .ap-hero *::after) { box-sizing: border-box; }
+
+/* Phones: the live homepage gutters, frame and logo band — 28px sides, an
+ * 8px-inset frame with 12px corners, a tighter full-bleed logo band. */
+@media (max-width: 767.98px) {
+	.ap-hero__inner { padding-inline: 28px; }
+	.ap-hero__frame { padding: 8px 8px 0; border-radius: var(--ap-radius-lg) var(--ap-radius-lg) 0 0; }
+	.ap-hero__screen { border-radius: var(--ap-radius-sm) var(--ap-radius-sm) 0 0; }
+	.ap-hero__logos { gap: var(--ap-surf-gap-lg); padding: 12px 0 8px; }
+	.ap-hero__logos-label { padding-inline: 28px; }
+}
+
+/* Border-box: the content width token excludes the gutters, so add them back;
+ * phones drop the cap and use the live homepage 28px gutters instead. */
+.ap-hero__inner { max-width: calc(var(--ap-page-max-content-xl) + 2 * var(--ap-pad-x-xs)); }
+
+@media (max-width: 767.98px) {
+	.ap-hero__inner { max-width: none; }
+}
+
+/* ---- kit type scale (QA 2026-10-28) ----
+ * Eyebrow, H1 and the paragraphs (the H1 was the stepped --ap-fs-h1-sm at -0.02em).
+ * One heading scale across every hero (ui/src/tokens.css --ap-type-*): same size, weight 800, zero
+ * tracking at every width, so no H1 reads thicker or tighter than another. */
+.ap-hero .ap-hero__eyebrow {
+	font-size: var(--ap-type-eyebrow-size);
+	font-weight: var(--ap-type-eyebrow-weight);
+	line-height: var(--ap-type-eyebrow-line);
+	letter-spacing: var(--ap-type-eyebrow-track);
+	text-transform: uppercase;
+}
+.ap-hero .ap-hero__title {
+	font-size: var(--ap-type-h1-size);
+	font-weight: var(--ap-type-h1-weight);
+	line-height: var(--ap-type-h1-line);
+	letter-spacing: var(--ap-type-h1-track);
+}
+.ap-hero .ap-hero__lede {
+	font-size: var(--ap-type-lede-size);
+	line-height: var(--ap-type-lede-line);
+}
+.ap-hero .ap-hero__subtitle {
+	font-size: var(--ap-type-lede-size);
+	line-height: var(--ap-type-lede-line);
+}

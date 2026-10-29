@@ -1,13 +1,11 @@
 {
 	"name": "platform-stack",
-	"description": "Capability cards with a sticky, numbered side index whose active dot takes each card's accent. Each card: accent-tinted wash, title, copy, link and a product screenshot running off the bottom edge. Figma: Home Page > Platform (4331:24729).",
+	"description": "Capability cards beside a numbered index that tracks the card being read: tinted cards with title, copy, link, a product screenshot and a hover preview. Live: the homepage #ap-platform-stack-v3 section (markup and sheets ported).",
 	"props": {
 		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading." },
 		"title": { "type": "string", "required": true, "description": "Heading. Line breaks are kept." },
 		"intro": { "type": "string", "required": false, "default": "", "description": "Supporting paragraph under the heading." },
-		"kicker": { "type": "string", "required": false, "default": "", "description": "Optional emphatic line under the intro (hidden in the current design)." },
-		"items": { "type": "array", "required": true, "description": "Cards. Each: title and body (required); optional nav_label (defaults to title), link_label, link_url, image, image_alt, accent (indigo, yellow, red, green, ursa). The word UrsaAI is styled as the brand mark." },
-		"nav_title": { "type": "string", "required": false, "default": "", "description": "Accessible name for the side index." },
-		"reveal": { "type": "boolean", "required": false, "default": true, "description": "Reveal cards on scroll." }
+		"nav_title": { "type": "string", "required": false, "default": "Platform capabilities", "description": "Accessible name for the index." },
+		"items": { "type": "array", "required": true, "description": "Cards, in order. Each: title and body (required); anchor (card id the index links to and live keys colour by, e.g. ap-card-lifecycle), nav_label (index text, e.g. \"01 Asset Management\"), tone (custom, gold, pink, green), link_tone (purple, gold, pink, green), link_label, link_url, image / image_alt / image_w / image_h (screenshot), image_hover / image_hover_alt / hover_w / hover_h (hover preview), hover_slot (1-7, the preview's placement), hover_bg (image swapped in behind the preview), visual_custom (first card's wider visual). The word UrsaAI is styled as the brand mark." }
 	}
 }

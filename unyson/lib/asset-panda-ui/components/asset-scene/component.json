@@ -1,0 +1,20 @@
+{
+	"name": "asset-scene",
+	"description": "Asset-type scene: three use-case cards arranged around the assistant artwork, with a closing line and two buttons. Live: .apx-bft on /asset-intelligence-platform/.",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading." },
+		"title_accent": { "type": "string", "required": false, "default": "", "description": "Part of the heading painted with the brand gradient." },
+		"lede": { "type": "string", "required": false, "default": "", "description": "Paragraph under the heading." },
+		"image": { "type": "string", "required": false, "default": "", "description": "Artwork behind the cards." },
+		"image_alt": { "type": "string", "required": false, "default": "", "description": "Alt text for the artwork." },
+		"mobile_image": { "type": "string", "required": false, "default": "", "description": "Narrow-screen version of the artwork." },
+		"items": { "type": "array", "required": true, "description": "Up to three cards. Each: kicker, title, body, link_label, url; slot (it, field, safety) decides where it sits." },
+		"foot_title": { "type": "string", "required": false, "default": "", "description": "Closing line above the buttons." },
+		"foot_body": { "type": "string", "required": false, "default": "", "description": "Closing paragraph." },
+		"cta_label": { "type": "string", "required": false, "default": "", "description": "Primary button text." },
+		"cta_url": { "type": "string", "required": false, "default": "", "description": "Primary button destination." },
+		"secondary_label": { "type": "string", "required": false, "default": "", "description": "Outlined button text." },
+		"secondary_url": { "type": "string", "required": false, "default": "", "description": "Outlined button destination." }
+	}
+}

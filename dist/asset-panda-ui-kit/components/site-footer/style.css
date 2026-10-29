@@ -1,0 +1,326 @@
+/*
+ * site-footer — the global footer.
+ *
+ * Ported from the live 2026 footer (#ap-final-footer-v1): its rules in the
+ * e25-base-theme-child stylesheet (the same block the homepage repeats inline)
+ * and the Customizer override that swaps in the 2026/09 backdrop art. The root
+ * id became the component root class; inner class names, values and order are
+ * live's, so the port stays diffable. Live marks every declaration important
+ * to beat its theme; scoped under the root these rules already outrank the dev
+ * theme's (element and single-class rules), so the flags are gone, and the
+ * kit's own page rules (demo-footer, demo-confirm), which are marked
+ * important, still win. Left behind: the dead layers live hides
+ * (.ap-final-footer-bg and its gradients), rules for markup the footer no
+ * longer has (.ap-ursa-link, .ap-footer-apps), and the page-level html/body
+ * overflow hack (the block is already full width).
+ *
+ * Added, each marked below: the type live's footer inherits from its theme,
+ * the hover states live's sitewide button script paints, live's inline style
+ * on the badge column, and guards against the dev theme's own rules.
+ */
+
+/*
+ * The block theme spaces every top-level part 1.2rem apart. Live's footer
+ * sits flush under the last section on every page.
+ */
+.wp-block-template-part:has(.ap-site-footer) {
+	margin-block-start: 0;
+	margin-block-end: 0;
+}
+
+/*
+ * Pages that close with their own CTA band (the solution, hub, vertical and
+ * platform pages) hide the footer's, as their live counterparts do.
+ */
+body:has(.ap-solution-cta, .ap-demo-cta, .ap-platform-cta) .ap-site-footer .ap-final-cta-section {
+	display: none;
+}
+
+/* ------------------------------------------------------------ live port */
+
+.ap-site-footer { position: relative; width: 100%; max-width: none; margin: 0px; padding: 80px 24px 52px; overflow: hidden; isolation: isolate; font-family: Manrope, Arial, sans-serif; color: rgb(0, 0, 0); background: linear-gradient(180deg, #fff 0%, rgb(249, 250, 251) 100%) rgb(249, 250, 251); }
+.ap-site-footer, .ap-site-footer *, .ap-site-footer *::before, .ap-site-footer *::after { box-sizing: border-box; }
+.ap-site-footer .ap-final-footer-inner { position: relative; z-index: 2; width: 100%; max-width: 1120px; margin: 0px auto; display: flex; flex-direction: column; align-items: stretch; }
+.ap-site-footer .ap-final-cta-section { width: 100%; margin: 0px; padding: 0px 0px 72px; }
+.ap-site-footer .ap-final-cta-card { position: relative; width: 100%; min-height: 532px; border-radius: 16px; overflow: hidden; background: linear-gradient(256.98deg, rgb(102, 102, 238) -2.19%, rgb(32, 28, 74) 99.99%); box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 12px; padding: 80px 64px; }
+.ap-site-footer .ap-final-cta-card::after { content: ""; position: absolute; z-index: 1; right: -140px; top: -140px; width: 520px; height: 520px; border-radius: 999px; background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 68%); pointer-events: none; }
+.ap-site-footer .ap-final-cta-copy { position: relative; z-index: 3; width: 488px; max-width: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: 40px; }
+.ap-site-footer .ap-text-group, .ap-site-footer .ap-heading-group, .ap-site-footer .ap-paragraph-group { width: 488px; max-width: 100%; }
+.ap-site-footer .ap-text-group, .ap-site-footer .ap-heading-group { display: flex; flex-direction: column; align-items: flex-start; }
+.ap-site-footer .ap-text-group { gap: 24px; }
+.ap-site-footer .ap-heading-group { gap: 16px; }
+.ap-site-footer .ap-eyebrow { margin: 0px; width: 100%; color: rgb(131, 140, 246); font-size: 16px; line-height: 1.2; font-weight: 800; }
+.ap-site-footer h2 { margin: 0px; width: 100%; color: rgb(255, 255, 255); font-size: 40px; line-height: 1.2; font-weight: 800; letter-spacing: -0.02em; }
+.ap-site-footer .ap-paragraph-group p { margin: 0px; width: 100%; color: rgb(255, 255, 255); font-size: 18px; line-height: 1.5; font-weight: 400; }
+.ap-site-footer .ap-btn-group { position: relative; z-index: 4; display: flex; flex-flow: row; align-items: center; justify-content: flex-start; gap: 16px; width: auto; max-width: 100%; }
+.ap-site-footer .ap-btn { display: inline-flex; justify-content: center; align-items: center; flex: 0 0 auto; width: auto; min-height: 47px; padding: 14px 16px; border-radius: 4px; font-family: Manrope, Arial, sans-serif; font-size: 16px; line-height: 1.2; font-weight: 700; text-align: center; text-decoration: none; white-space: nowrap; box-shadow: none; cursor: pointer; transition: transform 0.2s, opacity 0.2s, background-color 0.2s; }
+.ap-site-footer .ap-btn:hover, .ap-site-footer .ap-btn:focus { transform: translateY(-1px); text-decoration: none; }
+.ap-site-footer .ap-btn-primary { min-width: 131px; color: rgb(255, 255, 255); background: linear-gradient(54.33deg, rgb(80, 68, 225) 0%, rgb(0, 169, 145) 70.44%); border: 1px solid transparent; }
+.ap-site-footer .ap-btn-primary:hover, .ap-site-footer .ap-btn-primary:focus { color: rgb(255, 255, 255); opacity: 0.9; }
+.ap-site-footer .ap-btn-outline { min-width: 129px; color: rgb(0, 169, 145); background: transparent; border: 1px solid rgb(0, 169, 145); }
+.ap-site-footer .ap-btn-outline:hover, .ap-site-footer .ap-btn-outline:focus { color: rgb(255, 255, 255); background: rgb(0, 169, 145); border-color: rgb(0, 169, 145); }
+.ap-site-footer .ap-final-cta-art { position: absolute; z-index: 2; right: 0px; bottom: 0px; width: 563px; max-width: 54%; height: 384px; display: flex; align-items: flex-end; justify-content: flex-end; pointer-events: none; }
+.ap-site-footer .ap-final-cta-art img { display: block; width: 563px; max-width: 100%; height: auto; object-fit: contain; object-position: right bottom; }
+.ap-site-footer .ap-footer-links-section { width: 100%; margin: 0px; padding: 0px; }
+.ap-site-footer .ap-footer-navs { width: 100%; max-width: 1120px; display: flex; flex-flow: row; justify-content: center; align-items: flex-start; }
+.ap-site-footer .ap-footer-col { width: 186.67px; min-width: 180px; max-width: 188px; flex: 1 1 0px; padding: 0px 14px 20px; display: flex; flex-direction: column; align-items: flex-start; }
+.ap-site-footer .ap-footer-brand { min-height: 193px; justify-content: flex-start; }
+.ap-site-footer .ap-footer-logo { display: inline-flex; align-items: center; width: 112.5px; height: 42.37px; margin: 0px; text-decoration: none; }
+.ap-site-footer .ap-footer-logo img { display: block; width: 112.5px; height: auto; max-height: 42.37px; object-fit: contain; object-position: left center; }
+.ap-site-footer address { margin: 0px; padding-top: 22px; width: 158.67px; color: rgb(0, 0, 0); font-style: normal; font-size: 12px; line-height: 1.5; font-weight: 400; }
+.ap-site-footer .ap-socials { width: 161px; display: flex; flex-direction: row; align-items: center; justify-content: flex-start; gap: 12px; padding-top: 35px; padding-bottom: 16px; }
+.ap-site-footer .ap-socials a { width: 18px; height: 18px; min-height: 18px; flex: 0 0 18px; display: inline-flex; align-items: center; justify-content: center; margin: 0px; padding: 0px; text-decoration: none; }
+.ap-site-footer .ap-socials img { display: block; width: 18px; height: 18px; object-fit: contain; }
+.ap-site-footer h3 { width: 158.67px; height: 24px; margin: 0px 0px 8px; color: rgb(0, 0, 0); font-size: 20px; line-height: 1.2; font-weight: 400; }
+.ap-site-footer .ap-footer-col > a { width: 158.67px; min-height: 30px; display: flex; align-items: center; margin: 0px; padding: 6px 0px 3px; color: rgb(91, 97, 110); font-size: 12px; line-height: 1.5; font-weight: 400; text-decoration: none; }
+.ap-site-footer .ap-footer-col a:hover { color: rgb(80, 68, 225); }
+.ap-site-footer .ap-store-badge { width: 120px; height: 40px; min-height: 40px; display: flex; align-items: center; justify-content: flex-start; margin: 0px; padding: 0px; background: transparent; border: 0px; border-radius: 0px; text-decoration: none; }
+.ap-site-footer .ap-store-badge + .ap-store-badge { margin-top: 6px; }
+.ap-site-footer .ap-store-badge img { display: block; width: 120px; height: 40px; object-fit: contain; object-position: left center; }
+.ap-site-footer .ap-footer-copy { width: 100%; max-width: 1120px; padding: 10px 0px 0px 14px; }
+.ap-site-footer .ap-footer-copy p { margin: 0px; color: rgb(0, 0, 0); font-size: 12px; line-height: 1.5; font-weight: 400; }
+@media (max-width: 1279px) {
+	.ap-site-footer { padding: 72px 32px 52px; }
+	.ap-site-footer .ap-final-cta-card { min-height: 500px; padding: 64px 48px; }
+	.ap-site-footer .ap-final-cta-art { width: 520px; max-width: 52%; }
+}
+@media (max-width: 1199px) {
+	.ap-site-footer .ap-footer-navs { flex-wrap: wrap; row-gap: 32px; }
+	.ap-site-footer .ap-footer-col { flex: 0 1 33.333%; max-width: none; }
+}
+@media (max-width: 991px) {
+	.ap-site-footer { padding: 64px 32px 52px; }
+	.ap-site-footer .ap-final-cta-section { padding-bottom: 64px; }
+	.ap-site-footer .ap-final-cta-card { min-height: auto; padding: 48px 32px 0px; }
+	.ap-site-footer .ap-final-cta-copy { width: 100%; max-width: 520px; }
+	.ap-site-footer .ap-final-cta-art { position: relative; right: auto; bottom: auto; width: 100%; max-width: 100%; height: auto; min-height: 260px; margin-top: 32px; justify-content: flex-end; }
+	.ap-site-footer .ap-final-cta-art img { width: 500px; max-width: 100%; }
+}
+@media (max-width: 767px) {
+	.ap-site-footer { padding: 40px 20px 64px; }
+	.ap-site-footer .ap-final-cta-section { padding-bottom: 56px; }
+	.ap-site-footer .ap-final-cta-card { padding: 40px 18px 0px; }
+	.ap-site-footer .ap-final-cta-copy { gap: 24px; }
+	.ap-site-footer .ap-text-group, .ap-site-footer .ap-heading-group, .ap-site-footer .ap-paragraph-group { width: 100%; }
+	.ap-site-footer .ap-eyebrow { font-size: 16px; }
+	.ap-site-footer h2 { font-size: 24px; }
+	.ap-site-footer .ap-paragraph-group p { font-size: 16px; }
+	.ap-site-footer .ap-btn-group { flex-wrap: nowrap; gap: 16px; }
+	.ap-site-footer .ap-btn { font-size: 16px; padding: 14px 16px; }
+	.ap-site-footer .ap-final-cta-art { min-height: 220px; margin-top: 28px; }
+	.ap-site-footer .ap-final-cta-art img { width: 390px; }
+	.ap-site-footer .ap-footer-navs { display: grid; grid-template-columns: 1fr 1fr; gap: 32px 24px; }
+	.ap-site-footer .ap-footer-col { width: 100%; min-width: 0px; max-width: none; padding: 0px; }
+	.ap-site-footer .ap-footer-brand { grid-column: auto; }
+	.ap-site-footer h3, .ap-site-footer address, .ap-site-footer .ap-socials, .ap-site-footer .ap-footer-col > a { width: 100%; }
+	.ap-site-footer .ap-store-badge, .ap-site-footer .ap-store-badge img { width: 150px; height: 50px; }
+	.ap-site-footer .ap-footer-copy { padding-left: 0px; padding-top: 24px; text-align: center; }
+	.ap-site-footer .ap-footer-copy p { text-align: center; }
+}
+@media (max-width: 480px) {
+	.ap-site-footer .ap-final-cta-card { padding: 40px 18px 0px; }
+	.ap-site-footer h2 { font-size: 24px; }
+	.ap-site-footer .ap-final-cta-art { min-height: 190px; }
+	.ap-site-footer .ap-final-cta-art img { width: 340px; }
+}
+@media (max-width: 360px) {
+	.ap-site-footer .ap-btn-group { width: 100%; flex-direction: column; align-items: stretch; }
+	.ap-site-footer .ap-btn { width: 100%; }
+}
+
+/* ------------------------------------------------------------ additions */
+
+/*
+ * Live's badge column carries this as an inline style; nothing on dev
+ * competes with it, so a scoped rule does the same.
+ */
+.ap-site-footer .ap-footer-brand-apps { display: flex; flex-direction: column; gap: 6px; padding-top: 16px; }
+
+/*
+ * Live's theme sets Manrope on every h2, h3, p, span, a and div inside an
+ * ap-* section (`[id^="ap-"] …`); the rest inherits the root's.
+ */
+.ap-site-footer :is(h2, h3, p, span, a, div) { font-family: Manrope, Arial, sans-serif; }
+
+/*
+ * The body type live's footer inherits (16px / 1.5, weight 400, normal
+ * tracking, left-aligned). The dev theme's body is 22px / 1.4, weight 300,
+ * -0.1px tracking.
+ */
+.ap-site-footer { font-size: 16px; font-weight: 400; line-height: 1.5; letter-spacing: normal; text-align: left; }
+
+/*
+ * Live's theme base rules for what the footer leaves unstyled, restated at
+ * (0,0,2) so the dev theme's element rules (0,0,1, loaded later) do not win
+ * and any footer class rule still does: link colour, image alignment, and
+ * headings and paragraphs with normal tracking and wrapping (the dev theme
+ * sets -0.1px on headings and text-wrap: pretty).
+ */
+html :where(.ap-site-footer) a { color: rgb(0, 123, 255); background-color: transparent; text-decoration: none; }
+html :where(.ap-site-footer) img { vertical-align: middle; border-style: none; }
+html :where(.ap-site-footer) :is(h2, h3) { letter-spacing: normal; }
+html :where(.ap-site-footer) :is(h2, h3, p) { text-wrap: wrap; }
+
+/*
+ * Focus rings as on live: the browser default, for keyboard focus only. The
+ * dev theme outlines every :focus 2px solid, mouse clicks included.
+ */
+.ap-site-footer :focus:not(:focus-visible) { outline: none; }
+.ap-site-footer :focus-visible { outline-style: auto; outline-width: 1px; }
+
+/*
+ * Live restyles the CTA buttons from a sitewide script (in the plugin's
+ * header markup); these rules paint the same states.
+ *  - Primary: a second gradient fades in over the button (live injects
+ *    .ap-grad-hov-ov and wraps the label in .ap-btn-lbl; the markup carries
+ *    both) and a 1px inset ring appears.
+ *  - Outline: pale mint fill, mint border, teal text.
+ * The script reacts to focus as well as hover.
+ */
+.ap-site-footer .ap-btn.ap-btn-primary { position: relative; background-image: linear-gradient(54.33deg, #5044e1 0%, #00a991 70.44%); transition: box-shadow 0.35s ease; }
+.ap-site-footer .ap-btn-primary .ap-grad-hov-ov { position: absolute; inset: 0; z-index: 1; border-radius: inherit; background-image: linear-gradient(54.33deg, #5044e1 -20%, #00a991 60%); opacity: 0; transition: opacity 0.35s ease; pointer-events: none; }
+.ap-site-footer .ap-btn-primary .ap-btn-lbl { position: relative; z-index: 2; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.ap-site-footer .ap-btn.ap-btn-primary:hover, .ap-site-footer .ap-btn.ap-btn-primary:focus { box-shadow: inset 0 0 0 1px #009882; }
+.ap-site-footer .ap-btn-primary:hover .ap-grad-hov-ov, .ap-site-footer .ap-btn-primary:focus .ap-grad-hov-ov { opacity: 1; }
+.ap-site-footer .ap-btn.ap-btn-outline { transition: background-color 0.28s ease, border-color 0.28s ease, color 0.28s ease; }
+.ap-site-footer .ap-btn.ap-btn-outline:hover, .ap-site-footer .ap-btn.ap-btn-outline:focus { color: #04c8a8; background-color: #effefa; border-color: #c7fff1; }
+
+/* The dev child theme brightens every .ap-btn on hover; live does not. */
+.ap-site-footer .ap-btn:hover, .ap-site-footer .ap-btn:focus { filter: none; }
+
+/* ------------------------------------------------------------ one seam gradient (QA 2026-10-27)
+ *
+ * The closing CTA and the footer share ONE soft glow (pink left, teal centre,
+ * violet right) centred on the line between them, from the CTA card's lower
+ * half down to the footer's first rows. Nothing else in either glows (the
+ * stretched Footer.webp art this replaces drew a second band mid-footer).
+ *  - A page CTA closes the page (solution-cta, demo-cta, platform-cta, which
+ *    hide this footer's own CTA): that CTA paints the glow's upper half at its
+ *    bottom edge and the footer paints the lower half at its top edge. Both use
+ *    the same ellipses, so the halves meet seamlessly. Keep the two in step:
+ *    solution-cta, demo-cta and platform-cta carry the same layers at "100%".
+ *  - Otherwise this footer's own CTA band shows, and the glow straddles the
+ *    band's bottom edge (the line above the link columns) as one layer.
+ * The `background` prop (Footer.webp) is no longer painted.
+ */
+.ap-site-footer { padding-top: var(--ap-section-y, 64px); }
+.ap-site-footer .ap-final-cta-section { position: relative; padding-bottom: var(--ap-section-y, 64px); }
+.ap-site-footer .ap-final-cta-section::before {
+	content: "";
+	position: absolute;
+	z-index: -1;
+	left: 50%;
+	bottom: -320px;
+	width: 100vw;
+	height: 640px;
+	translate: -50% 0;
+	pointer-events: none;
+	/* QA 2026-10-29 (Joseph): glow ~50 % stronger than the 10-27 values (.15/.17/.22 → .23/.26/.33). */
+	background:
+		radial-gradient(ellipse 34% 300px at 6% 50%, rgba(230, 28, 85, .23), rgba(230, 28, 85, .09) 45%, rgba(230, 28, 85, 0) 100%),
+		radial-gradient(ellipse 36% 300px at 50% 50%, rgba(0, 169, 145, .26), rgba(0, 169, 145, .11) 45%, rgba(0, 169, 145, 0) 100%),
+		radial-gradient(ellipse 34% 300px at 94% 50%, rgba(102, 102, 238, .33), rgba(102, 102, 238, .14) 45%, rgba(102, 102, 238, 0) 100%);
+}
+body:has(.ap-solution-cta, .ap-demo-cta, .ap-platform-cta) .ap-site-footer {
+	background:
+		radial-gradient(ellipse 34% 300px at 6% 0, rgba(230, 28, 85, .23), rgba(230, 28, 85, .09) 45%, rgba(230, 28, 85, 0) 100%),
+		radial-gradient(ellipse 36% 300px at 50% 0, rgba(0, 169, 145, .26), rgba(0, 169, 145, .11) 45%, rgba(0, 169, 145, 0) 100%),
+		radial-gradient(ellipse 34% 300px at 94% 0, rgba(102, 102, 238, .33), rgba(102, 102, 238, .14) 45%, rgba(102, 102, 238, 0) 100%),
+		linear-gradient(180deg, #fff 0%, rgb(249, 250, 251) 100%) #fff;
+}
+@media (max-width: 1279px) {
+	.ap-site-footer .ap-final-cta-section::before {
+		bottom: -240px;
+		height: 480px;
+		background:
+			radial-gradient(ellipse 40% 220px at 4% 50%, rgba(230, 28, 85, .23), rgba(230, 28, 85, .09) 45%, rgba(230, 28, 85, 0) 100%),
+			radial-gradient(ellipse 42% 220px at 50% 50%, rgba(0, 169, 145, .26), rgba(0, 169, 145, .11) 45%, rgba(0, 169, 145, 0) 100%),
+			radial-gradient(ellipse 40% 220px at 96% 50%, rgba(102, 102, 238, .33), rgba(102, 102, 238, .14) 45%, rgba(102, 102, 238, 0) 100%);
+	}
+	body:has(.ap-solution-cta, .ap-demo-cta, .ap-platform-cta) .ap-site-footer {
+		background:
+			radial-gradient(ellipse 40% 220px at 4% 0, rgba(230, 28, 85, .23), rgba(230, 28, 85, .09) 45%, rgba(230, 28, 85, 0) 100%),
+			radial-gradient(ellipse 42% 220px at 50% 0, rgba(0, 169, 145, .26), rgba(0, 169, 145, .11) 45%, rgba(0, 169, 145, 0) 100%),
+			radial-gradient(ellipse 40% 220px at 96% 0, rgba(102, 102, 238, .33), rgba(102, 102, 238, .14) 45%, rgba(102, 102, 238, 0) 100%),
+			linear-gradient(180deg, #fff 0%, rgb(249, 250, 251) 100%) #fff;
+	}
+}
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-site-footer.ap-site-footer.ap-site-footer .ap-final-cta-section h2 { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+
+/* Motion (QA 2026-10-28, motion agent's R4): hover moves use translate / scale, never transform (scroll entrances own transform), on the house timing. */
+html body .ap-site-footer .ap-btn:is(:hover, :focus) { transform: none; translate: 0 -1px; }
+html body .ap-site-footer .ap-btn.ap-btn-primary { transition: translate var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), box-shadow var(--ap-dur-base, .3s) var(--ap-ease-standard, ease); }
+html body .ap-site-footer .ap-btn.ap-btn-outline { transition: translate var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), background-color var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), border-color var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), color var(--ap-dur-base, .3s) var(--ap-ease-standard, ease); }
+
+/* QA 2026-10-29 (Joseph, sitewide): on phones the footer's colour is no longer a band along its top edge but a
+ * "fireworks" scatter of round splashes in the brand colours (plus the amber), at the same strengths as the seam
+ * glow. The seam ellipses at the top edge stay, so a CTA band above still meets the footer without a line.
+ * Second pass ("a little bit too excessive, diminish the number of splashes", his red-marked reference): six
+ * instead of eight — two by the logo/Products, a soft band across Solutions / Who We Help, one trailing down the
+ * left to Resources and one on the right — and nothing in the bottom ~25% (Company list, copyright). */
+@media (max-width: 767px) {
+	html body .ap-site-footer.ap-site-footer {
+		background:
+			linear-gradient(180deg, #fff 0, rgba(255, 255, 255, 0) 140px), /* short footers (pricing): the top edge stays white */
+			radial-gradient(circle 170px at 86% 9%, rgba(102, 102, 238, .3), rgba(102, 102, 238, .12) 45%, rgba(102, 102, 238, 0) 100%),
+			radial-gradient(circle 150px at 12% 13%, rgba(243, 191, 81, .26), rgba(243, 191, 81, .1) 45%, rgba(243, 191, 81, 0) 100%),
+			radial-gradient(ellipse 62% 150px at 50% 35%, rgba(0, 169, 145, .24), rgba(0, 169, 145, .1) 45%, rgba(0, 169, 145, 0) 100%),
+			radial-gradient(circle 160px at 14% 52%, rgba(230, 28, 85, .2), rgba(230, 28, 85, .08) 45%, rgba(230, 28, 85, 0) 100%),
+			radial-gradient(circle 180px at 92% 56%, rgba(80, 68, 225, .28), rgba(80, 68, 225, .11) 45%, rgba(80, 68, 225, 0) 100%),
+			radial-gradient(circle 160px at 20% 70%, rgba(0, 169, 145, .22), rgba(0, 169, 145, .09) 45%, rgba(0, 169, 145, 0) 100%),
+			#fff;
+	}
+	/* After a CTA band that carries the lower half of the seam glow, the footer's top edge carries the upper half. */
+	html body:has(.ap-solution-cta, .ap-demo-cta, .ap-platform-cta) .ap-site-footer.ap-site-footer {
+		background:
+			radial-gradient(ellipse 40% 220px at 4% 0, rgba(230, 28, 85, .23), rgba(230, 28, 85, .09) 45%, rgba(230, 28, 85, 0) 100%),
+			radial-gradient(ellipse 42% 220px at 50% 0, rgba(0, 169, 145, .26), rgba(0, 169, 145, .11) 45%, rgba(0, 169, 145, 0) 100%),
+			radial-gradient(ellipse 40% 220px at 96% 0, rgba(102, 102, 238, .33), rgba(102, 102, 238, .14) 45%, rgba(102, 102, 238, 0) 100%),
+			radial-gradient(circle 170px at 86% 9%, rgba(102, 102, 238, .3), rgba(102, 102, 238, .12) 45%, rgba(102, 102, 238, 0) 100%),
+			radial-gradient(circle 150px at 12% 13%, rgba(243, 191, 81, .26), rgba(243, 191, 81, .1) 45%, rgba(243, 191, 81, 0) 100%),
+			radial-gradient(ellipse 62% 150px at 50% 35%, rgba(0, 169, 145, .24), rgba(0, 169, 145, .1) 45%, rgba(0, 169, 145, 0) 100%),
+			radial-gradient(circle 160px at 14% 52%, rgba(230, 28, 85, .2), rgba(230, 28, 85, .08) 45%, rgba(230, 28, 85, 0) 100%),
+			radial-gradient(circle 180px at 92% 56%, rgba(80, 68, 225, .28), rgba(80, 68, 225, .11) 45%, rgba(80, 68, 225, 0) 100%),
+			radial-gradient(circle 160px at 20% 70%, rgba(0, 169, 145, .22), rgba(0, 169, 145, .09) 45%, rgba(0, 169, 145, 0) 100%),
+			#fff;
+	}
+	html body .ap-site-footer .ap-final-cta-section::before {
+		display: none;
+	}
+}
+
+/* QA 2026-10-29 ("FOLLOW THE HOMEPAGE … The size and placement should be 100% the same"): on the homepage the
+ * card's own section pads --ap-section-y under the card and the link columns follow at once. A page that closes
+ * with its own CTA band (which hides this footer's CTA) already pads --ap-section-y under its card, so the footer
+ * adds no top padding of its own there: card to link columns is the homepage's --ap-section-y, not twice that. The
+ * seam glow is unchanged (it sits on the band's bottom edge and the footer's top edge). The final CTA itself is not
+ * touched. */
+html body:has(.ap-solution-cta, .ap-demo-cta, .ap-platform-cta) .ap-site-footer.ap-site-footer { padding-top: 0; }
+
+/* Phones, after a page CTA band (QA 2026-10-29, the seam rule: no visible band between the card section and the
+ * footer). The band's lower edge is the three seam ellipses over white; the footer's upper edge was the same ellipses
+ * over the splash scatter, whose top-right violet splash (170px at 86% 9%) reaches the footer's top edge on these
+ * shorter footers, so a violet step showed along the join (seam check: up to 26 / 8 at 390). A white fade under the
+ * ellipses (the same 140px fade the plain footer already uses) makes the footer's top edge exactly the band's bottom
+ * edge; the splashes come in below it. Same layers otherwise. */
+@media (max-width: 767px) {
+	html body:has(.ap-solution-cta, .ap-demo-cta, .ap-platform-cta) .ap-site-footer.ap-site-footer {
+		background:
+			radial-gradient(ellipse 40% 220px at 4% 0, rgba(230, 28, 85, .23), rgba(230, 28, 85, .09) 45%, rgba(230, 28, 85, 0) 100%),
+			radial-gradient(ellipse 42% 220px at 50% 0, rgba(0, 169, 145, .26), rgba(0, 169, 145, .11) 45%, rgba(0, 169, 145, 0) 100%),
+			radial-gradient(ellipse 40% 220px at 96% 0, rgba(102, 102, 238, .33), rgba(102, 102, 238, .14) 45%, rgba(102, 102, 238, 0) 100%),
+			linear-gradient(180deg, #fff 0, rgba(255, 255, 255, 0) 140px),
+			radial-gradient(circle 170px at 86% 9%, rgba(102, 102, 238, .3), rgba(102, 102, 238, .12) 45%, rgba(102, 102, 238, 0) 100%),
+			radial-gradient(circle 150px at 12% 13%, rgba(243, 191, 81, .26), rgba(243, 191, 81, .1) 45%, rgba(243, 191, 81, 0) 100%),
+			radial-gradient(ellipse 62% 150px at 50% 35%, rgba(0, 169, 145, .24), rgba(0, 169, 145, .1) 45%, rgba(0, 169, 145, 0) 100%),
+			radial-gradient(circle 160px at 14% 52%, rgba(230, 28, 85, .2), rgba(230, 28, 85, .08) 45%, rgba(230, 28, 85, 0) 100%),
+			radial-gradient(circle 180px at 92% 56%, rgba(80, 68, 225, .28), rgba(80, 68, 225, .11) 45%, rgba(80, 68, 225, 0) 100%),
+			radial-gradient(circle 160px at 20% 70%, rgba(0, 169, 145, .22), rgba(0, 169, 145, .09) 45%, rgba(0, 169, 145, 0) 100%),
+			#fff;
+	}
+}

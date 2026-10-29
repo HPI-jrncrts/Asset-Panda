@@ -1,0 +1,150 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/integrations-hero",
+	"title": "AP Integrations Hero",
+	"category": "design",
+	"icon": "block-default",
+	"description": "Integrations hub hero: eyebrow, H1, lede and a demo button beside an art box where integration logos float in frosted glass bubbles around the Asset Panda app card (panda), over orbit rings and soft colour glows. Figma: Desktop — Integrations > Hero Section (7310:158542). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_label": {
+			"type": "string",
+			"default": "Book a Demo"
+		},
+		"cta_url": {
+			"type": "string",
+			"default": "/get-a-demo/"
+		},
+		"panda": {
+			"type": "string",
+			"default": "/wp-content/uploads/2026/10/integ-hub-panda.webp"
+		},
+		"logos": {
+			"type": "array",
+			"default": [
+				{
+					"name": "Okta",
+					"icon": "/wp-content/uploads/2025/09/Okta_Icon.svg",
+					"x": 15.74,
+					"y": 74.12,
+					"size": 28.5
+				},
+				{
+					"name": "Slack",
+					"icon": "/wp-content/uploads/2025/09/Slack_Icon.svg",
+					"x": 22.22,
+					"y": 51.09,
+					"size": 28.5
+				},
+				{
+					"name": "Jira",
+					"icon": "/wp-content/uploads/2025/09/Jira_Icon.svg",
+					"x": 37.51,
+					"y": 40.82,
+					"size": 28.5
+				},
+				{
+					"name": "Google",
+					"icon": "/wp-content/uploads/2026/10/integ-hub-logo-google.svg",
+					"x": 70.16,
+					"y": 56.48,
+					"size": 28.5
+				},
+				{
+					"name": "Microsoft Entra ID",
+					"icon": "/wp-content/uploads/2025/09/Microsoft_Entra_ID_Icon.svg",
+					"x": 6.82,
+					"y": 58.11,
+					"size": 38
+				},
+				{
+					"name": "Microsoft Teams",
+					"icon": "/wp-content/uploads/2025/09/Microsoft_Teams_Icon.svg",
+					"x": 54.92,
+					"y": 45.63,
+					"size": 47.5
+				},
+				{
+					"name": "Microsoft Intune",
+					"icon": "/wp-content/uploads/2025/09/Microsoft_InTune_Icon.svg",
+					"x": 91.27,
+					"y": 57.84,
+					"size": 76.1
+				},
+				{
+					"name": "QuickBooks",
+					"icon": "/wp-content/uploads/2025/09/QuickBooks_Icon.svg",
+					"x": 42.08,
+					"y": 19.58,
+					"size": 33.3
+				},
+				{
+					"name": "ConnectWise",
+					"icon": "/wp-content/uploads/2025/09/ConnectWise_Icon-1.svg",
+					"x": 19.44,
+					"y": 32.33,
+					"size": 76.1
+				},
+				{
+					"name": "Google Calendar",
+					"icon": "/wp-content/uploads/2026/10/integ-hub-logo-google-calendar.svg",
+					"x": 77.12,
+					"y": 77.92,
+					"size": 66.6
+				},
+				{
+					"name": "Workday",
+					"icon": "/wp-content/uploads/2026/10/integ-hub-logo-workday.svg",
+					"x": 80.82,
+					"y": 36.4,
+					"size": 66.6,
+					"scale": 0.74
+				},
+				{
+					"name": "HubSpot",
+					"icon": "/wp-content/uploads/2026/10/integ-hub-logo-hubspot.svg",
+					"x": 28.58,
+					"y": 67.06,
+					"size": 47.5
+				},
+				{
+					"name": "DocuSign",
+					"icon": "/wp-content/uploads/2026/10/integ-hub-logo-docusign.svg",
+					"x": 61.23,
+					"y": 28.8,
+					"size": 47.5
+				}
+			]
+		},
+		"art_label": {
+			"type": "string",
+			"default": ""
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

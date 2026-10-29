@@ -27,6 +27,47 @@
 	display: none;
 }
 
+/*
+ * The base type live inherits from its theme body. Pinned here so the dev
+ * theme's body type (lighter weight, fluid size, -0.1px tracking) cannot leak
+ * into the header and shift the nav, buttons and panels.
+ */
+.ap-site-header__desk,
+.ap-site-header__mob,
+.ap-site-header__banner {
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.5;
+	letter-spacing: normal;
+}
+
+/*
+ * Normal wrapping as on live. The dev theme sets text-wrap: pretty on p and
+ * headings (specificity 0,0,1), which can move line breaks.
+ */
+.ap-site-header__desk :where(p, h1, h2, h3, h4, h5, h6),
+.ap-site-header__mob :where(p, h1, h2, h3, h4, h5, h6),
+.ap-site-header__banner :where(p, h1, h2, h3, h4, h5, h6) {
+	text-wrap: wrap;
+}
+
+/*
+ * Focus rings as on live: the browser default, shown for keyboard focus only.
+ * The dev theme outlines every :focus 2px solid, mouse clicks included.
+ */
+.ap-site-header__desk :focus:not(:focus-visible),
+.ap-site-header__mob :focus:not(:focus-visible),
+.ap-site-header__banner :focus:not(:focus-visible) {
+	outline: none;
+}
+
+.ap-site-header__desk :focus-visible,
+.ap-site-header__mob :focus-visible,
+.ap-site-header__banner :focus-visible {
+	outline-style: auto;
+	outline-width: 1px;
+}
+
 /* ---------------------------------------------------------------- desktop */
 
 .ap-site-header__desk {
@@ -197,6 +238,7 @@
 }
 
 .ap-site-header__desk .ap-header-btn.ap-header-free {
+	position: relative;
 	display: none;
 }
 
@@ -322,7 +364,6 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: 12px;
 	margin: 0;
 	padding: 0 16px;
 	border: 1px solid var(--ap-indigo-50);
@@ -382,6 +423,65 @@
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: 16px 48px;
+}
+
+/*
+ * Column layout (nav item layout "columns"): every tab visible at once, one
+ * column per tab under the item's label, a rule between the columns. The tab
+ * rail above stays the default; Resources uses this.
+ */
+.ap-site-header__desk .ap-mega-columns {
+	padding: 28px 0 34px;
+}
+
+.ap-site-header__desk .ap-mega-eyebrow {
+	margin: 0 0 22px;
+	color: var(--ap-text-eyebrow);
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.ap-site-header__desk .ap-mega-cols {
+	display: grid;
+	grid-template-columns: repeat(var(--ap-mega-cols, 4), minmax(0, 1fr));
+}
+
+.ap-site-header__desk .ap-mega-col {
+	min-width: 0;
+	padding: 0 20px;
+}
+
+.ap-site-header__desk .ap-mega-col:first-child {
+	padding-left: 0;
+}
+
+.ap-site-header__desk .ap-mega-col:last-child {
+	padding-right: 0;
+}
+
+.ap-site-header__desk .ap-mega-col + .ap-mega-col {
+	border-left: 1px solid var(--ap-athens-100);
+}
+
+.ap-site-header__desk .ap-mega-col .ap-mega-group + .ap-mega-group {
+	margin-top: 16px;
+}
+
+.ap-site-header__desk .ap-mega-col .ap-mega-link:last-child {
+	margin-bottom: 0;
+}
+
+.ap-site-header__desk a.ap-mega-heading {
+	display: block;
+	text-decoration: none;
+}
+
+.ap-site-header__desk a.ap-mega-heading:hover,
+.ap-site-header__desk a.ap-mega-heading:focus-visible {
+	text-decoration: underline;
 }
 
 .ap-site-header__desk .ap-mega-link {
@@ -642,6 +742,95 @@
 	color: var(--ap-indigo-600);
 }
 
+/*
+ * Featured resource cards beside a Who We Help group's links (Navigation
+ * Implementation Map, "Featured"): two per group, in the case-study card's
+ * frame, text only so the menu adds no image weight.
+ */
+
+.ap-site-header__desk .ap-mega-featured {
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.ap-site-header__desk .ap-mega-feature {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 8px;
+	padding: 20px 24px;
+	border: 1px solid var(--ap-athens-100);
+	border-radius: var(--ap-radius-md);
+	background: #fff;
+	color: #000;
+	text-decoration: none;
+	transition: background-color var(--ap-dur-base) var(--ap-ease-standard), border-color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-site-header__desk .ap-mega-feature:hover,
+.ap-site-header__desk .ap-mega-feature:focus-visible {
+	background: var(--ap-athens-50);
+	border-color: #edeef1;
+	outline: none;
+}
+
+.ap-site-header__desk .ap-mega-feature__type {
+	display: inline-block;
+	padding: 4px 10px;
+	border-radius: var(--ap-radius-pill);
+	background: var(--ap-indigo-50);
+	color: var(--ap-indigo-600);
+	font-size: 11px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.ap-site-header__desk .ap-mega-feature__title {
+	display: block;
+	font-size: 16px;
+	font-weight: 800;
+	line-height: 1.4;
+	transition: color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-site-header__desk .ap-mega-feature__desc {
+	display: block;
+	color: var(--ap-slate-500);
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.5;
+}
+
+.ap-site-header__desk .ap-mega-feature__cta {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	margin-top: 4px;
+	color: var(--ap-indigo-600);
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.2;
+}
+
+.ap-site-header__desk .ap-mega-feature__arrow {
+	display: inline-block;
+	transition: translate var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-site-header__desk .ap-mega-feature:hover .ap-mega-feature__title,
+.ap-site-header__desk .ap-mega-feature:focus-visible .ap-mega-feature__title {
+	color: var(--ap-indigo-600);
+}
+
+.ap-site-header__desk .ap-mega-feature:hover .ap-mega-feature__arrow,
+.ap-site-header__desk .ap-mega-feature:focus-visible .ap-mega-feature__arrow {
+	translate: 3px 0;
+}
+
 @media (max-width: 1180px) and (min-width: 1101px) {
 	.ap-site-header__desk .ap-head-inner {
 		width: calc(100vw - 32px);
@@ -759,12 +948,18 @@
 
 	/* Phone header */
 
+	/*
+	 * 60px tall like live, where the theme caps every <header> at 60px below
+	 * 1340px. The 62-64px inner row overflows it, so the page starts 60px
+	 * under the banner and the inner's white covers the bottom border.
+	 */
 	.ap-site-header__mob {
 		position: sticky;
 		top: 0;
 		z-index: 100000;
 		display: block;
 		width: 100%;
+		height: 60px;
 		background: #fff;
 		border-bottom: 1px solid #e5e7eb;
 		font-family: var(--ap-font-display);
@@ -828,25 +1023,6 @@
 		display: none;
 	}
 
-	.ap-site-header__mob .ap-mobile-phone {
-		width: 38px;
-		height: 38px;
-		flex: 0 0 38px;
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		margin-right: 2px;
-		border: 0.5px solid #d7dfff;
-		border-radius: var(--ap-radius-md);
-		background: #fff;
-		color: var(--ap-indigo-600);
-	}
-
-	.ap-site-header__mob .ap-mobile-phone svg {
-		width: 20px;
-		height: 20px;
-	}
-
 	.ap-site-header__mob .ap-mobile-burger {
 		width: 40px;
 		height: 40px;
@@ -860,6 +1036,7 @@
 		border: 1px solid #e1e7ef;
 		border-radius: var(--ap-radius-md);
 		background: #f8fafc;
+		font: inherit;
 		cursor: pointer;
 	}
 
@@ -1187,7 +1364,6 @@ html.ap-intl .ap-site-header__mob .ap-mobile-menu-actions .ap-mobile-menu-demo {
 }
 
 html.ap-intl .ap-site-header__desk .ap-header-sales,
-html.ap-intl .ap-site-header__mob .ap-mobile-phone,
 html.ap-intl .ap-site-header__mob .ap-mobile-menu-actions .ap-mobile-sales {
 	display: none;
 }
@@ -1207,6 +1383,10 @@ html.ap-intl .ap-site-header__mob .ap-mobile-menu-actions .ap-mobile-sales {
 		padding-left: 10px;
 		padding-right: 10px;
 		gap: 8px;
+	}
+
+	html.ap-intl .ap-site-header__mob .ap-mobile-actions {
+		gap: 6px;
 	}
 
 	html.ap-intl .ap-site-header__mob .ap-mobile-free,

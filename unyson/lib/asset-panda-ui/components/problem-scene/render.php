@@ -61,8 +61,66 @@ $ap_place = static function ( $chip ) {
 $images = array_values( array_filter( is_array( $props['images'] ) ? $props['images'] : array(), static function ( $i ) { return is_array( $i ) && ! empty( $i['image'] ); } ) );
 $chips  = array_values( array_filter( is_array( $props['chips'] ) ? $props['chips'] : array(), static function ( $c ) { return is_array( $c ) && '' !== trim( (string) ( $c['text'] ?? '' ) ); } ) );
 $bg     = trim( (string) $props['background'] );
+
+/*
+ * Education hub: live #ap-eduhub-problem, ported whole with its own class names
+ * (.apr-*). The two photos and four chips are placed by the sheet from their
+ * order (.apr-photo-1/2, .apr-chip-1…4), so the scene scales with the width
+ * instead of stacking; the colour washes arrive as --apr-bg / --apr-mbg.
+ */
+if ( 'eduhub' === $props['variant'] ) :
+	$ap_vars = array();
+	foreach ( array( '--apr-bg' => $bg, '--apr-mbg' => trim( (string) $props['mobile_background'] ) ) as $var => $url ) {
+		if ( '' !== $url ) {
+			$ap_vars[] = $var . ':url("' . esc_url_raw( $url ) . '")';
+		}
+	}
+	?>
+<section class="ap-problem-scene ap-problem-scene--eduhub"<?php echo $ap_vars ? ' style="' . esc_attr( implode( ';', $ap_vars ) ) . '"' : ''; ?>>
+	<div class="apr-wash"></div>
+	<div class="apr-container">
+		<div class="apr-header">
+			<?php if ( '' !== trim( (string) $props['eyebrow'] ) ) : ?>
+				<p class="apr-eyebrow"><?php echo esc_html( $props['eyebrow'] ); ?></p>
+			<?php endif; ?>
+			<h2 class="apr-h2"><?php echo ap_ui_brandmarks( ap_ui_lines( $props['title'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped. ?></h2>
+			<?php if ( '' !== trim( (string) $props['lede'] ) ) : ?>
+				<p class="apr-body"><?php echo ap_ui_brandmarks( ap_ui_lines( $props['lede'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped. ?></p>
+			<?php endif; ?>
+		</div>
+		<?php if ( $images || $chips ) : ?>
+			<div class="apr-cards">
+				<?php foreach ( array_slice( $images, 0, 2 ) as $i => $image ) : ?>
+					<div class="apr-photo apr-photo-<?php echo esc_attr( (string) ( $i + 1 ) ); ?>"><img src="<?php echo esc_url( $image['image'] ); ?>" alt="<?php echo esc_attr( $image['alt'] ?? '' ); ?>" loading="lazy" decoding="async" /></div>
+				<?php endforeach; ?>
+				<?php foreach ( array_slice( $chips, 0, 4 ) as $i => $chip ) : ?>
+					<div class="apr-chip apr-chip-<?php echo esc_attr( (string) ( $i + 1 ) ); ?>"><?php echo $ap_icon( $chip ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?><span><?php echo esc_html( $chip['text'] ); ?></span></div>
+				<?php endforeach; ?>
+			</div>
+		<?php endif; ?>
+		<?php if ( '' !== trim( (string) $props['cta_title'] ) || '' !== trim( (string) $props['cta_body'] ) ) : ?>
+			<div class="apr-cta">
+				<div class="apr-cta-content">
+					<?php if ( '' !== trim( (string) $props['cta_icon'] ) ) : ?>
+						<img class="apr-cta-icon" src="<?php echo esc_url( $props['cta_icon'] ); ?>" alt="" loading="lazy" decoding="async" />
+					<?php endif; ?>
+					<div class="apr-cta-text">
+						<p class="apr-cta-title"><?php echo esc_html( $props['cta_title'] ); ?></p>
+						<p class="apr-cta-desc"><?php echo esc_html( $props['cta_body'] ); ?></p>
+					</div>
+				</div>
+				<?php if ( '' !== trim( (string) $props['cta_label'] ) && '' !== trim( (string) $props['cta_url'] ) ) : ?>
+					<a class="apr-cta-btn" href="<?php echo esc_url( $props['cta_url'] ); ?>"><?php echo esc_html( $props['cta_label'] ); ?></a>
+				<?php endif; ?>
+			</div>
+		<?php endif; ?>
+	</div>
+</section>
+	<?php
+	return;
+endif;
 ?>
-<section class="ap-problem-scene"<?php echo '' !== $bg ? ' style="' . esc_attr( '--apg-bg:url("' . esc_url_raw( $bg ) . '")' ) . '"' : ''; ?>>
+<section class="ap-problem-scene<?php echo '900' === (string) $props['stack'] ? ' ap-problem-scene--stack-900' : ''; ?><?php echo 'readiness' === $props['variant'] ? ' ap-problem-scene--readiness' : ''; ?>"<?php echo '' !== $bg ? ' style="' . esc_attr( '--apg-bg:url("' . esc_url_raw( $bg ) . '")' ) . '"' : ''; ?>>
 	<div class="apg-prob-head">
 		<?php if ( '' !== trim( (string) $props['eyebrow'] ) ) : ?>
 			<p class="apg-eyebrow"><?php echo esc_html( $props['eyebrow'] ); ?></p>

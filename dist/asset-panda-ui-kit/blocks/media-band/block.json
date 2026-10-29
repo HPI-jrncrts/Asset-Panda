@@ -1,0 +1,109 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/media-band",
+	"title": "AP Media Band",
+	"category": "design",
+	"icon": "format-video",
+	"description": "Centred band: eyebrow, heading, a bold sub line, copy and a button over an optional wide image or a YouTube video (poster that plays in place on click). Used on the form pages (/get-a-quote-pro/, /start-a-free-trial-email-only/) for live's 'Manage your assets your way' video, 'Build with Ursa AI' banner and the closing trial call to action. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
+		"layout": {
+			"type": "string",
+			"default": "stack",
+			"enum": [
+				"stack",
+				"split"
+			]
+		},
+		"tone": {
+			"type": "string",
+			"default": "soft",
+			"enum": [
+				"soft",
+				"white"
+			]
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"title_tag": {
+			"type": "string",
+			"default": "h2",
+			"enum": [
+				"h2",
+				"h3"
+			]
+		},
+		"subtitle": {
+			"type": "string",
+			"default": ""
+		},
+		"body": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_label": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_url": {
+			"type": "string",
+			"default": ""
+		},
+		"image": {
+			"type": "string",
+			"default": ""
+		},
+		"image_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"image_width": {
+			"type": "number",
+			"default": 0
+		},
+		"image_height": {
+			"type": "number",
+			"default": 0
+		},
+		"video": {
+			"type": "string",
+			"default": ""
+		},
+		"video_title": {
+			"type": "string",
+			"default": ""
+		},
+		"video_look": {
+			"type": "string",
+			"default": "card",
+			"enum": [
+				"card",
+				"theater"
+			]
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

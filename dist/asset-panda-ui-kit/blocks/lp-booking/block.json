@@ -1,0 +1,105 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/lp-booking",
+	"title": "AP Lp Booking",
+	"category": "design",
+	"icon": "block-default",
+	"description": "Booking page: a heading and lede over one white card holding the event details (logo, event name, duration, description) beside an inline scheduler, on the soft colour wash. The scheduler is a Calendly inline widget or a Cal.com inline embed, mounted when the card nears the viewport. Live: the /calendly-booking-page-*/ pages (bs-section--thank-you-calendar, Calendly or Cal.com). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"background": {
+			"type": "string",
+			"default": ""
+		},
+		"logo": {
+			"type": "string",
+			"default": ""
+		},
+		"logo_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"logo_width": {
+			"type": "number",
+			"default": 0
+		},
+		"logo_height": {
+			"type": "number",
+			"default": 0
+		},
+		"event_title": {
+			"type": "string",
+			"default": ""
+		},
+		"duration": {
+			"type": "string",
+			"default": ""
+		},
+		"body": {
+			"type": "string",
+			"default": ""
+		},
+		"provider": {
+			"type": "string",
+			"default": "calendly",
+			"enum": [
+				"calendly",
+				"cal"
+			]
+		},
+		"calendly_url": {
+			"type": "string",
+			"default": ""
+		},
+		"cal_link": {
+			"type": "string",
+			"default": ""
+		},
+		"cal_namespace": {
+			"type": "string",
+			"default": ""
+		},
+		"height": {
+			"type": "number",
+			"default": 640
+		},
+		"hide_international": {
+			"type": "boolean",
+			"default": false
+		},
+		"contact_email": {
+			"type": "string",
+			"default": "info@assetpanda.com"
+		},
+		"contact_phone": {
+			"type": "string",
+			"default": "(888) 928-6112"
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

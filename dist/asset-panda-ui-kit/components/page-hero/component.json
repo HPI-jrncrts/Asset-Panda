@@ -1,0 +1,26 @@
+{
+	"name": "page-hero",
+	"description": "Utility page hero for the 2026 company and resource pages (integrations, partners, compare, FAQ, tutorials, about, careers, reviews, ROI calculator): an eyebrow, a headline with an optional gradient phrase, lede paragraphs, check chips, two buttons and badges on the soft brand colour wash; centred, or split beside a framed product image. An optional stat row closes it. The eyebrow can carry the page h1 (live's small-label h1 pattern) with the headline as the h2.",
+	"props": {
+		"anchor": { "type": "string", "required": false, "default": "", "description": "id on the section (letters, digits, hyphens)." },
+		"layout": { "type": "string", "required": false, "default": "center", "enum": [ "center", "split" ], "description": "center: copy centred on the wash. split: copy left, image right from 1001px (stacked below); needs image." },
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small uppercase label above the headline." },
+		"eyebrow_tag": { "type": "string", "required": false, "default": "p", "enum": [ "p", "h1" ], "description": "h1 when the page's h1 is the small label (live: 'Asset Panda Integrations' over 'Integrating With The World's Best'); then title_tag should be h2." },
+		"title": { "type": "string", "required": true, "description": "Headline. Line breaks are kept." },
+		"title_tag": { "type": "string", "required": false, "default": "h1", "enum": [ "h1", "h2" ], "description": "Headline level: h1, or h2 when the eyebrow is the h1." },
+		"title_accent": { "type": "string", "required": false, "default": "", "description": "Words inside the headline painted with the brand gradient (first occurrence); must appear in title." },
+		"lede": { "type": "string", "required": false, "default": "", "description": "Copy under the headline. A blank line starts a new paragraph; single line breaks are kept; [label](url) makes a link and **double asterisks** bold." },
+		"chips": { "type": "array", "required": false, "default": [], "description": "Short check-marked points under the copy (plain strings)." },
+		"cta_label": { "type": "string", "required": false, "default": "", "description": "Primary (gradient) button text. Renders only with cta_url." },
+		"cta_url": { "type": "string", "required": false, "default": "", "description": "Primary button destination (a page, #anchor, http(s) or mailto:)." },
+		"secondary_label": { "type": "string", "required": false, "default": "", "description": "Secondary (outline) button text. Renders only with secondary_url." },
+		"secondary_url": { "type": "string", "required": false, "default": "", "description": "Secondary button destination." },
+		"badges": { "type": "array", "required": false, "default": [], "description": "Badge images under the buttons. Each: image (URL), alt, optional w and h (intrinsic px; drawn 56px tall)." },
+		"image": { "type": "string", "required": false, "default": "", "description": "split: the hero image (PNG/WebP). Loaded eagerly with high priority (it is the page's largest paint)." },
+		"image_alt": { "type": "string", "required": false, "default": "", "description": "Image alt text (empty when decorative)." },
+		"image_width": { "type": "integer", "required": false, "default": 0, "description": "Image intrinsic width in px (sets the aspect ratio; 0 omits it)." },
+		"image_height": { "type": "integer", "required": false, "default": 0, "description": "Image intrinsic height in px." },
+		"image_frame": { "type": "string", "required": false, "default": "card", "enum": [ "card", "plain" ], "description": "card: the image sits in a white rounded frame with a soft shadow (screenshots). plain: drawn as is (cut-out art)." },
+		"stats": { "type": "array", "required": false, "default": [], "description": "Optional figures along the bottom. Each: value (e.g. 30+) and label." }
+	}
+}

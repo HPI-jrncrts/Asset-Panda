@@ -1,0 +1,94 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/lp-hero",
+	"title": "AP Lp Hero",
+	"category": "design",
+	"icon": "block-default",
+	"description": "Opening section for long-form and utility pages (legal pages, guides, webinar replays, event pages): breadcrumbs, eyebrow, the page h1, a lede with optional links, a small meta line and an optional button, over the soft colour wash. center: one centred column (legal pages, replays). split: copy left, a rounded picture card right, stacked below 992px (the government guides). banner: centred copy over a wide picture (the AWS re:Invent page). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"layout": {
+			"type": "string",
+			"default": "center",
+			"enum": [
+				"center",
+				"split",
+				"banner"
+			]
+		},
+		"tone": {
+			"type": "string",
+			"default": "wash",
+			"enum": [
+				"wash",
+				"white"
+			]
+		},
+		"background": {
+			"type": "string",
+			"default": ""
+		},
+		"crumbs": {
+			"type": "array",
+			"default": []
+		},
+		"home_url": {
+			"type": "string",
+			"default": "/"
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"meta": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_label": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_url": {
+			"type": "string",
+			"default": ""
+		},
+		"image": {
+			"type": "string",
+			"default": ""
+		},
+		"image_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"image_width": {
+			"type": "number",
+			"default": 0
+		},
+		"image_height": {
+			"type": "number",
+			"default": 0
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

@@ -1,0 +1,64 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/trust-strip",
+	"title": "AP Trust Strip",
+	"category": "design",
+	"icon": "awards",
+	"description": "Trust bar: a short label beside a row of customer or certification badges; on phones the row scrolls as a marquee. Live: the `.ap-trust` strip on every vertical, hub and solution page. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"label": {
+			"type": "string",
+			"default": ""
+		},
+		"accent": {
+			"type": "string",
+			"default": ""
+		},
+		"items": {
+			"type": "array",
+			"default": []
+		},
+		"layout": {
+			"type": "string",
+			"default": "inline",
+			"enum": [
+				"inline",
+				"stacked",
+				"solution",
+				"hub",
+				"eduhub"
+			]
+		},
+		"label_width": {
+			"type": "number",
+			"default": 0
+		},
+		"gap": {
+			"type": "number",
+			"default": 0
+		},
+		"marquee": {
+			"type": "boolean",
+			"default": true
+		},
+		"reveal": {
+			"type": "boolean",
+			"default": true
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

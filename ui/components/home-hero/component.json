@@ -1,0 +1,27 @@
+{
+	"name": "home-hero",
+	"description": "Homepage hero: eyebrow, two-line title, lede, demo button and compliance badges beside the live Ursa demo, over a band of client logos that scrolls on phones. Live: #ap-home-hero-v2 on the homepage.",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the title (the page H1, as on live)." },
+		"title": { "type": "string", "required": true, "description": "Title's first line." },
+		"title_accent": { "type": "string", "required": false, "default": "", "description": "Title's second line, in the brand gradient. Line breaks are kept." },
+		"lede_strong": { "type": "string", "required": false, "default": "", "description": "Bold line under the title." },
+		"lede": { "type": "string", "required": false, "default": "", "description": "Paragraph under it. Line breaks are kept." },
+		"cta_label": { "type": "string", "required": false, "default": "Free Demo", "description": "Primary button text." },
+		"cta_url": { "type": "string", "required": false, "default": "/get-a-demo/", "description": "Primary button destination." },
+		"secondary_label": { "type": "string", "required": false, "default": "", "description": "Secondary button text (live hides it; kept for parity)." },
+		"secondary_url": { "type": "string", "required": false, "default": "", "description": "Secondary button destination." },
+		"compliance_label": { "type": "string", "required": false, "default": "", "description": "Label above the compliance badges." },
+		"badges": { "type": "array", "required": false, "default": [], "description": "Compliance badges. Each: image, alt, cls (sizing class, e.g. ap-compliance-img-soc2)." },
+		"background": { "type": "string", "required": false, "default": "", "description": "Backdrop art behind the hero." },
+		"demo_url": { "type": "string", "required": false, "default": "", "description": "The live Ursa demo, framed beside the copy. Its host only allows assetpanda.com to frame it; leave empty elsewhere to show the posters." },
+		"demo_title": { "type": "string", "required": false, "default": "Ursa Inspection live demo", "description": "Accessible title of the demo frame." },
+		"poster": { "type": "string", "required": false, "default": "", "description": "Still of the demo at rest (desktop), shown when there is no demo_url." },
+		"poster_tablet": { "type": "string", "required": false, "default": "", "description": "Poster for 768-1023px." },
+		"poster_phone": { "type": "string", "required": false, "default": "", "description": "Poster for 767px and below." },
+		"poster_alt": { "type": "string", "required": false, "default": "", "description": "Alt text for the poster." },
+		"logos_label": { "type": "string", "required": false, "default": "", "description": "Heading of the client logo band." },
+		"logos_accent": { "type": "string", "required": false, "default": "", "description": "Bold tail of that heading. Must appear in logos_label." },
+		"logos": { "type": "array", "required": false, "default": [], "description": "Client logos. Each: image, alt, cls (sizing class, e.g. ap-logo-dyson), w, h (px, optional)." }
+	}
+}

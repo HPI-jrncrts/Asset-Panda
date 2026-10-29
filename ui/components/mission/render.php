@@ -52,7 +52,7 @@ $has_cta   = '' !== trim( (string) $props['cta_label'] ) && '' !== trim( (string
 					</figure>
 				<?php endif; ?>
 				<?php if ( '' !== $body ) : ?>
-					<p class="ap-mission__body"><?php echo esc_html( $body ); ?></p>
+					<p class="ap-mission__body"><?php echo ap_ui_lines( $body ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped by ap_ui_lines(). ?></p>
 				<?php endif; ?>
 				<?php if ( $has_cta ) : ?>
 					<a class="ap-mission__btn" href="<?php echo esc_url( $props['cta_url'] ); ?>"><?php echo esc_html( $props['cta_label'] ); ?></a>

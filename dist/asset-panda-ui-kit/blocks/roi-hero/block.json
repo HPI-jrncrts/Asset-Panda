@@ -1,0 +1,93 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/roi-hero",
+	"title": "AP Roi Hero",
+	"category": "design",
+	"icon": "block-default",
+	"description": "ROI calculator page hero (Figma 'Pricing - New Jun 11 2026 - Opt 1', node 7169:88796, restyled per QA 2026-10-29): eyebrow, headline and lede on the white page beside a card holding the HubSpot quote form, drawn like the Get a Demo booking form (demo-booking's .ap-dw-* card, white floating-label fields, the indigo-to-green button, an optional compliance badge row) with no testimonial column. The form is the live A/B-tested /new-pricing/ quote form: behaviour.js loads HubSpot's v2 embed into the labelled mount, fills HubSpot's own labels from form_placeholders (they float on focus / value / autofill), applies the submit label and the redirect, and keeps ZoomInfo 'enrich' fields hidden until enrichment cannot fill them (same rules as pricing-hero). Reserves the form's height while it loads (no layout shift) and shows a contact line if HubSpot is blocked. Pairs with pricing-calculator variant 2026 (the gradient splash and glass card). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"body": {
+			"type": "string",
+			"default": ""
+		},
+		"h1": {
+			"type": "string",
+			"default": "title",
+			"enum": [
+				"title",
+				"eyebrow"
+			]
+		},
+		"form_label": {
+			"type": "string",
+			"default": ""
+		},
+		"hubspot_portal": {
+			"type": "string",
+			"default": ""
+		},
+		"hubspot_form": {
+			"type": "string",
+			"default": ""
+		},
+		"hubspot_region": {
+			"type": "string",
+			"default": "na1"
+		},
+		"form_placeholders": {
+			"type": "object",
+			"default": {}
+		},
+		"form_submit": {
+			"type": "string",
+			"default": ""
+		},
+		"form_redirect": {
+			"type": "string",
+			"default": ""
+		},
+		"form_enrich_fields": {
+			"type": "array",
+			"default": []
+		},
+		"compliance_label": {
+			"type": "string",
+			"default": "Compliance Certifications"
+		},
+		"compliance": {
+			"type": "array",
+			"default": []
+		},
+		"fallback_email": {
+			"type": "string",
+			"default": ""
+		},
+		"fallback_phone": {
+			"type": "string",
+			"default": ""
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

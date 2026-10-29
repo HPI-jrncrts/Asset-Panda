@@ -20,6 +20,24 @@
 			"type": "string",
 			"default": ""
 		},
+		"variant": {
+			"type": "string",
+			"default": "default",
+			"enum": [
+				"default",
+				"home",
+				"solution",
+				"eduhub"
+			]
+		},
+		"stack": {
+			"type": "string",
+			"default": "narrow",
+			"enum": [
+				"narrow",
+				"wide"
+			]
+		},
 		"items": {
 			"type": "array",
 			"default": []
@@ -35,6 +53,10 @@
 		"viewall_url": {
 			"type": "string",
 			"default": ""
+		},
+		"autoplay_ms": {
+			"type": "number",
+			"default": 3000
 		},
 		"align": {
 			"type": "string",

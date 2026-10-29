@@ -1,0 +1,365 @@
+/*
+ * integration-more — "More integrations" band on the integration detail pages.
+ * Figma: Integrations Detail Page Template > Problem Section (7318:171385).
+ *
+ * Desktop (1280px+) is Figma's: a 1120px container, the head (max 640px of
+ * copy) with the outline button bottom-right, then four 32px-spaced cards of
+ * 64px logos. Below that the cards keep four across with slightly smaller logos
+ * to 1024px, go 2 x 2 under 1024px, and stay 2 x 2 on phones with compact
+ * logos, so every card keeps the logo + panda pairing on one line.
+ */
+
+:where(.ap-integration-more, .ap-integration-more *, .ap-integration-more *::before, .ap-integration-more *::after) {
+	box-sizing: border-box;
+}
+
+.ap-integration-more {
+	/* Card scale: logo height, panda height, wordmark max width, gaps. */
+	--im-logo: 44px;
+	--im-brand: 44px;
+	--im-wordmark: 60px;
+	--im-icon-gap: 8px;
+	--im-grid-gap: 16px;
+	--im-pad: 20px 12px 16px;
+
+	position: relative;
+	overflow: clip;
+	padding: var(--ap-section-y, 64px) 0;
+	background: linear-gradient(180deg, #fff 0%, var(--ap-slate-50) 100%);
+	/* The host theme's body type (see tokens.css "component roots"). */
+	font-family: var(--ap-font-body);
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+	letter-spacing: normal;
+	color: var(--ap-text-body);
+}
+
+/* Figma's two blurred orbs (indigo right of centre, green left), behind the
+ * cards. Positioned from the centre so they track the 1120px container. */
+.ap-integration-more::before,
+.ap-integration-more::after {
+	content: "";
+	position: absolute;
+	z-index: 0;
+	pointer-events: none;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+
+.ap-integration-more::before {
+	top: calc(var(--ap-section-y, 64px) - 18px);
+	left: calc(50% - 378px);
+	width: 1140px;
+	height: 500px;
+	background-image: url("assets/orb-indigo.svg");
+}
+
+.ap-integration-more::after {
+	top: calc(var(--ap-section-y, 64px) - 24px);
+	left: calc(50% - 861px);
+	width: 1012px;
+	height: 512px;
+	background-image: url("assets/orb-green.svg");
+}
+
+.ap-integration-more__inner {
+	position: relative;
+	z-index: 1;
+	width: min(var(--ap-host-container, 1120px), 100% - 48px);
+	margin: 0 auto;
+}
+
+/* ---- Head ---- */
+
+.ap-integration-more__head {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 24px;
+	margin: 0 0 var(--ap-section-head-gap, 40px);
+}
+
+.ap-integration-more__copy {
+	max-width: 640px;
+}
+
+.ap-integration-more__eyebrow {
+	margin: 0 0 var(--ap-section-title-gap, 16px);
+	color: var(--ap-type-eyebrow-color, var(--ap-text-eyebrow));
+	font-family: var(--ap-font-utility);
+	font-size: var(--ap-type-eyebrow-size);
+	font-weight: var(--ap-type-eyebrow-weight);
+	line-height: var(--ap-type-eyebrow-line);
+	letter-spacing: var(--ap-type-eyebrow-track);
+	text-transform: uppercase;
+}
+
+.ap-integration-more__title {
+	margin: 0;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: var(--ap-type-h2-size);
+	font-weight: var(--ap-type-h2-weight);
+	line-height: var(--ap-type-h2-line);
+	letter-spacing: var(--ap-type-h2-track);
+	text-transform: none;
+}
+
+.ap-integration-more__lede {
+	margin: var(--ap-section-title-gap, 16px) 0 0;
+	color: var(--ap-type-lede-color, var(--ap-text-body));
+	font-family: var(--ap-font-body);
+	font-size: var(--ap-type-lede-size);
+	font-weight: var(--ap-type-lede-weight);
+	line-height: var(--ap-type-lede-line);
+}
+
+/* Outline (green) button, as Figma's btn-outline(green); hover fills it like
+ * the footer CTA's outline button. */
+.ap-integration-more__btn {
+	display: inline-flex;
+	flex: 0 0 auto;
+	align-items: center;
+	justify-content: center;
+	min-height: 48px;
+	padding: 0 var(--ap-surf-pad-lg, 16px);
+	border: 1px solid var(--ap-green-600);
+	border-radius: var(--ap-radius-sm);
+	background: transparent;
+	color: var(--ap-green-600);
+	font-family: var(--ap-font-utility);
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 1.2;
+	text-decoration: none;
+	white-space: nowrap;
+	transition:
+		translate var(--ap-dur-base) var(--ap-ease-standard),
+		background-color var(--ap-dur-base) var(--ap-ease-standard),
+		color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-integration-more__btn:hover {
+	translate: 0 -1px;
+	background: var(--ap-green-600);
+	color: #fff;
+	text-decoration: none;
+}
+
+.ap-integration-more__btn:focus {
+	outline: none;
+}
+
+.ap-integration-more__btn:focus-visible {
+	outline: 2px solid var(--ap-indigo-600);
+	outline-offset: 3px;
+}
+
+/* ---- Cards ---- */
+
+.ap-integration-more__grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--im-grid-gap);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+/* A card alone on its row (one item, or the third of three) sits centred. */
+.ap-integration-more__grid--n1 .ap-integration-more__item,
+.ap-integration-more__grid--n3 .ap-integration-more__item:last-child {
+	grid-column: 1 / -1;
+	justify-self: center;
+	width: calc(50% - var(--im-grid-gap) / 2);
+}
+
+.ap-integration-more__item {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 16px;
+	min-width: 0;
+	margin: 0;
+	padding: var(--im-pad);
+	border: 1px solid #fff;
+	border-radius: var(--ap-radius-xl);
+	background: rgba(255, 255, 255, 0.24);
+	transition:
+		translate var(--ap-dur-base) var(--ap-ease-standard),
+		background-color var(--ap-dur-base) var(--ap-ease-standard),
+		border-color var(--ap-dur-base) var(--ap-ease-standard),
+		box-shadow var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-integration-more__item::marker {
+	content: none;
+}
+
+.ap-integration-more__logos {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--im-icon-gap);
+	max-width: 100%;
+	min-height: var(--im-brand);
+}
+
+/* Square icons draw at the logo height; wordmarks (e.g. Zapier) cap at the
+ * wordmark width and centre in the same box, as Figma sizes them. */
+.ap-integration-more__partner {
+	display: block;
+	flex: 0 1 auto;
+	width: auto;
+	min-width: 0;
+	max-width: var(--im-wordmark);
+	height: var(--im-logo);
+	object-fit: contain;
+}
+
+.ap-integration-more__plus {
+	display: block;
+	flex: 0 0 9px;
+	width: 9px;
+	height: 9px;
+}
+
+.ap-integration-more__brand {
+	display: block;
+	flex: 0 0 auto;
+	width: auto;
+	height: var(--im-brand);
+	aspect-ratio: 61 / 64;
+}
+
+.ap-integration-more__name {
+	margin: 0;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: 15px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: 0;
+	text-align: center;
+	text-transform: none;
+	overflow-wrap: anywhere;
+	transition: color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-integration-more__link {
+	color: inherit;
+	text-decoration: none;
+}
+
+/* Stretched link: the whole card is the name's link target. */
+.ap-integration-more__link::after {
+	content: "";
+	position: absolute;
+	inset: -1px;
+	z-index: 1;
+	border-radius: var(--ap-radius-xl);
+}
+
+.ap-integration-more__link:focus {
+	outline: none;
+}
+
+.ap-integration-more__link:focus-visible::after {
+	outline: 2px solid var(--ap-indigo-600);
+	outline-offset: 3px;
+}
+
+@media (hover: hover) {
+	.ap-integration-more__item--link:hover {
+		translate: 0 -4px;
+		border-color: var(--ap-indigo-100);
+		background: rgba(255, 255, 255, 0.72);
+		box-shadow: 0 12px 32px rgba(80, 68, 225, 0.12);
+	}
+
+	.ap-integration-more__item--link:hover .ap-integration-more__name {
+		color: var(--ap-indigo-600);
+	}
+}
+
+.ap-integration-more__item--link:has(.ap-integration-more__link:focus-visible) .ap-integration-more__name {
+	color: var(--ap-indigo-600);
+}
+
+/* ---- Responsive ---- */
+
+@media (min-width: 600px) {
+	.ap-integration-more {
+		--im-logo: 64px;
+		--im-brand: 64px;
+		--im-wordmark: 104px;
+		--im-icon-gap: 16px;
+		--im-grid-gap: 24px;
+		--im-pad: 24px 24px 16px;
+	}
+
+	.ap-integration-more__item {
+		gap: 24px;
+	}
+
+	.ap-integration-more__name {
+		font-size: 16px;
+	}
+}
+
+@media (min-width: 768px) {
+	.ap-integration-more__head {
+		flex-direction: row;
+		align-items: flex-end;
+		justify-content: space-between;
+		gap: 32px;
+	}
+}
+
+@media (min-width: 1024px) {
+	.ap-integration-more {
+		--im-logo: 56px;
+		--im-brand: 56px;
+		--im-wordmark: 88px;
+		--im-icon-gap: 12px;
+		--im-pad: 24px 20px 16px;
+	}
+
+	.ap-integration-more__grid {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+
+	/* Fewer than four: the same card width, centred. */
+	.ap-integration-more__grid:is(.ap-integration-more__grid--n1, .ap-integration-more__grid--n2, .ap-integration-more__grid--n3) {
+		grid-template-columns: repeat(auto-fit, calc((100% - 3 * var(--im-grid-gap)) / 4));
+		justify-content: center;
+	}
+
+	.ap-integration-more__grid--n1 .ap-integration-more__item,
+	.ap-integration-more__grid--n3 .ap-integration-more__item:last-child {
+		grid-column: auto;
+		width: auto;
+		justify-self: stretch;
+	}
+}
+
+@media (min-width: 1280px) {
+	.ap-integration-more {
+		--im-logo: 64px;
+		--im-brand: 64px;
+		--im-wordmark: 104px;
+		--im-icon-gap: 16px;
+		--im-grid-gap: 32px;
+		--im-pad: 24px 24px 16px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-integration-more *,
+	.ap-integration-more__item--link:hover {
+		transition: none;
+		translate: none;
+	}
+}

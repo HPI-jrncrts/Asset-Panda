@@ -1,0 +1,337 @@
+/*
+ * lp-hero — opening section of the long-form and utility pages.
+ *
+ * Type follows the 2026 page heroes measured on staging: h1 48px / 800 / 1.2 /
+ * -1px on desktop, 36px on phones; eyebrow 14px / 800 upper-case indigo;
+ * lede 18px slate. The wash is the same Color-Set picture the form, thank-you
+ * and 404 heroes use (the kit's soft gradient when none is given).
+ */
+
+.ap-lp-hero,
+.ap-lp-hero * {
+	box-sizing: border-box;
+}
+
+.ap-lp-hero {
+	width: 100%;
+	padding: 56px 24px 48px;
+	background-color: var(--ap-white);
+	font-family: var(--ap-font-body);
+	font-size: 16px;
+	font-weight: var(--ap-weight-body);
+	line-height: 1.5;
+	letter-spacing: normal;
+	color: var(--ap-text-body);
+}
+
+.ap-lp-hero--wash {
+	background-image: var(--ap-lp-hero-bg, linear-gradient(120deg, var(--ap-indigo-50) 0%, var(--ap-white) 55%, var(--ap-green-50) 100%));
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+}
+
+.ap-lp-hero :where(h1, p) {
+	text-wrap: wrap;
+}
+
+.ap-lp-hero__inner {
+	width: 100%;
+	max-width: var(--ap-host-container, 1120px);
+	margin: 0 auto;
+}
+
+.ap-lp-hero--center .ap-lp-hero__inner,
+.ap-lp-hero--banner .ap-lp-hero__copy {
+	max-width: 840px;
+	text-align: center;
+}
+
+.ap-lp-hero--banner .ap-lp-hero__copy {
+	margin: 0 auto;
+}
+
+/* ---- breadcrumbs ---- */
+.ap-lp-hero__crumbs {
+	margin: 0 0 20px;
+}
+
+.ap-lp-hero__crumbs ol {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 4px 2px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	color: var(--ap-slate-500);
+	font-size: 14px;
+	font-weight: var(--ap-weight-medium);
+	line-height: 20px;
+}
+
+.ap-lp-hero--center .ap-lp-hero__crumbs ol,
+.ap-lp-hero--banner .ap-lp-hero__crumbs ol {
+	justify-content: center;
+}
+
+.ap-lp-hero__crumbs li {
+	display: inline-flex;
+	align-items: center;
+	gap: 2px;
+	min-width: 0;
+	margin: 0;
+	padding: 0;
+}
+
+.ap-lp-hero__crumbs svg {
+	display: block;
+	flex: none;
+}
+
+.ap-lp-hero__sep {
+	color: var(--ap-slate-300);
+}
+
+.ap-lp-hero .ap-lp-hero__crumbs a {
+	display: inline-flex;
+	align-items: center;
+	color: var(--ap-slate-500);
+	text-decoration: none;
+	transition: color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-lp-hero .ap-lp-hero__crumbs a:hover,
+.ap-lp-hero .ap-lp-hero__crumbs a:focus-visible {
+	color: var(--ap-brand-indigo);
+}
+
+.ap-lp-hero .ap-lp-hero__home {
+	color: var(--ap-slate-900);
+}
+
+.ap-lp-hero__crumbs [aria-current] {
+	overflow: hidden;
+	max-width: 46ch;
+	color: var(--ap-slate-900);
+	font-weight: 700;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+/* ---- copy ---- */
+.ap-lp-hero .ap-lp-hero__eyebrow {
+	margin: 0 0 12px;
+	color: var(--ap-text-eyebrow);
+	font-size: 14px;
+	font-weight: var(--ap-weight-eyebrow);
+	line-height: 1.2;
+	letter-spacing: .06em;
+	text-transform: uppercase;
+}
+
+.ap-lp-hero .ap-lp-hero__title {
+	margin: 0;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: 48px;
+	font-weight: var(--ap-weight-heading);
+	line-height: 1.2;
+	letter-spacing: -1px;
+	text-transform: none;
+	text-wrap: balance;
+}
+
+.ap-lp-hero .ap-lp-hero__lede {
+	max-width: 720px;
+	margin: 20px 0 0;
+	color: var(--ap-slate-700);
+	font-size: 18px;
+	line-height: 1.6;
+}
+
+.ap-lp-hero--center .ap-lp-hero__lede,
+.ap-lp-hero--banner .ap-lp-hero__lede {
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.ap-lp-hero .ap-lp-hero__lede a {
+	color: var(--ap-brand-indigo);
+	font-weight: var(--ap-weight-link);
+	text-decoration: underline;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 3px;
+	transition: color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-lp-hero .ap-lp-hero__lede a:hover,
+.ap-lp-hero .ap-lp-hero__lede a:focus-visible {
+	color: var(--ap-indigo-900);
+}
+
+.ap-lp-hero .ap-lp-hero__meta {
+	margin: 16px 0 0;
+	color: var(--ap-slate-500);
+	font-size: 14px;
+	font-weight: var(--ap-weight-medium);
+	line-height: 1.4;
+}
+
+.ap-lp-hero .ap-ursa {
+	padding-top: .1em;
+	background: var(--ap-gradient-ursa);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	-webkit-text-fill-color: transparent;
+	white-space: nowrap;
+}
+
+.ap-lp-hero .ap-ursa sup {
+	font-size: .5em;
+	line-height: 1;
+	vertical-align: super;
+}
+
+/* ---- button ---- */
+.ap-lp-hero__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	margin-top: 28px;
+}
+
+.ap-lp-hero--center .ap-lp-hero__actions,
+.ap-lp-hero--banner .ap-lp-hero__actions {
+	justify-content: center;
+}
+
+.ap-lp-hero a.ap-lp-hero__btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 48px;
+	padding: 0 28px;
+	border-radius: var(--ap-radius-sm);
+	background: var(--ap-gradient-action);
+	color: var(--ap-white);
+	font-size: 16px;
+	font-weight: var(--ap-weight-button);
+	line-height: 1.2;
+	text-decoration: none;
+	transition: box-shadow .3s cubic-bezier(.25, .45, .45, .95), translate .3s cubic-bezier(.25, .45, .45, .95);
+}
+
+.ap-lp-hero a.ap-lp-hero__btn:hover,
+.ap-lp-hero a.ap-lp-hero__btn:focus-visible {
+	color: var(--ap-white);
+	box-shadow: 0 8px 20px rgba(80, 68, 225, .25);
+	translate: 0 -2px;
+}
+
+/* ---- picture ---- */
+.ap-lp-hero__media {
+	margin: 0;
+}
+
+.ap-lp-hero__media img {
+	display: block;
+	width: 100%;
+	height: auto;
+	border-radius: var(--ap-radius-2xl);
+	box-shadow: 0 16px 40px rgba(32, 28, 74, .14);
+}
+
+.ap-lp-hero--split .ap-lp-hero__inner {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 480px);
+	gap: 56px;
+	align-items: center;
+}
+
+.ap-lp-hero--split .ap-lp-hero__title {
+	font-size: 44px;
+}
+
+.ap-lp-hero--banner .ap-lp-hero__media {
+	width: 100%;
+	max-width: 1040px;
+	margin: 36px auto 0;
+}
+
+/* On-load entrance (heroes animate from their own CSS, not the scroll layer). */
+@keyframes ap-lp-hero-in {
+	from { opacity: 0; translate: 0 12px; }
+	to { opacity: 1; translate: 0 0; }
+}
+
+.ap-lp-hero__copy,
+.ap-lp-hero__media {
+	animation: ap-lp-hero-in var(--ap-dur-slow, .6s) var(--ap-ease-out, ease-out) both;
+}
+
+.ap-lp-hero__media {
+	animation-delay: .12s;
+}
+
+@media (max-width: 991px) {
+	.ap-lp-hero--split .ap-lp-hero__inner {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 32px;
+	}
+
+	.ap-lp-hero--split .ap-lp-hero__media {
+		max-width: 560px;
+	}
+}
+
+@media (max-width: 767px) {
+	.ap-lp-hero {
+		padding: 32px 16px 40px;
+	}
+
+	.ap-lp-hero .ap-lp-hero__title,
+	.ap-lp-hero--split .ap-lp-hero__title {
+		font-size: 36px;
+		letter-spacing: -1px;
+	}
+
+	.ap-lp-hero .ap-lp-hero__lede {
+		margin-top: 16px;
+		font-size: 17px;
+	}
+
+	.ap-lp-hero__crumbs {
+		margin-bottom: 16px;
+	}
+
+	.ap-lp-hero__crumbs [aria-current] {
+		max-width: 24ch;
+	}
+
+	.ap-lp-hero a.ap-lp-hero__btn {
+		width: 100%;
+	}
+
+	.ap-lp-hero--banner .ap-lp-hero__media {
+		margin-top: 28px;
+	}
+
+	.ap-lp-hero__media img {
+		border-radius: var(--ap-radius-xl);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-lp-hero__copy,
+	.ap-lp-hero__media {
+		animation: none;
+	}
+
+	.ap-lp-hero a.ap-lp-hero__btn,
+	.ap-lp-hero .ap-lp-hero__crumbs a,
+	.ap-lp-hero .ap-lp-hero__lede a {
+		transition: none;
+	}
+}

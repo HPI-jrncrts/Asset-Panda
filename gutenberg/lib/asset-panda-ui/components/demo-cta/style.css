@@ -14,7 +14,7 @@
 }
 
 .ap-demo-cta__inner {
-	width: min(var(--ap-page-max-content-xl, 1120px), 100% - 48px);
+	width: min(var(--ap-host-container, 1120px), 100% - 48px);
 	margin: 0 auto;
 }
 
@@ -372,3 +372,172 @@
 		align-self: stretch;
 	}
 }
+
+/* The hub and solution pages' closing card (image beside the copy) keeps the
+ * heading at normal tracking; the product pages' form card tightens it. */
+.ap-demo-cta__card--media .ap-demo-cta__title { letter-spacing: normal; }
+.ap-demo-cta--platform .ap-demo-cta__card--media .ap-demo-cta__title { letter-spacing: -0.02em; }
+
+/*
+ * Form card (the vertical pages). Live sets it inside #ap-fire-footer: the
+ * site's footer art stretched behind it, 80/64/40px above by breakpoint, 40px
+ * below at every width, and its own 767px phone step. The two-class selectors
+ * outrank the shared 768px and 560px steps above.
+ */
+.ap-demo-cta--form {
+	padding: 80px 24px 40px;
+	background: var(--ap-demo-cta-bg, none) center top / 100% 100% no-repeat transparent;
+}
+
+.ap-demo-cta--form .ap-demo-cta__inner {
+	width: 100%;
+	max-width: var(--ap-host-container, 1120px);
+}
+
+.ap-demo-cta--form .ap-demo-cta__title {
+	font-size: 40px;
+}
+
+.ap-demo-cta--form .ap-demo-cta__body,
+.ap-demo-cta--form .ap-demo-cta__quote span {
+	font-size: 18px;
+}
+
+.ap-demo-cta--form .ap-demo-cta__quote strong {
+	font-size: 24px;
+}
+
+.ap-demo-cta--form .ap-demo-cta__card {
+	padding: 40px 64px;
+}
+
+@media (max-width: 991px) {
+	.ap-demo-cta--form {
+		padding: 64px 32px 40px;
+	}
+
+	.ap-demo-cta--form .ap-demo-cta__card {
+		padding: 48px 32px;
+	}
+
+	.ap-demo-cta--form .ap-demo-cta__copy,
+	.ap-demo-cta--form .ap-demo-cta__panel {
+		max-width: 560px;
+	}
+}
+
+@media (max-width: 767px) {
+	.ap-demo-cta--form {
+		padding: 40px 20px 40px;
+		background-size: auto 100%;
+	}
+
+	.ap-demo-cta--form .ap-demo-cta__card {
+		gap: 32px;
+		padding: 40px 18px;
+	}
+
+	.ap-demo-cta--form .ap-demo-cta__title {
+		font-size: 28px;
+	}
+
+	.ap-demo-cta--form .ap-demo-cta__body,
+	.ap-demo-cta--form .ap-demo-cta__quote span {
+		font-size: 16px;
+	}
+
+	.ap-demo-cta--form .ap-demo-cta__quote strong {
+		font-size: 21px;
+	}
+}
+
+/*
+ * Hub variants — the live industry-hub closing bands, ported whole (selectors
+ * re-rooted from #ap-gov-fcta / #ap-eduhub-fcta; class names are live's own).
+ * Live's Education band's full-bleed width trick is dropped (the block is
+ * already full width).
+ */
+.ap-demo-cta.ap-demo-cta--hub{position:relative;font-family:Manrope,sans-serif;padding:40px 24px 80px;background:#fff}
+.ap-demo-cta.ap-demo-cta--hub .apg-fcta-card{position:relative;max-width:1120px;margin:0 auto;border-radius:16px;overflow:hidden;background:linear-gradient(244deg,#6666ee 2.2%,#201c4a 100%);display:flex;align-items:stretch;gap:24px}
+.ap-demo-cta.ap-demo-cta--hub .apg-fcta-copy{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:16px;padding:80px 0 80px 64px}
+.ap-demo-cta.ap-demo-cta--hub .apg-fcta-eyebrow{font-size:16px;font-weight:800;line-height:1.2;text-transform:uppercase;color:#838cf6;margin:0}
+.ap-demo-cta.ap-demo-cta--hub h2.apg-h2{font-size:40px;font-weight:800;line-height:1.2;color:#fff;margin:0}
+.ap-demo-cta.ap-demo-cta--hub .apg-fcta-body{font-size:18px;line-height:1.5;color:rgba(255,255,255,.6);margin:0}
+.ap-demo-cta.ap-demo-cta--hub .apg-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:16px;border-radius:4px;border:1px solid #5044e1;background:linear-gradient(55.106deg,#5044e1 0%,#00a991 70.44%);color:#fff;font-size:16px;font-weight:600;line-height:1.2;text-decoration:none;white-space:nowrap;margin-top:8px;transition:translate .3s cubic-bezier(.25,.45,.45,.95),box-shadow .3s cubic-bezier(.25,.45,.45,.95)}
+.ap-demo-cta.ap-demo-cta--hub .apg-btn:hover{translate:0 -2px;box-shadow:0 8px 20px rgba(0,0,0,.35)}
+.ap-demo-cta.ap-demo-cta--hub .apg-fcta-media{flex:0 0 488px;display:flex;align-items:flex-end;justify-content:flex-end}
+.ap-demo-cta.ap-demo-cta--hub .apg-fcta-media img{display:block;width:488px;height:auto;max-width:100%}
+@media (max-width:1024px){.ap-demo-cta.ap-demo-cta--hub .apg-fcta-card{flex-direction:column;gap:0}
+.ap-demo-cta.ap-demo-cta--hub .apg-fcta-copy{padding:48px 32px 24px}
+.ap-demo-cta.ap-demo-cta--hub .apg-fcta-media{flex:none;justify-content:flex-end}
+}
+@media (max-width:767px){.ap-demo-cta.ap-demo-cta--hub{padding:24px 24px 48px}
+.ap-demo-cta.ap-demo-cta--hub h2.apg-h2{font-size:28px}
+.ap-demo-cta.ap-demo-cta--hub .apg-fcta-body{font-size:16px}
+.ap-demo-cta.ap-demo-cta--hub .apg-fcta-copy{padding:32px 24px 16px}
+.ap-demo-cta.ap-demo-cta--hub .apg-btn{width:100%}
+.ap-demo-cta.ap-demo-cta--hub .apg-fcta-media img{width:100%;max-width:420px}
+}
+/* Live's band is a copy of the site footer CTA: the footer sheet (all !important) plus the
+ * section's own later rules. With no footer sheet to beat, the flags are dropped and the
+ * later plain rules are moved ahead so the cascade resolves exactly as it does live. */
+.ap-demo-cta.ap-demo-cta--eduhub{display:block;padding:40px 24px 0;background:none;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-card{max-width:1120px;margin:0 auto;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-eyebrow{font-size:16px;font-weight:800;line-height:1.2;color:#838CF6;margin:0;text-transform:uppercase;}
+.ap-demo-cta.ap-demo-cta--eduhub h2{font-size:40px;font-weight:800;line-height:48px;color:#fff;letter-spacing:-0.8px;margin:0;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-paragraph-group p{font-size:18px;font-weight:400;line-height:27px;color:#fff;margin:0;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-copy{display:flex;flex-direction:column;gap:40px;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-text-group{display:flex;flex-direction:column;gap:24px;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-heading-group{display:flex;flex-direction:column;gap:16px;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-btn-group{display:flex;gap:16px;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-card{position: relative; width: 100%; min-height: 532px; border-radius: 16px; overflow: hidden; background: linear-gradient(256.98deg, rgb(102, 102, 238) -2.19%, rgb(32, 28, 74) 99.99%); box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 12px; padding: 80px 64px;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-card::after{content: ""; position: absolute; z-index: 1; right: -140px; top: -140px; width: 520px; height: 520px; border-radius: 999px; background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 68%); pointer-events: none;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-copy{position: relative; z-index: 3; width: 488px; max-width: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: 40px;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-art{position: absolute; z-index: 2; right: 0px; bottom: 0px; width: 563px; max-width: 54%; height: 384px; display: flex; align-items: flex-end; justify-content: flex-end; pointer-events: none;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-art img{display: block; width: 563px; max-width: 100%; height: auto; object-fit: contain; object-position: right bottom;}
+@media (max-width: 1279px){.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-card{min-height: 500px; padding: 64px 48px;}
+}
+@media (max-width: 1279px){.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-art{width: 520px; max-width: 52%;}
+}
+@media (max-width: 991px){.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-card{min-height: auto; padding: 48px 32px 0px;}
+}
+@media (max-width: 991px){.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-copy{width: 100%; max-width: 520px;}
+}
+@media (max-width: 991px){.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-art{position: relative; right: auto; bottom: auto; width: 100%; max-width: 100%; height: auto; min-height: 260px; margin-top: 32px; justify-content: flex-end;}
+}
+@media (max-width: 991px){.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-art img{width: 500px; max-width: 100%;}
+}
+@media (max-width: 767px){.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-card{padding: 40px 18px 0px;}
+}
+@media (max-width: 767px){.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-copy{gap: 24px;}
+}
+@media (max-width: 767px){.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-art{min-height: 220px; margin-top: 28px;}
+}
+@media (max-width: 767px){.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-art img{width: 390px;}
+}
+@media (max-width: 480px){.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-card{padding: 40px 18px 0px;}
+}
+@media (max-width: 480px){.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-art{min-height: 190px;}
+}
+@media (max-width: 480px){.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-art img{width: 340px;}
+}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-btn-group{position: relative; z-index: 4; display: flex; flex-flow: row; align-items: center; justify-content: flex-start; gap: 16px; width: auto; max-width: 100%;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-btn{display: inline-flex; justify-content: center; align-items: center; flex: 0 0 auto; width: auto; min-height: 47px; padding: 14px 16px; border-radius: 4px; font-family: Manrope, Arial, sans-serif; font-size: 16px; line-height: 1.2; font-weight: 700; text-align: center; text-decoration: none; white-space: nowrap; box-shadow: none; cursor: pointer; transition: transform 0.2s, opacity 0.2s, background-color 0.2s;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-btn:hover,.ap-demo-cta.ap-demo-cta--eduhub .ap-btn:focus{transform: translateY(-1px); text-decoration: none;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-btn-primary{min-width: 131px; color: rgb(255, 255, 255); background: linear-gradient(54.33deg, rgb(80, 68, 225) 0%, rgb(0, 169, 145) 70.44%); border: 1px solid transparent;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-btn-primary:hover,.ap-demo-cta.ap-demo-cta--eduhub .ap-btn-primary:focus{color: rgb(255, 255, 255); opacity: 0.9;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-btn-outline{min-width: 129px; color: rgb(0, 169, 145); background: transparent; border: 1px solid rgb(0, 169, 145);}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-btn-outline:hover,.ap-demo-cta.ap-demo-cta--eduhub .ap-btn-outline:focus{color: rgb(255, 255, 255); background: rgb(0, 169, 145); border-color: rgb(0, 169, 145);}
+@media (max-width: 767px){.ap-demo-cta.ap-demo-cta--eduhub .ap-btn-group{flex-wrap: nowrap; gap: 16px;}
+}
+@media (max-width: 767px){.ap-demo-cta.ap-demo-cta--eduhub .ap-btn{font-size: 16px; padding: 14px 16px;}
+}
+@media (max-width: 360px){.ap-demo-cta.ap-demo-cta--eduhub .ap-btn-group{width: 100%; flex-direction: column; align-items: stretch;}
+}
+@media (max-width: 360px){.ap-demo-cta.ap-demo-cta--eduhub .ap-btn{width: 100%;}
+}
+@media (max-width:767px){.ap-demo-cta.ap-demo-cta--eduhub{padding-top:24px}
+}
+
+/* The staging theme sets text-wrap:pretty on headings and paragraphs; live wraps plainly. */
+.ap-demo-cta--hub :is(h2, p), .ap-demo-cta--eduhub :is(h2, p) {text-wrap:wrap}

@@ -1,0 +1,551 @@
+/*
+ * home-hero — ported from the live homepage hero (#ap-home-hero-v2).
+ *
+ * The live section is styled by 18 stacked sheets that win their fights with ids;
+ * each id became the component root class, so the rules keep their relative order.
+ * Page-level theme overrides and other sections' rules were left behind. The
+ * backdrop comes from --ap-home-hero-bg.
+ */
+
+.ap-home-hero .ap-hero-trust-group .ap-btn-row .ap-btn-secondary {display:none !important}
+.ap-home-hero .ap-hero-trust-group .ap-btn-row {justify-content:center}
+html body .ap-home-hero .ap-hero-bg {background:#fbfbfe var(--ap-home-hero-bg, none) center center / cover no-repeat !important;}
+.ap-home-hero {--ap-logo-band-height: 113px;   position: relative !important;   width: 100% !important;   max-width: none !important;   min-height: 1134px;   margin: 0 !important;   padding: 112px 24px var(--ap-logo-band-height) !important;   background: #ffffff !important;   isolation: isolate !important;   overflow: hidden !important;   font-family: "Manrope", Arial, sans-serif !important;}
+.ap-home-hero, .ap-home-hero * {box-sizing: border-box !important;   font-family: "Manrope", Arial, sans-serif !important;}
+.ap-home-hero .ap-hero-bg {position: absolute !important;   inset: 0 !important;   width: 100% !important;   height: 100% !important;   min-height: 1134px !important;   overflow: hidden !important;   z-index: 0 !important;   pointer-events: none !important;   background: #ffffff !important;}
+.ap-home-hero .ap-bg-shape, .ap-home-hero .ap-bg-gray, .ap-home-hero .ap-bg-blur {position: absolute !important;   display: block !important;}
+.ap-home-hero .ap-bg-red {width: 853px !important;   height: 853px !important;   left: calc(50% - 1288px) !important;   top: 490px !important;   background: #FE6E8C !important;}
+.ap-home-hero .ap-bg-indigo {width: 853px !important;   height: 853px !important;   left: calc(50% - 853px) !important;   top: 622px !important;   background: #5044E1 !important;}
+.ap-home-hero .ap-bg-violet {width: 1037px !important;   height: 1037px !important;   left: calc(50% + 179px) !important;   top: 514px !important;   background: #5044E1 !important;}
+.ap-home-hero .ap-bg-yellow {width: 345px !important;   height: 345px !important;   left: calc(50% + 610px) !important;   top: 445px !important;   background: #F3BF51 !important;}
+.ap-home-hero .ap-bg-green {width: 917px !important;   height: 853px !important;   left: calc(50% - 481px) !important;   top: 632px !important;   background: #00A991 !important;}
+.ap-home-hero .ap-bg-gray {width: 1961px !important;   height: 876px !important;   left: calc(50% - 968px) !important;   top: 872px !important;   background: #F9FAFB !important;}
+.ap-home-hero .ap-bg-blur {inset: 0 0 -190px 0 !important;   background: rgba(255, 255, 255, 0.15) !important;   -webkit-backdrop-filter: blur(140px) !important;   backdrop-filter: blur(140px) !important;}
+.ap-home-hero .ap-hero-inner {position: relative !important;   z-index: 2 !important;   width: 100% !important;   max-width: 1120px !important;   margin: 0 auto !important;}
+.ap-home-hero .ap-hero-copy {width: 100% !important;   max-width: 800px !important;   min-height: 408px !important;   margin: 0 auto !important;   text-align: center !important;   display: flex !important;   flex-direction: column !important;   align-items: center !important;}
+.ap-home-hero .ap-eyebrow {width: 100% !important;   margin: 0 0 16px !important;   color: #5044E1 !important;   font-size: 14px !important;   line-height: 1.2 !important;   font-weight: 800 !important;   letter-spacing: 0.04em !important;   text-transform: uppercase !important;}
+.ap-home-hero .ap-hero-title {width: 100% !important;   margin: 0 !important;   color: #25272C !important;   font-size: 48px !important;   line-height: 1.2 !important;   font-weight: 800 !important;   letter-spacing: -0.02em !important;   text-align: center !important;}
+.ap-home-hero .ap-title-desktop, .ap-home-hero .ap-h1-line {display: block !important;}
+.ap-home-hero .ap-h1-dark {color: #25272C !important;}
+.ap-home-hero .ap-h1-gradient {color: transparent !important;   font-size: 36px; background: linear-gradient(75.56deg, #5044E1 0%, #287FC0 44%, #00A991 78%) !important;   -webkit-background-clip: text !important;   -webkit-text-fill-color: transparent !important;   background-clip: text !important;}
+.ap-home-hero .ap-body-group {width: 100% !important;   margin-top: 16px !important;   display: flex !important;   flex-direction: column !important;   gap: 8px !important;}
+.ap-home-hero .ap-copy {width: 100% !important;   margin: 0 !important;   color: #5B616E !important;   font-size: 18px !important;   line-height: 1.5 !important;   font-weight: 400 !important;   text-align: center !important;}
+.ap-home-hero .ap-copy-strong {color: #5B616E !important;   font-weight: 700 !important;}
+.ap-home-hero .ap-hero-trust-group {width: 100% !important;   max-width: 268px !important;   margin-top: 24px !important;   display: flex !important;   flex-direction: column !important;   align-items: center !important;   gap: 24px !important;}
+.ap-home-hero .ap-btn-row {width: 268px !important;   display: flex !important;   align-items: flex-start !important;   justify-content: center !important;   gap: 8px !important;}
+.ap-home-hero .ap-btn {display: inline-flex !important;   align-items: center !important;   justify-content: center !important;   height: 47px !important;   min-height: 47px !important;   padding: 14px 16px !important;   border-radius: 4px !important;   text-decoration: none !important;   font-size: 16px !important;   line-height: 1.2 !important;   font-weight: 700 !important;   white-space: nowrap !important;   word-break: normal !important;   transition: translate 0.2s ease, box-shadow 0.2s ease, background 0.2s ease !important;}
+.ap-home-hero .ap-btn:hover {translate: 0 -1px !important;   transform: none !important;   filter: none !important;}
+.ap-home-hero .ap-btn-primary {width: 131px !important;   color: #ffffff !important;   background: linear-gradient(54.33deg, #5044E1 0%, #00A991 70.44%) !important;   border: 1px solid transparent !important;}
+.ap-home-hero .ap-btn-secondary {width: 129px !important;   color: #00A991 !important;   background: transparent !important;   border: 1px solid #00A991 !important;}
+.ap-home-hero .ap-compliance-badges {width: 259.6px !important;   height: 86px !important;   display: flex !important;   flex-direction: column !important;   align-items: center !important;   gap: 8px !important;}
+.ap-home-hero .ap-compliance-label {width: 100% !important;   color: #25272C !important;   font-size: 12px !important;   line-height: 1.5 !important;   font-weight: 400 !important;   text-align: center !important;}
+.ap-home-hero .ap-compliance-logos {width: 259.6px !important;   height: 60px !important;   display: flex !important;   align-items: center !important;   justify-content: center !important;   gap: 32px !important;}
+.ap-home-hero .ap-compliance-img {display: block !important;   flex: 0 0 auto !important;   width: auto !important;   height: auto !important;   object-fit: contain !important;}
+.ap-home-hero .ap-compliance-img-soc2 {width: 47.23px !important;   height: 60px !important;}
+.ap-home-hero .ap-compliance-img-hipaa {width: 88.37px !important;   height: 48px !important;}
+.ap-home-hero .ap-compliance-img-stateramp {width: 60px !important;   height: 60px !important;}
+.ap-home-hero .ap-hero-visual-wrap {position: relative !important;   z-index: 2 !important;   width: 100% !important;   max-width: 848px !important;   height: 474px !important;   margin: 32px auto 0 !important;   padding: 24px 24px 0 !important;   background: rgba(238, 242, 255, 0.8) !important;   border-width: 1px 1px 0 1px !important;   border-style: solid !important;   border-color: #ffffff !important;   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15) !important;   -webkit-backdrop-filter: blur(10px) !important;   backdrop-filter: blur(10px) !important;   border-radius: 16px 16px 0 0 !important;}
+.ap-home-hero .ap-hero-visual {width: 100% !important;   height: 450px !important;   overflow: hidden !important;   border-width: 1px 1px 0 1px !important;   border-style: solid !important;   border-color: #C8D2FD !important;   filter: drop-shadow(0 0 4px rgba(80, 68, 225, 0.1)) !important;   border-radius: 12px 12px 0 0 !important;   background: #EEF2FF !important;}
+.ap-home-hero .ap-hero-visual video {display: block !important;   width: 100% !important;   height: 100% !important;   object-fit: cover !important;}
+.ap-home-hero .ap-client-logo-band, .ap-home-hero.ap-logo-band-released .ap-client-logo-band {position: absolute !important;   left: 50% !important;   right: auto !important;   bottom: 0 !important;   transform: translateX(-50%) !important;   z-index: 100 !important;   width: 100vw !important;   max-width: 100vw !important;   height: var(--ap-logo-band-height) !important;   margin: 0 !important;   padding: 20px 24px !important;   background: linear-gradient(180deg, #FFFFFF 0%, #F9FAFB 100%) !important;   display: flex !important;   flex-direction: column !important;   align-items: center !important;   justify-content: center !important;   gap: 24px !important;   box-shadow: 0 -8px 28px rgba(17, 24, 39, 0.04) !important;}
+.ap-home-hero.ap-logo-band-fixed .ap-client-logo-band {position: fixed !important;   left: 0 !important;   right: 0 !important;   bottom: 0 !important;   transform: none !important;   width: 100vw !important;   max-width: 100vw !important;}
+.ap-home-hero .ap-client-logo-text {width: 100% !important;   max-width: 779px !important;   margin: 0 !important;   color: #121212 !important;   font-size: 14px !important;   line-height: 1.2 !important;   font-weight: 700 !important;   text-align: center !important;}
+.ap-home-hero .ap-client-logo-text strong {color: #5044E1 !important;   font-weight: 700 !important;}
+.ap-home-hero .ap-client-logo-viewport {width: 100% !important;   max-width: 1052px !important;   margin-left: auto !important;   margin-right: auto !important;   overflow: hidden !important;}
+.ap-home-hero .ap-client-logo-track {display: flex !important;   justify-content: center !important;   align-items: center !important;   gap: 48px !important;   width: 100% !important;}
+.ap-home-hero .ap-logo {display: block !important;   flex: 0 0 auto !important;   width: auto !important;   height: auto !important;   object-fit: contain !important;}
+.ap-home-hero .ap-logo-dyson {width: 84px !important;   max-height: 32px !important;}
+.ap-home-hero .ap-logo-amazon {width: 83px !important;   max-height: 28px !important;}
+.ap-home-hero .ap-logo-toyota {width: 119px !important;   max-height: 20px !important;}
+.ap-home-hero .ap-logo-pennstate {width: 113px !important;   max-height: 32px !important;}
+.ap-home-hero .ap-logo-carnival {width: 108px !important;   max-height: 28px !important;}
+.ap-home-hero .ap-logo-ge {width: 44px !important;   max-height: 32px !important;}
+.ap-home-hero .ap-logo-nycedc {width: 76px !important;   max-height: 32px !important;}
+.ap-home-hero .ap-logo-unity {width: 88px !important;   max-height: 32px !important;}
+.ap-home-hero .ap-logo-dup {display: none !important;}
+@media (max-width: 991px) {
+	.ap-home-hero, .ap-home-hero .ap-hero-inner, .ap-home-hero .ap-hero-copy {height: auto !important;     min-height: 0 !important;     max-height: none !important;     overflow-y: visible !important;}
+	.ap-home-hero {width: 100% !important;     max-width: 100% !important;     margin-left: 0 !important;     margin-right: 0 !important;     padding: 88px 28px 0 !important;     overflow-x: hidden !important;     overflow-y: visible !important;}
+	.ap-home-hero .ap-hero-bg {height: 100% !important;     min-height: 0 !important;     max-height: none !important;     overflow: hidden !important;}
+	.ap-home-hero .ap-hero-copy {max-width: 720px !important;}
+	.ap-home-hero .ap-hero-title {font-size: 40px !important;}
+	.ap-home-hero .ap-copy {font-size: 17px !important;}
+	.ap-home-hero .ap-hero-visual-wrap {height: auto !important;     margin-top: 36px !important;}
+	.ap-home-hero .ap-hero-visual {height: auto !important;     aspect-ratio: 16 / 9 !important;}
+	.ap-home-hero .ap-client-logo-band, .ap-home-hero.ap-logo-band-fixed .ap-client-logo-band, .ap-home-hero.ap-logo-band-released .ap-client-logo-band {position: relative !important;     left: auto !important;     right: auto !important;     top: auto !important;     bottom: auto !important;     transform: none !important;     width: calc(100% + 56px) !important;     max-width: none !important;     height: auto !important;     min-height: 92px !important;     margin: 0 -28px !important;     padding: 8px 0 12px !important;     display: flex !important;     flex-direction: column !important;     align-items: center !important;     justify-content: center !important;     gap: 8px !important;     background: linear-gradient(180deg, #FFFFFF 0%, #F9FAFB 100%) !important;     box-shadow: 0 -8px 28px rgba(17, 24, 39, 0.04) !important;     z-index: 20 !important;}
+}
+@media (max-width: 767px) {
+	.ap-home-hero {padding: 48px 28px 0 !important;}
+	.ap-home-hero .ap-bg-red {left: -568px !important;     top: 490px !important;}
+	.ap-home-hero .ap-bg-indigo {left: -133px !important;     top: 622px !important;}
+	.ap-home-hero .ap-bg-violet {left: 292px !important;     top: 514px !important;}
+	.ap-home-hero .ap-bg-yellow {left: 370px !important;     top: 445px !important;}
+	.ap-home-hero .ap-bg-green {left: 102px !important;     top: 632px !important;}
+	.ap-home-hero .ap-bg-gray {left: -248px !important;     top: 872px !important;}
+	.ap-home-hero .ap-hero-inner {width: 100% !important;     max-width: 390px !important;     margin: 0 auto !important;}
+	.ap-home-hero .ap-hero-copy {width: 100% !important;     max-width: 334px !important;     margin: 0 auto !important;     align-items: flex-start !important;     text-align: left !important;}
+	.ap-home-hero .ap-eyebrow {margin: 0 0 16px !important;     font-size: 12px !important;     line-height: 1.2 !important;     text-align: left !important;}
+	.ap-home-hero .ap-hero-title {display: block !important;     width: 100% !important;     margin: 0 !important;     color: #25272C !important;     font-size: 28px !important;     line-height: 1.2 !important;     font-weight: 800 !important;     letter-spacing: -0.02em !important;     text-align: left !important;     visibility: visible !important;     opacity: 1 !important;}
+	.ap-home-hero .ap-body-group {margin-top: 16px !important;     gap: 4px !important;}
+	.ap-home-hero .ap-copy {text-align: left !important;     font-size: 14px !important;     line-height: 1.5 !important;}
+	.ap-home-hero .ap-copy-strong {color: #000000 !important;     font-weight: 700 !important;}
+	.ap-home-hero .ap-hero-trust-group {width: 100% !important;     max-width: 334px !important;     margin-top: 16px !important;     gap: 16px !important;     align-items: center !important;}
+	.ap-home-hero .ap-btn-row {width: 100% !important;     min-height: auto !important;     flex-direction: column !important;     align-items: stretch !important;     gap: 8px !important;}
+	.ap-home-hero .ap-btn {width: 100% !important;     max-width: none !important;     height: 47px !important;     min-height: 47px !important;     font-size: 16px !important;}
+	.ap-home-hero .ap-compliance-badges {width: 235.6px !important;     height: 86px !important;     gap: 8px !important;}
+	.ap-home-hero .ap-compliance-label {font-size: 12px !important;}
+	.ap-home-hero .ap-compliance-logos {width: 235.6px !important;     gap: 20px !important;}
+	.ap-home-hero .ap-hero-visual-wrap {width: 100% !important;     max-width: 334px !important;     height: 186.88px !important;     margin: 20px auto 0 !important;     padding: 8px 8px 0 !important;     border-radius: 12px 12px 0 0 !important;}
+	.ap-home-hero .ap-hero-visual {width: 100% !important;     height: 178.88px !important;     aspect-ratio: auto !important;     border-radius: 4px 4px 0 0 !important;}
+	.ap-home-hero .ap-client-logo-text {max-width: 278px !important;     padding: 0 !important;     font-size: 12px !important;     line-height: 1.2 !important;}
+	.ap-home-hero .ap-client-logo-viewport {width: 100% !important;     max-width: 100% !important;     height: 32px !important;     overflow: hidden !important;}
+	.ap-home-hero .ap-client-logo-track {justify-content: flex-start !important;     width: max-content !important;     height: 32px !important;     gap: 24px !important;     padding-left: 20px !important;     animation: apHomeHeroApLogoMarqueeV2 28s linear infinite !important;}
+	.ap-home-hero .ap-logo-dup {display: block !important;}
+}
+@media (max-width: 374px) {
+	.ap-home-hero {padding-left: 20px !important;     padding-right: 20px !important;}
+	.ap-home-hero .ap-hero-copy, .ap-home-hero .ap-hero-trust-group, .ap-home-hero .ap-hero-visual-wrap {max-width: 100% !important;}
+	.ap-home-hero .ap-client-logo-band, .ap-home-hero.ap-logo-band-fixed .ap-client-logo-band, .ap-home-hero.ap-logo-band-released .ap-client-logo-band {width: calc(100% + 40px) !important;     margin-left: -20px !important;     margin-right: -20px !important;}
+	.ap-home-hero .ap-hero-title {font-size: 26px !important;}
+}
+@keyframes apHomeHeroApLogoMarqueeV2{   0% {     transform: translateX(0);   }   100% {     transform: translateX(-50%);   } }
+@media (prefers-reduced-motion: reduce) {
+	.ap-home-hero .ap-client-logo-track {animation: none !important;}
+}
+@media (min-width: 1280px) {
+	.ap-home-hero {padding-top: 80px !important; min-height: 1010px !important;}
+	.ap-home-hero .ap-hero-copy {min-height: 0 !important;}
+	.ap-home-hero .ap-hero-visual-wrap {margin-top: 24px !important;}
+}
+.ap-home-hero .ap-eyebrow {margin-bottom: 12px !important;}
+.ap-home-hero .ap-body-group {margin-top: 12px !important;}
+.ap-home-hero .ap-hero-trust-group {margin-top: 20px !important;}
+.ap-home-hero .ap-bg-shape, .ap-home-hero .ap-bg-gray, .ap-home-hero .ap-bg-blur {display:none !important}
+.ap-home-hero .ap-hero-bg {background:radial-gradient(58% 46% at 6% 16%, rgba(230,28,85,0.15) 0%, rgba(230,28,85,0) 62%),radial-gradient(55% 48% at 0% 74%, rgba(80,68,225,0.22) 0%, rgba(80,68,225,0) 64%),radial-gradient(46% 38% at 52% 4%, rgba(222,141,20,0.10) 0%, rgba(222,141,20,0) 60%),radial-gradient(58% 52% at 98% 26%, rgba(0,169,145,0.16) 0%, rgba(0,169,145,0) 64%),radial-gradient(52% 46% at 92% 88%, rgba(80,68,225,0.20) 0%, rgba(80,68,225,0) 62%),linear-gradient(180deg,#FDFCFF 0%,#F6F7FC 100%) !important;filter:none !important;-webkit-backdrop-filter:none !important;backdrop-filter:none !important;pointer-events:none !important}
+.ap-home-hero .ap-hero-visual-wrap {-webkit-backdrop-filter:none !important;backdrop-filter:none !important;background:rgba(238,242,255,0.92) !important}
+.ap-home-hero .ap-hero-inner {position:relative;z-index:2}
+.ap-home-hero img[src*="image-1.svg"], .ap-home-hero img[src*="badge_hipaa.svg"], .ap-home-hero img[src*="badge_state-ramp.svg"] {background:transparent!important;box-shadow:none!important;border:0!important}
+@media (max-width:767px) {
+	.ap-home-hero .ap-hero-title .ap-h1-gradient {font-size:.75em!important;line-height:1.25!important;margin-top:4px!important}
+	.ap-home-hero .ap-copy br {display:none!important}
+	.ap-home-hero .ap-copy {text-wrap:pretty}
+}
+.ap-home-hero .ap-hero-visual-wrap {max-width:1120px!important;height:auto!important;padding:24px!important;border-width:1px!important;border-radius:16px!important}
+.ap-home-hero .ap-hero-visual {height:auto!important;aspect-ratio:auto!important;border:0!important;border-radius:10px!important;background:transparent!important;filter:none!important;overflow:hidden!important}
+.ap-home-hero .ap-ursa-frame {display:block!important;width:100%!important;height:792px;margin:0!important;padding:0!important;border:0!important;background:transparent!important}
+@media (max-width:991px) {
+	.ap-home-hero .ap-ursa-frame {height:1180px}
+}
+@media (max-width:767px) {
+	.ap-home-hero .ap-hero-visual-wrap {max-width:100%!important;padding:8px!important;border-radius:12px!important}
+	.ap-home-hero .ap-hero-visual {border-radius:8px!important}
+	.ap-home-hero .ap-ursa-frame {height:872px}
+}
+@media (min-width:992px) {
+	html body .ap-home-hero {padding-bottom:0!important}
+}
+@media (min-width:768px) {
+	html body .ap-home-hero .ap-client-logo-band, html body .ap-home-hero.ap-logo-band-fixed .ap-client-logo-band, html body .ap-home-hero.ap-logo-band-released .ap-client-logo-band {position:relative!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;transform:none!important;width:100vw!important;max-width:100vw!important;margin-left:calc(50% - 50vw)!important;margin-right:0!important}
+}
+@media (min-width:1024px) {
+	html body .ap-home-hero .ap-hero-inner {max-width:1240px!important;display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,min(540px,46%))!important;grid-template-rows:auto auto auto auto 1fr!important;column-gap:56px!important;row-gap:0!important;align-items:start!important}
+	html body .ap-home-hero .ap-hero-copy {display:contents!important}
+	html body .ap-home-hero .ap-eyebrow {grid-column:1/-1!important;grid-row:1!important;text-align:center!important;margin:0 0 32px!important}
+	html body .ap-home-hero .ap-hero-title {grid-column:1!important;grid-row:2!important;text-align:left!important}
+	html body .ap-home-hero .ap-body-group {grid-column:1!important;grid-row:3!important}
+	html body .ap-home-hero .ap-copy {text-align:left!important}
+	html body .ap-home-hero .ap-copy br {display:none!important}
+	html body .ap-home-hero .ap-hero-trust-group {grid-column:1!important;grid-row:4!important;max-width:none!important;align-items:flex-start!important}
+	html body .ap-home-hero .ap-btn-row {justify-content:flex-start!important}
+	html body .ap-home-hero .ap-compliance-badges {align-items:flex-start!important}
+	html body .ap-home-hero .ap-compliance-label {text-align:left!important}
+	html body .ap-home-hero .ap-compliance-logos {justify-content:flex-start!important}
+	html body .ap-home-hero .ap-hero-visual-wrap {grid-column:2!important;grid-row:2/6!important;width:100%!important;max-width:none!important;margin:0!important}
+}
+@media (min-width: 1024px) {
+	html body .ap-home-hero .ap-eyebrow {grid-column: 1 !important;
+    grid-row: 1 !important;
+
+    width: 100% !important;
+    margin: 0 0 16px !important;
+
+    text-align: center !important;}
+	html body .ap-home-hero .ap-hero-title {grid-column: 1 !important;
+    grid-row: 2 !important;
+
+    width: 100% !important;
+    text-align: center !important;}
+	html body .ap-home-hero .ap-h1-line {text-align: center !important;}
+	html body .ap-home-hero .ap-body-group {grid-column: 1 !important;
+    grid-row: 3 !important;
+
+    width: 100% !important;}
+	html body .ap-home-hero .ap-copy {text-align: center !important;}
+	html body .ap-home-hero .ap-hero-trust-group {grid-column: 1 !important;
+    grid-row: 4 !important;
+
+    width: 100% !important;
+    max-width: none !important;
+
+    align-items: center !important;}
+	html body .ap-home-hero .ap-btn-row {justify-content: center !important;}
+	html body .ap-home-hero .ap-compliance-badges {align-items: center !important;}
+	html body .ap-home-hero .ap-compliance-label {text-align: center !important;}
+	html body .ap-home-hero .ap-compliance-logos {justify-content: center !important;}
+	html body .ap-home-hero .ap-hero-visual-wrap {grid-column: 2 !important;
+    grid-row: 2 / 6 !important;}
+}
+@media (max-width: 767px) {
+	html body .ap-home-hero .ap-ursa-frame {height: 660px !important;
+    min-height: 0 !important;
+    margin-bottom: 0 !important;}
+	html body .ap-home-hero .ap-hero-visual-wrap {height: auto !important;
+    padding-bottom: 8px !important;}
+	html body .ap-home-hero .ap-hero-visual {height: auto !important;}
+}
+@media (min-width: 1024px) {
+	html body .ap-home-hero .ap-hero-inner {grid-template-columns:
+      minmax(0, 1fr)
+      minmax(0, min(540px, 46%)) !important;
+
+    grid-template-rows: auto !important;
+
+    column-gap: 56px !important;
+
+    align-items: stretch !important;}
+	html body .ap-home-hero .ap-hero-copy {grid-column: 1 !important;
+    grid-row: 1 !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+
+    width: 100% !important;
+    max-width: none !important;
+
+    min-height: 0 !important;
+    height: auto !important;
+
+    margin: 0 !important;
+
+    align-self: center !important;
+    justify-self: stretch !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    text-align: center !important;}
+	html body .ap-home-hero .ap-eyebrow, html body .ap-home-hero .ap-hero-title, html body .ap-home-hero .ap-body-group, html body .ap-home-hero .ap-hero-trust-group {grid-column: auto !important;
+    grid-row: auto !important;}
+	html body .ap-home-hero .ap-eyebrow {width: 100% !important;
+    margin: 0 0 16px !important;
+    text-align: center !important;}
+	html body .ap-home-hero .ap-hero-title, html body .ap-home-hero .ap-h1-line {width: 100% !important;
+    text-align: center !important;}
+	html body .ap-home-hero .ap-body-group {width: 100% !important;
+    margin-top: 12px !important;}
+	html body .ap-home-hero .ap-copy {text-align: center !important;}
+	html body .ap-home-hero .ap-hero-trust-group {width: 100% !important;
+    max-width: none !important;
+
+    margin-top: 20px !important;
+
+    align-items: center !important;}
+	html body .ap-home-hero .ap-btn-row {justify-content: center !important;}
+	html body .ap-home-hero .ap-compliance-badges {align-items: center !important;}
+	html body .ap-home-hero .ap-compliance-label {text-align: center !important;}
+	html body .ap-home-hero .ap-compliance-logos {justify-content: center !important;}
+	html body .ap-home-hero .ap-hero-visual-wrap {grid-column: 2 !important;
+    grid-row: 1 !important;
+
+    align-self: start !important;
+
+    width: 100% !important;
+    max-width: none !important;
+
+    margin: 0 !important;}
+}
+@media (min-width: 1024px) {
+	html body .ap-home-hero .ap-hero-copy {align-items: flex-start !important;
+    text-align: left !important;}
+	html body .ap-home-hero .ap-eyebrow {text-align: left !important;}
+	html body .ap-home-hero .ap-hero-title, html body .ap-home-hero .ap-h1-line {text-align: left !important;}
+	html body .ap-home-hero .ap-copy {text-align: left !important;}
+	html body .ap-home-hero .ap-hero-trust-group {align-items: flex-start !important;}
+	html body .ap-home-hero .ap-btn-row {justify-content: flex-start !important;}
+	html body .ap-home-hero .ap-compliance-badges {align-items: flex-start !important;}
+	html body .ap-home-hero .ap-compliance-label {text-align: left !important;}
+	html body .ap-home-hero .ap-compliance-logos {justify-content: flex-start !important;}
+}
+@media (min-width: 1024px) {
+	html body .ap-home-hero .ap-hero-visual-wrap {background: transparent !important;
+
+    border: 0 !important;
+    outline: 0 !important;
+
+    box-shadow: none !important;
+
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+
+    border-radius: 0 !important;
+
+    padding: 0 !important;}
+	html body .ap-home-hero .ap-hero-visual {background: transparent !important;
+
+    border: 0 !important;
+    outline: 0 !important;
+
+    box-shadow: none !important;
+    filter: none !important;
+
+    border-radius: 0 !important;
+
+    padding: 0 !important;}
+	html body .ap-home-hero .ap-ursa-frame {background: transparent !important;
+
+    border: 0 !important;
+    outline: 0 !important;
+
+    box-shadow: none !important;}
+}
+html body .ap-home-hero .ap-hero-visual-wrap {transform: none !important;}
+@media (min-width: 1024px) {
+	html body .ap-home-hero {min-height: 0 !important;
+    height: auto !important;
+    padding-bottom: 0 !important;}
+	html body .ap-home-hero .ap-hero-bg {min-height: 0 !important;
+    height: 100% !important;}
+	html body .ap-home-hero .ap-hero-inner {align-items: start !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;}
+	html body .ap-home-hero .ap-hero-copy {align-self: start !important;
+    margin-top: 150px !important;
+    margin-bottom: 0 !important;}
+	html body .ap-home-hero .ap-hero-visual-wrap {align-self: start !important;
+    margin-top: 150px !important;
+    margin-bottom: 0 !important;}
+	html body .ap-home-hero .ap-hero-visual-wrap {height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+
+    padding: 5px !important;
+
+    background: rgba(238, 242, 255, 0.25) !important;
+
+    border: 1px solid rgba(255, 255, 255, 0.9) !important;
+    border-radius: 20px !important;
+
+    box-shadow:
+      0 14px 36px rgba(17, 24, 39, 0.09),
+      0 3px 9px rgba(17, 24, 39, 0.04) !important;
+
+    -webkit-backdrop-filter: blur(8px) !important;
+    backdrop-filter: blur(8px) !important;
+
+    overflow: hidden !important;}
+	html body .ap-home-hero .ap-hero-visual {height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    background: #ffffff !important;
+
+    border: 0 !important;
+    border-radius: 15px !important;
+
+    overflow: hidden !important;
+
+    box-shadow: none !important;
+    filter: none !important;}
+	html body .ap-home-hero .ap-ursa-frame {display: block !important;
+
+    width: 100% !important;
+
+    height: 500px !important;
+    min-height: 500px !important;
+    max-height: 500px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    border: 0 !important;
+    border-radius: 15px !important;
+
+    background: #ffffff !important;
+
+    transition:
+      height 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+      min-height 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+      max-height 0.45s cubic-bezier(0.22, 1, 0.36, 1) !important;}
+	html body .ap-home-hero.ap-ursa-interacted .ap-ursa-frame {height: 760px !important;
+    min-height: 760px !important;
+    max-height: 760px !important;}
+	html body .ap-home-hero .ap-client-logo-band, html body .ap-home-hero.ap-logo-band-fixed .ap-client-logo-band, html body .ap-home-hero.ap-logo-band-released .ap-client-logo-band {position: relative !important;
+
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+
+    transform: none !important;
+
+    width: 100vw !important;
+    max-width: 100vw !important;
+
+    margin:
+      0
+      0
+      0
+      calc(50% - 50vw) !important;
+
+    
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+
+    z-index: 20 !important;}
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+	html body .ap-home-hero .ap-hero-visual-wrap {height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+
+    padding: 5px !important;
+
+    background: rgba(238, 242, 255, 0.25) !important;
+
+    border: 1px solid rgba(255, 255, 255, 0.9) !important;
+    border-radius: 18px !important;
+
+    overflow: hidden !important;}
+	html body .ap-home-hero .ap-hero-visual {height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+
+    border-radius: 13px !important;}
+	html body .ap-home-hero .ap-ursa-frame {height: 680px !important;
+    min-height: 680px !important;
+    max-height: 680px !important;
+
+    border-radius: 13px !important;
+
+    transition:
+      height 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+      min-height 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+      max-height 0.45s cubic-bezier(0.22, 1, 0.36, 1) !important;}
+	html body .ap-home-hero.ap-ursa-interacted .ap-ursa-frame {height: 800px !important;
+    min-height: 800px !important;
+    max-height: 800px !important;}
+}
+@media (max-width: 767px) {
+	html body .ap-home-hero .ap-hero-visual-wrap {height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+
+    padding: 5px !important;
+
+    background: rgba(238, 242, 255, 0.25) !important;
+
+    border: 1px solid rgba(255, 255, 255, 0.9) !important;
+    border-radius: 16px !important;
+
+    overflow: hidden !important;}
+	html body .ap-home-hero .ap-hero-visual {height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+
+    border-radius: 11px !important;}
+	html body .ap-home-hero .ap-ursa-frame {height: 660px !important;
+    min-height: 660px !important;
+    max-height: 660px !important;
+
+    border-radius: 11px !important;
+
+    transition:
+      height 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+      min-height 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+      max-height 0.45s cubic-bezier(0.22, 1, 0.36, 1) !important;}
+	html body .ap-home-hero.ap-ursa-interacted .ap-ursa-frame {height: 800px !important;
+    min-height: 800px !important;
+    max-height: 800px !important;}
+}
+@media (prefers-reduced-motion: reduce) {
+	html body .ap-home-hero .ap-ursa-frame {transition: none !important;}
+}
+@media (min-width:1024px) {
+	html body .ap-home-hero.ap-home-hero {box-sizing:border-box!important;height:var(--apu-h,max(calc(100vh - 72px),726px))!important;min-height:0!important;max-height:none!important;padding-top:var(--apu-top,0px)!important;padding-bottom:var(--apu-band,113px)!important}
+	html body .ap-home-hero.ap-home-hero .ap-hero-inner {height:100%!important;min-height:0!important;margin-top:0!important;margin-bottom:0!important;padding-top:0!important;padding-bottom:0!important;grid-template-rows:minmax(0,1fr)!important;align-items:center!important}
+	html body .ap-home-hero.ap-home-hero .ap-hero-copy, html body .ap-home-hero.ap-home-hero .ap-hero-visual-wrap {align-self:center!important;margin-top:0!important;margin-bottom:0!important}
+	html body .ap-home-hero.ap-home-hero .ap-client-logo-band, html body .ap-home-hero.ap-home-hero.ap-logo-band-fixed .ap-client-logo-band, html body .ap-home-hero.ap-home-hero.ap-logo-band-released .ap-client-logo-band {position:absolute!important;left:0!important;right:0!important;top:auto!important;bottom:0!important;width:auto!important;max-width:none!important;margin:0!important;transform:none!important}
+	html body .ap-home-hero.ap-home-hero .ap-ursa-frame {height:580px!important;min-height:580px!important;max-height:580px!important}
+}
+@media (min-width:768px) and (max-width:1023px) {
+	html body .ap-home-hero.ap-home-hero .ap-ursa-frame {height:590px!important;min-height:590px!important;max-height:590px!important}
+}
+@media (max-width:767px) {
+	html body .ap-home-hero.ap-home-hero .ap-ursa-frame {height:650px!important;min-height:650px!important;max-height:650px!important}
+}
+html body .ap-home-hero.ap-home-hero .ap-ursa-frame {transition:none!important}
+html body .ap-home-hero.ap-home-hero.apu-open .ap-ursa-frame {transition:height .45s cubic-bezier(.22,1,.36,1),min-height .45s cubic-bezier(.22,1,.36,1),max-height .45s cubic-bezier(.22,1,.36,1)!important}
+@media (prefers-reduced-motion:reduce) {
+	html body .ap-home-hero.ap-home-hero.apu-open .ap-ursa-frame {transition:none!important}
+}
+@media(max-width:767px) {
+	.ap-home-hero.ap-logo-band-fixed {padding-left:0!important;padding-right:0!important}
+	.ap-home-hero .ap-client-logo-band {padding-left:0!important;padding-right:0!important;width:100%!important;max-width:100%!important}
+	.ap-home-hero .ap-client-logo-viewport {max-width:100%!important;width:100%!important;margin-left:0!important;margin-right:0!important}
+	.ap-home-hero .ap-client-logo-track {margin-left:0!important}
+}
+@media (max-width:767px) {
+	html body .ap-home-hero .ap-client-logo-band {width:100vw!important;max-width:100vw!important;margin-left:calc(50% - 50vw)!important;margin-right:calc(50% - 50vw)!important;padding-left:0!important;padding-right:0!important}
+	html body .ap-home-hero .ap-client-logo-viewport {width:100%!important;max-width:100%!important;margin:0!important}
+}
+.ap-home-hero .ap-client-logo-band, .ap-home-hero.ap-logo-band-fixed .ap-client-logo-band, .ap-home-hero.ap-logo-band-released .ap-client-logo-band {left:0 !important;right:0 !important;width:auto !important;max-width:none !important;transform:none !important;margin-left:0 !important;margin-right:0 !important;}
+.ap-home-hero .ap-client-logo-viewport {overflow:hidden;width:100%;}
+.ap-home-hero .ap-hero-bg {background:#fbfbfe var(--ap-home-hero-bg, none) center center / cover no-repeat !important;}
+
+/* Kit addition: the demo poster stands in the frame's box where the demo cannot be framed. */
+.ap-home-hero .ap-hero-visual picture { display: block; }
+.ap-home-hero .ap-ursa-poster { display: block; width: 100%; object-fit: cover; object-position: top center; }
+
+/* Kit addition: live's sitewide button script (it restyles every .ap-btn-primary
+ * and .ap-btn-secondary at load and on hover) expressed as CSS. The primary rests
+ * on its 54.33deg gradient and fades a brighter one in over it with a green
+ * hairline (live's inline transition leaves only box-shadow animated); the
+ * secondary fills mint. Hover lifts use translate (the kit reserves transform). */
+.ap-home-hero .ap-btn-primary { position: relative !important; isolation: isolate; transition: box-shadow .35s ease, translate .35s ease !important; }
+.ap-home-hero .ap-btn-primary::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background-image: linear-gradient(54.33deg, #5044E1 -20%, #00A991 60%); opacity: 0; transition: opacity .35s ease; pointer-events: none; }
+.ap-home-hero .ap-btn-primary:hover, .ap-home-hero .ap-btn-primary:focus-visible { box-shadow: inset 0 0 0 1px #009882 !important; }
+.ap-home-hero .ap-btn-primary:hover::before, .ap-home-hero .ap-btn-primary:focus-visible::before { opacity: 1; }
+.ap-home-hero .ap-btn-secondary { transition: translate 0.2s ease, background-color .28s ease, border-color .28s ease, color .28s ease !important; }
+.ap-home-hero .ap-btn-secondary:hover, .ap-home-hero .ap-btn-secondary:focus-visible { background-color: #EFFEFA !important; border-color: #C7FFF1 !important; color: #04C8A8 !important; }
+
+/* ---- kit type scale (QA 2026-10-28) ----
+ * The homepage's H1 is the eyebrow ("Voted #1 Asset Management Software", by design for SEO) and its
+ * visual headline is an H2; both now take the kit type tokens, so the eyebrow, the headline and the
+ * paragraph are the same size, weight and tracking as on every other hero (the headline was -0.02em,
+ * which drew it denser than the rest). The gradient second line stays three quarters of the first. */
+html body .ap-home-hero .ap-eyebrow {font-size: var(--ap-type-eyebrow-size) !important; font-weight: var(--ap-type-eyebrow-weight) !important; line-height: var(--ap-type-eyebrow-line) !important; letter-spacing: var(--ap-type-eyebrow-track) !important;}
+html body .ap-home-hero .ap-hero-title {font-size: var(--ap-type-h1-size) !important; font-weight: var(--ap-type-h1-weight) !important; line-height: var(--ap-type-h1-line) !important; letter-spacing: var(--ap-type-h1-track) !important;}
+html body .ap-home-hero .ap-hero-title .ap-h1-gradient {font-size: .75em !important; letter-spacing: inherit !important;}
+html body .ap-home-hero .ap-copy {font-size: var(--ap-type-lede-size) !important; line-height: var(--ap-type-lede-line) !important;}
+
+/* The backdrop is an <img> (it is the page's largest first-screen paint, and a CSS background is
+ * found only after the stylesheet is parsed). Same placement as the old background: cover, centred. */
+html body .ap-home-hero .ap-hero-bg-img {position: absolute !important; inset: 0 !important; width: 100% !important; height: 100% !important; max-width: none !important; object-fit: cover !important; object-position: center center !important; display: block !important; z-index: 0 !important; pointer-events: none !important;}
+
+/* QA 2026-10-29 (Joseph, sitewide): on phones the hero's eyebrow sits 16px under the header, as on the K-12 page
+ * (his reference for the spacing). */
+@media (max-width: 767px) {
+	html body .ap-home-hero {
+		padding-top: 16px !important;
+	}
+}
+
+/* QA 2026-10-29 (Figma QA): sections without a colour gradient are pure white (Joseph, sitewide). The client-logo
+ * band's white-to-#F9FAFB fade ended in a grey strip against the white stats section below; Figma has the band on
+ * white. Background only — the band's position, shadow and marquee are unchanged. */
+html body .ap-home-hero .ap-client-logo-band,
+html body .ap-home-hero.ap-logo-band-fixed .ap-client-logo-band,
+html body .ap-home-hero.ap-logo-band-released .ap-client-logo-band { background: #fff !important; }

@@ -50,7 +50,18 @@ if ( empty( $items ) ) {
 $title   = trim( (string) $props['title'] );
 $eyebrow = trim( (string) $props['eyebrow'] );
 ?>
-<section class="ap-sticky-list">
+<?php
+// Police spaces its heading its own way below 1025px; the space above and
+// below the heading per step arrives as whole pixels.
+$ap_hs = array();
+foreach ( array( 1024, 991, 768, 560 ) as $bp ) {
+	$pair = is_array( $props['head_space'] ) ? ( $props['head_space'][ (string) $bp ] ?? null ) : null;
+	if ( is_array( $pair ) && isset( $pair[0], $pair[1] ) && is_numeric( $pair[0] ) && is_numeric( $pair[1] ) && abs( (float) $pair[0] ) <= 200 && abs( (float) $pair[1] ) <= 200 ) {
+		$ap_hs[] = '--hs-' . $bp . '-t:' . round( (float) $pair[0] ) . 'px;--hs-' . $bp . '-b:' . round( (float) $pair[1] ) . 'px';
+	}
+}
+?>
+<section class="ap-sticky-list<?php echo '900' === (string) $props['stack'] ? ' ap-sticky-list--stack-900' : ''; ?><?php echo 'solution' === $props['variant'] ? ' ap-sticky-list--solution' : ''; ?><?php echo $ap_hs ? ' ap-sticky-list--hs' : ''; ?>"<?php echo $ap_hs ? ' style="' . esc_attr( implode( ';', $ap_hs ) ) . '"' : ''; ?>>
 	<div class="ap-sticky-list__inner">
 		<div class="ap-sticky-list__grid">
 			<div class="ap-sticky-list__head">

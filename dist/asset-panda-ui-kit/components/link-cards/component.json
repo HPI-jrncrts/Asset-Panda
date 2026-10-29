@@ -1,0 +1,55 @@
+{
+	"name": "link-cards",
+	"description": "Picker grid: two-up image cards, each with an icon, title, description and an explore link, under a centred heading. Live: #ap-gov-picker on the industry hubs.",
+	"props": {
+		"eyebrow": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Small label above the heading."
+		},
+		"title": {
+			"type": "string",
+			"required": true,
+			"description": "Heading."
+		},
+		"title_accent": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Part of the heading painted with the brand gradient."
+		},
+		"head_width": {
+			"type": "integer",
+			"required": false,
+			"default": 0,
+			"description": "Width cap of the heading in px (hub26: Figma frames use 560 or 640). 0 keeps the variant default."
+		},
+		"items": {
+			"type": "array",
+			"required": true,
+			"description": "Cards. Each: title (required), body, link_label, url, image, image_top (% offset of the photo), icon (URL) or icon_svg."
+		},
+		"stack": {
+			"type": "string",
+			"required": false,
+			"default": "1024",
+			"enum": [
+				"1024",
+				"900"
+			],
+			"description": "Width at which the layout stacks: 1024px (the hubs) or 900px (the Education hub)."
+		},
+		"variant": {
+			"type": "string",
+			"required": false,
+			"default": "default",
+			"enum": [
+				"default",
+				"eduhub",
+				"hub26"
+			],
+			"description": "eduhub: the Education hub's picker (live #ap-eduhub-picker, ported whole): two tall photo cards that stack at 900px. hub26: the 2026-10 hub frames (E&U 7240:92855 and siblings): photo cards at full strength under a white fade, 32px gaps, 80px padding."
+		}
+	}
+}

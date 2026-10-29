@@ -1,0 +1,14 @@
+{
+	"name": "case-slider",
+	"description": "Customer story slider: centred heading over one story at a time (quote, author, link beside a photo with an optional client logo), arrows, a progress line and dots. Live: the #ap-<page>-case section (.apg-case-*) on the solution pages and Help Desk, and #ap-gov-case on the industry hubs (sheets and markup ported).",
+	"props": {
+		"variant": { "type": "string", "required": false, "default": "solution", "enum": [ "solution", "service", "hub", "hub-industry" ], "description": "solution: the six solution pages (View All sits in the controls row). service: Help Desk (View All sits centred under the controls). hub: the Government and Healthcare hubs (wordmark logo badges; View All ends the controls row). hub-industry: the Construction and Manufacturing hubs (their own sheet: fixed 120x80 logo badge, quotes keep 18px on phones)." },
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading." },
+		"lede": { "type": "string", "required": false, "default": "", "description": "Optional paragraph under the heading." },
+		"quote_icon": { "type": "string", "required": false, "default": "", "description": "Quote mark image. Empty uses the kit's own." },
+		"items": { "type": "array", "required": true, "description": "Stories. Each: quote (required); title (headline), author, role, link_label, link_url, image, image_alt, logo, logo_alt; hub variants also logo_w / logo_h (logo size in px) and logo_text (a wordmark badge instead of a logo image; *starred* text is set bold) with logo_style (hospice, osage or fresenius)." },
+		"viewall_label": { "type": "string", "required": false, "default": "", "description": "Link to all stories. Renders only with viewall_url." },
+		"viewall_url": { "type": "string", "required": false, "default": "", "description": "View-all destination." }
+	}
+}

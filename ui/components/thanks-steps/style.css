@@ -1,0 +1,163 @@
+/*
+ * thanks-steps — ported from live #ap-demo-next-steps (the seven 2026 demo
+ * thank-you pages), re-namespaced to .ap-thanks-steps__*. Live writes every
+ * declaration !important to beat its theme; plain class specificity does it
+ * here.
+ *
+ * Live sits this section in the theme's Bootstrap .container from 992px up
+ * (992px wide to 1339px, 1340px above) and un-boxes it below 992px. The box is
+ * not copied: the section spans the page like the hero above it, so between
+ * 992 and ~1215px the cards are wider than live's (at 1024: 976px row vs 914px).
+ */
+
+.ap-thanks-steps,
+.ap-thanks-steps * {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+.ap-thanks-steps {
+	width: 100%;
+	padding: 40px 24px 80px;
+	background: #fff;
+	font-family: var(--ap-font-body, "Manrope", Arial, sans-serif);
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.5;
+	letter-spacing: normal;
+	color: #1d2331;
+}
+
+.ap-thanks-steps__inner {
+	width: 100%;
+	max-width: 1120px;
+	margin: 0 auto;
+}
+
+.ap-thanks-steps__head {
+	margin: 0 0 48px;
+	text-align: center;
+}
+
+.ap-thanks-steps .ap-thanks-steps__eyebrow {
+	margin: 0 0 12px;
+	color: var(--ap-brand-indigo, #5044e1);
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: .04em;
+	text-transform: uppercase;
+	text-wrap: wrap;
+}
+
+.ap-thanks-steps .ap-thanks-steps__title {
+	margin: 0;
+	color: var(--ap-text-heading, #25272c);
+	font-family: inherit;
+	font-size: clamp(32px, 3.2vw, 40px);
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: -.025em;
+	text-transform: none;
+	text-wrap: wrap;
+}
+
+.ap-thanks-steps__grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 24px;
+}
+
+.ap-thanks-steps__card {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	min-height: 182px;
+	padding: 32px;
+	border: 1px solid var(--ap-stroke-soft, #edeef1);
+	border-radius: 16px;
+	background: #fff;
+	box-shadow: 0 4px 12px rgba(24, 29, 39, .02);
+}
+
+.ap-thanks-steps__label {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 24px;
+	padding: 4px 12px;
+	margin-bottom: 16px;
+	border-radius: 999px;
+	font-size: 12px;
+	font-weight: 800;
+	line-height: 1.35;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+}
+
+.ap-thanks-steps__label--yellow {
+	color: var(--ap-yellow-700, #eea521);
+	background: var(--ap-yellow-100, #fbeec6);
+}
+
+.ap-thanks-steps__label--purple {
+	color: var(--ap-brand-indigo, #5044e1);
+	background: var(--ap-indigo-100, #e1e6fe);
+}
+
+.ap-thanks-steps__label--green {
+	color: var(--ap-brand-green, #00a991);
+	background: var(--ap-green-100, #c7fff1);
+}
+
+.ap-thanks-steps .ap-thanks-steps__card-title {
+	margin: 0 0 8px;
+	color: var(--ap-text-heading, #25272c);
+	font-family: inherit;
+	font-size: 20px;
+	font-weight: 800;
+	line-height: 1.4;
+	letter-spacing: normal;
+	text-transform: none;
+	text-wrap: wrap;
+}
+
+.ap-thanks-steps .ap-thanks-steps__card-body {
+	margin: 0;
+	color: var(--ap-slate-500, #5b616e);
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.5;
+	text-wrap: wrap;
+}
+
+@media (max-width: 991px) {
+	.ap-thanks-steps {
+		padding: 40px 24px 64px;
+	}
+
+	.ap-thanks-steps__grid {
+		grid-template-columns: 1fr;
+		gap: 16px;
+	}
+
+	.ap-thanks-steps__card {
+		min-height: 0;
+	}
+}
+
+@media (max-width: 767px) {
+	.ap-thanks-steps {
+		padding: 32px 20px 56px;
+	}
+
+	.ap-thanks-steps__head {
+		margin-bottom: 32px;
+	}
+
+	.ap-thanks-steps__card {
+		padding: 24px;
+		border-radius: 12px;
+	}
+}

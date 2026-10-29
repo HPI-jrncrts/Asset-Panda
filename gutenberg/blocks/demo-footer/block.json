@@ -1,0 +1,57 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/demo-footer",
+	"title": "AP Demo Footer",
+	"category": "design",
+	"icon": "table-row-after",
+	"description": "Compact footer of the 2026 Get a Demo pages (live #ap-demo-footer): logo and copyright left; app-store badges, address, legal links and social icons right. behaviour.js moves it into the global footer, whose CTA band and link columns this page hides. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"logo": {
+			"type": "string",
+			"default": ""
+		},
+		"logo_alt": {
+			"type": "string",
+			"default": "Asset Panda"
+		},
+		"logo_url": {
+			"type": "string",
+			"default": "/"
+		},
+		"copyright": {
+			"type": "string",
+			"default": ""
+		},
+		"apps": {
+			"type": "array",
+			"default": []
+		},
+		"address": {
+			"type": "string",
+			"default": ""
+		},
+		"links": {
+			"type": "array",
+			"default": []
+		},
+		"social": {
+			"type": "array",
+			"default": []
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

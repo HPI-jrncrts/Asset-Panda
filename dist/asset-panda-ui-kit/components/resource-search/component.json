@@ -1,0 +1,17 @@
+{
+	"name": "resource-search",
+	"description": "Instant search for the Resource Center and Press Room: results appear under the field while the visitor types (no submit, no reload), from a compact JSON index fetched the first time the field is focused, hovered or touched. Typo-tolerant prefix matching, highlighted matches, arrow-key navigation, a no-results state. Enter and 'View all results' open the full results page; when it is the current listing's own (same scope) and the page has a resource-cards listing, the results change in place with the filter animation instead of a reload. Without JavaScript the field submits to fallback_url as ?q=.",
+	"props": {
+		"index_url": { "type": "string", "required": true, "description": "URL of the search index JSON (the content plugin's /wp-json/ap-content/v1/search-index?v=<version>)." },
+		"label": { "type": "string", "default": "Search resources", "description": "Accessible name of the field (visually hidden)." },
+		"placeholder": { "type": "string", "default": "Search resources" },
+		"value": { "type": "string", "default": "", "description": "Starting text (the query on a search results page)." },
+		"fallback_url": { "type": "string", "default": "", "description": "Form action used without JavaScript; the query is sent as ?q=." },
+		"action": { "type": "string", "default": "", "description": "Full results page for the current scope; {q} is replaced by the encoded query. Used by Enter (with no result chosen) and the 'View all results' link." },
+		"action_all": { "type": "string", "default": "", "description": "Full results page across every type; {q} is replaced by the encoded query." },
+		"scope": { "type": "string", "default": "", "description": "Type key (blog, case-studies, success-stories, white-papers, webinars, compare, press) the results are limited to; empty for everything." },
+		"scope_label": { "type": "string", "default": "", "description": "Plural name of the scope for the 'Search all' prompt, e.g. Blog." },
+		"max_results": { "type": "integer", "default": 8, "description": "Rows shown under the field." },
+		"size": { "type": "string", "default": "lg", "enum": ["md", "lg"] }
+	}
+}

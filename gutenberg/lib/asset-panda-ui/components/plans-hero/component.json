@@ -1,0 +1,28 @@
+{
+	"name": "plans-hero",
+	"description": "Pricing v2 hero: optional internal notice strip, centred eyebrow, two-line headline (second line in the brand gradient), bold sub line, lead, two buttons, compliance badges, and a client logo band along the bottom. Source: the Asset Panda Pricing v2 mockup.",
+	"props": {
+		"notice_label": { "type": "string", "required": false, "default": "", "description": "Bold start of the notice strip above the hero, e.g. INTERNAL DRAFT. The strip shows only when notice_label or notice is set." },
+		"notice": { "type": "string", "required": false, "default": "", "description": "Rest of the notice strip, e.g. Provisional pricing, not approved for publication." },
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small purple label above the heading." },
+		"layout": { "type": "string", "required": false, "default": "hero", "enum": [ "hero", "trust", "split" ], "description": "hero: the centred hero (needs a title). split: the service-page hero — copy left-aligned, the Book a Demo form on the right, the logo band below (needs a title). trust: only the client logos and compliance badges, as a proof row under the plans; the heading fields are ignored." },
+		"variant": { "type": "string", "required": false, "default": "classic", "enum": [ "classic", "clean" ], "description": "clean: the pricing page's quieter look (white trust band, larger split heading). The centred hero layout has one look." },
+		"form_title": { "type": "string", "required": false, "default": "", "description": "Split layout: heading of the form card, e.g. Talk to an Expert." },
+		"form_lead": { "type": "string", "required": false, "default": "", "description": "Split layout: line under the form card heading." },
+		"form": { "type": "object", "required": false, "default": {}, "description": "Split layout: the Book a Demo widget (the demo-booking component, embedded without its own heading). Keys passed through: view, button_label, days_heading, times_heading, duration_label, compliance_label, compliance, cal_team, cal_user, cal_event, max_days, hs_portal, hs_form, guard_url, track_path, thanks_url, thanks_preview_url, contact_email, contact_phone." },
+		"title": { "type": "string", "required": false, "default": "", "description": "First line of the page heading (the page's h1). Required for the hero layout." },
+		"title_accent": { "type": "string", "required": false, "default": "", "description": "Second heading line, set in the brand gradient." },
+		"subtitle": { "type": "string", "required": false, "default": "", "description": "Bold line under the heading." },
+		"lede": { "type": "string", "required": false, "default": "", "description": "Lead paragraph under the bold line." },
+		"cta_label": { "type": "string", "required": false, "default": "", "description": "Gradient button text." },
+		"cta_url": { "type": "string", "required": false, "default": "", "description": "Gradient button destination. A #anchor scrolls to that section." },
+		"secondary_label": { "type": "string", "required": false, "default": "", "description": "Outline button text." },
+		"secondary_url": { "type": "string", "required": false, "default": "", "description": "Outline button destination." },
+		"badges_label": { "type": "string", "required": false, "default": "", "description": "Small label above the compliance badges." },
+		"badges": { "type": "array", "required": false, "default": [], "description": "Compliance badges. Each: image (URL, or a file name in this component's assets folder), alt, h (display height in px)." },
+		"band_text": { "type": "string", "required": false, "default": "", "description": "Logo band line, plain part." },
+		"band_accent": { "type": "string", "required": false, "default": "", "description": "Logo band line, purple bold part that follows band_text." },
+		"logos": { "type": "array", "required": false, "default": [], "description": "Client logos in the band. Each: image (URL, or a file name in this component's assets folder), alt, h (display height in px)." },
+		"background": { "type": "string", "required": false, "default": "hero-bg.webp", "description": "Background art (URL, or a file name in this component's assets folder). Empty for plain white." }
+	}
+}

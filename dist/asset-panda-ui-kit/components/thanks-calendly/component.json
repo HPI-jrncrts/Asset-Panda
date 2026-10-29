@@ -1,0 +1,14 @@
+{
+	"name": "thanks-calendly",
+	"description": "Booking card under a thank-you hero: the event (logo, name, duration, description) beside an inline Calendly scheduler. Several tracks can be given; the first whose sessionStorage rule matches is shown (live: 'transition' vs 'implementation' demo calendars by the visitor's current-solution answer), otherwise the default. Live: the legacy pricing / trial / demo thank-you pages (bs-section--thank-you-calendar).",
+	"props": {
+		"title": { "type": "string", "required": false, "default": "", "description": "Heading above the card (h2), e.g. If you'd like to get a guided demo… Empty renders the card alone." },
+		"logo": { "type": "string", "required": false, "default": "", "description": "Logo above the event name (live: the Asset Panda Pro logo)." },
+		"logo_alt": { "type": "string", "required": false, "default": "", "description": "Logo alt text (empty when decorative, as live)." },
+		"logo_width": { "type": "integer", "required": false, "default": 0, "description": "Logo intrinsic width in px. 0 omits it." },
+		"logo_height": { "type": "integer", "required": false, "default": 0, "description": "Logo intrinsic height in px. 0 omits it." },
+		"tracks": { "type": "array", "required": true, "description": "Calendars. Each: url (https://calendly.com/…), event_title, duration (e.g. 30 min; empty hides the clock line), body; optional when_key (a sessionStorage key) with when_values (list): the first track whose key holds one of its values is shown. The first track without when_key is the default." },
+		"hide_international": { "type": "boolean", "required": false, "default": false, "description": "Hide the booking card for international visitors (html.ap-intl), as live does (its international calendar slot is empty)." },
+		"height": { "type": "integer", "required": false, "default": 600, "description": "Scheduler height in px (live: 600)." }
+	}
+}

@@ -2,12 +2,73 @@
 	"name": "story-slider",
 	"description": "Customer-story slider: quote copy beside a large photo or video, with arrows, a progress rule, dots and a view-all link below. Live: #ap-*-case on the product pages (apc-*) and #ap-gov-case on the industry hubs.",
 	"props": {
-		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading." },
-		"title": { "type": "string", "required": true, "description": "Heading." },
-		"lede": { "type": "string", "required": false, "default": "", "description": "Supporting paragraph under the heading." },
-		"items": { "type": "array", "required": true, "description": "Slides. Each: quote (required); optional title, author, role (line breaks kept), image, image_alt, logo, logo_alt, logo_w, logo_h, logo_text (a wordmark instead of a logo image; wrap the bold part in *asterisks*), logo_style (hospice|osage|fresenius), link_label, link_url, video_id (YouTube), video_start, video_end, video_title." },
-		"quote_icon": { "type": "string", "required": false, "default": "", "description": "Quote mark image URL. Empty uses the kit's orange mark." },
-		"viewall_label": { "type": "string", "required": false, "default": "View All Case Studies", "description": "Link beside the controls. Renders only with viewall_url." },
-		"viewall_url": { "type": "string", "required": false, "default": "", "description": "View-all destination." }
+		"eyebrow": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Small label above the heading."
+		},
+		"title": {
+			"type": "string",
+			"required": true,
+			"description": "Heading."
+		},
+		"lede": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Supporting paragraph under the heading."
+		},
+		"variant": {
+			"type": "string",
+			"required": false,
+			"default": "default",
+			"enum": [
+				"default",
+				"home",
+				"solution",
+				"eduhub"
+			],
+			"description": "home: the homepage slider's taller logo plate and compact twelve-dot controls on phones. solution: the September 2026 solution pages' smaller story titles. eduhub: the Education hub (live #ap-eduhub-case: 48px band spacing on phones from the page sheet)."
+		},
+		"stack": {
+			"type": "string",
+			"required": false,
+			"default": "narrow",
+			"enum": [
+				"narrow",
+				"wide"
+			],
+			"description": "Width below which a slide stacks: narrow 900px (product pages, Education hub, Emergency Preparedness, School Reunification); wide 1180px (the other hubs, Help Desk and the September solution pages)."
+		},
+		"items": {
+			"type": "array",
+			"required": true,
+			"description": "Slides. Each: quote (required, except on a video slide that has a title — the video then carries the story); optional category (small label above the title), title, author, role (line breaks kept), image, image_alt, logo, logo_alt, logo_w, logo_h, logo_text (a wordmark instead of a logo image; wrap the bold part in *asterisks*), logo_style (hospice|osage|fresenius), link_label, link_url, video_id (YouTube), video_start, video_end, video_title. A video slide shows its logo / logo_text on the poster until the player loads."
+		},
+		"quote_icon": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Quote mark image URL. Empty uses the kit's orange mark."
+		},
+		"viewall_label": {
+			"type": "string",
+			"required": false,
+			"default": "View All Case Studies",
+			"description": "Link beside the controls. Renders only with viewall_url."
+		},
+		"viewall_url": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "View-all destination."
+		},
+		"autoplay_ms": {
+			"type": "integer",
+			"required": false,
+			"default": 3000,
+			"description": "Milliseconds between automatic slide changes (default 3000; 0 turns autoplay off; values under 1500 are raised to 1500). Autoplay pauses on hover, keyboard focus, touch, a playing video, an off-screen slider and a hidden tab, and never runs under prefers-reduced-motion."
+		}
 	}
 }

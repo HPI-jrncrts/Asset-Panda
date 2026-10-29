@@ -1,0 +1,774 @@
+/*
+ * hub-hero — the industry hub hero (default variant), laid out exactly like the
+ * solution-hero on the Pharmaceutical & Laboratory page, which QA 2026-10-28 made
+ * the standard for the whole family ("This is the correct hero spacing, size,
+ * etc"): a 640px stage, the copy column at 160px (40px from 1320px down), the
+ * eyebrow 131px from the top, the chip strip 16px off the foot, a 191px veil, and
+ * below 1001px the copy over the art over the chips.
+ *
+ * The art (backdrop + up to three cut-out photos, placed in % by the props) sits
+ * on a fixed 1440x640 canvas so it is never squeezed: centred on wide screens,
+ * right-anchored on laptops like the solution-hero's visual box, and on tablets
+ * and phones scaled so the photo group (its bounds arrive as --apg-x0/-x1/-y0/-rw,
+ * canvas px, computed in render.php) fills the width under the copy.
+ */
+
+:where(.ap-hub-hero, .ap-hub-hero *, .ap-hub-hero *::before, .ap-hub-hero *::after) {
+	box-sizing: border-box;
+}
+
+.ap-hub-hero {
+	position:relative;
+	width:100%;
+	background:#fff;
+	overflow:hidden;
+	font-family:var(--ap-font-display);
+	--gu:calc(100vw / 1440)
+}
+
+.ap-hub-hero .apg-hero-stage {
+	position:relative;
+	max-width:1440px;
+	height:640px;
+	margin:0 auto
+}
+
+/* The 1440x640 art canvas. */
+.ap-hub-hero .apg-hero-visual {
+	position:absolute;
+	top:0;
+	left:50%;
+	width:1440px;
+	height:640px;
+	margin-left:-720px
+}
+
+/* The backdrop runs edge to edge on screens wider than the canvas (as the
+ * solution-hero's backdrop does), keeping its top edge. */
+.ap-hub-hero .apg-hero-bg {
+	position:absolute;
+	top:0;
+	left:calc(50% - max(720px, 50vw));
+	width:max(1440px, 100vw);
+	max-width:none;
+	height:100%;
+	object-fit:cover;
+	object-position:center top
+}
+
+.ap-hub-hero .apg-hero-photo {
+	position:absolute;
+	display:block;
+	max-width:none
+}
+
+.ap-hub-hero .apg-hero-p1 {
+	left:56.8056%;
+	top:15.625%;
+	width:25.4167%;
+	height:71.25%;
+	object-fit:cover
+}
+
+.ap-hub-hero .apg-hero-p2 {
+	left:45.9722%;
+	top:32.3438%;
+	width:24.1667%;
+	height:67.8125%;
+	object-fit:cover
+}
+
+.ap-hub-hero .apg-hero-p3w {
+	position:absolute;
+	left:63.6111%;
+	top:33.2813%;
+	width:25.625%;
+	height:66.875%;
+	overflow:hidden
+}
+
+.ap-hub-hero .apg-hero-p3w img {
+	position:absolute;
+	left:-22.57%;
+	top:0;
+	width:145.13%;
+	max-width:none;
+	height:100%;
+	display:block;
+	object-fit:fill
+}
+
+/* The solution-hero's veil: 191px, white from 85%. */
+.ap-hub-hero .apg-hero-veil {
+	position:absolute;
+	left:calc(50% - max(720px, 50vw));
+	width:max(1440px, 100vw);
+	bottom:-1px;
+	height:191px;
+	pointer-events:none;
+	background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0) 25.86%,rgba(255,255,255,.846) 85.385%,#fff 100%)
+}
+
+/* Copy column. Top-anchored like the solution-hero: the ::before spacer holds the
+ * eyebrow 131px down and shrinks only when long copy would reach the chips. */
+.ap-hub-hero .apg-hero-in {
+	position:absolute;
+	left:160px;
+	top:0;
+	height:calc(100% - 58px);
+	width:554px;
+	display:flex;
+	flex-direction:column;
+	gap:16px;
+	align-items:flex-start;
+	z-index:4
+}
+
+.ap-hub-hero .apg-hero-in::before {
+	content:"";
+	flex:0 1 115px;
+	min-height:24px
+}
+
+.ap-hub-hero .apg-hero-in::after {
+	content:"";
+	flex:0 0 16px
+}
+
+.ap-hub-hero .apg-hero-in > * {
+	flex-shrink:0
+}
+
+.ap-hub-hero .apg-eyebrow {
+	font-size:var(--ap-type-eyebrow-size);
+	font-weight:var(--ap-type-eyebrow-weight);
+	line-height:var(--ap-type-eyebrow-line);
+	letter-spacing:var(--ap-type-eyebrow-track);
+	text-transform:uppercase;
+	color:var(--ap-type-eyebrow-color);
+	margin:0
+}
+
+.ap-hub-hero h1.apg-h1 {
+	font-size:var(--ap-type-h1-size);
+	font-weight:var(--ap-type-h1-weight);
+	line-height:var(--ap-type-h1-line);
+	letter-spacing:var(--ap-type-h1-track);
+	color:var(--ap-text-heading);
+	margin:0
+}
+
+.ap-hub-hero .apg-h1-grad {
+	background:linear-gradient(38.812deg,#5044e1 0%,#00a991 70.44%);
+	-webkit-background-clip:text;
+	background-clip:text;
+	color:transparent
+}
+
+.ap-hub-hero .apg-hero-body {
+	font-size:var(--ap-type-lede-size);
+	font-weight:var(--ap-type-lede-weight);
+	line-height:var(--ap-type-lede-line);
+	color:var(--ap-type-lede-color);
+	margin:0
+}
+
+.ap-hub-hero .apg-cta-row {
+	display:flex;
+	flex-wrap:wrap;
+	align-items:center;
+	gap:24px;
+	padding-top:16px;
+	width:100%
+}
+
+.ap-hub-hero .apg-btn {
+	display:inline-flex;
+	align-items:center;
+	justify-content:center;
+	gap:8px;
+	min-height:48px;
+	padding:16px;
+	border-radius:4px;
+	border:1px solid #5044e1;
+	background:linear-gradient(55.106deg,#5044e1 0%,#00a991 70.44%);
+	color:#fff;
+	font-family:var(--ap-font-display);
+	font-size:16px;
+	font-weight:600;
+	line-height:1.2;
+	text-decoration:none;
+	white-space:nowrap;
+	transition:translate .3s cubic-bezier(.25,.45,.45,.95),box-shadow .3s cubic-bezier(.25,.45,.45,.95)
+}
+
+.ap-hub-hero .apg-btn:hover {
+	translate:0 -2px;
+	box-shadow:0 8px 20px rgba(80,68,225,.25)
+}
+
+.ap-hub-hero .apg-btn:hover,
+.ap-hub-hero .apg-btn:focus,
+.ap-hub-hero .apg-btn:visited {
+	color:#fff;
+	text-decoration:none
+}
+
+.ap-hub-hero .apg-btn:focus-visible {
+	outline:3px solid #5044e1;
+	outline-offset:2px
+}
+
+.ap-hub-hero .apg-badges {
+	display:flex;
+	flex-wrap:wrap;
+	align-items:center;
+	gap:28px
+}
+
+.ap-hub-hero .apg-badges img {
+	display:block;
+	width:auto;
+	height:66px;
+	object-fit:contain
+}
+
+/* The solution-hero's badge sizes. */
+.ap-hub-hero .apg-badges img.apg-badge-soc2 {width:55px;height:70px}
+.ap-hub-hero .apg-badges img.apg-badge-govramp {width:66px;height:66px}
+.ap-hub-hero .apg-badges img.apg-badge-hipaa {width:102px;height:56px}
+
+/* Chip strip over the foot of the stage, as the solution-hero's. */
+.ap-hub-hero .apg-feats {
+	position:absolute;
+	left:50%;
+	transform:translateX(-50%);
+	bottom:16px;
+	width:min(1120px, calc(100% - 80px));
+	max-width:none;
+	display:flex;
+	flex-wrap:wrap;
+	row-gap:12px;
+	align-items:center;
+	justify-content:space-between;
+	z-index:4
+}
+
+.ap-hub-hero .apg-feats-track {
+	display:contents
+}
+
+.ap-hub-hero .apg-feat {
+	display:flex;
+	align-items:center;
+	gap:8px;
+	padding:8px 12px;
+	border-radius:8px
+}
+
+.ap-hub-hero .apg-feat img,
+.ap-hub-hero .apg-feat .ap-inline-icon svg {
+	width:24px;
+	height:24px;
+	display:block;
+	flex:0 0 auto
+}
+
+.ap-hub-hero .apg-feat .ap-inline-icon {
+	display:block
+}
+
+.ap-hub-hero .apg-feat span {
+	font-size:16px;
+	line-height:1.6;
+	color:#25272c;
+	white-space:nowrap
+}
+
+.ap-hub-hero .apg-feat-dup {
+	display:none
+}
+
+@media (min-width:768px) {
+	.ap-hub-hero .apg-hero-p1 {
+	animation:apHubHeroRiseLcp .9s cubic-bezier(.22,1,.36,1) both .15s
+}
+
+.ap-hub-hero .apg-hero-p2 {
+	animation:apHubHeroRiseLcp .9s cubic-bezier(.22,1,.36,1) both .3s
+}
+
+.ap-hub-hero .apg-hero-p3w {
+	animation:apHubHeroRiseLcp .9s cubic-bezier(.22,1,.36,1) both .45s
+}
+
+
+}
+
+/* LCP (QA 2026-10-28): the H1 and the hero photo enter from 40% opacity instead of 0, so they are painted
+   (and count for Largest Contentful Paint) on the first frame; the rise is unchanged. */
+@keyframes apHubHeroRiseLcp {
+	from {
+	opacity:.4;
+	translate:0 calc(18 * var(--gu))
+}
+
+to {
+	opacity:1;
+	translate:0 0
+}
+}
+
+@keyframes apHubHeroRise {
+	from {
+	opacity:0;
+	translate:0 calc(18 * var(--gu))
+}
+
+to {
+	opacity:1;
+	translate:0 0
+}
+
+
+}
+
+/* Laptops: the copy moves to 40px and the art is anchored to the right edge
+ * (the solution-hero's visual box sits 103px in, 60px out below 1181px). */
+@media (max-width:1320px) {
+	.ap-hub-hero .apg-hero-in { left:40px; width:500px }
+	.ap-hub-hero .apg-hero-visual { left:calc(100% - 103px - var(--apg-x1, 1300) * 1px); margin-left:0 }
+}
+
+@media (max-width:1180px) {
+	.ap-hub-hero .apg-hero-in { width:440px }
+	.ap-hub-hero .apg-hero-visual { left:calc(100% + 60px - var(--apg-x1, 1300) * 1px) }
+}
+
+/* Tablets and phones: copy, then the photo group scaled to the width, then the
+ * chips (the solution-hero's stacked layout). --apg-k is one canvas px. */
+@media (max-width:1000px) {
+	.ap-hub-hero .apg-hero-stage {
+	max-width:none;
+	height:auto;
+	padding:56px 0 8px;
+	display:flex;
+	flex-direction:column;
+	container-type:inline-size
+}
+
+.ap-hub-hero .apg-hero-in {
+	order:0;
+	position:static;
+	width:auto;
+	height:auto;
+	max-width:640px;
+	padding:0 40px
+}
+
+.ap-hub-hero .apg-hero-in::before,
+.ap-hub-hero .apg-hero-in::after {
+	display:none
+}
+
+.ap-hub-hero .apg-hero-visual {
+	--apg-a:min(100cqw - 40px, 600px);
+	--apg-k:calc(var(--apg-a) / var(--apg-rw, 660));
+	order:1;
+	position:relative;
+	flex:none;
+	align-self:flex-start;
+	top:auto;
+	left:auto;
+	width:calc(1440 * var(--apg-k));
+	height:calc(640 * var(--apg-k));
+	margin:calc(32px - var(--apg-y0, 56) * var(--apg-k)) 0 0 calc((100cqw - var(--apg-a)) / 2 - var(--apg-x0, 650) * var(--apg-k));
+	clip-path:inset(calc(var(--apg-y0, 56) * var(--apg-k)) 0 0 0)
+}
+
+.ap-hub-hero .apg-hero-bg,
+.ap-hub-hero .apg-hero-veil {
+	left:0;
+	width:100%
+}
+
+.ap-hub-hero .apg-hero-veil {
+	height:calc(191 * var(--apg-k))
+}
+
+/* The backdrop fades in under the copy instead of starting at a hard edge. */
+.ap-hub-hero .apg-hero-bg {
+	-webkit-mask-image:linear-gradient(180deg,transparent calc(var(--apg-y0, 56) * var(--apg-k)),#000 calc((var(--apg-y0, 56) + 160) * var(--apg-k)));
+	mask-image:linear-gradient(180deg,transparent calc(var(--apg-y0, 56) * var(--apg-k)),#000 calc((var(--apg-y0, 56) + 160) * var(--apg-k)))
+}
+
+.ap-hub-hero .apg-feats {
+	order:2;
+	position:relative;
+	left:auto;
+	bottom:auto;
+	transform:none;
+	width:auto;
+	margin:-64px 0 0;
+	padding:64px 40px 20px;
+	justify-content:flex-start;
+	gap:16px;
+	z-index:5;
+	background:linear-gradient(180deg,rgba(255,255,255,0) 0,rgba(255,255,255,.9) 44px,#fff 64px)
+}
+
+
+}
+
+/* Phones: centred copy, a full-width button, centred badges, the chips scroll. */
+@media (max-width:700px) {
+	.ap-hub-hero .apg-hero-in {
+	align-items:center;
+	text-align:center
+}
+
+.ap-hub-hero .apg-cta-row {
+	flex-direction:column;
+	align-items:center;
+	gap:16px
+}
+
+.ap-hub-hero .apg-btn {
+	width:100%
+}
+
+.ap-hub-hero .apg-badges {
+	justify-content:center
+}
+
+.ap-hub-hero .apg-feats {
+	padding:64px 0 18px;
+	overflow:hidden;
+	flex-wrap:nowrap
+}
+
+.ap-hub-hero .apg-feats::before,
+.ap-hub-hero .apg-feats::after {
+	content:"";
+	position:absolute;
+	bottom:0;
+	height:calc(100% - 64px);
+	width:32px;
+	z-index:1;
+	pointer-events:none
+}
+
+.ap-hub-hero .apg-feats::before {
+	left:0;
+	background:linear-gradient(90deg,#fff,rgba(255,255,255,0))
+}
+
+.ap-hub-hero .apg-feats::after {
+	right:0;
+	background:linear-gradient(270deg,#fff,rgba(255,255,255,0))
+}
+
+.ap-hub-hero .apg-feats-track {
+	display:flex;
+	flex-direction:row;
+	align-items:center;
+	gap:0;
+	width:max-content;
+	max-width:none;
+	animation:apHubHeroMarquee 18s linear infinite
+}
+
+.ap-hub-hero .apg-feat {
+	margin-right:28px;
+	padding:8px 0
+}
+
+.ap-hub-hero .apg-feat-dup {
+	display:flex
+}
+
+
+}
+
+@keyframes apHubHeroMarquee {
+	from {
+	transform:translateX(0)
+}
+
+to {
+	transform:translateX(-50%)
+}
+
+
+}
+
+@media (max-width:640px) {
+	.ap-hub-hero .apg-hero-stage { padding-top:40px }
+	.ap-hub-hero .apg-hero-in { padding:0 20px }
+	.ap-hub-hero .apg-badges { gap:16px }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-hub-hero .apg-feats-track { animation:none }
+	.ap-hub-hero .apg-feat-dup { display:none }
+}
+
+/* No photos: fall back to the phone composite under the copy (mobile_background). */
+@media (max-width:1000px) {
+	.ap-hub-hero:not(:has(.apg-hero-photo, .apg-hero-p3w)) .apg-hero-visual {
+	width:100%;
+	height:auto;
+	margin:32px 0 0;
+	clip-path:none;
+	aspect-ratio:var(--apg-mratio, 393/378);
+	background:var(--apg-mbg, none) center bottom / cover no-repeat
+}
+
+.ap-hub-hero:not(:has(.apg-hero-photo, .apg-hero-p3w)) .apg-hero-bg {
+	display:none
+}
+
+
+}
+
+/* Features band (features_band: true): the chips in a ruled band under the stage. */
+.ap-hub-hero .apg-feats--band {
+	position: static;
+	transform: none;
+	width: 100%;
+	max-width: none;
+	padding: 16px 24px;
+	border-bottom: 1px solid #e6e9f2;
+	background: #fff;
+	justify-content: center;
+	gap: 120px;
+}
+
+.ap-hub-hero .apg-feats--band .apg-feat { padding: 0; }
+
+@media (max-width: 1024px) {
+	.ap-hub-hero .apg-feats--band { padding: 16px 20px; overflow: hidden; }
+}
+
+
+/*
+ * Education hub variant — live #ap-eduhub-hero, ported whole: the section's ten
+ * sheets in source order (selectors re-rooted from the section id; class names and
+ * the !important flags are live's own — its later fix sheets override earlier ones
+ * with them, so they stay to keep that cascade exact). Backdrops arrive as
+ * --apf-bg / --apf-mbg; the root's 100vw full-bleed trick is dropped (the block is
+ * already full width).
+ */
+.ap-hub-hero.ap-hub-hero--eduhub{position:relative;background:#ffffff}
+.ap-hub-hero.ap-hub-hero--eduhub *{box-sizing:border-box}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap{position:relative;display:grid;background-image:var(--apf-bg, none);background-size:cover;background-position:center top;background-repeat:no-repeat}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap>*{grid-area:1/1}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-stage{position:relative;display:block;width:100%;aspect-ratio:1440/560;max-width:1440px;margin:0 auto;overflow:hidden;background:transparent;line-height:0;font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;container-type:inline-size;--u:calc(100cqw / 1440)}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-decor,.ap-hub-hero.ap-hub-hero--eduhub .apf-dash{display:none !important}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-decor{position:absolute;inset:0}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-orb{position:absolute;border-radius:50%}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-orb-white1{left:-0.661%;top:-28.998%;width:98.899%;height:106.908%;background:radial-gradient(circle,rgba(255,255,255,.9) 0%,rgba(255,255,255,0) 70%);filter:blur(40px)}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-orb-violet{left:49.028%;top:31.964%;width:57.104%;height:146.839%;background:radial-gradient(circle,rgba(80,68,225,.55) 0%,rgba(80,68,225,0) 70%);filter:blur(60px)}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-orb-green{left:-24.931%;top:-68.929%;width:57.104%;height:146.839%;background:radial-gradient(circle,rgba(0,169,145,.5) 0%,rgba(0,169,145,0) 70%);filter:blur(60px)}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-orb-whiteglow{left:-13.542%;top:-25.357%;width:89.236%;height:159.464%;background:radial-gradient(circle,rgba(255,255,255,.85) 0%,rgba(255,255,255,0) 70%);filter:blur(50px)}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-orb-whiteupper{left:48.819%;top:-58.214%;width:67.986%;height:121.607%;background:radial-gradient(circle,rgba(255,255,255,.85) 0%,rgba(255,255,255,0) 70%);filter:blur(50px)}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-orb-yellow{left:79.514%;top:33.214%;width:23.819%;height:61.250%;background:radial-gradient(circle,rgba(222,141,20,.45) 0%,rgba(222,141,20,0) 70%);filter:blur(40px)}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-orb-violetsm{left:-10.764%;top:48.036%;width:32.431%;height:83.393%;background:radial-gradient(circle,rgba(80,68,225,.4) 0%,rgba(80,68,225,0) 70%);filter:blur(40px)}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-dash{position:absolute;left:35.833%;top:11.607%;width:64.167%;height:88.750%;overflow:hidden;opacity:.4;-webkit-mask-image:radial-gradient(closest-side,rgba(0,0,0,.9) 0%,rgba(0,0,0,0) 100%);mask-image:radial-gradient(closest-side,rgba(0,0,0,.9) 0%,rgba(0,0,0,0) 100%);animation:apHubHeroEduApfFade 1s cubic-bezier(.25,.45,.45,.95) .05s both}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-dash img{position:absolute;object-fit:fill;border:0;max-width:none;margin:0;top:-26.5%;left:-23.38%;width:123.38%;height:149.06%}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-photo{position:absolute}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-photo img{position:absolute;object-fit:fill;border:0;max-width:none;margin:0}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-photo1{left:51.875%;top:14.464%;width:28.958%;height:100.000%;animation:apHubHeroEduApfRiseLcp .8s cubic-bezier(.25,.45,.45,.95) .1s both}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-photo1 img{left:-0.04%;top:0;width:100.08%;height:111.79%}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-photo2{left:64.024%;top:36.429%;width:25.278%;height:78.036%;animation:apHubHeroEduApfRiseLcp .8s cubic-bezier(.25,.45,.45,.95) .2s both}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-photo2 img{left:0;top:0;width:100%;height:124.94%}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-photo3{left:44.517%;top:37.857%;width:26.806%;height:76.607%;animation:apHubHeroEduApfRiseLcp .8s cubic-bezier(.25,.45,.45,.95) .3s both}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-photo3 img{left:-0.09%;top:0;width:100.17%;height:135.2%}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-veil{position:absolute;left:0;right:0;bottom:0;height:66.429%;background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0) 25.86%,rgba(255,255,255,.846) 72.753%,rgba(255,255,255,1) 100%);left:calc(50% - 50vw);right:auto;width:100vw}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-content{position:absolute;left:max(11.111%,calc(50% - 560px));top:52.500%;width:min(38.889%,560px);transform:translateY(-50%);display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:16px;line-height:normal}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-eyebrow{margin:0;width:100%;font-weight:800;line-height:1.2;color:#5044e1;font-size:14px;letter-spacing:.56px;text-transform:uppercase;opacity:0;animation:apHubHeroEduApfRiseText .6s cubic-bezier(.25,.45,.45,.95) .15s forwards}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-headline{margin:0;width:100%;font-weight:800;line-height:1.2;color:#25272c;font-size:48px;opacity:0;animation:apHubHeroEduApfRiseTextLcp .6s cubic-bezier(.25,.45,.45,.95) .28s both}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-headline .apf-grad{background-image:linear-gradient(38.8deg,#5044e1 0%,#00a991 70.44%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-body{margin:0;width:100%;font-weight:400;line-height:1.5;color:#5b616e;font-size:18px;opacity:0;animation:apHubHeroEduApfRiseText .6s cubic-bezier(.25,.45,.45,.95) .4s forwards}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-cta-row{display:flex;gap:24px;align-items:center;padding-top:16px;width:100%;opacity:0;animation:apHubHeroEduApfRiseText .6s cubic-bezier(.25,.45,.45,.95) .52s forwards}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-btn.ap-btn-primary{display:inline-flex;align-items:center;justify-content:center;padding:16px 16px;border-radius:4px;background:linear-gradient(90deg,#5044e1 0%,#00a991 100%);color:#ffffff;font-weight:700;font-size:16px;line-height:1;text-decoration:none;border:0;white-space:nowrap;box-shadow:0 2px 8px rgba(80,68,225,.25);transition:box-shadow .3s cubic-bezier(.25,.45,.45,.95),background .3s cubic-bezier(.25,.45,.45,.95)}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-btn.ap-btn-primary:hover{box-shadow:0 6px 18px rgba(80,68,225,.4);background:linear-gradient(90deg,#4438c9 0%,#00937f 100%)}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-badges{display:flex;gap:28px;align-items:center}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-badge-soc2{width:55.1px;height:70px;object-fit:contain}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-badge-govramp{width:66px;height:66px;object-fit:contain}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feats-band{padding:16px 24px;border-bottom:1px solid #e6e9f2;background:#ffffff}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feats{display:flex;justify-content:center;flex-wrap:wrap;gap:120px;max-width:1440px;margin:0 auto}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feat{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;color:#25272c}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feat img{width:24px;height:24px;flex-shrink:0}
+@keyframes apHubHeroEduApfFade{from{opacity:0}
+to{opacity:.4}
+}
+@keyframes apHubHeroEduApfRise{from{opacity:0;transform:translateY(14px)}
+to{opacity:1;transform:translateY(0)}
+}
+/* LCP (QA 2026-10-28): the H1 and the hero photo enter from 40% opacity instead of 0, so they are painted
+   (and count for Largest Contentful Paint) on the first frame; the rise is unchanged. */
+@keyframes apHubHeroEduApfRiseLcp{from{opacity:.4;transform:translateY(14px)}
+to{opacity:1;transform:translateY(0)}
+}
+@keyframes apHubHeroEduApfRiseTextLcp{from{opacity:.4;transform:translateY(10px)}
+to{opacity:1;transform:translateY(0)}
+}
+@keyframes apHubHeroEduApfRiseText{from{opacity:0;transform:translateY(10px)}
+to{opacity:1;transform:translateY(0)}
+}
+@media(max-width:767px){.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap{display:flex;flex-direction:column}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap{background:none}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-stage{order:2;margin:0;max-width:none;aspect-ratio:860/1864;height:auto;min-height:0;max-height:none;background-image:var(--apf-mbg, none);background-size:cover;background-position:center}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-photo1,.ap-hub-hero.ap-hub-hero--eduhub .apf-photo2,.ap-hub-hero.ap-hub-hero--eduhub .apf-photo3,.ap-hub-hero.ap-hub-hero--eduhub .apf-veil{display:none}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-decor,.ap-hub-hero.ap-hub-hero--eduhub .apf-photo2,.ap-hub-hero.ap-hub-hero--eduhub .apf-photo3{display:none}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-photo1{position:absolute;left:0;top:0;width:100%;height:100%}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-photo1 img{left:0;top:0;width:100%;height:100%;object-fit:cover;object-position:top center}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-veil{height:45%}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-content{order:1;position:static;transform:none;width:100%;left:auto;top:auto;padding:28px 20px 24px;gap:14px;align-items:center;text-align:center}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-eyebrow{text-align:center;font-size:12px}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-headline{text-align:center;font-size:28px}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-body{text-align:center;font-size:16px}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-cta-row{flex-direction:column;gap:16px;padding-top:8px;align-items:center}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-btn.ap-btn-primary{width:100%}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-badges{justify-content:center}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feats{flex-direction:column;align-items:flex-start;gap:12px}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feats-band{padding:16px 20px}
+}
+@media (max-width:767px){.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap{height:auto;min-height:0;background-image:var(--apf-mbg, none),var(--apf-mbg, none);background-size:100% auto,cover;background-position:center bottom,center top;background-repeat:no-repeat}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-stage{display:block;position:static;inset:auto;transform:none;width:100%;height:auto;min-height:0;max-height:none;margin:0;aspect-ratio:393/480;background:none}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-stage *{display:none!important}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-eyebrow{display:block}
+}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feat.apf-dup{display:none}
+@media(max-width:767px){.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feats-band{overflow:hidden}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feats{flex-direction:row;flex-wrap:nowrap;width:max-content;justify-content:flex-start;gap:0}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feat{margin-right:40px}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feat.apf-dup{display:flex}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feats{animation:apHubHeroEduApfChips 14s linear infinite}
+@keyframes apHubHeroEduApfChips{from{transform:translateX(0)}
+to{transform:translateX(-50%)}
+}
+}
+@media (min-width:768px){.ap-hub-hero.ap-hub-hero--eduhub{overflow-x:clip;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap{width:100%; max-width:none; overflow:hidden; background-size:cover; background-position:center top; background-repeat:no-repeat;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-stage{width:100%; max-width:none; margin:0; aspect-ratio:1440 / 560; height:auto; border:0; outline:0; box-shadow:none;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-veil{left:0; right:0; width:100%;}
+}
+@media (min-width:768px) and (max-width:1100px){.ap-hub-hero.ap-hub-hero--eduhub .apf-stage{aspect-ratio:auto; min-height:520px;}
+}
+@media (max-width:767px){.ap-hub-hero.ap-hub-hero--eduhub{overflow-x:hidden;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-stage{width:100%; max-width:none; margin:0;}
+}
+@media (max-width:767px){.ap-hub-hero.ap-hub-hero--eduhub{ overflow-x:hidden; background:#ffffff;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap{position:relative; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; width:100%; max-width:none; min-height:calc(100svh - 72px); margin:0; padding:0; background-image: var(--apf-mbg, none) !important; background-repeat:no-repeat !important; background-size:cover !important; background-position:center bottom !important; overflow:hidden;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-stage{display:none !important;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-photo1,.ap-hub-hero.ap-hub-hero--eduhub .apf-photo2,.ap-hub-hero.ap-hub-hero--eduhub .apf-photo3,.ap-hub-hero.ap-hub-hero--eduhub .apf-decor,.ap-hub-hero.ap-hub-hero--eduhub .apf-dash,.ap-hub-hero.ap-hub-hero--eduhub .apf-veil{display:none !important;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-content{position:relative !important; order:1; left:auto !important; right:auto !important; top:auto !important; transform:none !important; width:100% !important; max-width:460px; margin:0 auto; padding:26px 20px 0; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; gap:14px; text-align:center; background:transparent !important; z-index:5;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-eyebrow{display:none;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-headline{width:100%; margin:0; font-size:clamp(27px,7vw,32px); line-height:1.16; text-align:center; background:transparent !important;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-body{width:100%; max-width:410px; margin:4px auto 0; font-size:clamp(15px,4vw,17px); line-height:1.5; text-align:center; background:transparent !important;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-cta-row{width:100%; margin:0; padding-top:8px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; background:transparent !important;}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-btn.ap-btn-primary{width:100%; max-width:400px; min-height:49px; margin:0; display:flex; align-items:center; justify-content:center;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-badges{display:flex; align-items:center; justify-content:center; gap:24px; margin:0 auto; background:transparent !important;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-badge-soc2{width:55px; height:70px; object-fit:contain;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-badge-govramp{width:66px; height:66px; object-fit:contain;}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feats-band{position:relative; width:100%; margin:0; padding:16px 20px; overflow:hidden; background:#ffffff; z-index:10;}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feats{flex-direction:row; flex-wrap:nowrap; width:max-content; justify-content:flex-start; gap:0;}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feat{margin-right:40px;}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feat.apf-dup{display:flex;}
+}
+@media (max-width:767px) and (max-height:750px){.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap{min-height:680px;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-content{padding-top:18px; gap:10px;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-headline{font-size:26px;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-body{font-size:15px; line-height:1.4;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-cta-row{gap:12px; padding-top:4px;}
+}
+@media (max-width:380px){.ap-hub-hero.ap-hub-hero--eduhub .apf-content{padding-left:16px; padding-right:16px;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-headline{font-size:25px;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-body{font-size:14px;}
+}
+@media (max-width:767px){.ap-hub-hero.ap-hub-hero--eduhub{--ap-mobile-header-h:72px; --ap-mobile-feats-h:58px;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap{height:calc( 100svh - var(--ap-mobile-header-h) - var(--ap-mobile-feats-h) ) !important; min-height:0 !important; max-height:none !important; background-position:center bottom !important; overflow:hidden;}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feats-band{height:var(--ap-mobile-feats-h); min-height:var(--ap-mobile-feats-h); padding:0 20px !important; display:flex; align-items:center; background:#ffffff; overflow:hidden;}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feats{height:100%; align-items:center;}
+.ap-hub-hero.ap-hub-hero--eduhub .ap-hero-feat{height:100%; display:flex; align-items:center; white-space:nowrap;}
+}
+@media (max-width:767px){.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap{background-position:center calc(100% + 45px) !important;}
+}
+@media (max-width:767px){.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap{height:max( calc( 100svh - var(--ap-mobile-header-h) - var(--ap-mobile-feats-h) ), 680px ) !important; min-height:680px !important; background-position: center calc(100% + 45px) !important;}
+}
+@media (max-width:390px){.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap{height:max( calc( 100svh - var(--ap-mobile-header-h) - var(--ap-mobile-feats-h) ), 700px ) !important; min-height:700px !important;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-content{padding-top:18px; gap:10px;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-headline{font-size:25px;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-body{font-size:14px; line-height:1.42;}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-cta-row{gap:12px; padding-top:4px;}
+}
+@media (max-width:430px){.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap{height:auto !important; min-height:780px !important; max-height:none !important; background-position: center calc(100% + 105px) !important;}
+}
+@media (max-width:390px){.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap{min-height:800px !important; background-position: center calc(100% + 120px) !important;}
+}
+@media (max-width:767px){.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap{background-image:var(--apf-mbg, none) !important; background-size:cover !important; background-position:center bottom !important; background-repeat:no-repeat !important;}
+}
+@media (max-width:767px){.ap-hub-hero.ap-hub-hero--eduhub .apf-eyebrow{display:block!important}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-wrap{height:auto!important;min-height:0!important;padding-bottom:calc(100vw * 0.967 + 8px)!important;background-image:var(--apf-mbg, none),var(--apf-mbg, none)!important;background-size:100% auto,cover!important;background-position:center bottom,center top!important;background-repeat:no-repeat!important}
+}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-feat-mask {display:inline-block;width:24px;height:24px;flex-shrink:0;background:linear-gradient(38.8deg,#5044e1 0%,#00a991 70.44%)}
+.ap-hub-hero--eduhub :is(h1, p) {text-wrap:wrap}
+/* Live's site-wide Additional CSS (wp-custom-css) puts the Education hero copy back in flow
+ * between 768 and 939px, which grows the stage past its 520px floor. */
+@media (min-width:768px) and (max-width:939px) {
+	.ap-hub-hero.ap-hub-hero--eduhub .apf-content {position:relative !important;top:auto !important;bottom:auto !important;transform:none !important;align-self:center}
+}
+/* Live's page script repaints every primary button with this gradient (inline style). */
+.ap-hub-hero.ap-hub-hero--eduhub .apf-cta-row .ap-btn.ap-btn-primary {background-image:linear-gradient(54.33deg,#5044e1 0%,#00a991 70.44%)}
+
+/* QA 2026-10-29 (Joseph, sitewide): on phones the hero's eyebrow sits 16px under the header, as on the K-12 page
+ * (his reference for the spacing). */
+@media (max-width: 767px) {
+	html body .apg-hero-stage {
+		padding-top: 16px !important;
+	}
+}
+
+/* ------------------------------------------------------------ Copy / art spacing on desktops (QA 2026-10-29)
+ * Joseph: "There should be space between the headers and content on the left from the images on the right ...
+ * Implement to all inner pages with content - image hero sections", as on /asset-intelligence-platform/ (130px at
+ * 1440, 109px at 1280, 67px at 1024). On the industry hubs the photo group started 41px inside the copy at 1440
+ * (Construction) and up to 73px at 1366. Wherever copy and art sit side by side (1001px up):
+ *  - the copy keeps its width and text; from 1321px it starts where the chip strip starts ((stage - 1120px) / 2);
+ *  - the art canvas scales down by --apg-f about the photo group's right edge (--apg-x1 less its 16px margin) and
+ *    the canvas foot, so the group keeps its arrangement and moves away from the copy; the backdrop and the veil
+ *    inside the canvas take the inverse scale about the same point, so they stay exactly where they were;
+ *  - the factor is the room between the copy column's edge (plus 10% of the stage, 8% up to 1180px) and the
+ *    group's right edge, over the group's width (--apg-rw less its margins), read as tan(atan2(room, width))
+ *    since CSS cannot divide two lengths; the section is the size container (the stage is at most 1440px).
+ * Without trig functions or container units the factor is a fixed .62. Tablets and phones are untouched. */
+@media (min-width: 1001px) {
+	.ap-hub-hero { --apg-f: .62; }
+	.ap-hub-hero .apg-hero-visual { scale: var(--apg-f); transform-origin: calc((var(--apg-x1, 1300) - 16) * 1px) 100%; }
+	.ap-hub-hero .apg-hero-visual > .apg-hero-bg,
+	.ap-hub-hero .apg-hero-visual > .apg-hero-veil { scale: calc(1 / var(--apg-f)); transform-origin: calc((var(--apg-x1, 1300) - 16) * 1px - 720px + max(720px, 50vw)) 100%; }
+}
+@media (min-width: 1321px) {
+	.ap-hub-hero .apg-hero-in { left: max(40px, (100% - 1120px) / 2); }
+}
+@supports (width: 1cqw) and (scale: tan(atan2(1px, 2px))) {
+	@media (min-width: 1001px) {
+		.ap-hub-hero:not(.ap-hub-hero--eduhub) {
+			container-type: inline-size;
+			--apg-s: min(100cqw, 1440px);
+			--apg-cl: 40px;
+			--apg-cw: 440px;
+			--apg-gr: calc(var(--apg-s) + 44px);
+			--apg-gap: calc(var(--apg-s) * .08);
+			--apg-f: clamp(.3, tan(atan2(calc(var(--apg-gr) - var(--apg-cl) - var(--apg-cw) - var(--apg-gap)), calc((var(--apg-rw, 660) - 32) * 1px))), 1);
+		}
+	}
+	@media (min-width: 1181px) {
+		.ap-hub-hero:not(.ap-hub-hero--eduhub) { --apg-cw: 500px; --apg-gr: calc(var(--apg-s) - 119px); --apg-gap: calc(var(--apg-s) * .1); }
+	}
+	@media (min-width: 1321px) {
+		.ap-hub-hero:not(.ap-hub-hero--eduhub) { --apg-cl: max(40px, (var(--apg-s) - 1120px) / 2); --apg-cw: 554px; --apg-gr: calc(var(--apg-s) / 2 + (var(--apg-x1, 1300) - 736) * 1px); }
+	}
+}

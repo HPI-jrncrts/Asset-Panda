@@ -7,6 +7,11 @@
 		"items": { "type": "array", "required": true, "description": "Questions. Each: q (question) and a (answer). Line breaks in the answer are kept." },
 		"open_first": { "type": "boolean", "required": false, "default": true, "description": "Start with the first question open." },
 		"schema": { "type": "boolean", "required": false, "default": false, "description": "Also output FAQPage structured data for these questions. Use on one FAQ per page." },
-		"reveal": { "type": "boolean", "required": false, "default": true, "description": "Reveal the section on scroll." }
+		"reveal": { "type": "boolean", "required": false, "default": true, "description": "Reveal the section on scroll." },
+		"variant": { "type": "string", "required": false, "default": "default", "enum": [ "default", "vertical", "hub", "eduhub" ], "description": "vertical: the product pages' FAQ (inset rows, two-state chevron, top rules only, their own type scale). hub: the industry hubs' FAQ (live #ap-gov-faq, plus/minus rows). eduhub: the Education hub's FAQ (live #ap-eduhub-faq)." },
+		"title_gap_m": { "type": "integer", "required": false, "default": -1, "description": "Vertical variant: the same space at 767px and below, where it differs (live Fire and Police pad the heading 40px on phones). -1 keeps title_gap." },
+		"title_gap": { "type": "integer", "required": false, "default": 28, "description": "Vertical variant: space between the heading and the first question, in px (live: 82 on most product pages, 54 on Fire, 28 on Police)." },
+		"tone": { "type": "string", "required": false, "default": "gradient", "enum": [ "gradient", "white" ], "description": "Section background: the grey-to-white gradient, or plain white (live Higher Education and Local Government)." },
+		"question_tone": { "type": "string", "required": false, "default": "default", "enum": [ "default", "accent" ], "description": "Hub variant: closed questions in the heading colour (default) or in indigo (live Government)." }
 	}
 }

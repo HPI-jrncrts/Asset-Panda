@@ -1,0 +1,76 @@
+/*
+ * CTA-box quote (user decision: case-study / success-story quotes "use a CTA box").
+ * The box is the blog's mini CTA (.ap26-cta-mini in "AP Blog 2026 Templates"):
+ * #edecfb fill, #d8dbdf 1px border, 8px radius, 20px 24px padding, 800px column;
+ * the quote reads like its heading (18/700 #25272c), the citation like its text (16/400 #4a4e5a).
+ * Use: core/quote with className "is-style-ap-cta-quote", or class "ap-cta-quote" on a group.
+ */
+.wp-block-quote.is-style-ap-cta-quote,
+.ap-cta-quote {
+	display: block;
+	box-sizing: border-box;
+	max-width: 800px;
+	margin: 32px auto;
+	padding: 20px 24px;
+	background: #edecfb;
+	border: 1px solid #d8dbdf;
+	border-radius: 8px;
+	font-family: Manrope, sans-serif;
+	font-style: normal;
+	quotes: none;
+}
+
+/* Beat the article column's blockquote rule (left rule + 20px indent). */
+.ap26-article .wp-block-quote.is-style-ap-cta-quote,
+.ap26-article .ap-cta-quote,
+.entry-content .wp-block-quote.is-style-ap-cta-quote {
+	margin: 32px auto;
+	padding: 20px 24px;
+	border: 1px solid #d8dbdf;
+	border-radius: 8px;
+}
+
+.wp-block-quote.is-style-ap-cta-quote::before,
+.wp-block-quote.is-style-ap-cta-quote::after {
+	content: none;
+}
+
+.wp-block-quote.is-style-ap-cta-quote p,
+.ap-cta-quote p,
+.ap26-article .wp-block-quote.is-style-ap-cta-quote p,
+.ap26-article .ap-cta-quote p {
+	margin: 0 0 2px;
+	font-family: Manrope, sans-serif;
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 1.4;
+	color: #25272c;
+}
+
+.wp-block-quote.is-style-ap-cta-quote p + p,
+.ap26-article .wp-block-quote.is-style-ap-cta-quote p + p,
+.ap26-article .ap-cta-quote p + p {
+	margin-top: 8px;
+}
+
+.wp-block-quote.is-style-ap-cta-quote cite,
+.ap-cta-quote cite,
+.ap26-article .wp-block-quote.is-style-ap-cta-quote cite,
+.ap26-article .ap-cta-quote cite {
+	display: block;
+	margin: 4px 0 0;
+	font-family: Manrope, sans-serif;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 1.5;
+	letter-spacing: normal;
+	text-transform: none;
+	color: #4a4e5a;
+}
+
+.wp-block-quote.is-style-ap-cta-quote > :last-child,
+.ap-cta-quote > :last-child {
+	margin-bottom: 0;
+}

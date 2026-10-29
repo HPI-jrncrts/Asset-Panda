@@ -1,0 +1,295 @@
+/*
+ * story-slider — customer-story slider.
+ *
+ * Ported from the live product-page testimonial (#ap-fire-case and its
+ * siblings, which all share the education hub's apc-* component). The rule
+ * order below is the live cascade, flattened: later rules deliberately
+ * override earlier ones (display:none → grid cell + display:flex !important,
+ * then the phone refinements), so keep the order when editing.
+ */
+
+.ap-story-slider { position: relative; background: #fff; padding: 80px 24px; }
+.ap-story-slider * { box-sizing: border-box; }
+.ap-story-slider .apc-container { max-width: 1120px; margin: 0px auto; display: flex; flex-direction: column; gap: 80px; font-family: Manrope, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
+.ap-story-slider .apc-header { max-width: 720px; margin: 0px auto; text-align: center; display: flex; flex-direction: column; gap: 16px; }
+.ap-story-slider .apc-eyebrow { margin: 0px; font-weight: 800; font-size: 14px; line-height: 1.2; letter-spacing: 0.56px; text-transform: uppercase; color: rgb(80, 68, 225); }
+.ap-story-slider .apc-h2 { margin: 0px; font-weight: 800; font-size: 40px; line-height: 1.2; color: rgb(37, 39, 44); }
+.ap-story-slider .apc-slide { display: none; }
+.ap-story-slider .apc-slide.is-active { display: flex; }
+.ap-story-slider .apc-story { justify-content: space-between; align-items: center; gap: 40px; }
+.ap-story-slider .apc-copy { flex: 0 0 auto; width: 325px; display: flex; flex-direction: column; gap: 16px; }
+.ap-story-slider .apc-quote-icon { width: 32px; height: 32px; display: block; }
+.ap-story-slider .apc-title { margin: 0px; font-weight: 800; font-size: 24px; line-height: 1.2; color: rgb(37, 39, 44); }
+.ap-story-slider .apc-quote { margin: 0px; font-weight: 400; font-size: 18px; line-height: 1.5; color: rgb(37, 39, 44); }
+.ap-story-slider .apc-author { margin-top: 8px; }
+.ap-story-slider .apc-author-name { margin: 0px; font-weight: 800; font-size: 18px; line-height: 1.2; color: rgb(37, 39, 44); }
+.ap-story-slider .apc-author-role { margin: 0px; font-weight: 400; font-size: 12px; line-height: 1.5; color: rgb(74, 78, 90); }
+.ap-story-slider .apc-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; font-weight: 600; font-size: 14px; color: rgb(37, 39, 44); text-decoration: none; width: fit-content; }
+.ap-story-slider .apc-link img { width: 24px; height: 24px; }
+.ap-story-slider .apc-link:hover { text-decoration: underline; }
+.ap-story-slider .apc-media { flex: 1 1 0px; min-width: 0px; max-width: 737px; position: relative; border-radius: 16px; overflow: hidden; aspect-ratio: 737 / 413; }
+.ap-story-slider .apc-media > img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center center; }
+.ap-story-slider .apc-logo { position: absolute; right: 16px; bottom: 16px; width: 120px; max-height: 80px; padding: 16px 24px; border-radius: 8px; background: linear-gradient(75deg, rgb(238, 242, 255) 0%, rgb(255, 255, 255) 100%); display: flex; align-items: center; justify-content: center; }
+.ap-story-slider .apc-logo img { width: 68px; height: auto; display: block; }
+.ap-story-slider .apc-controls { display: flex; align-items: center; gap: 24px; }
+.ap-story-slider .apc-arrows { display: flex; gap: 16px; flex-shrink: 0; }
+.ap-story-slider .apc-arrow-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgb(230, 233, 242); background: rgb(255, 255, 255); display: flex; align-items: center; justify-content: center; color: rgb(37, 39, 44); cursor: pointer; flex-shrink: 0; }
+.ap-story-slider .apc-arrow-btn:hover { border-color: rgb(37, 39, 44); background: rgb(249, 250, 251); }
+.ap-story-slider .apc-progress { flex: 1 1 0px; height: 1px; background: rgb(230, 233, 242); position: relative; overflow: hidden; }
+.ap-story-slider .apc-progress-bar { position: absolute; left: 0px; top: 0px; width: 50%; height: 1px; background: rgb(37, 39, 44); transform: translateX(0px); transition: transform 0.45s cubic-bezier(0.25, 0.45, 0.45, 0.95); }
+.ap-story-slider .apc-dots { display: flex; gap: 6px; flex-shrink: 0; }
+.ap-story-slider .apc-dot { width: 8px; height: 8px; padding: 0px; border: 0px; border-radius: 50%; background: rgb(230, 233, 242); cursor: pointer; transition: background 0.3s; }
+.ap-story-slider .apc-dot.is-active { background: rgb(37, 39, 44); }
+.ap-story-slider .apc-viewall { flex-shrink: 0; display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: 14px; color: rgb(37, 39, 44); text-decoration: none; white-space: nowrap; }
+.ap-story-slider .apc-viewall img { width: 24px; height: 24px; }
+.ap-story-slider .apc-viewall:hover { text-decoration: underline; }
+@media (max-width: 900px) { .ap-story-slider .apc-h2 { font-size: 28px; } }
+@media (max-width: 900px) { .ap-story-slider .apc-story { flex-direction: column; } }
+@media (max-width: 900px) { .ap-story-slider .apc-copy { display: contents; width: 100%; } }
+@media (max-width: 900px) { .ap-story-slider .apc-quote-icon { order: 0; } }
+@media (max-width: 900px) { .ap-story-slider .apc-title { order: 1; } }
+@media (max-width: 900px) { .ap-story-slider .apc-media { order: 2; flex: 0 0 auto; width: 100%; max-width: none; height: auto; aspect-ratio: 737 / 413; } }
+@media (max-width: 900px) { .ap-story-slider .apc-quote { order: 3; } }
+@media (max-width: 900px) { .ap-story-slider .apc-author { order: 4; } }
+@media (max-width: 900px) { .ap-story-slider .apc-link { order: 5; } }
+@media (max-width: 900px) { .ap-story-slider .apc-controls { flex-direction: column; gap: 16px; align-items: stretch; } }
+@media (max-width: 900px) { .ap-story-slider .apc-progress { display: block; width: 100%; flex: 0 0 auto; } }
+@media (max-width: 900px) { .ap-story-slider .apc-arrows { justify-content: center; } }
+@media (max-width: 900px) { .ap-story-slider .apc-dots { justify-content: center; } }
+@media (max-width: 900px) { .ap-story-slider .apc-viewall { width: 100%; justify-content: center; background: linear-gradient(90deg, rgb(80, 68, 225) 0%, rgb(0, 169, 145) 70.44%); color: rgb(255, 255, 255); font-weight: 700; padding: 14px 16px; border-radius: 4px; } }
+@media (max-width: 900px) { .ap-story-slider .apc-viewall img { display: none; } }
+.ap-story-slider .apc-slider { display: grid; grid-template-columns: minmax(0px, 1fr); grid-template-rows: auto auto; row-gap: 36px; }
+.ap-story-slider .apc-slide { grid-area: 1 / 1; position: relative; opacity: 0; visibility: hidden; pointer-events: none; z-index: 1; transform: translateX(18px); transition: opacity 0.26s cubic-bezier(0.25, 0.45, 0.45, 0.95), transform 0.52s cubic-bezier(0.25, 0.45, 0.45, 0.95), visibility linear 0.52s; display: flex !important; }
+.ap-story-slider .apc-slide.is-active { opacity: 1; visibility: visible; pointer-events: auto; transform: translateX(0px); z-index: 2; transition: opacity 0.48s cubic-bezier(0.25, 0.45, 0.45, 0.95) 0.12s, transform 0.55s cubic-bezier(0.25, 0.45, 0.45, 0.95) 0.05s, visibility; }
+.ap-story-slider .apc-slide .apc-copy > * { opacity: 0; transform: translateY(10px); transition: opacity 0.4s cubic-bezier(0.25, 0.45, 0.45, 0.95), transform 0.48s cubic-bezier(0.25, 0.45, 0.45, 0.95); }
+.ap-story-slider .apc-slide.is-active .apc-copy > * { opacity: 1; transform: translateY(0px); }
+.ap-story-slider .apc-slide.is-active .apc-copy > :nth-child(1) { transition-delay: 0.1s; }
+.ap-story-slider .apc-slide.is-active .apc-copy > :nth-child(2) { transition-delay: 0.14s; }
+.ap-story-slider .apc-slide.is-active .apc-copy > :nth-child(3) { transition-delay: 0.18s; }
+.ap-story-slider .apc-slide.is-active .apc-copy > :nth-child(4) { transition-delay: 0.22s; }
+.ap-story-slider .apc-slide.is-active .apc-copy > :nth-child(5) { transition-delay: 0.26s; }
+.ap-story-slider .apc-slide .apc-media { opacity: 0; transform: translateX(22px) scale(0.985); transition: opacity 0.5s cubic-bezier(0.25, 0.45, 0.45, 0.95), transform 0.6s cubic-bezier(0.25, 0.45, 0.45, 0.95); }
+.ap-story-slider .apc-slide.is-active .apc-media { opacity: 1; transform: translateX(0px) scale(1); transition-delay: 0.1s; }
+.ap-story-slider .apc-slide .apc-logo { opacity: 0; transform: translateY(8px); transition: opacity 0.4s, transform 0.45s cubic-bezier(0.25, 0.45, 0.45, 0.95); }
+.ap-story-slider .apc-slide.is-active .apc-logo { opacity: 1; transform: translateY(0px); transition-delay: 0.28s; }
+.ap-story-slider .apc-controls { grid-area: 2 / 1; position: relative; margin: 0px; z-index: 5; }
+.ap-story-slider .apc-progress { position: relative; flex: 1 1 0px; height: 1px; min-width: 80px; background: rgb(230, 233, 242); overflow: hidden; }
+.ap-story-slider .apc-progress-bar { position: absolute; top: 0px; left: 0px; width: 50%; height: 1px; background: rgb(37, 39, 44); transform: translateX(0px); transition: transform 0.55s cubic-bezier(0.25, 0.45, 0.45, 0.95); }
+/* Hover lifts with `translate` (never `transform`), every channel on the house curve. */
+.ap-story-slider .apc-arrow-btn { -webkit-tap-highlight-color: transparent; transition: background-color var(--ap-dur-base) var(--ap-ease-standard), border-color var(--ap-dur-base) var(--ap-ease-standard), translate var(--ap-dur-base) var(--ap-ease-standard), box-shadow var(--ap-dur-base) var(--ap-ease-standard); }
+@media (hover: hover) { .ap-story-slider .apc-arrow-btn:hover { translate: 0 -2px; border-color: rgb(207, 212, 223); box-shadow: rgba(37, 39, 44, 0.08) 0px 5px 14px; } }
+.ap-story-slider .apc-arrow-btn:active { translate: none; }
+@media (max-width: 900px) { .ap-story-slider .apc-slider { row-gap: 28px; } }
+@media (max-width: 900px) { .ap-story-slider .apc-slide { transform: translateY(14px); } }
+@media (max-width: 900px) { .ap-story-slider .apc-slide.is-active { transform: translateY(0px); } }
+@media (max-width: 900px) { .ap-story-slider .apc-slide .apc-media { transform: translateY(14px) scale(0.985); } }
+@media (max-width: 900px) { .ap-story-slider .apc-slide.is-active .apc-media { transform: translateY(0px) scale(1); } }
+@media (max-width: 900px) { .ap-story-slider .apc-controls { grid-area: 2 / 1; } }
+@media (prefers-reduced-motion: reduce) { .ap-story-slider .apc-slide, .ap-story-slider .apc-slide .apc-copy > *, .ap-story-slider .apc-slide .apc-media, .ap-story-slider .apc-slide .apc-logo, .ap-story-slider .apc-progress-bar { transition: none !important; transform: none !important; } }
+@media (max-width: 900px) { .ap-story-slider { padding: 56px 20px 64px; } }
+@media (max-width: 900px) { .ap-story-slider .apc-container { gap: 40px; } }
+@media (max-width: 900px) { .ap-story-slider .apc-header { max-width: 430px; gap: 12px; } }
+@media (max-width: 900px) { .ap-story-slider .apc-eyebrow { font-size: 13px; line-height: 1.2; } }
+@media (max-width: 900px) { .ap-story-slider .apc-h2 { font-size: 30px; line-height: 1.16; } }
+@media (max-width: 900px) { .ap-story-slider .apc-slider { width: 100%; row-gap: 28px; } }
+@media (max-width: 900px) { .ap-story-slider .apc-story { width: 100%; flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 0px; } }
+@media (max-width: 900px) { .ap-story-slider .apc-copy { display: contents; } }
+@media (max-width: 900px) { .ap-story-slider .apc-quote-icon { order: 0; width: 30px; height: 30px; margin: 0px 0px 14px; } }
+@media (max-width: 900px) { .ap-story-slider .apc-title { order: 1; width: 100%; margin: 0px; font-size: 24px; line-height: 1.2; text-align: left; } }
+@media (max-width: 900px) { .ap-story-slider .apc-media { order: 2; width: 100%; max-width: none; margin: 24px 0px 0px; aspect-ratio: 737 / 413; border-radius: 14px; } }
+@media (max-width: 900px) { .ap-story-slider .apc-media > img { width: 100%; height: 100%; object-fit: cover; object-position: center center; } }
+@media (max-width: 900px) { .ap-story-slider .apc-logo { right: 12px; bottom: 12px; width: 110px; padding: 13px 18px; border-radius: 8px; } }
+@media (max-width: 900px) { .ap-story-slider .apc-logo img { width: 62px; } }
+@media (max-width: 900px) { .ap-story-slider .apc-quote { order: 3; width: 100%; margin: 24px 0px 0px; font-size: 17px; line-height: 1.55; text-align: left; } }
+@media (max-width: 900px) { .ap-story-slider .apc-author { order: 4; width: 100%; margin: 22px 0px 0px; text-align: left; } }
+@media (max-width: 900px) { .ap-story-slider .apc-author-name { margin: 0px; font-size: 17px; line-height: 1.25; } }
+@media (max-width: 900px) { .ap-story-slider .apc-author-role { margin-top: 3px; font-size: 12px; line-height: 1.4; } }
+@media (max-width: 900px) { .ap-story-slider .apc-link { order: 5; margin: 22px 0px 0px; font-size: 14px; font-weight: 700; align-self: flex-start; } }
+@media (max-width: 900px) { .ap-story-slider .apc-controls { grid-area: 2 / 1; display: grid; grid-template-columns: auto minmax(60px, 1fr) auto; grid-template-areas: "arrows progress dots" "viewall viewall viewall"; gap: 20px 16px; align-items: center; width: 100%; margin: 0px; } }
+@media (max-width: 900px) { .ap-story-slider .apc-arrows { grid-area: arrows; display: flex; justify-content: flex-start; gap: 10px; } }
+@media (max-width: 900px) { .ap-story-slider .apc-arrow-btn { width: 40px; height: 40px; } }
+@media (max-width: 900px) { .ap-story-slider .apc-progress { grid-area: progress; position: relative; width: 100%; height: 1px; min-width: 0px; background: rgb(225, 229, 237); overflow: hidden; display: block !important; } }
+@media (max-width: 900px) { .ap-story-slider .apc-progress-bar { width: 50%; height: 1px; background: rgb(37, 39, 44); } }
+@media (max-width: 900px) { .ap-story-slider .apc-dots { grid-area: dots; display: flex; justify-content: flex-end; align-items: center; gap: 6px; } }
+@media (max-width: 900px) { .ap-story-slider .apc-dot { width: 8px; height: 8px; } }
+@media (max-width: 900px) { .ap-story-slider .apc-viewall { grid-area: viewall; width: 100%; margin: 0px; padding: 15px 20px; display: flex; justify-content: center; align-items: center; background: linear-gradient(90deg, rgb(80, 68, 225) 0%, rgb(0, 169, 145) 70.44%); border-radius: 4px; color: rgb(255, 255, 255); font-size: 14px; font-weight: 700; text-align: center; } }
+@media (max-width: 900px) { .ap-story-slider .apc-viewall img { display: none; } }
+@media (max-width: 390px) { .ap-story-slider { padding-left: 16px; padding-right: 16px; } }
+@media (max-width: 390px) { .ap-story-slider .apc-h2 { font-size: 27px; } }
+@media (max-width: 390px) { .ap-story-slider .apc-title { font-size: 22px; } }
+@media (max-width: 390px) { .ap-story-slider .apc-quote { font-size: 16px; } }
+.ap-story-slider .apc-lede { margin: 0px; font-weight: 400; font-size: 18px; line-height: 1.5; color: rgb(74, 78, 90); }
+.ap-story-slider .apc-media--video { background: rgb(0, 0, 0); }
+.ap-story-slider .apc-vid { display: block; position: absolute; inset: 0px; width: 100%; height: 100%; padding: 0px; margin: 0px; border: 0px; background: rgb(0, 0, 0); cursor: pointer; overflow: hidden; }
+.ap-story-slider .apc-vid img { display: block; width: 100%; height: 100%; object-fit: cover; transition: opacity var(--ap-dur-base) var(--ap-ease-standard), scale var(--ap-dur-base) var(--ap-ease-standard); }
+.ap-story-slider .apc-vid:hover img { opacity: 0.88; scale: 1.02; }
+.ap-story-slider .apc-vid-play { position: absolute; left: 50%; top: 50%; translate: -50% -50%; display: block; pointer-events: none; transition: scale var(--ap-dur-base) var(--ap-ease-standard); }
+.ap-story-slider .apc-vid-play svg { display: block; width: 68px; height: 48px; }
+.ap-story-slider .apc-vid-play .apc-vid-bg { fill: rgb(37, 39, 44); fill-opacity: 0.78; transition: fill var(--ap-dur-base) var(--ap-ease-standard), fill-opacity var(--ap-dur-base) var(--ap-ease-standard); }
+.ap-story-slider .apc-vid:hover .apc-vid-play { scale: 1.06; }
+.ap-story-slider .apc-vid:hover .apc-vid-play .apc-vid-bg { fill: rgb(80, 68, 225); fill-opacity: 1; }
+.ap-story-slider .apc-vid:focus-visible { outline: rgb(80, 68, 225) solid 3px; outline-offset: 3px; }
+.ap-story-slider .apc-media--video iframe { position: absolute; inset: 0px; width: 100%; height: 100%; border: 0px; display: block; }
+.ap-story-slider .apc-slide--video .apc-quote-icon { display: none; }
+@media (max-width: 900px) { .ap-story-slider .apc-vid-play svg { width: 54px; height: 38px; } }
+/* Phones used to take inactive slides out of the flow so the slider's height
+ * followed the active story. With autoplay that moved everything below the
+ * slider up and down every few seconds (a layout shift each time), so every
+ * slide now stays in the shared grid cell on every width: the slider holds the
+ * tallest story's height and the controls never move. */
+
+/* ---- Kit additions ---- */
+
+.ap-story-slider .apc-container { font-family: var(--ap-font-display, Manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
+
+.ap-story-slider .apc-link span { transition: color 0.3s cubic-bezier(0.25, 0.45, 0.45, 0.95); }
+.ap-story-slider .apc-link img,
+.ap-story-slider .apc-viewall img { transition: translate 0.3s cubic-bezier(0.25, 0.45, 0.45, 0.95); }
+.ap-story-slider .apc-link:hover img,
+.ap-story-slider .apc-viewall:hover img { translate: 4px 0; }
+
+/* One slide: no arrows, rule or dots — the view-all link sits alone. */
+.ap-story-slider .apc-controls--solo { justify-content: flex-end; }
+
+/* Wordmark logos drawn in type, as on the healthcare and government hubs. */
+.ap-story-slider .apc-logo--wordmark { width: auto; min-width: 92px; min-height: 58px; max-width: 140px; max-height: none; padding: 10px 16px; }
+.ap-story-slider .apc-wordmark { display: block; text-align: center; line-height: 1.05; color: #0c2340; font-weight: 800; }
+.ap-story-slider .apc-wordmark strong { display: block; }
+.ap-story-slider .apc-wordmark--hospice { font-size: 11px; letter-spacing: 0.1px; }
+.ap-story-slider .apc-wordmark--hospice strong { font-size: 20px; letter-spacing: 0.2px; }
+.ap-story-slider .apc-wordmark--osage { font-size: 14px; color: #1e5c65; }
+.ap-story-slider .apc-wordmark--osage strong { font-size: 28px; line-height: 0.95; font-family: Georgia, serif; font-weight: 700; }
+.ap-story-slider .apc-wordmark--fresenius { font-size: 9px; color: #4e8db9; line-height: 1.15; white-space: nowrap; }
+.ap-story-slider .apc-wordmark--fresenius::before { content: ""; display: block; width: 18px; height: 10px; margin: 0 auto 6px; background: linear-gradient(180deg, #9cc0d9 0%, #4e8db9 100%); clip-path: polygon(50% 0, 100% 0, 65% 100%, 35% 100%, 0 0); }
+
+@media (max-width: 900px) {
+	.ap-story-slider .apc-logo--wordmark { width: auto; min-width: 84px; min-height: 52px; padding: 8px 12px; }
+	.ap-story-slider .apc-wordmark--hospice strong { font-size: 17px; }
+	.ap-story-slider .apc-wordmark--osage strong { font-size: 23px; }
+	.ap-story-slider .apc-controls--solo { display: flex; }
+}
+
+/* Category label above a story's title (live homepage, 2026-10-08). It adds a
+ * sixth child to the copy column, so the entrance stagger gains a step. */
+.ap-story-slider .apc-cat { margin: 0; font-weight: 800; font-size: 12px; line-height: 1.3; letter-spacing: 0.48px; text-transform: uppercase; color: #5044e1; }
+.ap-story-slider .apc-slide.is-active .apc-copy > *:nth-child(6) { transition-delay: 0.3s; }
+@media (max-width: 900px) { .ap-story-slider .apc-cat { order: 1; margin: 0 0 10px; } }
+
+/* variant "home": taller logo plate, and twelve dots that still fit a phone. */
+.ap-story-slider--home .apc-logo { height: 80px; max-height: none; padding: 0 8px; }
+.ap-story-slider--home .apc-logo img { max-width: 100%; height: auto; }
+@media (max-width: 900px) {
+	.ap-story-slider--home .apc-logo { height: 73px; padding: 0 7px; }
+	.ap-story-slider--home .apc-controls { grid-template-columns: auto minmax(24px, 1fr) auto; }
+	.ap-story-slider--home .apc-dots { gap: 5px; }
+	.ap-story-slider--home .apc-dot { width: 7px; height: 7px; }
+}
+@media (max-width: 360px) {
+	.ap-story-slider--home .apc-controls { column-gap: 12px; }
+	.ap-story-slider--home .apc-dots { gap: 4px; }
+	.ap-story-slider--home .apc-dot { width: 6px; height: 6px; }
+}
+
+/* variant "solution": the September 2026 solution pages set story titles smaller. */
+.ap-story-slider--solution .apc-title { font-size: 22px; line-height: 1.25; }
+
+/* stack "wide": the hub-style sliders (live .apg-case on the hubs, Help Desk and the September
+ * solution pages) stack below 1181px, not 901px. Same stacked layout as the 900px rules above. */
+@media (min-width: 901px) and (max-width: 1180px) {
+	.ap-story-slider--wide .apc-h2 { font-size: 28px; }
+	.ap-story-slider--wide .apc-story { flex-direction: column; }
+	.ap-story-slider--wide .apc-copy { display: contents; width: 100%; }
+	.ap-story-slider--wide .apc-quote-icon { order: 0; }
+	.ap-story-slider--wide .apc-title { order: 1; }
+	.ap-story-slider--wide .apc-media { order: 2; flex: 0 0 auto; width: 100%; max-width: none; height: auto; aspect-ratio: 737 / 413; }
+	.ap-story-slider--wide .apc-quote { order: 3; }
+	.ap-story-slider--wide .apc-author { order: 4; }
+	.ap-story-slider--wide .apc-link { order: 5; }
+	.ap-story-slider--wide .apc-controls { flex-direction: column; gap: 16px; align-items: stretch; }
+	.ap-story-slider--wide .apc-progress { display: block; width: 100%; flex: 0 0 auto; }
+	.ap-story-slider--wide .apc-arrows { justify-content: center; }
+	.ap-story-slider--wide .apc-dots { justify-content: center; }
+	.ap-story-slider--wide .apc-viewall { width: 100%; justify-content: center; background: linear-gradient(90deg, rgb(80, 68, 225) 0%, rgb(0, 169, 145) 70.44%); color: rgb(255, 255, 255); font-weight: 700; padding: 14px 16px; border-radius: 4px; }
+	.ap-story-slider--wide .apc-viewall img { display: none; }
+	.ap-story-slider--wide .apc-slider { row-gap: 28px; }
+	.ap-story-slider--wide .apc-slide { transform: translateY(14px); }
+	.ap-story-slider--wide .apc-slide.is-active { transform: translateY(0px); }
+	.ap-story-slider--wide .apc-slide .apc-media { transform: translateY(14px) scale(0.985); }
+	.ap-story-slider--wide .apc-slide.is-active .apc-media { transform: translateY(0px) scale(1); }
+	.ap-story-slider--wide .apc-controls { grid-area: 2 / 1; }
+	.ap-story-slider--wide { padding: 56px 20px 64px; }
+	.ap-story-slider--wide .apc-container { gap: 40px; }
+	.ap-story-slider--wide .apc-header { max-width: 430px; gap: 12px; }
+	.ap-story-slider--wide .apc-eyebrow { font-size: 13px; line-height: 1.2; }
+	.ap-story-slider--wide .apc-h2 { font-size: 30px; line-height: 1.16; }
+	.ap-story-slider--wide .apc-slider { width: 100%; row-gap: 28px; }
+	.ap-story-slider--wide .apc-story { width: 100%; flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 0px; }
+	.ap-story-slider--wide .apc-copy { display: contents; }
+	.ap-story-slider--wide .apc-quote-icon { order: 0; width: 30px; height: 30px; margin: 0px 0px 14px; }
+	.ap-story-slider--wide .apc-title { order: 1; width: 100%; margin: 0px; font-size: 24px; line-height: 1.2; text-align: left; }
+	.ap-story-slider--wide .apc-media { order: 2; width: 100%; max-width: none; margin: 24px 0px 0px; aspect-ratio: 737 / 413; border-radius: 14px; }
+	.ap-story-slider--wide .apc-media > img { width: 100%; height: 100%; object-fit: cover; object-position: center center; }
+	.ap-story-slider--wide .apc-logo { right: 12px; bottom: 12px; width: 110px; padding: 13px 18px; border-radius: 8px; }
+	.ap-story-slider--wide .apc-logo img { width: 62px; }
+	.ap-story-slider--wide .apc-quote { order: 3; width: 100%; margin: 24px 0px 0px; font-size: 17px; line-height: 1.55; text-align: left; }
+	.ap-story-slider--wide .apc-author { order: 4; width: 100%; margin: 22px 0px 0px; text-align: left; }
+	.ap-story-slider--wide .apc-author-name { margin: 0px; font-size: 17px; line-height: 1.25; }
+	.ap-story-slider--wide .apc-author-role { margin-top: 3px; font-size: 12px; line-height: 1.4; }
+	.ap-story-slider--wide .apc-link { order: 5; margin: 22px 0px 0px; font-size: 14px; font-weight: 700; align-self: flex-start; }
+	.ap-story-slider--wide .apc-controls { grid-area: 2 / 1; display: grid; grid-template-columns: auto minmax(60px, 1fr) auto; grid-template-areas: "arrows progress dots" "viewall viewall viewall"; gap: 20px 16px; align-items: center; width: 100%; margin: 0px; }
+	.ap-story-slider--wide .apc-arrows { grid-area: arrows; display: flex; justify-content: flex-start; gap: 10px; }
+	.ap-story-slider--wide .apc-arrow-btn { width: 40px; height: 40px; }
+	.ap-story-slider--wide .apc-progress { grid-area: progress; position: relative; width: 100%; height: 1px; min-width: 0px; background: rgb(225, 229, 237); overflow: hidden; display: block !important; }
+	.ap-story-slider--wide .apc-progress-bar { width: 50%; height: 1px; background: rgb(37, 39, 44); }
+	.ap-story-slider--wide .apc-dots { grid-area: dots; display: flex; justify-content: flex-end; align-items: center; gap: 6px; }
+	.ap-story-slider--wide .apc-dot { width: 8px; height: 8px; }
+	.ap-story-slider--wide .apc-viewall { grid-area: viewall; width: 100%; margin: 0px; padding: 15px 20px; display: flex; justify-content: center; align-items: center; background: linear-gradient(90deg, rgb(80, 68, 225) 0%, rgb(0, 169, 145) 70.44%); border-radius: 4px; color: rgb(255, 255, 255); font-size: 14px; font-weight: 700; text-align: center; }
+	.ap-story-slider--wide .apc-viewall img { display: none; }
+	.ap-story-slider--wide .apc-vid-play svg { width: 54px; height: 38px; }
+	.ap-story-slider--wide .apc-logo--wordmark { width: auto; min-width: 84px; min-height: 52px; padding: 8px 12px; }
+	.ap-story-slider--wide .apc-wordmark--hospice strong { font-size: 17px; }
+	.ap-story-slider--wide .apc-wordmark--osage strong { font-size: 23px; }
+	.ap-story-slider--wide .apc-controls--solo { display: flex; }
+	.ap-story-slider--wide .apc-cat { order: 1; margin: 0 0 10px; }
+}
+
+/* Education hub (live #ap-eduhub-case): the page sheet sets 48px above and below every
+ * band on phones. */
+@media (max-width: 767px) {
+	section.ap-story-slider.ap-story-slider--eduhub { padding-top: 48px; padding-bottom: 48px; }
+}
+.ap-story-slider--eduhub :is(h2, h3, p) { text-wrap: wrap; }
+
+/*
+ * No sideways scroll. The slides share one grid cell, and the waiting ones sit
+ * shifted right (the slide-in start: translateX on the slide and on its photo),
+ * so they overhang the band by up to ~40px; at 1024 the homepage photo column
+ * ended 11px past the viewport. Live hides that with a page-level
+ * html/body{overflow-x:hidden}; the kit clips it at the band instead. The band is
+ * full width, so the clip edge is the viewport edge, exactly where live's clip
+ * falls: nothing visible changes, and clip (unlike hidden) keeps the vertical
+ * axis and the layout untouched.
+ */
+.ap-story-slider { overflow-x: clip; }
+
+/* A client logo on a video poster (2026-10 Figma): clicks pass through to the play button; gone once the player loads. */
+.ap-story-slider .apc-media--video .apc-logo { z-index: 1; pointer-events: none; }
+.ap-story-slider .apc-media--video:has(iframe) .apc-logo { display: none; }
+
+/* Autoplay swipe (behaviour.js): how far a slide travels as it enters or leaves.
+ * Inside the side padding on phones, so nothing pokes past the screen edge. */
+.ap-story-slider { --apc-swipe: 40px; }
+@media (max-width: 900px) { .ap-story-slider { --apc-swipe: 16px; } }
+.ap-story-slider .apc-dot { position: relative; -webkit-tap-highlight-color: transparent; }
+/* A finger-sized hit area around each small dot, without moving anything. */
+.ap-story-slider .apc-dot::before { content: ""; position: absolute; inset: -12px -3px; }
+
+/* ------------------------------------------------------------ Section rhythm + type scale (QA 2026-10-28, sections agent)
+ * Padding on the kit section rhythm (tokens.css "section rhythm") and the
+ * section title / eyebrow on the type-scale tokens, like every other section. */
+html body .ap-story-slider.ap-story-slider.ap-story-slider { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+html body .ap-story-slider.ap-story-slider h2.apc-h2 { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+html body .ap-story-slider.ap-story-slider .apc-eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }
+
+/* QA 2026-10-29 (Joseph, sitewide): sections without a colour gradient are pure white — the white-to-#f9fafb fades
+ * showed as a grey band against the next section. */

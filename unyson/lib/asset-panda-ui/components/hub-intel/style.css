@@ -1,0 +1,133 @@
+/*
+ * hub-intel — the industry hubs' platform band: two copy-and-scene rows over a
+ * sticky heading beside numbered feature cards. Ported whole from live:
+ *   --gov     #ap-gov-intel   (Government, Healthcare, Construction, Manufacturing)
+ *   --eduhub  #ap-eduhub-ursa (Education)
+ * Selectors are re-rooted from the live section ids; class names are live's own
+ * so the port stays diffable. Scene layers arrive as inline percentages.
+ */
+
+:where(.ap-hub-intel, .ap-hub-intel *, .ap-hub-intel *::before, .ap-hub-intel *::after) {
+	box-sizing: border-box;
+}
+
+/* ---- Government family (#ap-gov-intel) ---- */
+.ap-hub-intel--gov{position:relative;background:#fff;font-family:Manrope,sans-serif;padding:80px 24px 112px;display:flex;flex-direction:column;gap:80px;overflow-x:clip}
+.ap-hub-intel--gov .apg-int-row{max-width:1120px;margin:0 auto;width:100%;display:flex;align-items:center;gap:28px}
+.ap-hub-intel--gov .apg-int-scene{position:relative;flex:0 0 546px;width:546px;height:364px}
+.ap-hub-intel--gov .apg-int-scene img{position:absolute;height:auto;margin:0;display:block;max-width:none;pointer-events:none}
+.ap-hub-intel--gov .apg-glow{position:absolute;border-radius:50%;filter:blur(45px);pointer-events:none}
+.ap-hub-intel--gov .apg-tile-crop{-webkit-mask-image:radial-gradient(ellipse closest-side,#000 60%,transparent 96%);mask-image:radial-gradient(ellipse closest-side,#000 60%,transparent 96%)}
+.ap-hub-intel--gov .apg-float{animation:apHubIntelGovApgBob 5.5s ease-in-out infinite alternate}
+.ap-hub-intel--gov .apg-float:nth-of-type(2n){animation-duration:7s;animation-delay:.7s}
+.ap-hub-intel--gov .apg-float:nth-of-type(3n){animation-duration:6.2s;animation-delay:1.4s}
+@keyframes apHubIntelGovApgBob{from{translate:0 0}
+to{translate:0 -10px}
+}
+.ap-hub-intel--gov .apg-int-copy{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px;align-items:flex-start;padding-top:8px}
+.ap-hub-intel--gov .apg-eyebrow{font-size:14px;font-weight:800;line-height:1.2;letter-spacing:.56px;text-transform:uppercase;color:#5044e1;margin:0 0 8px}
+.ap-hub-intel--gov h2.apg-h2{font-size:40px;font-weight:800;line-height:1.2;color:#25272c;margin:0}
+.ap-hub-intel--gov .apg-h2-grad{background:linear-gradient(34.323deg,#5044e1 0%,#00a991 70.44%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ap-hub-intel--gov .apg-int-body{font-size:14px;line-height:1.5;color:#4a4e5a;margin:0}
+.ap-hub-intel--gov .apg-int-body sup{font-size:9px;font-weight:700;vertical-align:super;line-height:0}
+.ap-hub-intel--gov .apg-int-ctas{display:flex;flex-direction:column;gap:16px;align-items:flex-start;padding-top:16px}
+.ap-hub-intel--gov .apg-int-cta{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;line-height:1.2;color:#25272c;text-decoration:none}
+.ap-hub-intel--gov .apg-int-cta img{width:24px;height:24px;display:block;filter:brightness(0) saturate(100%) invert(43%) sepia(99%) saturate(1178%) hue-rotate(131deg) brightness(92%) contrast(101%);transition:translate .3s cubic-bezier(.25,.45,.45,.95)}
+.ap-hub-intel--gov .apg-int-cta:hover img{translate:4px 0}
+.ap-hub-intel--gov .apg-int-cta:hover span{background:linear-gradient(34deg,#5044e1 0%,#00a991 70.44%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ap-hub-intel--gov .apg-int-feats{max-width:1120px;margin:0 auto;width:100%;display:flex;gap:120px;align-items:flex-start}
+.ap-hub-intel--gov .apg-feats-head{flex:0 0 408px;width:408px;position:sticky;top:120px}
+.ap-hub-intel--gov .apg-feats-list{flex:1;min-width:0;display:flex;flex-direction:column;gap:24px}
+.ap-hub-intel--gov .apg-feat-card{display:flex;flex-direction:column;gap:16px;align-items:flex-start;padding:24px 40px;border-left:3px solid}
+.ap-hub-intel--gov .apg-fc-indigo{border-color:#5044e1}
+.ap-hub-intel--gov .apg-fc-green{border-color:#00a991}
+.ap-hub-intel--gov .apg-feat-head{display:flex;gap:16px;align-items:flex-start;width:100%}
+.ap-hub-intel--gov .apg-feat-head img{width:32px;height:32px;flex:0 0 32px;display:block}
+.ap-hub-intel--gov .apg-feat-title{font-size:24px;font-weight:800;line-height:1.3;color:#25272c;margin:0;flex:1}
+.ap-hub-intel--gov .apg-feat-body{font-size:16px;line-height:1.5;color:#4a4e5a;margin:0}
+.ap-hub-intel--gov .apg-feats-list .apg-int-cta{margin-top:16px}
+@media (max-width:1180px){.ap-hub-intel--gov .apg-int-feats{gap:48px}
+.ap-hub-intel--gov .apg-feats-head{flex:0 0 320px;width:320px}
+}
+@media (max-width:1024px){.ap-hub-intel--gov .apg-int-row{flex-direction:column}
+.ap-hub-intel--gov .apg-int-scene{flex:none;width:100%;max-width:546px;height:auto;aspect-ratio:546/364;order:2}
+.ap-hub-intel--gov .apg-int-copy{order:1}
+.ap-hub-intel--gov .apg-int-feats{flex-direction:column;gap:32px}
+.ap-hub-intel--gov .apg-feats-head{position:static;flex:none;width:auto}
+}
+@media (max-width:767px){.ap-hub-intel--gov{padding:48px 24px 64px;gap:56px}
+.ap-hub-intel--gov h2.apg-h2{font-size:28px}
+.ap-hub-intel--gov .apg-int-scene{transform:scale(1.22);margin:20px 0 28px}
+.ap-hub-intel--gov .apg-feat-card{padding:20px 24px}
+.ap-hub-intel--gov .apg-feat-title{font-size:20px}
+}
+
+/* ---- Education (#ap-eduhub-ursa) ---- */
+.ap-hub-intel--eduhub{position:relative;background:#ffffff;padding:80px 24px 112px}
+.ap-hub-intel--eduhub *{box-sizing:border-box}
+.ap-hub-intel--eduhub .apu-container{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:80px}
+.ap-hub-intel--eduhub .apu-block{display:flex;gap:28px;align-items:center}
+.ap-hub-intel--eduhub .apu-media{flex:0 0 auto;width:50%;max-width:546px}
+.ap-hub-intel--eduhub .apu-media img{display:block;width:100%;height:auto}
+.ap-hub-intel--eduhub .apu-text{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:8px;font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif}
+.ap-hub-intel--eduhub .apu-eyebrow{margin:0;font-weight:800;font-size:14px;line-height:1.2;letter-spacing:.56px;text-transform:uppercase;color:#5044e1}
+.ap-hub-intel--eduhub .apu-h2{margin:8px 0 0;font-weight:800;font-size:40px;line-height:1.2;color:#25272c}
+.ap-hub-intel--eduhub .apu-grad{background-image:linear-gradient(40deg,#5044e1 0%,#00a991 70.44%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.ap-hub-intel--eduhub .apu-body{margin:16px 0 0;font-weight:400;font-size:14px;line-height:1.5;color:#4a4e5a}
+.ap-hub-intel--eduhub .apu-ctas{display:flex;flex-direction:column;gap:16px;margin-top:16px}
+.ap-hub-intel--eduhub .apu-cta{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14px;line-height:1.2;color:#25272c;text-decoration:none;width:fit-content}
+.ap-hub-intel--eduhub .apu-cta img{width:24px;height:24px}
+.ap-hub-intel--eduhub .apu-cta:hover{text-decoration:underline}
+.ap-hub-intel--eduhub .apu-sup{font-size:.6em;vertical-align:.5em}
+.ap-hub-intel--eduhub .apu-features{display:flex;gap:120px;align-items:flex-start}
+.ap-hub-intel--eduhub .apu-features-head{flex:0 0 auto;max-width:408px;display:flex;flex-direction:column;gap:16px;font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif}
+.ap-hub-intel--eduhub .apu-features-list{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:24px}
+.ap-hub-intel--eduhub .apu-fcard{display:flex;gap:40px;padding:24px 40px;border-left:3px solid;font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif}
+.ap-hub-intel--eduhub .apu-fcard-1{border-color:#5044e1}
+.ap-hub-intel--eduhub .apu-fcard-2{border-color:#00a991}
+.ap-hub-intel--eduhub .apu-fcard-inner{flex:1;display:flex;flex-direction:column;gap:16px}
+.ap-hub-intel--eduhub .apu-fcard-head{display:flex;gap:16px;align-items:flex-start}
+.ap-hub-intel--eduhub .apu-fcard-num{width:32px;height:32px;flex-shrink:0}
+.ap-hub-intel--eduhub .apu-fcard-title{margin:0;font-weight:800;font-size:24px;line-height:1.3;color:#25272c}
+.ap-hub-intel--eduhub .apu-fcard-desc{margin:0;font-weight:400;font-size:16px;line-height:1.5;color:#4a4e5a}
+.ap-hub-intel--eduhub .apu-fcard-cta{display:inline-flex;align-items:center;gap:8px;margin-top:8px;font-weight:700;font-size:14px;color:#25272c;text-decoration:none;width:fit-content}
+.ap-hub-intel--eduhub .apu-fcard-cta img{width:24px;height:24px}
+.ap-hub-intel--eduhub .apu-fcard-cta:hover{text-decoration:underline}
+@media(max-width:900px){.ap-hub-intel--eduhub .apu-block{flex-direction:column}
+.ap-hub-intel--eduhub .apu-media{width:100%;max-width:420px}
+.ap-hub-intel--eduhub .apu-h2{font-size:28px}
+.ap-hub-intel--eduhub .apu-features{flex-direction:column;gap:32px}
+.ap-hub-intel--eduhub .apu-features-head{max-width:none}
+.ap-hub-intel--eduhub .apu-fcard{flex-direction:column;gap:16px;padding:20px}
+}
+.ap-hub-intel--eduhub .apu-scene{position:relative;width:100%;max-width:546px;aspect-ratio:546/364;flex:0 0 auto}
+.ap-hub-intel--eduhub .apu-scene img{position:absolute;height:auto;margin:0;display:block}
+.ap-hub-intel--eduhub .apu-glow{position:absolute; border-radius:50%; filter:blur(40px); pointer-events:none}
+.ap-hub-intel--eduhub .apu-float{animation:apHubIntelEduApuBob 5.5s ease-in-out infinite alternate}
+.ap-hub-intel--eduhub .apu-float:nth-of-type(2n){animation-duration:7s;animation-delay:.7s}
+.ap-hub-intel--eduhub .apu-float:nth-of-type(3n){animation-duration:6.2s;animation-delay:1.4s}
+@keyframes apHubIntelEduApuBob{from{translate:0 0}
+to{translate:0 -10px}
+}
+.ap-hub-intel--eduhub .apu-fcard{transition:box-shadow .3s cubic-bezier(.25,.45,.45,.95),translate .3s cubic-bezier(.25,.45,.45,.95)}
+.ap-hub-intel--eduhub .apu-fcard:hover{translate:0 -4px;box-shadow:0 12px 32px rgba(37,39,44,.14)}
+@media(max-width:900px){.ap-hub-intel--eduhub .apu-block .apu-text{order:1}
+.ap-hub-intel--eduhub .apu-block .apu-media{order:2;width:100%;max-width:480px;margin:0 auto}
+}
+/* Live's page-level Education rules: gradient-on-hover links, green arrows, phone band spacing. */
+.ap-hub-intel--eduhub a {text-decoration:none;background-image:linear-gradient(38.8deg,#5044e1 0%,#00a991 70.44%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:currentColor;transition:-webkit-text-fill-color .35s cubic-bezier(.25,.45,.45,.95)}
+.ap-hub-intel--eduhub a:hover {text-decoration:none;-webkit-text-fill-color:transparent}
+.ap-hub-intel--eduhub a img {filter:brightness(0) saturate(100%) invert(43%) sepia(99%) saturate(1178%) hue-rotate(131deg) brightness(92%) contrast(101%)}
+@media (max-width:767px) {
+	.ap-hub-intel.ap-hub-intel--eduhub {padding-top:48px;padding-bottom:48px}
+}
+
+/* The staging theme sets text-wrap:pretty on headings and paragraphs; live wraps plainly. */
+.ap-hub-intel :is(h2, h3, p) {text-wrap:wrap}
+
+/* Healthcare, Construction and Manufacturing copy the Government sheet without the phone
+ * scene enlargement, and close the rows to 48px. */
+@media (max-width:767px) {
+	.ap-hub-intel--gov.ap-hub-intel--phone-plain {gap:48px}
+	.ap-hub-intel--gov.ap-hub-intel--phone-plain .apg-int-scene {transform:none;margin:0}
+}

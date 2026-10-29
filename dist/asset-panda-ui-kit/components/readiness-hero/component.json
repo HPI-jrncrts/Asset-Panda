@@ -1,0 +1,25 @@
+{
+	"name": "readiness-hero",
+	"description": "Readiness hero: copy, demo button and badges beside a photo with three stat cards joined by connector lines to the Asset Panda badge, over a feature ticker; stacks at tablet width, swaps to a single cards image on phones. Live: .epx-hero on the Emergency Preparedness and School Reunification pages.",
+	"props": {
+		"variant": { "type": "string", "required": false, "default": "readiness", "enum": [ "readiness", "reunification" ], "description": "readiness: the photo fills the visual (Emergency Preparedness). reunification: the photo is framed on the right (School Reunification)." },
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the title." },
+		"title": { "type": "string", "required": true, "description": "Title (the page H1). Line breaks are kept." },
+		"title_accent": { "type": "string", "required": false, "default": "", "description": "Part of the title painted with the brand gradient." },
+		"lede": { "type": "string", "required": false, "default": "", "description": "Paragraph under the title." },
+		"cta_label": { "type": "string", "required": false, "default": "Free Demo", "description": "Button text." },
+		"cta_url": { "type": "string", "required": false, "default": "/get-a-demo/", "description": "Button destination." },
+		"badges": { "type": "array", "required": false, "default": [], "description": "Compliance badges beside the button. Each: image, alt." },
+		"background": { "type": "string", "required": false, "default": "", "description": "Backdrop art behind the hero." },
+		"background_mobile": { "type": "string", "required": false, "default": "", "description": "Backdrop at 700px and below." },
+		"photo": { "type": "string", "required": false, "default": "", "description": "Team photo in the visual." },
+		"photo_alt": { "type": "string", "required": false, "default": "", "description": "Alt text for the photo." },
+		"mobile_image": { "type": "string", "required": false, "default": "", "description": "The three cards and badge as one image, shown at 700px and below." },
+		"mobile_image_alt": { "type": "string", "required": false, "default": "", "description": "Alt text for the phone cards image." },
+		"defs_svg": { "type": "string", "required": false, "default": "", "description": "Hidden SVG holding the gradients the icons reference." },
+		"lines": { "type": "array", "required": false, "default": [], "description": "Up to three connector-line SVGs (classes epx-line epx-line--1..3), drawn from each card to the badge." },
+		"cards": { "type": "array", "required": false, "default": [], "description": "Up to three stat cards, placed by order. Each: tone (violet|orange|red), kicker, title, sub, tag, icon_svg, dot (avatar image)." },
+		"logo_badge": { "type": "string", "required": false, "default": "", "description": "Asset Panda badge the lines meet at." },
+		"features": { "type": "array", "required": false, "default": [], "description": "Ticker items under the stage. Each: label, icon_svg." }
+	}
+}

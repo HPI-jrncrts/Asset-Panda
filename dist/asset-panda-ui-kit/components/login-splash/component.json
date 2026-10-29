@@ -1,0 +1,12 @@
+{
+	"name": "login-splash",
+	"description": "Login-screen splash: a full-viewport panel with a background picture and a centred column of headings, copy, images and a button, sized for the iframe the product's login page draws (it hides the top 125px and is 100vh + 125px tall). Live: the 20 /login-splash-*/ pages (rules ported from the live theme's .login-splash sheet). Renders without the site header and footer on the login-splash template.",
+	"props": {
+		"background": { "type": "string", "required": false, "default": "", "description": "Background picture URL. Drawn at its own size from the top-left corner and scaled up only to cover the panel, as live does." },
+		"background_width": { "type": "integer", "required": false, "default": 0, "description": "Background picture's intrinsic width in px (written on the <img>). 0 omits it." },
+		"background_height": { "type": "integer", "required": false, "default": 0, "description": "Background picture's intrinsic height in px. 0 omits it." },
+		"background_color": { "type": "string", "required": false, "default": "#2a3147", "description": "Panel colour under the picture (hex), seen only until the picture loads." },
+		"column": { "type": "string", "required": false, "default": "8", "enum": [ "6", "8" ], "description": "Width of the centred column from 768px up, in twelfths of the container: 8 (The Latest pages) or 6 (Panda Pit Stop / Power Hour pages). Below 768px the column is full width." },
+		"items": { "type": "array", "required": true, "description": "Column content, top to bottom. Each item has a type: space (size: px of empty space), image (image, alt, width, height; wide: true lets it grow to 110% of the column like live's header art), heading (text; tag: h1 or h2), text (text; bold: true), button (label, url; new_tab: true opens a new tab), cta (image, alt, url: an image link centred in the column, e.g. a HubSpot CTA)." }
+	}
+}

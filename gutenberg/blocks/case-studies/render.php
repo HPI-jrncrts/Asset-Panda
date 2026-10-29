@@ -22,13 +22,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $props = array(
-	'eyebrow'   => $attributes['eyebrow'] ?? '',
-	'title'     => $attributes['title'] ?? '',
-	'intro'     => $attributes['intro'] ?? '',
-	'cta_label' => $attributes['cta_label'] ?? '',
-	'cta_url'   => $attributes['cta_url'] ?? '',
-	'items'     => $attributes['items'] ?? array(),
-	'reveal'    => $attributes['reveal'] ?? true,
+	'eyebrow'     => $attributes['eyebrow'] ?? '',
+	'title'       => $attributes['title'] ?? '',
+	'intro'       => $attributes['intro'] ?? '',
+	'cta_label'   => $attributes['cta_label'] ?? '',
+	'cta_url'     => $attributes['cta_url'] ?? '',
+	'items'       => $attributes['items'] ?? array(),
+	'reveal'      => $attributes['reveal'] ?? true,
+	'autoplay_ms' => $attributes['autoplay_ms'] ?? 3000,
 );
 
 $ap_html = ap_render_component( 'case-studies', $props );

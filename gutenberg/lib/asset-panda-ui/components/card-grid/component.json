@@ -1,0 +1,15 @@
+{
+	"name": "card-grid",
+	"description": "Centred heading over a grid of cards. Each card can carry a top image or an icon, a title, copy with inline links, and a button. Used for the contact page's Support / Sales / General Inquiry cards (heading as the page h1) and the free-trial page's template library.",
+	"props": {
+		"anchor": { "type": "string", "required": false, "default": "", "description": "id on the section (letters, digits, hyphens)." },
+		"tone": { "type": "string", "required": false, "default": "white", "enum": [ "white", "soft" ], "description": "Section background: white, or the soft grey of live's light sections." },
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small uppercase label above the heading." },
+		"title": { "type": "string", "required": false, "default": "", "description": "Heading. Line breaks are kept. Empty renders the cards alone." },
+		"title_tag": { "type": "string", "required": false, "default": "h2", "enum": [ "h1", "h2" ], "description": "Heading level: h1 when the grid opens the page (contact page)." },
+		"subtitle": { "type": "string", "required": false, "default": "", "description": "Bold line under the heading." },
+		"intro": { "type": "string", "required": false, "default": "", "description": "Paragraph under the heading." },
+		"columns": { "type": "string", "required": false, "default": "3", "enum": [ "2", "3" ], "description": "Cards per row from 992px (two from 640px, one below)." },
+		"items": { "type": "array", "required": true, "description": "Cards. Each: title (required), body, image (top picture URL) with image_alt / image_w / image_h, or icon (small icon URL); link_label + link_url for a button. In body, line breaks are kept, **double asterisks** bold, and [label](url) makes a link (http(s), mailto:, tel: or a path)." }
+	}
+}

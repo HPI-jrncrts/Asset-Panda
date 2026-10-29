@@ -200,33 +200,47 @@
 }
 
 @media (max-width:1024px) {
-	.ap-link-cards {
+	.ap-link-cards:not(.ap-link-cards--stack-900) {
 	padding:64px 24px 96px
 }
-
-.ap-link-cards .apg-pick-card {
+	.ap-link-cards:not(.ap-link-cards--stack-900) .apg-pick-card {
 	width:100%;
 	max-width:544px;
 	padding-top:96px
 }
-
-
+}
+@media (max-width: 900px) {
+	.ap-link-cards.ap-link-cards--stack-900 {
+	padding:64px 24px 96px
+}
+	.ap-link-cards.ap-link-cards--stack-900 .apg-pick-card {
+	width:100%;
+	max-width:544px;
+	padding-top:96px
+}
 }
 
 @media (max-width:767px) {
-	.ap-link-cards {
+	.ap-link-cards:not(.ap-link-cards--stack-900) {
 	padding:48px 24px 64px
 }
-
-.ap-link-cards h2.apg-h2 {
+	.ap-link-cards:not(.ap-link-cards--stack-900) h2.apg-h2 {
 	font-size:28px
 }
-
-.ap-link-cards .apg-pick-card {
+	.ap-link-cards:not(.ap-link-cards--stack-900) .apg-pick-card {
 	padding:88px 20px 28px
 }
-
-
+}
+@media (max-width:767px) {
+	.ap-link-cards.ap-link-cards--stack-900 {
+	padding:48px 24px 64px
+}
+	.ap-link-cards.ap-link-cards--stack-900 h2.apg-h2 {
+	font-size:28px
+}
+	.ap-link-cards.ap-link-cards--stack-900 .apg-pick-card {
+	padding:88px 20px 28px
+}
 }
 
 .ap-link-cards .apg-pick-bg img {
@@ -271,3 +285,146 @@
 }
 
 .ap-link-cards--plain { padding: 80px 24px; }
+
+/* The solution pages' plain cards (live .epx-why) stay three across down to 1001px. */
+@media (min-width: 1001px) and (max-width: 1024px) {
+	.ap-link-cards--plain.ap-link-cards--thirds .apg-pick-card { width: calc(33.333% - 21.34px); max-width: none; padding: 32px; }
+}
+
+/* stack-900 variant generated */
+
+
+/*
+ * Education hub variant — live #ap-eduhub-picker, ported whole (selectors re-rooted
+ * from the section id; class names are live's own), plus live's page-level rules:
+ * the green arrow and the 48px phone band spacing.
+ */
+.ap-link-cards.ap-link-cards--eduhub{position:relative;background:#ffffff;overflow:hidden;padding:80px 24px 96px}
+.ap-link-cards.ap-link-cards--eduhub *{box-sizing:border-box}
+.ap-link-cards.ap-link-cards--eduhub .apk-orb{position:absolute;border-radius:50%;pointer-events:none}
+.ap-link-cards.ap-link-cards--eduhub .apk-orb-green{left:50%;transform:translateX(-50%);top:210px;width:780px;height:360px;background:radial-gradient(circle,rgba(0,169,145,.5) 0%,rgba(0,169,145,0) 70%);filter:blur(60px)}
+.ap-link-cards.ap-link-cards--eduhub .apk-orb-indigo{left:60px;top:60px;width:420px;height:280px;background:radial-gradient(circle,rgba(80,68,225,.3) 0%,rgba(80,68,225,0) 70%);filter:blur(60px)}
+.ap-link-cards.ap-link-cards--eduhub .apk-container{position:relative;max-width:1120px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:40px}
+.ap-link-cards.ap-link-cards--eduhub .apk-header{max-width:560px;text-align:center;display:flex;flex-direction:column;gap:16px;font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif}
+.ap-link-cards.ap-link-cards--eduhub .apk-eyebrow{margin:0;font-weight:800;font-size:14px;line-height:1.2;letter-spacing:.56px;text-transform:uppercase;color:#5044e1}
+.ap-link-cards.ap-link-cards--eduhub .apk-h2{margin:0;font-weight:800;font-size:40px;line-height:1.2;color:#25272c}
+.ap-link-cards.ap-link-cards--eduhub .apk-grad{background-image:linear-gradient(33.65deg,#5044e1 0%,#00a991 70.44%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.ap-link-cards.ap-link-cards--eduhub .apk-cards{display:flex;gap:32px;width:100%;align-items:stretch}
+.ap-link-cards.ap-link-cards--eduhub .apk-card{position:relative;flex:1 1 0;min-width:0;display:block;border-radius:16px;border:1px solid #ffffff;overflow:hidden;text-decoration:none;min-height:360px;box-shadow:0 1px 2px rgba(16,24,40,.06);transition:box-shadow .3s cubic-bezier(.25,.45,.45,.95),border-color .3s cubic-bezier(.25,.45,.45,.95)}
+.ap-link-cards.ap-link-cards--eduhub .apk-card:hover{box-shadow:0 12px 32px rgba(37,39,44,.14);border-color:#e6e9f2}
+.ap-link-cards.ap-link-cards--eduhub .apk-card-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.4}
+.ap-link-cards.ap-link-cards--eduhub .apk-card-veil{position:absolute;left:0;right:0;bottom:0;height:82%;background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.8) 50%,rgba(255,255,255,.95) 83%)}
+.ap-link-cards.ap-link-cards--eduhub .apk-card-body{position:relative;display:flex;flex-direction:column;gap:8px;align-items:flex-start;padding:24px;padding-top:112px;height:100%;font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif}
+.ap-link-cards.ap-link-cards--eduhub .apk-card-icon{width:28px;height:28px;display:block}
+.ap-link-cards.ap-link-cards--eduhub .apk-card-title{margin:0;font-weight:800;font-size:20px;line-height:1.2;color:#25272c}
+.ap-link-cards.ap-link-cards--eduhub .apk-card-desc{margin:0;font-weight:400;font-size:14px;line-height:1.5;color:#4a4e5a}
+.ap-link-cards.ap-link-cards--eduhub .apk-card-cta{display:inline-flex;align-items:center;gap:8px;margin-top:8px;font-weight:700;font-size:14px;line-height:1.2;color:#25272c}
+.ap-link-cards.ap-link-cards--eduhub .apk-arrow{width:24px;height:24px;transition:transform .3s cubic-bezier(.25,.45,.45,.95)}
+.ap-link-cards.ap-link-cards--eduhub .apk-card:hover .apk-arrow{transform:translateX(4px)}
+@media(max-width:900px){.ap-link-cards.ap-link-cards--eduhub .apk-cards{flex-direction:column}
+.ap-link-cards.ap-link-cards--eduhub .apk-card{min-height:300px}
+.ap-link-cards.ap-link-cards--eduhub .apk-h2{font-size:30px}
+}
+@media(max-width:600px){.ap-link-cards.ap-link-cards--eduhub{padding:56px 20px 64px}
+.ap-link-cards.ap-link-cards--eduhub .apk-orb-green,.ap-link-cards.ap-link-cards--eduhub .apk-orb-indigo{display:none}
+}
+.ap-link-cards.ap-link-cards--eduhub .apk-card{transition:box-shadow .3s cubic-bezier(.25,.45,.45,.95),border-color .3s cubic-bezier(.25,.45,.45,.95),translate .3s cubic-bezier(.25,.45,.45,.95)}
+.ap-link-cards.ap-link-cards--eduhub .apk-card:hover{translate:0 -4px}
+.ap-link-cards.ap-link-cards--eduhub .apk-card-title{background-image:linear-gradient(38.8deg,#5044e1 0%,#00a991 70.44%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:#25272c;transition:-webkit-text-fill-color .35s cubic-bezier(.25,.45,.45,.95)}
+.ap-link-cards.ap-link-cards--eduhub .apk-card:hover .apk-card-title{-webkit-text-fill-color:transparent}
+.ap-link-cards.ap-link-cards--eduhub .apk-arrow {filter:brightness(0) saturate(100%) invert(43%) sepia(99%) saturate(1178%) hue-rotate(131deg) brightness(92%) contrast(101%)}
+@media (max-width:767px) {
+	.ap-link-cards.ap-link-cards--eduhub {padding-top:48px;padding-bottom:48px}
+}
+.ap-link-cards--eduhub :is(h2, h3, p) {text-wrap:wrap}
+
+/*
+ * hub26 — the 2026-10 hub frames (Energy & Utilities 7240:92855 and its siblings): each photo fills its card at full
+ * strength under a white fade (clear → 85% at 60% → white), copy starts 112px down, 32px gaps, 80px section padding.
+ */
+.ap-link-cards.ap-link-cards--hub26 { padding: 80px 24px; }
+.ap-link-cards--hub26 h2.apg-h2 { max-width: var(--apg-pick-head-w, 640px); }
+.ap-link-cards--hub26 .apg-pick-grid { gap: 32px; }
+.ap-link-cards--hub26 .apg-pick-card { align-items: flex-start; }
+.ap-link-cards--hub26 .apg-pick-bg { opacity: 1; }
+.ap-link-cards--hub26 .apg-pick-bg img { top: 0 !important; height: 100%; }
+.ap-link-cards--hub26 .apg-pick-fade { top: 0; height: auto; background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, .85) 60%, #fff 100%); }
+@media (max-width: 1024px) {
+	.ap-link-cards.ap-link-cards--hub26:not(.ap-link-cards--stack-900) { padding: 64px 24px; }
+}
+@media (max-width: 767px) {
+	.ap-link-cards.ap-link-cards--hub26:not(.ap-link-cards--stack-900) { padding: 48px 24px; }
+}
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: every variant pads --ap-section-y top and bottom (was 80 /
+ * 200 on the hubs, 80 / 96 eduhub, 80 / 80 hub26, then 64 / 96, 48 / 64 and
+ * 48 / 48 by width), --ap-section-head-gap under the head (was 40). */
+html body .ap-link-cards.ap-link-cards.ap-link-cards.ap-link-cards { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+html body .ap-link-cards .apg-pick-head { margin-bottom: var(--ap-section-head-gap, 48px); }
+html body .ap-link-cards.ap-link-cards--eduhub .apk-container { gap: var(--ap-section-head-gap, 48px); }
+/* PageSpeed: the orbs are radial gradients already; the extra blur(140px) /
+ * blur(60px) filters over ~900px boxes only cost paint time. */
+.ap-link-cards .apg-pick-orb,
+.ap-link-cards.ap-link-cards--eduhub .apk-orb-green,
+.ap-link-cards.ap-link-cards--eduhub .apk-orb-indigo { filter: none; }
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-link-cards.ap-link-cards.ap-link-cards h2.apg-h2 { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+html body .ap-link-cards.ap-link-cards.ap-link-cards h2.apk-h2 { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+/* Section eyebrow on the type scale too: 12px at 390 to 14px at 1440, 800, 4% tracking, upper case. */
+html body .ap-link-cards.ap-link-cards.ap-link-cards .apg-eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }
+html body .ap-link-cards.ap-link-cards.ap-link-cards .apk-eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }
+
+/* Motion (QA 2026-10-28, motion agent's R4): hover moves use translate / scale, never transform (scroll entrances own transform), on the house timing. */
+html body .ap-link-cards.ap-link-cards--eduhub .apk-arrow { transition: translate var(--ap-dur-base, .3s) var(--ap-ease-standard, ease); }
+html body .ap-link-cards.ap-link-cards--eduhub .apk-card:hover .apk-arrow { transform: none; translate: 4px 0; }
+
+/* ------------------------------------------------------------ Education picker glows (QA 2026-10-28, screenshot item 1)
+ * Live's two orbs were "circle to 70%" gradients softened by blur(60px). With the blur dropped for PageSpeed (above)
+ * each gradient was cut off at its ellipse's edge, so the indigo one read as a hard purple blob off the left of the
+ * content and the teal one as a disc behind the two cards. Each glow now fades to nothing inside its own box
+ * (closest-side ellipse, no edge to clip) and the indigo one is anchored to the content column instead of the
+ * viewport edge, so both read as soft washes behind the heading and the cards. Only the eduhub variant changes. */
+html body .ap-link-cards.ap-link-cards--eduhub .apk-orb-green {
+	top: 150px;
+	width: min(960px, 92%);
+	height: 460px;
+	background: radial-gradient(ellipse closest-side at 50% 50%, rgba(0, 169, 145, .24) 0%, rgba(0, 169, 145, .1) 48%, rgba(0, 169, 145, 0) 100%);
+}
+html body .ap-link-cards.ap-link-cards--eduhub .apk-orb-indigo {
+	left: max(0px, calc(50% - 640px));
+	top: 0;
+	width: 560px;
+	height: 380px;
+	background: radial-gradient(ellipse closest-side at 50% 50%, rgba(80, 68, 225, .18) 0%, rgba(80, 68, 225, .08) 48%, rgba(80, 68, 225, 0) 100%);
+}
+
+/* ------------------------------------------------------------ QA 2026-10-29 (Joseph: "too much space below the hyperlinks")
+ * The explore link closes the photo card at a normal distance from its bottom edge — 32px, 24px at ≤767px — on every
+ * photo-card variant, and the cards in a row stay one height with their links level.
+ * - eduhub (Education: K-12 / Higher Education): the cards were held at 360px (300px ≤900px) with the copy pinned
+ *   to the top, so ~97px of empty card sat under the link on desktop; on phones the same height clipped the copy
+ *   instead, leaving the link 6px off the edge. The height now comes from the copy (still 112px of photo above it),
+ *   as on the other hubs, and a shorter card in a row pushes its link to the foot.
+ * - default (Healthcare, Government, …): bottom padding 40 → 32 (28 → 24 on phones); copy already sits at the foot.
+ * - hub26 (Energy & Utilities, Transportation & Logistics, …): the copy still starts 112px down (frame 7240:92855);
+ *   a card whose description runs shorter than its row partner's now takes the slack above its link, not below it.
+ * The text-only "plain" cards keep their even 32 / 28px padding. */
+html body .ap-link-cards:not(.ap-link-cards--plain) .apg-pick-card { padding-bottom: 32px; }
+.ap-link-cards--hub26 .apg-pick-card { align-items: stretch; }
+.ap-link-cards--hub26 .apg-pick-cta { margin-top: auto; }
+html body .ap-link-cards.ap-link-cards--eduhub .apk-card { display: flex; flex-direction: column; min-height: 0; }
+html body .ap-link-cards.ap-link-cards--eduhub .apk-card-body { flex: 1 1 auto; height: auto; padding-bottom: 32px; }
+html body .ap-link-cards.ap-link-cards--eduhub .apk-card-cta { margin-top: auto; padding-top: 8px; }
+@media (max-width: 900px) {
+	/* Stacked, each card takes its copy's height (flex:1 1 0 on a column would squeeze the clipped cards to nothing). */
+	html body .ap-link-cards.ap-link-cards--eduhub .apk-card { flex: 0 0 auto; }
+}
+@media (max-width: 767px) {
+	html body .ap-link-cards:not(.ap-link-cards--plain) .apg-pick-card { padding-bottom: 24px; }
+	html body .ap-link-cards.ap-link-cards--eduhub .apk-card-body { padding-bottom: 24px; }
+}

@@ -34,7 +34,7 @@
 .ap-problem-callouts__inner {
 	position: relative;
 	z-index: 1;
-	width: min(var(--ap-page-max-content-xl, 1120px), 100% - 48px);
+	width: min(var(--ap-host-container, 1120px), 100% - 48px);
 	margin: 0 auto;
 	display: flex;
 	flex-direction: column;
@@ -53,7 +53,7 @@
 	font-family: var(--ap-font-utility);
 	font-size: 14px;
 	font-weight: 600;
-	line-height: 1.2;
+	line-height: 1.5; /* inherited from the live section */
 	letter-spacing: 0.08em;
 	text-transform: uppercase;
 }
@@ -87,7 +87,7 @@
 .ap-problem-callouts__stage {
 	position: relative;
 	width: 100%;
-	max-width: var(--ap-page-max-content-xl, 1120px);
+	max-width: var(--ap-host-container, 1120px);
 }
 
 .ap-problem-callouts__photo {
@@ -108,7 +108,7 @@
 	align-items: flex-start;
 	gap: 8px;
 	padding: 8px 12px;
-	border: 1px solid;
+	border: 1px solid #e6e8f0;
 	border-radius: var(--ap-radius-md);
 	box-shadow: 0 2px 24px rgba(255, 201, 124, 0.08);
 }
@@ -203,9 +203,10 @@
 	margin: 12px auto 0;
 }
 
+/* The inner gap (40px) is the whole space above the note, as on live. */
 .ap-problem-callouts__note {
 	max-width: 480px;
-	margin: 40px auto 0;
+	margin: 0 auto;
 	color: var(--ap-text-body);
 	font-family: var(--ap-font-body);
 	font-size: 18px;
@@ -272,20 +273,21 @@
 	line-height: 1.5;
 }
 
+/* The site's .ap-btn, as live sets it: 14px 16px, square-ish 4px corners, bold. */
 .ap-problem-callouts__btn {
 	flex: 0 0 auto;
 	max-width: 200px;
-	min-height: 48px;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	padding: 12px 20px;
-	border-radius: var(--ap-radius-md);
-	background: var(--ap-gradient-action);
+	padding: 14px 16px;
+	border: 0;
+	border-radius: 4px;
+	background-image: linear-gradient(54.6deg, #5044e1 0%, #00a991 70.44%);
 	color: #fff;
 	font-family: var(--ap-font-display);
 	font-size: 16px;
-	font-weight: 800;
+	font-weight: 700;
 	line-height: 1.2;
 	text-decoration: none;
 	white-space: nowrap;
@@ -337,7 +339,7 @@
 
 @media (max-width: 768px) {
 	.ap-problem-callouts {
-		padding: 56px 0 48px;
+		padding: 56px 0 var(--ph-pb-m, 48px);
 	}
 
 	.ap-problem-callouts__title {
@@ -355,7 +357,8 @@
 	.ap-problem-callouts__stage {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr);
-		gap: 16px;
+		gap: var(--ph-gap, 16px);
+		margin-top: var(--ph-stage-mt, 0);
 	}
 
 	.ap-problem-callouts__photo {
@@ -373,8 +376,9 @@
 		align-items: center;
 	}
 
+	/* Live sits the note 28px under the last chip: the 40px gap, less 12. */
 	.ap-problem-callouts__note {
-		margin-top: 16px;
+		margin-top: var(--ph-note-mt, -12px);
 	}
 
 	.ap-problem-callouts__cta {
@@ -390,7 +394,7 @@
 
 @media (max-width: 560px) {
 	.ap-problem-callouts {
-		padding: 40px 0;
+		padding: 40px 0 var(--ph-pb-s, 40px);
 	}
 
 	.ap-problem-callouts__title {
@@ -416,3 +420,121 @@
 		translate: 0 -6px;
 	}
 }
+
+/* Placed cards: each product page sets its own card positions on live; from 1181px
+ * a card carrying --card-x/--card-y sits there, --card-w wide (natural width without it). */
+@media (min-width: 1181px) {
+	.ap-problem-callouts__card.ap-problem-callouts__card--placed { position: absolute; left: var(--card-x); top: var(--card-y); right: auto; width: var(--card-w, auto); min-width: 0; max-width: none; margin: 0; }
+	/* One line, as on live; a paragraph text-wrap rule would otherwise re-enable wrapping. */
+	.ap-problem-callouts__card--placed p { white-space: nowrap; }
+}
+
+/*
+ * Banded cards: live places each page's cards its own way in each width band
+ * (overrides at 1181, 1025, 901 and 769px), so render.php hands over live's
+ * computed values per band and these blocks apply them. Below 769px every page
+ * stacks the cards, which the rules above already do.
+ */
+@media (min-width: 1181px) {
+	.ap-problem-callouts__card.ap-problem-callouts__card--banded {
+		position: var(--b1181-pos);
+		top: var(--b1181-t);
+		right: var(--b1181-r);
+		left: var(--b1181-l);
+		width: var(--b1181-w);
+		min-width: var(--b1181-minw);
+		max-width: var(--b1181-maxw);
+		margin: 0;
+	}
+
+	.ap-problem-callouts__card--banded p {
+		flex-grow: var(--b1181-fg);
+		flex-basis: var(--b1181-fb);
+		white-space: var(--b1181-ws);
+	}
+}
+
+@media (min-width: 1025px) and (max-width: 1180px) {
+	.ap-problem-callouts__card.ap-problem-callouts__card--banded {
+		position: var(--b1025-pos);
+		top: var(--b1025-t);
+		right: var(--b1025-r);
+		left: var(--b1025-l);
+		width: var(--b1025-w);
+		min-width: var(--b1025-minw);
+		max-width: var(--b1025-maxw);
+		margin: 0;
+	}
+
+	.ap-problem-callouts__card--banded p {
+		flex-grow: var(--b1025-fg);
+		flex-basis: var(--b1025-fb);
+		white-space: var(--b1025-ws);
+	}
+}
+
+@media (min-width: 901px) and (max-width: 1024px) {
+	.ap-problem-callouts__card.ap-problem-callouts__card--banded {
+		position: var(--b901-pos);
+		top: var(--b901-t);
+		right: var(--b901-r);
+		left: var(--b901-l);
+		width: var(--b901-w);
+		min-width: var(--b901-minw);
+		max-width: var(--b901-maxw);
+		margin: 0;
+	}
+
+	.ap-problem-callouts__card--banded p {
+		flex-grow: var(--b901-fg);
+		flex-basis: var(--b901-fb);
+		white-space: var(--b901-ws);
+	}
+}
+
+@media (min-width: 769px) and (max-width: 900px) {
+	.ap-problem-callouts__card.ap-problem-callouts__card--banded {
+		position: var(--b769-pos);
+		top: var(--b769-t);
+		right: var(--b769-r);
+		left: var(--b769-l);
+		width: var(--b769-w);
+		min-width: var(--b769-minw);
+		max-width: var(--b769-maxw);
+		margin: 0;
+	}
+
+	.ap-problem-callouts__card--banded p {
+		flex-grow: var(--b769-fg);
+		flex-basis: var(--b769-fb);
+		white-space: var(--b769-ws);
+	}
+}
+
+/* Local Government and Public Works run the accent on the same line as the
+   heading; Public Works also keeps that heading on one line from 769px. */
+.ap-problem-callouts--accent-inline .ap-problem-callouts__cta-accent {
+	display: inline;
+}
+
+@media (min-width: 769px) {
+	.ap-problem-callouts--cta-nowrap .ap-problem-callouts__cta-title {
+		white-space: nowrap;
+	}
+}
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: --ap-section-y top and bottom at every width (was 80 / 80,
+ * then 56 / --ph-pb-m and 40 / --ph-pb-s per page on phones; the pb_m / pb_s
+ * props no longer change the band's padding), --ap-section-head-gap under the
+ * head (was 40). */
+html body .ap-problem-callouts.ap-problem-callouts { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+.ap-problem-callouts .ap-problem-callouts__inner { gap: var(--ap-section-head-gap, 48px); }
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-problem-callouts.ap-problem-callouts.ap-problem-callouts .ap-problem-callouts__title { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+/* Section eyebrow on the type scale too: 12px at 390 to 14px at 1440, 800, 4% tracking, upper case. */
+html body .ap-problem-callouts.ap-problem-callouts.ap-problem-callouts .ap-problem-callouts__eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }

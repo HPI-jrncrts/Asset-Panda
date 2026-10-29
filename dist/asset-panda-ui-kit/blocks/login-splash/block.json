@@ -1,0 +1,53 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/login-splash",
+	"title": "AP Login Splash",
+	"category": "design",
+	"icon": "admin-network",
+	"description": "Login-screen splash: a full-viewport panel with a background picture and a centred column of headings, copy, images and a button, sized for the iframe the product's login page draws (it hides the top 125px and is 100vh + 125px tall). Live: the 20 /login-splash-*/ pages (rules ported from the live theme's .login-splash sheet). Renders without the site header and footer on the login-splash template. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"background": {
+			"type": "string",
+			"default": ""
+		},
+		"background_width": {
+			"type": "number",
+			"default": 0
+		},
+		"background_height": {
+			"type": "number",
+			"default": 0
+		},
+		"background_color": {
+			"type": "string",
+			"default": "#2a3147"
+		},
+		"column": {
+			"type": "string",
+			"default": "8",
+			"enum": [
+				"6",
+				"8"
+			]
+		},
+		"items": {
+			"type": "array",
+			"default": []
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

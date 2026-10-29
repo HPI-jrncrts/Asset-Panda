@@ -1,0 +1,1942 @@
+/*
+ * site-header — the global header.
+ *
+ * Ported from the live 2026 header (#ap-presentation-header-v5,
+ * #ap-mobile-header-v1, #ap-app-banner-v1) and renamed under .ap-site-header.
+ * The desktop bar shows from 1101px; the phone header and app banner below.
+ * Case-study cards follow the Figma Global Megamenu (4374:23298); since the
+ * client QA of 2026-10-29 the Who We Help panels show each group's two latest
+ * blog posts (.ap-mega-posts) in that card's place, a "View All Industries"
+ * link (.ap-help-all) under every option list, and live's gradient label on a
+ * hovered rail tab.
+ */
+
+/*
+ * The theme renders this block inside its header template part. A sticky
+ * element cannot leave its parent, so those wrappers would carry the bar away
+ * on scroll. Dissolving them lets each bar stick to the page, as on live.
+ */
+.wp-block-template-part:has(.ap-site-header),
+.wp-block-assetpanda-site-header,
+.ap-site-header {
+	display: contents;
+}
+
+:where(.ap-site-header, .ap-site-header *, .ap-site-header *::before, .ap-site-header *::after) {
+	box-sizing: border-box;
+}
+
+.ap-site-header__mob,
+.ap-site-header__banner {
+	display: none;
+}
+
+/*
+ * The base type live inherits from its theme body. Pinned here so the dev
+ * theme's body type (lighter weight, fluid size, -0.1px tracking) cannot leak
+ * into the header and shift the nav, buttons and panels.
+ */
+.ap-site-header__desk,
+.ap-site-header__mob,
+.ap-site-header__banner {
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.5;
+	letter-spacing: normal;
+}
+
+/*
+ * Normal wrapping as on live. The dev theme sets text-wrap: pretty on p and
+ * headings (specificity 0,0,1), which can move line breaks.
+ */
+.ap-site-header__desk :where(p, h1, h2, h3, h4, h5, h6),
+.ap-site-header__mob :where(p, h1, h2, h3, h4, h5, h6),
+.ap-site-header__banner :where(p, h1, h2, h3, h4, h5, h6) {
+	text-wrap: wrap;
+}
+
+/*
+ * Focus rings as on live: the browser default, shown for keyboard focus only.
+ * The dev theme outlines every :focus 2px solid, mouse clicks included.
+ */
+.ap-site-header__desk :focus:not(:focus-visible),
+.ap-site-header__mob :focus:not(:focus-visible),
+.ap-site-header__banner :focus:not(:focus-visible) {
+	outline: none;
+}
+
+.ap-site-header__desk :focus-visible,
+.ap-site-header__mob :focus-visible,
+.ap-site-header__banner :focus-visible {
+	outline-style: auto;
+	outline-width: 1px;
+}
+
+/* ---------------------------------------------------------------- desktop */
+
+.ap-site-header__desk {
+	position: sticky;
+	top: 0;
+	z-index: 100000;
+	width: 100%;
+	height: 72px;
+	background: #fff;
+	border-bottom: 1px solid #e5e7eb;
+	font-family: var(--ap-font-display);
+}
+
+.admin-bar .ap-site-header__desk {
+	top: 32px;
+}
+
+.ap-site-header__desk .ap-head-inner {
+	width: min(1200px, 100vw - 48px);
+	height: 72px;
+	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	gap: 26px;
+}
+
+.ap-site-header__desk .ap-head-logo {
+	flex: 0 0 112px;
+	height: 42px;
+	display: inline-flex;
+	align-items: center;
+	text-decoration: none;
+}
+
+.ap-site-header__desk .ap-head-logo img {
+	display: block;
+	width: 112px;
+	height: auto;
+	max-height: 42px;
+	object-fit: contain;
+}
+
+.ap-site-header__desk .ap-head-nav {
+	flex: 1 1 auto;
+	height: 72px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 22px;
+	white-space: nowrap;
+}
+
+.ap-site-header__desk .ap-nav-item {
+	height: 72px;
+	display: inline-flex;
+	align-items: center;
+}
+
+.ap-site-header__desk .ap-nav-top,
+.ap-site-header__desk .ap-nav-simple {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	margin: 0;
+	padding: 6px 8px;
+	border: 0;
+	border-radius: var(--ap-radius-md);
+	background: transparent;
+	box-shadow: none;
+	color: #4b5563;
+	font-family: var(--ap-font-display);
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1.2;
+	text-decoration: none;
+	white-space: nowrap;
+	cursor: pointer;
+	transition: background-color 180ms, box-shadow 180ms, color 180ms;
+}
+
+.ap-site-header__desk .ap-nav-item:hover > .ap-nav-top,
+.ap-site-header__desk .ap-nav-item:focus-within > .ap-nav-top {
+	color: #334155;
+	background-color: var(--ap-athens-50);
+	box-shadow: inset 0 0 0 1px #edeef1;
+}
+
+.ap-site-header__desk .ap-nav-simple:hover,
+.ap-site-header__desk .ap-nav-simple:focus-visible {
+	color: #334155;
+	background-color: var(--ap-indigo-50);
+	box-shadow: inset 0 0 0 1px #cbd5e1;
+}
+
+.ap-site-header__desk .ap-caret {
+	width: 7px;
+	height: 7px;
+	display: inline-block;
+	border-right: 1.5px solid;
+	border-bottom: 1.5px solid;
+	rotate: 45deg;
+	translate: 0 -2px;
+	transition: rotate 160ms, translate 160ms;
+}
+
+.ap-site-header__desk .ap-nav-item:hover .ap-caret,
+.ap-site-header__desk .ap-nav-item:focus-within .ap-caret {
+	rotate: 225deg;
+	translate: 0 2px;
+}
+
+/* Actions */
+
+.ap-site-header__desk .ap-head-actions {
+	position: relative;
+	height: 72px;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex: 0 0 auto;
+}
+
+/* Login icon (QA 2026-10-29, dev.to #14 "More fancy Icon buttons", icon-fill): on hover a hairline ring appears and
+ * the grey fill closes in from the edges (an inset shadow growing to the full box), while the person icon turns the
+ * brand gradient. */
+.ap-site-header__desk .ap-login-icon {
+	width: 32px;
+	height: 40px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: var(--ap-radius-md);
+	color: #4b5563;
+	text-decoration: none;
+	box-shadow: inset 0 0 0 0 var(--ap-athens-50), inset 0 0 0 1px rgba(237, 238, 241, 0);
+	transition: box-shadow 0.5s ease;
+}
+
+.ap-site-header__desk .ap-login-icon:hover,
+.ap-site-header__desk .ap-login-icon:focus-visible,
+.ap-site-header__desk .ap-login-icon.is-open {
+	box-shadow: inset 0 0 0 20px var(--ap-athens-50), inset 0 0 0 1px #edeef1;
+}
+
+.ap-site-header__desk .ap-login-icon__grad {
+	opacity: 0;
+	transition: opacity 0.25s ease;
+}
+
+.ap-site-header__desk .ap-login-icon:hover .ap-login-icon__grad,
+.ap-site-header__desk .ap-login-icon:focus-visible .ap-login-icon__grad,
+.ap-site-header__desk .ap-login-icon.is-open .ap-login-icon__grad {
+	opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-site-header__desk .ap-login-icon,
+	.ap-site-header__desk .ap-login-icon__grad {
+		transition: none;
+	}
+}
+
+.ap-site-header__desk .ap-login-icon svg {
+	width: 19px;
+	height: 19px;
+}
+
+.ap-site-header__desk .ap-header-btn {
+	min-height: 40px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 12px 16px;
+	border: 1px solid transparent;
+	border-radius: var(--ap-radius-sm);
+	background: linear-gradient(54.33deg, var(--ap-btn-primary-from) 0%, var(--ap-btn-primary-to) 70.44%);
+	color: #fff;
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.2;
+	text-decoration: none;
+	white-space: nowrap;
+	transition: box-shadow 350ms;
+}
+
+.ap-site-header__desk .ap-header-btn:hover,
+.ap-site-header__desk .ap-header-btn:focus-visible {
+	color: #fff;
+	box-shadow: 0 6px 18px rgba(80, 68, 225, 0.28);
+}
+
+.ap-site-header__desk .ap-header-btn.ap-header-free {
+	position: relative;
+	display: none;
+}
+
+.ap-site-header__desk .ap-header-sales {
+	display: inline-flex;
+	align-items: center;
+	min-height: 40px;
+	padding: 12px 2px 12px 10px;
+	color: var(--ap-green-600);
+	font-size: 15px;
+	font-weight: 600;
+	line-height: 1;
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+.ap-site-header__desk .ap-header-sales:hover {
+	color: #00806e;
+}
+
+/* Login dropdown */
+
+.ap-site-header__desk .ap-login-dd {
+	position: absolute;
+	top: calc(100% - 8px);
+	right: 0;
+	z-index: 100001;
+	min-width: 232px;
+	padding: 8px;
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	border-radius: var(--ap-radius-md);
+	box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
+	white-space: normal;
+	opacity: 0;
+	visibility: hidden;
+	translate: 0 6px;
+	transition: opacity 160ms, translate 160ms, visibility 160ms;
+}
+
+.ap-site-header__desk .ap-login-dd.is-open {
+	opacity: 1;
+	visibility: visible;
+	translate: 0 0;
+}
+
+.ap-site-header__desk .ap-login-dd a {
+	display: block;
+	padding: 10px 12px;
+	border-radius: var(--ap-radius-md);
+	color: var(--ap-slate-900);
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.2;
+	text-decoration: none;
+	transition: background-color 160ms, box-shadow 160ms;
+}
+
+.ap-site-header__desk .ap-login-dd a small {
+	display: block;
+	margin-top: 2px;
+	color: var(--ap-slate-500);
+	font-size: 12px;
+	font-weight: 400;
+	line-height: 1.35;
+}
+
+.ap-site-header__desk .ap-login-dd a:hover,
+.ap-site-header__desk .ap-login-dd a:focus-visible {
+	background: var(--ap-athens-50);
+	box-shadow: inset 0 0 0 1px #edeef1;
+	outline: none;
+}
+
+/* Mega panels */
+
+.ap-site-header__desk .ap-mega-panel {
+	position: absolute;
+	top: 72px;
+	left: 0;
+	width: 100%;
+	background: #fff;
+	border-top: 1px solid #eef2f7;
+	border-bottom: 1px solid #e5e7eb;
+	box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+	white-space: normal;
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+	translate: 0 8px;
+	transition: opacity 180ms, translate 180ms, visibility 180ms;
+}
+
+.ap-site-header__desk .ap-nav-item:hover .ap-mega-panel,
+.ap-site-header__desk .ap-nav-item:focus-within .ap-mega-panel {
+	opacity: 1;
+	visibility: visible;
+	pointer-events: auto;
+	translate: 0 0;
+}
+
+.ap-site-header__desk .ap-mega-shell {
+	width: min(1200px, 100vw - 88px);
+	margin: 0 auto;
+}
+
+.ap-site-header__desk .ap-help-grid {
+	padding: 28px 0 34px;
+	display: grid;
+	grid-template-columns: 290px minmax(0, 1fr);
+	gap: 34px;
+}
+
+.ap-site-header__desk .ap-help-tabs {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+}
+
+.ap-site-header__desk .ap-help-tab {
+	width: 100%;
+	min-height: 52px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin: 0;
+	padding: 0 16px;
+	border: 1px solid var(--ap-indigo-50);
+	border-radius: var(--ap-radius-md);
+	background: #fff;
+	color: var(--ap-slate-900);
+	font-family: var(--ap-font-display);
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.2;
+	text-align: left;
+	text-decoration: none;
+	cursor: pointer;
+	transition: background-color 180ms, border-color 180ms, color 180ms;
+}
+
+.ap-site-header__desk .ap-help-tab.is-active,
+.ap-site-header__desk .ap-help-tab:hover {
+	background: var(--ap-indigo-50);
+	border-color: #e0e7ff;
+}
+
+/* Live: a hovered rail tab shows its label in the brand gradient (#ap-presentation-header-v5
+ * a.ap-help-tab:hover span). Link and button tabs alike, so a rail never mixes the two looks,
+ * and the active tab keeps it (client QA 2026-10-29), so the category whose options are shown
+ * stays marked once the pointer moves on to them. */
+.ap-site-header__desk .ap-mega-who-we-help .ap-help-tab.is-active .ap-help-tab__label,
+.ap-site-header__desk .ap-mega-who-we-help .ap-help-tab:hover .ap-help-tab__label,
+.ap-site-header__desk .ap-mega-who-we-help .ap-help-tab:focus-visible .ap-help-tab__label {
+	background-image: linear-gradient(55deg, var(--ap-brand-indigo) 0%, var(--ap-brand-green) 70.44%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+
+.ap-site-header__desk .ap-help-content,
+.ap-site-header__desk .ap-help-panel,
+.ap-site-header__desk .ap-help-links,
+.ap-site-header__desk .ap-mega-group {
+	min-width: 0;
+}
+
+.ap-site-header__desk .ap-help-panel {
+	display: none;
+}
+
+.ap-site-header__desk .ap-help-panel.is-active {
+	display: block;
+}
+
+.ap-site-header__desk .ap-mega-heading {
+	margin: 0 0 18px;
+	color: var(--ap-text-eyebrow);
+	font-size: 12px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.ap-site-header__desk .ap-core-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 16px 48px;
+}
+
+/*
+ * Column layout (nav item layout "columns"): every tab visible at once, one
+ * column per tab under the item's label, a rule between the columns. The tab
+ * rail above stays the default; Resources uses this.
+ */
+.ap-site-header__desk .ap-mega-columns {
+	padding: 28px 0 34px;
+}
+
+.ap-site-header__desk .ap-mega-eyebrow {
+	margin: 0 0 22px;
+	color: var(--ap-text-eyebrow);
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.ap-site-header__desk .ap-mega-cols {
+	display: grid;
+	grid-template-columns: repeat(var(--ap-mega-cols, 4), minmax(0, 1fr));
+}
+
+.ap-site-header__desk .ap-mega-col {
+	min-width: 0;
+	padding: 0 20px;
+}
+
+.ap-site-header__desk .ap-mega-col:first-child {
+	padding-left: 0;
+}
+
+.ap-site-header__desk .ap-mega-col:last-child {
+	padding-right: 0;
+}
+
+.ap-site-header__desk .ap-mega-col + .ap-mega-col {
+	border-left: 1px solid var(--ap-athens-100);
+}
+
+.ap-site-header__desk .ap-mega-col .ap-mega-group + .ap-mega-group {
+	margin-top: 16px;
+}
+
+.ap-site-header__desk .ap-mega-col .ap-mega-link:last-child {
+	margin-bottom: 0;
+}
+
+.ap-site-header__desk a.ap-mega-heading {
+	display: block;
+	text-decoration: none;
+}
+
+.ap-site-header__desk a.ap-mega-heading:hover,
+.ap-site-header__desk a.ap-mega-heading:focus-visible {
+	text-decoration: underline;
+}
+
+.ap-site-header__desk .ap-mega-link {
+	position: relative;
+	width: 100%;
+	min-height: 64px;
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	margin: 0 0 8px;
+	padding: 4px;
+	border: 0.5px solid transparent;
+	border-radius: var(--ap-radius-md);
+	background: transparent;
+	color: var(--ap-slate-900);
+	text-decoration: none;
+	transition: background-color 220ms, border-color 220ms, translate 220ms;
+}
+
+.ap-site-header__desk .ap-mega-link:hover,
+.ap-site-header__desk .ap-mega-link:focus-visible {
+	background: var(--ap-athens-50);
+	border-color: #edeef1;
+	outline: none;
+}
+
+.ap-site-header__desk .ap-mega-link:active {
+	translate: 0 1px;
+	box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.08);
+}
+
+/*
+ * Icon box: the icon image at rest; on hover it fades back while a gradient
+ * copy of the same glyph (masked by --ap-icon-url) fades in over it.
+ */
+.ap-site-header__desk .ap-icon-box {
+	position: relative;
+	width: 56px;
+	height: 56px;
+	flex: 0 0 56px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border: 0.5px solid #d7dfff;
+	border-radius: var(--ap-radius-md);
+	background: #fff;
+	overflow: hidden;
+}
+
+.ap-site-header__desk .ap-icon-img {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 24px;
+	height: 24px;
+	object-fit: contain;
+	translate: -50% -50%;
+	transition: opacity 260ms, scale 260ms;
+}
+
+.ap-site-header__desk .ap-icon-box::after {
+	content: "";
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 24px;
+	height: 24px;
+	background: radial-gradient(circle at 78% 26%, var(--ap-brand-green) 0%, var(--ap-brand-green) 30%, transparent 54%), linear-gradient(45deg, var(--ap-brand-indigo) 0%, #4b5ddf 30%, #2d7fc1 52%, var(--ap-brand-green) 82%, var(--ap-brand-green) 100%);
+	-webkit-mask: var(--ap-icon-url) center / contain no-repeat;
+	mask: var(--ap-icon-url) center / contain no-repeat;
+	opacity: 0;
+	translate: -50% -50%;
+	scale: 0.92;
+	rotate: -2deg;
+	filter: blur(2px);
+	transition: opacity 320ms cubic-bezier(0.22, 1, 0.36, 1), scale 320ms cubic-bezier(0.22, 1, 0.36, 1), rotate 320ms cubic-bezier(0.22, 1, 0.36, 1), filter 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ap-site-header__desk .ap-mega-link:hover .ap-icon-img,
+.ap-site-header__desk .ap-mega-link:focus-visible .ap-icon-img {
+	opacity: 0.16;
+	scale: 1.05;
+}
+
+.ap-site-header__desk .ap-mega-link:hover .ap-icon-box::after,
+.ap-site-header__desk .ap-mega-link:focus-visible .ap-icon-box::after,
+.ap-site-header__desk .ap-mega-link:active .ap-icon-box::after {
+	opacity: 1;
+	scale: 1;
+	rotate: 0deg;
+	filter: blur(0);
+}
+
+.ap-site-header__desk .ap-link-copy {
+	min-width: 0;
+}
+
+.ap-site-header__desk .ap-mega-link strong {
+	display: block;
+	margin: 0 0 4px;
+	color: #344456;
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.2;
+	overflow-wrap: break-word;
+}
+
+.ap-site-header__desk .ap-mega-link small {
+	display: block;
+	color: var(--ap-slate-500);
+	font-size: 12px;
+	font-weight: 400;
+	line-height: 1.35;
+}
+
+.ap-site-header__desk .ap-mega-link:active strong {
+	color: var(--ap-indigo-600);
+}
+
+.ap-site-header .ap-ursa {
+	background: var(--ap-gradient-ursa);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
+	white-space: nowrap;
+}
+
+.ap-site-header .ap-ursa sup {
+	position: relative;
+	top: -0.35em;
+	font-size: 8px;
+	line-height: 1;
+	vertical-align: baseline;
+}
+
+/* Case-study card beside a tab's links (Figma 5938:70095 / 5938:70228). */
+
+.ap-site-header__desk .ap-help-split {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 32px;
+	align-items: start;
+}
+
+.ap-site-header__desk .ap-mega-card {
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	border: 1px solid var(--ap-athens-100);
+	border-radius: var(--ap-radius-md);
+	background: #fff;
+	color: #000;
+	text-decoration: none;
+}
+
+.ap-site-header__desk .ap-mega-card__media {
+	position: relative;
+	display: block;
+	height: 200px;
+	background: var(--ap-athens-50);
+}
+
+.ap-site-header__desk .ap-mega-card__img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.ap-site-header__desk .ap-mega-card__logo {
+	position: absolute;
+	left: 24px;
+	bottom: 16px;
+	width: 120px;
+	height: 80px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 11px 26px;
+	border-radius: var(--ap-radius-md);
+	background: linear-gradient(74.8deg, var(--ap-indigo-50) 0%, #fff 99.93%);
+}
+
+.ap-site-header__desk .ap-mega-card__logo img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.ap-site-header__desk .ap-mega-card__body {
+	display: flex;
+	align-items: flex-start;
+	gap: 16px;
+	padding: 24px 24px 32px;
+}
+
+.ap-site-header__desk .ap-mega-card__mark {
+	flex: 0 0 32px;
+	display: block;
+	width: 32px;
+	height: 32px;
+	padding: 5px 2px;
+}
+
+.ap-site-header__desk .ap-mega-card__mark img {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.ap-site-header__desk .ap-mega-card__text {
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.ap-site-header__desk .ap-mega-card__copy,
+.ap-site-header__desk .ap-mega-card__by {
+	display: block;
+}
+
+.ap-site-header__desk .ap-mega-card__title {
+	display: block;
+	font-size: 16px;
+	font-weight: 800;
+	line-height: 1.4;
+}
+
+.ap-site-header__desk .ap-mega-card__quote {
+	display: block;
+	margin-top: 8px;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.5;
+}
+
+.ap-site-header__desk .ap-mega-card__author {
+	display: block;
+	font-size: 16px;
+	font-weight: 800;
+	line-height: 1.2;
+}
+
+.ap-site-header__desk .ap-mega-card__role {
+	display: block;
+	margin-top: 2px;
+	color: var(--ap-slate-500);
+	font-size: 12px;
+	line-height: 1.5;
+}
+
+.ap-site-header__desk a.ap-mega-card:hover .ap-mega-card__title,
+.ap-site-header__desk a.ap-mega-card:focus-visible .ap-mega-card__title {
+	color: var(--ap-indigo-600);
+}
+
+/*
+ * Featured resource cards beside a Who We Help group's links (Navigation
+ * Implementation Map, "Featured"): two per group, in the case-study card's
+ * frame, text only so the menu adds no image weight.
+ */
+
+.ap-site-header__desk .ap-mega-featured {
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.ap-site-header__desk .ap-mega-feature {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 8px;
+	padding: 20px 24px;
+	border: 1px solid var(--ap-athens-100);
+	border-radius: var(--ap-radius-md);
+	background: #fff;
+	color: #000;
+	text-decoration: none;
+	transition: background-color var(--ap-dur-base) var(--ap-ease-standard), border-color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-site-header__desk .ap-mega-feature:hover,
+.ap-site-header__desk .ap-mega-feature:focus-visible {
+	background: var(--ap-athens-50);
+	border-color: #edeef1;
+	outline: none;
+}
+
+.ap-site-header__desk .ap-mega-feature__type {
+	display: inline-block;
+	padding: 4px 10px;
+	border-radius: var(--ap-radius-pill);
+	background: var(--ap-indigo-50);
+	color: var(--ap-indigo-600);
+	font-size: 11px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.ap-site-header__desk .ap-mega-feature__title {
+	display: block;
+	font-size: 16px;
+	font-weight: 800;
+	line-height: 1.4;
+	transition: color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-site-header__desk .ap-mega-feature__desc {
+	display: block;
+	color: var(--ap-slate-500);
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.5;
+}
+
+.ap-site-header__desk .ap-mega-feature__cta {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	margin-top: 4px;
+	color: var(--ap-indigo-600);
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.2;
+}
+
+.ap-site-header__desk .ap-mega-feature__arrow {
+	display: inline-block;
+	transition: translate var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-site-header__desk .ap-mega-feature:hover .ap-mega-feature__title,
+.ap-site-header__desk .ap-mega-feature:focus-visible .ap-mega-feature__title {
+	color: var(--ap-indigo-600);
+}
+
+.ap-site-header__desk .ap-mega-feature:hover .ap-mega-feature__arrow,
+.ap-site-header__desk .ap-mega-feature:focus-visible .ap-mega-feature__arrow {
+	translate: 3px 0;
+}
+
+/*
+ * Latest posts beside a tab's links (client QA 2026-10-29, in place of the
+ * customer-story card): a heading and two post cards side by side — image,
+ * category, title, date — each linking to its post. The column measures
+ * itself (container query) and turns the cards into thumbnail rows when it is
+ * too narrow for two, so a narrower desktop never squeezes a title into a
+ * sliver. Images arrive deferred (behaviour.js) and fade in once loaded.
+ * The tab heading moves into the links column here (render.php), so the two
+ * column headings sit level and the cards start level with the first option.
+ */
+.ap-site-header__desk .ap-mega-posts {
+	min-width: 0;
+	container-type: inline-size;
+}
+
+.ap-site-header__desk .ap-mega-posts__heading,
+.ap-site-header__desk .ap-help-links__heading {
+	margin: 0 0 18px;
+}
+
+.ap-site-header__desk .ap-mega-posts__grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	grid-auto-rows: 1fr; /* four posts in a 2×2 grid, every card the same height (QA 2026-10-29) */
+	gap: 12px;
+}
+
+.ap-site-header__desk .ap-mega-post {
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	border: 1px solid var(--ap-athens-100);
+	border-radius: var(--ap-radius-md);
+	background: #fff;
+	color: var(--ap-text-heading);
+	text-decoration: none;
+	transition: background-color var(--ap-dur-base) var(--ap-ease-standard), border-color var(--ap-dur-base) var(--ap-ease-standard), box-shadow var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-site-header__desk .ap-mega-post:hover,
+.ap-site-header__desk .ap-mega-post:focus-visible {
+	background: var(--ap-athens-50);
+	border-color: var(--ap-athens-200);
+	box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+}
+
+.ap-site-header__desk .ap-mega-post:focus-visible {
+	outline: 2px solid var(--ap-indigo-600);
+	outline-offset: 2px;
+}
+
+.ap-site-header__desk .ap-mega-post__media {
+	position: relative;
+	display: block;
+	flex: 0 0 auto;
+	aspect-ratio: 16 / 7;
+	overflow: hidden;
+	background: var(--ap-athens-50);
+}
+
+.ap-site-header__desk .ap-mega-post__img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	opacity: 0;
+	transition: opacity var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-site-header__desk .ap-mega-post__img.is-loaded {
+	opacity: 1;
+}
+
+.ap-site-header__desk .ap-mega-post__media--empty {
+	background: linear-gradient(55deg, var(--ap-indigo-50) 0%, var(--ap-athens-50) 100%);
+}
+
+/* Category, title, date; the date sits at the foot so side-by-side cards share a baseline. */
+.ap-site-header__desk .ap-mega-post__body {
+	min-width: 0;
+	flex: 1 1 auto;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 6px;
+	padding: 10px 14px 12px;
+}
+
+.ap-site-header__desk .ap-mega-post__type {
+	display: inline-block;
+	max-width: 100%;
+	padding: 3px 8px;
+	border-radius: var(--ap-radius-pill);
+	background: var(--ap-indigo-50);
+	color: var(--ap-indigo-600);
+	font-size: 11px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.ap-site-header__desk .ap-mega-post__date {
+	display: none; /* dates hidden (QA 2026-10-29); the <time> stays in the markup */
+	margin-top: auto;
+	color: var(--ap-slate-500);
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1.2;
+	white-space: nowrap;
+}
+
+.ap-site-header__desk .ap-mega-post__title {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	min-height: calc(2 * 1.35em);
+	overflow: hidden;
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.35;
+	overflow-wrap: break-word;
+	transition: color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-site-header__desk .ap-mega-post:hover .ap-mega-post__title,
+.ap-site-header__desk .ap-mega-post:focus-visible .ap-mega-post__title {
+	color: var(--ap-indigo-600);
+}
+
+/* Too narrow for two cards side by side: thumbnail rows instead. */
+@container (max-width: 400px) {
+	.ap-site-header__desk .ap-mega-posts__grid {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 12px;
+	}
+
+	.ap-site-header__desk .ap-mega-post {
+		flex-direction: row;
+		align-items: stretch;
+	}
+
+	.ap-site-header__desk .ap-mega-post__media {
+		flex: 0 0 132px;
+		width: 132px;
+		min-height: 96px;
+		aspect-ratio: auto;
+	}
+
+	.ap-site-header__desk .ap-mega-post__body {
+		padding: 12px 14px;
+	}
+}
+
+/* "View All Industries" under a tab panel's option list (nav item all_label + all_url). */
+.ap-site-header__desk .ap-help-all {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	margin: 16px 0 0;
+	padding: 4px 0;
+	color: var(--ap-indigo-600);
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.2;
+	text-decoration: none;
+	transition: color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-site-header__desk .ap-help-all:hover,
+.ap-site-header__desk .ap-help-all:focus-visible {
+	color: var(--ap-green-600);
+}
+
+.ap-site-header__desk .ap-help-all__arrow {
+	display: inline-block;
+	transition: translate var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-site-header__desk .ap-help-all:hover .ap-help-all__arrow,
+.ap-site-header__desk .ap-help-all:focus-visible .ap-help-all__arrow {
+	translate: 3px 0;
+}
+
+/*
+ * Who We Help per Figma 5886:66455 (nav item variant "figma-2026"). Scoped to
+ * that panel so Products, Solutions and Resources keep their look. Figma
+ * defines the panel at 1440 (40px gutters, 330px rail, 40px gap, 990px
+ * content: links max 487px + 8px + card); narrower desktops shrink the rail.
+ * Figma has no link hover state, so the kit's link hover is kept.
+ *
+ * Figma's frosted panel is white at 80% over a 20px blur. Over the darkest
+ * dev heroes (/solutions/government/, /enterprise/) 80% leaves the 14px
+ * indigo eyebrow at 4.2:1, so the white is 85% (4.7:1 or better there).
+ */
+/* One panel surface for every menu (QA 2026-10-28, Joseph): the glass stays
+ * subtle — 94% white over a 16px blur, so the page only just shows through —
+ * and the hairline edges and soft shadow are the same on Products, Solutions,
+ * Who We Help and Resources. */
+.ap-site-header__desk .ap-mega-panel {
+	background: rgba(255, 255, 255, 0.94);
+	-webkit-backdrop-filter: blur(16px);
+	backdrop-filter: blur(16px);
+	border-top-color: var(--ap-athens-100);
+	border-bottom-color: var(--ap-athens-100);
+	box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+}
+
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-shell {
+	width: min(1360px, 100% - 80px);
+}
+
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-help-grid {
+	padding: 24px 0 40px;
+	grid-template-columns: clamp(276px, 23vw, 330px) minmax(0, 1fr);
+	gap: 40px;
+}
+
+/* Category rail: Figma "menu-sub-dropdown", states Default and Selected. */
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-help-tabs {
+	gap: 16px;
+}
+
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-help-tab {
+	min-height: 0;
+	gap: 8px;
+	padding: 19px 16px;
+	border: 1px solid var(--ap-athens-50);
+	background: #fff;
+	color: var(--ap-text-heading);
+	font-size: 16px;
+	line-height: 1.2;
+	/* Live's tab timing (#ap-presentation-header-v5 .ap-help-tab), as the base rail rule. */
+	transition: background-color 180ms ease, border-color 180ms ease;
+}
+
+/*
+ * Selected and hovered tabs take live's state (client QA 2026-10-29, "check the live site"):
+ * the light indigo fill with its indigo-100 edge (live #EEF2FF / #E0E7FF), and on the active
+ * tab, on hover and on keyboard focus the label in the brand gradient (the base rail rule
+ * above, which this variant no longer cancels). Figma's stroke-less Selected and plain label
+ * were dropped for it. The border is kept 1px so the tab stays 59px tall in every state.
+ */
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-help-tab.is-active,
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-help-tab:hover {
+	background: var(--ap-indigo-50);
+	border-color: var(--ap-indigo-100);
+}
+
+/* The "›" glyph gives way to Figma's 16px chevron-right. */
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-help-tab > span[aria-hidden="true"] {
+	flex: 0 0 16px;
+	width: 16px;
+	height: 16px;
+	background: url("assets/chevron-right.svg") center / 16px 16px no-repeat;
+	color: transparent;
+	font-size: 0;
+}
+
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-help-panel > .ap-mega-heading {
+	margin: 0 0 24px;
+	font-size: 14px;
+	letter-spacing: 0.04em;
+}
+
+/* Links: Figma "link-item-with-icon", 64px rows 16px apart, column max 487px. */
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-group {
+	max-width: 487px;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+/* No stroke at rest (keeps Figma's 64px rows); the hover edge is drawn inside instead. */
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-link {
+	margin: 0;
+	border: 0;
+	transition: background-color var(--ap-dur-base) var(--ap-ease-standard), box-shadow var(--ap-dur-base) var(--ap-ease-standard), translate var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-link:hover,
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-link:focus-visible {
+	box-shadow: inset 0 0 0 1px var(--ap-athens-100);
+}
+
+/* Keyboard focus needs more than the faint hover fill. */
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-link:focus-visible {
+	outline: 2px solid var(--ap-indigo-600);
+	outline-offset: 2px;
+}
+
+/* Icon frames stay a little visible, as on the other menus (Joseph, 2026-10-28):
+ * a solid hairline on white rather than Figma's dashed ghost. */
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-icon-box {
+	border: 1px solid #d7dfff;
+	border-radius: var(--ap-radius-md);
+	background: #fff;
+}
+
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-icon-img,
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-icon-box::after {
+	width: 28px;
+	height: 28px;
+}
+
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-link-copy {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-link strong {
+	margin: 0;
+	color: var(--ap-text-heading);
+	font-size: 16px;
+	line-height: 1.2;
+}
+
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-link small {
+	color: var(--ap-text-body);
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+/* Links and the case-study card side by side, 8px apart (Figma "link-group-cols"). */
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-help-split {
+	display: flex;
+	gap: 8px;
+	align-items: flex-start;
+}
+
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-help-links {
+	flex: 1 1 0;
+	max-width: 487px;
+}
+
+/* The posts column takes the card's place and width; its heading matches the panel's. */
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-posts {
+	flex: 1 1 0;
+}
+
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-posts__heading,
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-help-links__heading {
+	margin: 0 0 24px;
+	font-size: 14px;
+	letter-spacing: 0.04em;
+}
+
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-help-all {
+	margin-top: 20px;
+	font-size: 15px;
+}
+
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-card {
+	flex: 1 1 0;
+	min-width: 0;
+	/* The story card sits in its own visible container: hairline edge, white
+	 * fill, a soft lift, and a divider between the photo and the quote. */
+	border: 1px solid var(--ap-athens-100);
+	border-radius: var(--ap-radius-md);
+	background: #fff;
+	box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+	overflow: hidden;
+}
+
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-card__body {
+	border-top: 1px solid var(--ap-athens-100);
+}
+
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-card__title {
+	transition: color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+@media (max-width: 1180px) and (min-width: 1101px) {
+	.ap-site-header__desk .ap-head-inner {
+		width: calc(100vw - 32px);
+		gap: 18px;
+	}
+
+	.ap-site-header__desk .ap-head-nav {
+		gap: 14px;
+	}
+
+	.ap-site-header__desk .ap-header-btn {
+		padding-left: 12px;
+		padding-right: 12px;
+	}
+
+	.ap-site-header__desk .ap-mega-shell {
+		width: calc(100vw - 48px);
+	}
+}
+
+/* ------------------------------------------------------------------ phone */
+
+@media (max-width: 1100px) {
+	.ap-site-header__desk {
+		display: none;
+	}
+
+	/* App banner */
+
+	.ap-site-header__banner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+		width: 100%;
+		min-height: 51px;
+		padding: 8px 12px;
+		background: linear-gradient(281.9deg, #5044e1 10.83%, #35307f 42.44%, #201c4a 74.06%);
+		color: #fff;
+		font-family: var(--ap-font-display);
+	}
+
+	.ap-site-header__banner.is-hidden {
+		display: none;
+	}
+
+	.ap-site-header__banner .ap-app-banner-left {
+		flex: 1 1 auto;
+		min-width: 0;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.ap-site-header__banner .ap-app-icon {
+		width: 24px;
+		height: 24px;
+		flex: 0 0 24px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+		border-radius: 6px;
+		background: var(--ap-indigo-600);
+	}
+
+	.ap-site-header__banner .ap-app-icon img {
+		display: block;
+		width: 18px;
+		height: 18px;
+		object-fit: contain;
+	}
+
+	.ap-site-header__banner .ap-app-text {
+		min-width: 0;
+		overflow: hidden;
+		color: #fff;
+		font-size: 14px;
+		font-weight: 700;
+		line-height: 1.2;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+
+	.ap-site-header__banner .ap-app-get {
+		flex: 0 0 auto;
+		height: 35px;
+		min-width: 61px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 8px 16px;
+		border: 1px solid #009882;
+		border-radius: 28px;
+		background: var(--ap-green-600);
+		color: #fff;
+		font-size: 16px;
+		font-weight: 700;
+		line-height: 1.2;
+		text-decoration: none;
+	}
+
+	.ap-site-header__banner .ap-app-close {
+		flex: 0 0 16px;
+		width: 16px;
+		height: 16px;
+		padding: 0;
+		border: 0;
+		background: transparent;
+		color: #f9fafb;
+		font-size: 18px;
+		line-height: 1;
+		cursor: pointer;
+	}
+
+	/* Phone header */
+
+	/*
+	 * 60px tall like live, where the theme caps every <header> at 60px below
+	 * 1340px. The 62-64px inner row overflows it, so the page starts 60px
+	 * under the banner and the inner's white covers the bottom border.
+	 */
+	.ap-site-header__mob {
+		position: sticky;
+		top: 0;
+		z-index: 100000;
+		display: block;
+		width: 100%;
+		height: 60px;
+		background: #fff;
+		border-bottom: 1px solid #e5e7eb;
+		font-family: var(--ap-font-display);
+	}
+
+	.admin-bar .ap-site-header__mob {
+		top: 32px;
+	}
+
+	.ap-site-header__mob .ap-mobile-head-inner {
+		width: 100%;
+		min-height: 64px;
+		padding: 0 14px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+		background: #fff;
+	}
+
+	.ap-site-header__mob .ap-mobile-logo {
+		flex: 0 0 auto;
+		display: inline-flex;
+		align-items: center;
+		text-decoration: none;
+	}
+
+	.ap-site-header__mob .ap-mobile-logo img {
+		display: block;
+		width: 112px;
+		max-width: 112px;
+		height: auto;
+	}
+
+	.ap-site-header__mob .ap-mobile-actions {
+		margin-left: auto;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.ap-site-header__mob .ap-mobile-demo,
+	.ap-site-header__mob .ap-mobile-free {
+		min-height: 36px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 9px 12px;
+		border: 1px solid transparent;
+		border-radius: var(--ap-radius-sm);
+		background: linear-gradient(54.33deg, var(--ap-btn-primary-from) 0%, var(--ap-btn-primary-to) 70.44%);
+		color: #fff;
+		font-size: 13px;
+		font-weight: 800;
+		line-height: 1.2;
+		text-decoration: none;
+		white-space: nowrap;
+	}
+
+	.ap-site-header__mob .ap-mobile-free {
+		display: none;
+	}
+
+	.ap-site-header__mob .ap-mobile-burger {
+		width: 40px;
+		height: 40px;
+		flex: 0 0 40px;
+		display: inline-flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 5px;
+		padding: 0;
+		border: 1px solid #e1e7ef;
+		border-radius: var(--ap-radius-md);
+		background: #f8fafc;
+		font: inherit;
+		cursor: pointer;
+	}
+
+	/* Burger (QA 2026-10-29, dev.to #28 "SVG CSS3 Menu/Burger Button"): opening, the middle line runs off to the
+	 * right and curls into a ring around the icon (one stroke dash sliding along a path that is the line and then
+	 * the circle) while the top and bottom lines swing past 45° and settle into an X; closing plays it backwards. */
+	.ap-site-header__mob .ap-mobile-burger .ap-burger {
+		width: 100%;
+		height: 100%;
+		display: block;
+		overflow: visible;
+		fill: none;
+		stroke: var(--ap-slate-900);
+		stroke-width: 2;
+		stroke-linecap: round;
+	}
+
+	.ap-site-header__mob .ap-burger__top,
+	.ap-site-header__mob .ap-burger__bot {
+		transform-box: fill-box;
+		transform-origin: center;
+		transition: translate 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55), rotate 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+	}
+
+	.ap-site-header__mob .ap-burger__mid {
+		stroke-dasharray: 18 200;
+		stroke-dashoffset: 0;
+		transition: stroke-dasharray 0.6s ease-in-out, stroke-dashoffset 0.6s ease-in-out;
+	}
+
+	.ap-site-header__mob.is-open .ap-mobile-burger {
+		border-color: transparent;
+	}
+
+	.ap-site-header__mob.is-open .ap-burger__top {
+		translate: 0 6px;
+		rotate: 45deg;
+	}
+
+	.ap-site-header__mob.is-open .ap-burger__bot {
+		translate: 0 -6px;
+		rotate: -45deg;
+	}
+
+	.ap-site-header__mob.is-open .ap-burger__mid {
+		stroke-dasharray: 110 200;
+		stroke-dashoffset: -26.5;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.ap-site-header__mob .ap-burger__top,
+		.ap-site-header__mob .ap-burger__bot,
+		.ap-site-header__mob .ap-burger__mid {
+			transition: none;
+		}
+	}
+
+	/* Drawer. behaviour.js pins its top to the header's bottom edge. */
+
+	.ap-site-header__mob .ap-mobile-menu {
+		position: fixed;
+		inset: 64px 0 0;
+		z-index: 100001;
+		display: none;
+		width: 100%;
+		height: calc(100vh - 64px);
+		margin: 0;
+		padding: 10px 18px 26px;
+		overflow-y: auto;
+		overscroll-behavior: contain;
+		background: var(--ap-athens-50);
+	}
+
+	.ap-site-header__mob.is-open .ap-mobile-menu {
+		display: block;
+		animation: ap-site-header-drawer 220ms var(--ap-ease-out) both;
+	}
+
+	.ap-site-header__mob details,
+	.ap-site-header__mob .ap-mobile-top-link {
+		width: 100%;
+		margin: 0;
+		border-bottom: 1px solid #dde5ee;
+		background: transparent;
+	}
+
+	.ap-site-header__mob summary,
+	.ap-site-header__mob .ap-mobile-top-link {
+		min-height: 52px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 15px 0;
+		color: var(--ap-slate-900);
+		font-size: 17px;
+		font-weight: 800;
+		line-height: 1.2;
+		text-decoration: none;
+		list-style: none;
+		cursor: pointer;
+	}
+
+	.ap-site-header__mob summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.ap-site-header__mob summary::after {
+		content: "";
+		width: 9px;
+		height: 9px;
+		margin-right: 4px;
+		border-right: 1.6px solid var(--ap-slate-900);
+		border-bottom: 1.6px solid var(--ap-slate-900);
+		rotate: 45deg;
+		translate: 0 -2px;
+		transition: rotate 220ms cubic-bezier(0.22, 1, 0.36, 1), translate 220ms cubic-bezier(0.22, 1, 0.36, 1), border-color 220ms;
+	}
+
+	.ap-site-header__mob details[open] summary {
+		color: var(--ap-indigo-600);
+	}
+
+	.ap-site-header__mob details[open] summary::after {
+		border-color: var(--ap-indigo-600);
+		rotate: 225deg;
+		translate: 0 2px;
+	}
+
+	.ap-site-header__mob .ap-mobile-subgroup {
+		padding: 8px 0 12px;
+		border-bottom: 1px solid rgba(221, 229, 238, 0.8);
+	}
+
+	.ap-site-header__mob .ap-mobile-subgroup:last-child {
+		border-bottom: 0;
+	}
+
+	.ap-site-header__mob .ap-mobile-subgroup > p {
+		margin: 10px 0 8px;
+		color: var(--ap-indigo-600);
+		font-size: 11px;
+		font-weight: 800;
+		line-height: 1.2;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+	}
+
+	.ap-site-header__mob .ap-mobile-subhead {
+		min-height: 32px;
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		gap: 5px;
+		margin: 6px 0;
+		padding: 6px 8px 6px 0;
+		color: var(--ap-indigo-600);
+		font-size: 11px;
+		font-weight: 800;
+		line-height: 1.2;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		text-decoration: none;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	.ap-site-header__mob .ap-mobile-subhead-chev {
+		color: var(--ap-indigo-600);
+		font-size: 17px;
+		font-weight: 700;
+		line-height: 1;
+		transition: translate 0.3s var(--ap-ease-standard);
+	}
+
+	.ap-site-header__mob .ap-mobile-subhead:hover,
+	.ap-site-header__mob .ap-mobile-subhead:focus-visible,
+	.ap-site-header__mob .ap-mobile-subhead:hover .ap-mobile-subhead-chev,
+	.ap-site-header__mob .ap-mobile-subhead:focus-visible .ap-mobile-subhead-chev {
+		color: var(--ap-green-600);
+	}
+
+	.ap-site-header__mob .ap-mobile-subhead:hover .ap-mobile-subhead-chev,
+	.ap-site-header__mob .ap-mobile-subhead:focus-visible .ap-mobile-subhead-chev {
+		translate: 3px 0;
+	}
+
+	/* "View All Industries" at the end of a drawer section (nav item all_label + all_url). */
+	.ap-site-header__mob .ap-mobile-all {
+		min-height: 44px;
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		margin: 4px 0 0;
+		padding: 10px 8px 12px 0;
+		color: var(--ap-indigo-600);
+		font-size: 13px;
+		font-weight: 800;
+		line-height: 1.2;
+		text-decoration: none;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	.ap-site-header__mob .ap-mobile-all:hover,
+	.ap-site-header__mob .ap-mobile-all:focus-visible,
+	.ap-site-header__mob .ap-mobile-all:hover .ap-mobile-subhead-chev,
+	.ap-site-header__mob .ap-mobile-all:focus-visible .ap-mobile-subhead-chev {
+		color: var(--ap-green-600);
+	}
+
+	.ap-site-header__mob .ap-mobile-all:hover .ap-mobile-subhead-chev,
+	.ap-site-header__mob .ap-mobile-all:focus-visible .ap-mobile-subhead-chev {
+		translate: 3px 0;
+	}
+
+	.ap-site-header__mob .ap-mobile-item {
+		min-height: 58px;
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		margin: 6px 0;
+		padding: 6px;
+		border: 0.5px solid transparent;
+		border-radius: 10px;
+		background: rgba(255, 255, 255, 0.72);
+		color: #344456;
+		text-decoration: none;
+		transition: background-color 220ms, border-color 220ms, translate 220ms;
+	}
+
+	.ap-site-header__mob .ap-mobile-item:hover,
+	.ap-site-header__mob .ap-mobile-item:focus-visible {
+		background: var(--ap-athens-50);
+		border-color: #edeef1;
+		translate: 0 -1px;
+	}
+
+	.ap-site-header__mob .ap-mobile-link-icon {
+		position: relative;
+		width: 46px;
+		height: 46px;
+		flex: 0 0 46px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+		border: 0.5px solid #d7dfff;
+		border-radius: var(--ap-radius-md);
+		background: #fff;
+	}
+
+	.ap-site-header__mob .ap-mobile-icon-img {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		width: 22px;
+		height: 22px;
+		object-fit: contain;
+		translate: -50% -50%;
+		transition: opacity 260ms, scale 260ms;
+	}
+
+	.ap-site-header__mob .ap-mobile-link-icon::after {
+		content: "";
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		width: 22px;
+		height: 22px;
+		background: radial-gradient(circle at 78% 26%, var(--ap-brand-green) 0%, var(--ap-brand-green) 30%, transparent 54%), linear-gradient(45deg, var(--ap-brand-indigo) 0%, #4b5ddf 30%, #2d7fc1 52%, var(--ap-brand-green) 82%, var(--ap-brand-green) 100%);
+		-webkit-mask: var(--ap-mobile-icon-url) center / contain no-repeat;
+		mask: var(--ap-mobile-icon-url) center / contain no-repeat;
+		opacity: 0;
+		translate: -50% -50%;
+		scale: 0.92;
+		rotate: -2deg;
+		filter: blur(2px);
+		transition: opacity 320ms cubic-bezier(0.22, 1, 0.36, 1), scale 320ms cubic-bezier(0.22, 1, 0.36, 1), rotate 320ms cubic-bezier(0.22, 1, 0.36, 1), filter 320ms cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	.ap-site-header__mob .ap-mobile-item:hover .ap-mobile-icon-img,
+	.ap-site-header__mob .ap-mobile-item:focus-visible .ap-mobile-icon-img {
+		opacity: 0.16;
+		scale: 1.05;
+	}
+
+	.ap-site-header__mob .ap-mobile-item:hover .ap-mobile-link-icon::after,
+	.ap-site-header__mob .ap-mobile-item:focus-visible .ap-mobile-link-icon::after,
+	.ap-site-header__mob .ap-mobile-item:active .ap-mobile-link-icon::after {
+		opacity: 1;
+		scale: 1;
+		rotate: 0deg;
+		filter: blur(0);
+	}
+
+	.ap-site-header__mob .ap-mobile-link-copy strong {
+		display: block;
+		color: #344456;
+		font-size: 14px;
+		font-weight: 800;
+		line-height: 1.2;
+	}
+
+	.ap-site-header__mob .ap-mobile-item:active .ap-mobile-link-copy strong {
+		color: var(--ap-indigo-600);
+	}
+
+	.ap-site-header__mob .ap-mobile-menu-actions {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 12px;
+		padding: 18px 0 0;
+	}
+
+	.ap-site-header__mob .ap-mobile-menu-actions a {
+		min-height: 44px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: 1px solid transparent;
+		border-radius: 5px;
+		background: linear-gradient(54.33deg, var(--ap-btn-primary-from) 0%, var(--ap-btn-primary-to) 70.44%);
+		color: #fff;
+		font-size: 14px;
+		font-weight: 800;
+		line-height: 1.2;
+		text-align: center;
+		text-decoration: none;
+	}
+
+	.ap-site-header__mob .ap-mobile-menu-actions .ap-intl-free {
+		display: none;
+	}
+
+	.ap-site-header__mob .ap-mobile-menu-actions .ap-mobile-sales {
+		border-color: var(--ap-green-600);
+		background: #fff;
+		color: var(--ap-green-600);
+	}
+}
+
+@media (max-width: 782px) {
+	.admin-bar .ap-site-header__mob {
+		top: 46px;
+	}
+}
+
+@media (max-width: 600px) {
+	/* WordPress stops pinning the admin bar here, so the header pins to 0. */
+	.admin-bar .ap-site-header__mob {
+		top: 0;
+	}
+}
+
+@media (max-width: 520px) {
+	.ap-site-header__mob .ap-mobile-head-inner {
+		min-height: 62px;
+	}
+
+	.ap-site-header__mob .ap-mobile-logo img {
+		width: 106px;
+		max-width: 106px;
+	}
+}
+
+@media (max-width: 374px) {
+	.ap-site-header__mob .ap-mobile-demo {
+		display: none;
+	}
+}
+
+/*
+ * International visitors (html.ap-intl, set by the geo script on live) get the
+ * free trial as the primary action and no US sales number.
+ */
+html.ap-intl .ap-site-header__desk .ap-header-btn.ap-header-free {
+	display: inline-flex;
+}
+
+html.ap-intl .ap-site-header__desk .ap-header-demo,
+html.ap-intl .ap-site-header__mob .ap-mobile-demo,
+html.ap-intl .ap-site-header__mob .ap-mobile-menu-actions .ap-mobile-menu-demo {
+	border-color: var(--ap-green-600);
+	background: #fff;
+	color: var(--ap-green-600);
+}
+
+html.ap-intl .ap-site-header__desk .ap-header-sales,
+html.ap-intl .ap-site-header__mob .ap-mobile-menu-actions .ap-mobile-sales {
+	display: none;
+}
+
+@media (max-width: 1100px) {
+	html.ap-intl .ap-site-header__mob .ap-mobile-free {
+		display: inline-flex;
+	}
+
+	html.ap-intl .ap-site-header__mob .ap-mobile-menu-actions .ap-intl-free {
+		display: flex;
+	}
+}
+
+@media (max-width: 399px) {
+	html.ap-intl .ap-site-header__mob .ap-mobile-head-inner {
+		padding-left: 10px;
+		padding-right: 10px;
+		gap: 8px;
+	}
+
+	html.ap-intl .ap-site-header__mob .ap-mobile-actions {
+		gap: 6px;
+	}
+
+	html.ap-intl .ap-site-header__mob .ap-mobile-free,
+	html.ap-intl .ap-site-header__mob .ap-mobile-demo {
+		padding-left: 9px;
+		padding-right: 9px;
+	}
+}
+
+/* The drawer covers the page while open, so the page must not scroll behind it. */
+html:has(.ap-site-header__mob.is-open) {
+	overflow: hidden;
+}
+
+@keyframes ap-site-header-drawer {
+	from {
+		opacity: 0;
+		translate: 0 -8px;
+	}
+
+	to {
+		opacity: 1;
+		translate: 0 0;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-site-header * {
+		transition: none !important;
+		animation: none !important;
+	}
+}
+
+/* QA 2026-10-28 (Jeph): "keep the mini descriptions on desktop for now but REMOVE them on mobile".
+ * The phone drawer prints only each link's title; this keeps any description line out of the drawer
+ * even if a link or featured card ever brings one along. Desktop panels are unaffected. */
+.ap-site-header .ap-mobile-menu small,
+.ap-site-header .ap-mobile-menu [class*="desc"] {
+	display: none;
+}
+
+
+/* QA 2026-10-29: phones had no way to log in (the login menu lives in the desktop header only).
+   The drawer now ends with the same logins as the desktop menu, as in Figma's mobile menu. */
+.ap-site-header__mob .ap-mobile-menu-login {
+	display: grid;
+	gap: 8px;
+	margin-top: 18px;
+	padding-top: 14px;
+	border-top: 1px solid #eef0f4;
+}
+.ap-site-header__mob .ap-mobile-menu-login > p {
+	margin: 0 0 2px;
+	color: var(--ap-indigo-600);
+	font-size: 11px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+.ap-site-header__mob .ap-mobile-menu-login a {
+	min-height: 44px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 0 14px;
+	border: 1px solid #dfe3ea;
+	border-radius: 5px;
+	background: #fff;
+	color: #25272c;
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.2;
+	text-decoration: none;
+}
+.ap-site-header__mob .ap-mobile-menu-login a:focus-visible {
+	outline: 2px solid var(--ap-indigo-600);
+	outline-offset: 2px;
+}
+.ap-site-header__mob .ap-mobile-menu-login small {
+	color: #6b7280;
+	font-size: 12px;
+	font-weight: 500;
+}

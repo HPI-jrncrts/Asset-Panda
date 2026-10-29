@@ -1,0 +1,61 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/compare-table",
+	"title": "AP Compare Table",
+	"category": "design",
+	"icon": "block-default",
+	"description": "Comparison-guide table for the resource-center articles (Asset Panda vs X): a criterion column with small icons, the Asset Panda column under an indigo header with the wordmark, the competitor column under a grey header with its mark, and a Winner column of pills (Asset Panda amber, Tie indigo, the competitor grey), with an optional footnote. Figma: Website Design 2026 > Blog > Compare article (7219:87997). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"label_title": {
+			"type": "string",
+			"default": "Buying criterion"
+		},
+		"after_title": {
+			"type": "string",
+			"default": "Asset Panda"
+		},
+		"before_title": {
+			"type": "string",
+			"default": ""
+		},
+		"before_mark": {
+			"type": "string",
+			"default": ""
+		},
+		"before_logo": {
+			"type": "string",
+			"default": ""
+		},
+		"before_logo_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"winner_title": {
+			"type": "string",
+			"default": "Winner"
+		},
+		"rows": {
+			"type": "array",
+			"default": []
+		},
+		"note": {
+			"type": "string",
+			"default": ""
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

@@ -1,0 +1,166 @@
+/*
+ * demo-confirm — Booking-confirmed hero of the Get a Demo flow (live #ap-ty-hero on www /thanks-guided-trial-pro/).
+ *
+ * Ported class-for-class from the live sheet (worktree get-a-demo-calcom @5ae4e90,
+ * regenerate with scratchpad agents/demo/port-css.mjs): every selector is scoped under the
+ * component root, live's section id becomes the root class, and the inner class names are kept
+ * so the port stays diffable against live. Source comments say Page A for the weekly page
+ * (split layout, now www /get-a-demo/) and Page B for the month page (centered layout).
+ *
+ * Weights: live serves Manrope as static 300/400/700/800 faces, so its 600 draws as 700 and its
+ * 500 as 400; the dev theme's Manrope is variable, so this port states the weight live shows.
+ */
+
+
+/* Same font guard the live ap-* pages ship; the theme otherwise forces its own font. */
+.ap-demo-confirm,
+.ap-demo-confirm h1,
+.ap-demo-confirm h2,
+.ap-demo-confirm h3,
+.ap-demo-confirm p,
+.ap-demo-confirm span,
+.ap-demo-confirm a,
+.ap-demo-confirm li,
+.ap-demo-confirm button,
+.ap-demo-confirm input,
+.ap-demo-confirm select,
+.ap-demo-confirm label,
+.ap-demo-confirm div {
+	font-family: "Manrope",Arial,sans-serif!important;
+}
+.ap-demo-confirm.ap-d26-sec,
+.ap-demo-confirm.ap-d26-sec *,
+.ap-demo-confirm.ap-d26-sec *::before,
+.ap-demo-confirm.ap-d26-sec *::after {
+	box-sizing: border-box;
+}
+.ap-demo-confirm.ap-d26-sec {
+	position: relative;
+	width: 100%;
+	margin: 0;
+}
+.ap-demo-confirm .ap-d26-fade {
+	position: absolute;
+	right: 0;
+	bottom: -5px;
+	left: 0;
+	height: 147px;
+	pointer-events: none;
+	background: linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0) 25.86%,rgba(255,255,255,.847) 85.39%,#fff 100%);
+}
+
+/* ---------- Thank-you hero (7019:102446) ---------- */
+.ap-demo-confirm.ap-d26-sec {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 32px;
+	padding: 80px 160px 40px;
+	overflow: hidden;
+	background-color: #f8f9f9;
+	background-position: 50% 0;
+	background-repeat: no-repeat;
+	background-size: cover;
+	text-align: center;
+}
+.ap-demo-confirm.ap-d26-sec .ap-d26-fade {
+	bottom: 0;
+}
+.ap-demo-confirm .ap-ty-icon {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 80px;
+	height: 80px;
+	border: 2px solid #04c8a8;
+	border-radius: 40px;
+	box-shadow: 0 8px 16px rgba(0,169,145,.15);
+}
+.ap-demo-confirm .ap-ty-icon img {
+	display: block;
+	width: 40px;
+	height: 40px;
+}
+.ap-demo-confirm .ap-ty-copy {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 16px;
+	max-width: 456px;
+}
+.ap-demo-confirm.ap-d26-sec h1 {
+	margin: 0;
+	font-size: 48px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: 0;
+	color: #25272c;
+}
+.ap-demo-confirm.ap-d26-sec .ap-ty-sub {
+	margin: 0;
+	font-size: 24px;
+	font-weight: 800;
+	line-height: 1.3;
+	background-image: linear-gradient(27.83deg,#5044e1 0%,#00a991 70.44%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+.ap-demo-confirm.ap-d26-sec .ap-ty-body {
+	margin: 0;
+	font-size: 18px;
+	line-height: 1.5;
+	color: #4a4e5a;
+}
+.ap-demo-confirm.ap-d26-sec .ap-ty-back {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 16px;
+	line-height: 1.5;
+	color: #25272c;
+	text-decoration: none;
+}
+.ap-demo-confirm .ap-ty-back img {
+	display: block;
+	width: 24px;
+	height: 24px;
+}
+.ap-demo-confirm .ap-ty-back:hover span {
+	text-decoration: underline;
+}
+@media (max-width:1279px) {
+	.ap-demo-confirm.ap-d26-sec {
+		padding: 80px 40px 40px;
+	}
+}
+@media (max-width:767px) {
+	.ap-demo-confirm.ap-d26-sec {
+		padding: 48px 16px 32px;
+	}
+	.ap-demo-confirm.ap-d26-sec h1 {
+		font-size: 36px;
+	}
+	.ap-demo-confirm.ap-d26-sec .ap-ty-sub {
+		font-size: 20px;
+	}
+	.ap-demo-confirm.ap-d26-sec .ap-ty-body {
+		font-size: 16px;
+	}
+}
+
+/* ===== Page chrome (live thanks-chrome.css) =====
+ * The thank-you frame hides the global footer's "Ready to See it in Action?" card. */
+body:has(.ap-demo-confirm) .ap-final-cta-section {
+	display: none !important;
+}
+
+/* The block theme spaces its footer template part 1.2rem below <main>; live's footer sits flush
+ * under the last section (the dev homepage zeroes the same gap for body.home). */
+body:has(.ap-demo-confirm) footer.wp-block-template-part:has(#ap-final-footer-v1) {
+	margin-top: 0 !important;
+}

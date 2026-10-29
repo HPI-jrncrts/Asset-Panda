@@ -1,0 +1,144 @@
+/*
+ * integration-titlebar — sticky title bar under the site header (Figma
+ * 7333:171865): white, 8px / 40px padding, the logo pair then a 12px eyebrow
+ * over a 16px title. Fixed just below the sticky header (72px from 1101px up,
+ * 60px below, plus the admin bar when present) and slid out of sight until
+ * behaviour.js adds .is-shown.
+ */
+
+:where(.ap-integration-titlebar, .ap-integration-titlebar *) {
+	box-sizing: border-box;
+}
+
+.ap-integration-titlebar {
+	--ap-titlebar-top: 72px;
+	position: fixed;
+	top: var(--ap-titlebar-top);
+	left: 0;
+	right: 0;
+	z-index: 99990;
+	background: var(--ap-white);
+	border-bottom: 1px solid var(--ap-slate-100);
+	box-shadow: 0 6px 16px rgba(37, 39, 44, 0.06);
+	font-family: var(--ap-font-display);
+	translate: 0 calc(-100% - 8px);
+	visibility: hidden;
+	pointer-events: none;
+	transition:
+		translate var(--ap-dur-base) var(--ap-ease-standard),
+		visibility 0s linear var(--ap-dur-base);
+}
+
+.admin-bar .ap-integration-titlebar {
+	--ap-titlebar-top: 104px;
+}
+
+.ap-integration-titlebar.is-shown {
+	translate: 0 0;
+	visibility: visible;
+	transition:
+		translate var(--ap-dur-base) var(--ap-ease-standard),
+		visibility 0s linear 0s;
+}
+
+.ap-integration-titlebar__in {
+	display: flex;
+	align-items: center;
+	gap: 24px;
+	padding: 8px 40px;
+}
+
+.ap-integration-titlebar__logos {
+	display: inline-flex;
+	flex: 0 0 auto;
+	align-items: center;
+	gap: 8px;
+}
+
+.ap-integration-titlebar__logo {
+	display: block;
+	width: auto;
+	max-width: 72px;
+	height: 33px;
+	object-fit: contain;
+}
+
+.ap-integration-titlebar__plus {
+	display: block;
+	width: 5px;
+	height: 5px;
+}
+
+.ap-integration-titlebar__brand {
+	display: block;
+	width: 31px;
+	height: 33px;
+}
+
+.ap-integration-titlebar__text {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.ap-integration-titlebar__eyebrow {
+	color: var(--ap-indigo-600);
+	font-size: 12px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.ap-integration-titlebar__title {
+	overflow: hidden;
+	color: var(--ap-text-heading);
+	font-size: 16px;
+	font-weight: 800;
+	line-height: 1.2;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+@media (max-width: 1100px) {
+	.ap-integration-titlebar {
+		--ap-titlebar-top: 60px;
+	}
+
+	.admin-bar .ap-integration-titlebar {
+		--ap-titlebar-top: 92px;
+	}
+
+	.ap-integration-titlebar__in {
+		gap: 16px;
+		padding: 8px 16px;
+	}
+}
+
+@media (max-width: 782px) {
+	.admin-bar .ap-integration-titlebar {
+		--ap-titlebar-top: 106px;
+	}
+}
+
+@media (max-width: 600px) {
+	.admin-bar .ap-integration-titlebar {
+		--ap-titlebar-top: 60px;
+	}
+
+	.ap-integration-titlebar__logo,
+	.ap-integration-titlebar__brand {
+		height: 28px;
+	}
+
+	.ap-integration-titlebar__brand {
+		width: 26px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-integration-titlebar,
+	.ap-integration-titlebar.is-shown {
+		transition: none;
+	}
+}

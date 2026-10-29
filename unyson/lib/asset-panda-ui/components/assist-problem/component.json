@@ -1,0 +1,18 @@
+{
+	"name": "assist-problem",
+	"description": "Help desk problem section: centred heading over a fixed 606x400 art frame (blurred backdrop, ring, the panda, the UrsaAI orb and floating feature chips) beside a copy column with a sub-heading, paragraphs and bullets. Below 701px the copy moves above the frame, which scales as one piece. Live: .epx-prob on /solutions/help-desk-ticketing/ (rules ported).",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading. Line breaks are kept." },
+		"title_accent": { "type": "string", "required": false, "default": "", "description": "Part of the heading painted with the brand gradient." },
+		"sub_title": { "type": "string", "required": false, "default": "", "description": "Copy-column heading. Line breaks are kept; \"UrsaAI\" renders as the brand mark." },
+		"body": { "type": "string", "required": false, "default": "", "description": "Copy paragraphs, one per line. \"UrsaAI\" renders as the brand mark." },
+		"bullets": { "type": "array", "required": false, "default": [], "description": "Bullet list under the paragraphs. Each: text (a plain string also works)." },
+		"blur": { "type": "string", "required": false, "default": "", "description": "Blurred backdrop image of the art frame (live 672x470, placed at -33,-33; hidden below 701px)." },
+		"ring": { "type": "string", "required": false, "default": "", "description": "Ring artwork, drawn behind the panda (595x397) and again inside the orb (232x155)." },
+		"panda": { "type": "string", "required": false, "default": "", "description": "Panda image (live 610x407, shown through a 259x276 window)." },
+		"panda_alt": { "type": "string", "required": false, "default": "", "description": "Panda alt text." },
+		"orb": { "type": "string", "required": false, "default": "", "description": "Image inside the UrsaAI orb (live 144x100, cropped to an 80px circle window)." },
+		"chips": { "type": "array", "required": false, "default": [], "description": "Floating feature chips on the art frame. Each: label; optional icon_svg; x, y (px in the 606x400 frame), w (px width); mx, my (px position below 701px, defaults to x/y). The first four get staggered entrances." }
+	}
+}

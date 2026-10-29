@@ -1,0 +1,92 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/faq",
+	"title": "AP Faq",
+	"category": "design",
+	"icon": "editor-help",
+	"description": "FAQ accordion: a centred heading over ruled question rows that open in place. Live: the `.ap-faq` section on every vertical, hub and solution page. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"items": {
+			"type": "array",
+			"default": []
+		},
+		"open_first": {
+			"type": "boolean",
+			"default": true
+		},
+		"schema": {
+			"type": "boolean",
+			"default": false
+		},
+		"reveal": {
+			"type": "boolean",
+			"default": true
+		},
+		"variant": {
+			"type": "string",
+			"default": "default",
+			"enum": [
+				"default",
+				"vertical",
+				"hub",
+				"eduhub"
+			]
+		},
+		"title_gap_m": {
+			"type": "number",
+			"default": -1
+		},
+		"title_gap": {
+			"type": "number",
+			"default": 28
+		},
+		"tone": {
+			"type": "string",
+			"default": "gradient",
+			"enum": [
+				"gradient",
+				"white",
+				"fade"
+			]
+		},
+		"question_tone": {
+			"type": "string",
+			"default": "default",
+			"enum": [
+				"default",
+				"accent"
+			]
+		},
+		"layout": {
+			"type": "string",
+			"default": "stack",
+			"enum": [
+				"stack",
+				"split"
+			]
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

@@ -1,0 +1,224 @@
+/*
+ * login-splash — port of the live theme's .login-splash rules (the 20
+ * /login-splash-N/ pages framed by the product's login screen).
+ *
+ * Live: header and footer hidden, main padded 92px, the first section 100vh
+ * with its .bs-background picture pinned top-left (min-width/min-height 100%,
+ * never scaled down), a Bootstrap container (100% / 576 / 768 / 992 / 1340px,
+ * 15px gutters) and a centred col-md-8 or col-md-6 column (full width below
+ * 768px). Headings are Manrope, fluid between 320 and 1200px exactly as the
+ * live theme sizes them (h1 900, -1px; h2 700), copy 16/24px, the button is
+ * live's green .primary-fill-button. All text is white on the picture.
+ * Measured on live at the five login-frame sizes (1280, 960, 853, 683, 390px
+ * wide; frame = col-md-8 of the login page, 100vh + 125px tall).
+ */
+
+.ap-login-splash,
+.ap-login-splash * {
+	box-sizing: border-box;
+}
+
+/* Live clips sideways overflow (its html/body overflow-x:hidden): the header art can be 110% of the column. */
+.ap-login-splash {
+	overflow-x: clip;
+	padding-top: 92px;
+	background: var(--ap-white);
+	font-family: var(--ap-font-body);
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.5;
+	color: var(--ap-white);
+	text-align: center;
+}
+
+.ap-login-splash :where(h1, h2, p) {
+	text-wrap: wrap;
+}
+
+.ap-login-splash__panel {
+	position: relative;
+	height: 100vh;
+	margin: 0;
+	padding: 0;
+}
+
+.ap-login-splash__bg {
+	position: absolute;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	pointer-events: none;
+}
+
+.ap-login-splash__bg img {
+	display: block;
+	width: auto;
+	height: auto;
+	min-width: 100%;
+	min-height: 100%;
+	max-width: none;
+}
+
+.ap-login-splash__container {
+	position: relative;
+	z-index: 2;
+	width: 100%;
+	margin: 0 auto;
+	padding: 0 15px;
+}
+
+.ap-login-splash__col {
+	width: auto;
+	margin: 0 -15px;
+	padding: 0 15px;
+}
+
+@media (min-width: 576px) {
+	.ap-login-splash__container { max-width: 576px; }
+}
+
+@media (min-width: 768px) {
+	.ap-login-splash__container { max-width: 768px; }
+	.ap-login-splash__col { margin: 0 auto; }
+	.ap-login-splash__col--8 { width: 66.66667%; }
+	.ap-login-splash__col--6 { width: 50%; }
+	/* The row's -15px margins sit outside the 15px container padding. */
+	.ap-login-splash__container { padding: 0; }
+	.ap-login-splash__col--8,
+	.ap-login-splash__col--6 { padding: 0 15px; }
+}
+
+@media (min-width: 992px) {
+	.ap-login-splash__container { max-width: 992px; }
+}
+
+@media (min-width: 1340px) {
+	.ap-login-splash__container { max-width: 1340px; }
+}
+
+.ap-login-splash__space {
+	display: block;
+}
+
+.ap-login-splash .ap-login-splash__h1,
+.ap-login-splash .ap-login-splash__h2 {
+	margin: 0 0 8px;
+	padding: 0;
+	color: var(--ap-white);
+	font-family: "Manrope", sans-serif;
+	text-align: center;
+	text-transform: none;
+}
+
+.ap-login-splash .ap-login-splash__h1 {
+	font-size: min(42px, calc(22.2px + 1.65vw));
+	font-weight: 900;
+	line-height: 1.19048;
+	letter-spacing: -1px;
+}
+
+.ap-login-splash .ap-login-splash__h2 {
+	font-size: min(40px, calc(22px + 1.5vw));
+	font-weight: 700;
+	line-height: 1.2;
+	letter-spacing: normal;
+}
+
+.ap-login-splash .ap-login-splash__text {
+	margin: 0 0 16px;
+	padding: 0;
+	color: var(--ap-white);
+	font-family: "Manrope", Calibri, sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 24px;
+	text-align: center;
+}
+
+.ap-login-splash .ap-login-splash__text--bold {
+	font-weight: 700;
+}
+
+/* Images sit in the line like live's <img> inside a centred <h2>: centred while
+   they fit, starting at the column's left edge when wider. */
+.ap-login-splash__art {
+	margin: 0 0 8px;
+	line-height: 0;
+	text-align: center;
+	white-space: nowrap;
+}
+
+.ap-login-splash__art img {
+	display: inline-block;
+	max-width: none;
+	height: auto;
+	vertical-align: top;
+}
+
+.ap-login-splash__art--wide img {
+	max-width: 110%;
+}
+
+.ap-login-splash__btn-row {
+	text-align: center;
+	line-height: 0;
+}
+
+.ap-login-splash .ap-login-splash__btn {
+	display: inline-block;
+	padding: 15px 25px;
+	border: none;
+	border-radius: 6px;
+	background: #2b8e16;
+	color: var(--ap-white);
+	font-family: "Manrope", sans-serif;
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 19px;
+	text-align: center;
+	text-decoration: none;
+	transition: background-color var(--ap-dur-base, .3s) var(--ap-ease-standard, ease-in-out);
+}
+
+.ap-login-splash .ap-login-splash__btn:hover,
+.ap-login-splash .ap-login-splash__btn:focus-visible {
+	background: #2e9f16;
+	color: var(--ap-white);
+}
+
+.ap-login-splash__cta {
+	display: table;
+	margin: 0 auto;
+	line-height: 24px;
+}
+
+.ap-login-splash__cta a {
+	color: #007bff;
+}
+
+.ap-login-splash__cta img {
+	max-width: 100%;
+	height: auto;
+	border: 0;
+	vertical-align: middle;
+}
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-login-splash.ap-login-splash.ap-login-splash .ap-login-splash__h1 { font-size: var(--ap-type-h1-size); font-weight: var(--ap-type-h1-weight); line-height: var(--ap-type-h1-line); letter-spacing: var(--ap-type-h1-track); }
+html body .ap-login-splash.ap-login-splash.ap-login-splash .ap-login-splash__h2 { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+
+
+/* QA 2026-10-29: on phones the event artwork (e.g. the 480px Panda Pit Stop logo) ran off the right edge
+   of the screen. Below 576px every art image fits the column; wider screens keep live's behaviour. */
+@media (max-width: 575.98px) {
+	.ap-login-splash__art img,
+	.ap-login-splash__art--wide img {
+		max-width: 100%;
+	}
+}

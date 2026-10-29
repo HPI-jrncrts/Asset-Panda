@@ -1,0 +1,189 @@
+/*
+ * site-footer — the global footer.
+ *
+ * Ported from the live 2026 footer (#ap-final-footer-v1): its rules in the
+ * e25-base-theme-child stylesheet (the same block the homepage repeats inline)
+ * and the Customizer override that swaps in the 2026/09 backdrop art. The root
+ * id became the component root class; inner class names, values and order are
+ * live's, so the port stays diffable. Live marks every declaration important
+ * to beat its theme; scoped under the root these rules already outrank the dev
+ * theme's (element and single-class rules), so the flags are gone, and the
+ * kit's own page rules (demo-footer, demo-confirm), which are marked
+ * important, still win. Left behind: the dead layers live hides
+ * (.ap-final-footer-bg and its gradients), rules for markup the footer no
+ * longer has (.ap-ursa-link, .ap-footer-apps), and the page-level html/body
+ * overflow hack (the block is already full width).
+ *
+ * Added, each marked below: the type live's footer inherits from its theme,
+ * the hover states live's sitewide button script paints, live's inline style
+ * on the badge column, and guards against the dev theme's own rules.
+ */
+
+/*
+ * The block theme spaces every top-level part 1.2rem apart. Live's footer
+ * sits flush under the last section on every page.
+ */
+.wp-block-template-part:has(.ap-site-footer) {
+	margin-block-start: 0;
+	margin-block-end: 0;
+}
+
+/*
+ * Pages that close with their own CTA band (the solution, hub, vertical and
+ * platform pages) hide the footer's, as their live counterparts do.
+ */
+body:has(.ap-solution-cta, .ap-demo-cta, .ap-platform-cta) .ap-site-footer .ap-final-cta-section {
+	display: none;
+}
+
+/* ------------------------------------------------------------ live port */
+
+.ap-site-footer { position: relative; width: 100%; max-width: none; margin: 0px; padding: 80px 24px 52px; overflow: hidden; isolation: isolate; font-family: Manrope, Arial, sans-serif; color: rgb(0, 0, 0); background-image: var(--ap-site-footer-bg); background-repeat: no-repeat; background-position: center top; background-size: 100% 100%; background-color: rgb(249, 250, 251); }
+.ap-site-footer, .ap-site-footer *, .ap-site-footer *::before, .ap-site-footer *::after { box-sizing: border-box; }
+.ap-site-footer .ap-final-footer-inner { position: relative; z-index: 2; width: 100%; max-width: 1120px; margin: 0px auto; display: flex; flex-direction: column; align-items: stretch; }
+.ap-site-footer .ap-final-cta-section { width: 100%; margin: 0px; padding: 0px 0px 72px; }
+.ap-site-footer .ap-final-cta-card { position: relative; width: 100%; min-height: 532px; border-radius: 16px; overflow: hidden; background: linear-gradient(256.98deg, rgb(102, 102, 238) -2.19%, rgb(32, 28, 74) 99.99%); box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 12px; padding: 80px 64px; }
+.ap-site-footer .ap-final-cta-card::after { content: ""; position: absolute; z-index: 1; right: -140px; top: -140px; width: 520px; height: 520px; border-radius: 999px; background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 68%); pointer-events: none; }
+.ap-site-footer .ap-final-cta-copy { position: relative; z-index: 3; width: 488px; max-width: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: 40px; }
+.ap-site-footer .ap-text-group, .ap-site-footer .ap-heading-group, .ap-site-footer .ap-paragraph-group { width: 488px; max-width: 100%; }
+.ap-site-footer .ap-text-group, .ap-site-footer .ap-heading-group { display: flex; flex-direction: column; align-items: flex-start; }
+.ap-site-footer .ap-text-group { gap: 24px; }
+.ap-site-footer .ap-heading-group { gap: 16px; }
+.ap-site-footer .ap-eyebrow { margin: 0px; width: 100%; color: rgb(131, 140, 246); font-size: 16px; line-height: 1.2; font-weight: 800; }
+.ap-site-footer h2 { margin: 0px; width: 100%; color: rgb(255, 255, 255); font-size: 40px; line-height: 1.2; font-weight: 800; letter-spacing: -0.02em; }
+.ap-site-footer .ap-paragraph-group p { margin: 0px; width: 100%; color: rgb(255, 255, 255); font-size: 18px; line-height: 1.5; font-weight: 400; }
+.ap-site-footer .ap-btn-group { position: relative; z-index: 4; display: flex; flex-flow: row; align-items: center; justify-content: flex-start; gap: 16px; width: auto; max-width: 100%; }
+.ap-site-footer .ap-btn { display: inline-flex; justify-content: center; align-items: center; flex: 0 0 auto; width: auto; min-height: 47px; padding: 14px 16px; border-radius: 4px; font-family: Manrope, Arial, sans-serif; font-size: 16px; line-height: 1.2; font-weight: 700; text-align: center; text-decoration: none; white-space: nowrap; box-shadow: none; cursor: pointer; transition: transform 0.2s, opacity 0.2s, background-color 0.2s; }
+.ap-site-footer .ap-btn:hover, .ap-site-footer .ap-btn:focus { transform: translateY(-1px); text-decoration: none; }
+.ap-site-footer .ap-btn-primary { min-width: 131px; color: rgb(255, 255, 255); background: linear-gradient(54.33deg, rgb(80, 68, 225) 0%, rgb(0, 169, 145) 70.44%); border: 1px solid transparent; }
+.ap-site-footer .ap-btn-primary:hover, .ap-site-footer .ap-btn-primary:focus { color: rgb(255, 255, 255); opacity: 0.9; }
+.ap-site-footer .ap-btn-outline { min-width: 129px; color: rgb(0, 169, 145); background: transparent; border: 1px solid rgb(0, 169, 145); }
+.ap-site-footer .ap-btn-outline:hover, .ap-site-footer .ap-btn-outline:focus { color: rgb(255, 255, 255); background: rgb(0, 169, 145); border-color: rgb(0, 169, 145); }
+.ap-site-footer .ap-final-cta-art { position: absolute; z-index: 2; right: 0px; bottom: 0px; width: 563px; max-width: 54%; height: 384px; display: flex; align-items: flex-end; justify-content: flex-end; pointer-events: none; }
+.ap-site-footer .ap-final-cta-art img { display: block; width: 563px; max-width: 100%; height: auto; object-fit: contain; object-position: right bottom; }
+.ap-site-footer .ap-footer-links-section { width: 100%; margin: 0px; padding: 0px; }
+.ap-site-footer .ap-footer-navs { width: 100%; max-width: 1120px; display: flex; flex-flow: row; justify-content: center; align-items: flex-start; }
+.ap-site-footer .ap-footer-col { width: 186.67px; min-width: 180px; max-width: 188px; flex: 1 1 0px; padding: 0px 14px 20px; display: flex; flex-direction: column; align-items: flex-start; }
+.ap-site-footer .ap-footer-brand { min-height: 193px; justify-content: flex-start; }
+.ap-site-footer .ap-footer-logo { display: inline-flex; align-items: center; width: 112.5px; height: 42.37px; margin: 0px; text-decoration: none; }
+.ap-site-footer .ap-footer-logo img { display: block; width: 112.5px; height: auto; max-height: 42.37px; object-fit: contain; object-position: left center; }
+.ap-site-footer address { margin: 0px; padding-top: 22px; width: 158.67px; color: rgb(0, 0, 0); font-style: normal; font-size: 12px; line-height: 1.5; font-weight: 400; }
+.ap-site-footer .ap-socials { width: 161px; display: flex; flex-direction: row; align-items: center; justify-content: flex-start; gap: 12px; padding-top: 35px; padding-bottom: 16px; }
+.ap-site-footer .ap-socials a { width: 18px; height: 18px; min-height: 18px; flex: 0 0 18px; display: inline-flex; align-items: center; justify-content: center; margin: 0px; padding: 0px; text-decoration: none; }
+.ap-site-footer .ap-socials img { display: block; width: 18px; height: 18px; object-fit: contain; }
+.ap-site-footer h3 { width: 158.67px; height: 24px; margin: 0px 0px 8px; color: rgb(0, 0, 0); font-size: 20px; line-height: 1.2; font-weight: 400; }
+.ap-site-footer .ap-footer-col > a { width: 158.67px; min-height: 30px; display: flex; align-items: center; margin: 0px; padding: 6px 0px 3px; color: rgb(91, 97, 110); font-size: 12px; line-height: 1.5; font-weight: 400; text-decoration: none; }
+.ap-site-footer .ap-footer-col a:hover { color: rgb(80, 68, 225); }
+.ap-site-footer .ap-store-badge { width: 120px; height: 40px; min-height: 40px; display: flex; align-items: center; justify-content: flex-start; margin: 0px; padding: 0px; background: transparent; border: 0px; border-radius: 0px; text-decoration: none; }
+.ap-site-footer .ap-store-badge + .ap-store-badge { margin-top: 6px; }
+.ap-site-footer .ap-store-badge img { display: block; width: 120px; height: 40px; object-fit: contain; object-position: left center; }
+.ap-site-footer .ap-footer-copy { width: 100%; max-width: 1120px; padding: 10px 0px 0px 14px; }
+.ap-site-footer .ap-footer-copy p { margin: 0px; color: rgb(0, 0, 0); font-size: 12px; line-height: 1.5; font-weight: 400; }
+@media (max-width: 1279px) {
+	.ap-site-footer { padding: 72px 32px 52px; }
+	.ap-site-footer .ap-final-cta-card { min-height: 500px; padding: 64px 48px; }
+	.ap-site-footer .ap-final-cta-art { width: 520px; max-width: 52%; }
+}
+@media (max-width: 1199px) {
+	.ap-site-footer .ap-footer-navs { flex-wrap: wrap; row-gap: 32px; }
+	.ap-site-footer .ap-footer-col { flex: 0 1 33.333%; max-width: none; }
+}
+@media (max-width: 991px) {
+	.ap-site-footer { padding: 64px 32px 52px; }
+	.ap-site-footer .ap-final-cta-section { padding-bottom: 64px; }
+	.ap-site-footer .ap-final-cta-card { min-height: auto; padding: 48px 32px 0px; }
+	.ap-site-footer .ap-final-cta-copy { width: 100%; max-width: 520px; }
+	.ap-site-footer .ap-final-cta-art { position: relative; right: auto; bottom: auto; width: 100%; max-width: 100%; height: auto; min-height: 260px; margin-top: 32px; justify-content: flex-end; }
+	.ap-site-footer .ap-final-cta-art img { width: 500px; max-width: 100%; }
+}
+@media (max-width: 767px) {
+	.ap-site-footer { padding: 40px 20px 64px; }
+	.ap-site-footer .ap-final-cta-section { padding-bottom: 56px; }
+	.ap-site-footer .ap-final-cta-card { padding: 40px 18px 0px; }
+	.ap-site-footer .ap-final-cta-copy { gap: 24px; }
+	.ap-site-footer .ap-text-group, .ap-site-footer .ap-heading-group, .ap-site-footer .ap-paragraph-group { width: 100%; }
+	.ap-site-footer .ap-eyebrow { font-size: 16px; }
+	.ap-site-footer h2 { font-size: 24px; }
+	.ap-site-footer .ap-paragraph-group p { font-size: 16px; }
+	.ap-site-footer .ap-btn-group { flex-wrap: nowrap; gap: 16px; }
+	.ap-site-footer .ap-btn { font-size: 16px; padding: 14px 16px; }
+	.ap-site-footer .ap-final-cta-art { min-height: 220px; margin-top: 28px; }
+	.ap-site-footer .ap-final-cta-art img { width: 390px; }
+	.ap-site-footer .ap-footer-navs { display: grid; grid-template-columns: 1fr 1fr; gap: 32px 24px; }
+	.ap-site-footer .ap-footer-col { width: 100%; min-width: 0px; max-width: none; padding: 0px; }
+	.ap-site-footer .ap-footer-brand { grid-column: auto; }
+	.ap-site-footer h3, .ap-site-footer address, .ap-site-footer .ap-socials, .ap-site-footer .ap-footer-col > a { width: 100%; }
+	.ap-site-footer .ap-store-badge, .ap-site-footer .ap-store-badge img { width: 150px; height: 50px; }
+	.ap-site-footer .ap-footer-copy { padding-left: 0px; padding-top: 24px; text-align: center; }
+	.ap-site-footer .ap-footer-copy p { text-align: center; }
+}
+@media (max-width: 480px) {
+	.ap-site-footer .ap-final-cta-card { padding: 40px 18px 0px; }
+	.ap-site-footer h2 { font-size: 24px; }
+	.ap-site-footer .ap-final-cta-art { min-height: 190px; }
+	.ap-site-footer .ap-final-cta-art img { width: 340px; }
+}
+@media (max-width: 360px) {
+	.ap-site-footer .ap-btn-group { width: 100%; flex-direction: column; align-items: stretch; }
+	.ap-site-footer .ap-btn { width: 100%; }
+}
+
+/* ------------------------------------------------------------ additions */
+
+/*
+ * Live's badge column carries this as an inline style; nothing on dev
+ * competes with it, so a scoped rule does the same.
+ */
+.ap-site-footer .ap-footer-brand-apps { display: flex; flex-direction: column; gap: 6px; padding-top: 16px; }
+
+/*
+ * Live's theme sets Manrope on every h2, h3, p, span, a and div inside an
+ * ap-* section (`[id^="ap-"] …`); the rest inherits the root's.
+ */
+.ap-site-footer :is(h2, h3, p, span, a, div) { font-family: Manrope, Arial, sans-serif; }
+
+/*
+ * The body type live's footer inherits (16px / 1.5, weight 400, normal
+ * tracking, left-aligned). The dev theme's body is 22px / 1.4, weight 300,
+ * -0.1px tracking.
+ */
+.ap-site-footer { font-size: 16px; font-weight: 400; line-height: 1.5; letter-spacing: normal; text-align: left; }
+
+/*
+ * Live's theme base rules for what the footer leaves unstyled, restated at
+ * (0,0,2) so the dev theme's element rules (0,0,1, loaded later) do not win
+ * and any footer class rule still does: link colour, image alignment, and
+ * headings and paragraphs with normal tracking and wrapping (the dev theme
+ * sets -0.1px on headings and text-wrap: pretty).
+ */
+html :where(.ap-site-footer) a { color: rgb(0, 123, 255); background-color: transparent; text-decoration: none; }
+html :where(.ap-site-footer) img { vertical-align: middle; border-style: none; }
+html :where(.ap-site-footer) :is(h2, h3) { letter-spacing: normal; }
+html :where(.ap-site-footer) :is(h2, h3, p) { text-wrap: wrap; }
+
+/*
+ * Focus rings as on live: the browser default, for keyboard focus only. The
+ * dev theme outlines every :focus 2px solid, mouse clicks included.
+ */
+.ap-site-footer :focus:not(:focus-visible) { outline: none; }
+.ap-site-footer :focus-visible { outline-style: auto; outline-width: 1px; }
+
+/*
+ * Live restyles the CTA buttons from a sitewide script (in the plugin's
+ * header markup); these rules paint the same states.
+ *  - Primary: a second gradient fades in over the button (live injects
+ *    .ap-grad-hov-ov and wraps the label in .ap-btn-lbl; the markup carries
+ *    both) and a 1px inset ring appears.
+ *  - Outline: pale mint fill, mint border, teal text.
+ * The script reacts to focus as well as hover.
+ */
+.ap-site-footer .ap-btn.ap-btn-primary { position: relative; background-image: linear-gradient(54.33deg, #5044e1 0%, #00a991 70.44%); transition: box-shadow 0.35s ease; }
+.ap-site-footer .ap-btn-primary .ap-grad-hov-ov { position: absolute; inset: 0; z-index: 1; border-radius: inherit; background-image: linear-gradient(54.33deg, #5044e1 -20%, #00a991 60%); opacity: 0; transition: opacity 0.35s ease; pointer-events: none; }
+.ap-site-footer .ap-btn-primary .ap-btn-lbl { position: relative; z-index: 2; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.ap-site-footer .ap-btn.ap-btn-primary:hover, .ap-site-footer .ap-btn.ap-btn-primary:focus { box-shadow: inset 0 0 0 1px #009882; }
+.ap-site-footer .ap-btn-primary:hover .ap-grad-hov-ov, .ap-site-footer .ap-btn-primary:focus .ap-grad-hov-ov { opacity: 1; }
+.ap-site-footer .ap-btn.ap-btn-outline { transition: background-color 0.28s ease, border-color 0.28s ease, color 0.28s ease; }
+.ap-site-footer .ap-btn.ap-btn-outline:hover, .ap-site-footer .ap-btn.ap-btn-outline:focus { color: #04c8a8; background-color: #effefa; border-color: #c7fff1; }
+
+/* The dev child theme brightens every .ap-btn on hover; live does not. */
+.ap-site-footer .ap-btn:hover, .ap-site-footer .ap-btn:focus { filter: none; }

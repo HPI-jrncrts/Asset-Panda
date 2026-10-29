@@ -1,0 +1,211 @@
+/* feature-cards — heading + capability checklist.
+ * Figma: Intelligence In Action (4331:24627). Padding 80 top / 40 bottom,
+ * background white -> slate-50, 355px heading column, 64px gutter. */
+
+.ap-fcards {
+	padding-block: var(--ap-pad-y-md) var(--ap-pad-y-sm);
+	padding-inline: var(--ap-pad-x-xs);
+	background: linear-gradient(to bottom, var(--ap-white), var(--ap-slate-50));
+	font-family: var(--ap-font-body);
+}
+
+.ap-fcards__inner {
+	max-width: var(--ap-page-max-content-xl);
+	margin-inline: auto;
+	display: grid;
+	gap: var(--ap-surf-gap-5xl);
+	align-items: start;
+}
+
+.ap-fcards__head { display: grid; gap: var(--ap-surf-gap-lg); }
+
+.ap-fcards__eyebrow {
+	margin: 0;
+	font-family: var(--ap-font-utility);
+	font-size: var(--ap-fs-eyebrow);
+	font-weight: var(--ap-weight-eyebrow);
+	line-height: var(--ap-line-eyebrow);
+	letter-spacing: var(--ap-ls-eyebrow);
+	text-transform: uppercase;
+	color: var(--ap-text-eyebrow);
+}
+
+.ap-fcards__title {
+	margin: 0;
+	font-family: var(--ap-font-display);
+	font-size: var(--ap-fs-h2);
+	font-weight: var(--ap-weight-heading);
+	line-height: var(--ap-line-h2);
+	color: var(--ap-text-heading);
+}
+
+/* Gradient accent line. background-clip:text paints only inside the text box,
+ * so the small top padding keeps tall glyphs from being sliced. */
+.ap-fcards__accent {
+	display: block;
+	padding-top: 0.06em;
+	background-image: var(--ap-gradient-text);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+
+@media (forced-colors: active) {
+	.ap-fcards__accent { background-image: none; color: CanvasText; }
+}
+
+.ap-fcards__intro {
+	margin: 0;
+	font-size: var(--ap-fs-text-md);
+	line-height: var(--ap-line-body);
+	color: var(--ap-text-body);
+}
+
+.ap-fcards__list {
+	display: grid;
+	gap: var(--ap-surf-gap-3xl);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ap-fcards__item {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--ap-surf-gap-md);
+	min-width: 0;
+}
+
+.ap-fcards__icon {
+	flex: none;
+	display: block;
+	inline-size: 40px;
+	block-size: 40px;
+}
+
+.ap-fcards__text {
+	display: grid;
+	gap: var(--ap-surf-gap-lg);
+	padding-top: var(--ap-surf-pad-sm);
+	min-width: 0;
+}
+
+.ap-fcards__item-title {
+	margin: 0;
+	font-family: var(--ap-font-display);
+	font-size: var(--ap-fs-h5);
+	font-weight: var(--ap-weight-heading);
+	line-height: var(--ap-line-h5);
+	color: var(--ap-text-heading);
+}
+
+.ap-fcards__item-body {
+	margin: 0;
+	font-size: var(--ap-fs-text-md);
+	line-height: var(--ap-line-body);
+	color: var(--ap-text-body);
+}
+
+@media (min-width: 768px) {
+	.ap-fcards__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (min-width: 992px) {
+	.ap-fcards__inner { grid-template-columns: 355px minmax(0, 1fr); }
+}
+
+/* ---- Phones: an accordion (Figma Home Mobile 4333:40892) ----
+ * behaviour.js adds the toggles. Without it every item stays open, which is
+ * just the desktop list restyled — a safe fallback. */
+@media (max-width: 767.98px) {
+	.ap-fcards { padding-top: var(--ap-pad-y-lg); }
+	.ap-fcards__list { gap: var(--ap-surf-gap-md); }
+	.ap-fcards__icon { display: none; }
+
+	.ap-fcards__item {
+		display: block;
+		padding: var(--ap-surf-pad-lg) var(--ap-surf-gap-md) var(--ap-surf-pad-lg) var(--ap-surf-pad-lg);
+		background: var(--ap-athens-100);
+		border-radius: var(--ap-radius-sm);
+	}
+
+	.ap-fcards__item.is-open { background: var(--ap-indigo-100); }
+	.ap-fcards__text { padding-top: 0; }
+	.ap-fcards__item-body { font-size: var(--ap-fs-text-reg); }
+
+	[data-ap-fcards-accordion] .ap-fcards__item:not(.is-open) .ap-fcards__item-body { display: none; }
+
+	.ap-fcards__toggle {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--ap-surf-gap-md);
+		width: 100%;
+		padding: 0;
+		font: inherit;
+		color: inherit;
+		text-align: left;
+		background: none;
+		border: 0;
+		cursor: pointer;
+	}
+
+	.ap-fcards__toggle:focus-visible {
+		outline: var(--ap-border-medium) solid var(--ap-focus-ring);
+		outline-offset: 4px;
+		border-radius: var(--ap-radius-sm);
+	}
+
+	/* 24px chevron: teal pointing down when closed, indigo pointing up when open. */
+	.ap-fcards__chevron { position: relative; flex: none; inline-size: 24px; block-size: 24px; }
+
+	.ap-fcards__chevron::before {
+		content: "";
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		inline-size: 8px;
+		block-size: 8px;
+		border-right: var(--ap-border-medium) solid var(--ap-brand-green);
+		border-bottom: var(--ap-border-medium) solid var(--ap-brand-green);
+		translate: -50% -70%;
+		rotate: 45deg;
+	}
+
+	.ap-fcards__item.is-open .ap-fcards__chevron::before {
+		border-color: var(--ap-brand-indigo);
+		translate: -50% -30%;
+		rotate: 225deg;
+	}
+}
+
+/* Border-box sizing for everything in the component, as on the live homepage;
+ * :where() keeps it at zero specificity. */
+:where(.ap-fcards, .ap-fcards *, .ap-fcards *::before, .ap-fcards *::after) { box-sizing: border-box; }
+
+/* Live homepage spacing (feature-cards): 28px phone gutters; 96/104px bands on desktop. */
+@media (max-width: 767.98px) {
+	.ap-fcards { padding-inline: 28px; }
+}
+
+@media (min-width: 992px) {
+	.ap-fcards { padding-block: 96px 104px; }
+}
+
+/* Phones: a 40px bottom band, as on the live homepage. */
+@media (max-width: 767.98px) {
+	.ap-fcards { padding-bottom: var(--ap-pad-y-md); }
+}
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: --ap-section-y top and bottom (was the Figma pad-y steps,
+ * 80 / 40 up to 96 / 104). */
+html body .ap-fcards.ap-fcards { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-fcards.ap-fcards.ap-fcards .ap-fcards__title { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+/* Section eyebrow on the type scale too: 12px at 390 to 14px at 1440, 800, 4% tracking, upper case. */
+html body .ap-fcards.ap-fcards.ap-fcards .ap-fcards__eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }

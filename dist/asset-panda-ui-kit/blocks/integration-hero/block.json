@@ -1,0 +1,57 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/integration-hero",
+	"title": "AP Integration Hero",
+	"category": "design",
+	"icon": "block-default",
+	"description": "Integration detail page hero: a centred eyebrow, a frosted card pairing the partner logo with the Asset Panda PRO mark, the H1 and one call to action, over the soft colour wash of the 2026 heroes. Figma: Integrations Detail Page Template > Hero Section (7318:166961). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"logo": {
+			"type": "string",
+			"default": ""
+		},
+		"logo_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"brand_logo": {
+			"type": "string",
+			"default": ""
+		},
+		"brand_logo_alt": {
+			"type": "string",
+			"default": "Asset Panda PRO"
+		},
+		"cta_label": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_url": {
+			"type": "string",
+			"default": ""
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

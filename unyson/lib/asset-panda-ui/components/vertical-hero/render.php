@@ -146,8 +146,23 @@ $title_tag = '' !== $eyebrow ? 'h2' : 'h1';
 // Only "1440/640"-shaped ratios reach the style attribute; anything else keeps
 // the stylesheet default.
 $ap_ratio = preg_match( '#^\s*(\d+(?:\.\d+)?)\s*/\s*(\d+(?:\.\d+)?)\s*$#', (string) $props['ratio'], $ap_rm ) ? $ap_rm[1] . '/' . $ap_rm[2] : '';
+$ap_style = '' !== $ap_ratio ? array( '--ap-vhero-ratio:' . $ap_ratio ) : array();
+// Phone copy offset and the K-12 flowing phone hero, from numbers alone.
+$ap_m_top = $num( $props['m_top'] );
+if ( null !== $ap_m_top && $ap_m_top >= 0 && $ap_m_top <= 240 ) {
+	$ap_style[] = '--m-top:' . $ap_m_top . 'px';
+}
+$ap_flow   = is_array( $props['m_flow'] ) ? $props['m_flow'] : array();
+$ap_f_px   = $num( $ap_flow['pad_px'] ?? null );
+$ap_f_vw   = $num( $ap_flow['pad_vw'] ?? null );
+$ap_f_art  = $num( $ap_flow['art_vw'] ?? null );
+$ap_m_flow = null !== $ap_f_px && null !== $ap_f_vw && null !== $ap_f_art && $ap_f_art > 0;
+if ( $ap_m_flow ) {
+	$ap_style[] = '--m-pad:calc(' . $ap_f_px . 'px + ' . $ap_f_vw . 'vw)';
+	$ap_style[] = '--m-art:' . $ap_f_art . 'vw';
+}
 ?>
-<section class="ap-vhero"<?php echo '' !== $ap_ratio ? ' style="' . esc_attr( '--ap-vhero-ratio:' . $ap_ratio ) . '"' : ''; ?>>
+<section class="ap-vhero<?php echo 'overlay' === $props['tablet'] ? ' ap-vhero--overlay' : ''; ?><?php echo $ap_m_flow ? ' ap-vhero--mflow' : ''; ?>"<?php echo $ap_style ? ' style="' . esc_attr( implode( ';', $ap_style ) ) . '"' : ''; ?>>
 	<div class="ap-vhero__stage" aria-hidden="true">
 		<?php if ( '' !== $dashboard ) : ?>
 			<img class="ap-vhero__layer ap-vhero__dash" style="<?php echo esc_attr( $place( $layout['dash'] ?? null, $box ) ); ?>" src="<?php echo esc_url( $dashboard ); ?>" alt="" decoding="async" fetchpriority="high" />

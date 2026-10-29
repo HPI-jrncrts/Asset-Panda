@@ -1,0 +1,107 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/intel-dashboard",
+	"title": "AP Intel Dashboard",
+	"category": "design",
+	"icon": "chart-area",
+	"description": "Asset Intelligence dashboard: heading and lede over a dashboard table with floating image chips and mock tip cards, then a check list and two buttons. Live: .epx-dash on the Emergency Preparedness, School Reunification, Help Desk and September 2026 solution pages. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"variant": {
+			"type": "string",
+			"default": "solution",
+			"enum": [
+				"readiness",
+				"reunification",
+				"service",
+				"solution"
+			]
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"title_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"image": {
+			"type": "string",
+			"default": ""
+		},
+		"image_mobile": {
+			"type": "string",
+			"default": ""
+		},
+		"image_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"background": {
+			"type": "string",
+			"default": ""
+		},
+		"background_mobile": {
+			"type": "string",
+			"default": ""
+		},
+		"chips": {
+			"type": "array",
+			"default": []
+		},
+		"tips": {
+			"type": "array",
+			"default": []
+		},
+		"check_svg": {
+			"type": "string",
+			"default": ""
+		},
+		"chips_anchor": {
+			"type": "string",
+			"default": "section",
+			"enum": [
+				"section",
+				"dashboard"
+			]
+		},
+		"head_width": {
+			"type": "number",
+			"default": 0
+		},
+		"check_width": {
+			"type": "number",
+			"default": 0
+		},
+		"checks": {
+			"type": "array",
+			"default": []
+		},
+		"ctas": {
+			"type": "array",
+			"default": []
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

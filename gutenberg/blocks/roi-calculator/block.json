@@ -1,0 +1,73 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/roi-calculator",
+	"title": "AP Roi Calculator",
+	"category": "design",
+	"icon": "calculator",
+	"description": "Interactive savings calculator (the legacy /roi-calculator/): accordion groups of number fields and 0-100% sliders, each group closing on a subtotal, beside a sticky Your Savings panel with three breakdown rows, a gradient yearly total, the daily cost of delay and a button. Port of live's `.bs-section--roi-calculator`; behaviour.js recomputes on input with live's formulas operation for operation (loss = assets x value x lost% x tracked%; ghost value = assets x value x tracked% x ghost% x remaining%; ghost cost = ghost value x (federal + state + property tax)% + .01 x ghost value x insurance; search = tracked% x days x hours_per_day x salary / work_hours_per_year; total = loss + ghost cost + search; daily = total / days_per_year), and formats every figure the way live does (two decimals, dropped when .00). Lays out by its own width (container queries), so it fits an 800px article column or a full-width band. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"groups": {
+			"type": "array",
+			"default": []
+		},
+		"fields": {
+			"type": "array",
+			"default": []
+		},
+		"results_title": {
+			"type": "string",
+			"default": ""
+		},
+		"results": {
+			"type": "array",
+			"default": []
+		},
+		"total_label": {
+			"type": "string",
+			"default": ""
+		},
+		"daily_label": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_label": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_url": {
+			"type": "string",
+			"default": ""
+		},
+		"currency": {
+			"type": "string",
+			"default": "$"
+		},
+		"hours_per_day": {
+			"type": "number",
+			"default": 8
+		},
+		"work_hours_per_year": {
+			"type": "number",
+			"default": 2080
+		},
+		"days_per_year": {
+			"type": "number",
+			"default": 365
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

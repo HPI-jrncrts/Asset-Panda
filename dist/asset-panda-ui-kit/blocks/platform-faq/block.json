@@ -1,0 +1,45 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/platform-faq",
+	"title": "AP Platform Faq",
+	"category": "design",
+	"icon": "editor-help",
+	"description": "FAQ with the heading in a left column beside ruled questions that open in place (plus turns to minus). Live: .apx-faq on the Asset Intelligence Platform page. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"items": {
+			"type": "array",
+			"default": []
+		},
+		"title_mark": {
+			"type": "boolean",
+			"default": false
+		},
+		"open_first": {
+			"type": "boolean",
+			"default": true
+		},
+		"schema": {
+			"type": "boolean",
+			"default": false
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

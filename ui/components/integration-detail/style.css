@@ -1,0 +1,764 @@
+/* integration-detail — the body of an integration detail page.
+ * Figma: Integrations Detail Page Template > Platform Section (7318:168656).
+ * 1440: a 1120px container; section head (eyebrow 14, H2 40, lede 18, 16px
+ * apart), 40px, then a 282px sticky index beside a 780px column of parts set
+ * 80px apart. Part head: eyebrow, 16px, H3 28/1.4, 16px, body 18/1.5 (max
+ * 720px), then 40px to its media / cards / steps / help card.
+ *
+ * Below 1025px the index stops sticking and becomes a row of numbered chips
+ * under the head; cards stack below 640px.
+ *
+ * Tones (cards, steps, index dots) set two custom properties — the rule /
+ * icon colour and the 50-step wash — so one class per colour does the work. */
+
+:where(.ap-integration-detail, .ap-integration-detail *, .ap-integration-detail *::before, .ap-integration-detail *::after) {
+	box-sizing: border-box;
+}
+
+/* Live's body type, restated at zero specificity (tokens.css keeps the same list
+ * for the older components; this one is not on it yet). */
+:where(.ap-integration-detail) {
+	font-family: var(--ap-font-body);
+	font-size: 1rem;
+	font-weight: var(--ap-weight-body);
+	line-height: 1.5;
+	letter-spacing: normal;
+	color: #1d2331;
+}
+
+.ap-integration-detail {
+	/* Figma H3 28px at 1440, 22px at 390; part spacing 80 -> 56; head to body 40 -> 24. */
+	--ap-idet-h3: clamp(1.375rem, 1.2357rem + 0.5714vw, 1.75rem);
+	--ap-idet-part-gap: clamp(56px, 47.09px + 2.286vw, 80px);
+	--ap-idet-body-gap: clamp(24px, 18.06px + 1.524vw, 40px);
+	--ap-idet-sticky-top: 104px;
+	padding: var(--ap-section-y-sm, 40px) 0;
+	background: var(--ap-white);
+}
+
+.ap-integration-detail--tone-indigo { --ap-idet-tone: var(--ap-brand-indigo); --ap-idet-tone-50: var(--ap-indigo-50); }
+.ap-integration-detail--tone-teal   { --ap-idet-tone: var(--ap-brand-green);  --ap-idet-tone-50: var(--ap-green-50); }
+.ap-integration-detail--tone-amber  { --ap-idet-tone: var(--ap-brand-yellow); --ap-idet-tone-50: var(--ap-yellow-50); }
+.ap-integration-detail--tone-rose   { --ap-idet-tone: var(--ap-brand-red);    --ap-idet-tone-50: var(--ap-red-50); }
+
+.ap-integration-detail__inner {
+	width: min(var(--ap-host-container, 1120px), 100% - 48px);
+	margin: 0 auto;
+}
+
+.ap-integration-detail p,
+.ap-integration-detail h2,
+.ap-integration-detail h3,
+.ap-integration-detail h4 {
+	margin: 0;
+}
+
+/* ---- Section head ---- */
+.ap-integration-detail__head {
+	display: grid;
+	gap: var(--ap-section-title-gap, 16px);
+	margin-bottom: clamp(28px, 23.54px + 1.143vw, 40px);
+}
+
+.ap-integration-detail__eyebrow,
+.ap-integration-detail__part-eyebrow {
+	color: var(--ap-type-eyebrow-color, var(--ap-text-eyebrow));
+	font-family: var(--ap-font-utility);
+	font-size: var(--ap-type-eyebrow-size);
+	font-weight: var(--ap-type-eyebrow-weight);
+	line-height: var(--ap-type-eyebrow-line);
+	letter-spacing: var(--ap-type-eyebrow-track);
+	text-transform: uppercase;
+}
+
+.ap-integration-detail .ap-integration-detail__title {
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: var(--ap-type-h2-size);
+	font-weight: var(--ap-type-h2-weight);
+	line-height: var(--ap-type-h2-line);
+	letter-spacing: var(--ap-type-h2-track);
+	text-transform: none;
+	text-wrap: balance;
+}
+
+.ap-integration-detail__lede {
+	max-width: 820px;
+	color: var(--ap-type-lede-color, var(--ap-text-body));
+	font-size: var(--ap-type-lede-size);
+	line-height: var(--ap-type-lede-line);
+}
+
+/* head_width "full": the lede runs the whole container, as the Compare hub's
+ * one-line "Not sure which platform to consider? ..." does in Figma. */
+.ap-integration-detail--head-full .ap-integration-detail__lede {
+	max-width: none;
+}
+
+/* ---- Parts ---- */
+.ap-integration-detail__part {
+	min-width: 0;
+	scroll-margin-top: var(--ap-idet-sticky-top);
+}
+
+/* Focus lands on a part after an index jump (tabindex -1, set by behaviour.js);
+ * a ring round a whole part would only be noise. */
+.ap-integration-detail__part:focus {
+	outline: none;
+}
+
+.ap-integration-detail__part + .ap-integration-detail__part {
+	margin-top: var(--ap-idet-part-gap);
+}
+
+.ap-integration-detail__part-head {
+	display: grid;
+	gap: 16px;
+	max-width: 720px;
+}
+
+/* Specific enough to beat the lists' own margin reset below. */
+.ap-integration-detail .ap-integration-detail__part > .ap-integration-detail__part-head + * {
+	margin-top: var(--ap-idet-body-gap);
+}
+
+.ap-integration-detail .ap-integration-detail__h3 {
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: var(--ap-idet-h3);
+	font-weight: var(--ap-type-heading-weight, 800);
+	line-height: 1.4;
+	letter-spacing: var(--ap-type-heading-track, 0);
+	text-transform: none;
+	text-wrap: pretty;
+}
+
+.ap-integration-detail__copy {
+	display: grid;
+	gap: 16px;
+	color: var(--ap-text-body);
+	font-size: var(--ap-type-lede-size);
+	line-height: 1.5;
+}
+
+/* ---- Overview video: poster + play, swapped for the player in place ---- */
+.ap-integration-detail__media {
+	position: relative;
+	aspect-ratio: 737 / 413;
+	overflow: hidden;
+	background: var(--ap-slate-100);
+	border-radius: var(--ap-radius-xl);
+}
+
+.ap-integration-detail__media--bare {
+	background: var(--ap-indigo-950);
+}
+
+.ap-integration-detail__poster {
+	position: absolute;
+	inset: 0;
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.ap-integration-detail .ap-integration-detail__play {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-items: center;
+	text-decoration: none;
+	cursor: pointer;
+	-webkit-tap-highlight-color: transparent;
+}
+
+/* Figma: a 72px black-70% disc with a 20 x 16 triangle turned to point right,
+ * nudged 2px right of centre. */
+.ap-integration-detail__play-btn {
+	display: grid;
+	place-items: center;
+	width: 72px;
+	height: 72px;
+	border-radius: 50%;
+	background: url("assets/play-circle.svg") center / 72px 72px no-repeat;
+	transition: scale var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-integration-detail__play-btn img {
+	display: block;
+	width: 20px;
+	height: 16px;
+	translate: 2px 0;
+	rotate: 90deg;
+}
+
+.ap-integration-detail .ap-integration-detail__play:hover .ap-integration-detail__play-btn {
+	scale: 1.08;
+}
+
+/* The frame clips, so the focus ring sits on the disc: white, then indigo. */
+.ap-integration-detail .ap-integration-detail__play:focus { outline: none; }
+.ap-integration-detail .ap-integration-detail__play:focus-visible .ap-integration-detail__play-btn {
+	outline: 3px solid var(--ap-white);
+	outline-offset: 2px;
+	box-shadow: 0 0 0 8px var(--ap-brand-indigo);
+}
+
+.ap-integration-detail__player {
+	position: absolute;
+	inset: 0;
+	display: block;
+	width: 100%;
+	height: 100%;
+	border: 0;
+	background: var(--ap-black);
+}
+
+.ap-integration-detail__media.is-playing .ap-integration-detail__poster {
+	visibility: hidden;
+}
+
+/* ---- Key capabilities: tinted cards ---- */
+.ap-integration-detail .ap-integration-detail__cards {
+	display: grid;
+	gap: 16px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ap-integration-detail__card {
+	display: flex;
+	align-items: flex-start;
+	gap: 40px;
+	margin: 0;
+	padding: 24px 40px 24px 24px;
+	background: linear-gradient(90deg, var(--ap-white) 0%, var(--ap-idet-tone-50, var(--ap-indigo-50)) 100%);
+	border: var(--ap-border-thin) solid var(--ap-idet-tone, var(--ap-brand-indigo));
+	border-radius: var(--ap-radius-lg);
+}
+
+.ap-integration-detail__card-lead {
+	display: flex;
+	align-items: flex-start;
+	gap: 16px;
+	flex: 1 1 0;
+	min-width: 0;
+	max-width: 360px;
+}
+
+.ap-integration-detail__card-icon {
+	display: block;
+	flex: none;
+	width: 36px;
+	height: 36px;
+	color: var(--ap-idet-tone, var(--ap-brand-indigo));
+}
+
+.ap-integration-detail__card-icon img,
+.ap-integration-detail__card-icon svg {
+	display: block;
+	width: 36px;
+	height: 36px;
+}
+
+.ap-integration-detail .ap-integration-detail__card-title,
+.ap-integration-detail .ap-integration-detail__step-title {
+	flex: 1 1 0;
+	min-width: 0;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: var(--ap-type-h3-size);
+	font-weight: var(--ap-type-h3-weight);
+	line-height: var(--ap-type-h3-line);
+	letter-spacing: var(--ap-type-h3-track);
+	text-transform: none;
+}
+
+.ap-integration-detail__card-text {
+	flex: 1 1 0;
+	min-width: 0;
+	color: var(--ap-text-body);
+	font-size: var(--ap-type-lede-size);
+	line-height: 1.5;
+}
+
+/* ---- How it works: numbered steps on a coloured rule ---- */
+.ap-integration-detail .ap-integration-detail__steps {
+	display: grid;
+	gap: 28px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ap-integration-detail__step {
+	display: grid;
+	gap: 16px;
+	margin: 0;
+	padding: 24px 40px;
+	border-left: 3px solid var(--ap-idet-tone, var(--ap-brand-indigo));
+}
+
+.ap-integration-detail__step-top {
+	display: flex;
+	align-items: flex-start;
+	gap: 16px;
+}
+
+/* A light numeral in the step's colour (Figma: 32px stroke numerals). Text, so
+ * a page with five steps numbers them all the same way. */
+.ap-integration-detail__step-num {
+	display: grid;
+	place-items: center;
+	flex: none;
+	width: 32px;
+	height: 1.3em;
+	color: var(--ap-idet-tone, var(--ap-brand-indigo));
+	font-family: var(--ap-font-display);
+	font-size: var(--ap-type-h3-size);
+	font-weight: 400;
+	line-height: 1;
+}
+
+.ap-integration-detail__step-text {
+	color: var(--ap-text-body);
+	font-size: 1rem;
+	line-height: 1.5;
+}
+
+/* ---- Step links (optional): arrow rows under a step, e.g. the Compare
+ * hub's buying guides. One column; two from 768px when a step lists more
+ * than four. The arrow is the Figma long-right arrow (a mask), in the step's
+ * colour; hover slides it 4px with `translate`. ---- */
+.ap-integration-detail .ap-integration-detail__links {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	column-gap: 32px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ap-integration-detail__links li {
+	margin: 0;
+	min-width: 0;
+}
+
+.ap-integration-detail .ap-integration-detail__link {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	min-height: 48px;
+	height: 100%;
+	padding: 10px 0;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-utility);
+	font-size: 1rem;
+	font-weight: var(--ap-weight-button, 600);
+	line-height: 1.35;
+	text-decoration: none;
+	border-bottom: 1px solid var(--ap-slate-200);
+	transition: color var(--ap-dur-base) var(--ap-ease-standard), border-color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-integration-detail .ap-integration-detail__link:visited {
+	color: var(--ap-text-heading);
+}
+
+.ap-integration-detail__link-arrow {
+	flex: none;
+	width: 24px;
+	height: 24px;
+	background-color: var(--ap-idet-tone, var(--ap-brand-indigo));
+	-webkit-mask: url("assets/arrow-long-right.svg") center / 24px 24px no-repeat;
+	mask: url("assets/arrow-long-right.svg") center / 24px 24px no-repeat;
+	transition: translate var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-integration-detail .ap-integration-detail__link:hover {
+	color: var(--ap-brand-indigo);
+	text-decoration: none;
+	border-bottom-color: var(--ap-idet-tone, var(--ap-brand-indigo));
+}
+
+.ap-integration-detail .ap-integration-detail__link:hover .ap-integration-detail__link-arrow {
+	translate: 4px 0;
+}
+
+.ap-integration-detail .ap-integration-detail__link:focus-visible {
+	outline: 2px solid var(--ap-brand-indigo);
+	outline-offset: 2px;
+	border-radius: var(--ap-radius-sm);
+}
+
+@media (min-width: 768px) {
+	.ap-integration-detail .ap-integration-detail__links--cols {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-integration-detail .ap-integration-detail__link,
+	.ap-integration-detail__link-arrow {
+		transition: none;
+	}
+	.ap-integration-detail .ap-integration-detail__link:hover .ap-integration-detail__link-arrow {
+		translate: none;
+	}
+}
+
+@media (forced-colors: active) {
+	.ap-integration-detail__link-arrow {
+		background-color: LinkText;
+	}
+}
+
+/* ---- Requirements: help card ---- */
+.ap-integration-detail__help {
+	display: flex;
+	align-items: flex-end;
+	gap: 24px;
+	padding: 20px 24px;
+	background: linear-gradient(41.72deg, var(--ap-indigo-50) 0%, var(--ap-white) 99.93%);
+	border: 1px solid var(--ap-indigo-200);
+	border-radius: var(--ap-radius-xl);
+}
+
+.ap-integration-detail__help-main {
+	display: flex;
+	align-items: flex-start;
+	gap: 16px;
+	flex: 1 1 0;
+	min-width: 0;
+}
+
+.ap-integration-detail__help-icon {
+	display: block;
+	flex: none;
+	width: 41px;
+	height: 44px;
+	margin-top: 2px;
+	object-fit: contain;
+}
+
+.ap-integration-detail__help-copy {
+	display: grid;
+	gap: 4px;
+	max-width: 640px;
+	min-width: 0;
+}
+
+/* Figma Headline/H5: 20px ExtraBold, 1.4. */
+.ap-integration-detail__help-title {
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: 1.25rem;
+	font-weight: var(--ap-type-heading-weight, 800);
+	line-height: 1.4;
+}
+
+.ap-integration-detail__help-text {
+	color: var(--ap-text-body);
+	font-size: var(--ap-type-lede-size);
+	line-height: 1.5;
+}
+
+/* Primary button: the kit's gradient fill (Figma Primary CTA, 48px, 4px radius). */
+.ap-integration-detail .ap-integration-detail__btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: none;
+	min-height: 48px;
+	padding: 0 16px;
+	color: var(--ap-btn-primary-text);
+	font-family: var(--ap-font-utility);
+	font-size: var(--ap-fs-button-lg);
+	font-weight: var(--ap-weight-button);
+	line-height: var(--ap-line-button);
+	text-decoration: none;
+	white-space: nowrap;
+	background-image: var(--ap-gradient-action);
+	border: 1px solid var(--ap-brand-indigo);
+	border-radius: var(--ap-radius-sm);
+	transition: translate var(--ap-dur-base) var(--ap-ease-standard), box-shadow var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-integration-detail .ap-integration-detail__btn:hover,
+.ap-integration-detail .ap-integration-detail__btn:focus,
+.ap-integration-detail .ap-integration-detail__btn:visited {
+	color: var(--ap-btn-primary-text);
+	text-decoration: none;
+}
+
+.ap-integration-detail .ap-integration-detail__btn:hover {
+	translate: 0 -2px;
+	box-shadow: 0 6px 18px rgba(80, 68, 225, 0.28);
+}
+
+.ap-integration-detail .ap-integration-detail__btn:focus-visible {
+	outline: 3px solid var(--ap-brand-indigo);
+	outline-offset: 2px;
+}
+
+/* ---- The index ----
+ * Figma: 282px, rows 16px tall padding, 1px rules; the current row's 8px dot
+ * wears its part's colour. Figma greys the other rows to #d8dbdf (1.4:1); they
+ * are links, so they take slate-500 (6.2:1) and the current row the heading
+ * colour, its rule a step darker. */
+.ap-integration-detail .ap-integration-detail__nav ol {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ap-integration-detail__nav li {
+	margin: 0;
+}
+
+.ap-integration-detail .ap-integration-detail__nav a {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	color: var(--ap-slate-500);
+	font-family: var(--ap-font-display);
+	font-weight: var(--ap-type-heading-weight, 800);
+	line-height: 1.2;
+	text-decoration: none;
+	transition: color var(--ap-dur-base) var(--ap-ease-standard), border-color var(--ap-dur-base) var(--ap-ease-standard), background-color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-integration-detail__nav-dot {
+	flex: none;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background-color: transparent;
+	transition: background-color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-integration-detail .ap-integration-detail__nav a:hover,
+.ap-integration-detail .ap-integration-detail__nav a[aria-current="true"] {
+	color: var(--ap-text-heading);
+	text-decoration: none;
+}
+
+.ap-integration-detail .ap-integration-detail__nav a[aria-current="true"] .ap-integration-detail__nav-dot {
+	background-color: var(--ap-idet-tone, var(--ap-brand-indigo));
+}
+
+.ap-integration-detail .ap-integration-detail__nav a:focus-visible {
+	outline: 2px solid var(--ap-brand-indigo);
+	outline-offset: 2px;
+	border-radius: var(--ap-radius-sm);
+}
+
+/* ---- Desktop: sticky index beside the parts ----
+ * The index and the parts share one grid, the index spanning every row, so it
+ * sticks for the whole column; the parts are separate grid items, which lets
+ * the site-wide scroll-in move each one on its own. */
+@media (min-width: 1025px) {
+	.ap-integration-detail__layout {
+		display: grid;
+		grid-template-columns: minmax(208px, 282px) minmax(0, 780px);
+		justify-content: space-between;
+		align-items: start;
+		column-gap: 40px;
+	}
+
+	.ap-integration-detail__layout--single {
+		display: block;
+		max-width: 780px;
+	}
+
+	.ap-integration-detail__nav {
+		position: sticky;
+		top: var(--ap-idet-sticky-top);
+		grid-column: 1;
+		grid-row: 1 / span var(--ap-idet-parts, 4);
+		align-self: start;
+		/* Lifts the first row so its label lines up with the first part's eyebrow. */
+		margin-top: -16px;
+	}
+
+	.admin-bar .ap-integration-detail__nav {
+		top: calc(var(--ap-idet-sticky-top) + 32px);
+	}
+
+	.ap-integration-detail__part {
+		grid-column: 2;
+	}
+
+	/* Figma's 150px floor keeps the three cards one height beside the index;
+	 * full-width below 1025px they size to their copy instead. */
+	.ap-integration-detail__card {
+		min-height: 150px;
+	}
+
+	.ap-integration-detail .ap-integration-detail__nav a {
+		padding: 16px 0;
+		border-bottom: 1px solid var(--ap-slate-200);
+		font-size: 1rem;
+	}
+
+	.ap-integration-detail .ap-integration-detail__nav a[aria-current="true"] {
+		border-bottom-color: var(--ap-slate-300);
+	}
+}
+
+/* ---- Tablet and phone: the index becomes a row of jump chips ---- */
+@media (max-width: 1024.98px) {
+	.ap-integration-detail {
+		--ap-idet-sticky-top: 88px;
+	}
+
+	.ap-integration-detail__layout {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.ap-integration-detail__nav {
+		margin-bottom: var(--ap-idet-body-gap);
+	}
+
+	.ap-integration-detail .ap-integration-detail__nav ol {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+
+	.ap-integration-detail .ap-integration-detail__nav a {
+		min-height: 40px;
+		padding: 8px 16px 8px 12px;
+		color: var(--ap-text-heading);
+		font-size: 0.875rem;
+		background: var(--ap-white);
+		border: 1px solid var(--ap-slate-200);
+		border-radius: var(--ap-radius-pill);
+	}
+
+	.ap-integration-detail .ap-integration-detail__nav a:hover {
+		border-color: var(--ap-slate-300);
+		background: var(--ap-slate-50);
+	}
+
+	.ap-integration-detail__nav-dot,
+	.ap-integration-detail .ap-integration-detail__nav a[aria-current="true"] .ap-integration-detail__nav-dot {
+		background-color: var(--ap-idet-tone, var(--ap-brand-indigo));
+	}
+
+	.ap-integration-detail__nav-num {
+		color: var(--ap-slate-500);
+	}
+
+	.ap-integration-detail .ap-integration-detail__nav a:focus-visible {
+		border-radius: var(--ap-radius-pill);
+	}
+}
+
+/* Narrow column: tighter cards and steps. */
+@media (max-width: 767.98px) {
+	.ap-integration-detail__card {
+		gap: 24px;
+		padding: 20px 24px 20px 20px;
+	}
+
+	.ap-integration-detail__step {
+		padding: 20px 8px 20px 24px;
+	}
+
+	.ap-integration-detail .ap-integration-detail__steps {
+		gap: 20px;
+	}
+
+	.ap-integration-detail__help {
+		padding: 20px;
+	}
+}
+
+/* Phones: a card's icon and title sit above its text; the help card stacks
+ * with its button under the copy. */
+@media (max-width: 639.98px) {
+	.ap-integration-detail__card {
+		flex-direction: column;
+		gap: 12px;
+		min-height: 0;
+		padding: 20px;
+	}
+
+	.ap-integration-detail__card-lead {
+		flex: none;
+		align-items: center;
+		max-width: none;
+		width: 100%;
+	}
+
+	.ap-integration-detail__card-icon,
+	.ap-integration-detail__card-icon img,
+	.ap-integration-detail__card-icon svg {
+		width: 32px;
+		height: 32px;
+	}
+
+	.ap-integration-detail__card-text {
+		flex: none;
+	}
+
+	.ap-integration-detail__step {
+		gap: 10px;
+		padding: 16px 0 16px 20px;
+	}
+
+	.ap-integration-detail__step-top {
+		gap: 12px;
+	}
+
+	.ap-integration-detail__step-num {
+		width: 22px;
+	}
+
+	.ap-integration-detail__help {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 20px;
+	}
+
+	.ap-integration-detail .ap-integration-detail__btn {
+		align-self: flex-start;
+	}
+
+	.ap-integration-detail__play-btn {
+		width: 56px;
+		height: 56px;
+		background-size: 56px 56px;
+	}
+
+	.ap-integration-detail__play-btn img {
+		width: 16px;
+		height: 13px;
+	}
+
+	.ap-integration-detail__media {
+		border-radius: var(--ap-radius-lg);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-integration-detail .ap-integration-detail__btn,
+	.ap-integration-detail__play-btn,
+	.ap-integration-detail .ap-integration-detail__nav a,
+	.ap-integration-detail__nav-dot {
+		transition: none;
+	}
+	.ap-integration-detail .ap-integration-detail__btn:hover { translate: none; }
+	.ap-integration-detail .ap-integration-detail__play:hover .ap-integration-detail__play-btn { scale: none; }
+}
+
+@media (forced-colors: active) {
+	.ap-integration-detail__card,
+	.ap-integration-detail__help { border-color: CanvasText; }
+	.ap-integration-detail .ap-integration-detail__nav a[aria-current="true"] .ap-integration-detail__nav-dot { background-color: Highlight; }
+}

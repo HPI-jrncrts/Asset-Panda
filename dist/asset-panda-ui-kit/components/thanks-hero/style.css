@@ -1,0 +1,242 @@
+/*
+ * thanks-hero — ported from live #ap-demo-thank-you (the seven 2026 demo
+ * thank-you pages), with that page family's Cal.com add-on sheet
+ * (#ap-ty-cal-a: 42/34px top padding, 1000px column, calendar container)
+ * already folded in. Live writes every declaration !important to beat its
+ * theme; here plain class specificity does the same job, except on the
+ * calendar iframe, whose inline width/display Cal.com writes itself.
+ *
+ * --trial carries /thanks-guided-trial-pro/'s differences (its restyle sheet
+ * #ap-ty-demo-cal-css): a smaller heading, a wider copy column, the 22px tick
+ * gap and no bottom padding under the calendar. Live boxes that page's
+ * calendar in the theme's 962px container between 992 and 1339px, and in an
+ * off-centre 5%/9% row below 992px; neither is copied — the calendar takes the
+ * full 1000px column like the demo pages.
+ */
+
+.ap-thanks-hero,
+.ap-thanks-hero * {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+.ap-thanks-hero {
+	width: 100%;
+	padding: 42px 24px 40px;
+	overflow: hidden;
+	font-family: var(--ap-font-body, "Manrope", Arial, sans-serif);
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.5;
+	letter-spacing: normal;
+	color: #1d2331;
+	background-color: #fff;
+	background-image: var(--ap-thanks-hero-bg, none);
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+}
+
+.ap-thanks-hero__inner {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	max-width: 1000px;
+	margin: 0 auto;
+}
+
+.ap-thanks-hero__icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 62px;
+	height: 62px;
+	margin: 0 0 20px;
+	border: 1.5px solid var(--ap-brand-green, #00a991);
+	border-radius: 50%;
+	color: var(--ap-brand-green, #00a991);
+	background: rgba(255, 255, 255, .82);
+	box-shadow: 0 6px 14px rgba(0, 169, 145, .12);
+}
+
+.ap-thanks-hero__icon svg {
+	display: block;
+	width: 32px;
+	height: 32px;
+}
+
+.ap-thanks-hero__copy {
+	width: 100%;
+	max-width: 620px;
+	margin: 0 0 24px;
+	text-align: center;
+}
+
+.ap-thanks-hero .ap-thanks-hero__title {
+	margin: 0 0 12px;
+	color: var(--ap-text-heading, #25272c);
+	font-family: inherit;
+	font-size: clamp(36px, 4vw, 48px);
+	font-weight: 800;
+	line-height: 1.15;
+	letter-spacing: -.03em;
+	text-transform: none;
+	text-wrap: wrap;
+}
+
+.ap-thanks-hero .ap-thanks-hero__sub {
+	display: inline-block;
+	margin: 0 0 12px;
+	color: var(--ap-brand-indigo, #5044e1);
+	background: linear-gradient(75deg, var(--ap-brand-indigo, #5044e1) 0%, var(--ap-brand-green, #00a991) 72%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	font-family: inherit;
+	font-size: clamp(20px, 2.3vw, 24px);
+	font-weight: 800;
+	line-height: 1.25;
+	letter-spacing: normal;
+	text-transform: none;
+	text-wrap: wrap;
+}
+
+.ap-thanks-hero .ap-thanks-hero__body {
+	max-width: 560px;
+	margin: 0 auto;
+	color: var(--ap-slate-500, #5b616e);
+	font-size: 17px;
+	font-weight: 400;
+	line-height: 1.5;
+	text-wrap: wrap;
+}
+
+.ap-thanks-hero__body strong {
+	color: var(--ap-text-heading, #25272c);
+	font-weight: 700;
+}
+
+/* No card, border or background around the calendar — Cal.com draws its own. */
+.ap-thanks-hero__cal-wrap {
+	width: 100%;
+	max-width: 1000px;
+	margin: 0 auto;
+	overflow: visible;
+}
+
+/* Cal's <cal-inline> inherits min-height from here. */
+.ap-thanks-hero__cal {
+	width: 100%;
+	min-height: 580px;
+	height: auto;
+	overflow: visible;
+}
+
+.ap-thanks-hero__cal iframe {
+	display: block !important;
+	width: 100% !important;
+	border: 0 !important;
+}
+
+@media (max-width: 767px) {
+	.ap-thanks-hero {
+		padding: 34px 10px 32px;
+		background-position: center top;
+	}
+
+	.ap-thanks-hero__icon {
+		width: 56px;
+		height: 56px;
+		margin-bottom: 18px;
+	}
+
+	.ap-thanks-hero__icon svg {
+		width: 28px;
+		height: 28px;
+	}
+
+	.ap-thanks-hero__copy {
+		margin-bottom: 20px;
+	}
+
+	.ap-thanks-hero .ap-thanks-hero__body {
+		font-size: 16px;
+	}
+
+	.ap-thanks-hero__cal {
+		min-height: 620px;
+	}
+}
+
+/* ---- trial: /thanks-guided-trial-pro/ ---- */
+
+.ap-thanks-hero--trial {
+	padding-bottom: 0;
+}
+
+.ap-thanks-hero--trial .ap-thanks-hero__icon {
+	margin-bottom: 22px;
+}
+
+.ap-thanks-hero--trial .ap-thanks-hero__copy {
+	max-width: 760px;
+}
+
+.ap-thanks-hero--trial .ap-thanks-hero__title {
+	margin-bottom: 14px;
+	font-size: clamp(28px, 3.2vw, 40px);
+}
+
+.ap-thanks-hero--trial .ap-thanks-hero__sub {
+	padding-top: .15em;
+	letter-spacing: -.01em;
+}
+
+.ap-thanks-hero--trial .ap-thanks-hero__body {
+	max-width: 580px;
+	line-height: 1.55;
+}
+
+@media (max-width: 767px) {
+	.ap-thanks-hero--trial {
+		padding-bottom: 0;
+	}
+
+	.ap-thanks-hero--trial .ap-thanks-hero__icon {
+		margin-bottom: 18px;
+	}
+
+	.ap-thanks-hero--trial .ap-thanks-hero__copy {
+		margin-bottom: 24px;
+		padding: 0 6px;
+	}
+}
+
+/* ---- kit type scale (QA 2026-10-28) ----
+ * Title (H1, was clamp(36px, 4vw, 48px) at -0.03em; 40px on the trial variant) and the gradient subtitle (H2 sized as a card title).
+ * One heading scale across every hero (ui/src/tokens.css --ap-type-*): same size, weight 800, zero
+ * tracking at every width, so no H1 reads thicker or tighter than another. */
+.ap-thanks-hero .ap-thanks-hero__title {
+	font-size: var(--ap-type-h1-size);
+	font-weight: var(--ap-type-h1-weight);
+	line-height: var(--ap-type-h1-line);
+	letter-spacing: var(--ap-type-h1-track);
+}
+.ap-thanks-hero .ap-thanks-hero__sub {
+	font-size: var(--ap-type-h3-size);
+	font-weight: var(--ap-type-h3-weight);
+	line-height: var(--ap-type-h3-line);
+	letter-spacing: var(--ap-type-h3-track);
+}
+.ap-thanks-hero .ap-thanks-hero__body {
+	font-size: var(--ap-type-lede-size);
+	line-height: var(--ap-type-lede-line);
+}
+
+/* phone side padding (QA 2026-10-28): the copy sat 10px from the screen edge; it now has 20px, like
+ * every other hero. The calendar below keeps the full width. */
+@media (max-width: 767px) {
+	.ap-thanks-hero .ap-thanks-hero__copy { padding: 0 10px; }
+}

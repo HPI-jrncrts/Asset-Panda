@@ -22,14 +22,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $props = array(
-	'eyebrow'      => $attributes['eyebrow'] ?? '',
-	'title'        => $attributes['title'] ?? '',
-	'title_accent' => $attributes['title_accent'] ?? '',
-	'body'         => $attributes['body'] ?? '',
-	'links'        => $attributes['links'] ?? array(),
-	'reverse'      => $attributes['reverse'] ?? false,
-	'images'       => $attributes['images'] ?? array(),
-	'glows'        => $attributes['glows'] ?? array(),
+	'eyebrow'       => $attributes['eyebrow'] ?? '',
+	'title'         => $attributes['title'] ?? '',
+	'title_accent'  => $attributes['title_accent'] ?? '',
+	'body'          => $attributes['body'] ?? '',
+	'links'         => $attributes['links'] ?? array(),
+	'reverse'       => $attributes['reverse'] ?? false,
+	'images'        => $attributes['images'] ?? array(),
+	'glows'         => $attributes['glows'] ?? array(),
+	'sub_title'     => $attributes['sub_title'] ?? '',
+	'bullets'       => $attributes['bullets'] ?? array(),
+	'chips'         => $attributes['chips'] ?? array(),
+	'scene_width'   => $attributes['scene_width'] ?? 0,
+	'scene_height'  => $attributes['scene_height'] ?? 0,
+	'pad_top'       => $attributes['pad_top'] ?? 0,
+	'pad_bottom'    => $attributes['pad_bottom'] ?? 0,
+	'heading_above' => $attributes['heading_above'] ?? false,
+	'stack'         => $attributes['stack'] ?? '1024',
 );
 
 $ap_html = ap_render_component( 'media-split', $props );

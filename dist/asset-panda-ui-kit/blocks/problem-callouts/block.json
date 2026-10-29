@@ -1,0 +1,101 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/problem-callouts",
+	"title": "AP Problem Callouts",
+	"category": "design",
+	"icon": "warning",
+	"description": "Problem section: centred heading and lede over a photo ringed by floating callout chips, a closing note and a panda CTA bar. Live: the `.ap-problem` section on every vertical and hub page. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": "The Challenge"
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"kicker": {
+			"type": "string",
+			"default": ""
+		},
+		"image": {
+			"type": "string",
+			"default": ""
+		},
+		"image_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"background": {
+			"type": "string",
+			"default": ""
+		},
+		"cards": {
+			"type": "array",
+			"default": []
+		},
+		"note": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_title": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_sub": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_logo": {
+			"type": "string",
+			"default": "panda-mark.svg"
+		},
+		"cta_label": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_url": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_accent_inline": {
+			"type": "boolean",
+			"default": false
+		},
+		"cta_nowrap": {
+			"type": "boolean",
+			"default": false
+		},
+		"phone": {
+			"type": "object",
+			"default": {}
+		},
+		"reveal": {
+			"type": "boolean",
+			"default": true
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

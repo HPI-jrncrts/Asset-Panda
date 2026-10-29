@@ -28,7 +28,7 @@
 		"cta_label": {
 			"type": "string",
 			"required": false,
-			"default": "Book a Demo",
+			"default": "Free Demo",
 			"description": "Button text. Renders only with cta_url."
 		},
 		"cta_url": {
@@ -313,6 +313,25 @@
 			"required": false,
 			"default": "1440/550",
 			"description": "Stage aspect ratio, width/height."
+		},
+		"tablet": {
+			"type": "string",
+			"required": false,
+			"default": "scale",
+			"enum": [ "scale", "overlay" ],
+			"description": "768-1180px: scale shrinks the whole hero with the viewport (Fire and most product pages); overlay keeps the copy at full size over the visual (Police)."
+		},
+		"m_top": {
+			"type": "number",
+			"required": false,
+			"default": 32,
+			"description": "Below 768px: px from the top of the hero to the first line of copy (live: 72 on Fire, 24 on Local Government, 16 on K-12)."
+		},
+		"m_flow": {
+			"type": "object",
+			"required": false,
+			"default": {},
+			"description": "Below 768px, a hero whose height follows its copy (K-12): pad_px + pad_vw is the space under the copy, and the visual is an art_vw-tall box anchored to the bottom. Layer m* geometry is then a percentage of that box. Empty keeps the fixed 360/680 phone hero."
 		}
 	}
 }

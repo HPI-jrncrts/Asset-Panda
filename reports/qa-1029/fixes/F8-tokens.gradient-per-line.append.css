@@ -1,0 +1,11 @@
+
+/*
+ * QA 2026-10-29 (Figma check): a gradient phrase in a heading that wraps over several lines got one gradient
+ * stretched across all its lines laid end to end, so only the first line started indigo and the following lines
+ * read solid teal (e.g. "Equipment Lease / Management & / Tracking"). Figma ramps indigo → teal from the left on
+ * every line; clone gives each line fragment its own ramp. Single-line phrases are unchanged; no layout effect.
+ */
+:is(.epx-g, .apx-g, .apx-grad, .apg-h1-grad, .apg-h2-grad, .apg-ender-grad, .aps-grad, .apf-grad, .apu-grad, .apk-grad, .ap-assist-problem__g, .ap-continuity-columns__g, .ap-solution-features__g, .ap-solution-rows__g, .ap-solution-trust__g, .ap-gradient-text, .ap-hero__accent, .ap-h1-gradient, .ap-page-hero__accent, .ap-dashboard-showcase__accent, .ap-fcards__accent, .ap-integration-directory__accent, .ap-plans-hero__accent, .ap-plans-picker__accent, .ap-founder-quote__pull .g, .ap-platform-rows__title .g) {
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}

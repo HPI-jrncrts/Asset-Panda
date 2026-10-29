@@ -1,0 +1,167 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/demo-booking",
+	"title": "AP Demo Booking",
+	"category": "design",
+	"icon": "calendar-alt",
+	"description": "Get a Demo booking hero (2026 Cal.com flow): heading, lead and the booking widget (work email, then first and last name, then our own week or month calendar on Cal.com's API; with details on, company name and phone are asked above the calendar and a click on a time books once they are valid; with details off the time click books at once; the booking goes on to the thank-you page). Split layout = copy and widget beside a testimonial card and an award marquee, fixed to one screen on desktop (live /get-a-demo/ and /get-a-quote-pro/); centered layout = copy, widget, stats and an award row (live /get-a-demo-month-calendar/). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"layout": {
+			"type": "string",
+			"default": "centered",
+			"enum": [
+				"centered",
+				"split"
+			]
+		},
+		"view": {
+			"type": "string",
+			"default": "week",
+			"enum": [
+				"week",
+				"month"
+			]
+		},
+		"details": {
+			"type": "string",
+			"default": "on",
+			"enum": [
+				"on",
+				"off"
+			]
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"lead": {
+			"type": "string",
+			"default": ""
+		},
+		"points": {
+			"type": "array",
+			"default": []
+		},
+		"background": {
+			"type": "string",
+			"default": ""
+		},
+		"button_label": {
+			"type": "string",
+			"default": "Schedule Call"
+		},
+		"days_heading": {
+			"type": "string",
+			"default": "What day is best for you?"
+		},
+		"times_heading": {
+			"type": "string",
+			"default": "Pick a time to schedule your call"
+		},
+		"duration_label": {
+			"type": "string",
+			"default": "30 minute meeting"
+		},
+		"compliance_label": {
+			"type": "string",
+			"default": "Compliance Certifications"
+		},
+		"compliance": {
+			"type": "array",
+			"default": []
+		},
+		"stats": {
+			"type": "array",
+			"default": []
+		},
+		"awards": {
+			"type": "array",
+			"default": []
+		},
+		"stories": {
+			"type": "array",
+			"default": []
+		},
+		"quote_icon": {
+			"type": "string",
+			"default": ""
+		},
+		"cal_team": {
+			"type": "string",
+			"default": ""
+		},
+		"cal_user": {
+			"type": "string",
+			"default": ""
+		},
+		"cal_event": {
+			"type": "string",
+			"default": ""
+		},
+		"source": {
+			"type": "string",
+			"default": "assetpanda.com/get-a-demo"
+		},
+		"max_days": {
+			"type": "number",
+			"default": 60
+		},
+		"hs_portal": {
+			"type": "string",
+			"default": ""
+		},
+		"hs_form": {
+			"type": "string",
+			"default": ""
+		},
+		"guard_url": {
+			"type": "string",
+			"default": ""
+		},
+		"work_email": {
+			"type": "string",
+			"default": "",
+			"enum": [
+				"",
+				"off",
+				"core",
+				"all"
+			]
+		},
+		"track_path": {
+			"type": "string",
+			"default": "/get-a-demo/"
+		},
+		"thanks_url": {
+			"type": "string",
+			"default": "/thanks-guided-trial-pro/"
+		},
+		"thanks_preview_url": {
+			"type": "string",
+			"default": ""
+		},
+		"contact_email": {
+			"type": "string",
+			"default": "info@assetpanda.com"
+		},
+		"contact_phone": {
+			"type": "string",
+			"default": "(888) 928-6112"
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

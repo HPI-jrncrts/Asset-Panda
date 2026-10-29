@@ -1,0 +1,140 @@
+/*
+ * readiness-hero — ported from the live .epx-hero section.
+ *
+ * The live sheet owns its whole section, so every selector is scoped under the
+ * component root and the keyframes are renamed; the inner class names are kept
+ * so the port stays diffable against live. Backdrops come from
+ * --ap-readiness-hero-bg (desktop) and --ap-readiness-hero-bg-m (<=700px).
+ */
+
+.ap-readiness-hero,.ap-readiness-hero *{box-sizing:border-box;margin:0;padding:0}
+.ap-readiness-hero{position:relative;width:100%;background:#fff;overflow:hidden;font-family:'Manrope',Arial,sans-serif}
+.ap-readiness-hero__stage{position:relative;max-width:1440px;height:640px;margin:0 auto}
+.ap-readiness-hero__orbs{position:absolute;left:0;right:0;top:0;height:640px;background:#fff var(--ap-readiness-hero-bg, none) top center no-repeat;background-size:cover}
+.ap-readiness-hero__visual{position:absolute;top:82px;right:-118px;width:932px;height:558px}
+.ap-readiness-hero__photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ap-readiness-hero__mobcards{display:none}
+.ap-readiness-hero__veil{position:absolute;left:0;right:0;bottom:-1px;height:357px;background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0) 25.86%,rgba(255,255,255,.846) 72.75%,#fff 100%);pointer-events:none}
+.ap-readiness-hero .epx-hcard{position:absolute;width:auto;z-index:2}
+.ap-readiness-hero .epx-hcard--1{left:42.5%;top:37.1%}
+.ap-readiness-hero .epx-hcard--2{left:15.1%;top:61.5%}
+.ap-readiness-hero .epx-hcard--3{left:47.4%;top:71.1%}
+.ap-readiness-hero .epx-hcard__card{display:flex;gap:9px;align-items:center;padding:8px 16px 8px 12px;border-radius:12px;position:relative}
+.ap-readiness-hero .epx-hcard__card--violet{background:linear-gradient(90deg,rgba(255,255,255,.8),#f3eef9);border:1px solid #f9f7fc;box-shadow:0 2px 24px rgba(200,210,253,.3)}
+.ap-readiness-hero .epx-hcard__card--orange{background:linear-gradient(90deg,#fff7ed,rgba(255,255,255,.64));border:1px solid #fff7ed;box-shadow:0 2px 24px rgba(224,242,254,.4)}
+.ap-readiness-hero .epx-hcard__card--red{background:linear-gradient(90deg,rgba(255,255,255,.8),#fff1f3);border:1px solid #fff1f3;box-shadow:0 2px 24px rgba(200,210,253,.4)}
+.ap-readiness-hero .epx-hcard__ico{flex:0 0 56px;width:56px;height:56px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center}
+.ap-readiness-hero .epx-hcard__ico--violet{background:radial-gradient(circle at 50% 0,#fff,#f3eef9);border:.5px solid #e6dcf2}
+.ap-readiness-hero .epx-hcard__ico--orange{background:radial-gradient(circle at 50% 0,#fff,#fff7ed);border:.5px solid #fdba74}
+.ap-readiness-hero .epx-hcard__ico--red{background:radial-gradient(circle at 50% 0,#fff,#fff1f3);border:.5px solid #ffa2b4}
+.ap-readiness-hero .epx-hcard__body{display:flex;flex-direction:column;min-width:107px}
+.ap-readiness-hero .epx-hcard__kick,.ap-readiness-hero .epx-hcard__sub{font-size:8px;line-height:1.5;color:#8e95a2;font-weight:400}
+.ap-readiness-hero .epx-hcard__ttl{font-size:13px;font-weight:700;color:#1a1c23;white-space:nowrap}
+.ap-readiness-hero .epx-hcard__tag{align-self:flex-start;font-size:8px;font-weight:500;line-height:1.5;padding:0 4px;border-radius:4px;margin-top:1px}
+.ap-readiness-hero .epx-hcard__tag--violet{background:#f9f7fc;border:.5px solid #e6dcf2;color:#9b73c2}
+.ap-readiness-hero .epx-hcard__tag--orange{background:#fff7ed;border:.5px solid #fed7aa;color:#ea580c}
+.ap-readiness-hero .epx-hcard__tag--red{background:#fff1f3;border:.5px solid #ffccd5;color:#e61c55}
+.ap-readiness-hero .epx-hcard__dot{position:absolute;left:176px;top:-9.5px;width:35px;height:35px;border-radius:50%}
+.ap-readiness-hero__logowrap{position:absolute;left:41.8%;top:54.5%;width:44px;height:44px;z-index:2}
+.ap-readiness-hero__logobadge{display:block;width:44px;height:44px;border-radius:12px}
+.ap-readiness-hero__logoring{position:absolute;left:-5px;top:-5px;width:54px;height:54px;border:.8px solid #5044e1;border-radius:16px}
+.ap-readiness-hero .epx-line{position:absolute;overflow:visible;z-index:2}
+.ap-readiness-hero .epx-line--1{left:46.6%;top:47.8%;width:20px;height:38px}
+.ap-readiness-hero .epx-line--2{left:46.5%;top:62.5%;width:41px;height:44px}
+.ap-readiness-hero .epx-line--3{left:37%;top:62.4%;width:47px;height:18px}
+.ap-readiness-hero__content{position:absolute;left:160px;top:calc(50% + 13.5px);transform:translateY(-50%);width:554px;display:flex;flex-direction:column;gap:16px;z-index:2}
+.ap-readiness-hero__eyebrow{font-size:14px;font-weight:800;letter-spacing:.56px;text-transform:uppercase;color:#5044e1;line-height:1.2}
+.ap-readiness-hero__h1{font-size:48px;font-weight:800;line-height:1.2;color:#25272c}
+.ap-readiness-hero .epx-g{background:linear-gradient(41.5deg,#5044E1 3.6%,#00A991 50.1%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ap-readiness-hero__lede{font-size:18px;line-height:1.5;color:#4a4e5a;font-weight:400}
+.ap-readiness-hero__cta{display:flex;gap:24px;align-items:center;padding-top:16px;flex-wrap:wrap}
+.ap-readiness-hero .epx-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:16px;border-radius:4px;font-size:16px;font-weight:600;line-height:1.2;text-decoration:none;transition:transform .2s cubic-bezier(.4,0,.2,1),box-shadow .2s cubic-bezier(.4,0,.2,1)}
+.ap-readiness-hero .epx-btn--primary{background:linear-gradient(55.1deg,#5044E1 0%,#00A991 70.44%);border:1px solid #5044e1;color:#fff}
+.ap-readiness-hero .epx-btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(80,68,225,.28)}
+.ap-readiness-hero .epx-btn:active{transform:scale(.98)}
+.ap-readiness-hero .epx-btn:focus-visible{outline:3px solid #5044e1;outline-offset:2px}
+.ap-readiness-hero .epx-btn--primary:hover,.ap-readiness-hero .epx-btn--primary:focus,.ap-readiness-hero .epx-btn--primary:active,.ap-readiness-hero .epx-btn--primary:visited{color:#fff;text-decoration:none}
+.ap-readiness-hero__badges{display:inline-flex;gap:28px;align-items:center}
+.ap-readiness-hero__badges img{display:block}
+.ap-readiness-hero__ticker{position:absolute;left:50%;transform:translateX(-50%);bottom:16px;width:min(1120px,calc(100% - 80px));z-index:2}
+.ap-readiness-hero__strip{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;row-gap:12px}
+.ap-readiness-hero__pill{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:8px;font-size:16px;line-height:1.6;color:#25272c;white-space:nowrap}
+.ap-readiness-hero__strip .ap-readiness-hero__pill--dup{display:none}
+@keyframes apReadinessHeroEpxUp{from{opacity:0;transform:translateY(24px)}
+}
+@keyframes apReadinessHeroEpxUpC{from{opacity:0;transform:translateY(calc(-50% + 24px))}
+to{transform:translateY(-50%)}
+}
+@keyframes apReadinessHeroEpxIn{from{opacity:0;transform:scale(.96)}
+}
+@keyframes apReadinessHeroEpxFloat{0%,100%{transform:translateY(0)}
+50%{transform:translateY(-6px)}
+}
+@keyframes apReadinessHeroEpxDraw{from{stroke-dashoffset:var(--len)}
+}
+.ap-readiness-hero__eyebrow{animation:apReadinessHeroEpxUp .6s cubic-bezier(.16,1,.3,1) 0s backwards}
+.ap-readiness-hero__h1{animation:apReadinessHeroEpxUp .6s cubic-bezier(.16,1,.3,1) .08s backwards}
+.ap-readiness-hero__lede{animation:apReadinessHeroEpxUp .6s cubic-bezier(.16,1,.3,1) .16s backwards}
+.ap-readiness-hero__cta{animation:apReadinessHeroEpxUp .6s cubic-bezier(.16,1,.3,1) .24s backwards}
+.ap-readiness-hero .epx-hcard--1 .epx-hcard__rev{animation:apReadinessHeroEpxIn .5s cubic-bezier(.16,1,.3,1) .4s backwards}
+.ap-readiness-hero .epx-hcard--2 .epx-hcard__rev{animation:apReadinessHeroEpxIn .5s cubic-bezier(.16,1,.3,1) .52s backwards}
+.ap-readiness-hero .epx-hcard--3 .epx-hcard__rev{animation:apReadinessHeroEpxIn .5s cubic-bezier(.16,1,.3,1) .64s backwards}
+.ap-readiness-hero__logowrap{animation:apReadinessHeroEpxIn .5s cubic-bezier(.16,1,.3,1) .52s backwards}
+.ap-readiness-hero .epx-line line{stroke-dasharray:var(--len);animation:apReadinessHeroEpxDraw .4s ease-out backwards}
+.ap-readiness-hero .epx-line--1 line{animation-delay:1s}
+.ap-readiness-hero .epx-line--2 line{animation-delay:1.12s}
+.ap-readiness-hero .epx-line--3 line{animation-delay:1.24s}
+.ap-readiness-hero .epx-hcard__flo{animation:apReadinessHeroEpxFloat 4s ease-in-out infinite}
+.ap-readiness-hero .epx-hcard--2 .epx-hcard__flo{animation-delay:-1.3s}
+.ap-readiness-hero .epx-hcard--3 .epx-hcard__flo{animation-delay:-2.6s}
+@media (prefers-reduced-motion: reduce){.ap-readiness-hero *{animation:none !important}
+.ap-readiness-hero__strip{flex-wrap:wrap;width:auto}
+.ap-readiness-hero__strip .ap-readiness-hero__pill--dup{display:none !important}
+}
+@media (max-width:1280px){.ap-readiness-hero__content{left:40px;width:500px}
+}
+@media (max-width:1120px){.ap-readiness-hero__visual{right:-260px}
+}
+@media (max-width:1000px){.ap-readiness-hero__stage{height:auto;padding:56px 0 8px;display:flex;flex-direction:column}
+.ap-readiness-hero__content{order:0}
+.ap-readiness-hero__visual{order:1}
+.ap-readiness-hero__ticker{order:2}
+.ap-readiness-hero__orbs{height:100%;background:linear-gradient(120deg,#eafaf6 0%,#f2f1fd 45%,#fff 80%)}
+.ap-readiness-hero__content{position:static;transform:none;width:auto;max-width:640px;padding:0 40px;animation:apReadinessHeroEpxUp .6s cubic-bezier(.16,1,.3,1) 0s backwards}
+.ap-readiness-hero__eyebrow,.ap-readiness-hero__h1,.ap-readiness-hero__lede,.ap-readiness-hero__cta{animation:none}
+.ap-readiness-hero__visual{position:relative;top:auto;right:auto;width:min(932px,100%);height:auto;aspect-ratio:932/558;margin:32px auto 0}
+.ap-readiness-hero .epx-hcard__flo{animation:none}
+.ap-readiness-hero__ticker{position:static;transform:none;width:auto;margin:8px 40px 24px}
+.ap-readiness-hero__strip{justify-content:flex-start;gap:16px}
+}
+@media (max-width:700px){.ap-readiness-hero__orbs{background:#fff var(--ap-readiness-hero-bg-m, none) center calc(100% - 68px) no-repeat;background-size:100% auto}
+.ap-readiness-hero__stage{padding-bottom:0}
+.ap-readiness-hero__content{align-items:center;text-align:center}
+.ap-readiness-hero__cta{flex-direction:column;align-items:center;gap:16px;width:100%}
+.ap-readiness-hero__cta .epx-btn{width:100%;max-width:none}
+.ap-readiness-hero__badges{justify-content:center}
+.ap-readiness-hero__ticker{order:3;margin:12px 0 16px;overflow:hidden;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 32px,#000 calc(100% - 32px),transparent 100%);
+    mask-image:linear-gradient(90deg,transparent 0,#000 32px,#000 calc(100% - 32px),transparent 100%)}
+.ap-readiness-hero__strip{flex-wrap:nowrap;width:max-content;gap:0;justify-content:flex-start;animation:apReadinessHeroEpxMarq 16s linear infinite}
+.ap-readiness-hero__strip .ap-readiness-hero__pill{margin-right:28px;padding:8px 0}
+.ap-readiness-hero__strip .ap-readiness-hero__pill--dup{display:inline-flex}
+.ap-readiness-hero__visual{order:2;position:relative;width:100%;max-width:none;aspect-ratio:360/244;height:auto;margin:16px 0 0}
+.ap-readiness-hero__photo{display:none}
+.ap-readiness-hero .epx-hcard,.ap-readiness-hero__logowrap,.ap-readiness-hero .epx-line{display:none}
+.ap-readiness-hero__mobcards{display:block;position:absolute;left:4%;top:13%;width:92%;height:auto;z-index:2}
+}
+@keyframes apReadinessHeroEpxMarq{to{transform:translateX(-50%)}
+}
+@media (max-width:640px){.ap-readiness-hero__h1{font-size:36px}
+.ap-readiness-hero__content{padding:0 20px}
+.ap-readiness-hero__badges{gap:16px}
+}
+
+/* The gradient defs SVG sits first in the section; inline style is stripped by the sanitiser, so the wrapper keeps it out of flow. */
+.ap-readiness-hero__defs{position:absolute;width:0;height:0;overflow:hidden}
+
+/* variant "reunification": School Reunification frames its photo on the right instead of filling the visual. */
+.ap-readiness-hero--reunification .ap-readiness-hero__photo{inset:auto;right:118px;top:-17px;width:748px;height:575px;object-fit:cover}
+@media (max-width:1120px){.ap-readiness-hero--reunification .ap-readiness-hero__photo{right:260px}}
+@media (max-width:1000px){.ap-readiness-hero--reunification .ap-readiness-hero__photo{inset:0;right:auto;top:auto;width:100%;height:100%;object-fit:contain}}

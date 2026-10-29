@@ -1,0 +1,94 @@
+/*
+ * photo-tags — ported from the live .sp-prob section.
+ *
+ * The live sheet owns its whole section, so every selector is scoped under the
+ * component root and the keyframes are renamed; the inner class names are kept
+ * so the port stays diffable against live.
+ */
+
+.ap-photo-tags,.ap-photo-tags *{box-sizing:border-box;margin:0;padding:0}
+.ap-photo-tags{position:relative;width:100%;background:#fff;overflow:hidden;font-family:'Manrope',Arial,sans-serif}
+.ap-photo-tags__bg{position:absolute;inset:0;pointer-events:none;background:radial-gradient(38% 34% at 12% 52%,rgba(185,155,215,.20),transparent 70%),radial-gradient(30% 30% at 62% 38%,rgba(29,228,192,.14),transparent 70%),radial-gradient(34% 30% at 92% 70%,rgba(255,204,213,.20),transparent 70%)}
+.ap-photo-tags__wrap{position:relative;max-width:1200px;margin:0 auto;padding:80px 40px;display:flex;flex-direction:column;align-items:center;gap:40px}
+.ap-photo-tags__head{max-width:var(--ap-photo-tags-head,560px);display:flex;flex-direction:column;gap:16px;text-align:center}
+.ap-photo-tags__eyebrow{font-size:14px;font-weight:800;letter-spacing:.56px;text-transform:uppercase;color:#5044e1;line-height:1.2}
+.ap-photo-tags__h2{font-size:40px;font-weight:800;line-height:1.2;color:#25272c}
+.ap-photo-tags .epx-g{background:linear-gradient(41.5deg,#5044E1 3.6%,#00A991 50.1%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ap-photo-tags__h2 .epx-g{background-image:linear-gradient(33.65deg,#5044E1 0%,#00A991 70.44%)}
+.ap-photo-tags__lede{font-size:18px;line-height:1.5;color:#4a4e5a;max-width:var(--ap-photo-tags-lede,560px);margin:0 auto}
+.ap-photo-tags__art{position:relative;width:1120px;max-width:100%;height:var(--ap-photo-tags-ah,364px)}
+.ap-photo-tags__photo{position:absolute;left:calc(50% - var(--ap-photo-tags-pw,547px) / 2);top:0;width:var(--ap-photo-tags-pw,547px);height:var(--ap-photo-tags-ph,364px);border-radius:12px;object-fit:cover;display:block}
+.ap-photo-tags__tags{list-style:none}
+.ap-photo-tags .sp-ptag{position:absolute;left:var(--x);top:var(--y);display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:8px;border:1px solid var(--end);background:linear-gradient(90deg,#fff 0%,var(--end) 100%);box-shadow:0 2px 24px rgba(37,39,44,.08);font-size:16px;line-height:1.6;color:#25272c;white-space:nowrap}
+.ap-photo-tags .sp-ptag svg{flex:0 0 24px}
+.ap-photo-tags__sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.ap-photo-tags .sp-pcta{width:928px;max-width:100%;display:flex;gap:24px;align-items:flex-end;padding:20px 24px;border:1px solid #c8d2fd;border-radius:16px;background:linear-gradient(36.85deg,#eef2ff 0%,#fff 99.93%)}
+.ap-photo-tags .sp-pcta__body{flex:1 1 0;min-width:0;display:flex;gap:16px;align-items:flex-start}
+.ap-photo-tags .sp-pcta__logo{flex:0 0 42px;display:inline-flex;padding-top:3px}
+.ap-photo-tags .sp-pcta__title{font-size:20px;font-weight:800;line-height:1.4;color:#25272c}
+.ap-photo-tags .sp-pcta__text{font-size:18px;line-height:1.5;color:#4a4e5a;margin-top:4px;max-width:640px}
+.ap-photo-tags .epx-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:16px;border-radius:4px;font-size:16px;font-weight:600;line-height:1.2;text-decoration:none;white-space:nowrap;transition:transform var(--ap-dur-base) var(--ap-ease-standard),box-shadow var(--ap-dur-base) var(--ap-ease-standard),background-color var(--ap-dur-base) var(--ap-ease-standard),border-color var(--ap-dur-base) var(--ap-ease-standard),color var(--ap-dur-base) var(--ap-ease-standard)}
+.ap-photo-tags .epx-btn--primary{background:linear-gradient(42.98deg,#5044E1 0%,#00A991 70.44%);border:1px solid #5044e1;color:#fff}
+.ap-photo-tags .epx-btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(80,68,225,.28)}
+.ap-photo-tags .epx-btn:focus-visible{outline:3px solid #5044e1;outline-offset:2px}
+.ap-photo-tags .epx-btn--primary:hover,.ap-photo-tags .epx-btn--primary:focus,.ap-photo-tags .epx-btn--primary:active,.ap-photo-tags .epx-btn--primary:visited{color:#fff;text-decoration:none}
+@media (prefers-reduced-motion: no-preference){.ap-photo-tags .sp-ptag{animation:apPhotoTagsSpPFloat 5s ease-in-out infinite}
+.ap-photo-tags .sp-ptag--2{animation-delay:-1.3s}
+.ap-photo-tags .sp-ptag--3{animation-delay:-2.6s}
+.ap-photo-tags .sp-ptag--4{animation-delay:-3.9s}
+@supports (animation-timeline: view()){.ap-photo-tags .sp-prev{animation:apPhotoTagsSpPUp 1ms linear both;animation-timeline:view();animation-range:entry 5% entry 35%}
+}
+}
+@keyframes apPhotoTagsSpPUp{from{opacity:0;transform:translateY(24px)}
+}
+@keyframes apPhotoTagsSpPFloat{0%,100%{translate:0 0}
+50%{translate:0 -6px}
+}
+@media (max-width:1200px){.ap-photo-tags__art{width:1040px}
+.ap-photo-tags .sp-ptag{left:calc(var(--x) - 40px)}
+}
+@media (max-width:1100px){.ap-photo-tags__art{height:auto;display:flex;flex-direction:column;align-items:center;gap:16px}
+.ap-photo-tags__photo{position:static;width:100%;max-width:var(--ap-photo-tags-pw,547px);height:auto;aspect-ratio:var(--ap-photo-tags-ratio,547/364)}
+.ap-photo-tags__tags{display:grid;grid-template-columns:repeat(2,max-content);gap:12px;justify-content:center}
+.ap-photo-tags .sp-ptag{position:static;animation:none !important;white-space:normal}
+}
+@media (max-width:760px){.ap-photo-tags .sp-pcta{flex-direction:column;align-items:stretch}
+.ap-photo-tags .sp-pcta .epx-btn{width:100%}
+}
+@media (max-width:640px){.ap-photo-tags__wrap{padding:56px 20px;gap:32px}
+.ap-photo-tags__h2{font-size:28px}
+.ap-photo-tags__lede{font-size:16px}
+.ap-photo-tags__tags{grid-template-columns:1fr;width:100%}
+.ap-photo-tags .sp-ptag{font-size:15px}
+.ap-photo-tags .sp-pcta__title{font-size:18px}
+.ap-photo-tags .sp-pcta__text{font-size:16px}
+.ap-photo-tags .sp-pcta__body{flex-direction:column;gap:12px}
+}
+.ap-photo-tags .epx-sup{font-size:.64em;vertical-align:super;font-weight:700}
+.ap-photo-tags .epx-g.epx-g{padding-top:1em;padding-bottom:.4em}
+.ap-photo-tags .epx-g .epx-sup{color:#00A991;-webkit-text-fill-color:#00A991}
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: --ap-section-y top and bottom, --ap-section-head-gap between
+ * the head, the photo and the call-out (was 80 / 56 and 40 / 32). */
+.ap-photo-tags .ap-photo-tags__wrap { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); gap: var(--ap-section-head-gap, 48px); }
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-photo-tags.ap-photo-tags.ap-photo-tags .ap-photo-tags__h2 { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+/* Section eyebrow on the type scale too: 12px at 390 to 14px at 1440, 800, 4% tracking, upper case. */
+html body .ap-photo-tags.ap-photo-tags.ap-photo-tags .ap-photo-tags__eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }
+
+/* Tablets (QA 2026-10-28): from 641 to 1100px the two tag columns were sized
+ * to their longest one-line tag, so long tags ran to within 10px of the screen
+ * edge at 768. The columns now share the width (up to the photo's) and long
+ * tags wrap inside them. */
+@media (min-width: 641px) and (max-width: 1100px) {
+	html body .ap-photo-tags .ap-photo-tags__tags { grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; max-width: 680px; }
+}
+
+/* Motion (QA 2026-10-28, motion agent's R4): hover moves use translate / scale, never transform (scroll entrances own transform), on the house timing. */
+html body .ap-photo-tags .epx-btn { transition: translate var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), box-shadow var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), background-color var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), border-color var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), color var(--ap-dur-base, .3s) var(--ap-ease-standard, ease); }
+html body .ap-photo-tags .epx-btn:hover { transform: none; translate: 0 -2px; }

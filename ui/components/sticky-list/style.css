@@ -15,7 +15,7 @@
 }
 
 .ap-sticky-list__inner {
-	width: min(var(--ap-page-max-content-xl, 1120px), 100% - 48px);
+	width: min(var(--ap-host-container, 1120px), 100% - 48px);
 	margin: 0 auto;
 }
 
@@ -66,6 +66,18 @@
 	gap: 16px;
 	padding: 24px 40px;
 	border-left: 3px solid var(--ap-sticky-list-accent, var(--ap-indigo-600));
+	border-radius: 0 12px 12px 0;
+	transition:
+		box-shadow var(--ap-dur-base) var(--ap-ease-standard),
+		translate var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+/* QA 2026-10-29 (Joseph): no pop-in on scroll; a quiet lift with a soft shadow on hover instead. */
+@media (hover: hover) {
+	.ap-sticky-list__card:hover {
+		translate: 0 -2px;
+		box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+	}
 }
 
 .ap-sticky-list__top {
@@ -185,7 +197,6 @@
 		top: 104px;
 		align-self: flex-start;
 	}
-
 	.admin-bar .ap-sticky-list__head {
 		top: 136px;
 	}
@@ -196,13 +207,11 @@
 		flex-direction: column;
 		gap: 0;
 	}
-
 	.ap-sticky-list__head {
 		width: 100%;
 		flex: 0 0 auto;
 		padding: 80px 0 8px;
 	}
-
 	.ap-sticky-list__items {
 		width: 100%;
 		padding: 32px 0 80px;
@@ -213,19 +222,15 @@
 	.ap-sticky-list__title {
 		font-size: 32px;
 	}
-
 	.ap-sticky-list__head {
 		padding: 56px 0 8px;
 	}
-
 	.ap-sticky-list__items {
 		padding: 24px 0 56px;
 	}
-
 	.ap-sticky-list__card {
 		padding: 20px 24px;
 	}
-
 	.ap-sticky-list__checks li {
 		gap: 16px;
 	}
@@ -235,19 +240,15 @@
 	.ap-sticky-list__title {
 		font-size: 28px;
 	}
-
 	.ap-sticky-list__head {
 		padding: 40px 0 8px;
 	}
-
 	.ap-sticky-list__items {
 		padding: 16px 0 40px;
 	}
-
 	.ap-sticky-list__h3 {
 		font-size: 20px;
 	}
-
 	.ap-sticky-list__card {
 		padding: 16px 16px 16px 20px;
 	}
@@ -274,4 +275,123 @@
 	font-family: var(--ap-font-body);
 	font-size: 18px;
 	line-height: 1.5;
+}
+
+/* variant "solution": the industry hubs' and solution pages' feature list sets
+ * its item headings at line-height 1.3 (the product pages use 1.2). */
+.ap-sticky-list--solution .ap-sticky-list__h3 { line-height: 1.3; }
+
+
+/* stack "900" (Education hub): the list stays side by side down to 901px — between
+ * 901 and 1024px it keeps the desktop layout the 1024px rules above would stack. */
+@media (min-width: 901px) and (max-width: 1024px) {
+	.ap-sticky-list--stack-900 .ap-sticky-list__grid { flex-direction: row; gap: 40px; }
+	.ap-sticky-list--stack-900 .ap-sticky-list__head { width: 383px; flex: 0 0 383px; padding: 80px 0; position: sticky; top: 104px; align-self: flex-start; }
+	.admin-bar .ap-sticky-list--stack-900 .ap-sticky-list__head { top: 136px; }
+	.ap-sticky-list--stack-900 .ap-sticky-list__items { width: auto; padding: 80px 0; }
+}
+
+/* Per-page heading space (live Police), one step per breakpoint. */
+@media (max-width: 1024px) {
+	.ap-sticky-list--hs .ap-sticky-list__head { padding: var(--hs-1024-t) 0 var(--hs-1024-b); }
+}
+@media (max-width: 991px) {
+	.ap-sticky-list--hs .ap-sticky-list__head { padding: var(--hs-991-t) 0 var(--hs-991-b); }
+}
+@media (max-width: 768px) {
+	.ap-sticky-list--hs .ap-sticky-list__head { padding: var(--hs-768-t) 0 var(--hs-768-b); }
+}
+@media (max-width: 560px) {
+	.ap-sticky-list--hs .ap-sticky-list__head { padding: var(--hs-560-t) 0 var(--hs-560-b); }
+}
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: --ap-section-y top and bottom; stacked, the head sits
+ * --ap-section-head-gap above the rows (was 80 / 80, then 80 / 8 + 32 / 80,
+ * 56 / 8 + 24 / 56, 40 / 8 + 16 / 40 by width, plus per-page --hs-* steps
+ * on Police; those no longer change the spacing). */
+.ap-sticky-list .ap-sticky-list__head,
+.ap-sticky-list .ap-sticky-list__items { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+@media (max-width: 1024px) {
+	.ap-sticky-list:not(.ap-sticky-list--stack-900) .ap-sticky-list__head { padding-top: var(--ap-section-y, 56px); padding-bottom: 0; }
+	.ap-sticky-list:not(.ap-sticky-list--stack-900) .ap-sticky-list__items { padding-top: var(--ap-section-head-gap, 40px); padding-bottom: var(--ap-section-y, 56px); }
+}
+@media (max-width: 900px) {
+	.ap-sticky-list.ap-sticky-list--stack-900 .ap-sticky-list__head { padding-top: var(--ap-section-y, 56px); padding-bottom: 0; }
+	.ap-sticky-list.ap-sticky-list--stack-900 .ap-sticky-list__items { padding-top: var(--ap-section-head-gap, 40px); padding-bottom: var(--ap-section-y, 56px); }
+}
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-sticky-list.ap-sticky-list.ap-sticky-list .ap-sticky-list__title { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+/* Section eyebrow on the type scale too: 12px at 390 to 14px at 1440, 800, 4% tracking, upper case. */
+html body .ap-sticky-list.ap-sticky-list.ap-sticky-list .ap-sticky-list__eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }
+
+/* ------------------------------------------------------------ QA 2026-10-28
+ * Tighter rows: a checklist line was 50px tall (8px padding round a 26px line
+ * plus an 8px gap), which stretched a five-group list past 1,800px. Lines now
+ * sit 6px apart with 4px padding, the card and its rule lose 8px a side, and
+ * the groups stand 16px apart. */
+.ap-sticky-list .ap-sticky-list__items { gap: 16px; }
+.ap-sticky-list .ap-sticky-list__card { gap: 12px; padding: 20px 32px; scroll-margin-top: 112px; }
+.ap-sticky-list .ap-sticky-list__checks { gap: 2px; }
+.ap-sticky-list .ap-sticky-list__checks li { gap: 14px; padding: 4px 0; }
+@media (max-width: 768px) {
+	.ap-sticky-list .ap-sticky-list__card { padding: 16px 20px; }
+}
+
+/* The group index under the sticky heading (index prop, three or more groups):
+ * the column beside a long list carries navigation instead of white space. Each
+ * entry wears its group's accent on a 3px rule; the group in view (behaviour.js
+ * sets aria-current) turns its rule and text on. Desktop only — stacked, the
+ * groups follow the heading directly. */
+.ap-sticky-list__index { display: none; }
+@media (min-width: 1025px) {
+	.ap-sticky-list--index .ap-sticky-list__index { display: block; margin-top: 32px; }
+}
+@media (min-width: 901px) and (max-width: 1024px) {
+	.ap-sticky-list--index.ap-sticky-list--stack-900 .ap-sticky-list__index { display: block; margin-top: 32px; }
+}
+.ap-sticky-list__index ol {
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.ap-sticky-list__index a {
+	position: relative;
+	display: block;
+	padding: 10px 0 10px 20px;
+	color: var(--ap-text-body);
+	font-family: var(--ap-font-display);
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 1.35;
+	text-decoration: none;
+	transition: color var(--ap-dur-base) var(--ap-ease-standard);
+}
+.ap-sticky-list__index a::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: 3px;
+	background: var(--ap-slate-100);
+	transition: background-color var(--ap-dur-base) var(--ap-ease-standard);
+}
+.ap-sticky-list__index a:hover,
+.ap-sticky-list__index a[aria-current="true"] {
+	color: var(--ap-text-heading);
+}
+.ap-sticky-list__index a:hover::before,
+.ap-sticky-list__index a[aria-current="true"]::before {
+	background: var(--ap-sticky-list-accent, var(--ap-indigo-600));
+}
+@media (prefers-reduced-motion: reduce) {
+	.ap-sticky-list__index a,
+	.ap-sticky-list__index a::before { transition: none; }
 }

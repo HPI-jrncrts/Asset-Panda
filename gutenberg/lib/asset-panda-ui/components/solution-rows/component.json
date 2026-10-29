@@ -1,0 +1,13 @@
+{
+	"name": "solution-rows",
+	"description": "Centred heading over full-width capability rows: a tinted, colour-ruled card per row with an icon and title on the left and copy plus an optional link on the right; stacked below 1001px. Live: the .epx-sol section on the solution pages, Emergency Preparedness, School Reunification and Help Desk (rules ported).",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading." },
+		"title_accent": { "type": "string", "required": false, "default": "", "description": "Words inside the heading painted with the brand gradient; must appear in title." },
+		"lede": { "type": "string", "required": false, "default": "", "description": "Paragraph under the heading." },
+		"items": { "type": "array", "required": true, "description": "Rows. Each: title and body (line breaks kept); optional tone (indigo, green, yellow, blue, red, cyan), icon_svg, badge (a small pill under the title, e.g. Winner: Asset Panda), link_label and url, and links (further text links, each {label, url})." },
+		"variant": { "type": "string", "required": false, "default": "solution", "enum": [ "solution", "readiness", "service" ], "description": "solution: the six solution pages (wider gap, 360px title column, 24px link arrow). readiness: Emergency Preparedness and School Reunification. service: Help Desk." },
+		"head_width": { "type": "integer", "required": false, "default": 800, "description": "Solution pages: the heading block's width cap in px (Asset Management 800, the others 640)." }
+	}
+}

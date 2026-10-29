@@ -1,0 +1,646 @@
+/*
+ * solution-cta — ported from the live .epx-fcta section.
+ *
+ * Live's rules re-namespaced from .epx-fcta__* / .epx-frev2 / .epx-btn to
+ * .ap-solution-cta__*. The button carries the .epx-btn rules that end up
+ * applying inside this section on live (min-height 48, 16px padding, the
+ * 55.1deg gradient, white focus ring). --solution adds the six solution
+ * pages' deeper bottom space and upper-case button. Live's 100vw full-bleed
+ * trick is left out; the button's hover lift uses translate, not transform.
+ */
+
+.ap-solution-cta,
+.ap-solution-cta * {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+.ap-solution-cta {
+	background: #fff;
+	overflow: hidden;
+	font-family: var(--ap-font-body, 'Manrope', Arial, sans-serif);
+}
+
+.ap-solution-cta__wrap {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 80px 40px 0;
+}
+
+.ap-solution-cta--solution .ap-solution-cta__wrap { padding-bottom: 40px; }
+
+.ap-solution-cta__card {
+	position: relative;
+	min-height: 532px;
+	overflow: hidden;
+	border-radius: 16px;
+	background: linear-gradient(244.06deg, #6666ee 2.19%, #201c4a 99.99%);
+	box-shadow: 0 2px 12px rgba(0, 0, 0, .08);
+}
+
+.ap-solution-cta__content {
+	position: relative;
+	z-index: 1;
+	max-width: 552px;
+	padding: 80px 0 80px 64px;
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+}
+
+.ap-solution-cta__eyebrow {
+	font-size: 16px;
+	font-weight: 800;
+	letter-spacing: .5px;
+	text-transform: uppercase;
+	color: #838cf6;
+	line-height: 1.2;
+}
+
+.ap-solution-cta .ap-solution-cta__title {
+	margin-top: 16px;
+	font-size: 40px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: normal;
+	color: #fff;
+}
+
+.ap-solution-cta__lede {
+	margin-top: 24px;
+	font-size: 18px;
+	line-height: 1.5;
+	color: rgba(255, 255, 255, .7);
+}
+
+.ap-solution-cta__btn,
+.ap-solution-cta__btn:visited {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	align-self: flex-start;
+	min-height: 48px;
+	margin-top: 40px;
+	padding: 16px;
+	border: 1px solid #5044e1;
+	border-radius: 4px;
+	background: linear-gradient(55.1deg, #5044e1 0%, #00a991 70.44%);
+	color: #fff;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 1.2;
+	white-space: nowrap;
+	text-decoration: none;
+	transition: translate .2s cubic-bezier(.4, 0, .2, 1), scale .2s cubic-bezier(.4, 0, .2, 1), box-shadow .2s cubic-bezier(.4, 0, .2, 1);
+}
+
+.ap-solution-cta--solution .ap-solution-cta__btn { text-transform: uppercase; }
+
+.ap-solution-cta__btn:hover,
+.ap-solution-cta__btn:focus,
+.ap-solution-cta__btn:active {
+	color: #fff;
+	text-decoration: none;
+}
+
+.ap-solution-cta__btn:hover {
+	translate: 0 -2px;
+	box-shadow: 0 6px 18px rgba(0, 169, 145, .35);
+}
+
+.ap-solution-cta__btn:active { scale: .98; }
+
+.ap-solution-cta__btn:focus-visible {
+	outline: 3px solid #fff;
+	outline-offset: 2px;
+}
+
+.ap-solution-cta__media {
+	position: absolute;
+	right: 0;
+	top: 80px;
+	width: 488px;
+	height: 452px;
+	object-fit: cover;
+	object-position: left top;
+}
+
+/* Scroll reveal: a CSS scroll timeline (no script). */
+@keyframes apSolutionCtaUp {
+	from {
+		opacity: 0;
+		transform: translateY(24px);
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.ap-solution-cta .ap-solution-cta__rev {
+		animation: apSolutionCtaUp 1ms linear both;
+		animation-timeline: view();
+		animation-range: entry 5% entry 40%;
+	}
+}
+
+@media (max-width: 1140px) {
+	.ap-solution-cta__media {
+		width: 420px;
+		height: 389px;
+		top: auto;
+		bottom: 0;
+	}
+}
+
+@media (max-width: 1000px) {
+	.ap-solution-cta__card { min-height: 0; }
+
+	.ap-solution-cta__content {
+		max-width: none;
+		padding: 48px 40px 24px;
+	}
+
+	.ap-solution-cta .ap-solution-cta__title { font-size: 32px; }
+
+	.ap-solution-cta__media {
+		position: static;
+		display: block;
+		width: 100%;
+		max-width: 488px;
+		height: auto;
+		aspect-ratio: 488 / 452;
+		margin: 0 0 0 auto;
+	}
+}
+
+@media (max-width: 640px) {
+	.ap-solution-cta__wrap { padding: 56px 20px 0; }
+	.ap-solution-cta--solution .ap-solution-cta__wrap { padding-bottom: 40px; }
+	.ap-solution-cta__content { padding: 32px 24px 16px; }
+	.ap-solution-cta .ap-solution-cta__title { font-size: 28px; }
+
+	.ap-solution-cta__btn {
+		align-self: stretch;
+		width: 100%;
+	}
+
+	.ap-solution-cta--solution :is(h2, .ap-solution-cta__eyebrow) { text-wrap: balance; }
+}
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: one token pads the band top and bottom (was 80/40 desktop,
+ * 56/40 phone). The closing band paints the upper half of the CTA/footer seam
+ * glow at its bottom edge; site-footer paints the lower half with the same
+ * ellipses (see site-footer/style.css "one seam gradient"). */
+.ap-solution-cta .ap-solution-cta__wrap,
+.ap-solution-cta--solution .ap-solution-cta__wrap { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+.ap-solution-cta {
+	background:
+		radial-gradient(ellipse 34% 300px at 6% 100%, rgba(230, 28, 85, .23), rgba(230, 28, 85, .09) 45%, rgba(230, 28, 85, 0) 100%),
+		radial-gradient(ellipse 36% 300px at 50% 100%, rgba(0, 169, 145, .26), rgba(0, 169, 145, .11) 45%, rgba(0, 169, 145, 0) 100%),
+		radial-gradient(ellipse 34% 300px at 94% 100%, rgba(102, 102, 238, .33), rgba(102, 102, 238, .14) 45%, rgba(102, 102, 238, 0) 100%),
+		#fff;
+}
+@media (max-width: 1279px) {
+	.ap-solution-cta {
+		background:
+			radial-gradient(ellipse 40% 220px at 4% 100%, rgba(230, 28, 85, .23), rgba(230, 28, 85, .09) 45%, rgba(230, 28, 85, 0) 100%),
+			radial-gradient(ellipse 42% 220px at 50% 100%, rgba(0, 169, 145, .26), rgba(0, 169, 145, .11) 45%, rgba(0, 169, 145, 0) 100%),
+			radial-gradient(ellipse 40% 220px at 96% 100%, rgba(102, 102, 238, .33), rgba(102, 102, 238, .14) 45%, rgba(102, 102, 238, 0) 100%),
+			#fff;
+	}
+}
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-solution-cta.ap-solution-cta.ap-solution-cta .ap-solution-cta__title { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+
+
+/* ==== look "splash" (QA 2026-10-29, Joseph): /barcode-labels/ asked for a gradient splash behind the CTA instead of
+ * the card; every other page keeps the blue card ("All solution pages, the blue background of the footer is gone").
+ * Everything below is that splash version, scoped to .ap-solution-cta--splash (set by the `look` prop). ==== */
+/*
+ * solution-cta — ported from the live .epx-fcta section.
+ *
+ * Live's rules re-namespaced from .epx-fcta__* / .epx-frev2 / .epx-btn to
+ * .ap-solution-cta__*. The button carries the .epx-btn rules that end up
+ * applying inside this section on live (min-height 48, 16px padding, the
+ * 55.1deg gradient). --solution adds the six solution pages' deeper bottom
+ * space and upper-case button. Live's 100vw full-bleed trick is left out; the
+ * button's hover lift uses translate, not transform.
+ *
+ * QA 2026-10-29 ("put a gradient splash in the background instead of putting
+ * it into a container background"): the deep indigo card is gone. The copy
+ * and button now sit directly on the section, over a soft brand splash
+ * painted at section level (.ap-solution-cta::before, at the foot of this
+ * sheet), in dark text; the product image keeps its place on the right. The
+ * markup (.ap-solution-cta__card and friends) is unchanged, so every page
+ * using the component picks this up.
+ */
+
+.ap-solution-cta.ap-solution-cta--splash,
+.ap-solution-cta.ap-solution-cta--splash * {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+.ap-solution-cta.ap-solution-cta--splash {
+	background: #fff;
+	overflow: hidden;
+	font-family: var(--ap-font-body, 'Manrope', Arial, sans-serif);
+}
+
+.ap-solution-cta--splash .ap-solution-cta__wrap {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 80px 40px 0;
+}
+
+.ap-solution-cta--splash.ap-solution-cta--solution .ap-solution-cta__wrap { padding-bottom: 40px; }
+
+/* The card is now only a layout box: no fill, no radius, no shadow, and none of
+   the card's 80px inner padding (the band's own --ap-section-y padding is the
+   only space at its edges, as on every other section). It is as tall as the
+   product image, with the copy centred on it. The splash is on the section. */
+.ap-solution-cta--splash .ap-solution-cta__card {
+	position: relative;
+	display: flex;
+	align-items: center;
+	min-height: 452px;
+	overflow: visible;
+	border-radius: 0;
+	background: transparent;
+	box-shadow: none;
+}
+
+/* Without an image there is nothing to be as tall as. */
+.ap-solution-cta--splash .ap-solution-cta__card:not(:has(.ap-solution-cta__media)) { min-height: 0; }
+
+/* The copy keeps a 32px gutter from the image (it used to sit inside the
+   card's left padding instead). */
+.ap-solution-cta--splash .ap-solution-cta__content {
+	position: relative;
+	z-index: 1;
+	max-width: min(552px, calc(100% - 520px));
+	padding: 24px 0;
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+}
+
+.ap-solution-cta--splash .ap-solution-cta__eyebrow {
+	font-size: 16px;
+	font-weight: 800;
+	letter-spacing: .5px;
+	text-transform: uppercase;
+	color: var(--ap-text-eyebrow, #5044e1);
+	line-height: 1.2;
+}
+
+.ap-solution-cta.ap-solution-cta--splash .ap-solution-cta__title {
+	margin-top: 16px;
+	font-size: 40px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: normal;
+	color: var(--ap-text-heading, #25272c);
+}
+
+.ap-solution-cta--splash .ap-solution-cta__lede {
+	margin-top: 24px;
+	font-size: 18px;
+	line-height: 1.5;
+	color: var(--ap-text-body, #4a4e5a);
+}
+
+.ap-solution-cta--splash .ap-solution-cta__btn,
+.ap-solution-cta--splash .ap-solution-cta__btn:visited {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	align-self: flex-start;
+	min-height: 48px;
+	margin-top: 40px;
+	padding: 16px;
+	border: 1px solid #5044e1;
+	border-radius: 4px;
+	background: linear-gradient(55.1deg, #5044e1 0%, #00a991 70.44%);
+	color: #fff;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 1.2;
+	white-space: nowrap;
+	text-decoration: none;
+	transition: translate .2s cubic-bezier(.4, 0, .2, 1), scale .2s cubic-bezier(.4, 0, .2, 1), box-shadow .2s cubic-bezier(.4, 0, .2, 1);
+}
+
+.ap-solution-cta--splash.ap-solution-cta--solution .ap-solution-cta__btn { text-transform: uppercase; }
+
+.ap-solution-cta--splash .ap-solution-cta__btn:hover,
+.ap-solution-cta--splash .ap-solution-cta__btn:focus,
+.ap-solution-cta--splash .ap-solution-cta__btn:active {
+	color: #fff;
+	text-decoration: none;
+}
+
+.ap-solution-cta--splash .ap-solution-cta__btn:hover {
+	translate: 0 -2px;
+	box-shadow: 0 6px 18px rgba(0, 169, 145, .35);
+}
+
+.ap-solution-cta--splash .ap-solution-cta__btn:active { scale: .98; }
+
+.ap-solution-cta--splash .ap-solution-cta__btn:focus-visible {
+	outline: 3px solid var(--ap-brand-indigo, #5044e1);
+	outline-offset: 2px;
+}
+
+/* The product image (a cut-out on alpha, composed to bleed off the old card's
+   right and bottom edges) lifts off the light splash with a soft drop shadow,
+   and both cropped edges dissolve into the splash instead of ending in a hard
+   line now that no card edge frames them. Centred on the copy. */
+.ap-solution-cta--splash .ap-solution-cta__media {
+	position: absolute;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	width: 488px;
+	height: 452px;
+	margin: auto 0;
+	object-fit: cover;
+	object-position: left top;
+	filter: drop-shadow(0 16px 32px rgba(37, 39, 44, .14));
+	-webkit-mask-image: linear-gradient(180deg, #000 76%, rgba(0, 0, 0, 0) 100%), linear-gradient(90deg, #000 88%, rgba(0, 0, 0, 0) 100%);
+	-webkit-mask-composite: source-in;
+	mask-image: linear-gradient(180deg, #000 76%, rgba(0, 0, 0, 0) 100%), linear-gradient(90deg, #000 88%, rgba(0, 0, 0, 0) 100%);
+	mask-composite: intersect;
+}
+
+/* Scroll reveal: a CSS scroll timeline (no script). */
+@keyframes apSolutionCtaUp {
+	from {
+		opacity: 0;
+		transform: translateY(24px);
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.ap-solution-cta.ap-solution-cta--splash .ap-solution-cta__rev {
+		animation: apSolutionCtaUp 1ms linear both;
+		animation-timeline: view();
+		animation-range: entry 5% entry 40%;
+	}
+}
+
+@media (max-width: 1140px) {
+	.ap-solution-cta--splash .ap-solution-cta__card { min-height: 389px; }
+
+	.ap-solution-cta--splash .ap-solution-cta__content { max-width: min(552px, calc(100% - 452px)); }
+
+	.ap-solution-cta--splash .ap-solution-cta__media {
+		width: 420px;
+		height: 389px;
+	}
+}
+
+/* Stacked: copy, then the image under it, both on the band's own gutters. */
+@media (max-width: 1000px) {
+	.ap-solution-cta--splash .ap-solution-cta__card {
+		display: block;
+		min-height: 0;
+	}
+
+	.ap-solution-cta--splash .ap-solution-cta__content {
+		max-width: none;
+		padding: 0 0 32px;
+	}
+
+	.ap-solution-cta.ap-solution-cta--splash .ap-solution-cta__title { font-size: 32px; }
+
+	.ap-solution-cta--splash .ap-solution-cta__media {
+		position: static;
+		display: block;
+		width: 100%;
+		max-width: 488px;
+		height: auto;
+		aspect-ratio: 488 / 452;
+		margin: 0 0 0 auto;
+	}
+}
+
+@media (max-width: 640px) {
+	.ap-solution-cta--splash .ap-solution-cta__wrap { padding: 56px 20px 0; }
+	.ap-solution-cta--splash.ap-solution-cta--solution .ap-solution-cta__wrap { padding-bottom: 40px; }
+	.ap-solution-cta--splash .ap-solution-cta__content { padding: 0 0 24px; }
+	.ap-solution-cta.ap-solution-cta--splash .ap-solution-cta__title { font-size: 28px; }
+
+	.ap-solution-cta--splash .ap-solution-cta__btn {
+		align-self: stretch;
+		width: 100%;
+	}
+
+	.ap-solution-cta--splash.ap-solution-cta--solution :is(h2, .ap-solution-cta--splash .ap-solution-cta__eyebrow) { text-wrap: balance; }
+}
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: one token pads the band top and bottom (was 80/40 desktop,
+ * 56/40 phone). The closing band paints the upper half of the CTA/footer seam
+ * glow at its bottom edge; site-footer paints the lower half with the same
+ * ellipses (see site-footer/style.css "one seam gradient"). */
+.ap-solution-cta.ap-solution-cta--splash .ap-solution-cta__wrap,
+.ap-solution-cta--splash.ap-solution-cta--solution .ap-solution-cta__wrap { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+/* The band's own background is the three seam ellipses on its bottom edge (the
+   footer paints their lower half). Their alphas follow site-footer's
+   2026-10-29 values (.23 / .26 / .33, was .15 / .17 / .22), so the two halves
+   of the glow match at the join now that no card hides the band's lower
+   half. */
+.ap-solution-cta.ap-solution-cta--splash {
+	position: relative;
+	isolation: isolate;
+	background:
+		radial-gradient(ellipse 34% 300px at 6% 100%, rgba(230, 28, 85, .23), rgba(230, 28, 85, .09) 45%, rgba(230, 28, 85, 0) 100%),
+		radial-gradient(ellipse 36% 300px at 50% 100%, rgba(0, 169, 145, .26), rgba(0, 169, 145, .11) 45%, rgba(0, 169, 145, 0) 100%),
+		radial-gradient(ellipse 34% 300px at 94% 100%, rgba(102, 102, 238, .33), rgba(102, 102, 238, .14) 45%, rgba(102, 102, 238, 0) 100%),
+		#fff;
+}
+@media (max-width: 1279px) {
+	.ap-solution-cta.ap-solution-cta--splash {
+		background:
+			radial-gradient(ellipse 40% 220px at 4% 100%, rgba(230, 28, 85, .23), rgba(230, 28, 85, .09) 45%, rgba(230, 28, 85, 0) 100%),
+			radial-gradient(ellipse 42% 220px at 50% 100%, rgba(0, 169, 145, .26), rgba(0, 169, 145, .11) 45%, rgba(0, 169, 145, 0) 100%),
+			radial-gradient(ellipse 40% 220px at 96% 100%, rgba(102, 102, 238, .33), rgba(102, 102, 238, .14) 45%, rgba(102, 102, 238, 0) 100%),
+			#fff;
+	}
+}
+
+/* The splash (QA 2026-10-29): indigo, teal and periwinkle orbs centred on the
+   copy and image at low alpha, each easing out through a mid stop. On its own
+   layer so a mask can fade it to nothing at both edges whatever the band's
+   height: the section above meets plain white, and only the seam ellipses
+   meet the footer. */
+.ap-solution-cta.ap-solution-cta--splash::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+	background:
+		radial-gradient(780px 420px at 30% 50%, rgba(80, 68, 225, .22), rgba(80, 68, 225, .09) 45%, rgba(80, 68, 225, 0) 72%),
+		radial-gradient(840px 440px at 68% 56%, rgba(0, 169, 145, .20), rgba(0, 169, 145, .08) 45%, rgba(0, 169, 145, 0) 72%),
+		radial-gradient(620px 320px at 90% 38%, rgba(131, 140, 246, .24), rgba(131, 140, 246, .10) 45%, rgba(131, 140, 246, 0) 72%);
+	-webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000 24%, #000 76%, rgba(0, 0, 0, 0) 100%);
+	mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000 24%, #000 76%, rgba(0, 0, 0, 0) 100%);
+}
+@media (max-width: 1279px) {
+	.ap-solution-cta.ap-solution-cta--splash::before {
+		background:
+			radial-gradient(640px 420px at 28% 46%, rgba(80, 68, 225, .22), rgba(80, 68, 225, .09) 45%, rgba(80, 68, 225, 0) 72%),
+			radial-gradient(700px 460px at 70% 58%, rgba(0, 169, 145, .20), rgba(0, 169, 145, .08) 45%, rgba(0, 169, 145, 0) 72%),
+			radial-gradient(520px 320px at 92% 34%, rgba(131, 140, 246, .24), rgba(131, 140, 246, .10) 45%, rgba(131, 140, 246, 0) 72%);
+	}
+}
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-solution-cta.ap-solution-cta--splash.ap-solution-cta.ap-solution-cta--splash.ap-solution-cta.ap-solution-cta--splash .ap-solution-cta__title { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+
+/* ==== The card look = the homepage's closing card (QA 2026-10-29, Joseph: "The blue section is INCONSISTENT. FOLLOW
+ * THE HOMEPAGE (excluding the contents) … The size and placement should be 100% the same.")
+ * The homepage's blue box is the site footer's own final CTA (site-footer .ap-final-cta-card). Every card-look band
+ * takes that card's geometry at every width, with only the words and the art differing:
+ *  - the band: --ap-section-y above and below, side gutters 24 / 32 (≤1279) / 20 (≤767), the card at most 1120 wide;
+ *  - the card: min-height 532 / 500 (≤1279) / auto (≤991), padding 80 64 / 64 48 / 48 32 0 (≤991) / 40 18 0 (≤767),
+ *    16px corners, the footer card's 256.98deg gradient, shadow and top-right glow;
+ *  - the copy: 488 wide (100%, at most 520, from 991 down), eyebrow 16/800 in #838cf6 without upper-casing or
+ *    tracking, 16 to the heading (type scale), 24 to the paragraph (18px white, 16px ≤767), 40 (24 ≤767) to the
+ *    button — whose size is the sitewide CTA button scale (tokens.css);
+ *  - the art: the footer art's box (563 wide, at most 54%; 520 / 52% ≤1279), flush bottom-right, the image fitted
+ *    inside at the footer art's 1126:728 proportion (contain, anchored bottom-right); from 991 down it sits under the
+ *    copy, 32 (28 ≤767) below it, right-aligned in the card's padding, 500 / 390 (≤767) / 340 (≤480) wide.
+ * Copy that cannot fit 532px at the homepage's width and type scale makes the card taller (min-height, as on the
+ * homepage); nothing is clipped. The splash look keeps its own rules. ==== */
+html body .ap-solution-cta.ap-solution-cta:not(.ap-solution-cta--splash) .ap-solution-cta__wrap {
+	max-width: none;
+	margin: 0;
+	padding: var(--ap-section-y, 64px) 24px;
+}
+html body .ap-solution-cta.ap-solution-cta:not(.ap-solution-cta--splash) .ap-solution-cta__card {
+	position: relative;
+	width: 100%;
+	max-width: 1120px;
+	min-height: 532px;
+	margin: 0 auto;
+	padding: 80px 64px;
+	overflow: hidden;
+	border-radius: 16px;
+	background: linear-gradient(256.98deg, #6666ee -2.19%, #201c4a 99.99%);
+	box-shadow: 0 2px 12px rgba(0, 0, 0, .08);
+}
+html body .ap-solution-cta.ap-solution-cta:not(.ap-solution-cta--splash) .ap-solution-cta__card::after {
+	content: "";
+	position: absolute;
+	z-index: 1;
+	right: -140px;
+	top: -140px;
+	width: 520px;
+	height: 520px;
+	border-radius: 999px;
+	background: radial-gradient(circle, rgba(255, 255, 255, .12) 0%, rgba(255, 255, 255, 0) 68%);
+	pointer-events: none;
+}
+html body .ap-solution-cta.ap-solution-cta:not(.ap-solution-cta--splash) .ap-solution-cta__content {
+	position: relative;
+	z-index: 3;
+	width: 488px;
+	max-width: 100%;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 0;
+}
+html body .ap-solution-cta.ap-solution-cta:not(.ap-solution-cta--splash) .ap-solution-cta__eyebrow {
+	width: 488px;
+	max-width: 100%;
+	margin: 0;
+	color: #838cf6;
+	font-size: 16px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: normal;
+	text-transform: none;
+	text-wrap: wrap;
+}
+html body .ap-solution-cta.ap-solution-cta:not(.ap-solution-cta--splash) .ap-solution-cta__title {
+	width: 488px;
+	max-width: 100%;
+	margin: 0;
+	color: #fff;
+	text-wrap: wrap;
+}
+html body .ap-solution-cta.ap-solution-cta:not(.ap-solution-cta--splash) .ap-solution-cta__eyebrow + .ap-solution-cta__title { margin-top: 16px; }
+html body .ap-solution-cta.ap-solution-cta:not(.ap-solution-cta--splash) .ap-solution-cta__lede {
+	width: 488px;
+	max-width: 100%;
+	margin: 24px 0 0;
+	color: #fff;
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 1.5;
+	text-wrap: wrap;
+}
+html body .ap-solution-cta.ap-solution-cta:not(.ap-solution-cta--splash) .ap-solution-cta__btn {
+	align-self: flex-start;
+	width: auto;
+	margin-top: 40px;
+	border-color: transparent;
+	background: linear-gradient(54.33deg, #5044e1 0%, #00a991 70.44%);
+}
+html body .ap-solution-cta.ap-solution-cta:not(.ap-solution-cta--splash) .ap-solution-cta__media {
+	position: absolute;
+	z-index: 2;
+	inset: auto 0 0 auto;
+	display: block;
+	width: 563px;
+	max-width: 54%;
+	height: auto;
+	aspect-ratio: 1126 / 728;
+	margin: 0;
+	object-fit: contain;
+	object-position: right bottom;
+	pointer-events: none;
+}
+@media (max-width: 1279px) {
+	html body .ap-solution-cta.ap-solution-cta:not(.ap-solution-cta--splash) .ap-solution-cta__wrap { padding-inline: 32px; }
+	html body .ap-solution-cta.ap-solution-cta:not(.ap-solution-cta--splash) .ap-solution-cta__card { min-height: 500px; padding: 64px 48px; }
+	html body .ap-solution-cta.ap-solution-cta:not(.ap-solution-cta--splash) .ap-solution-cta__media { width: 520px; max-width: 52%; }
+}
+@media (max-width: 991px) {
+	html body .ap-solution-cta.ap-solution-cta:not(.ap-solution-cta--splash) .ap-solution-cta__card { min-height: 0; padding: 48px 32px 0; }
+	html body .ap-solution-cta.ap-solution-cta:not(.ap-solution-cta--splash) .ap-solution-cta__content { width: 100%; max-width: 520px; }
+	html body .ap-solution-cta.ap-solution-cta:not(.ap-solution-cta--splash) .ap-solution-cta__media {
+		position: relative;
+		inset: auto;
+		width: 500px;
+		max-width: 100%;
+		margin: 32px 0 0 auto;
+	}
+}
+@media (max-width: 767px) {
+	html body .ap-solution-cta.ap-solution-cta:not(.ap-solution-cta--splash) .ap-solution-cta__wrap { padding-inline: 20px; }
+	html body .ap-solution-cta.ap-solution-cta:not(.ap-solution-cta--splash) .ap-solution-cta__card { padding: 40px 18px 0; }
+	html body .ap-solution-cta.ap-solution-cta:not(.ap-solution-cta--splash) .ap-solution-cta__lede { font-size: 16px; }
+	html body .ap-solution-cta.ap-solution-cta:not(.ap-solution-cta--splash) :is(.ap-solution-cta__eyebrow, .ap-solution-cta__title, .ap-solution-cta__lede) { width: 100%; }
+	html body .ap-solution-cta.ap-solution-cta:not(.ap-solution-cta--splash) .ap-solution-cta__btn { align-self: flex-start; width: auto; margin-top: 24px; }
+	html body .ap-solution-cta.ap-solution-cta:not(.ap-solution-cta--splash) .ap-solution-cta__media { width: 390px; margin-top: 28px; }
+}
+@media (max-width: 480px) {
+	html body .ap-solution-cta.ap-solution-cta:not(.ap-solution-cta--splash) .ap-solution-cta__media { width: 340px; }
+}
+@media (max-width: 360px) {
+	html body .ap-solution-cta.ap-solution-cta:not(.ap-solution-cta--splash) .ap-solution-cta__btn { align-self: stretch; width: 100%; }
+}

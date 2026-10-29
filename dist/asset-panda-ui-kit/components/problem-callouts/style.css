@@ -1,0 +1,540 @@
+/*
+ * problem-callouts — centred copy, a photo ringed by floating chips, a note
+ * and a CTA bar. Ported from the live `.ap-problem` section.
+ *
+ * The first five chips take the five placements the design defines (by
+ * position in the list); the rest stack under the photo. Below 768px every
+ * chip becomes a full-width row, so nothing floats over the photo on a phone.
+ */
+
+:where(.ap-problem-callouts, .ap-problem-callouts *, .ap-problem-callouts *::before, .ap-problem-callouts *::after) {
+	box-sizing: border-box;
+}
+
+.ap-problem-callouts {
+	position: relative;
+	overflow: hidden;
+	padding: 80px 0;
+	background: #fff;
+}
+
+.ap-problem-callouts__bg {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	width: 100%;
+	height: 100%;
+	max-width: none;
+	object-fit: cover;
+	pointer-events: none;
+	-webkit-mask-image: linear-gradient(rgba(0, 0, 0, 0) 0%, #000 7%, #000 90%, rgba(0, 0, 0, 0) 100%);
+	mask-image: linear-gradient(rgba(0, 0, 0, 0) 0%, #000 7%, #000 90%, rgba(0, 0, 0, 0) 100%);
+}
+
+.ap-problem-callouts__inner {
+	position: relative;
+	z-index: 1;
+	width: min(var(--ap-host-container, 1120px), 100% - 48px);
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 40px;
+}
+
+.ap-problem-callouts__header {
+	max-width: 640px;
+	text-align: center;
+}
+
+.ap-problem-callouts__eyebrow {
+	margin: 0 0 16px;
+	color: var(--ap-text-eyebrow);
+	font-family: var(--ap-font-utility);
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.5; /* inherited from the live section */
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.ap-problem-callouts__title {
+	margin: 0 0 16px;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: 40px;
+	font-weight: 800;
+	line-height: 1.2;
+}
+
+.ap-problem-callouts__lede {
+	margin: 0 0 8px;
+	color: var(--ap-text-body);
+	font-family: var(--ap-font-body);
+	font-size: 18px;
+	line-height: 1.5;
+}
+
+.ap-problem-callouts__kicker {
+	margin: 0;
+	color: var(--ap-text-body);
+	font-family: var(--ap-font-body);
+	font-size: 18px;
+	font-weight: 700;
+	line-height: 1.5;
+}
+
+.ap-problem-callouts__stage {
+	position: relative;
+	width: 100%;
+	max-width: var(--ap-host-container, 1120px);
+}
+
+.ap-problem-callouts__photo {
+	display: block;
+	width: 547px;
+	max-width: 100%;
+	height: auto;
+	margin: 0 auto;
+	border-radius: var(--ap-radius-lg);
+}
+
+.ap-problem-callouts__card {
+	position: absolute;
+	z-index: 2;
+	width: max-content;
+	max-width: 440px;
+	display: flex;
+	align-items: flex-start;
+	gap: 8px;
+	padding: 8px 12px;
+	border: 1px solid #e6e8f0;
+	border-radius: var(--ap-radius-md);
+	box-shadow: 0 2px 24px rgba(255, 201, 124, 0.08);
+}
+
+.ap-problem-callouts__card p {
+	flex: 1 0 0;
+	min-width: 1px;
+	margin: 0;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-body);
+	font-size: 16px;
+	line-height: 1.6;
+}
+
+.ap-problem-callouts__ico {
+	width: 24px;
+	height: 24px;
+	flex: 0 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.ap-problem-callouts__ico img,
+.ap-problem-callouts__ico svg {
+	width: 20px;
+	height: 20px;
+	object-fit: contain;
+}
+
+/* Tones: a tinted wash and a matching hairline. */
+.ap-problem-callouts__card--indigo {
+	border-color: #eef2ff;
+	background: linear-gradient(90deg, rgba(255, 255, 255, 0.8) 0%, #eef2ff 100%);
+}
+
+.ap-problem-callouts__card--rose {
+	border-color: #fff1f3;
+	background: linear-gradient(90deg, rgba(255, 255, 255, 0.8) 0%, #fff1f3 100%);
+}
+
+.ap-problem-callouts__card--mint {
+	border-color: #effefa;
+	background: linear-gradient(90deg, rgba(255, 255, 255, 0.9) 0%, #effefa 100%);
+}
+
+.ap-problem-callouts__card--slate {
+	border-color: var(--ap-athens-50);
+	background: linear-gradient(90deg, rgba(255, 255, 255, 0.8) 0%, var(--ap-athens-50) 100%);
+}
+
+.ap-problem-callouts__card--amber {
+	border-color: #fff7ed;
+	background: linear-gradient(90deg, rgba(255, 255, 255, 0.9) 0%, #fff7ed 100%);
+}
+
+/* The five placements from the design, by position in the list. */
+.ap-problem-callouts__card:nth-of-type(1) {
+	left: 51px;
+	top: 36px;
+	min-width: 305px;
+}
+
+.ap-problem-callouts__card:nth-of-type(2) {
+	left: 0;
+	top: 128px;
+	min-width: 312px;
+}
+
+.ap-problem-callouts__card:nth-of-type(3) {
+	right: 0;
+	top: 68px;
+	min-width: 384px;
+}
+
+.ap-problem-callouts__card:nth-of-type(4) {
+	left: 102px;
+	top: 220px;
+	min-width: 282px;
+}
+
+.ap-problem-callouts__card:nth-of-type(5) {
+	right: 44px;
+	top: 160px;
+	min-width: 372px;
+}
+
+.ap-problem-callouts__card:nth-of-type(n + 6) {
+	position: static;
+	width: 100%;
+	max-width: 480px;
+	margin: 12px auto 0;
+}
+
+/* The inner gap (40px) is the whole space above the note, as on live. */
+.ap-problem-callouts__note {
+	max-width: 480px;
+	margin: 0 auto;
+	color: var(--ap-text-body);
+	font-family: var(--ap-font-body);
+	font-size: 18px;
+	line-height: 1.5;
+	text-align: center;
+}
+
+.ap-problem-callouts__cta {
+	display: flex;
+	align-items: center;
+	gap: 24px;
+	width: 100%;
+	max-width: 794px;
+	padding: 20px 24px;
+	border: 1px solid #c8d2fd;
+	border-radius: var(--ap-radius-xl);
+	background: linear-gradient(39.6deg, var(--ap-indigo-50) 0%, #fff 100%);
+}
+
+.ap-problem-callouts__cta-body {
+	flex: 1 0 0;
+	min-width: 1px;
+	display: flex;
+	align-items: flex-start;
+	gap: 16px;
+}
+
+.ap-problem-callouts__cta-logo {
+	width: 42px;
+	height: 48px;
+	flex: 0 0 auto;
+	display: block;
+}
+
+.ap-problem-callouts__cta-logo img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.ap-problem-callouts__cta-title {
+	margin: 0 0 4px;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: 20px;
+	font-weight: 800;
+	line-height: 1.2;
+}
+
+.ap-problem-callouts__cta-accent {
+	display: block;
+	background: var(--ap-gradient-text);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
+}
+
+.ap-problem-callouts__cta-sub {
+	margin: 0;
+	color: var(--ap-text-body);
+	font-family: var(--ap-font-body);
+	font-size: 18px;
+	line-height: 1.5;
+}
+
+/* The site's .ap-btn, as live sets it: 14px 16px, square-ish 4px corners, bold. */
+.ap-problem-callouts__btn {
+	flex: 0 0 auto;
+	max-width: 200px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 14px 16px;
+	border: 0;
+	border-radius: 4px;
+	background-image: linear-gradient(54.6deg, #5044e1 0%, #00a991 70.44%);
+	color: #fff;
+	font-family: var(--ap-font-display);
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 1.2;
+	text-decoration: none;
+	white-space: nowrap;
+	transition: translate 0.2s, box-shadow 0.2s, filter 0.2s;
+}
+
+.ap-problem-callouts__btn:hover,
+.ap-problem-callouts__btn:focus-visible {
+	color: #fff;
+	translate: 0 -2px;
+	box-shadow: 0 8px 20px rgba(80, 68, 225, 0.25);
+	filter: brightness(1.06);
+}
+
+@media (prefers-reduced-motion: no-preference) and (min-width: 769px) {
+	.ap-problem-callouts__card {
+		animation: ap-problem-callouts-float 5s ease-in-out infinite alternate;
+	}
+
+	.ap-problem-callouts__card:nth-of-type(2) {
+		animation-delay: -1.2s;
+	}
+
+	.ap-problem-callouts__card:nth-of-type(3) {
+		animation-delay: -2.4s;
+	}
+
+	.ap-problem-callouts__card:nth-of-type(4) {
+		animation-delay: -3.6s;
+	}
+
+	.ap-problem-callouts__card:nth-of-type(5) {
+		animation-delay: -4.8s;
+	}
+}
+
+@media (max-width: 1024px) {
+	.ap-problem-callouts__card:nth-of-type(3) {
+		min-width: 340px;
+		max-width: 340px;
+	}
+
+	.ap-problem-callouts__card:nth-of-type(5) {
+		right: 24px;
+		min-width: 340px;
+		max-width: 340px;
+	}
+}
+
+@media (max-width: 768px) {
+	.ap-problem-callouts {
+		padding: 56px 0 var(--ph-pb-m, 48px);
+	}
+
+	.ap-problem-callouts__title {
+		font-size: 32px;
+	}
+
+	.ap-problem-callouts__lede,
+	.ap-problem-callouts__kicker,
+	.ap-problem-callouts__note,
+	.ap-problem-callouts__cta-sub {
+		font-size: 16px;
+	}
+
+	/* Every chip becomes a row under the photo. */
+	.ap-problem-callouts__stage {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--ph-gap, 16px);
+		margin-top: var(--ph-stage-mt, 0);
+	}
+
+	.ap-problem-callouts__photo {
+		margin: 0 auto 8px;
+	}
+
+	.ap-problem-callouts__card,
+	.ap-problem-callouts__card:nth-of-type(n) {
+		position: static;
+		inset: auto;
+		width: 100%;
+		min-width: 0;
+		max-width: 480px;
+		margin: 0 auto;
+		align-items: center;
+	}
+
+	/* Live sits the note 28px under the last chip: the 40px gap, less 12. */
+	.ap-problem-callouts__note {
+		margin-top: var(--ph-note-mt, -12px);
+	}
+
+	.ap-problem-callouts__cta {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 16px;
+	}
+
+	.ap-problem-callouts__btn {
+		max-width: none;
+	}
+}
+
+@media (max-width: 560px) {
+	.ap-problem-callouts {
+		padding: 40px 0 var(--ph-pb-s, 40px);
+	}
+
+	.ap-problem-callouts__title {
+		font-size: 28px;
+	}
+
+	.ap-problem-callouts__cta-title {
+		font-size: 18px;
+	}
+
+	.ap-problem-callouts__cta-body {
+		flex-direction: column;
+		gap: 12px;
+	}
+}
+
+@keyframes ap-problem-callouts-float {
+	from {
+		translate: 0 0;
+	}
+
+	to {
+		translate: 0 -6px;
+	}
+}
+
+/* Placed cards: each product page sets its own card positions on live; from 1181px
+ * a card carrying --card-x/--card-y sits there, --card-w wide (natural width without it). */
+@media (min-width: 1181px) {
+	.ap-problem-callouts__card.ap-problem-callouts__card--placed { position: absolute; left: var(--card-x); top: var(--card-y); right: auto; width: var(--card-w, auto); min-width: 0; max-width: none; margin: 0; }
+	/* One line, as on live; a paragraph text-wrap rule would otherwise re-enable wrapping. */
+	.ap-problem-callouts__card--placed p { white-space: nowrap; }
+}
+
+/*
+ * Banded cards: live places each page's cards its own way in each width band
+ * (overrides at 1181, 1025, 901 and 769px), so render.php hands over live's
+ * computed values per band and these blocks apply them. Below 769px every page
+ * stacks the cards, which the rules above already do.
+ */
+@media (min-width: 1181px) {
+	.ap-problem-callouts__card.ap-problem-callouts__card--banded {
+		position: var(--b1181-pos);
+		top: var(--b1181-t);
+		right: var(--b1181-r);
+		left: var(--b1181-l);
+		width: var(--b1181-w);
+		min-width: var(--b1181-minw);
+		max-width: var(--b1181-maxw);
+		margin: 0;
+	}
+
+	.ap-problem-callouts__card--banded p {
+		flex-grow: var(--b1181-fg);
+		flex-basis: var(--b1181-fb);
+		white-space: var(--b1181-ws);
+	}
+}
+
+@media (min-width: 1025px) and (max-width: 1180px) {
+	.ap-problem-callouts__card.ap-problem-callouts__card--banded {
+		position: var(--b1025-pos);
+		top: var(--b1025-t);
+		right: var(--b1025-r);
+		left: var(--b1025-l);
+		width: var(--b1025-w);
+		min-width: var(--b1025-minw);
+		max-width: var(--b1025-maxw);
+		margin: 0;
+	}
+
+	.ap-problem-callouts__card--banded p {
+		flex-grow: var(--b1025-fg);
+		flex-basis: var(--b1025-fb);
+		white-space: var(--b1025-ws);
+	}
+}
+
+@media (min-width: 901px) and (max-width: 1024px) {
+	.ap-problem-callouts__card.ap-problem-callouts__card--banded {
+		position: var(--b901-pos);
+		top: var(--b901-t);
+		right: var(--b901-r);
+		left: var(--b901-l);
+		width: var(--b901-w);
+		min-width: var(--b901-minw);
+		max-width: var(--b901-maxw);
+		margin: 0;
+	}
+
+	.ap-problem-callouts__card--banded p {
+		flex-grow: var(--b901-fg);
+		flex-basis: var(--b901-fb);
+		white-space: var(--b901-ws);
+	}
+}
+
+@media (min-width: 769px) and (max-width: 900px) {
+	.ap-problem-callouts__card.ap-problem-callouts__card--banded {
+		position: var(--b769-pos);
+		top: var(--b769-t);
+		right: var(--b769-r);
+		left: var(--b769-l);
+		width: var(--b769-w);
+		min-width: var(--b769-minw);
+		max-width: var(--b769-maxw);
+		margin: 0;
+	}
+
+	.ap-problem-callouts__card--banded p {
+		flex-grow: var(--b769-fg);
+		flex-basis: var(--b769-fb);
+		white-space: var(--b769-ws);
+	}
+}
+
+/* Local Government and Public Works run the accent on the same line as the
+   heading; Public Works also keeps that heading on one line from 769px. */
+.ap-problem-callouts--accent-inline .ap-problem-callouts__cta-accent {
+	display: inline;
+}
+
+@media (min-width: 769px) {
+	.ap-problem-callouts--cta-nowrap .ap-problem-callouts__cta-title {
+		white-space: nowrap;
+	}
+}
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: --ap-section-y top and bottom at every width (was 80 / 80,
+ * then 56 / --ph-pb-m and 40 / --ph-pb-s per page on phones; the pb_m / pb_s
+ * props no longer change the band's padding), --ap-section-head-gap under the
+ * head (was 40). */
+html body .ap-problem-callouts.ap-problem-callouts { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+.ap-problem-callouts .ap-problem-callouts__inner { gap: var(--ap-section-head-gap, 48px); }
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-problem-callouts.ap-problem-callouts.ap-problem-callouts .ap-problem-callouts__title { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+/* Section eyebrow on the type scale too: 12px at 390 to 14px at 1440, 800, 4% tracking, upper case. */
+html body .ap-problem-callouts.ap-problem-callouts.ap-problem-callouts .ap-problem-callouts__eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }

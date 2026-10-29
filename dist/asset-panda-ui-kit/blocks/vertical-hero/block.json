@@ -1,0 +1,326 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/vertical-hero",
+	"title": "AP Vertical Hero",
+	"category": "design",
+	"icon": "cover-image",
+	"description": "Product-page hero for the verticals: copy on the left over a composed stage — a faded dashboard, a person cut-out, three floating item cards joined by connector lines, and a panda badge. Live: the `#ap-hero` section on Fire, Police, Public Works, Local Government, K-12 and Higher Education. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": "FIRE ASSET MANAGEMENT SOFTWARE"
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"title_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_label": {
+			"type": "string",
+			"default": "Free Demo"
+		},
+		"cta_url": {
+			"type": "string",
+			"default": "/get-a-demo/"
+		},
+		"badges": {
+			"type": "array",
+			"default": [
+				{
+					"image": "/wp-content/uploads/2026/07/badge_govramp-1.svg",
+					"alt": "GovRAMP authorized"
+				},
+				{
+					"image": "/wp-content/uploads/2026/07/police-badge-soc2.png",
+					"alt": "SOC 2 Type 2 certified"
+				},
+				{
+					"image": "/wp-content/uploads/2026/07/badge_hipaa-1.svg",
+					"alt": "HIPAA compliant"
+				}
+			]
+		},
+		"dashboard": {
+			"type": "string",
+			"default": "/wp-content/uploads/2026/08/fire-hero-dash.jpg"
+		},
+		"person": {
+			"type": "string",
+			"default": "/wp-content/uploads/2026/08/Fireman-1.svg"
+		},
+		"layout": {
+			"type": "object",
+			"default": {
+				"dash": {
+					"x": 35.832,
+					"y": -4.545,
+					"w": 64.167,
+					"h": 90.364,
+					"mx": 0,
+					"my": 51.765,
+					"mw": 167.5,
+					"mh": 47.646
+				},
+				"person": {
+					"x": 57.5,
+					"y": -0.182,
+					"w": 30.625,
+					"h": 100.182,
+					"mx": 15.829,
+					"my": 55.294,
+					"mw": 68.329,
+					"mh": 44.706
+				},
+				"badge": {
+					"x": 72.846,
+					"y": 65.452,
+					"w": 3.056,
+					"h": 8,
+					"mx": 57.107,
+					"my": 87.252,
+					"mw": 7.276,
+					"mh": 3.852
+				}
+			}
+		},
+		"cards": {
+			"type": "array",
+			"default": [
+				{
+					"label": "Item",
+					"title": "Turnout Gear",
+					"status_label": "Status",
+					"tag": "Due Inspection",
+					"icon": "/wp-content/uploads/2026/08/fire-item-turnout.png",
+					"avatar": "",
+					"x": 52.014,
+					"y": 27.634,
+					"mx": 7.5,
+					"my": 69.043
+				},
+				{
+					"label": "Item",
+					"title": "SCBA Unit",
+					"status_label": "Status",
+					"tag": "Ready",
+					"icon": "/wp-content/uploads/2026/08/fire-item-scba.png",
+					"avatar": "",
+					"x": 55.207,
+					"y": 54.724,
+					"mx": 15.104,
+					"my": 82.088
+				},
+				{
+					"label": "Item",
+					"title": "Hydraulic Tool",
+					"status_label": "Status",
+					"tag": "In Service",
+					"icon": "/wp-content/uploads/2026/08/fire-item-hydraulic.png",
+					"avatar": "/wp-content/uploads/2026/08/fire-avatar.jpg",
+					"x": 73.818,
+					"y": 46.543,
+					"mx": 59.423,
+					"my": 78.149
+				}
+			]
+		},
+		"lines": {
+			"type": "array",
+			"default": [
+				[
+					1054,
+					356,
+					949.03,
+					227.86
+				],
+				[
+					1093,
+					360,
+					1119.29,
+					334
+				],
+				[
+					1044,
+					383,
+					998,
+					372
+				]
+			]
+		},
+		"lines_m": {
+			"type": "array",
+			"default": [
+				[
+					208.575,
+					590.947,
+					146.025,
+					514.569
+				],
+				[
+					231.794,
+					593.328,
+					247.447,
+					577.85
+				],
+				[
+					202.622,
+					607.019,
+					175.237,
+					600.471
+				]
+			]
+		},
+		"orbs": {
+			"type": "array",
+			"default": [
+				{
+					"cx": 1117.148,
+					"cy": 500.148,
+					"rx": 411.148,
+					"ry": 411.148,
+					"fill": "#5044E1"
+				},
+				{
+					"cx": 52.148,
+					"cy": -64.852,
+					"rx": 411.148,
+					"ry": 411.148,
+					"fill": "#00A991"
+				},
+				{
+					"cx": 447.5,
+					"cy": 214.5,
+					"rx": 642.5,
+					"ry": 446.5,
+					"fill": "#fff"
+				},
+				{
+					"cx": 1192.5,
+					"cy": -75.5,
+					"rx": 489.5,
+					"ry": 340.5,
+					"fill": "#fff"
+				},
+				{
+					"cx": 1316.5,
+					"cy": 267.5,
+					"rx": 171.5,
+					"ry": 171.5,
+					"fill": "#DE8D14"
+				},
+				{
+					"cx": 78.5,
+					"cy": 412.5,
+					"rx": 233.5,
+					"ry": 233.5,
+					"fill": "#5044E1"
+				}
+			]
+		},
+		"orbs_m": {
+			"type": "array",
+			"default": [
+				{
+					"cx": 543.148,
+					"cy": 695.148,
+					"rx": 411.148,
+					"ry": 411.148,
+					"fill": "#5044E1"
+				},
+				{
+					"cx": -363.852,
+					"cy": 130.148,
+					"rx": 411.148,
+					"ry": 411.148,
+					"fill": "#00A991"
+				},
+				{
+					"cx": 31.5,
+					"cy": 409.5,
+					"rx": 642.5,
+					"ry": 446.5,
+					"fill": "#fff"
+				},
+				{
+					"cx": 618.5,
+					"cy": 119.5,
+					"rx": 489.5,
+					"ry": 340.5,
+					"fill": "#fff"
+				},
+				{
+					"cx": 426.5,
+					"cy": 462.5,
+					"rx": 171.5,
+					"ry": 171.5,
+					"fill": "#DE8D14"
+				},
+				{
+					"cx": -337.5,
+					"cy": 607.5,
+					"rx": 233.5,
+					"ry": 233.5,
+					"fill": "#5044E1"
+				}
+			]
+		},
+		"mobile_cards": {
+			"type": "string",
+			"default": ""
+		},
+		"features": {
+			"type": "array",
+			"default": []
+		},
+		"features_style": {
+			"type": "string",
+			"default": "overlay",
+			"enum": [
+				"overlay",
+				"band"
+			]
+		},
+		"ratio": {
+			"type": "string",
+			"default": "1440/550"
+		},
+		"tablet": {
+			"type": "string",
+			"default": "scale",
+			"enum": [
+				"scale",
+				"overlay"
+			]
+		},
+		"m_top": {
+			"type": "number",
+			"default": 32
+		},
+		"m_flow": {
+			"type": "object",
+			"default": {}
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

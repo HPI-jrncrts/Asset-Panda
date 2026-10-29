@@ -1,0 +1,26 @@
+{
+	"name": "hero",
+	"description": "Page hero: centred eyebrow, headline with a gradient accent line, lede, body, calls to action and compliance badges over blurred colour orbs; a frosted product-video frame; a client-logo strip. Figma: Home Page > Hero (4331:28767). The reference component — copy its shape when adding new components.",
+	"props": {
+		"title": { "type": "string", "required": true, "description": "Main heading. Line breaks are kept." },
+		"title_accent": { "type": "string", "required": false, "default": "", "description": "Final heading line in the brand gradient, e.g. You Stay Compliant." },
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading." },
+		"lede": { "type": "string", "required": false, "default": "", "description": "Bold line directly under the heading." },
+		"subtitle": { "type": "string", "required": false, "default": "", "description": "Supporting body copy under the lede." },
+		"cta_label": { "type": "string", "required": false, "default": "", "description": "Primary button text. Renders only when both cta_label and cta_url are set." },
+		"cta_url": { "type": "string", "required": false, "default": "", "description": "Primary button destination URL." },
+		"secondary_label": { "type": "string", "required": false, "default": "", "description": "Secondary (outline) button text. Renders only with secondary_url." },
+		"secondary_url": { "type": "string", "required": false, "default": "", "description": "Secondary button destination URL." },
+		"secondary_mobile_only": { "type": "boolean", "required": false, "default": false, "description": "Show the secondary button on phones only (the desktop design has a single button)." },
+		"badges_label": { "type": "string", "required": false, "default": "", "description": "Small label above the badge row, e.g. Compliance Certifications." },
+		"badges": { "type": "array", "required": false, "default": [], "description": "Compliance badges. Each entry: image (URL) and alt." },
+		"media_video": { "type": "string", "required": false, "default": "", "description": "Product video URL (.mp4) shown in the frosted frame. Plays muted and looped." },
+		"media_image": { "type": "string", "required": false, "default": "", "description": "Poster image for the video, or the frame image when there is no video." },
+		"media_alt": { "type": "string", "required": false, "default": "", "description": "Accessible description of the video or image." },
+		"logos_label": { "type": "string", "required": false, "default": "", "description": "Heading of the client-logo strip, e.g. Trusted by thousands of organizations." },
+		"logos_accent": { "type": "string", "required": false, "default": "", "description": "Coloured continuation of the strip heading, e.g. managing millions of assets worldwide." },
+		"logos": { "type": "array", "required": false, "default": [], "description": "Client logos. Each entry: image (URL) and alt." },
+		"alignment": { "type": "string", "required": false, "default": "center", "enum": [ "left", "center" ], "description": "Horizontal alignment of the hero copy." },
+		"theme": { "type": "string", "required": false, "default": "light", "enum": [ "light", "dark", "brand" ], "description": "Background/foreground colour scheme." }
+	}
+}

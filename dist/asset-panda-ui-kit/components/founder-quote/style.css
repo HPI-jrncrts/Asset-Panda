@@ -1,0 +1,122 @@
+/*
+ * founder-quote — ported from the live .apx-fdr section.
+ *
+ * The live sheet owns its whole section, so every selector is scoped under the
+ * component root and the keyframes are renamed; the inner class names are kept
+ * so the port stays diffable against live.
+ */
+
+.ap-founder-quote{
+      --i:#5044e1; --t:#00a991; --ink:#25272c; --body:#4a4e5a;
+      position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box;
+      width:100%;   
+      font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+      color:var(--ink);
+      /* QA 2026-10-29: white, not the #eef2ff -> #fff vertical gradient, whose
+         tinted top edge drew a hard line under the section above. The colour
+         is now the centred splash below (.ap-founder-quote__glow). */
+      background:#fff;
+    }
+.ap-founder-quote *,.ap-founder-quote *::before,.ap-founder-quote *::after{box-sizing:border-box;}
+/* The dev theme sets text-wrap:pretty on headings and paragraphs; live wraps
+   greedily, so line breaks only match with the default restored. :where() keeps
+   this at class weight, so any later rule in this sheet still wins. */
+.ap-founder-quote :where(h1,h2,h3,h4,h5,h6,blockquote,caption,figcaption,p){text-wrap:wrap;}
+/* The splash (QA 2026-10-29 "adjust the background color to center splash"):
+   brand orbs at low alpha gathered on the middle of the section (indigo at the
+   centre, teal behind the quote, periwinkle behind the portrait), each easing
+   out through a mid stop so no orb shows an edge, and all of them sized from
+   the section so they fade to nothing well inside its top and bottom edges.
+   The mask makes sure of it: the top and bottom fifth are plain white, so
+   neither the section above nor the one below shows a divider. (Was a
+   1440x1080 teal/indigo glow hung off the top-right corner, which lit the top
+   edge.) */
+.ap-founder-quote__glow{
+      position:absolute; z-index:0; pointer-events:none; inset:0;
+      background:
+        radial-gradient(ellipse 50% 46% at 50% 52%, rgba(80,68,225,.20), rgba(80,68,225,.11) 34%, rgba(80,68,225,.036) 56%, rgba(80,68,225,0) 78%),
+        radial-gradient(ellipse 36% 42% at 70% 46%, rgba(0,169,145,.20), rgba(0,169,145,.11) 34%, rgba(0,169,145,.036) 56%, rgba(0,169,145,0) 78%),
+        radial-gradient(ellipse 34% 40% at 26% 58%, rgba(131,140,246,.22), rgba(131,140,246,.12) 34%, rgba(131,140,246,.04) 56%, rgba(131,140,246,0) 78%);
+      -webkit-mask-image:linear-gradient(180deg, rgba(0,0,0,0) 0%, #000 20%, #000 80%, rgba(0,0,0,0) 100%);
+      mask-image:linear-gradient(180deg, rgba(0,0,0,0) 0%, #000 20%, #000 80%, rgba(0,0,0,0) 100%);
+    }
+/* One column (portrait over quote): the section is far taller than wide, so
+   the orbs are sized wide and short and gathered behind the quote. */
+@media (max-width:980px){
+.ap-founder-quote__glow{
+      background:
+        radial-gradient(ellipse 110% 24% at 46% 60%, rgba(80,68,225,.18), rgba(80,68,225,.1) 34%, rgba(80,68,225,.032) 56%, rgba(80,68,225,0) 78%),
+        radial-gradient(ellipse 80% 20% at 84% 48%, rgba(0,169,145,.20), rgba(0,169,145,.11) 34%, rgba(0,169,145,.036) 56%, rgba(0,169,145,0) 78%),
+        radial-gradient(ellipse 80% 20% at 14% 72%, rgba(131,140,246,.22), rgba(131,140,246,.12) 34%, rgba(131,140,246,.04) 56%, rgba(131,140,246,0) 78%);
+    }
+}
+.ap-founder-quote__wrap{
+      
+      position:relative; z-index:1; width:100%; max-width:1200px; margin:0 auto;
+      padding:112px 40px 80px; display:flex; flex-direction:column; gap:40px;
+    }
+.ap-founder-quote__head{position:static;height:auto;background:none;max-width:480px; display:flex; flex-direction:column; gap:16px;}
+.ap-founder-quote__eyebrow{margin:0; font-size:14px; font-weight:800; line-height:1.2; letter-spacing:.56px; text-transform:uppercase; color:var(--i);}
+.ap-founder-quote__title{margin:0; font-size:40px; font-weight:800; line-height:1.2; color:var(--ink);}
+.ap-founder-quote__row{display:flex; gap:40px; align-items:center;}
+.ap-founder-quote__photo{
+      position:relative; flex:none; margin:0; width:450px; height:450px;
+      border-radius:21.75px; overflow:hidden;
+    }
+.ap-founder-quote__pic{width:100%; height:100%; object-fit:cover; display:block;}
+.ap-founder-quote__photo::after{
+      content:""; position:absolute; inset:0; pointer-events:none;
+      background:linear-gradient(155deg, rgba(255,255,255,0) 69%, rgba(255,255,255,.8) 100%);
+    }
+.ap-founder-quote__logo{position:absolute; z-index:2; right:29.88px; bottom:28.37px; width:109px; height:41px; display:block;}
+.ap-founder-quote__quote{
+      flex:1 1 0; min-width:0; margin:0;
+      border-left:2px solid var(--i);
+      padding:16px 24px 16px 32px;
+      display:flex; flex-direction:column; gap:16px; justify-content:center;
+    }
+.ap-founder-quote__qmark{width:19px; height:15.73px; display:block; flex:none;}
+.ap-founder-quote__pull{margin:0; font-size:28px; font-weight:800; line-height:1.4; color:var(--ink);}
+.ap-founder-quote__pull .g{
+      background:linear-gradient(48deg,#5044e1 4%,#00a991 55%);
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+.ap-founder-quote__body{display:flex; flex-direction:column; gap:4px;}
+.ap-founder-quote__body p{margin:0; font-size:18px; font-weight:400; line-height:1.8; color:var(--ink);}
+.ap-founder-quote__body b{font-weight:700;}
+.ap-founder-quote .apx-sup{font-weight:700; font-size:.62em; vertical-align:.42em; margin-left:1px;}
+.ap-founder-quote__author{display:flex; flex-direction:column; gap:4px;}
+.ap-founder-quote__author p{margin:0; line-height:1.5;}
+.ap-founder-quote__author .n{font-size:16px; font-weight:700; color:var(--i);}
+.ap-founder-quote__author .r{font-size:12px; font-weight:400; color:var(--body);}
+@media (max-width:980px){.ap-founder-quote__wrap{padding:80px 24px 64px; gap:32px;}
+.ap-founder-quote__title{font-size:34px;}
+.ap-founder-quote__row{flex-direction:column; gap:28px; align-items:stretch;}
+.ap-founder-quote__photo{width:100%; max-width:450px; height:auto; aspect-ratio:1/1; margin-inline:auto;}
+.ap-founder-quote__quote{padding:4px 0 4px 22px;}
+.ap-founder-quote__pull{font-size:24px;}
+}
+@media (max-width:560px){.ap-founder-quote__wrap{padding:64px 20px 56px;}
+.ap-founder-quote__title{font-size:28px;}
+.ap-founder-quote__pull{font-size:21px;}
+.ap-founder-quote__body p{font-size:16px; line-height:1.7;}
+.ap-founder-quote__logo{width:104px; right:18px; bottom:18px;}
+}
+
+/* ------------------------------------------------------------ Section rhythm + type scale (QA 2026-10-28, sections agent)
+ * Padding on the kit section rhythm (tokens.css "section rhythm") and the
+ * section title / eyebrow on the type-scale tokens, like every other section. */
+html body .ap-founder-quote.ap-founder-quote .ap-founder-quote__wrap { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+html body .ap-founder-quote.ap-founder-quote .ap-founder-quote__title { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+
+/* ------------------------------------------------------------ Opt-in extras (Partners page, 2026-10-29)
+ * None of these classes exist on the Asset Intelligence Platform or Ursa pages, so they render as before.
+ * photo_fade false: no white corner fade, so a white logo stays legible on a dark portrait (Figma Partners). */
+.ap-founder-quote--nofade .ap-founder-quote__photo::after { content: none; }
+/* cta_label / cta_url: a gradient button under the attribution, inside the ruled quote block (Figma "Email Today"). */
+.ap-founder-quote .ap-founder-quote__cta { margin: 0; }
+.ap-founder-quote .ap-founder-quote__btn,
+.ap-founder-quote .ap-founder-quote__btn:visited { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 14px 16px; border: 1px solid var(--ap-brand-indigo); border-radius: var(--ap-radius-sm, 4px); background: linear-gradient(57deg, var(--ap-brand-indigo) 0%, var(--ap-brand-green) 70.44%); color: var(--ap-white); font-size: 16px; font-weight: 600; line-height: 1.2; text-decoration: none; white-space: nowrap; transition: translate var(--ap-dur-base) var(--ap-ease-standard), box-shadow var(--ap-dur-base) var(--ap-ease-standard); }
+.ap-founder-quote .ap-founder-quote__btn:hover,
+.ap-founder-quote .ap-founder-quote__btn:focus-visible { translate: 0 -2px; box-shadow: 0 6px 18px rgba(80, 68, 225, .28); color: var(--ap-white); text-decoration: none; }
+.ap-founder-quote .ap-founder-quote__btn:focus-visible { outline: 3px solid var(--ap-brand-indigo); outline-offset: 2px; }

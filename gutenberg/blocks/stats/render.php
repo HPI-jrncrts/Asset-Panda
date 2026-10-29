@@ -22,6 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $props = array(
+	'eyebrow' => $attributes['eyebrow'] ?? '',
 	'items'   => $attributes['items'] ?? array(),
 	'columns' => $attributes['columns'] ?? 3,
 	'theme'   => $attributes['theme'] ?? 'light',

@@ -1,0 +1,299 @@
+/*
+ * ursa-steps — Ursa AI frame 7261:111601 ("Ask. Build. Analyze. Act.").
+ * Head: 640px, centred; eyebrow 14/800 indigo, H2 on the kit scale, lede 18/1.5.
+ * Cards: 1120px, 24px apart, radius 12, 0.8px white border, padding 24/40/24/24, a frosted
+ * white-to-sky fill over soft indigo and green blooms; top row = 360px lead column (label
+ * "01 ASK", 24/1.3/800 title) 120px from the 18/1.5 copy; then a slate-200 rule, 24px, and a
+ * two-column checklist (40px gap, 8px rows, 20px green check, 18/1.5 text). Dark card:
+ * indigo 600 to 950 at 219deg, white title, slate-200 copy with the bold white mark, the orb.
+ */
+.ap-ursa-steps,
+.ap-ursa-steps * { box-sizing: border-box; }
+
+.ap-ursa-steps {
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+	padding: var(--ap-section-y, 64px) 24px;
+	font-family: var(--ap-font-body, 'Manrope'), Arial, sans-serif;
+	color: var(--ap-text-heading, #25272c);
+	/* QA 2026-10-29: blooms 1.6x stronger (were .30/.26/.18/.18) so their colour shows through the
+	 * glass cards instead of reading as plain white. */
+	background:
+		radial-gradient(30% 24% at 64% 40%, rgba(146, 152, 255, .48), transparent 72%),
+		radial-gradient(24% 20% at 36% 64%, rgba(146, 152, 255, .42), transparent 72%),
+		radial-gradient(20% 20% at 28% 40%, rgba(29, 228, 192, .29), transparent 72%),
+		radial-gradient(22% 20% at 68% 72%, rgba(29, 228, 192, .29), transparent 72%),
+		linear-gradient(180deg, #f9fafb 0%, #fff 30%, #fff 100%);
+}
+.ap-ursa-steps :where(h2, h3, p, ul, li) { text-wrap: wrap; }
+
+.ap-ursa-steps__wrap {
+	width: 100%;
+	max-width: var(--ap-host-container, 1120px);
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	gap: var(--ap-section-head-gap, 40px);
+}
+
+.ap-ursa-steps__head {
+	width: 100%;
+	max-width: 640px;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	text-align: center;
+}
+.ap-ursa-steps .ap-ursa-steps__eyebrow {
+	margin: 0;
+	color: var(--ap-text-eyebrow, #5044e1);
+	font-size: var(--ap-type-eyebrow-size, 14px);
+	font-weight: var(--ap-type-eyebrow-weight, 800);
+	line-height: var(--ap-type-eyebrow-line, 1.2);
+	letter-spacing: var(--ap-type-eyebrow-track, .04em);
+	text-transform: uppercase;
+}
+.ap-ursa-steps .ap-ursa-steps__title {
+	margin: 0;
+	color: var(--ap-text-heading, #25272c);
+	font-family: inherit;
+	font-size: var(--ap-type-h2-size, 40px);
+	font-weight: var(--ap-type-h2-weight, 800);
+	line-height: var(--ap-type-h2-line, 1.2);
+	letter-spacing: var(--ap-type-h2-track, 0);
+	text-transform: none;
+}
+/* Body copy (lede, card copy, checklist) on the site's body rule (QA 2026-10-29): the body face at
+ * 400, 18px on desktop and 16px at 767 and below, line-height 1.5, body grey. Stated here because
+ * the dev theme's global style puts body text at 300, which these used to inherit (this section is
+ * not in tokens.css's host-type reset). The sizes are literal: no token steps at 767
+ * (--ap-fs-text-* steps at 992; the lede clamp is fluid). */
+.ap-ursa-steps .ap-ursa-steps__lede {
+	margin: 0;
+	color: var(--ap-text-body, #4a4e5a);
+	font-family: var(--ap-font-body, 'Manrope'), Arial, sans-serif;
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 1.5;
+	letter-spacing: 0;
+}
+
+.ap-ursa-steps__cards {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+.ap-ursa-steps__card {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	padding: 24px 40px 24px 24px;
+	border: .8px solid #fff;
+	border-radius: 12px;
+	background: radial-gradient(56% 50% at 50% 50%, rgba(255, 255, 255, .6), rgba(240, 249, 255, .6));
+	-webkit-backdrop-filter: blur(24px);
+	backdrop-filter: blur(24px);
+}
+
+.ap-ursa-steps__top {
+	display: flex;
+	align-items: flex-start;
+	gap: 120px;
+}
+.ap-ursa-steps__lead {
+	flex: 1 1 0;
+	min-width: 0;
+	max-width: 360px;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+.ap-ursa-steps .ap-ursa-steps__kicker {
+	margin: 0;
+	color: #00806e; /* the frame's green 600 (#00a991) is 3:1 on the card; this shade keeps its hue at 4.8:1 */
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: .56px;
+	text-transform: uppercase;
+}
+.ap-ursa-steps__num { color: var(--ap-brand-indigo, #5044e1); }
+.ap-ursa-steps .ap-ursa-steps__ct {
+	margin: 0;
+	color: var(--ap-text-heading, #25272c);
+	font-family: inherit;
+	font-size: var(--ap-type-h3-size, 24px);
+	font-weight: 800;
+	line-height: 1.3;
+	letter-spacing: 0;
+	text-transform: none;
+}
+.ap-ursa-steps .ap-ursa-steps__body {
+	flex: 1 1 0;
+	min-width: 0;
+	margin: 0;
+	color: var(--ap-text-body, #4a4e5a);
+	font-family: var(--ap-font-body, 'Manrope'), Arial, sans-serif;
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 1.5;
+	letter-spacing: 0;
+}
+
+.ap-ursa-steps__checks {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 8px 40px;
+	padding-top: 24px;
+	border-top: 1px solid #d8dbdf;
+}
+.ap-ursa-steps .ap-ursa-steps__list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+.ap-ursa-steps .ap-ursa-steps__list li {
+	position: relative;
+	margin: 0;
+	padding: 0 0 0 28px;
+	color: var(--ap-text-body, #4a4e5a);
+	font-family: var(--ap-font-body, 'Manrope'), Arial, sans-serif;
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 1.5;
+	letter-spacing: 0;
+}
+.ap-ursa-steps .ap-ursa-steps__list li::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: calc(.75em - 10px);
+	width: 20px;
+	height: 20px;
+	background: url("assets/check.svg") center / 20px 20px no-repeat;
+}
+
+/* Dark card: indigo, white title, the orb on the right, a green glow under it. */
+.ap-ursa-steps .ap-ursa-steps__card--dark {
+	border-color: #d8dbdf;
+	background: linear-gradient(219.04deg, var(--ap-brand-indigo, #5044e1) 2.19%, #201c4a 99.99%);
+	-webkit-backdrop-filter: none;
+	backdrop-filter: none;
+}
+.ap-ursa-steps__card--dark .ap-ursa-steps__num { color: #fff; }
+.ap-ursa-steps .ap-ursa-steps__card--dark .ap-ursa-steps__kicker { color: #5eead4; } /* green 600 is ~3:1 on the indigo; teal 300 reads at 9:1 */
+/* Frame: 360px lead, 120px, 373px copy, then the orb pushed right (at least 40px away). */
+.ap-ursa-steps__card--dark .ap-ursa-steps__top { gap: 0; }
+.ap-ursa-steps__card--dark .ap-ursa-steps__lead { flex: 0 1 360px; margin-right: 120px; }
+.ap-ursa-steps__card--dark .ap-ursa-steps__body { flex: 1 1 auto; margin-right: 40px; }
+.ap-ursa-steps .ap-ursa-steps__card--dark .ap-ursa-steps__ct { color: #fff; max-width: 227px; }
+.ap-ursa-steps .ap-ursa-steps__card--dark .ap-ursa-steps__body { color: #d8dbdf; max-width: 373px; }
+.ap-ursa-steps__card--dark .ap-ursa-steps__body .ap-ursa { color: #fff; font-weight: 700; }
+.ap-ursa-steps__glow {
+	position: absolute;
+	z-index: -1;
+	right: -299px;
+	top: -94px;
+	width: 729px;
+	height: 639px;
+	max-width: none;
+	pointer-events: none;
+}
+.ap-ursa-steps__orb {
+	position: relative;
+	flex: none;
+	width: 163px;
+	height: 160px;
+	margin-left: auto;
+}
+.ap-ursa-steps__orb img {
+	position: absolute;
+	left: -14.12px;
+	top: -20.37px;
+	width: 191.32px;
+	height: 199.08px;
+	max-width: none;
+	display: block;
+}
+
+@media (max-width: 1100px) {
+	.ap-ursa-steps__top { gap: 48px; }
+	.ap-ursa-steps__card--dark .ap-ursa-steps__lead { margin-right: 48px; }
+}
+
+@media (max-width: 860px) {
+	.ap-ursa-steps__card { padding: 24px; }
+	.ap-ursa-steps__top { flex-direction: column; gap: 12px; }
+	.ap-ursa-steps__lead { max-width: none; gap: 10px; }
+	.ap-ursa-steps__card--dark .ap-ursa-steps__top { flex-direction: row; flex-wrap: wrap; gap: 12px 24px; }
+	.ap-ursa-steps__card--dark .ap-ursa-steps__lead { flex: 1 1 100%; margin-right: 0; }
+	.ap-ursa-steps .ap-ursa-steps__card--dark .ap-ursa-steps__ct { max-width: none; }
+	.ap-ursa-steps .ap-ursa-steps__card--dark .ap-ursa-steps__body { flex: 1 1 280px; max-width: none; margin-right: 0; }
+	.ap-ursa-steps__card--dark .ap-ursa-steps__orb { width: 120px; height: 118px; }
+	.ap-ursa-steps__card--dark .ap-ursa-steps__orb img { left: -10.4px; top: -15px; width: 140.8px; height: 146.5px; }
+}
+
+/* Phones and small tablets: body copy at 16px (the kit's body rule: 18px desktop, 16px at 767 and below). */
+@media (max-width: 767px) {
+	.ap-ursa-steps .ap-ursa-steps__lede,
+	.ap-ursa-steps .ap-ursa-steps__body,
+	.ap-ursa-steps .ap-ursa-steps__list li { font-size: 16px; }
+}
+
+@media (max-width: 640px) {
+	/* Phones (QA 2026-10-29): the cards drop their blur here, and on a narrow, very tall section the
+	 * desktop blooms became thin ellipses that showed as coloured bars in the gaps between nearly
+	 * white cards. Wider blooms at the same strength and a lighter card fill put the colour inside
+	 * the cards, as on desktop. */
+	.ap-ursa-steps {
+		padding-left: 16px;
+		padding-right: 16px;
+		background:
+			radial-gradient(64% 15% at 70% 31%, rgba(146, 152, 255, .48), transparent 72%),
+			radial-gradient(60% 14% at 30% 57%, rgba(146, 152, 255, .42), transparent 72%),
+			radial-gradient(56% 13% at 26% 17%, rgba(29, 228, 192, .29), transparent 72%),
+			radial-gradient(58% 14% at 74% 76%, rgba(29, 228, 192, .29), transparent 72%),
+			linear-gradient(180deg, #f9fafb 0%, #fff 30%, #fff 100%);
+	}
+	.ap-ursa-steps__card { padding: 20px; gap: 20px; -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(255, 255, 255, .6); }
+	.ap-ursa-steps__checks { grid-template-columns: 1fr; padding-top: 20px; }
+	.ap-ursa-steps__card--dark .ap-ursa-steps__orb { display: none; }
+}
+
+/* QA 2026-10-29 (Joseph, "From question to action"): the copy on the right of each card sits on the vertical centre
+   of the card's heading block, not at its top (card 02's two-line copy beside a three-line heading). Side-by-side
+   layouts only; stacked phone cards keep their order. */
+@media (min-width: 861px) {
+	.ap-ursa-steps__top { align-items: center; } /* heading block, copy (and the Act card's orb) share one centre line */
+}
+
+/* QA 2026-10-29 (Figma QA): sections without a colour gradient are pure white (Joseph, sitewide). The base fade
+ * started at #f9fafb, so the top edge met the white trust strip above as a grey band on /ursa-ai/. Same blooms
+ * as above (desktop and phone), white base instead of the fade. */
+.ap-ursa-steps {
+	background:
+		radial-gradient(30% 24% at 64% 40%, rgba(146, 152, 255, .48), transparent 72%),
+		radial-gradient(24% 20% at 36% 64%, rgba(146, 152, 255, .42), transparent 72%),
+		radial-gradient(20% 20% at 28% 40%, rgba(29, 228, 192, .29), transparent 72%),
+		radial-gradient(22% 20% at 68% 72%, rgba(29, 228, 192, .29), transparent 72%),
+		#fff;
+}
+@media (max-width: 640px) {
+	.ap-ursa-steps {
+		background:
+			radial-gradient(64% 15% at 70% 31%, rgba(146, 152, 255, .48), transparent 72%),
+			radial-gradient(60% 14% at 30% 57%, rgba(146, 152, 255, .42), transparent 72%),
+			radial-gradient(56% 13% at 26% 17%, rgba(29, 228, 192, .29), transparent 72%),
+			radial-gradient(58% 14% at 74% 76%, rgba(29, 228, 192, .29), transparent 72%),
+			#fff;
+	}
+}

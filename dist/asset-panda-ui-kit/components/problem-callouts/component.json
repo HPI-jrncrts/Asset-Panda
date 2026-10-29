@@ -1,0 +1,25 @@
+{
+	"name": "problem-callouts",
+	"description": "Problem section: centred heading and lede over a photo ringed by floating callout chips, a closing note and a panda CTA bar. Live: the `.ap-problem` section on every vertical and hub page.",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "The Challenge", "description": "Small label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading. Line breaks are kept." },
+		"lede": { "type": "string", "required": false, "default": "", "description": "Paragraph under the heading." },
+		"kicker": { "type": "string", "required": false, "default": "", "description": "Bold line under the lede, e.g. That works — until it doesn't." },
+		"image": { "type": "string", "required": false, "default": "", "description": "Photo at the centre of the stage." },
+		"image_alt": { "type": "string", "required": false, "default": "", "description": "Photo alt text." },
+		"background": { "type": "string", "required": false, "default": "", "description": "Soft background image behind the section." },
+		"cards": { "type": "array", "required": false, "default": [], "description": "Callout chips around the photo; the first five take the design's placements. Each: text (required); optional icon (URL), icon_svg (inline SVG), icon_alt, tone (indigo, rose, mint, slate, amber), x, y, w (px on the stage, used from 1181px) to place it as the page does, and bands: live's computed placement per width band, keyed 1181, 1025, 901 and 769, each {pos, l, r, t, w, minw, maxw (lengths or keywords), ws (nowrap or normal), fg, fb (the text's flex grow and basis)}." },
+		"note": { "type": "string", "required": false, "default": "", "description": "Closing line under the stage." },
+		"cta_title": { "type": "string", "required": false, "default": "", "description": "CTA bar heading." },
+		"cta_accent": { "type": "string", "required": false, "default": "", "description": "Second line of the CTA heading, painted with the brand gradient." },
+		"cta_sub": { "type": "string", "required": false, "default": "", "description": "CTA bar supporting line." },
+		"cta_logo": { "type": "string", "required": false, "default": "panda-mark.svg", "description": "Small mark beside the CTA copy: a file in assets/ or a URL." },
+		"cta_label": { "type": "string", "required": false, "default": "", "description": "CTA button text. Renders only with cta_url." },
+		"cta_url": { "type": "string", "required": false, "default": "", "description": "CTA button destination." },
+		"cta_accent_inline": { "type": "boolean", "required": false, "default": false, "description": "Run the CTA accent on the heading line instead of below it (live Local Government and Public Works)." },
+		"cta_nowrap": { "type": "boolean", "required": false, "default": false, "description": "Keep the CTA heading on one line from 769px (live Public Works)." },
+		"phone": { "type": "object", "required": false, "default": {}, "description": "Phone spacing in px, as live measures it: stage_mt (extra space above the photo), gap (between photo and chips), note_mt (note offset), pb_m and pb_s (bottom padding at 561-768px and at 560px and below)." },
+		"reveal": { "type": "boolean", "required": false, "default": true, "description": "Reveal the section on scroll." }
+	}
+}

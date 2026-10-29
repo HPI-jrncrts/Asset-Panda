@@ -2,6 +2,9 @@
 /**
  * stats — a grid of headline statistics.
  *
+ * Mirrors the live homepage stats band (#ap-stats-v3) element for element, so
+ * the ported stylesheet applies class for class.
+ *
  * Presentation only. Props arrive validated by ap_render_component() against
  * component.json; everything dynamic is escaped at the point of output.
  *
@@ -43,23 +46,17 @@ $classes = array(
 );
 ?>
 <section class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>">
-	<div class="ap-stats__inner">
-		<ul class="ap-stats__grid">
+	<div class="ap-stats-inner">
+		<div class="ap-stats-grid">
 			<?php foreach ( $items as $i => $item ) : ?>
-				<li
-					class="ap-stats__item"
-					<?php if ( $reveal ) : ?>
-						data-ap-reveal
-						data-ap-reveal-delay="<?php echo esc_attr( (string) ( ( $i % $columns ) + 1 ) ); ?>"
-					<?php endif; ?>
-				>
-					<p class="ap-stats__value"><?php echo esc_html( $item['value'] ); ?></p>
-					<p class="ap-stats__label"><?php echo esc_html( $item['label'] ); ?></p>
+				<div class="ap-stat"<?php if ( $reveal ) : ?> data-ap-reveal data-ap-reveal-delay="<?php echo esc_attr( (string) ( ( $i % $columns ) + 1 ) ); ?>"<?php endif; ?>>
+					<div class="ap-stat-number"><?php echo esc_html( $item['value'] ); ?></div>
+					<div class="ap-stat-label"><?php echo esc_html( $item['label'] ); ?></div>
 					<?php if ( ! empty( $item['description'] ) ) : ?>
-						<p class="ap-stats__desc"><?php echo esc_html( $item['description'] ); ?></p>
+						<div class="ap-stat-desc"><?php echo esc_html( $item['description'] ); ?></div>
 					<?php endif; ?>
-				</li>
+				</div>
 			<?php endforeach; ?>
-		</ul>
+		</div>
 	</div>
 </section>

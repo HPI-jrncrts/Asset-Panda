@@ -12,7 +12,7 @@
 }
 
 .ap-trust-strip__inner {
-	width: min(var(--ap-page-max-content-xl, 1120px), 100% - 48px);
+	width: min(var(--ap-host-container, 1120px), 100% - 48px);
 	margin: 0 auto;
 	display: flex;
 	align-items: center;
@@ -166,3 +166,133 @@
 		display: none;
 	}
 }
+
+/*
+ * layout "stacked" (Asset Intelligence Platform, live .apx-logos): the label sits
+ * centred above one row of logos drawn at their own sizes; from 1140px down the
+ * row becomes the marquee. Every rule is one class deeper than the default
+ * strip's, so it wins at any width without touching the inline layout.
+ */
+.ap-trust-strip--stacked { background: linear-gradient(180deg, #fff 0%, #f9fafb 100%); }
+.ap-trust-strip--stacked .ap-trust-strip__inner { width: 100%; max-width: 1200px; flex-direction: column; align-items: center; gap: 24px; padding: 20px 40px; border-top: 0; overflow: hidden; }
+.ap-trust-strip--stacked .ap-trust-strip__label { flex: none; width: auto; max-width: 779px; text-align: center; color: #25272c; }
+.ap-trust-strip--stacked .ap-trust-strip__accent { background: none; -webkit-text-fill-color: currentColor; color: #5044e1; }
+.ap-trust-strip--stacked .ap-trust-strip__badges { flex: none; width: auto; flex-wrap: nowrap; justify-content: center; gap: 48px; padding: 0; }
+.ap-trust-strip--stacked .ap-trust-strip__badge { width: auto; height: auto; display: flex; align-items: center; }
+.ap-trust-strip--stacked .ap-trust-strip__badge img { width: auto; height: auto; }
+.ap-trust-strip--stacked .ap-trust-strip__badge--dup { display: none; }
+@media (max-width: 1140px) {
+	.ap-trust-strip--stacked .ap-trust-strip__badges--marquee { width: max-content; max-width: none; justify-content: flex-start; gap: 0; animation: ap-trust-strip-scroll 30s linear infinite; will-change: transform; }
+	.ap-trust-strip--stacked .ap-trust-strip__badges--marquee .ap-trust-strip__badge { margin-right: 48px; }
+	.ap-trust-strip--stacked .ap-trust-strip__badges--marquee .ap-trust-strip__badge--dup { display: flex; }
+}
+@media (max-width: 560px) {
+	.ap-trust-strip--stacked .ap-trust-strip__inner { padding: 24px 20px; gap: 18px; }
+	.ap-trust-strip--stacked .ap-trust-strip__label { font-size: 13px; }
+	.ap-trust-strip--stacked .ap-trust-strip__badge { width: auto; height: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+	.ap-trust-strip--stacked .ap-trust-strip__badges--marquee { animation: none; flex-wrap: wrap; width: auto; justify-content: center; gap: 40px; }
+	.ap-trust-strip--stacked .ap-trust-strip__badges--marquee .ap-trust-strip__badge { margin-right: 0; }
+	.ap-trust-strip--stacked .ap-trust-strip__badges--marquee .ap-trust-strip__badge--dup { display: none; }
+}
+
+/*
+ * layout "solution" (the solution pages' live .epx-trust): a wider label beside
+ * one row of 120x60 logo boxes that never wraps; at 900px and below it stacks
+ * and the row becomes the marquee.
+ */
+.ap-trust-strip--solution .ap-trust-strip__label { flex: 0 0 auto; width: 227px; }
+.ap-trust-strip--solution .ap-trust-strip__badges { flex-wrap: nowrap; justify-content: space-between; gap: 20px; padding: 0 8px; }
+.ap-trust-strip--solution .ap-trust-strip__badge { width: 120px; height: 60px; }
+@media (max-width: 900px) {
+	.ap-trust-strip--solution .ap-trust-strip__inner { flex-direction: column; align-items: flex-start; gap: 24px; padding: 32px 0; overflow: hidden; }
+	.ap-trust-strip--solution .ap-trust-strip__label { width: auto; max-width: none; }
+	.ap-trust-strip--solution .ap-trust-strip__badges--marquee { width: max-content; max-width: none; justify-content: flex-start; gap: 0; padding: 0; animation: ap-trust-strip-scroll 18s linear infinite; will-change: transform; }
+	.ap-trust-strip--solution .ap-trust-strip__badges--marquee .ap-trust-strip__badge { margin-right: 40px; }
+	.ap-trust-strip--solution .ap-trust-strip__badges--marquee .ap-trust-strip__badge--dup { display: block; }
+}
+@media (max-width: 640px) {
+	.ap-trust-strip--solution .ap-trust-strip__badge { width: 112px; height: 56px; }
+}
+@media (prefers-reduced-motion: reduce) {
+	.ap-trust-strip--solution .ap-trust-strip__badges--marquee { animation: none; flex-wrap: wrap; width: auto; justify-content: center; gap: 24px 40px; }
+	.ap-trust-strip--solution .ap-trust-strip__badges--marquee .ap-trust-strip__badge { margin-right: 0; }
+	.ap-trust-strip--solution .ap-trust-strip__badges--marquee .ap-trust-strip__badge--dup { display: none; }
+}
+
+/*
+ * layout "hub" — the Government, Healthcare, Construction and Manufacturing hubs:
+ * live #ap-gov-trust, ported whole (selectors re-rooted at .ap-trust-strip--hub,
+ * keyframes renamed). One row of 110x80 logos that never wraps (overflow clips,
+ * as live); below 768px the label sits centred above a marquee of 90x64 logos.
+ */
+.ap-trust-strip.ap-trust-strip--hub{position:relative;background:#fff;font-family:Manrope,sans-serif;padding:0 24px}
+.ap-trust-strip.ap-trust-strip--hub .apg-trust-in{max-width:1120px;margin:0 auto;display:flex;align-items:center;gap:40px;padding:40px 0;border-top:1px solid #edeef1}
+.ap-trust-strip.ap-trust-strip--hub .apg-trust-label{width:172px;flex:0 0 172px;font-size:14px;font-weight:700;line-height:1.2;color:#25272c;margin:0}
+.ap-trust-strip.ap-trust-strip--hub .apg-trust-grad{background:linear-gradient(34deg,#5044e1 0%,#00a991 70.44%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ap-trust-strip.ap-trust-strip--hub .apg-trust-logos{flex:1;overflow:hidden;padding:0 40px}
+.ap-trust-strip.ap-trust-strip--hub .apg-trust-track{display:flex;align-items:center;justify-content:space-between;width:100%}
+.ap-trust-strip.ap-trust-strip--hub .apg-trust-track img{width:110px;height:80px;object-fit:contain;display:block}
+.ap-trust-strip.ap-trust-strip--hub .apg-trust-track img.apg-tr-dup,.ap-trust-strip.ap-trust-strip--hub .apg-trust-track a.apg-tr-dup{display:none}
+@media (max-width:767px){
+.ap-trust-strip.ap-trust-strip--hub .apg-trust-in{flex-direction:column;gap:24px;padding:32px 0;text-align:center}
+.ap-trust-strip.ap-trust-strip--hub .apg-trust-label{width:auto;flex:none}
+.ap-trust-strip.ap-trust-strip--hub .apg-trust-logos{width:100%;padding:0}
+.ap-trust-strip.ap-trust-strip--hub .apg-trust-track{width:max-content;max-width:none;justify-content:flex-start;animation:apTrustHubApgTrMarq 16s linear infinite}
+.ap-trust-strip.ap-trust-strip--hub .apg-trust-track img{width:90px;height:64px;margin-right:40px}
+.ap-trust-strip.ap-trust-strip--hub .apg-trust-track img.apg-tr-dup,.ap-trust-strip.ap-trust-strip--hub .apg-trust-track a.apg-tr-dup{display:block}
+.ap-trust-strip.ap-trust-strip--hub .apg-trust-track--still{animation:none;width:100%;flex-wrap:wrap;justify-content:center}
+}
+@keyframes apTrustHubApgTrMarq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/*
+ * layout "eduhub" — the Education hub: live #ap-eduhub-trust (both of its sheets),
+ * ported whole. The label keeps its line break and wraps above the logos once the
+ * row no longer fits beside it; at 900px and below the row is a marquee under a
+ * centred label; 88x64 logos at 600px and below. Live's full-bleed
+ * width:100vw / margin-left:calc(50% - 50vw) is dropped: the block is already full
+ * width, and 100vw scrolls sideways wherever the browser shows a scrollbar.
+ */
+.ap-trust-strip.ap-trust-strip--eduhub{background:#ffffff}
+.ap-trust-strip.ap-trust-strip--eduhub *{box-sizing:border-box}
+.ap-trust-strip.ap-trust-strip--eduhub .apt-container{max-width:1168px;margin:0 auto;padding:0 24px}
+.ap-trust-strip.ap-trust-strip--eduhub .apt-inner{display:flex;align-items:center;gap:40px;padding:40px 0;border-top:1px solid #edeef1;flex-wrap:wrap}
+.ap-trust-strip.ap-trust-strip--eduhub .apt-label{flex:0 0 auto;width:auto;max-width:260px;margin:0;font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-weight:700;font-size:14px;line-height:1.2;color:#25272c}
+.ap-trust-strip.ap-trust-strip--eduhub .apt-label-grad{background-image:linear-gradient(37.5deg,#5044e1 0%,#00a991 70.44%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.ap-trust-strip.ap-trust-strip--eduhub .apt-badges{flex:1 1 320px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px 40px;list-style:none;margin:0;padding:0 40px;max-width:1120px}
+.ap-trust-strip.ap-trust-strip--eduhub .apt-badge{flex:0 0 auto;width:110px;height:80px}
+.ap-trust-strip.ap-trust-strip--eduhub .apt-badge a{display:block;width:100%;height:100%}
+.ap-trust-strip.ap-trust-strip--eduhub .apt-badge img{display:block;width:100%;height:100%;object-fit:contain}
+.ap-trust-strip.ap-trust-strip--eduhub .apt-badge.apt-dup{display:none}
+@media (max-width:900px){
+.ap-trust-strip.ap-trust-strip--eduhub .apt-badges{padding:0;justify-content:space-around}
+}
+@media (max-width:600px){
+.ap-trust-strip.ap-trust-strip--eduhub .apt-inner{gap:20px;padding:28px 0}
+.ap-trust-strip.ap-trust-strip--eduhub .apt-badge{width:88px;height:64px}
+.ap-trust-strip.ap-trust-strip--eduhub .apt-badges{gap:16px 24px}
+}
+@media (max-width:900px){
+.ap-trust-strip.ap-trust-strip--eduhub .apt-container{padding-left:0;padding-right:0}
+.ap-trust-strip.ap-trust-strip--eduhub .apt-inner{overflow:hidden;padding-left:0;padding-right:0}
+.ap-trust-strip.ap-trust-strip--eduhub .apt-label{text-align:center;margin:0 auto}
+.ap-trust-strip.ap-trust-strip--eduhub .apt-badges{flex-wrap:nowrap;width:max-content;justify-content:flex-start;gap:0;animation:apTrustEduAptScroll 16s linear infinite}
+.ap-trust-strip.ap-trust-strip--eduhub .apt-badge{margin-right:36px}
+.ap-trust-strip.ap-trust-strip--eduhub .apt-badge.apt-dup{display:flex}
+.ap-trust-strip.ap-trust-strip--eduhub .apt-badges--still{animation:none;width:100%;flex-wrap:wrap;justify-content:center}
+}
+@keyframes apTrustEduAptScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* Without motion the marquee rows show the logos once, wrapped and centred. */
+@media (max-width:767px) and (prefers-reduced-motion: reduce){
+.ap-trust-strip.ap-trust-strip--hub .apg-trust-track{animation:none;width:100%;flex-wrap:wrap;justify-content:center}
+.ap-trust-strip.ap-trust-strip--hub .apg-trust-track img.apg-tr-dup,.ap-trust-strip.ap-trust-strip--hub .apg-trust-track a.apg-tr-dup{display:none}
+}
+@media (max-width:900px) and (prefers-reduced-motion: reduce){
+.ap-trust-strip.ap-trust-strip--eduhub .apt-badges{animation:none;width:100%;flex-wrap:wrap;justify-content:center}
+.ap-trust-strip.ap-trust-strip--eduhub .apt-badge.apt-dup{display:none}
+}
+
+/* The staging theme sets text-wrap:pretty on paragraphs; live wraps plainly. */
+.ap-trust-strip--hub p, .ap-trust-strip--eduhub p {text-wrap:wrap}

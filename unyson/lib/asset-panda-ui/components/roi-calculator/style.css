@@ -1,0 +1,744 @@
+/*
+ * roi-calculator — port of live's `.bs-section--roi-calculator` (/roi-calculator/),
+ * redrawn in the 2026 look of pricing-calculator: the same card, slider track
+ * and thumb, value pill, tinted row icons, gradient total card and button.
+ *
+ * Live (e25 theme) -> kit: the accordion (#roiAccordion .card) -> __group
+ * (the first an always-open div, the rest <details>); .form-group ->
+ * __field; ion.rangeSlider + the phone stepper -> one native range with - / +
+ * buttons and a pill at every width; .accordion-total rows -> __subtotal;
+ * .bs-section--roi-calculator_summary (sticky) -> __results (sticky).
+ *
+ * Layout keys off the component's own width, not the viewport: on staging it
+ * sits in the page-article column (800px wide at desktop), elsewhere it can be
+ * a full band. Root >= 760px: inputs beside a 272px savings panel; narrower:
+ * stacked. The fields pair up whenever the inputs column is >= 380px.
+ *
+ * Every selector is two classes deep (0,2,0) so it outranks the article
+ * column's element rules (`.ap26-article p / h2 / a`, 0,1,1).
+ */
+
+.ap-roi-calculator {
+	container: ap-roicalc / inline-size;
+	width: 100%;
+	padding: 24px 0 32px;
+	box-sizing: border-box;
+	text-align: left;
+	color: var(--ap-slate-900);
+	font-family: var(--ap-font-body);
+}
+
+.ap-roi-calculator,
+.ap-roi-calculator * {
+	box-sizing: border-box;
+}
+
+/* The staging theme sets text-wrap:pretty on headings and paragraphs. */
+.ap-roi-calculator :where(h1, h2, h3, h4, h5, h6, p, label) {
+	text-wrap: wrap;
+}
+
+.ap-roi-calculator .ap-roi-calculator__sr {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* ------------------------------------------------------------------ card */
+
+.ap-roi-calculator .ap-roi-calculator__card {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 32px;
+	width: 100%;
+	max-width: 1120px;
+	margin: 0 auto;
+	padding: 24px 20px;
+	background: var(--ap-white);
+	border: 1px solid #e2e5eb;
+	border-radius: 20px;
+	box-shadow: 0 8px 40px rgba(26, 26, 46, 0.08);
+}
+
+.ap-roi-calculator .ap-roi-calculator__inputs {
+	container: ap-roicalc-inputs / inline-size;
+	min-width: 0;
+}
+
+/* --------------------------------------------------------------- groups */
+
+.ap-roi-calculator .ap-roi-calculator__group {
+	margin: 0;
+	padding: 24px 0;
+	border-top: 1px solid #e2e5eb;
+}
+
+.ap-roi-calculator .ap-roi-calculator__group--first {
+	padding-top: 0;
+	border-top: 0;
+}
+
+.ap-roi-calculator .ap-roi-calculator__group--last {
+	padding-bottom: 0;
+}
+
+.ap-roi-calculator .ap-roi-calculator__group-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ap-roi-calculator summary.ap-roi-calculator__group-head {
+	cursor: pointer;
+	border-radius: 8px;
+}
+
+.ap-roi-calculator summary.ap-roi-calculator__group-head::-webkit-details-marker {
+	display: none;
+}
+
+.ap-roi-calculator summary.ap-roi-calculator__group-head::marker {
+	content: "";
+}
+
+.ap-roi-calculator summary.ap-roi-calculator__group-head:focus-visible {
+	outline: 2px solid var(--ap-brand-indigo);
+	outline-offset: 4px;
+}
+
+.ap-roi-calculator .ap-roi-calculator__group-title {
+	margin: 0;
+	padding: 0;
+	font-family: var(--ap-font-body);
+	font-size: 22px;
+	font-weight: 800;
+	line-height: 1.3;
+	letter-spacing: normal;
+	text-transform: none;
+	color: var(--ap-slate-900);
+}
+
+.ap-roi-calculator .ap-roi-calculator__chevron {
+	position: relative;
+	flex: 0 0 auto;
+	width: 32px;
+	height: 32px;
+	border: 1px solid #e2e5eb;
+	border-radius: 50%;
+	background: var(--ap-white);
+	transition: rotate var(--ap-dur-base) var(--ap-ease-standard), background-color var(--ap-dur-fast) var(--ap-ease-standard);
+}
+
+.ap-roi-calculator .ap-roi-calculator__chevron::before {
+	content: "";
+	position: absolute;
+	top: 10px;
+	left: 11px;
+	width: 8px;
+	height: 8px;
+	border-right: 2px solid var(--ap-brand-indigo);
+	border-bottom: 2px solid var(--ap-brand-indigo);
+	rotate: 45deg;
+}
+
+.ap-roi-calculator details[open] > summary .ap-roi-calculator__chevron {
+	rotate: 180deg;
+}
+
+.ap-roi-calculator summary.ap-roi-calculator__group-head:hover .ap-roi-calculator__chevron {
+	background: #f0eeff;
+}
+
+.ap-roi-calculator .ap-roi-calculator__group-body {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 22px 16px;
+	margin-top: 20px;
+}
+
+/* --------------------------------------------------------------- fields */
+
+.ap-roi-calculator .ap-roi-calculator__field {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	min-width: 0;
+}
+
+.ap-roi-calculator .ap-roi-calculator__field-head {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-width: 0;
+}
+
+.ap-roi-calculator .ap-roi-calculator__field-label {
+	margin: 0;
+	font-family: var(--ap-font-body);
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 1.4;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--ap-slate-700);
+	cursor: default;
+}
+
+.ap-roi-calculator .ap-roi-calculator__help {
+	display: inline-flex;
+	flex: 0 0 auto;
+}
+
+.ap-roi-calculator .ap-roi-calculator__info {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 18px;
+	height: 18px;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 50%;
+	background: var(--ap-indigo-50);
+	color: var(--ap-brand-indigo);
+	font-family: var(--ap-font-body);
+	font-size: 11px;
+	font-weight: 800;
+	line-height: 1;
+	cursor: help;
+	transition: background-color var(--ap-dur-fast) var(--ap-ease-standard), color var(--ap-dur-fast) var(--ap-ease-standard);
+}
+
+.ap-roi-calculator .ap-roi-calculator__info:hover,
+.ap-roi-calculator .ap-roi-calculator__info:focus {
+	background: var(--ap-brand-indigo);
+	color: var(--ap-white);
+}
+
+.ap-roi-calculator .ap-roi-calculator__info:focus-visible {
+	outline: 2px solid var(--ap-brand-indigo);
+	outline-offset: 2px;
+}
+
+/* The tip spans the field's width, above its label; hidden as display:none so it never widens the page. */
+.ap-roi-calculator .ap-roi-calculator__tip {
+	display: none;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: calc(100% + 8px);
+	z-index: 5;
+	padding: 10px 12px;
+	border-radius: 8px;
+	background: var(--ap-slate-900);
+	box-shadow: var(--ap-shadow-md);
+	font-family: var(--ap-font-body);
+	font-size: 13px;
+	font-weight: 500;
+	line-height: 1.45;
+	letter-spacing: normal;
+	text-transform: none;
+	color: var(--ap-white);
+}
+
+.ap-roi-calculator .ap-roi-calculator__info:hover + .ap-roi-calculator__tip,
+.ap-roi-calculator .ap-roi-calculator__info:focus + .ap-roi-calculator__tip {
+	display: block;
+}
+
+.ap-roi-calculator .ap-roi-calculator__control {
+	position: relative;
+	margin-top: auto;
+}
+
+.ap-roi-calculator .ap-roi-calculator__input {
+	display: block;
+	width: 100%;
+	height: 48px;
+	margin: 0;
+	padding: 0 14px;
+	border: 1px solid #e2e5eb;
+	border-radius: 10px;
+	background: var(--ap-slate-50);
+	box-shadow: none;
+	font-family: var(--ap-font-body);
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 1.2;
+	letter-spacing: normal;
+	color: var(--ap-slate-900);
+	appearance: none;
+	-webkit-appearance: none;
+	transition: border-color var(--ap-dur-fast) var(--ap-ease-standard), box-shadow var(--ap-dur-fast) var(--ap-ease-standard), background-color var(--ap-dur-fast) var(--ap-ease-standard);
+}
+
+.ap-roi-calculator .ap-roi-calculator__input:hover {
+	border-color: #c9cdf6;
+}
+
+.ap-roi-calculator .ap-roi-calculator__input:focus {
+	outline: none;
+	border-color: var(--ap-brand-indigo);
+	background: var(--ap-white);
+	box-shadow: 0 0 0 3px rgba(80, 68, 225, 0.15);
+}
+
+.ap-roi-calculator .ap-roi-calculator__control--suffix .ap-roi-calculator__input {
+	padding-right: 56px;
+}
+
+.ap-roi-calculator .ap-roi-calculator__suffix {
+	position: absolute;
+	top: 50%;
+	right: 14px;
+	translate: 0 -50%;
+	font-family: var(--ap-font-body);
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1;
+	color: #8b8fa3;
+	pointer-events: none;
+}
+
+/* ------------------------------------------------------- sliders (0-100%) */
+
+.ap-roi-calculator .ap-roi-calculator__stepper {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	flex: 0 0 auto;
+	margin-left: auto;
+}
+
+.ap-roi-calculator .ap-roi-calculator__step {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 30px;
+	height: 30px;
+	margin: 0;
+	padding: 0;
+	border: 1px solid #e2e5eb;
+	border-radius: 50%;
+	background: var(--ap-white);
+	color: var(--ap-brand-indigo);
+	font-family: var(--ap-font-body);
+	font-size: 18px;
+	font-weight: 700;
+	line-height: 1;
+	cursor: pointer;
+	transition: background-color var(--ap-dur-fast) var(--ap-ease-standard), border-color var(--ap-dur-fast) var(--ap-ease-standard);
+}
+
+.ap-roi-calculator .ap-roi-calculator__step:hover {
+	background: #f0eeff;
+	border-color: #c9cdf6;
+}
+
+.ap-roi-calculator .ap-roi-calculator__step:focus-visible {
+	outline: 2px solid var(--ap-brand-indigo);
+	outline-offset: 2px;
+}
+
+.ap-roi-calculator .ap-roi-calculator__pill {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 58px;
+	min-height: 30px;
+	padding: 5px 10px;
+	border-radius: 999px;
+	background: #e0f7f4;
+	font-family: var(--ap-font-body);
+	font-size: 13px;
+	font-weight: 700;
+	line-height: 1.4;
+	color: #009688;
+	white-space: nowrap;
+}
+
+.ap-roi-calculator .ap-roi-calculator__range {
+	display: block;
+	width: 100%;
+	height: 22px;
+	margin: 6px 0 0;
+	padding: 0;
+	font: inherit;
+	background: transparent;
+	border: 0;
+	appearance: none;
+	-webkit-appearance: none;
+	cursor: pointer;
+}
+
+.ap-roi-calculator .ap-roi-calculator__range:focus-visible {
+	outline: 2px solid var(--ap-brand-indigo);
+	outline-offset: 4px;
+	border-radius: 4px;
+}
+
+.ap-roi-calculator .ap-roi-calculator__range::-webkit-slider-runnable-track {
+	height: 6px;
+	border-radius: 4px;
+	background: linear-gradient(90deg, #6c5ce7 0%, #00b4a0 var(--ap-fill, 0%), #e2e5eb var(--ap-fill, 0%), #e2e5eb 100%);
+}
+
+.ap-roi-calculator .ap-roi-calculator__range::-webkit-slider-thumb {
+	width: 22px;
+	height: 22px;
+	margin-top: -8px;
+	background: var(--ap-white);
+	border: 2px solid #6c5ce7;
+	border-radius: 50%;
+	box-shadow: 0 2px 8px rgba(108, 92, 231, 0.3);
+	appearance: none;
+	-webkit-appearance: none;
+}
+
+.ap-roi-calculator .ap-roi-calculator__range::-moz-range-track {
+	height: 6px;
+	border-radius: 4px;
+	background: linear-gradient(90deg, #6c5ce7 0%, #00b4a0 var(--ap-fill, 0%), #e2e5eb var(--ap-fill, 0%), #e2e5eb 100%);
+}
+
+.ap-roi-calculator .ap-roi-calculator__range::-moz-range-thumb {
+	width: 22px;
+	height: 22px;
+	background: var(--ap-white);
+	border: 2px solid #6c5ce7;
+	border-radius: 50%;
+	box-shadow: 0 2px 8px rgba(108, 92, 231, 0.3);
+}
+
+.ap-roi-calculator .ap-roi-calculator__limits {
+	display: flex;
+	justify-content: space-between;
+	margin-top: -2px;
+	font-family: var(--ap-font-body);
+	font-size: 12px;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #8b8fa3;
+}
+
+/* -------------------------------------------------------------- subtotal */
+
+.ap-roi-calculator .ap-roi-calculator__subtotal {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 4px 16px;
+	padding: 16px 20px;
+	border-radius: 12px;
+	background: linear-gradient(107.77deg, #f0eeff 0%, #e0f7f4 100%);
+}
+
+.ap-roi-calculator .ap-roi-calculator__subtotal-label {
+	font-family: var(--ap-font-body);
+	font-size: 15px;
+	font-weight: 700;
+	line-height: 1.4;
+	color: #1a1a2e;
+}
+
+.ap-roi-calculator .ap-roi-calculator__subtotal-value {
+	margin-left: auto;
+	min-width: 0;
+	font-family: var(--ap-font-body);
+	font-size: 24px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: -0.01em;
+	text-align: right;
+	color: var(--ap-brand-indigo);
+	overflow-wrap: anywhere;
+}
+
+/* ------------------------------------------------------- savings panel */
+
+.ap-roi-calculator .ap-roi-calculator__results {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	min-width: 0;
+	padding-top: 32px;
+	border-top: 1px solid #e2e5eb;
+}
+
+.ap-roi-calculator .ap-roi-calculator__results-title {
+	margin: 0;
+	padding: 0;
+	font-family: var(--ap-font-body);
+	font-size: 22px;
+	font-weight: 800;
+	line-height: 1.3;
+	letter-spacing: normal;
+	text-transform: none;
+	color: var(--ap-slate-900);
+}
+
+.ap-roi-calculator .ap-roi-calculator__breakdown {
+	border: 1px solid #e2e5eb;
+	border-radius: 14px;
+	overflow: hidden;
+}
+
+.ap-roi-calculator .ap-roi-calculator__row {
+	display: grid;
+	grid-template-columns: 36px minmax(0, 1fr);
+	gap: 12px;
+	align-items: center;
+	padding: 14px 16px;
+	border-top: 1px solid #e2e5eb;
+}
+
+.ap-roi-calculator .ap-roi-calculator__row:first-child {
+	border-top: 0;
+}
+
+.ap-roi-calculator .ap-roi-calculator__icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	border-radius: 10px;
+}
+
+.ap-roi-calculator .ap-roi-calculator__icon svg {
+	width: 18px;
+	height: 18px;
+}
+
+.ap-roi-calculator .ap-roi-calculator__icon--shield {
+	background: #fff8e1;
+	color: #f0a500;
+}
+
+.ap-roi-calculator .ap-roi-calculator__icon--money {
+	background: #f0eeff;
+	color: #6c5ce7;
+}
+
+.ap-roi-calculator .ap-roi-calculator__icon--search {
+	background: #e0f7f4;
+	color: #00b4a0;
+}
+
+.ap-roi-calculator .ap-roi-calculator__icon--chart {
+	background: var(--ap-indigo-50);
+	color: var(--ap-brand-indigo);
+}
+
+.ap-roi-calculator .ap-roi-calculator__row-text {
+	display: block;
+	min-width: 0;
+}
+
+.ap-roi-calculator .ap-roi-calculator__row-label {
+	display: block;
+	font-family: var(--ap-font-body);
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 1.4;
+	color: #5a5e73;
+}
+
+.ap-roi-calculator .ap-roi-calculator__row-value {
+	display: block;
+	font-family: var(--ap-font-body);
+	font-size: 18px;
+	font-weight: 800;
+	line-height: 1.3;
+	color: #1a1a2e;
+	overflow-wrap: anywhere;
+}
+
+.ap-roi-calculator .ap-roi-calculator__total-card {
+	padding: 24px 22px;
+	border-radius: 16px;
+	background: linear-gradient(107.77deg, #f0eeff 0%, #e0f7f4 100%);
+}
+
+.ap-roi-calculator .ap-roi-calculator__kicker {
+	margin: 0 0 8px;
+	padding: 0;
+	font-family: var(--ap-font-body);
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 16px;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: #6b6f85;
+}
+
+.ap-roi-calculator .ap-roi-calculator__total {
+	margin: 0;
+	padding: 4px 0 0;
+	font-family: var(--ap-font-body);
+	font-size: 40px;
+	font-weight: 800;
+	line-height: 1.1;
+	letter-spacing: -0.02em;
+	background: linear-gradient(97.6deg, #4c3fb8 0%, #00b4a0 100%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
+	overflow-wrap: anywhere;
+}
+
+.ap-roi-calculator .ap-roi-calculator__daily {
+	margin-top: 16px;
+	padding-top: 16px;
+	border-top: 1px solid rgba(108, 92, 231, 0.18);
+}
+
+.ap-roi-calculator .ap-roi-calculator__daily-label {
+	margin: 0;
+	padding: 0;
+	font-family: var(--ap-font-body);
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.4;
+	color: #5a5e73;
+}
+
+.ap-roi-calculator .ap-roi-calculator__daily-value {
+	margin: 2px 0 0;
+	padding: 0;
+	font-family: var(--ap-font-body);
+	font-size: 24px;
+	font-weight: 800;
+	line-height: 1.25;
+	color: var(--ap-brand-indigo);
+	overflow-wrap: anywhere;
+}
+
+/* Button: pricing-calculator's primary. */
+.ap-roi-calculator .ap-roi-calculator__btn,
+.ap-roi-calculator .ap-roi-calculator__btn:visited {
+	position: relative;
+	overflow: hidden;
+	isolation: isolate;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	min-height: 48px;
+	padding: 14px 16px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	background: linear-gradient(75.56deg, var(--ap-brand-indigo) 0%, var(--ap-brand-green) 70.44%), var(--ap-brand-green);
+	background-origin: border-box; /* else the gradient tiles into the transparent border: a 1px indigo line at the right edge */
+	font-family: var(--ap-font-body);
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 1.2;
+	text-align: center;
+	text-decoration: none;
+	color: var(--ap-white);
+	-webkit-text-fill-color: var(--ap-white);
+	cursor: pointer;
+	transition: translate var(--ap-dur-base) var(--ap-ease-standard), box-shadow var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-roi-calculator .ap-roi-calculator__btn span {
+	position: relative;
+	z-index: 1;
+}
+
+.ap-roi-calculator .ap-roi-calculator__btn::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	background: linear-gradient(75.56deg, #2f7edb 0%, var(--ap-brand-green) 38%, var(--ap-brand-green) 100%), var(--ap-brand-green);
+	opacity: 0;
+	transition: opacity var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-roi-calculator .ap-roi-calculator__btn:hover,
+.ap-roi-calculator .ap-roi-calculator__btn:focus-visible {
+	color: var(--ap-white);
+	text-decoration: none;
+	translate: 0 -1px;
+	box-shadow: 0 8px 18px rgba(0, 169, 145, 0.18);
+}
+
+.ap-roi-calculator .ap-roi-calculator__btn:hover::before,
+.ap-roi-calculator .ap-roi-calculator__btn:focus-visible::before {
+	opacity: 1;
+}
+
+.ap-roi-calculator .ap-roi-calculator__btn:focus-visible {
+	outline: 2px solid var(--ap-brand-indigo);
+	outline-offset: 3px;
+}
+
+/* --------------------------------------------------------------- layout */
+
+/* Inputs column wide enough: text fields in pairs, sliders and subtotals full width (live's col-md-6 / col-md-12). */
+@container ap-roicalc-inputs (min-width: 380px) {
+	.ap-roi-calculator .ap-roi-calculator__group-body {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.ap-roi-calculator .ap-roi-calculator__field--slider,
+	.ap-roi-calculator .ap-roi-calculator__subtotal {
+		grid-column: 1 / -1;
+	}
+}
+
+@container ap-roicalc (min-width: 560px) {
+	.ap-roi-calculator .ap-roi-calculator__card {
+		padding: 32px 28px;
+	}
+}
+
+/* Side by side, the savings panel sticky (live: col-xl-7 + col-xl-3, summary sticky at 100px). */
+@container ap-roicalc (min-width: 760px) {
+	.ap-roi-calculator .ap-roi-calculator__card {
+		grid-template-columns: minmax(0, 1fr) 272px;
+		align-items: start;
+		padding: 36px 32px;
+	}
+
+	.ap-roi-calculator .ap-roi-calculator__results {
+		position: sticky;
+		top: 96px;
+		padding-top: 0;
+		border-top: 0;
+	}
+}
+
+@container ap-roicalc (min-width: 1000px) {
+	.ap-roi-calculator .ap-roi-calculator__card {
+		grid-template-columns: minmax(0, 1fr) 320px;
+		gap: 48px;
+		padding: 48px 44px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-roi-calculator .ap-roi-calculator__chevron,
+	.ap-roi-calculator .ap-roi-calculator__info,
+	.ap-roi-calculator .ap-roi-calculator__input,
+	.ap-roi-calculator .ap-roi-calculator__step,
+	.ap-roi-calculator .ap-roi-calculator__btn,
+	.ap-roi-calculator .ap-roi-calculator__btn::before {
+		transition: none;
+	}
+}

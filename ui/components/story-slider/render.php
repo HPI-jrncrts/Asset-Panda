@@ -15,11 +15,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// A slide needs a quote, except a video slide with a title: the video carries the
+// story (live School Reunification opens on one). Slides that have a quote render
+// exactly as before.
 $items = array_values(
 	array_filter(
 		is_array( $props['items'] ) ? $props['items'] : array(),
 		static function ( $i ) {
-			return is_array( $i ) && '' !== trim( (string) ( $i['quote'] ?? '' ) );
+			if ( ! is_array( $i ) ) {
+				return false;
+			}
+			if ( '' !== trim( (string) ( $i['quote'] ?? '' ) ) ) {
+				return true;
+			}
+			return 1 === preg_match( '/^[\w-]{6,20}$/', (string) ( $i['video_id'] ?? '' ) ) && '' !== trim( (string) ( $i['title'] ?? '' ) );
 		}
 	)
 );
@@ -31,7 +40,7 @@ if ( empty( $items ) ) {
 $count      = count( $items );
 $quote_icon = trim( (string) $props['quote_icon'] );
 if ( '' === $quote_icon ) {
-	$quote_icon = ap_ui_asset_url( 'story-slider', 'quote-up.png' );
+	$quote_icon = ap_ui_asset_url( 'story-slider', 'quote-up.svg' );
 }
 $arrow = ap_ui_asset_url( 'story-slider', 'icon-arrow.svg' );
 
@@ -43,8 +52,26 @@ $ap_wordmark = static function ( $text ) {
 $ap_px = static function ( $value ) {
 	return is_numeric( $value ) && (float) $value > 0 ? round( (float) $value, 1 ) . 'px' : '';
 };
+
+// The client logo plate over a video poster (2026-10 Figma: the Wilson County sheriff's badge on the
+// Emergency Preparedness / School Reunification video). Photo slides keep their own markup below.
+$ap_logo = static function ( $item ) use ( $ap_px, $ap_wordmark ) {
+	$logo  = trim( (string) ( $item['logo'] ?? '' ) );
+	$mark  = trim( (string) ( $item['logo_text'] ?? '' ) );
+	$style = in_array( $item['logo_style'] ?? '', array( 'hospice', 'osage', 'fresenius' ), true ) ? $item['logo_style'] : '';
+	$lw    = $ap_px( $item['logo_w'] ?? null );
+	$lh    = $ap_px( $item['logo_h'] ?? null );
+	if ( '' !== $logo ) {
+		$size = '' !== $lw || '' !== $lh ? ' style="' . esc_attr( ( '' !== $lw ? 'width:' . $lw . ';' : '' ) . ( '' !== $lh ? 'height:' . $lh . ';' : '' ) . 'object-fit:contain' ) . '"' : '';
+		return '<div class="apc-logo"><img src="' . esc_url( $logo ) . '" alt="' . esc_attr( $item['logo_alt'] ?? '' ) . '" loading="lazy" decoding="async"' . $size . ' /></div>';
+	}
+	if ( '' !== $mark ) {
+		return '<div class="apc-logo apc-logo--wordmark"><span class="apc-wordmark' . ( '' !== $style ? ' apc-wordmark--' . esc_attr( $style ) : '' ) . '">' . $ap_wordmark( $mark ) . '</span></div>';
+	}
+	return '';
+};
 ?>
-<section class="ap-story-slider" data-ap-story>
+<section class="ap-story-slider<?php echo 'default' !== $props['variant'] ? ' ap-story-slider--' . esc_attr( $props['variant'] ) : ''; ?><?php echo 'wide' === $props['stack'] ? ' ap-story-slider--wide' : ''; ?>" data-ap-story data-ap-autoplay="<?php echo esc_attr( (string) max( 0, (int) $props['autoplay_ms'] ) ); ?>">
 	<div class="apc-container">
 		<div class="apc-header">
 			<?php if ( '' !== trim( (string) $props['eyebrow'] ) ) : ?>
@@ -64,14 +91,19 @@ $ap_px = static function ( $value ) {
 				$style = in_array( $item['logo_style'] ?? '', array( 'hospice', 'osage', 'fresenius' ), true ) ? $item['logo_style'] : '';
 				$lw    = $ap_px( $item['logo_w'] ?? null );
 				$lh    = $ap_px( $item['logo_h'] ?? null );
+				$quote = trim( (string) ( $item['quote'] ?? '' ) );
 				?>
 				<div class="apc-story apc-slide<?php echo 0 === $n ? ' is-active' : ''; ?><?php echo '' !== $video ? ' apc-slide--video' : ''; ?>"<?php echo 0 === $n ? '' : ' aria-hidden="true"'; ?>>
 					<div class="apc-copy">
 						<img class="apc-quote-icon" src="<?php echo esc_url( $quote_icon ); ?>" alt="" width="32" height="32" loading="lazy" decoding="async" />
+						<?php if ( '' !== trim( (string) ( $item['category'] ?? '' ) ) ) : ?>
+							<p class="apc-cat"><?php echo esc_html( $item['category'] ); ?></p>
+						<?php endif; ?>
 						<?php if ( '' !== trim( (string) ( $item['title'] ?? '' ) ) ) : ?>
 							<h3 class="apc-title"><?php echo esc_html( $item['title'] ); ?></h3>
 						<?php endif; ?>
-						<p class="apc-quote"><?php echo ap_ui_brandmarks( esc_html( trim( (string) $item['quote'] ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?></p>
+						<?php if ( '' !== $quote ) : ?><p class="apc-quote"><?php echo ap_ui_brandmarks( esc_html( $quote ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?></p>
+<?php endif; // Column 0 on purpose: with a quote, the line above prints exactly what it always did (tabs, <p>, newline). ?>
 						<?php if ( '' !== trim( (string) ( $item['author'] ?? '' ) ) || '' !== trim( (string) ( $item['role'] ?? '' ) ) ) : ?>
 							<div class="apc-author">
 								<?php if ( '' !== trim( (string) ( $item['author'] ?? '' ) ) ) : ?>
@@ -106,6 +138,7 @@ $ap_px = static function ( $value ) {
 								<img class="apc-vid-thumb" src="<?php echo esc_url( $poster ); ?>" alt="<?php echo esc_attr( $item['image_alt'] ?? '' ); ?>" width="1280" height="720" loading="lazy" decoding="async" />
 								<span class="apc-vid-play" aria-hidden="true"><svg viewBox="0 0 68 48" width="68" height="48" focusable="false"><path class="apc-vid-bg" d="M66.5 7.7c-.8-2.9-2.5-5.4-5.4-6.2C55.8.1 34 0 34 0S12.2.1 6.9 1.5C4 2.3 2.3 4.8 1.5 7.7 .1 13 0 24 0 24s.1 11 1.5 16.3c.8 2.9 2.5 5.4 5.4 6.2C12.2 47.9 34 48 34 48s21.8-.1 27.1-1.5c2.9-.8 4.6-3.3 5.4-6.2C67.9 35 68 24 68 24s-.1-11-1.5-16.3z"></path><path d="M45 24 27 14v20" fill="#fff"></path></svg></span>
 							</button>
+							<?php echo $ap_logo( $item ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?>
 						</div>
 					<?php else : ?>
 						<div class="apc-media">

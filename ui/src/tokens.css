@@ -694,3 +694,252 @@
 		--ap-fs-h2: 2.5rem;
 	}
 }
+
+/*
+ * ---- Host baseline (hand-written; NOT part of the generated responsive block above) ----
+ *
+ * Components inherit body type from whatever theme hosts them. The live theme,
+ * which every component is matched against, sets Manrope 1rem / 1.5, weight
+ * 400, normal tracking, #1d2331; the staging theme (Twenty Twenty-Five) sets
+ * 22px / 1.4, weight 300, -0.1px tracking, so any text a component leaves
+ * unstyled rendered lighter and larger on staging. Each component root restates
+ * live's body type, at zero specificity (:where) so a component's own root
+ * styles still win. These are the host's literal values, not design tokens:
+ * --ap-fs-text-md grows to 18px on desktop while live's body stays 16px.
+ * Keep the list in step with ui/components/ (site-header and site-footer style
+ * their own type: page chrome outside post content, each restating live's body
+ * type on its own root).
+ */
+/*
+ * Live's section container caps content at 1120px with 24px gutters at every
+ * width (`.ap-container`). The Figma --ap-page-max-content-xl steps down to
+ * 960 / 720 / 390 / 320px below 1280, which live does not follow, so content
+ * on staging came out 16-160px narrower and taller below desktop.
+ */
+:root {
+	--ap-host-container: 1120px;
+}
+
+:where(.ap-asset-scene, .ap-assist-hero, .ap-awards, .ap-solution-awards, .ap-capability-rows, .ap-case-slider, .ap-capability-scene, .ap-cases, .ap-compare, .ap-continuity-columns, .ap-dashboard-showcase, .ap-demo-cta, .ap-demo-booking, .ap-demo-confirm, .ap-demo-footer, .ap-demo-stats, .ap-demo-stories, .ap-faq,.ap-fcards, .ap-founder-quote, .ap-ursa-steps, .ap-ursa-inspect, .ap-ursa-band, .ap-home-hero, .ap-hero, .ap-hub-hero, .ap-hub-intel, .ap-industries, .ap-intel-dashboard, .ap-link-cards, .ap-media-split, .ap-mission, .ap-orbit-hero, .ap-photo-tags, .ap-pstack, .ap-problem-callouts, .ap-problem-scene, .ap-readiness-hero, .ap-readiness-problem, .ap-solution-cta, .ap-solution-faq, .ap-solution-features, .ap-solution-hero, .ap-solution-rows, .ap-solution-trust, .ap-platform-rows, .ap-platform-faq, .ap-platform-cta, .ap-assist-problem, .ap-pricing-hero, .ap-pricing-calculator, .ap-thanks-hero, .ap-thanks-steps, .ap-stats, .ap-sticky-list, .ap-story-slider, .ap-tab-showcase, .ap-trust-strip, .ap-vprops, .ap-vhero, .ap-why-cards, .ap-plans-hero, .ap-plans-picker, .ap-plans-compare, .ap-plans-faq, .ap-form-hero, .ap-media-band, .ap-card-grid, .ap-message-hero, .ap-thanks-calendly, .ap-login-splash, .ap-roi-calculator) {
+	font-family: var(--ap-font-body);
+	font-size: 1rem;
+	font-weight: var(--ap-weight-body);
+	line-height: 1.5;
+	letter-spacing: normal;
+	color: #1d2331;
+}
+
+/*
+ * Headings get the same treatment. The staging theme styles h1-h6 as weight 400,
+ * -0.1px tracking, line-height 1.125; live's theme styles them h1 900 / -1px /
+ * 1.19048, h2 700 / 1.2, h3 700 / 1.3, h4 700 / 1.20833, h5-h6 700 / 1.2, normal
+ * tracking. The staging theme's rule loads after the kit at specificity (0,0,1),
+ * so these restate live's at (0,0,2) — `html` plus the tag — which still loses
+ * to any component class (0,1,0) that sets its own heading type.
+ * Since the 2026-10-28 type pass, h1-h3 restate the kit type scale below
+ * (Figma: ExtraBold 800, zero tracking) instead of live's h1 900 / -1px, which
+ * made every heading that leaned on this baseline read heavier than the rest.
+ */
+html :where(.ap-asset-scene, .ap-assist-hero, .ap-awards, .ap-solution-awards, .ap-capability-rows, .ap-case-slider, .ap-capability-scene, .ap-cases, .ap-compare, .ap-continuity-columns, .ap-dashboard-showcase, .ap-demo-cta, .ap-demo-booking, .ap-demo-confirm, .ap-demo-footer, .ap-demo-stats, .ap-demo-stories, .ap-faq,.ap-fcards, .ap-founder-quote, .ap-ursa-steps, .ap-ursa-inspect, .ap-ursa-band, .ap-home-hero, .ap-hero, .ap-hub-hero, .ap-hub-intel, .ap-industries, .ap-intel-dashboard, .ap-link-cards, .ap-media-split, .ap-mission, .ap-orbit-hero, .ap-photo-tags, .ap-pstack, .ap-problem-callouts, .ap-problem-scene, .ap-readiness-hero, .ap-readiness-problem, .ap-solution-cta, .ap-solution-faq, .ap-solution-features, .ap-solution-hero, .ap-solution-rows, .ap-solution-trust, .ap-platform-rows, .ap-platform-faq, .ap-platform-cta, .ap-assist-problem, .ap-pricing-hero, .ap-pricing-calculator, .ap-thanks-hero, .ap-thanks-steps, .ap-stats, .ap-sticky-list, .ap-story-slider, .ap-tab-showcase, .ap-trust-strip, .ap-vprops, .ap-vhero, .ap-why-cards, .ap-plans-hero, .ap-plans-picker, .ap-plans-compare, .ap-plans-faq, .ap-form-hero, .ap-media-band, .ap-card-grid, .ap-message-hero, .ap-thanks-calendly, .ap-login-splash, .ap-roi-calculator) :is(h1, h2, h3, h4, h5, h6) {
+	font-weight: 700;
+	line-height: 1.2;
+	letter-spacing: normal;
+	text-transform: none;
+}
+html :where(.ap-asset-scene, .ap-assist-hero, .ap-awards, .ap-solution-awards, .ap-capability-rows, .ap-case-slider, .ap-capability-scene, .ap-cases, .ap-compare, .ap-continuity-columns, .ap-dashboard-showcase, .ap-demo-cta, .ap-demo-booking, .ap-demo-confirm, .ap-demo-footer, .ap-demo-stats, .ap-demo-stories, .ap-faq,.ap-fcards, .ap-founder-quote, .ap-ursa-steps, .ap-ursa-inspect, .ap-ursa-band, .ap-home-hero, .ap-hero, .ap-hub-hero, .ap-hub-intel, .ap-industries, .ap-intel-dashboard, .ap-link-cards, .ap-media-split, .ap-mission, .ap-orbit-hero, .ap-photo-tags, .ap-pstack, .ap-problem-callouts, .ap-problem-scene, .ap-readiness-hero, .ap-readiness-problem, .ap-solution-cta, .ap-solution-faq, .ap-solution-features, .ap-solution-hero, .ap-solution-rows, .ap-solution-trust, .ap-platform-rows, .ap-platform-faq, .ap-platform-cta, .ap-assist-problem, .ap-pricing-hero, .ap-pricing-calculator, .ap-thanks-hero, .ap-thanks-steps, .ap-stats, .ap-sticky-list, .ap-story-slider, .ap-tab-showcase, .ap-trust-strip, .ap-vprops, .ap-vhero, .ap-why-cards, .ap-plans-hero, .ap-plans-picker, .ap-plans-compare, .ap-plans-faq, .ap-form-hero, .ap-media-band, .ap-card-grid, .ap-message-hero, .ap-thanks-calendly, .ap-login-splash, .ap-roi-calculator) :is(h2, h3) {
+	font-weight: var(--ap-type-heading-weight);
+	letter-spacing: var(--ap-type-heading-track);
+}
+html :where(.ap-asset-scene, .ap-assist-hero, .ap-awards, .ap-solution-awards, .ap-capability-rows, .ap-case-slider, .ap-capability-scene, .ap-cases, .ap-compare, .ap-continuity-columns, .ap-dashboard-showcase, .ap-demo-cta, .ap-demo-booking, .ap-demo-confirm, .ap-demo-footer, .ap-demo-stats, .ap-demo-stories, .ap-faq,.ap-fcards, .ap-founder-quote, .ap-ursa-steps, .ap-ursa-inspect, .ap-ursa-band, .ap-home-hero, .ap-hero, .ap-hub-hero, .ap-hub-intel, .ap-industries, .ap-intel-dashboard, .ap-link-cards, .ap-media-split, .ap-mission, .ap-orbit-hero, .ap-photo-tags, .ap-pstack, .ap-problem-callouts, .ap-problem-scene, .ap-readiness-hero, .ap-readiness-problem, .ap-solution-cta, .ap-solution-faq, .ap-solution-features, .ap-solution-hero, .ap-solution-rows, .ap-solution-trust, .ap-platform-rows, .ap-platform-faq, .ap-platform-cta, .ap-assist-problem, .ap-pricing-hero, .ap-pricing-calculator, .ap-thanks-hero, .ap-thanks-steps, .ap-stats, .ap-sticky-list, .ap-story-slider, .ap-tab-showcase, .ap-trust-strip, .ap-vprops, .ap-vhero, .ap-why-cards, .ap-plans-hero, .ap-plans-picker, .ap-plans-compare, .ap-plans-faq, .ap-form-hero, .ap-media-band, .ap-card-grid, .ap-message-hero, .ap-thanks-calendly, .ap-login-splash, .ap-roi-calculator) h1 {
+	font-weight: var(--ap-type-h1-weight);
+	line-height: var(--ap-type-h1-line);
+	letter-spacing: var(--ap-type-h1-track);
+}
+html :where(.ap-asset-scene, .ap-assist-hero, .ap-awards, .ap-solution-awards, .ap-capability-rows, .ap-case-slider, .ap-capability-scene, .ap-cases, .ap-compare, .ap-continuity-columns, .ap-dashboard-showcase, .ap-demo-cta, .ap-demo-booking, .ap-demo-confirm, .ap-demo-footer, .ap-demo-stats, .ap-demo-stories, .ap-faq,.ap-fcards, .ap-founder-quote, .ap-ursa-steps, .ap-ursa-inspect, .ap-ursa-band, .ap-home-hero, .ap-hero, .ap-hub-hero, .ap-hub-intel, .ap-industries, .ap-intel-dashboard, .ap-link-cards, .ap-media-split, .ap-mission, .ap-orbit-hero, .ap-photo-tags, .ap-pstack, .ap-problem-callouts, .ap-problem-scene, .ap-readiness-hero, .ap-readiness-problem, .ap-solution-cta, .ap-solution-faq, .ap-solution-features, .ap-solution-hero, .ap-solution-rows, .ap-solution-trust, .ap-platform-rows, .ap-platform-faq, .ap-platform-cta, .ap-assist-problem, .ap-pricing-hero, .ap-pricing-calculator, .ap-thanks-hero, .ap-thanks-steps, .ap-stats, .ap-sticky-list, .ap-story-slider, .ap-tab-showcase, .ap-trust-strip, .ap-vprops, .ap-vhero, .ap-why-cards, .ap-plans-hero, .ap-plans-picker, .ap-plans-compare, .ap-plans-faq, .ap-form-hero, .ap-media-band, .ap-card-grid, .ap-message-hero, .ap-thanks-calendly, .ap-login-splash, .ap-roi-calculator) h3 { line-height: 1.3; }
+html :where(.ap-asset-scene, .ap-assist-hero, .ap-awards, .ap-solution-awards, .ap-capability-rows, .ap-case-slider, .ap-capability-scene, .ap-cases, .ap-compare, .ap-continuity-columns, .ap-dashboard-showcase, .ap-demo-cta, .ap-demo-booking, .ap-demo-confirm, .ap-demo-footer, .ap-demo-stats, .ap-demo-stories, .ap-faq,.ap-fcards, .ap-founder-quote, .ap-ursa-steps, .ap-ursa-inspect, .ap-ursa-band, .ap-home-hero, .ap-hero, .ap-hub-hero, .ap-hub-intel, .ap-industries, .ap-intel-dashboard, .ap-link-cards, .ap-media-split, .ap-mission, .ap-orbit-hero, .ap-photo-tags, .ap-pstack, .ap-problem-callouts, .ap-problem-scene, .ap-readiness-hero, .ap-readiness-problem, .ap-solution-cta, .ap-solution-faq, .ap-solution-features, .ap-solution-hero, .ap-solution-rows, .ap-solution-trust, .ap-platform-rows, .ap-platform-faq, .ap-platform-cta, .ap-assist-problem, .ap-pricing-hero, .ap-pricing-calculator, .ap-thanks-hero, .ap-thanks-steps, .ap-stats, .ap-sticky-list, .ap-story-slider, .ap-tab-showcase, .ap-trust-strip, .ap-vprops, .ap-vhero, .ap-why-cards, .ap-plans-hero, .ap-plans-picker, .ap-plans-compare, .ap-plans-faq, .ap-form-hero, .ap-media-band, .ap-card-grid, .ap-message-hero, .ap-thanks-calendly, .ap-login-splash, .ap-roi-calculator) h4 { line-height: 1.20833; }
+
+/*
+ * ---- Type scale — agent heroes (QA 2026-10-28) ----
+ *
+ * "Some texts like H1s are thicker than others. We need to be very consistent."
+ * One scale for every kit heading, from the Figma 2026 text styles (file
+ * VW6cE9oR0LeIeowjwJvEqY, read 2026-10-28): Headline/H1 48, Headline/H2 40,
+ * Headlines-Desktop/H3 24, Utility/Eyebrow/md 14, Body/md 18 — Manrope; every
+ * heading ExtraBold 800 at 1.2 with ZERO tracking (live's -1px / -0.02em /
+ * -0.03em variants are what made some H1s look denser); eyebrow 800, 4% tracking,
+ * uppercase. Sizes follow the Figma Responsive variables (heading 1-sm 28 -> 48,
+ * heading 2 24 -> 40, eyebrow 12 -> 14, text-md 16 -> 18) as one fluid clamp from
+ * a 390px phone to a 1440px desktop, so a heading is the same size at a given
+ * width on every page. Gradient-text slices inherit the heading's weight and size
+ * — never re-weight or re-track them.
+ *
+ *   --ap-type-h1-*      page title (hero H1, or the hero title shown as the H1)
+ *   --ap-type-h2-*      section title
+ *   --ap-type-h3-*      card / row title
+ *   --ap-type-eyebrow-* small uppercase label over a title
+ *   --ap-type-lede-*    paragraph under a hero or section title
+ */
+:root {
+	--ap-type-heading-weight: 800;
+	--ap-type-heading-track: 0;
+
+	--ap-type-h1-size: clamp(1.75rem, 1.2857rem + 1.9048vw, 3rem);
+	--ap-type-h1-weight: var(--ap-type-heading-weight);
+	--ap-type-h1-line: 1.2;
+	--ap-type-h1-track: var(--ap-type-heading-track);
+
+	--ap-type-h2-size: clamp(1.5rem, 1.1286rem + 1.5238vw, 2.5rem);
+	--ap-type-h2-weight: var(--ap-type-heading-weight);
+	--ap-type-h2-line: 1.2;
+	--ap-type-h2-track: var(--ap-type-heading-track);
+
+	--ap-type-h3-size: clamp(1.25rem, 1.1571rem + 0.381vw, 1.5rem);
+	--ap-type-h3-weight: var(--ap-type-heading-weight);
+	--ap-type-h3-line: 1.3;
+	--ap-type-h3-track: var(--ap-type-heading-track);
+
+	--ap-type-eyebrow-size: clamp(0.75rem, 0.7036rem + 0.1905vw, 0.875rem);
+	--ap-type-eyebrow-weight: 800;
+	--ap-type-eyebrow-line: 1.2;
+	--ap-type-eyebrow-track: 0.04em;
+	--ap-type-eyebrow-color: var(--ap-text-eyebrow);
+
+	--ap-type-lede-size: clamp(1rem, 0.9536rem + 0.1905vw, 1.125rem);
+	--ap-type-lede-weight: 400;
+	--ap-type-lede-line: 1.5;
+	--ap-type-lede-color: var(--ap-text-body);
+}
+
+/* section rhythm — agent sections
+ *
+ * One vertical rhythm for every content section (QA 2026-10-27: "a lot of extra
+ * spaces on sections and in between sections"). A section pads its own top and
+ * bottom with --ap-section-y and nothing else adds vertical space at its edges
+ * (no wrapper margins, no inner container padding), so two stacked sections sit
+ * exactly 2 x --ap-section-y apart, content to content, on every page.
+ *   --ap-section-y        standard section, top and bottom padding
+ *   --ap-section-y-sm     compact band (logo / trust / awards strips)
+ *   --ap-section-head-gap section head (eyebrow + title + lede) to its body
+ *   --ap-section-title-gap eyebrow to title, title to lede
+ *   --ap-section-x        side gutter of the section container
+ */
+:root {
+	--ap-section-y: 40px;
+	--ap-section-y-sm: 28px;
+	--ap-section-head-gap: 32px;
+	--ap-section-title-gap: 12px;
+	--ap-section-x: 16px;
+}
+@media (min-width: 768px) {
+	:root {
+		--ap-section-y: 56px;
+		--ap-section-y-sm: 32px;
+		--ap-section-head-gap: 40px;
+		--ap-section-title-gap: 16px;
+		--ap-section-x: 24px;
+	}
+}
+@media (min-width: 1280px) {
+	:root {
+		--ap-section-y: 64px;
+		--ap-section-y-sm: 40px;
+		--ap-section-head-gap: 48px;
+	}
+}
+
+/* CTA button scale — sitewide (QA 2026-10-29, Joseph: "A lot of CTA buttons sitewide has different sizes. To make
+ * sure the sizes are consistent, the one in the menu nav header is the correct size in font and everything except
+ * for those that has extended widths like the Explore Asset Intelligence. The height is the concern here as well as
+ * the font sizes.")
+ *
+ * Every CTA button (the gradient / green primaries and the green outlines, in heroes, sections, the closing cards and
+ * the footer's final CTA) takes the site header's nav buttons' metrics (site-header .ap-header-btn and, at 1100px and
+ * below where the header switches to its phone bar, .ap-mobile-demo):
+ *   above 1100px   14px / 800 / 1.2 Manrope, 12px 16px padding, 4px corners: 42.8px tall with its 1px border;
+ *   1100px & less  13px / 800 / 1.2, 9px 12px padding: 36px tall.
+ * A button without a border reaches the same height through the min-height. Width stays content-driven: a longer
+ * label is simply wider ("Explore Asset Intelligence"), and a button its layout stretches (a full-width phone button)
+ * keeps that width; only fixed minimum widths go, so the same label is the same width as in the header. Colours,
+ * borders and hovers stay each component's (motion.js's edge light measures the new size by itself).
+ * Not buttons, so not here: arrow text links ("Explore … →"), slider arrows, play buttons, the mock buttons drawn
+ * inside product illustrations, and the header's own buttons. Listed by class (not by motion.js's runtime tag) so
+ * the size is right at first paint. The ID-weight :not() and !important outrank the components' own button rules
+ * (several of them !important), which load after this sheet. */
+html body :is(a.ap-btn, button.ap-btn, .epx-btn, .apx-btn, a.apg-btn, .ap-solution-cta__btn, .ap-demo-cta__btn, .ap-compare-cta, .ap-ursa-band__btn, .ap-ursa-inspect__btn, .ap-capability-scene__btn, .ap-solution-features__btn, .ap-founder-quote__btn, .ap-dashboard-showcase__btn, .ap-compare-hero__btn, .ap-integrations-hero__btn, .ap-integration-hero__btn, .ap-vhero__btn, .ap-page-hero__btn, .ap-page-split__btn, .ap-page-cards__btn, .ap-page-directory__btn, .ap-plans-hero__btn, .ap-plans-picker__btn, .ap-pricing-calculator__btn, .ap-hero__btn, .ap-lp-hero__btn, .ap-mission__btn, .ap-media-band__btn, .ap-problem-callouts__btn, .ap-readiness-problem__btn, .ap-roi-calculator__btn, .aps-ender-btn, .apr-cta-btn, .ap-message-hero__link, .ap-dw-btn, .ap-demo-cta__form input[type="submit"], .ap-demo-cta__form .hs-button):not(#ap-cta-scale):not(.ap-site-header *) {
+	box-sizing: border-box !important;
+	min-width: 0 !important;
+	height: auto !important;
+	min-height: 42.8px !important;
+	padding: 12px 16px !important;
+	border-radius: var(--ap-radius-sm, 4px) !important;
+	font-family: var(--ap-font-body) !important;
+	font-size: 14px !important;
+	font-weight: 800 !important;
+	line-height: 1.2 !important;
+	letter-spacing: normal !important;
+	text-transform: none !important;
+}
+@media (max-width: 1100px) {
+	html body :is(a.ap-btn, button.ap-btn, .epx-btn, .apx-btn, a.apg-btn, .ap-solution-cta__btn, .ap-demo-cta__btn, .ap-compare-cta, .ap-ursa-band__btn, .ap-ursa-inspect__btn, .ap-capability-scene__btn, .ap-solution-features__btn, .ap-founder-quote__btn, .ap-dashboard-showcase__btn, .ap-compare-hero__btn, .ap-integrations-hero__btn, .ap-integration-hero__btn, .ap-vhero__btn, .ap-page-hero__btn, .ap-page-split__btn, .ap-page-cards__btn, .ap-page-directory__btn, .ap-plans-hero__btn, .ap-plans-picker__btn, .ap-pricing-calculator__btn, .ap-hero__btn, .ap-lp-hero__btn, .ap-mission__btn, .ap-media-band__btn, .ap-problem-callouts__btn, .ap-readiness-problem__btn, .ap-roi-calculator__btn, .aps-ender-btn, .apr-cta-btn, .ap-message-hero__link, .ap-dw-btn, .ap-demo-cta__form input[type="submit"], .ap-demo-cta__form .hs-button):not(#ap-cta-scale):not(.ap-site-header *) {
+		min-height: 36px !important;
+		padding: 9px 12px !important;
+		font-size: 13px !important;
+	}
+}
+
+
+/*
+ * QA 2026-10-29: components added after the host-baseline list above. Their unstyled text inherited the
+ * staging theme's 22px / weight 300 / -0.1px (Careers, Client Reviews, FAQ, Our Company, Resource Center,
+ * Tutorials read light and large next to every other page). Same rule, same zero specificity; merge into
+ * the list above when convenient. site-header and site-footer stay out (they style their own type).
+ */
+:where(.ap-article-cta, .ap-compare-hero, .ap-compare-table, .ap-integration-detail, .ap-integration-directory, .ap-integration-hero, .ap-integration-more, .ap-integration-titlebar, .ap-integrations-hero, .ap-lp-booking, .ap-lp-cookies, .ap-lp-ftabs, .ap-lp-hero, .ap-lp-prose, .ap-page-cards, .ap-page-directory, .ap-page-faq-hub, .ap-page-hero, .ap-page-reviews, .ap-page-split, .ap-page-toc, .ap-page-videos, .ap-resource-cards, .ap-resource-header, .ap-resource-hero, .ap-resource-search, .ap-resource-summary, .ap-roi-hero) {
+	font-family: var(--ap-font-body);
+	font-size: 1rem;
+	font-weight: var(--ap-weight-body);
+	line-height: 1.5;
+	letter-spacing: normal;
+	color: #1d2331;
+}
+
+
+/*
+ * QA 2026-10-29 (full-site QA): four CTA button classes the sitewide scale above does not list yet. They were
+ * 48px / 18px or 16px / 600 (integration pages: "Talk to an Expert", "View All Integrations"), 44px / 15px / 600
+ * (card grids: "Read the article", "Login", "Contact Sales"), and 42px / 15px / 600 (the ad landing pages' article CTA).
+ * Same values as the rule above; merge these classes into its list when convenient.
+ */
+html body :is(.ap-integration-detail__btn, .ap-integration-more__btn, .ap-card-grid__btn, .ap-article-cta__btn):not(#ap-cta-scale):not(.ap-site-header *) {
+	box-sizing: border-box !important;
+	min-width: 0 !important;
+	height: auto !important;
+	min-height: 42.8px !important;
+	padding: 12px 16px !important;
+	border-radius: var(--ap-radius-sm, 4px) !important;
+	font-family: var(--ap-font-body) !important;
+	font-size: 14px !important;
+	font-weight: 800 !important;
+	line-height: 1.2 !important;
+	letter-spacing: normal !important;
+	text-transform: none !important;
+}
+@media (max-width: 1100px) {
+	html body :is(.ap-integration-detail__btn, .ap-integration-more__btn, .ap-card-grid__btn, .ap-article-cta__btn):not(#ap-cta-scale):not(.ap-site-header *) {
+		min-height: 36px !important;
+		padding: 9px 12px !important;
+		font-size: 13px !important;
+	}
+}
+
+
+/*
+ * QA 2026-10-29 (Figma check): a gradient phrase in a heading that wraps over several lines got one gradient
+ * stretched across all its lines laid end to end, so only the first line started indigo and the following lines
+ * read solid teal (e.g. "Equipment Lease / Management & / Tracking"). Figma ramps indigo → teal from the left on
+ * every line; clone gives each line fragment its own ramp. Single-line phrases are unchanged; no layout effect.
+ */
+:is(.epx-g, .apx-g, .apx-grad, .apg-h1-grad, .apg-h2-grad, .apg-ender-grad, .aps-grad, .apf-grad, .apu-grad, .apk-grad, .ap-assist-problem__g, .ap-continuity-columns__g, .ap-solution-features__g, .ap-solution-rows__g, .ap-solution-trust__g, .ap-gradient-text, .ap-hero__accent, .ap-h1-gradient, .ap-page-hero__accent, .ap-dashboard-showcase__accent, .ap-fcards__accent, .ap-integration-directory__accent, .ap-plans-hero__accent, .ap-plans-picker__accent, .ap-founder-quote__pull .g, .ap-platform-rows__title .g) {
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}

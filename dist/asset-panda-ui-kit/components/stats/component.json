@@ -1,0 +1,37 @@
+{
+	"name": "stats",
+	"description": "A grid of headline statistics. Each stat has a gradient-filled value, a label, and optional supporting copy. Ported from the live homepage stats band (#ap-stats-v3); used on the homepage between the hero and the comparison table.",
+	"props": {
+		"eyebrow": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Optional centred label above the stats (Ursa AI frame 7262:114721)."
+		},
+		"items": {
+			"type": "array",
+			"required": true,
+			"description": "The stats. Each entry is an object with `value` (required), `label` (required) and optional `description`. Entries missing value or label are skipped."
+		},
+		"columns": {
+			"type": "integer",
+			"required": false,
+			"default": 3,
+			"enum": [ 2, 3, 4 ],
+			"description": "Columns above 991px. Always two columns at 991px and below, as on live."
+		},
+		"theme": {
+			"type": "string",
+			"required": false,
+			"default": "light",
+			"enum": [ "light", "alt", "dark" ],
+			"description": "Background/foreground colour scheme. The live homepage band is `alt` (slate-50)."
+		},
+		"reveal": {
+			"type": "boolean",
+			"required": false,
+			"default": true,
+			"description": "Stagger each stat in on scroll. The live homepage band has no entrance animation (false)."
+		}
+	}
+}

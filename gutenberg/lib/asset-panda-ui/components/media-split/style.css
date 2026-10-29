@@ -11,7 +11,7 @@
 	position:relative;
 	background:#fff;
 	font-family:Manrope,sans-serif;
-	padding:40px 24px;
+	padding:var(--apg-pad-t,40px) 24px var(--apg-pad-b,40px);
 	overflow-x:clip
 }
 
@@ -26,9 +26,9 @@
 
 .ap-media-split .apg-int-scene {
 	position:relative;
-	flex:0 0 546px;
-	width:546px;
-	height:364px
+	flex:0 0 var(--apg-scene-w, 546px);
+	width:var(--apg-scene-w, 546px);
+	height:var(--apg-scene-h, 364px)
 }
 
 .ap-media-split .apg-int-scene img {
@@ -166,14 +166,14 @@ to {
 }
 
 @media (max-width:1180px) {
+	
 }
 
 @media (max-width:1024px) {
-	.ap-media-split .apg-int-row {
+	.ap-media-split:not(.ap-media-split--stack-900) .apg-int-row {
 	flex-direction:column
 }
-
-.ap-media-split .apg-int-scene {
+	.ap-media-split:not(.ap-media-split--stack-900) .apg-int-scene {
 	flex:none;
 	width:100%;
 	max-width:546px;
@@ -181,36 +181,123 @@ to {
 	aspect-ratio:546/364;
 	order:2
 }
-
-.ap-media-split .apg-int-copy {
+	.ap-media-split:not(.ap-media-split--stack-900) .apg-int-copy {
 	order:1
 }
-
-
+}
+@media (max-width: 900px) {
+	.ap-media-split.ap-media-split--stack-900 .apg-int-row {
+	flex-direction:column
+}
+	.ap-media-split.ap-media-split--stack-900 .apg-int-scene {
+	flex:none;
+	width:100%;
+	max-width:546px;
+	height:auto;
+	aspect-ratio:546/364;
+	order:2
+}
+	.ap-media-split.ap-media-split--stack-900 .apg-int-copy {
+	order:1
+}
 }
 
 @media (max-width:767px) {
-	.ap-media-split {
+	.ap-media-split:not(.ap-media-split--stack-900) {
 	padding:48px 24px 64px;
 	gap:56px
 }
-
-.ap-media-split h2.apg-h2 {
+	.ap-media-split:not(.ap-media-split--stack-900) h2.apg-h2 {
 	font-size:28px
 }
-
-.ap-media-split .apg-int-scene {
+	.ap-media-split:not(.ap-media-split--stack-900) .apg-int-scene {
 	transform:scale(1.22);
 	margin:20px 0 28px
 }
-
-
+}
+@media (max-width:767px) {
+	.ap-media-split.ap-media-split--stack-900 {
+	padding:48px 24px 64px;
+	gap:56px
+}
+	.ap-media-split.ap-media-split--stack-900 h2.apg-h2 {
+	font-size:28px
+}
+	.ap-media-split.ap-media-split--stack-900 .apg-int-scene {
+	transform:scale(1.22);
+	margin:20px 0 28px
+}
 }
 
 @media (max-width:767px) {
-	.ap-media-split {
+	.ap-media-split:not(.ap-media-split--stack-900) {
 	padding:28px 24px
 }
-
-
 }
+@media (max-width:767px) {
+	.ap-media-split.ap-media-split--stack-900 {
+	padding:28px 24px
+}
+}
+
+/* Help desk row: a sub-heading, a bullet list, and labels pinned over the scene. */
+.ap-media-split .apg-int-h3 {
+	margin: 0;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: 24px;
+	font-weight: 800;
+	line-height: 1.3;
+}
+
+.ap-media-split .apg-int-bullets {
+	margin: 0;
+	padding-left: 20px;
+	color: var(--ap-text-body);
+	font-family: var(--ap-font-body);
+	font-size: 16px;
+	line-height: 1.6;
+}
+
+.ap-media-split .apg-int-chip {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 8px 14px;
+	border-radius: 999px;
+	border: 1px solid #fff;
+	background: rgba(255, 255, 255, .92);
+	box-shadow: 0 2px 12px rgba(37, 39, 44, .08);
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1.2;
+	white-space: nowrap;
+}
+
+.ap-media-split .apg-int-chip img,
+.ap-media-split .apg-int-chip .ap-inline-icon svg { width: 20px; height: 20px; display: block; flex: 0 0 20px; }
+
+@media (max-width: 900px) {
+	.ap-media-split:not(.ap-media-split--stack-900) .apg-int-chip { font-size: 12px; padding: 6px 10px; gap: 6px; }
+}
+@media (max-width: 900px) {
+	.ap-media-split.ap-media-split--stack-900 .apg-int-chip { font-size: 12px; padding: 6px 10px; gap: 6px; }
+}
+
+/* Heading centred above the row (the help desk problem section). */
+.ap-media-split .apg-int-head {
+	max-width: 720px;
+	margin: 0 auto 40px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	gap: 16px;
+}
+
+.ap-media-split .apg-int-head .apg-h2 { margin: 0; }
+
+/* stack-900 variant generated */

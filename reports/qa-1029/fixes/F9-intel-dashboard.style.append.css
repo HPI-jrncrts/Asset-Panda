@@ -1,0 +1,11 @@
+
+/* QA 2026-10-29 (Figma check): the floating stat cards were a fixed 176px, so a title or status line ("Available
+   Devices", "Ready for deployment") wrapped, the card grew taller and the avatar below it covered the last line
+   (Equipment, IT). Figma sizes these cards to their text: each stat card now fits its content on one line per row
+   (176px minimum, 260px maximum). The two list cards keep their fixed size. */
+.ap-intel-dashboard .epx-dash__stage > .epx-tip:not(:has(.epx-tip__list)) {
+	width: max-content;
+	min-width: 176px;
+	max-width: 260px;
+	white-space: nowrap;
+}

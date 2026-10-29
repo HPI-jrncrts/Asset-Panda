@@ -1,0 +1,58 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/solution-faq",
+	"title": "AP Solution Faq",
+	"category": "design",
+	"icon": "editor-help",
+	"description": "FAQ accordion of the solution pages: a centred heading over ruled questions with a plus/minus mark. Live: the .epx-faq section on the solution pages, Emergency Preparedness, School Reunification and Help Desk (rules ported). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"tone": {
+			"type": "string",
+			"default": "gradient",
+			"enum": [
+				"gradient",
+				"white"
+			]
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"items": {
+			"type": "array",
+			"default": []
+		},
+		"variant": {
+			"type": "string",
+			"default": "solution",
+			"enum": [
+				"solution",
+				"readiness",
+				"service"
+			]
+		},
+		"open_first": {
+			"type": "boolean",
+			"default": false
+		},
+		"schema": {
+			"type": "boolean",
+			"default": true
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

@@ -1,0 +1,119 @@
+{
+	"name": "photo-tags",
+	"description": "Problem section: centred heading over a photo with problem tags pinned around it, then a panda call-to-action bar. Live: .sp-prob on the September 2026 solution pages.",
+	"props": {
+		"eyebrow": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Small label above the heading."
+		},
+		"title": {
+			"type": "string",
+			"required": true,
+			"description": "Heading."
+		},
+		"title_accent": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Part of the heading painted with the brand gradient."
+		},
+		"lede": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Paragraph under the heading."
+		},
+		"background": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Backdrop art behind the section."
+		},
+		"photo": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "The photo the tags surround."
+		},
+		"photo_alt": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Alt text for the photo."
+		},
+		"photo_width": {
+			"type": "integer",
+			"required": false,
+			"default": 547,
+			"description": "Photo box width in px (live: 547). The 2026 hub frames use a 602 x 260 two-photo composite."
+		},
+		"photo_height": {
+			"type": "integer",
+			"required": false,
+			"default": 364,
+			"description": "Photo box height in px (live: 364)."
+		},
+		"art_height": {
+			"type": "integer",
+			"required": false,
+			"default": 364,
+			"description": "Height of the art stage that holds the photo and the tags, in px (live: 364)."
+		},
+		"tags": {
+			"type": "array",
+			"required": false,
+			"default": [],
+			"description": "Up to four tags. Each: text, icon_svg, x and y (px in the art box), end (hex colour the tag fades to)."
+		},
+		"sr_list": {
+			"type": "array",
+			"required": false,
+			"default": [],
+			"description": "Full-sentence versions of the tags, read by screen readers. Plain strings."
+		},
+		"cta_title": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Call-to-action bar heading."
+		},
+		"cta_body": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Call-to-action bar text."
+		},
+		"cta_logo_svg": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Inline SVG mark at the start of the bar."
+		},
+		"cta_label": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Button text."
+		},
+		"cta_url": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Button destination."
+		},
+		"head_width": {
+			"type": "integer",
+			"required": false,
+			"default": 560,
+			"description": "Width cap of the heading block in px (live: 560 on Asset Management, 640 on the other solution pages)."
+		},
+		"lede_width": {
+			"type": "integer",
+			"required": false,
+			"default": 560,
+			"description": "Width cap of the lede paragraph in px (live: 560; the 2026-10 hub frames: 800)."
+		}
+	}
+}

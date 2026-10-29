@@ -1,0 +1,320 @@
+/*
+ * compare-table — the comparison-guide table of the resource-center articles.
+ * Figma: Website Design 2026 > Blog > Compare article (7219:87997): an 800px
+ * table, the Asset Panda column under an indigo header, the competitor under a
+ * grey one, winner pills to the right. Sits inside the article column, whose
+ * blog design styles every table/th/td/p/img at (0,1,1) — so every rule here
+ * carries the component root AND the table class to win. Below 700px the
+ * wrapper scrolls sideways.
+ */
+
+/*
+ * The table is its own element, wider than the 800px text column: 928px (the Figma width), centred on
+ * the page by breaking out of the column it sits in (its parent is centred, so 50% of the parent is the
+ * page centre). On narrow screens it keeps 16px gutters.
+ */
+.ap-compare-table {
+	--ap-compare-table-w: min(928px, calc(100vw - 32px));
+	width: var(--ap-compare-table-w);
+	margin: 32px 0 32px calc(50% - var(--ap-compare-table-w) / 2);
+	font-family: var(--ap-font-body, Manrope, Arial, sans-serif);
+	color: #25272c;
+}
+
+.ap-compare-table,
+.ap-compare-table * { box-sizing: border-box; }
+
+.ap-compare-table .ap-compare-table__scroll {
+	position: relative; /* contains the visually-hidden labels */
+	overflow: hidden; /* the table is always exactly as wide as the column: no scrollbar, ever */
+	max-width: 100%;
+}
+
+.ap-compare-table .ap-compare-table__table {
+	width: 100%;
+	min-width: 0;
+	margin: 0;
+	border: 0;
+	border-collapse: separate;
+	border-spacing: 0;
+	table-layout: fixed;
+	font-size: 14px;
+	line-height: 1.4;
+	color: #25272c;
+}
+
+.ap-compare-table .ap-compare-table__table th,
+.ap-compare-table .ap-compare-table__table td {
+	padding: 0;
+	border: 0;
+	background: transparent;
+	text-align: left;
+	vertical-align: middle;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.4;
+	color: #25272c;
+}
+
+/* Column widths: criterion · Asset Panda · competitor · winner (sum < 100% so rounding never adds a pixel). */
+.ap-compare-table .ap-compare-table__table .ap-compare-table__th--crit,
+.ap-compare-table .ap-compare-table__table .ap-compare-table__crit { width: 28%; }
+.ap-compare-table .ap-compare-table__table .ap-compare-table__th--a,
+.ap-compare-table .ap-compare-table__table .ap-compare-table__a { width: 28%; }
+.ap-compare-table .ap-compare-table__table .ap-compare-table__th--b,
+.ap-compare-table .ap-compare-table__table .ap-compare-table__b { width: 28%; }
+.ap-compare-table .ap-compare-table__table .ap-compare-table__th--w,
+.ap-compare-table .ap-compare-table__table .ap-compare-table__w { width: 15%; }
+
+/* No Winner column: the three columns share the width. */
+.ap-compare-table--nowin .ap-compare-table__table .ap-compare-table__th--crit,
+.ap-compare-table--nowin .ap-compare-table__table .ap-compare-table__crit { width: 30%; }
+.ap-compare-table--nowin .ap-compare-table__table .ap-compare-table__th--a,
+.ap-compare-table--nowin .ap-compare-table__table .ap-compare-table__a,
+.ap-compare-table--nowin .ap-compare-table__table .ap-compare-table__th--b,
+.ap-compare-table--nowin .ap-compare-table__table .ap-compare-table__b { width: 34.5%; }
+
+/* Header row. */
+.ap-compare-table .ap-compare-table__table .ap-compare-table__th {
+	height: 64px;
+	font-size: 14px;
+	font-weight: 500;
+	color: #25272c;
+}
+
+.ap-compare-table .ap-compare-table__table .ap-compare-table__th--crit { padding-right: 12px; }
+
+.ap-compare-table .ap-compare-table__table .ap-compare-table__th--a {
+	background: #5044e1;
+	border-radius: 10px 0 0 0;
+}
+
+.ap-compare-table .ap-compare-table__table .ap-compare-table__th--b {
+	background: #eef0f3;
+	border-radius: 0 10px 0 0;
+}
+
+.ap-compare-table .ap-compare-table__table .ap-compare-table__th--w { text-align: center; }
+
+.ap-compare-table .ap-compare-table__ap,
+.ap-compare-table .ap-compare-table__ezo {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	height: 64px;
+}
+
+.ap-compare-table img { border-radius: 0; }
+.ap-compare-table .ap-compare-table__ap-icon { display: block; width: 24px; height: 26px; }
+.ap-compare-table .ap-compare-table__ap-word { display: block; width: 47px; height: 27px; }
+
+.ap-compare-table .ap-compare-table__mark {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	height: 30px;
+	padding: 0 7px;
+	border-radius: 7px;
+	background: #111;
+	color: #fff;
+	font-size: 15px;
+	font-weight: 600;
+	letter-spacing: -0.02em;
+	line-height: 1;
+}
+
+.ap-compare-table .ap-compare-table__brand {
+	font-size: 18px;
+	font-weight: 700;
+	color: #5044e1;
+	letter-spacing: -0.01em;
+}
+
+.ap-compare-table .ap-compare-table__b-logo { display: block; max-height: 32px; width: auto; }
+
+.ap-compare-table .ap-compare-table__sr {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* Body rows: the two product columns are tinted bands, alternating light and lighter. */
+.ap-compare-table .ap-compare-table__table .ap-compare-table__crit {
+	padding: 14px 12px 14px 0;
+	font-size: 14px;
+	font-weight: 500;
+	color: #25272c;
+}
+
+.ap-compare-table .ap-compare-table__crit > span { vertical-align: middle; }
+
+.ap-compare-table .ap-compare-table__ico {
+	display: inline-flex;
+	width: 16px;
+	height: 16px;
+	margin-right: 8px;
+	vertical-align: middle;
+	color: #4a4e5a;
+}
+
+.ap-compare-table .ap-compare-table__ico svg { display: block; width: 16px; height: 16px; }
+
+.ap-compare-table .ap-compare-table__table .ap-compare-table__a,
+.ap-compare-table .ap-compare-table__table .ap-compare-table__b {
+	padding: 15px 14px 15px 16px;
+	color: #4a4e5a;
+	border-bottom: 1px solid #fff;
+}
+
+.ap-compare-table .ap-compare-table__table .ap-compare-table__a { background: #f5f4fe; }
+.ap-compare-table .ap-compare-table__table .ap-compare-table__b { background: #f6f7f9; }
+.ap-compare-table .ap-compare-table__table tbody tr:nth-child(even) .ap-compare-table__a { background: #ecebfb; }
+.ap-compare-table .ap-compare-table__table tbody tr:nth-child(even) .ap-compare-table__b { background: #edeff2; }
+.ap-compare-table .ap-compare-table__table tbody tr:last-child .ap-compare-table__a { border-radius: 0 0 0 10px; border-bottom: 0; }
+.ap-compare-table .ap-compare-table__table tbody tr:last-child .ap-compare-table__b { border-radius: 0 0 10px 0; border-bottom: 0; }
+
+.ap-compare-table .ap-compare-table__a > span,
+.ap-compare-table .ap-compare-table__b > span { display: inline; vertical-align: middle; }
+
+.ap-compare-table .ap-compare-table__dot {
+	display: inline-block;
+	flex: none;
+	width: 14px;
+	height: 14px;
+	margin: 0 8px 0 0;
+	vertical-align: middle;
+}
+
+.ap-compare-table .ap-compare-table__table .ap-compare-table__w {
+	padding: 10px 0 10px 14px;
+	text-align: center;
+}
+
+.ap-compare-table .ap-compare-table__pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	max-width: 100%;
+	padding: 4px 10px;
+	border-radius: 999px;
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 1.2;
+	color: #fff;
+	white-space: nowrap;
+}
+
+.ap-compare-table .ap-compare-table__pill svg,
+.ap-compare-table .ap-compare-table__pill img { display: block; flex: none; width: 14px; height: 14px; }
+.ap-compare-table .ap-compare-table__pill--ap { background: #e8a33c; }
+.ap-compare-table .ap-compare-table__pill--tie { background: #5044e1; }
+.ap-compare-table .ap-compare-table__pill--other { background: #6b7280; }
+
+.ap-compare-table .ap-compare-table__note {
+	display: block;
+	margin-top: 4px;
+	font-size: 12px;
+	line-height: 1.3;
+	color: #4a4e5a;
+}
+
+/* The footnote mark beside a pill (e.g. Asset Panda *): outside the pill, in the text colour. */
+.ap-compare-table .ap-compare-table__star {
+	display: inline-block;
+	margin-left: 4px;
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 1;
+	color: #25272c;
+	vertical-align: middle;
+}
+
+.ap-compare-table .ap-compare-table__foot {
+	margin: 20px 0 0;
+	font-size: 15px;
+	line-height: 1.5;
+	color: #4a4e5a;
+}
+
+.ap-compare-table .ap-ursa {
+	display: inline;
+	font-weight: 700;
+	background: linear-gradient(75.71deg, #806991 6.52%, #00a991 60%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
+	white-space: nowrap;
+}
+
+.ap-compare-table .ap-ursa sup { font-size: 0.55em; line-height: 1; vertical-align: super; }
+
+/* Narrow columns (tablets): tighter cells, a wider winner column so the pills never clip. */
+@media (max-width: 900px) {
+	.ap-compare-table .ap-compare-table__table { font-size: 13px; }
+	.ap-compare-table .ap-compare-table__table .ap-compare-table__th--crit,
+	.ap-compare-table .ap-compare-table__table .ap-compare-table__crit { width: 25%; padding-right: 8px; }
+	.ap-compare-table .ap-compare-table__table .ap-compare-table__th--a,
+	.ap-compare-table .ap-compare-table__table .ap-compare-table__a,
+	.ap-compare-table .ap-compare-table__table .ap-compare-table__th--b,
+	.ap-compare-table .ap-compare-table__table .ap-compare-table__b { width: 27%; padding-left: 10px; padding-right: 8px; }
+	.ap-compare-table .ap-compare-table__table .ap-compare-table__th--w,
+	.ap-compare-table .ap-compare-table__table .ap-compare-table__w { width: 20%; padding-left: 8px; }
+	.ap-compare-table .ap-compare-table__pill { padding: 4px 8px; font-size: 11px; }
+	.ap-compare-table--nowin .ap-compare-table__table .ap-compare-table__th--crit,
+	.ap-compare-table--nowin .ap-compare-table__table .ap-compare-table__crit { width: 28%; }
+	.ap-compare-table--nowin .ap-compare-table__table .ap-compare-table__th--a,
+	.ap-compare-table--nowin .ap-compare-table__table .ap-compare-table__a,
+	.ap-compare-table--nowin .ap-compare-table__table .ap-compare-table__th--b,
+	.ap-compare-table--nowin .ap-compare-table__table .ap-compare-table__b { width: 35.5%; }
+}
+
+/* Phones: no sideways scroll — each row becomes a card: criterion and winner on the first line, then the
+   two product cells one under the other, each captioned with its column name. */
+@media (max-width: 639px) {
+	.ap-compare-table { margin: 24px auto; }
+	.ap-compare-table .ap-compare-table__table,
+	.ap-compare-table .ap-compare-table__table tbody,
+	.ap-compare-table .ap-compare-table__table tr,
+	.ap-compare-table .ap-compare-table__table th,
+	.ap-compare-table .ap-compare-table__table td { display: block; width: auto; }
+	.ap-compare-table .ap-compare-table__table thead { display: none; }
+	.ap-compare-table .ap-compare-table__table tr {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: 10px 12px;
+		align-items: center;
+		margin: 0 0 12px;
+		padding: 14px 14px 12px;
+		border: 1px solid #e3e5ea;
+		border-radius: 12px;
+		background: #fff;
+	}
+	.ap-compare-table .ap-compare-table__table .ap-compare-table__crit { grid-column: 1; grid-row: 1; width: auto; padding: 0; font-size: 15px; font-weight: 700; }
+	.ap-compare-table--nowin .ap-compare-table__table .ap-compare-table__crit { grid-column: 1 / -1; }
+	.ap-compare-table .ap-compare-table__table .ap-compare-table__w { grid-column: 2; grid-row: 1; width: auto; padding: 0; text-align: right; }
+	.ap-compare-table .ap-compare-table__table .ap-compare-table__a,
+	.ap-compare-table .ap-compare-table__table .ap-compare-table__b { grid-column: 1 / -1; width: auto; padding: 10px 12px; border: 0; border-radius: 8px; }
+	.ap-compare-table .ap-compare-table__table tbody tr:last-child .ap-compare-table__a,
+	.ap-compare-table .ap-compare-table__table tbody tr:last-child .ap-compare-table__b { border-radius: 8px; }
+	.ap-compare-table .ap-compare-table__table .ap-compare-table__a::before,
+	.ap-compare-table .ap-compare-table__table .ap-compare-table__b::before {
+		content: attr(data-col);
+		display: block;
+		margin-bottom: 4px;
+		font-size: 11px;
+		font-weight: 700;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: #5044e1;
+	}
+	.ap-compare-table .ap-compare-table__table .ap-compare-table__b::before { color: #6b7280; }
+	.ap-compare-table .ap-compare-table__note { display: inline; margin: 0 0 0 6px; }
+}

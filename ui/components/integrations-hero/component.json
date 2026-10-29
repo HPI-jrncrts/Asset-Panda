@@ -1,0 +1,33 @@
+{
+	"name": "integrations-hero",
+	"description": "Integrations hub hero: eyebrow, H1, lede and a demo button beside an art box where integration logos float in frosted glass bubbles around the Asset Panda app card (panda), over orbit rings and soft colour glows. Figma: Desktop — Integrations > Hero Section (7310:158542).",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small uppercase label above the title, e.g. INTEGRATIONS." },
+		"title": { "type": "string", "required": true, "description": "Title (the page H1). Line breaks are kept." },
+		"lede": { "type": "string", "required": false, "default": "", "description": "Paragraph under the title. Line breaks are kept." },
+		"cta_label": { "type": "string", "required": false, "default": "Book a Demo", "description": "Button text. The button renders only when cta_label and cta_url are both set." },
+		"cta_url": { "type": "string", "required": false, "default": "/get-a-demo/", "description": "Button destination." },
+		"panda": { "type": "string", "required": false, "default": "/wp-content/uploads/2026/10/integ-hub-panda.webp", "description": "Panda image (transparent WebP) shown in the app card. Empty shows the card without a panda." },
+		"logos": {
+			"type": "array",
+			"required": false,
+			"default": [
+				{ "name": "Okta", "icon": "/wp-content/uploads/2025/09/Okta_Icon.svg", "x": 15.74, "y": 74.12, "size": 28.5 },
+				{ "name": "Slack", "icon": "/wp-content/uploads/2025/09/Slack_Icon.svg", "x": 22.22, "y": 51.09, "size": 28.5 },
+				{ "name": "Jira", "icon": "/wp-content/uploads/2025/09/Jira_Icon.svg", "x": 37.51, "y": 40.82, "size": 28.5 },
+				{ "name": "Google", "icon": "/wp-content/uploads/2026/10/integ-hub-logo-google.svg", "x": 70.16, "y": 56.48, "size": 28.5 },
+				{ "name": "Microsoft Entra ID", "icon": "/wp-content/uploads/2025/09/Microsoft_Entra_ID_Icon.svg", "x": 6.82, "y": 58.11, "size": 38 },
+				{ "name": "Microsoft Teams", "icon": "/wp-content/uploads/2025/09/Microsoft_Teams_Icon.svg", "x": 54.92, "y": 45.63, "size": 47.5 },
+				{ "name": "Microsoft Intune", "icon": "/wp-content/uploads/2025/09/Microsoft_InTune_Icon.svg", "x": 91.27, "y": 57.84, "size": 76.1 },
+				{ "name": "QuickBooks", "icon": "/wp-content/uploads/2025/09/QuickBooks_Icon.svg", "x": 42.08, "y": 19.58, "size": 33.3 },
+				{ "name": "ConnectWise", "icon": "/wp-content/uploads/2025/09/ConnectWise_Icon-1.svg", "x": 19.44, "y": 32.33, "size": 76.1 },
+				{ "name": "Google Calendar", "icon": "/wp-content/uploads/2026/10/integ-hub-logo-google-calendar.svg", "x": 77.12, "y": 77.92, "size": 66.6 },
+				{ "name": "Workday", "icon": "/wp-content/uploads/2026/10/integ-hub-logo-workday.svg", "x": 80.82, "y": 36.4, "size": 66.6, "scale": 0.74 },
+				{ "name": "HubSpot", "icon": "/wp-content/uploads/2026/10/integ-hub-logo-hubspot.svg", "x": 28.58, "y": 67.06, "size": 47.5 },
+				{ "name": "DocuSign", "icon": "/wp-content/uploads/2026/10/integ-hub-logo-docusign.svg", "x": 61.23, "y": 28.8, "size": 47.5 }
+			],
+			"description": "Logo bubbles around the app card (max 20). Each: icon (image URL, SVG preferred), name (integration name, read out in the art's label), x and y (bubble centre as a % of the art box, 0-100), size (bubble diameter in design px — the art box is 546 design px wide, so sizes scale with it; 12-160), optional scale (logo size as a share of the bubble, 0.2-0.9, default 0.5; wordmarks like Workday want ~0.74). The default is the 13 Figma bubbles."
+		},
+		"art_label": { "type": "string", "required": false, "default": "", "description": "Accessible description of the art. Empty builds one from the logo names: \"Asset Panda connects with Okta, Slack, …\"." }
+	}
+}

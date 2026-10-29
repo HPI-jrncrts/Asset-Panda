@@ -1,0 +1,916 @@
+/*
+ * demo-cta — the closing demo card. Ported from the live
+ * `.ap-fire-footer-cta`: copy beside the form panel on a dark gradient card,
+ * stacking below 992px.
+ */
+
+:where(.ap-demo-cta, .ap-demo-cta *, .ap-demo-cta *::before, .ap-demo-cta *::after) {
+	box-sizing: border-box;
+}
+
+.ap-demo-cta {
+	padding: 0 0 80px;
+	background: #f9fafb;
+}
+
+.ap-demo-cta__inner {
+	width: min(var(--ap-host-container, 1120px), 100% - 48px);
+	margin: 0 auto;
+}
+
+.ap-demo-cta__card {
+	position: relative;
+	display: grid;
+	grid-template-columns: minmax(0, 424px) minmax(0, 1fr);
+	gap: 40px;
+	width: 100%;
+	min-height: 532px;
+	padding: 40px 64px;
+	overflow: hidden;
+	border-radius: var(--ap-radius-xl);
+	background: linear-gradient(242deg, #6666ee 2%, #201c4a 100%);
+	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.ap-demo-cta__card--solo {
+	grid-template-columns: minmax(0, 1fr);
+	min-height: 0;
+}
+
+/* Product image variant (the hubs): copy on the left, image flush bottom-right. */
+/* The hubs sit the card 40px below the section above (live #ap-gov-fcta). */
+.ap-demo-cta:has(.ap-demo-cta__card--media) {
+	padding-top: 40px;
+	background: #fff;
+}
+
+.ap-demo-cta__card--media {
+	grid-template-columns: minmax(0, 1fr) minmax(0, 488px);
+	gap: 24px;
+	min-height: 0;
+	padding: 0;
+	background: linear-gradient(244deg, #6666ee 2.2%, #201c4a 100%);
+}
+
+.ap-demo-cta__card--media .ap-demo-cta__copy {
+	gap: 16px;
+	padding: 80px 0 80px 64px;
+}
+
+.ap-demo-cta__card--media .ap-demo-cta__eyebrow {
+	margin: 0;
+	text-transform: uppercase;
+}
+
+.ap-demo-cta__media {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	align-items: flex-end;
+	justify-content: flex-end;
+}
+
+.ap-demo-cta__media img {
+	display: block;
+	width: 488px;
+	max-width: 100%;
+	height: auto;
+}
+
+/* Soft glow in the top-right corner of the card. */
+.ap-demo-cta__card::after {
+	content: "";
+	position: absolute;
+	top: -160px;
+	right: -120px;
+	width: 540px;
+	height: 540px;
+	border-radius: 50%;
+	background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 68%);
+	pointer-events: none;
+}
+
+.ap-demo-cta__copy,
+.ap-demo-cta__panel {
+	position: relative;
+	z-index: 1;
+}
+
+.ap-demo-cta__copy {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 24px;
+}
+
+.ap-demo-cta__eyebrow {
+	margin: 0 0 16px;
+	color: #838cf6;
+	font-family: var(--ap-font-utility);
+	font-size: 16px;
+	font-weight: 800;
+	line-height: 1.2;
+}
+
+.ap-demo-cta__title {
+	margin: 0;
+	color: #fff;
+	font-family: var(--ap-font-display);
+	font-size: 40px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: -0.02em;
+}
+
+.ap-demo-cta__body {
+	margin: 0;
+	color: rgba(255, 255, 255, 0.72);
+	font-family: var(--ap-font-body);
+	font-size: 18px;
+	line-height: 1.5;
+}
+
+.ap-demo-cta__quote {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.ap-demo-cta__quote strong {
+	color: var(--ap-green-600);
+	font-family: var(--ap-font-display);
+	font-size: 24px;
+	font-weight: 800;
+	line-height: 1.2;
+}
+
+.ap-demo-cta__quote span {
+	color: rgba(255, 255, 255, 0.72);
+	font-family: var(--ap-font-body);
+	font-size: 18px;
+	line-height: 1.5;
+}
+
+.ap-demo-cta__panel {
+	place-self: center;
+	width: 100%;
+	max-width: 528px;
+}
+
+.ap-demo-cta__form-title {
+	margin: 0 0 16px;
+	color: #fff;
+	font-family: var(--ap-font-display);
+	font-size: 24px;
+	font-weight: 800;
+	line-height: 1.2;
+}
+
+/* The mount point keeps its height before the form script fills it. */
+.ap-demo-cta__form {
+	width: 100%;
+	min-height: 376px;
+}
+
+.ap-demo-cta__btn {
+	align-self: flex-start;
+	min-height: 48px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 12px 24px;
+	border-radius: var(--ap-radius-md);
+	background: var(--ap-gradient-action);
+	color: #fff;
+	font-family: var(--ap-font-display);
+	font-size: 16px;
+	font-weight: 800;
+	line-height: 1.2;
+	text-decoration: none;
+	transition: box-shadow 0.2s, filter 0.2s;
+}
+
+.ap-demo-cta__btn:hover,
+.ap-demo-cta__btn:focus-visible {
+	color: #fff;
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+	filter: brightness(1.06);
+}
+
+/*
+ * HubSpot's form, styled to the card: two-column name, role and contact
+ * fields, full-width message, labels kept for screen readers only.
+ */
+.ap-demo-cta__form form {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 16px;
+	margin: 0;
+}
+
+.ap-demo-cta__form fieldset {
+	display: contents;
+	max-width: none !important;
+}
+
+.ap-demo-cta__form .hs-form-field,
+.ap-demo-cta__form .hs-richtext,
+.ap-demo-cta__form .hs_error_rollup,
+.ap-demo-cta__form .hs-submit,
+.ap-demo-cta__form .legal-consent-container {
+	grid-column: 1 / -1;
+	min-width: 0;
+	margin: 0;
+}
+
+.ap-demo-cta__form .hs_firstname,
+.ap-demo-cta__form .hs_lastname,
+.ap-demo-cta__form .hs_company,
+.ap-demo-cta__form .hs_jobtitle,
+.ap-demo-cta__form .hs_email,
+.ap-demo-cta__form .hs_phone {
+	grid-column: span 1;
+}
+
+.ap-demo-cta__form label:not(.hs-error-msg) {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+.ap-demo-cta__form .input {
+	margin: 0 !important;
+}
+
+.ap-demo-cta__form input.hs-input:not([type="checkbox"]):not([type="radio"]),
+.ap-demo-cta__form select.hs-input,
+.ap-demo-cta__form textarea.hs-input {
+	width: 100% !important;
+	height: 48px;
+	padding: 12px 16px;
+	border: 1px solid #e5e7eb;
+	border-radius: var(--ap-radius-sm);
+	background: #f9fafb;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-body);
+	font-size: 16px;
+	line-height: 1.4;
+}
+
+.ap-demo-cta__form textarea.hs-input {
+	min-height: 120px;
+	resize: vertical;
+}
+
+.ap-demo-cta__form .hs-input::placeholder {
+	color: #a9adb6;
+	opacity: 1;
+}
+
+.ap-demo-cta__form .hs-input:focus {
+	border-color: var(--ap-indigo-600);
+	outline: none;
+}
+
+.ap-demo-cta__form input[type="submit"] {
+	min-height: 48px;
+	padding: 12px 24px;
+	border: 0;
+	border-radius: var(--ap-radius-sm);
+	background: var(--ap-gradient-action);
+	color: #fff;
+	font-family: var(--ap-font-display);
+	font-size: 16px;
+	font-weight: 800;
+	cursor: pointer;
+}
+
+.ap-demo-cta__form input[type="submit"]:hover {
+	opacity: 0.9;
+}
+
+.ap-demo-cta__form .hs-error-msg,
+.ap-demo-cta__form .hs-error-msgs,
+.ap-demo-cta__form .submitted-message,
+.ap-demo-cta__form .legal-consent-container,
+.ap-demo-cta__form .legal-consent-container p {
+	color: rgba(255, 255, 255, 0.82);
+	font-family: var(--ap-font-body);
+	font-size: 13px;
+	line-height: 1.45;
+}
+
+.ap-demo-cta__form .hs-error-msgs {
+	margin: 4px 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+@media (max-width: 560px) {
+	.ap-demo-cta__form form {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.ap-demo-cta__form .hs-form-field {
+		grid-column: 1 / -1;
+	}
+}
+
+@media (max-width: 991px) {
+	.ap-demo-cta {
+		padding-bottom: 52px;
+	}
+
+	.ap-demo-cta__card.ap-demo-cta__card--media {
+		padding: 0;
+		gap: 0;
+	}
+
+	.ap-demo-cta__card--media .ap-demo-cta__copy {
+		padding: 48px 32px 24px;
+	}
+
+	.ap-demo-cta__card {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 40px;
+		min-height: 0;
+		padding: 48px 32px;
+	}
+}
+
+@media (max-width: 768px) {
+	.ap-demo-cta__title {
+		font-size: 32px;
+	}
+
+	.ap-demo-cta__body,
+	.ap-demo-cta__quote span {
+		font-size: 16px;
+	}
+
+	.ap-demo-cta__quote strong {
+		font-size: 20px;
+	}
+}
+
+@media (max-width: 560px) {
+	.ap-demo-cta__card {
+		padding: 32px 20px;
+	}
+
+	.ap-demo-cta__title {
+		font-size: 28px;
+	}
+
+	.ap-demo-cta__btn {
+		align-self: stretch;
+	}
+}
+
+/* The hub and solution pages' closing card (image beside the copy) keeps the
+ * heading at normal tracking; the product pages' form card tightens it. */
+.ap-demo-cta__card--media .ap-demo-cta__title { letter-spacing: normal; }
+.ap-demo-cta--platform .ap-demo-cta__card--media .ap-demo-cta__title { letter-spacing: -0.02em; }
+
+/*
+ * Form card (the vertical pages). Live sets it inside #ap-fire-footer: the
+ * site's footer art stretched behind it, 80/64/40px above by breakpoint, 40px
+ * below at every width, and its own 767px phone step. The two-class selectors
+ * outrank the shared 768px and 560px steps above.
+ */
+.ap-demo-cta--form {
+	padding: 80px 24px 40px;
+	background: var(--ap-demo-cta-bg, none) center top / 100% 100% no-repeat transparent;
+}
+
+.ap-demo-cta--form .ap-demo-cta__inner {
+	width: 100%;
+	max-width: var(--ap-host-container, 1120px);
+}
+
+.ap-demo-cta--form .ap-demo-cta__title {
+	font-size: 40px;
+}
+
+.ap-demo-cta--form .ap-demo-cta__body,
+.ap-demo-cta--form .ap-demo-cta__quote span {
+	font-size: 18px;
+}
+
+.ap-demo-cta--form .ap-demo-cta__quote strong {
+	font-size: 24px;
+}
+
+.ap-demo-cta--form .ap-demo-cta__card {
+	padding: 40px 64px;
+}
+
+@media (max-width: 991px) {
+	.ap-demo-cta--form {
+		padding: 64px 32px 40px;
+	}
+
+	.ap-demo-cta--form .ap-demo-cta__card {
+		padding: 48px 32px;
+	}
+
+	.ap-demo-cta--form .ap-demo-cta__copy,
+	.ap-demo-cta--form .ap-demo-cta__panel {
+		max-width: 560px;
+	}
+}
+
+@media (max-width: 767px) {
+	.ap-demo-cta--form {
+		padding: 40px 20px 40px;
+		background-size: auto 100%;
+	}
+
+	.ap-demo-cta--form .ap-demo-cta__card {
+		gap: 32px;
+		padding: 40px 18px;
+	}
+
+	.ap-demo-cta--form .ap-demo-cta__title {
+		font-size: 28px;
+	}
+
+	.ap-demo-cta--form .ap-demo-cta__body,
+	.ap-demo-cta--form .ap-demo-cta__quote span {
+		font-size: 16px;
+	}
+
+	.ap-demo-cta--form .ap-demo-cta__quote strong {
+		font-size: 21px;
+	}
+}
+
+/*
+ * Hub variants — the live industry-hub closing bands, ported whole (selectors
+ * re-rooted from #ap-gov-fcta / #ap-eduhub-fcta; class names are live's own).
+ * Live's Education band's full-bleed width trick is dropped (the block is
+ * already full width).
+ */
+.ap-demo-cta.ap-demo-cta--hub{position:relative;font-family:Manrope,sans-serif;padding:40px 24px 80px;background:#fff}
+.ap-demo-cta.ap-demo-cta--hub .apg-fcta-card{position:relative;max-width:1120px;margin:0 auto;border-radius:16px;overflow:hidden;background:linear-gradient(244deg,#6666ee 2.2%,#201c4a 100%);display:flex;align-items:stretch;gap:24px}
+.ap-demo-cta.ap-demo-cta--hub .apg-fcta-copy{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:16px;padding:80px 0 80px 64px}
+.ap-demo-cta.ap-demo-cta--hub .apg-fcta-eyebrow{font-size:16px;font-weight:800;line-height:1.2;text-transform:uppercase;color:#838cf6;margin:0}
+.ap-demo-cta.ap-demo-cta--hub h2.apg-h2{font-size:40px;font-weight:800;line-height:1.2;color:#fff;margin:0}
+.ap-demo-cta.ap-demo-cta--hub .apg-fcta-body{font-size:18px;line-height:1.5;color:rgba(255,255,255,.6);margin:0}
+.ap-demo-cta.ap-demo-cta--hub .apg-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:16px;border-radius:4px;border:1px solid #5044e1;background:linear-gradient(55.106deg,#5044e1 0%,#00a991 70.44%);color:#fff;font-size:16px;font-weight:600;line-height:1.2;text-decoration:none;white-space:nowrap;margin-top:8px;transition:translate .3s cubic-bezier(.25,.45,.45,.95),box-shadow .3s cubic-bezier(.25,.45,.45,.95)}
+.ap-demo-cta.ap-demo-cta--hub .apg-btn:hover{translate:0 -2px;box-shadow:0 8px 20px rgba(0,0,0,.35)}
+.ap-demo-cta.ap-demo-cta--hub .apg-fcta-media{flex:0 0 488px;display:flex;align-items:flex-end;justify-content:flex-end}
+.ap-demo-cta.ap-demo-cta--hub .apg-fcta-media img{display:block;width:488px;height:auto;max-width:100%}
+@media (max-width:1024px){.ap-demo-cta.ap-demo-cta--hub .apg-fcta-card{flex-direction:column;gap:0}
+.ap-demo-cta.ap-demo-cta--hub .apg-fcta-copy{padding:48px 32px 24px}
+.ap-demo-cta.ap-demo-cta--hub .apg-fcta-media{flex:none;justify-content:flex-end}
+}
+@media (max-width:767px){.ap-demo-cta.ap-demo-cta--hub{padding:24px 24px 48px}
+.ap-demo-cta.ap-demo-cta--hub h2.apg-h2{font-size:28px}
+.ap-demo-cta.ap-demo-cta--hub .apg-fcta-body{font-size:16px}
+.ap-demo-cta.ap-demo-cta--hub .apg-fcta-copy{padding:32px 24px 16px}
+.ap-demo-cta.ap-demo-cta--hub .apg-btn{width:100%}
+.ap-demo-cta.ap-demo-cta--hub .apg-fcta-media img{width:100%;max-width:420px}
+}
+/* Live's band is a copy of the site footer CTA: the footer sheet (all !important) plus the
+ * section's own later rules. With no footer sheet to beat, the flags are dropped and the
+ * later plain rules are moved ahead so the cascade resolves exactly as it does live. */
+.ap-demo-cta.ap-demo-cta--eduhub{display:block;padding:40px 24px 0;background:none;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-card{max-width:1120px;margin:0 auto;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-eyebrow{font-size:16px;font-weight:800;line-height:1.2;color:#838CF6;margin:0;text-transform:uppercase;}
+.ap-demo-cta.ap-demo-cta--eduhub h2{font-size:40px;font-weight:800;line-height:48px;color:#fff;letter-spacing:-0.8px;margin:0;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-paragraph-group p{font-size:18px;font-weight:400;line-height:27px;color:#fff;margin:0;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-copy{display:flex;flex-direction:column;gap:40px;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-text-group{display:flex;flex-direction:column;gap:24px;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-heading-group{display:flex;flex-direction:column;gap:16px;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-btn-group{display:flex;gap:16px;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-card{position: relative; width: 100%; min-height: 532px; border-radius: 16px; overflow: hidden; background: linear-gradient(256.98deg, rgb(102, 102, 238) -2.19%, rgb(32, 28, 74) 99.99%); box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 12px; padding: 80px 64px;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-card::after{content: ""; position: absolute; z-index: 1; right: -140px; top: -140px; width: 520px; height: 520px; border-radius: 999px; background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 68%); pointer-events: none;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-copy{position: relative; z-index: 3; width: 488px; max-width: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: 40px;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-art{position: absolute; z-index: 2; right: 0px; bottom: 0px; width: 563px; max-width: 54%; height: 384px; display: flex; align-items: flex-end; justify-content: flex-end; pointer-events: none;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-art img{display: block; width: 563px; max-width: 100%; height: auto; object-fit: contain; object-position: right bottom;}
+@media (max-width: 1279px){.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-card{min-height: 500px; padding: 64px 48px;}
+}
+@media (max-width: 1279px){.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-art{width: 520px; max-width: 52%;}
+}
+@media (max-width: 991px){.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-card{min-height: auto; padding: 48px 32px 0px;}
+}
+@media (max-width: 991px){.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-copy{width: 100%; max-width: 520px;}
+}
+@media (max-width: 991px){.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-art{position: relative; right: auto; bottom: auto; width: 100%; max-width: 100%; height: auto; min-height: 260px; margin-top: 32px; justify-content: flex-end;}
+}
+@media (max-width: 991px){.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-art img{width: 500px; max-width: 100%;}
+}
+@media (max-width: 767px){.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-card{padding: 40px 18px 0px;}
+}
+@media (max-width: 767px){.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-copy{gap: 24px;}
+}
+@media (max-width: 767px){.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-art{min-height: 220px; margin-top: 28px;}
+}
+@media (max-width: 767px){.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-art img{width: 390px;}
+}
+@media (max-width: 480px){.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-card{padding: 40px 18px 0px;}
+}
+@media (max-width: 480px){.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-art{min-height: 190px;}
+}
+@media (max-width: 480px){.ap-demo-cta.ap-demo-cta--eduhub .ap-final-cta-art img{width: 340px;}
+}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-btn-group{position: relative; z-index: 4; display: flex; flex-flow: row; align-items: center; justify-content: flex-start; gap: 16px; width: auto; max-width: 100%;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-btn{display: inline-flex; justify-content: center; align-items: center; flex: 0 0 auto; width: auto; min-height: 47px; padding: 14px 16px; border-radius: 4px; font-family: Manrope, Arial, sans-serif; font-size: 16px; line-height: 1.2; font-weight: 700; text-align: center; text-decoration: none; white-space: nowrap; box-shadow: none; cursor: pointer; transition: transform 0.2s, opacity 0.2s, background-color 0.2s;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-btn:hover,.ap-demo-cta.ap-demo-cta--eduhub .ap-btn:focus{transform: translateY(-1px); text-decoration: none;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-btn-primary{min-width: 131px; color: rgb(255, 255, 255); background: linear-gradient(54.33deg, rgb(80, 68, 225) 0%, rgb(0, 169, 145) 70.44%); border: 1px solid transparent;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-btn-primary:hover,.ap-demo-cta.ap-demo-cta--eduhub .ap-btn-primary:focus{color: rgb(255, 255, 255); opacity: 0.9;}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-btn-outline{min-width: 129px; color: rgb(0, 169, 145); background: transparent; border: 1px solid rgb(0, 169, 145);}
+.ap-demo-cta.ap-demo-cta--eduhub .ap-btn-outline:hover,.ap-demo-cta.ap-demo-cta--eduhub .ap-btn-outline:focus{color: rgb(255, 255, 255); background: rgb(0, 169, 145); border-color: rgb(0, 169, 145);}
+@media (max-width: 767px){.ap-demo-cta.ap-demo-cta--eduhub .ap-btn-group{flex-wrap: nowrap; gap: 16px;}
+}
+@media (max-width: 767px){.ap-demo-cta.ap-demo-cta--eduhub .ap-btn{font-size: 16px; padding: 14px 16px;}
+}
+@media (max-width: 360px){.ap-demo-cta.ap-demo-cta--eduhub .ap-btn-group{width: 100%; flex-direction: column; align-items: stretch;}
+}
+@media (max-width: 360px){.ap-demo-cta.ap-demo-cta--eduhub .ap-btn{width: 100%;}
+}
+@media (max-width:767px){.ap-demo-cta.ap-demo-cta--eduhub{padding-top:24px}
+}
+
+/* The staging theme sets text-wrap:pretty on headings and paragraphs; live wraps plainly. */
+.ap-demo-cta--hub :is(h2, p), .ap-demo-cta--eduhub :is(h2, p) {text-wrap:wrap}
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: every variant pads its band top and bottom with one token
+ * (was 80/40, 64/40, 40/40 form; 40/80, 24/48 hub; 40/0, 24/0 eduhub).
+ * Closing bands (form, hub, eduhub) paint the upper half of the CTA/footer
+ * seam glow at their bottom edge, and nothing else: the form band's stretched
+ * footer art (--ap-demo-cta-bg, a second glow across the card's middle) is no
+ * longer painted. site-footer paints the lower half with the same ellipses
+ * (see site-footer/style.css "one seam gradient"). */
+.ap-demo-cta.ap-demo-cta--form,
+.ap-demo-cta.ap-demo-cta--hub,
+.ap-demo-cta.ap-demo-cta--eduhub {
+	padding-top: var(--ap-section-y, 64px);
+	padding-bottom: var(--ap-section-y, 64px);
+	background:
+		radial-gradient(ellipse 34% 300px at 6% 100%, rgba(230, 28, 85, .23), rgba(230, 28, 85, .09) 45%, rgba(230, 28, 85, 0) 100%),
+		radial-gradient(ellipse 36% 300px at 50% 100%, rgba(0, 169, 145, .26), rgba(0, 169, 145, .11) 45%, rgba(0, 169, 145, 0) 100%),
+		radial-gradient(ellipse 34% 300px at 94% 100%, rgba(102, 102, 238, .33), rgba(102, 102, 238, .14) 45%, rgba(102, 102, 238, 0) 100%),
+		#fff;
+}
+.ap-demo-cta:not(.ap-demo-cta--form, .ap-demo-cta--hub, .ap-demo-cta--eduhub) {
+	padding-bottom: var(--ap-section-y, 64px);
+}
+.ap-demo-cta:not(.ap-demo-cta--form, .ap-demo-cta--hub, .ap-demo-cta--eduhub):has(.ap-demo-cta__card--media) {
+	padding-top: var(--ap-section-y, 64px);
+}
+@media (max-width: 1279px) {
+	.ap-demo-cta.ap-demo-cta--form,
+	.ap-demo-cta.ap-demo-cta--hub,
+	.ap-demo-cta.ap-demo-cta--eduhub {
+		background:
+			radial-gradient(ellipse 40% 220px at 4% 100%, rgba(230, 28, 85, .23), rgba(230, 28, 85, .09) 45%, rgba(230, 28, 85, 0) 100%),
+			radial-gradient(ellipse 42% 220px at 50% 100%, rgba(0, 169, 145, .26), rgba(0, 169, 145, .11) 45%, rgba(0, 169, 145, 0) 100%),
+			radial-gradient(ellipse 40% 220px at 96% 100%, rgba(102, 102, 238, .33), rgba(102, 102, 238, .14) 45%, rgba(102, 102, 238, 0) 100%),
+			#fff;
+	}
+}
+/* Phones (QA 2026-10-27): the Education band's 18px copy steps down to 16px
+ * like the other closing bands (its heading is on the type scale below). */
+@media (max-width: 767px) {
+	.ap-demo-cta.ap-demo-cta--eduhub .ap-paragraph-group p { font-size: 16px; line-height: 1.5; }
+}
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-demo-cta.ap-demo-cta.ap-demo-cta .ap-demo-cta__title { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+html body .ap-demo-cta.ap-demo-cta.ap-demo-cta h2.apg-h2 { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+html body .ap-demo-cta.ap-demo-cta.ap-demo-cta.ap-demo-cta--eduhub h2 { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+
+/* Motion (QA 2026-10-28, motion agent's R4): hover moves use translate / scale, never transform (scroll entrances own transform), on the house timing. */
+html body .ap-demo-cta.ap-demo-cta--eduhub .ap-btn { transition: translate var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), opacity var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), background-color var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), box-shadow var(--ap-dur-base, .3s) var(--ap-ease-standard, ease); }
+html body .ap-demo-cta.ap-demo-cta--eduhub .ap-btn:is(:hover, :focus) { transform: none; translate: 0 -1px; }
+
+/* ------------------------------------------------------------ Opt-in extras (Partners page, 2026-10-29)
+ * None of these classes exist on the product, platform or hub pages, so they render as before.
+ * bullets: a check list under the paragraph (Figma list-group: 20px circle-check, 8px apart, 18px copy). */
+.ap-demo-cta .ap-demo-cta__list { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.ap-demo-cta .ap-demo-cta__list li { display: flex; align-items: flex-start; gap: 8px; margin: 0; padding: 0; color: rgba(255, 255, 255, .8); font-family: var(--ap-font-body); font-size: 18px; line-height: 1.5; }
+.ap-demo-cta .ap-demo-cta__check { flex: 0 0 20px; display: block; width: 20px; height: 20px; margin-top: calc((1.5em - 20px) / 2); }
+@media (max-width: 767px) {
+	.ap-demo-cta .ap-demo-cta__list li { font-size: 16px; }
+}
+
+/* panel card: the form in a white rounded card (Figma "Booking form": 24px padding, 16px radius, soft shadow),
+ * copy and card side by side in equal columns 80px apart inside 80/64px card padding, the copy top-aligned
+ * with the card; the eyebrow takes Figma's light indigo. Stacks below 992px like the plain card. */
+@media (min-width: 992px) {
+	.ap-demo-cta.ap-demo-cta--card .ap-demo-cta__card { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 80px; min-height: 0; padding: 80px 64px; align-items: start; }
+}
+.ap-demo-cta.ap-demo-cta--card .ap-demo-cta__copy { justify-content: flex-start; }
+.ap-demo-cta.ap-demo-cta--card .ap-demo-cta__eyebrow { color: #a7b3fa; }
+.ap-demo-cta.ap-demo-cta--card .ap-demo-cta__panel--card { justify-self: stretch; align-self: start; max-width: none; padding: 24px; border-radius: var(--ap-radius-xl, 16px); background: var(--ap-white); box-shadow: 0 8px 24px rgba(10, 10, 10, .08); }
+@media (max-width: 991px) {
+	.ap-demo-cta.ap-demo-cta--card .ap-demo-cta__panel--card { max-width: 560px; }
+}
+@media (max-width: 767px) {
+	.ap-demo-cta.ap-demo-cta--card .ap-demo-cta__panel--card { padding: 20px 16px; }
+}
+/* The mount keeps the drawn form's height (three rows of fields and the button) while HubSpot loads. */
+.ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form { min-height: 248px; }
+
+/* The HubSpot form inside the white card (a raw-HTML form, drawn into the page): Figma's fields — #f9fafb with a
+ * #edeef1 hairline, 4px corners, 14px copy — in rows 16px apart, and a solid green button 24px under them.
+ * Written with !important and one class more than the stylesheet demo-cta/behaviour.js injects for the dark
+ * card, so the white card wins in either order; error text turns red so it reads on white. */
+.ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form form { display: flex !important; flex-direction: column !important; gap: 16px !important; margin: 0 !important; }
+.ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form fieldset { display: flex !important; flex-direction: row !important; gap: 16px !important; width: 100% !important; max-width: none !important; margin: 0 !important; padding: 0 !important; border: 0 !important; }
+.ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form fieldset:not(:has(.hs-input:not([type="hidden"]))) { display: none !important; }
+.ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form .hs-form-field { flex: 1 1 0 !important; min-width: 0 !important; width: auto !important; float: none !important; margin: 0 !important; padding: 0 !important; }
+.ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form .hs-input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]) { width: 100% !important; height: auto !important; min-height: 0 !important; margin: 0 !important; padding: 12px 12px 13px !important; border: 1px solid #edeef1 !important; border-radius: var(--ap-radius-sm, 4px) !important; background: #f9fafb !important; box-shadow: none !important; color: var(--ap-text-heading) !important; font-family: var(--ap-font-body) !important; font-size: 14px !important; line-height: 1.5 !important; }
+.ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form .hs-input::placeholder { color: #4a4e5a !important; opacity: 1 !important; }
+.ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form .hs-input:focus { border-color: var(--ap-brand-indigo) !important; box-shadow: 0 0 0 3px rgba(80, 68, 225, .15) !important; outline: none !important; }
+.ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form :is(.hs_submit, .hs-submit, .actions) { margin: 0 !important; padding: 0 !important; }
+.ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form :is(.hs_submit, .hs-submit) { margin-top: 8px !important; }
+.ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form :is(input[type="submit"], .hs-button) { display: inline-flex !important; align-items: center !important; justify-content: center !important; width: auto !important; min-height: 0 !important; height: auto !important; padding: 14px 16px !important; border: 1px solid #009882 !important; border-radius: var(--ap-radius-sm, 4px) !important; background: var(--ap-brand-green) !important; box-shadow: none !important; color: var(--ap-white) !important; font-family: var(--ap-font-body) !important; font-size: 16px !important; font-weight: 700 !important; line-height: 1.2 !important; cursor: pointer; transition: translate var(--ap-dur-base) var(--ap-ease-standard), box-shadow var(--ap-dur-base) var(--ap-ease-standard); }
+.ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form :is(input[type="submit"], .hs-button):is(:hover, :focus-visible) { translate: 0 -2px; box-shadow: 0 6px 18px rgba(0, 169, 145, .3) !important; opacity: 1; filter: none !important; }
+.ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form :is(input[type="submit"], .hs-button):focus-visible { outline: 3px solid var(--ap-brand-indigo) !important; outline-offset: 2px !important; }
+.ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form :is(.hs-error-msg, .hs-error-msgs label, .hs_error_rollup label) { color: #d93025 !important; font-size: 12px !important; }
+.ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form :is(.hs-richtext, .legal-consent-container, .legal-consent-container p, .submitted-message) { color: #4a4e5a !important; }
+@media (max-width: 420px) {
+	.ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form fieldset { flex-direction: column !important; }
+}
+
+/* anchor: a jump to the section (#partner-registration) stops clear of the sticky site header. */
+.ap-demo-cta[id] { scroll-margin-top: 80px; }
+
+/* ==== Closing cards = the homepage's closing card (QA 2026-10-29, Joseph: "The blue section is INCONSISTENT. FOLLOW
+ * THE HOMEPAGE (excluding the contents) and those with forms. The size and placement should be 100% the same.")
+ * The homepage's blue box is the site footer's own final CTA (site-footer .ap-final-cta-card). The three closing
+ * variants (hub, eduhub, form) take its geometry at every width; only the words, the art and the form differ:
+ *  - the band: --ap-section-y above and below, side gutters 24 / 32 (≤1279) / 20 (≤767), the card at most 1120 wide;
+ *  - the card: min-height 532 / 500 (≤1279) / auto (≤991), padding 80 64 / 64 48 / 48 32 0 (≤991) / 40 18 0 (≤767),
+ *    16px corners, the footer card's 256.98deg gradient, shadow and top-right glow;
+ *  - the copy: 488 wide (100%, at most 520, from 991 down), eyebrow 16/800 in #838cf6 without upper-casing or
+ *    tracking, 16 to the heading (type scale), 24 to the paragraph (18px white, 16px ≤767), 40 (24 ≤767) to the
+ *    button, whose size is the sitewide CTA button scale (tokens.css);
+ *  - the art (hub, eduhub): the footer art's box, 563 wide (at most 54%; 520 / 52% ≤1279) and 384 tall, flush
+ *    bottom-right, the image fitted at the footer art's 1126:728 proportion (contain, anchored bottom-right); from 991
+ *    down under the copy, 32 (28 ≤767) below it, right-aligned in the card's padding, 500 / 390 (≤767) / 340 (≤480);
+ *  - the form (the product pages and Partners): it takes the art's slot, the column right of the 488px copy, 40px
+ *    from it, inside the card's padding; from 991 down under the copy, 32 (28 ≤767) below it. A form needs the
+ *    card's padding under it too, so these keep 48 / 40 at the bottom where the art bleeds to the edge.
+ * Copy or a form taller than 532px makes the card taller (min-height, as on the homepage); nothing is clipped. ==== */
+html body .ap-demo-cta:is(.ap-demo-cta--hub, .ap-demo-cta--eduhub, .ap-demo-cta--form) { padding-left: 24px; padding-right: 24px; }
+@media (max-width: 1279px) {
+	html body .ap-demo-cta:is(.ap-demo-cta--hub, .ap-demo-cta--eduhub, .ap-demo-cta--form) { padding-left: 32px; padding-right: 32px; }
+}
+@media (max-width: 767px) {
+	html body .ap-demo-cta:is(.ap-demo-cta--hub, .ap-demo-cta--eduhub, .ap-demo-cta--form) { padding-left: 20px; padding-right: 20px; }
+}
+
+/* -- hub (the industry hubs): copy + one button + art, as the footer card. */
+html body .ap-demo-cta.ap-demo-cta--hub .apg-fcta-card {
+	display: block;
+	width: 100%;
+	max-width: 1120px;
+	min-height: 532px;
+	margin: 0 auto;
+	padding: 80px 64px;
+	border-radius: 16px;
+	overflow: hidden;
+	background: linear-gradient(256.98deg, #6666ee -2.19%, #201c4a 99.99%);
+	box-shadow: 0 2px 12px rgba(0, 0, 0, .08);
+}
+html body .ap-demo-cta:is(.ap-demo-cta--hub, .ap-demo-cta--form) :is(.apg-fcta-card, .ap-demo-cta__card)::after {
+	content: "";
+	position: absolute;
+	z-index: 1;
+	top: -140px;
+	right: -140px;
+	width: 520px;
+	height: 520px;
+	border-radius: 999px;
+	background: radial-gradient(circle, rgba(255, 255, 255, .12) 0%, rgba(255, 255, 255, 0) 68%);
+	pointer-events: none;
+}
+html body .ap-demo-cta.ap-demo-cta--hub .apg-fcta-copy {
+	position: relative;
+	z-index: 3;
+	flex: none;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 0;
+	width: 488px;
+	max-width: 100%;
+	padding: 0;
+}
+html body .ap-demo-cta.ap-demo-cta--hub .apg-fcta-eyebrow,
+html body .ap-demo-cta.ap-demo-cta--eduhub .ap-eyebrow,
+html body .ap-demo-cta.ap-demo-cta--form .ap-demo-cta__eyebrow {
+	width: 488px;
+	max-width: 100%;
+	color: #838cf6;
+	font-size: 16px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: normal;
+	text-transform: none;
+	text-wrap: wrap;
+}
+html body .ap-demo-cta.ap-demo-cta--hub .apg-fcta-eyebrow { margin: 0; }
+html body .ap-demo-cta.ap-demo-cta--hub h2.apg-h2 { width: 488px; max-width: 100%; margin: 0; color: #fff; text-wrap: wrap; }
+html body .ap-demo-cta.ap-demo-cta--hub .apg-fcta-eyebrow + h2.apg-h2 { margin-top: 16px; }
+html body .ap-demo-cta.ap-demo-cta--hub .apg-fcta-body {
+	width: 488px;
+	max-width: 100%;
+	margin: 24px 0 0;
+	color: #fff;
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 1.5;
+	text-wrap: wrap;
+}
+html body .ap-demo-cta.ap-demo-cta--hub .apg-btn {
+	align-self: flex-start;
+	width: auto;
+	margin-top: 40px;
+	border-color: transparent;
+	background: linear-gradient(54.33deg, #5044e1 0%, #00a991 70.44%);
+}
+html body .ap-demo-cta.ap-demo-cta--hub .apg-fcta-media {
+	position: absolute;
+	z-index: 2;
+	right: 0;
+	bottom: 0;
+	flex: none;
+	display: flex;
+	align-items: flex-end;
+	justify-content: flex-end;
+	width: 563px;
+	max-width: 54%;
+	height: 384px;
+	pointer-events: none;
+}
+html body .ap-demo-cta:is(.ap-demo-cta--hub, .ap-demo-cta--eduhub) :is(.apg-fcta-media, .ap-final-cta-art) img {
+	display: block;
+	width: 563px;
+	max-width: 100%;
+	height: auto;
+	aspect-ratio: 1126 / 728;
+	object-fit: contain;
+	object-position: right bottom;
+}
+
+/* -- eduhub (Education): already the footer card's markup and rules; the gutters, the eyebrow's case and the
+ *    text column's width still differed. */
+html body .ap-demo-cta.ap-demo-cta--eduhub .ap-eyebrow { margin: 0; }
+html body .ap-demo-cta.ap-demo-cta--eduhub :is(.ap-text-group, .ap-heading-group, .ap-paragraph-group) { width: 488px; max-width: 100%; }
+html body .ap-demo-cta.ap-demo-cta--eduhub :is(h2, .ap-paragraph-group p) { width: 100%; text-wrap: wrap; }
+
+/* -- form (the product pages; Partners with panel "card"): the footer card around the copy and the form. */
+html body .ap-demo-cta.ap-demo-cta--form .ap-demo-cta__inner { width: 100%; max-width: 1120px; margin: 0 auto; }
+html body .ap-demo-cta.ap-demo-cta--form .ap-demo-cta__card {
+	display: grid;
+	grid-template-columns: 488px minmax(0, 1fr);
+	column-gap: 40px;
+	row-gap: 0;
+	align-items: start;
+	min-height: 532px;
+	padding: 80px 64px;
+	border-radius: 16px;
+	overflow: hidden;
+	background: linear-gradient(256.98deg, #6666ee -2.19%, #201c4a 99.99%);
+	box-shadow: 0 2px 12px rgba(0, 0, 0, .08);
+}
+html body .ap-demo-cta.ap-demo-cta--form .ap-demo-cta__copy {
+	z-index: 3;
+	align-self: start;
+	justify-content: flex-start;
+	gap: 24px;
+	width: 488px;
+	max-width: 100%;
+}
+html body .ap-demo-cta.ap-demo-cta--form .ap-demo-cta__eyebrow { margin: 0 0 16px; }
+html body .ap-demo-cta.ap-demo-cta--form .ap-demo-cta__title { width: 488px; max-width: 100%; color: #fff; text-wrap: wrap; }
+html body .ap-demo-cta.ap-demo-cta--form .ap-demo-cta__body { width: 488px; max-width: 100%; color: #fff; font-size: 18px; font-weight: 400; line-height: 1.5; text-wrap: wrap; }
+html body .ap-demo-cta.ap-demo-cta--form .ap-demo-cta__panel { z-index: 3; align-self: start; justify-self: stretch; width: 100%; max-width: none; }
+
+@media (max-width: 1279px) {
+	html body .ap-demo-cta.ap-demo-cta--hub .apg-fcta-card,
+	html body .ap-demo-cta.ap-demo-cta--form .ap-demo-cta__card { min-height: 500px; padding: 64px 48px; }
+	html body .ap-demo-cta.ap-demo-cta--hub .apg-fcta-media { width: 520px; max-width: 52%; }
+}
+@media (max-width: 991px) {
+	html body .ap-demo-cta.ap-demo-cta--hub .apg-fcta-card { min-height: 0; padding: 48px 32px 0; }
+	html body .ap-demo-cta.ap-demo-cta--hub .apg-fcta-copy,
+	html body .ap-demo-cta.ap-demo-cta--form .ap-demo-cta__copy { width: 100%; max-width: 520px; }
+	html body .ap-demo-cta.ap-demo-cta--hub .apg-fcta-media {
+		position: relative;
+		right: auto;
+		bottom: auto;
+		width: 100%;
+		max-width: 100%;
+		height: auto;
+		min-height: 260px;
+		margin-top: 32px;
+	}
+	html body .ap-demo-cta:is(.ap-demo-cta--hub, .ap-demo-cta--eduhub) :is(.apg-fcta-media, .ap-final-cta-art) img { width: 500px; }
+	html body .ap-demo-cta.ap-demo-cta--form .ap-demo-cta__card { grid-template-columns: minmax(0, 1fr); row-gap: 32px; min-height: 0; padding: 48px 32px; }
+	html body .ap-demo-cta.ap-demo-cta--form .ap-demo-cta__panel { max-width: none; }
+}
+@media (max-width: 767px) {
+	html body .ap-demo-cta.ap-demo-cta--hub .apg-fcta-card { padding: 40px 18px 0; }
+	html body .ap-demo-cta.ap-demo-cta--form .ap-demo-cta__card { row-gap: 28px; padding: 40px 18px; }
+	html body .ap-demo-cta.ap-demo-cta--hub .apg-fcta-body,
+	html body .ap-demo-cta.ap-demo-cta--form .ap-demo-cta__body { font-size: 16px; }
+	html body .ap-demo-cta.ap-demo-cta--hub .apg-btn { width: auto; margin-top: 24px; }
+	html body .ap-demo-cta.ap-demo-cta--hub .apg-fcta-media { min-height: 220px; margin-top: 28px; }
+	html body .ap-demo-cta:is(.ap-demo-cta--hub, .ap-demo-cta--eduhub) :is(.apg-fcta-media, .ap-final-cta-art) img { width: 390px; }
+	html body .ap-demo-cta.ap-demo-cta--eduhub :is(.ap-text-group, .ap-heading-group, .ap-paragraph-group) { width: 100%; }
+	html body .ap-demo-cta.ap-demo-cta--hub :is(.apg-fcta-eyebrow, h2.apg-h2, .apg-fcta-body),
+	html body .ap-demo-cta.ap-demo-cta--form :is(.ap-demo-cta__eyebrow, .ap-demo-cta__title, .ap-demo-cta__body) { width: 100%; }
+}
+@media (max-width: 480px) {
+	html body .ap-demo-cta.ap-demo-cta--hub .apg-fcta-media { min-height: 190px; }
+	html body .ap-demo-cta:is(.ap-demo-cta--hub, .ap-demo-cta--eduhub) :is(.apg-fcta-media, .ap-final-cta-art) img { width: 340px; }
+}
+@media (max-width: 360px) {
+	html body .ap-demo-cta.ap-demo-cta--hub .apg-btn { align-self: stretch; width: 100%; }
+}
+
+/* ==== Partners form = the Get a Demo form (QA 2026-10-29, Joseph: "The form at the bottom should be reskinned. Same
+ * UI / style with the book a demo. Not the same fields, though.")
+ * The Get a Demo form (demo-booking .ap-dw-field) is a white field with a #cfd4de hairline and 4px corners, its label
+ * inside it (14px #4a4e5a, 12px in from the edge) that rises to the top edge (12px) while the field has focus or a
+ * value, the field opening from 48 to 57px to make room (both fields of a pair together, so a row stays level);
+ * focus turns the edge #00a991 (no ring); an error is a 13px #c0262d line 8px under the field; fields 16px apart,
+ * side by side in pairs; the submit is the indigo-to-green gradient CTA. The Partners HubSpot form (raw HTML drawn
+ * into the page) keeps its own fields and behaviour. HubSpot draws its labels empty; demo-cta/behaviour.js gives
+ * each empty label the placeholder's words and marks the field data-ap-float. A marked field's label comes back
+ * from screen-reader-only to play the Get a Demo label and its placeholder turns transparent (it only tells CSS
+ * whether the field is empty); an unmarked field (script not run)
+ * keeps its visible placeholder in the same place and type, so a field is never left blank. Scoped to the white-card
+ * panel; !important and the extra class outrank the stylesheet behaviour.js writes for the dark card. */
+html body .ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form .hs-form-field { position: relative !important; }
+html body .ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form .hs-form-field[data-ap-float] > label:not(.hs-error-msg) {
+	position: absolute !important;
+	top: 13px !important;
+	left: 13px !important;
+	z-index: 1 !important;
+	width: auto !important;
+	max-width: calc(100% - 26px) !important;
+	height: auto !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	overflow: hidden !important;
+	clip: auto !important;
+	white-space: nowrap !important;
+	text-overflow: ellipsis !important;
+	border: 0 !important;
+	color: #4a4e5a !important;
+	font-family: var(--ap-font-body) !important;
+	font-size: 14px !important;
+	font-weight: 400 !important;
+	line-height: 1.5 !important;
+	pointer-events: none !important;
+	transition: top .2s ease, font-size .2s ease !important;
+}
+html body .ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form .hs-form-field > label .hs-form-required { color: inherit !important; }
+html body .ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form .hs-input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]) {
+	box-sizing: border-box !important;
+	height: 48px !important;
+	padding: 12px !important;
+	border: 1px solid #cfd4de !important;
+	border-radius: 4px !important;
+	background: #fff !important;
+	box-shadow: none !important;
+	color: #4a4e5a !important;
+	font-size: 14px !important;
+	line-height: 1.5 !important;
+	transition: border-color .3s cubic-bezier(.25, .45, .45, .95), height .2s ease, padding .2s ease !important;
+}
+html body .ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form .hs-input::placeholder { color: #4a4e5a !important; opacity: 1 !important; }
+html body .ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form .hs-form-field[data-ap-float] .hs-input::placeholder { color: transparent !important; opacity: 0 !important; }
+html body .ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form .hs-input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):focus { border-color: #00a991 !important; box-shadow: none !important; outline: none !important; }
+html body .ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form .hs-form-field[data-ap-float]:is(:focus-within, :has(.hs-input:not(:placeholder-shown))) > label:not(.hs-error-msg),
+html body .ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form fieldset:is(:focus-within, :has(.hs-input:not(:placeholder-shown))) .hs-form-field[data-ap-float] > label:not(.hs-error-msg) { top: 9px !important; font-size: 12px !important; }
+html body .ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form .hs-form-field[data-ap-float]:is(:focus-within, :has(.hs-input:not(:placeholder-shown))) .hs-input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+html body .ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form fieldset:is(:focus-within, :has(.hs-input:not(:placeholder-shown))) .hs-form-field[data-ap-float] .hs-input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]) { height: 57px !important; padding: 26px 12px 7px !important; }
+html body .ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form .hs-error-msgs { margin: 8px 0 0 !important; padding: 0 !important; list-style: none !important; }
+html body .ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form :is(.hs-error-msg, .hs-error-msgs label, .hs_error_rollup label) { position: static !important; margin: 0 !important; color: #c0262d !important; font-family: var(--ap-font-body) !important; font-size: 13px !important; font-weight: 400 !important; line-height: 1.4 !important; }
+html body .ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form :is(.hs_submit, .hs-submit) { margin-top: 0 !important; }
+html body .ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form :is(input[type="submit"], .hs-button) {
+	border: 1px solid #5044e1 !important;
+	background: linear-gradient(60.14deg, #5044e1 0%, #00a991 70.44%) !important;
+	color: #fff !important;
+	transition: background-color .3s cubic-bezier(.25, .45, .45, .95), translate var(--ap-dur-base) var(--ap-ease-standard), box-shadow var(--ap-dur-base) var(--ap-ease-standard) !important;
+}
+html body .ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form :is(input[type="submit"], .hs-button):is(:hover, :focus-visible) { background: linear-gradient(60.14deg, #4237c9 0%, #00957f 70.44%) !important; }
+html body .ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form :is(input[type="submit"], .hs-button):focus-visible { outline: 2px solid #5044e1 !important; outline-offset: 2px !important; }

@@ -1,0 +1,571 @@
+/*
+ * resource-cards — live's listing cards (www.assetpanda.com/resource-center/) on 2026 tokens:
+ * a light-ruled white card, photo on top, uppercase indigo type label, title, three lines of
+ * excerpt, Read More with the teal arrow. Hover lifts the shadow and eases the photo in
+ * (box-shadow + scale only: transform belongs to the scroll entrances).
+ */
+
+:where(.ap-resource-cards, .ap-resource-cards *, .ap-resource-cards *::before, .ap-resource-cards *::after) {
+	box-sizing: border-box;
+}
+
+.ap-resource-cards {
+	position: relative;
+	z-index: 1;
+	font-weight: var(--ap-weight-body); /* the theme body is 300; cards read at the kit body weight (QA 2026-10-29) */
+	padding: 40px 24px 80px;
+	background: var(--ap-surface);
+	font-family: var(--ap-font-body);
+}
+
+.ap-resource-cards__inner {
+	max-width: 1120px;
+	margin: 0 auto;
+}
+
+.ap-resource-cards__heading {
+	margin: 0 0 40px;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: 32px;
+	font-weight: var(--ap-weight-heading);
+	line-height: var(--ap-line-h2);
+}
+
+.ap-resource-cards--related .ap-resource-cards__heading {
+	text-align: center;
+}
+
+.ap-resource-cards__count {
+	margin: 0 0 24px;
+	color: var(--ap-slate-500);
+	font-size: 14px;
+	line-height: var(--ap-line-body);
+	text-align: right;
+}
+
+.ap-resource-cards__grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 40px 32px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ap-resource-cards__card {
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	list-style: none;
+	background: var(--ap-surface);
+	border: 1px solid var(--ap-stroke);
+	border-radius: var(--ap-radius-lg);
+	transition: box-shadow var(--ap-dur-base) var(--ap-ease-standard), border-color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-resource-cards__card:hover,
+.ap-resource-cards__card:focus-within {
+	border-color: var(--ap-indigo-200);
+	box-shadow: var(--ap-shadow-card-indigo), var(--ap-shadow-md);
+}
+
+.ap-resource-cards__media {
+	display: block;
+	overflow: hidden;
+	aspect-ratio: 40 / 21;
+	background: var(--ap-slate-100);
+}
+
+.ap-resource-cards__img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: scale var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-resource-cards__card:hover .ap-resource-cards__img {
+	scale: 1.04;
+}
+
+.ap-resource-cards__img--none {
+	background:
+		radial-gradient(420px 260px at 15% 110%, rgba(80, 68, 225, 0.35), transparent 70%),
+		radial-gradient(420px 260px at 90% 0%, rgba(0, 169, 145, 0.3), transparent 70%),
+		var(--ap-slate-100);
+}
+
+.ap-resource-cards__body {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	align-items: flex-start;
+	padding: 20px 24px 24px;
+}
+
+.ap-resource-cards__meta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 2px 8px;
+	margin: 0 0 12px;
+	font-size: 12px;
+	line-height: 1.4;
+}
+
+.ap-resource-cards__label {
+	color: var(--ap-brand-indigo);
+	font-weight: var(--ap-weight-eyebrow);
+	letter-spacing: var(--ap-ls-eyebrow);
+	text-transform: uppercase;
+	text-decoration: none;
+}
+
+.ap-resource-cards__cat,
+.ap-resource-cards__date {
+	position: relative;
+	padding-left: 12px;
+	color: var(--ap-slate-500);
+	font-weight: var(--ap-weight-medium);
+	text-decoration: none;
+}
+
+.ap-resource-cards__cat::before,
+.ap-resource-cards__date::before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 0;
+	width: 4px;
+	height: 4px;
+	margin-top: -2px;
+	border-radius: 50%;
+	background: var(--ap-slate-300);
+}
+
+.ap-resource-cards__meta > :first-child {
+	padding-left: 0;
+}
+
+.ap-resource-cards__meta > :first-child::before {
+	display: none;
+}
+
+a.ap-resource-cards__label:hover,
+a.ap-resource-cards__cat:hover {
+	color: var(--ap-text-heading);
+	text-decoration: underline;
+}
+
+.ap-resource-cards__title {
+	margin: 0 0 8px;
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-size: 22px;
+	font-weight: var(--ap-weight-heading);
+	line-height: 1.3;
+}
+
+.ap-resource-cards__title a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.ap-resource-cards__title a:hover {
+	color: var(--ap-brand-indigo);
+}
+
+.ap-resource-cards__title a:focus-visible,
+.ap-resource-cards__meta a:focus-visible,
+.ap-resource-cards__num:focus-visible,
+.ap-resource-cards__step:focus-visible,
+.ap-resource-cards__empty-links a:focus-visible {
+	outline: 2px solid var(--ap-brand-indigo);
+	outline-offset: 2px;
+}
+
+.ap-resource-cards__excerpt {
+	display: -webkit-box;
+	margin: 0;
+	overflow: hidden;
+	color: var(--ap-text-body);
+	font-size: 16px;
+	line-height: var(--ap-line-body);
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+}
+
+.ap-resource-cards__more {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: auto;
+	padding-top: 20px;
+	color: var(--ap-brand-indigo);
+	font-size: 14px;
+	font-weight: var(--ap-weight-link);
+	line-height: 1.2;
+	text-decoration: none;
+}
+
+.ap-resource-cards__more svg {
+	color: var(--ap-brand-green);
+	transition: translate var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-resource-cards__card:hover .ap-resource-cards__more svg {
+	translate: 4px 0;
+}
+
+/* Empty state */
+.ap-resource-cards__empty {
+	padding: 64px 24px;
+	border: 1px dashed var(--ap-stroke);
+	border-radius: var(--ap-radius-lg);
+	text-align: center;
+}
+
+.ap-resource-cards__empty-title {
+	margin: 0 0 8px;
+	color: var(--ap-text-heading);
+	font-size: 20px;
+	font-weight: var(--ap-weight-heading);
+	line-height: 1.3;
+}
+
+.ap-resource-cards__empty-text {
+	margin: 0;
+	color: var(--ap-text-body);
+	font-size: 16px;
+	line-height: var(--ap-line-body);
+}
+
+.ap-resource-cards__empty-links {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 8px 24px;
+	margin: 24px 0 0;
+}
+
+.ap-resource-cards__empty-links a {
+	color: var(--ap-brand-indigo);
+	font-size: 16px;
+	line-height: 1.5;
+	font-weight: var(--ap-weight-link);
+	text-decoration: none;
+}
+
+.ap-resource-cards__empty-links a:hover {
+	text-decoration: underline;
+}
+
+/* Pagination: Previous · numbers · Next on a hairline, the current page marked above. */
+.ap-resource-cards__pages {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 16px;
+	margin-top: 64px;
+	border-top: 1px solid var(--ap-stroke);
+}
+
+.ap-resource-cards__nums {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ap-resource-cards__nums li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ap-resource-cards__num,
+.ap-resource-cards__gap,
+.ap-resource-cards__step {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	min-width: 40px;
+	min-height: 44px;
+	margin-top: -1px;
+	padding: 14px 12px 0;
+	border-top: 2px solid transparent;
+	color: var(--ap-slate-500);
+	font-size: 14px;
+	font-weight: var(--ap-weight-medium);
+	line-height: 1.5;
+	text-decoration: none;
+	justify-content: center;
+	transition: color var(--ap-dur-base) var(--ap-ease-standard), border-color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-resource-cards__step {
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+.ap-resource-cards__step svg {
+	color: var(--ap-brand-green);
+}
+
+a.ap-resource-cards__num:hover,
+a.ap-resource-cards__step:hover {
+	color: var(--ap-text-heading);
+	border-top-color: var(--ap-slate-300);
+}
+
+.ap-resource-cards__num.is-current {
+	color: var(--ap-brand-indigo);
+	border-top-color: var(--ap-brand-indigo);
+	font-weight: var(--ap-weight-heading);
+}
+
+.ap-resource-cards__step.is-disabled {
+	visibility: hidden;
+}
+
+/* ---- Filter and page changes (behaviour.js) ----
+ * A click on a category tab (resource-hero's rail), a page number or an empty-state
+ * link swaps the listing in place instead of reloading. The parts that leave (count
+ * line, cards, pager) fade and lift together on one fast beat; a skeleton grid the
+ * same size holds the space while the page is fetched; the parts that arrive fade
+ * and rise in, each card one stagger step after the last (--ap-rc-i, set by the
+ * script). Every state below exists only mid-swap: without the script the listing
+ * is the server's markup, visible at rest. Opacity and translate only; transform
+ * stays with the scroll entrances. */
+.ap-resource-cards__status {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+.ap-resource-cards[data-ap-resource-cards] {
+	scroll-margin-top: 96px; /* clears the site header when a page change brings the listing back into view (no header-height token) */
+}
+
+.ap-resource-cards[data-ap-resource-cards]:focus {
+	outline: none; /* the listing takes focus after a page change; the status line reports it, not a ring round the grid */
+}
+
+/* Arriving: the hidden pre-state the script releases one frame after insertion. */
+.ap-resource-cards .is-entering {
+	opacity: 0;
+	translate: 0 var(--ap-reveal-distance);
+}
+
+.ap-resource-cards.is-arriving .ap-resource-cards__inner > .ap-resource-cards__count,
+.ap-resource-cards.is-arriving .ap-resource-cards__inner > .ap-resource-cards__empty,
+.ap-resource-cards.is-arriving .ap-resource-cards__inner > .ap-resource-cards__pages,
+.ap-resource-cards.is-arriving .ap-resource-cards__grid > .ap-resource-cards__card {
+	transition:
+		opacity var(--ap-dur-base) var(--ap-ease-standard) calc(var(--ap-stagger-step) * var(--ap-rc-i, 0)),
+		translate var(--ap-dur-base) var(--ap-ease-standard) calc(var(--ap-stagger-step) * var(--ap-rc-i, 0)),
+		box-shadow var(--ap-dur-base) var(--ap-ease-standard),
+		border-color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+/* Leaving. Declared after arriving at the same specificity, so a second click
+ * mid-entrance retargets the running transition from wherever it is: no snap. */
+.ap-resource-cards.is-leaving .ap-resource-cards__inner > .ap-resource-cards__count,
+.ap-resource-cards.is-leaving .ap-resource-cards__inner > .ap-resource-cards__empty,
+.ap-resource-cards.is-leaving .ap-resource-cards__inner > .ap-resource-cards__pages,
+.ap-resource-cards.is-leaving .ap-resource-cards__grid > .ap-resource-cards__card {
+	opacity: 0;
+	translate: 0 calc(var(--ap-reveal-distance) / -2);
+	pointer-events: none;
+	transition:
+		opacity var(--ap-dur-fast) var(--ap-ease-standard),
+		translate var(--ap-dur-fast) var(--ap-ease-standard);
+}
+
+/* The skeleton (render.php's <template>): card frames with grey bones where the
+ * text will be, breathing slowly so the wait reads as loading, not as a broken
+ * grid. The pulse sits on the card's children, so the card itself still fades in
+ * and out with the others. */
+.ap-resource-cards__card--skeleton {
+	border-color: var(--ap-stroke-soft);
+	pointer-events: none;
+}
+
+.ap-resource-cards__card--skeleton > * {
+	animation: apResourceCardsPulse calc(var(--ap-dur-slow) * 2) var(--ap-ease-standard) calc(var(--ap-rc-i, 0) * var(--ap-stagger-step) * -1) infinite alternate;
+}
+
+.ap-resource-cards__bone {
+	display: block;
+	width: 100%;
+	height: 14px;
+	border-radius: var(--ap-radius-sm);
+	background: var(--ap-slate-100);
+}
+
+.ap-resource-cards__bone--meta {
+	width: 40%;
+	height: 12px;
+	margin-bottom: 14px;
+}
+
+.ap-resource-cards__bone--title {
+	height: 22px;
+	margin-bottom: 8px;
+}
+
+.ap-resource-cards__bone--text {
+	margin-bottom: 8px;
+}
+
+.ap-resource-cards__bone--more {
+	width: 30%;
+	margin-top: 20px;
+}
+
+.ap-resource-cards__bone.is-short {
+	width: 65%;
+}
+
+.ap-resource-cards__bone--count {
+	display: inline-block;
+	width: 180px;
+}
+
+.ap-resource-cards__pages--skeleton {
+	min-height: 44px;
+}
+
+@keyframes apResourceCardsPulse {
+	from {
+		opacity: 1;
+	}
+
+	to {
+		opacity: 0.55;
+	}
+}
+
+/* Related row */
+.ap-resource-cards--related {
+	padding-top: 64px;
+	padding-bottom: 80px;
+}
+
+.ap-resource-cards--related .ap-resource-cards__inner {
+	padding-top: 64px;
+	border-top: 1px solid var(--ap-stroke);
+}
+
+@media (max-width: 1023px) {
+	.ap-resource-cards__grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 32px 24px;
+	}
+
+	.ap-resource-cards--related .ap-resource-cards__card:nth-child(3) {
+		display: none;
+	}
+}
+
+@media (max-width: 767px) {
+	.ap-resource-cards {
+		padding: 24px 16px 64px;
+	}
+
+	.ap-resource-cards__grid {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 24px;
+	}
+
+	.ap-resource-cards--related .ap-resource-cards__card:nth-child(3) {
+		display: flex;
+	}
+
+	.ap-resource-cards__heading {
+		margin-bottom: 24px;
+		font-size: 28px;
+	}
+
+	.ap-resource-cards__count {
+		margin-bottom: 16px;
+		text-align: left;
+	}
+
+	.ap-resource-cards__body {
+		padding: 18px 20px 20px;
+	}
+
+	.ap-resource-cards__title {
+		font-size: 20px;
+	}
+
+	.ap-resource-cards__pages {
+		margin-top: 40px;
+	}
+
+	.ap-resource-cards__step span {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip: rect(0 0 0 0);
+		white-space: nowrap;
+	}
+
+	.ap-resource-cards__num,
+	.ap-resource-cards__gap {
+		min-width: 34px;
+		padding-left: 6px;
+		padding-right: 6px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-resource-cards__card,
+	.ap-resource-cards__img,
+	.ap-resource-cards__more svg,
+	.ap-resource-cards__num,
+	.ap-resource-cards__step {
+		transition: none;
+	}
+
+	/* A filter change still swaps the results in place; it just does not move them. */
+	.ap-resource-cards .is-entering {
+		opacity: 1;
+		translate: none;
+	}
+
+	.ap-resource-cards.is-arriving .ap-resource-cards__inner > .ap-resource-cards__count,
+	.ap-resource-cards.is-arriving .ap-resource-cards__inner > .ap-resource-cards__empty,
+	.ap-resource-cards.is-arriving .ap-resource-cards__inner > .ap-resource-cards__pages,
+	.ap-resource-cards.is-arriving .ap-resource-cards__grid > .ap-resource-cards__card,
+	.ap-resource-cards.is-leaving .ap-resource-cards__inner > .ap-resource-cards__count,
+	.ap-resource-cards.is-leaving .ap-resource-cards__inner > .ap-resource-cards__empty,
+	.ap-resource-cards.is-leaving .ap-resource-cards__inner > .ap-resource-cards__pages,
+	.ap-resource-cards.is-leaving .ap-resource-cards__grid > .ap-resource-cards__card {
+		transition: none;
+	}
+
+	.ap-resource-cards.is-leaving .ap-resource-cards__inner > .ap-resource-cards__count,
+	.ap-resource-cards.is-leaving .ap-resource-cards__inner > .ap-resource-cards__empty,
+	.ap-resource-cards.is-leaving .ap-resource-cards__inner > .ap-resource-cards__pages,
+	.ap-resource-cards.is-leaving .ap-resource-cards__grid > .ap-resource-cards__card {
+		translate: none;
+	}
+
+	.ap-resource-cards__card--skeleton > * {
+		animation: none;
+	}
+}

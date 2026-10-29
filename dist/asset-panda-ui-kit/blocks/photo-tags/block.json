@@ -1,0 +1,101 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/photo-tags",
+	"title": "AP Photo Tags",
+	"category": "design",
+	"icon": "tag",
+	"description": "Problem section: centred heading over a photo with problem tags pinned around it, then a panda call-to-action bar. Live: .sp-prob on the September 2026 solution pages. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"title_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"background": {
+			"type": "string",
+			"default": ""
+		},
+		"photo": {
+			"type": "string",
+			"default": ""
+		},
+		"photo_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"photo_width": {
+			"type": "number",
+			"default": 547
+		},
+		"photo_height": {
+			"type": "number",
+			"default": 364
+		},
+		"art_height": {
+			"type": "number",
+			"default": 364
+		},
+		"tags": {
+			"type": "array",
+			"default": []
+		},
+		"sr_list": {
+			"type": "array",
+			"default": []
+		},
+		"cta_title": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_body": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_logo_svg": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_label": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_url": {
+			"type": "string",
+			"default": ""
+		},
+		"head_width": {
+			"type": "number",
+			"default": 560
+		},
+		"lede_width": {
+			"type": "number",
+			"default": 560
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

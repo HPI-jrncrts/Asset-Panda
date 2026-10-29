@@ -1,0 +1,61 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/resource-hero",
+	"title": "AP Resource Hero",
+	"category": "design",
+	"icon": "block-default",
+	"description": "Listing hero of the Resource Center, its type listings (Blog, Case Studies, Success Stories, White Papers, Webinars) and the Press Room, after live's ap-r26 hero: eyebrow, H1, one line of copy, the instant search field (resource-search), and a rail of category tabs (All + the first few, a ••• button opens the rest) over a soft gradient wash. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": "Resource Center"
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"description": {
+			"type": "string",
+			"default": ""
+		},
+		"search": {
+			"type": "object",
+			"default": {}
+		},
+		"tabs": {
+			"type": "array",
+			"default": []
+		},
+		"tabs_label": {
+			"type": "string",
+			"default": "Filter by category"
+		},
+		"visible_tabs": {
+			"type": "number",
+			"default": 7
+		},
+		"more_label": {
+			"type": "string",
+			"default": "Show more categories"
+		},
+		"less_label": {
+			"type": "string",
+			"default": "Show fewer categories"
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

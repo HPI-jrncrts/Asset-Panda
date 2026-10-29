@@ -1,0 +1,11 @@
+{
+	"name": "platform-rows",
+	"description": "Numbered capability rows under a centred heading: a violet rule down each row, the number and title on the left, the body and an optional text link on the right. Live: .apx-sol on the Asset Intelligence Platform page.",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading. A line break marks where the desktop heading wraps; phones let it reflow." },
+		"title_accent": { "type": "string", "required": false, "default": "", "description": "Part of the heading painted with the brand gradient." },
+		"lede": { "type": "string", "required": false, "default": "", "description": "Paragraph under the heading." },
+		"items": { "type": "array", "required": true, "description": "Rows. Each: number (e.g. 01), title, optional keyword (the leading word of the title set in teal, e.g. Track:), body, optional link_label + url for the text link, and optional links (further text links, each {label, url}) under it." }
+	}
+}

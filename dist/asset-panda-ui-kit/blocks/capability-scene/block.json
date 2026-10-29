@@ -1,0 +1,101 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/capability-scene",
+	"title": "AP Capability Scene",
+	"category": "design",
+	"icon": "screenoptions",
+	"description": "Four capability cards in two columns around a centre panel holding the assistant artwork. Live: .apx-int on /asset-intelligence-platform/. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"title_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"title_accents": {
+			"type": "array",
+			"default": []
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"left": {
+			"type": "array",
+			"default": []
+		},
+		"right": {
+			"type": "array",
+			"default": []
+		},
+		"lines": {
+			"type": "array",
+			"default": []
+		},
+		"lines_size": {
+			"type": "string",
+			"default": "md",
+			"enum": [
+				"md",
+				"lg"
+			]
+		},
+		"meet": {
+			"type": "string",
+			"default": ""
+		},
+		"link_label": {
+			"type": "string",
+			"default": ""
+		},
+		"link_url": {
+			"type": "string",
+			"default": ""
+		},
+		"image": {
+			"type": "string",
+			"default": ""
+		},
+		"image_alt": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_label": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_url": {
+			"type": "string",
+			"default": ""
+		},
+		"secondary_label": {
+			"type": "string",
+			"default": ""
+		},
+		"secondary_url": {
+			"type": "string",
+			"default": ""
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

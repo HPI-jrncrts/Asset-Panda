@@ -1,0 +1,350 @@
+{
+	"name": "vertical-hero",
+	"description": "Product-page hero for the verticals: copy on the left over a composed stage — a faded dashboard, a person cut-out, three floating item cards joined by connector lines, and a panda badge. Live: the `#ap-hero` section on Fire, Police, Public Works, Local Government, K-12 and Higher Education.",
+	"props": {
+		"eyebrow": {
+			"type": "string",
+			"required": false,
+			"default": "FIRE ASSET MANAGEMENT SOFTWARE",
+			"description": "Small label above the title. Renders as the page H1, as on live; without it the title becomes the H1."
+		},
+		"title": {
+			"type": "string",
+			"required": true,
+			"description": "Title. Line breaks are kept."
+		},
+		"title_accent": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Part of the title painted with the brand gradient. Must appear in title."
+		},
+		"lede": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Paragraph under the title."
+		},
+		"cta_label": {
+			"type": "string",
+			"required": false,
+			"default": "Free Demo",
+			"description": "Button text. Renders only with cta_url."
+		},
+		"cta_url": {
+			"type": "string",
+			"required": false,
+			"default": "/get-a-demo/",
+			"description": "Button destination."
+		},
+		"badges": {
+			"type": "array",
+			"required": false,
+			"default": [
+				{
+					"image": "/wp-content/uploads/2026/07/badge_govramp-1.svg",
+					"alt": "GovRAMP authorized"
+				},
+				{
+					"image": "/wp-content/uploads/2026/07/police-badge-soc2.png",
+					"alt": "SOC 2 Type 2 certified"
+				},
+				{
+					"image": "/wp-content/uploads/2026/07/badge_hipaa-1.svg",
+					"alt": "HIPAA compliant"
+				}
+			],
+			"description": "Compliance badges beside the button. Each: image, alt."
+		},
+		"dashboard": {
+			"type": "string",
+			"required": false,
+			"default": "/wp-content/uploads/2026/08/fire-hero-dash.jpg",
+			"description": "Faded dashboard screenshot behind the stage."
+		},
+		"person": {
+			"type": "string",
+			"required": false,
+			"default": "/wp-content/uploads/2026/08/Fireman-1.svg",
+			"description": "Person cut-out (transparent PNG or SVG)."
+		},
+		"layout": {
+			"type": "object",
+			"required": false,
+			"default": {
+				"dash": {
+					"x": 35.832,
+					"y": -4.545,
+					"w": 64.167,
+					"h": 90.364,
+					"mx": 0,
+					"my": 51.765,
+					"mw": 167.5,
+					"mh": 47.646
+				},
+				"person": {
+					"x": 57.5,
+					"y": -0.182,
+					"w": 30.625,
+					"h": 100.182,
+					"mx": 15.829,
+					"my": 55.294,
+					"mw": 68.329,
+					"mh": 44.706
+				},
+				"badge": {
+					"x": 72.846,
+					"y": 65.452,
+					"w": 3.056,
+					"h": 8,
+					"mx": 57.107,
+					"my": 87.252,
+					"mw": 7.276,
+					"mh": 3.852
+				}
+			},
+			"description": "Placement of dash, person and badge as percentages of the stage: x, y, w, h on desktop and mx, my, mw, mh on phones. Also accepts a mobcards box."
+		},
+		"cards": {
+			"type": "array",
+			"required": false,
+			"default": [
+				{
+					"label": "Item",
+					"title": "Turnout Gear",
+					"status_label": "Status",
+					"tag": "Due Inspection",
+					"icon": "/wp-content/uploads/2026/08/fire-item-turnout.png",
+					"avatar": "",
+					"x": 52.014,
+					"y": 27.634,
+					"mx": 7.5,
+					"my": 69.043
+				},
+				{
+					"label": "Item",
+					"title": "SCBA Unit",
+					"status_label": "Status",
+					"tag": "Ready",
+					"icon": "/wp-content/uploads/2026/08/fire-item-scba.png",
+					"avatar": "",
+					"x": 55.207,
+					"y": 54.724,
+					"mx": 15.104,
+					"my": 82.088
+				},
+				{
+					"label": "Item",
+					"title": "Hydraulic Tool",
+					"status_label": "Status",
+					"tag": "In Service",
+					"icon": "/wp-content/uploads/2026/08/fire-item-hydraulic.png",
+					"avatar": "/wp-content/uploads/2026/08/fire-avatar.jpg",
+					"x": 73.818,
+					"y": 46.543,
+					"mx": 59.423,
+					"my": 78.149
+				}
+			],
+			"description": "Up to three floating item cards (amber, sky, indigo by slot). Each: label, title, status_label, tag, icon (URL) or icon_svg, avatar (optional), tone (optional: amber, sky, indigo, purple, orange or rose — overrides the slot colour so the circle and tag follow the icon), and position x, y (desktop %) and mx, my (phone %)."
+		},
+		"lines": {
+			"type": "array",
+			"required": false,
+			"default": [
+				[
+					1054,
+					356,
+					949.03,
+					227.86
+				],
+				[
+					1093,
+					360,
+					1119.29,
+					334
+				],
+				[
+					1044,
+					383,
+					998,
+					372
+				]
+			],
+			"description": "Connector lines on the desktop stage, each [x1, y1, x2, y2] in a 1440 by 550 space. The dot sits at the second point."
+		},
+		"lines_m": {
+			"type": "array",
+			"required": false,
+			"default": [
+				[
+					208.575,
+					590.947,
+					146.025,
+					514.569
+				],
+				[
+					231.794,
+					593.328,
+					247.447,
+					577.85
+				],
+				[
+					202.622,
+					607.019,
+					175.237,
+					600.471
+				]
+			],
+			"description": "Connector lines on phones, each [x1, y1, x2, y2] in a 360 by 680 space."
+		},
+		"orbs": {
+			"type": "array",
+			"required": false,
+			"default": [
+				{
+					"cx": 1117.148,
+					"cy": 500.148,
+					"rx": 411.148,
+					"ry": 411.148,
+					"fill": "#5044E1"
+				},
+				{
+					"cx": 52.148,
+					"cy": -64.852,
+					"rx": 411.148,
+					"ry": 411.148,
+					"fill": "#00A991"
+				},
+				{
+					"cx": 447.5,
+					"cy": 214.5,
+					"rx": 642.5,
+					"ry": 446.5,
+					"fill": "#fff"
+				},
+				{
+					"cx": 1192.5,
+					"cy": -75.5,
+					"rx": 489.5,
+					"ry": 340.5,
+					"fill": "#fff"
+				},
+				{
+					"cx": 1316.5,
+					"cy": 267.5,
+					"rx": 171.5,
+					"ry": 171.5,
+					"fill": "#DE8D14"
+				},
+				{
+					"cx": 78.5,
+					"cy": 412.5,
+					"rx": 233.5,
+					"ry": 233.5,
+					"fill": "#5044E1"
+				}
+			],
+			"description": "Soft colour glows on the desktop stage. Each: cx, cy, rx, ry (1440 by 550 space) and a hex fill."
+		},
+		"orbs_m": {
+			"type": "array",
+			"required": false,
+			"default": [
+				{
+					"cx": 543.148,
+					"cy": 695.148,
+					"rx": 411.148,
+					"ry": 411.148,
+					"fill": "#5044E1"
+				},
+				{
+					"cx": -363.852,
+					"cy": 130.148,
+					"rx": 411.148,
+					"ry": 411.148,
+					"fill": "#00A991"
+				},
+				{
+					"cx": 31.5,
+					"cy": 409.5,
+					"rx": 642.5,
+					"ry": 446.5,
+					"fill": "#fff"
+				},
+				{
+					"cx": 618.5,
+					"cy": 119.5,
+					"rx": 489.5,
+					"ry": 340.5,
+					"fill": "#fff"
+				},
+				{
+					"cx": 426.5,
+					"cy": 462.5,
+					"rx": 171.5,
+					"ry": 171.5,
+					"fill": "#DE8D14"
+				},
+				{
+					"cx": -337.5,
+					"cy": 607.5,
+					"rx": 233.5,
+					"ry": 233.5,
+					"fill": "#5044E1"
+				}
+			],
+			"description": "Soft colour glows on phones (360 by 680 space)."
+		},
+		"mobile_cards": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Phone-only composite image of the floating cards; the DOM cards hide below 700px."
+		},
+		"features": {
+			"type": "array",
+			"required": false,
+			"default": [],
+			"description": "Chips in a strip under the stage. Each: label; icon (URL) or icon_svg."
+		},
+		"features_style": {
+			"type": "string",
+			"required": false,
+			"default": "overlay",
+			"enum": [
+				"overlay",
+				"band"
+			],
+			"description": "overlay lays the chips over the bottom of the stage (Emergency Preparedness); band puts them in a full-width ruled band under the hero (the product pages, live .ap-hero-feats-band)."
+		},
+		"ratio": {
+			"type": "string",
+			"required": false,
+			"default": "1440/550",
+			"description": "Stage aspect ratio, width/height."
+		},
+		"tablet": {
+			"type": "string",
+			"required": false,
+			"default": "scale",
+			"enum": [
+				"scale",
+				"overlay"
+			],
+			"description": "768-1180px: scale shrinks the whole hero with the viewport (Fire and most product pages); overlay keeps the copy at full size over the visual (Police)."
+		},
+		"m_top": {
+			"type": "number",
+			"required": false,
+			"default": 32,
+			"description": "Below 768px: px from the top of the hero to the first line of copy (live: 72 on Fire, 24 on Local Government, 16 on K-12)."
+		},
+		"m_flow": {
+			"type": "object",
+			"required": false,
+			"default": {},
+			"description": "Below 768px, a hero whose height follows its copy (K-12): pad_px + pad_vw is the space under the copy, and the visual is an art_vw-tall box anchored to the bottom. Layer m* geometry is then a percentage of that box. Empty keeps the fixed 360/680 phone hero."
+		}
+	}
+}

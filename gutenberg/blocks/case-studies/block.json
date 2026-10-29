@@ -36,6 +36,10 @@
 			"type": "boolean",
 			"default": true
 		},
+		"autoplay_ms": {
+			"type": "number",
+			"default": 3000
+		},
 		"align": {
 			"type": "string",
 			"default": "full"
