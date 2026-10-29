@@ -2,7 +2,7 @@
 //   cd "C:/Sample Code" && MSYS_NO_PATHCONV=1 node reports/qa-1029/fixes/check-fixes.mjs
 // Prints PASS/FAIL per check and "QA FIXES n/N PASSED" at the end.
 import fs from 'node:fs';
-import { DEV, launch, guardPage, sleep } from 'file:///C:/Sample%20Code/.unlazy/launch-1028/checks/lib.mjs';
+import { DEV, launch, guardPage, sleep } from '../../../.unlazy/launch-1028/checks/lib.mjs';
 const b = await launch(); let pass = 0, total = 0;
 const ok = (name, cond, info) => { total++; if (cond) pass++; console.log(`${cond ? 'PASS' : 'FAIL'}  ${name}  ${info || ''}`); };
 // --inject: fixes not deployed yet (F6–F11) are loaded into the real dev page before the assertions run, so the

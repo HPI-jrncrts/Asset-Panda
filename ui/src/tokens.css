@@ -943,3 +943,15 @@ html body :is(.ap-integration-detail__btn, .ap-integration-more__btn, .ap-card-g
 	-webkit-box-decoration-break: clone;
 	box-decoration-break: clone;
 }
+
+
+/*
+ * QA 2026-10-29 (N1): the outlined "Talk to Sales" / "Talk to an Expert" button on the purple closing cards was
+ * teal #00a991 on purple (1.5:1 against the card's light end). At rest it is now white with a translucent white
+ * border; hover and focus keep each component's own colours (the approved CTA hover), hence the :not()s.
+ */
+html body :is(.ap-site-footer .ap-final-cta-card, .ap-platform-cta .ap-final-cta-card, .ap-demo-cta--eduhub .ap-final-cta-card) .ap-btn-outline:not(:hover):not(:focus):not(#ap-n1) {
+	color: var(--ap-white) !important;
+	background: transparent !important;
+	border-color: var(--ap-white-60) !important;
+}

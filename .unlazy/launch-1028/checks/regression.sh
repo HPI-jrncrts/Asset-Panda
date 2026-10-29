@@ -1,7 +1,7 @@
 #!/bin/sh
 # Every check that encodes one of Joseph's noted items (2026-10-28/29), run one at a time against dev.
 # Usage: sh .unlazy/launch-1028/checks/regression.sh  → reports/launch-1028/regression-<time>.log, last line REGRESSION n/N
-cd "C:/Sample Code" || exit 1
+cd "$(dirname "$0")/../../.." || exit 1
 export MSYS_NO_PATHCONV=1
 C=.unlazy/launch-1028/checks
 L=reports/launch-1028/regression-$(date +%H%M).log
