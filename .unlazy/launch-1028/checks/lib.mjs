@@ -3,11 +3,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { createRequire } from 'node:module';
+import { fileURLToPath } from 'node:url';
 
 export const DEV = 'https://assetpanda1dev.wpenginepowered.com';
 export const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36';
-// Repo root, resolved from this file so the checks run from any clone (Windows or the cloud).
-export const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')), '../../..').replace(/\\/g, '/');
+// Repo root, resolved from this file so the checks run from any clone (Windows or the cloud). fileURLToPath decodes
+// the URL: a folder name with a space ("Sample Code") arrives as %20 in import.meta.url.
+export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..').replace(/\\/g, '/');
 export const SCOPE = ROOT + '/.unlazy/launch-1028';
 export const GUARD = 'C:/Users/josep/AppData/Local/Temp/claude/C--Sample-Code/4ce00505-a288-461f-8893-36ba978d4b50/scratchpad/live-guard.mjs';
 export const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
