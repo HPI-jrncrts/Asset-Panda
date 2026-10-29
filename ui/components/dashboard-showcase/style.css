@@ -831,3 +831,18 @@ html body .ap-dashboard-showcase.ap-dashboard-showcase.ap-dashboard-showcase .ap
 @media (max-width: 768px) {
 	html body .ap-dashboard-showcase .ap-dashboard-showcase__tip-sub { font-size: 12px; line-height: 1.4; }
 }
+
+/* QA 2026-10-29 trial (Joseph, /products/asset-panda-for-local-government/ only, pending his approval before the other
+ * pages): "instead of eating the entire section … center splash it on the section". The colour wash fades out from
+ * the middle of the section to white well before every edge (an oval mask on the wash only; cards, table and text
+ * untouched). Scoped to that page (WordPress page 611) until approved. */
+body.page-id-611 .ap-dashboard-showcase__bg {
+	-webkit-mask-image: radial-gradient(ellipse 44% 42% at 50% 54%, #000 35%, rgba(0, 0, 0, 0) 100%);
+	mask-image: radial-gradient(ellipse 44% 42% at 50% 54%, #000 35%, rgba(0, 0, 0, 0) 100%);
+}
+@media (max-width: 767px) {
+	body.page-id-611 .ap-dashboard-showcase__bg {
+		-webkit-mask-image: radial-gradient(ellipse 70% 38% at 50% 50%, #000 35%, rgba(0, 0, 0, 0) 100%);
+		mask-image: radial-gradient(ellipse 70% 38% at 50% 50%, #000 35%, rgba(0, 0, 0, 0) 100%);
+	}
+}
