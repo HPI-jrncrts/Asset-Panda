@@ -1,0 +1,92 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/visual",
+	"title": "AP Visual",
+	"category": "design",
+	"icon": "format-image",
+	"description": "One image used as a design element (builder library, 2026-11): a photo cut to a circle, blob, pill or rounded frame, or transparent art (pandas, orbs, icons) as it is. Optional glow, shadow or ring, a size step, alignment, caption and link. Animations come from the block's ap-anim-* class, not from here. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"image": {
+			"type": "string",
+			"default": ""
+		},
+		"alt": {
+			"type": "string",
+			"default": ""
+		},
+		"shape": {
+			"type": "string",
+			"default": "rounded",
+			"enum": [
+				"none",
+				"rounded",
+				"circle",
+				"blob",
+				"pill"
+			]
+		},
+		"size": {
+			"type": "string",
+			"default": "m",
+			"enum": [
+				"xs",
+				"s",
+				"m",
+				"l",
+				"xl",
+				"full"
+			]
+		},
+		"fit": {
+			"type": "string",
+			"default": "cover",
+			"enum": [
+				"cover",
+				"contain"
+			]
+		},
+		"effect": {
+			"type": "string",
+			"default": "none",
+			"enum": [
+				"none",
+				"shadow",
+				"glow-indigo",
+				"glow-teal",
+				"ring",
+				"gradient-ring"
+			]
+		},
+		"position": {
+			"type": "string",
+			"default": "center",
+			"enum": [
+				"left",
+				"center",
+				"right"
+			]
+		},
+		"caption": {
+			"type": "string",
+			"default": ""
+		},
+		"link_url": {
+			"type": "string",
+			"default": ""
+		},
+		"align": {
+			"type": "string"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

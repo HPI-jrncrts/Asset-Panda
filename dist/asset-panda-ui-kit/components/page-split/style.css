@@ -470,3 +470,17 @@
 .ap-page-split--soft {
 	background: #fff;
 }
+
+/* ---- tight (Our Technology "What Is Asset Panda?", Joseph 2026-10-31: "cut the extra space in half for this
+ * section bottom and top spaces") ---- */
+.ap-page-split.ap-page-split--tight .ap-page-split__wrap {
+	padding-top: 24px;
+	padding-bottom: 24px;
+}
+
+@media (max-width: 640px) {
+	.ap-page-split.ap-page-split--tight .ap-page-split__wrap {
+		padding-top: 16px;
+		padding-bottom: 16px;
+	}
+}

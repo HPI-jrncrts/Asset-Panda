@@ -7,8 +7,10 @@
  * be open at once, as in the mockup. A blank line in an answer starts a new
  * paragraph.
  *
- * Deliberately NOT animated: animating ::details-content needs
- * `overflow: hidden`, which slices any superscript on a panel's first line.
+ * ::details-content is deliberately not animated (it needs overflow: hidden,
+ * which slices a superscript on a panel's first line). The list carries
+ * data-ap-accordion instead, so the shared motion runtime animates the row's
+ * height, clipping the row only while it moves.
  *
  * @var array $props Validated props.
  */
@@ -42,10 +44,10 @@ if ( '' === $title || empty( $items ) ) {
 	<div class="ap-plans-faq__inner">
 		<h2 class="ap-plans-faq__title"><?php echo ap_ui_lines( $title ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; only <br> is added. ?></h2>
 
-		<div class="ap-plans-faq__list">
+		<div class="ap-plans-faq__list" data-ap-accordion>
 			<?php foreach ( $items as $i => $item ) : ?>
 				<details class="ap-plans-faq__item"<?php echo ( 0 === $i && $props['open_first'] ) ? ' open' : ''; ?>>
-					<summary class="ap-plans-faq__q"><?php echo esc_html( $item['q'] ); ?></summary>
+					<summary class="ap-plans-faq__q"><span class="ap-plans-faq__qt"><?php echo esc_html( $item['q'] ); ?></span></summary>
 					<div class="ap-plans-faq__a">
 						<?php foreach ( $item['paras'] as $para ) : ?>
 							<p><?php echo ap_ui_lines( $para ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; only <br> is added. ?></p>

@@ -22,12 +22,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $props = array(
+	'anchor'  => $attributes['anchor'] ?? '',
 	'eyebrow' => $attributes['eyebrow'] ?? '',
 	'title'   => $attributes['title'] ?? '',
 	'lede'    => $attributes['lede'] ?? '',
 	'items'   => $attributes['items'] ?? array(),
 	'variant' => $attributes['variant'] ?? 'solution',
 	'columns' => $attributes['columns'] ?? 0,
+	'groups'  => $attributes['groups'] ?? array(),
+	'note'    => $attributes['note'] ?? '',
 );
 
 $ap_html = ap_render_component( 'why-cards', $props );

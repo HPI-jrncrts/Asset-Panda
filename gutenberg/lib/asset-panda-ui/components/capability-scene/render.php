@@ -69,6 +69,11 @@ if ( '' !== $meet ) {
 	}
 }
 
+// Artwork with the Ursa AI orb painted in at a known spot — the Asset Intelligence Platform panda (Group-5452,
+// 424 × 417) — renders as two layers so the orb can float above the panda's paws. The orb's place in that file
+// lives in style.css (.ap-capability-scene__art--orb); any other artwork renders as the single image it always was.
+$ap_orb_art = (bool) preg_match( '#/Group-5452(?:[.\-][^/]*)?$#i', (string) strtok( (string) $props['image'], '?#' ) );
+
 $ap_column = static function ( $cards ) {
 	ob_start();
 	?>
@@ -89,7 +94,7 @@ $ap_column = static function ( $cards ) {
 	return ob_get_clean();
 };
 ?>
-<section class="ap-capability-scene" aria-label="<?php echo esc_attr( wp_strip_all_tags( '' !== trim( (string) $props['eyebrow'] ) ? $props['eyebrow'] : $props['title'] ) ); ?>">
+<section class="ap-capability-scene<?php echo 'lg' === $props['lines_size'] ? ' ap-capability-scene--lines-lg' : ''; ?>" aria-label="<?php echo esc_attr( wp_strip_all_tags( '' !== trim( (string) $props['eyebrow'] ) ? $props['eyebrow'] : $props['title'] ) ); ?>">
 	<div class="ap-capability-scene__glow" aria-hidden="true"></div>
 	<div class="ap-capability-scene__wrap">
 		<div class="ap-capability-scene__top">
@@ -120,7 +125,13 @@ $ap_column = static function ( $cards ) {
 						<p class="ap-capability-scene__meet"><?php echo $meet_html; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped above; only a fixed anchor is added. ?></p>
 					<?php endif; ?>
 				</div>
-				<?php if ( '' !== trim( (string) $props['image'] ) ) : ?>
+				<?php if ( '' !== trim( (string) $props['image'] ) && $ap_orb_art ) : ?>
+					<?php // The orb floats on its own layer: a second copy of the same file, masked to the orb (style.css "QA 2026-10-29"). ?>
+					<div class="ap-capability-scene__art ap-capability-scene__art--orb">
+						<img class="ap-capability-scene__artimg" src="<?php echo esc_url( $props['image'] ); ?>" alt="<?php echo esc_attr( $props['image_alt'] ); ?>" width="424" height="417" loading="lazy" decoding="async" />
+						<img class="ap-capability-scene__orb" src="<?php echo esc_url( $props['image'] ); ?>" alt="" aria-hidden="true" width="424" height="417" loading="lazy" decoding="async" />
+					</div>
+				<?php elseif ( '' !== trim( (string) $props['image'] ) ) : ?>
 					<img class="ap-capability-scene__art" src="<?php echo esc_url( $props['image'] ); ?>" alt="<?php echo esc_attr( $props['image_alt'] ); ?>" width="424" height="417" loading="lazy" decoding="async" />
 				<?php endif; ?>
 			</div>

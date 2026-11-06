@@ -24,6 +24,14 @@
 				"month"
 			]
 		},
+		"names": {
+			"type": "string",
+			"default": "after_email",
+			"enum": [
+				"after_email",
+				"with_email"
+			]
+		},
 		"details": {
 			"type": "string",
 			"default": "on",
@@ -47,6 +55,14 @@
 		"background": {
 			"type": "string",
 			"default": ""
+		},
+		"backdrop": {
+			"type": "string",
+			"default": "light",
+			"enum": [
+				"light",
+				"dark"
+			]
 		},
 		"button_label": {
 			"type": "string",
@@ -83,6 +99,10 @@
 		"stories": {
 			"type": "array",
 			"default": []
+		},
+		"autoplay_ms": {
+			"type": "number",
+			"default": 3000
 		},
 		"quote_icon": {
 			"type": "string",

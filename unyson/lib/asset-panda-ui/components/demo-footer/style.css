@@ -179,3 +179,32 @@ html.ap-demo-footer-moved .ap-final-footer-inner {
 body:has(.ap-demo-footer) footer.wp-block-template-part:has(#ap-final-footer-v1) {
 	margin-top: 0 !important;
 }
+
+/* ===== slim (the focused Get a Demo page, Joseph 2026-10-31: "remove the huge white chunk on the footer and keep it
+ * minimal ... the entire page to be the form itself") =====
+ * The global footer loses its 64px top padding and keeps one thin line under the hero; the booking hero measures
+ * everything below it on load, so it grows to fill the screen. */
+html body:has(.ap-demo-footer--slim) #ap-final-footer-v1 {
+	padding-top: 0 !important;
+}
+html.ap-demo-footer-moved body:has(.ap-demo-footer--slim) .ap-final-footer-inner {
+	padding-top: 12px !important;
+	padding-bottom: 12px !important;
+}
+.ap-demo-footer--slim .ap-d26-foot {
+	align-items: center;
+	gap: 4px 24px;
+}
+/* Phones: the line wraps, so everything is centred (four short lines). */
+@media (max-width:900px) {
+	.ap-demo-footer--slim .ap-d26-foot {
+		gap: 4px;
+	}
+	.ap-demo-footer--slim .ap-d26-foot-right {
+		align-items: center;
+	}
+	.ap-demo-footer--slim .ap-d26-foot-legal {
+		justify-content: center;
+		gap: 0 16px;
+	}
+}

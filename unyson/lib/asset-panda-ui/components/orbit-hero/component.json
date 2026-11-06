@@ -14,6 +14,7 @@
 		"panda_alt": { "type": "string", "required": false, "default": "", "description": "Alt text for the mascot." },
 		"orb": { "type": "string", "required": false, "default": "", "description": "Assistant orb image at the centre of the stage." },
 		"badges": { "type": "array", "required": false, "default": [], "description": "Up to six orbiting badges. Each: title, note; icon (URL) or icon_svg; slot (inspect, work, assets, analytics, insights, compliance) decides where it sits." },
-		"features": { "type": "array", "required": false, "default": [], "description": "Chips in the strip under the stage. Each: label; icon (URL) or icon_svg." }
+		"features": { "type": "array", "required": false, "default": [], "description": "Chips in the strip under the stage. Each: label; icon (URL) or icon_svg." },
+		"chat": { "type": "object", "required": false, "default": {}, "description": "Optional Ursa chat scene in place of the stage (Ursa AI frame 7261:107107), drawn with a 1120px content width. Keys: question (bubble with an avatar), answer (reply card heading), tiles (up to 6: title, note, icon = search|analytics|package|wrench|sparkles|shield), actions (up to 3 labels, the first is the solid one), placeholder (ask field text), cards (up to 3 glass stat cards: label, value, note, icon, slot = left|right|back). Decorative: hidden from assistive tech." }
 	}
 }

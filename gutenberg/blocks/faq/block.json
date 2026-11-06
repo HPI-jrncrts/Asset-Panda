@@ -67,6 +67,14 @@
 				"accent"
 			]
 		},
+		"size": {
+			"type": "string",
+			"default": "default",
+			"enum": [
+				"default",
+				"compact"
+			]
+		},
 		"layout": {
 			"type": "string",
 			"default": "stack",

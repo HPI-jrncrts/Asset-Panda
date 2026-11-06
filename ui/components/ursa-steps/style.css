@@ -297,3 +297,19 @@
 			#fff;
 	}
 }
+
+/* QA 2026-10-30 (Joseph, /ursa-ai/ "From question to action"): "Let's remove all these texts from the cards and do a
+ * 2x2 grid instead. The 4th card is the lower right card." The copy beside each light card's title is gone from the
+ * page content; from 861px the four cards sit two by two (Ask, Build / Analyze, Act), each card's checklist in one
+ * column. The Act card keeps its copy, now under its title, with the Ursa orb beside the title. Phones and small
+ * tablets keep the stacked cards. */
+@media (min-width: 861px) {
+	.ap-ursa-steps .ap-ursa-steps__cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+	.ap-ursa-steps .ap-ursa-steps__card { padding: 24px; }
+	.ap-ursa-steps .ap-ursa-steps__lead { max-width: none; }
+	.ap-ursa-steps .ap-ursa-steps__checks { grid-template-columns: minmax(0, 1fr); }
+	.ap-ursa-steps .ap-ursa-steps__card--dark .ap-ursa-steps__top { flex-wrap: wrap; align-items: center; gap: 16px 24px; }
+	.ap-ursa-steps .ap-ursa-steps__card--dark .ap-ursa-steps__lead { flex: 1 1 0; margin-right: 0; }
+	.ap-ursa-steps .ap-ursa-steps__card--dark .ap-ursa-steps__orb { order: 1; margin-left: auto; }
+	.ap-ursa-steps .ap-ursa-steps__card--dark .ap-ursa-steps__body { order: 2; flex: 1 1 100%; max-width: none; margin-right: 0; }
+}

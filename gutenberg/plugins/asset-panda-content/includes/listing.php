@@ -733,14 +733,16 @@ function ap_content_render_hub_grid() {
 /**
  * Resource Types whose singles use the 2026 post design's header (Figma Blog
  * Detail 5434:79954 for blog posts, the compare post 7219:87997 for compare
- * posts — the listicles are compare posts too) instead of live's band. The
- * other types (case studies, success stories, white papers, webinars) and
+ * posts — the listicles are compare posts too) instead of live's band. Since
+ * 1.3.11 case studies, success stories, white papers and webinars use it too;
  * press releases keep the band, as on www.assetpanda.com.
  *
  * @return string[] Type slugs.
  */
 function ap_content_article_header_types() {
-	return (array) apply_filters( 'ap_content_article_header_types', array( 'blog', 'compare' ) );
+	// 1.3.11 (QA 2026-10-30, Joseph: "Implement the blog post templates on the following categories: White pages,
+	// Webinars, Case studies, Success Stories"): those singles take the blog post layout too.
+	return (array) apply_filters( 'ap_content_article_header_types', array( 'blog', 'compare', 'white-papers', 'webinars', 'case-studies', 'success-stories' ) );
 }
 
 /**
@@ -759,6 +761,49 @@ function ap_content_kit_has_article_header() {
 	return is_array( $contract ) && isset( $contract['props']['variant']['enum'] ) && in_array( 'article', (array) $contract['props']['variant']['enum'], true );
 }
 
+/**
+ * A webinar's featured video (1.3.16, QA 2026-10-30, Joseph: "For all the webinar posts, let's replace the featured
+ * image to a featured video. And the embedded video below can be removed from the content body"): the first YouTube
+ * video embedded in the post, when the installed kit's resource-header can draw one (its `video` prop).
+ *
+ * @param WP_Post $post Post.
+ * @return string The 11-character YouTube id, or ''.
+ */
+function ap_content_webinar_video( $post ) {
+	if ( ! $post instanceof WP_Post || 'resource' !== $post->post_type ) {
+		return '';
+	}
+	$term = ap_content_primary_type( $post );
+	if ( ! $term || 'webinars' !== $term->slug || ! function_exists( 'ap_ui_contract' ) ) {
+		return '';
+	}
+	$contract = ap_ui_contract( 'resource-header' );
+	if ( ! is_array( $contract ) || ! isset( $contract['props']['video'] ) ) {
+		return '';
+	}
+	return preg_match( '~(?:youtube(?:-nocookie)?\.com/(?:embed/|watch\?v=|shorts/)|youtu\.be/)([A-Za-z0-9_-]{11})~', (string) $post->post_content, $m ) ? $m[1] : '';
+}
+
+/*
+ * The body of a webinar drops the embed its header now plays: any embed block of that video, in the webinar's own
+ * content on its own page only (not on other posts or listings).
+ */
+add_filter(
+	'render_block',
+	function ( $html, $block ) {
+		if ( 'core/embed' !== ( $block['blockName'] ?? '' ) || ! is_singular( 'resource' ) || get_the_ID() !== get_queried_object_id() ) {
+			return $html;
+		}
+		$video = ap_content_webinar_video( get_queried_object() );
+		if ( '' === $video || false === strpos( (string) ( $block['attrs']['url'] ?? '' ), $video ) ) {
+			return $html;
+		}
+		return '';
+	},
+	10,
+	2
+);
+
 /** ap26/post-header on a resource / press release. */
 function ap_content_render_single_header() {
 	$post = get_queried_object();
@@ -768,6 +813,11 @@ function ap_content_render_single_header() {
 	list( $label, $label_url, $tslug ) = ap_content_post_type_label( $post );
 	// 1.3.4: blog and compare posts follow the Figma post designs (light header, image below the title).
 	$article = 'resource' === $post->post_type && in_array( $tslug, ap_content_article_header_types(), true );
+	// 1.3.17 (Joseph 2026-10-31: "All pressroom post pages are still following the old UI, please update the UI same
+	// as the other post-type pages"): press releases take the article header too (date and share row kept).
+	if ( 'newsroom' === $post->post_type ) {
+		$article = true;
+	}
 	$title  = html_entity_decode( wp_strip_all_tags( get_the_title( $post ) ), ENT_QUOTES, 'UTF-8' );
 	$crumbs = array(
 		array(
@@ -842,6 +892,12 @@ function ap_content_render_single_header() {
 				$props['label']     = $primary['label'];
 				$props['label_url'] = $primary['url'];
 			}
+		}
+	}
+	if ( $article ) {
+		$video = ap_content_webinar_video( $post );
+		if ( '' !== $video ) {
+			$props['video'] = $video;
 		}
 	}
 	$props = (array) apply_filters( 'ap_content_header_props', $props, $post );
@@ -1008,7 +1064,26 @@ add_filter(
 		return $data;
 	}
 );
-/* Yoast's rel=next/prev would point at /page/N/ of the filter: fine. Search results stay out of the index. */
+/*
+ * rel=next/prev on a filtered listing: the filter's own pages, as its pagination links them (1.3.18). Yoast
+ * builds them from the canonical, which is the unfiltered listing above, so a topic tab such as
+ * /resource-center/blog/filter/search/education/ announced /resource-center/blog/page/2/ as its next page
+ * (a crawl's "pagination URL not in anchor tag" and "sequence error" on every filter page). A filter with
+ * one page announces none.
+ */
+add_filter(
+	'wpseo_adjacent_rel_url',
+	function ( $url, $rel ) {
+		if ( ! ap_content_listing_is_filtered() ) {
+			return $url;
+		}
+		$pages = ap_content_listing_pages();
+		return 'next' === $rel ? $pages['next'] : ( 'prev' === $rel ? $pages['prev'] : $url );
+	},
+	20,
+	2
+);
+/* Search results stay out of the index. */
 add_filter(
 	'wpseo_robots',
 	function ( $robots ) {

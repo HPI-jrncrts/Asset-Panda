@@ -140,6 +140,24 @@ $ap_card    = 'card' === $props['panel'] && $has_panel;
 if ( $ap_card ) {
 	$classes[] = 'ap-demo-cta--card';
 }
+// values look (Partners' registration): Our People's light layout; the bullets become icon rows.
+$ap_values = 'values' === $props['look'];
+if ( $ap_values ) {
+	$classes[] = 'ap-demo-cta--values';
+}
+$ap_bullet_icons = array();
+foreach ( is_array( $props['bullet_icons'] ) ? $props['bullet_icons'] : array() as $ap_icon ) {
+	$ap_bullet_icons[] = is_string( $ap_icon ) ? ap_ui_svg( $ap_icon ) : '';
+}
+$ap_title_html = ap_ui_brandmarks( ap_ui_lines( $title ) );
+$ap_accent     = trim( (string) $props['title_accent'] );
+if ( $ap_values && '' !== $ap_accent ) {
+	$ap_needle = ap_ui_brandmarks( esc_html( $ap_accent ) );
+	$ap_at     = strpos( $ap_title_html, $ap_needle );
+	if ( false !== $ap_at ) {
+		$ap_title_html = substr( $ap_title_html, 0, $ap_at ) . '<span class="ap-demo-cta__accent">' . $ap_needle . '</span>' . substr( $ap_title_html, $ap_at + strlen( $ap_needle ) );
+	}
+}
 // Figma's circle-check (20px, brand green stroke), drawn inline beside each list item.
 $ap_check = '<svg class="ap-demo-cta__check" viewBox="0 0 20 20" width="20" height="20" fill="none" aria-hidden="true" focusable="false"><path d="M7.5 10L9.16667 11.6667L12.5 8.33333M2.5 10C2.5 10.9849 2.69399 11.9602 3.0709 12.8701C3.44781 13.7801 4.00026 14.6069 4.6967 15.3033C5.39314 15.9997 6.21993 16.5522 7.12987 16.9291C8.03982 17.306 9.01509 17.5 10 17.5C10.9849 17.5 11.9602 17.306 12.8701 16.9291C13.7801 16.5522 14.6069 15.9997 15.3033 15.3033C15.9997 14.6069 16.5522 13.7801 16.9291 12.8701C17.306 11.9602 17.5 10.9849 17.5 10C17.5 9.01509 17.306 8.03982 16.9291 7.12987C16.5522 6.21993 15.9997 5.39314 15.3033 4.6967C14.6069 4.00026 13.7801 3.44781 12.8701 3.0709C11.9602 2.69399 10.9849 2.5 10 2.5C9.01509 2.5 8.03982 2.69399 7.12987 3.0709C6.21993 3.44781 5.39314 4.00026 4.6967 4.6967C4.00026 5.39314 3.44781 6.21993 3.0709 7.12987C2.69399 8.03982 2.5 9.01509 2.5 10Z" stroke="#00A991" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 ?>
@@ -151,7 +169,7 @@ $ap_check = '<svg class="ap-demo-cta__check" viewBox="0 0 20 20" width="20" heig
 					<?php if ( '' !== $eyebrow ) : ?>
 						<p class="ap-demo-cta__eyebrow"><?php echo esc_html( $eyebrow ); ?></p>
 					<?php endif; ?>
-					<h2 class="ap-demo-cta__title"><?php echo ap_ui_brandmarks( ap_ui_lines( $title ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; only <br> and a fixed span are added. ?></h2>
+					<h2 class="ap-demo-cta__title"><?php echo $ap_title_html; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; only <br> and fixed spans are added. ?></h2>
 				</div>
 
 				<?php if ( '' !== $body ) : ?>
@@ -160,8 +178,9 @@ $ap_check = '<svg class="ap-demo-cta__check" viewBox="0 0 20 20" width="20" heig
 
 <?php if ( $ap_bullets ) : ?>
 				<ul class="ap-demo-cta__list">
-	<?php foreach ( $ap_bullets as $ap_bullet ) : ?>
-					<li><?php echo $ap_check; // phpcs:ignore WordPress.Security.EscapeOutput -- fixed markup. ?><span><?php echo esc_html( $ap_bullet ); ?></span></li>
+	<?php foreach ( $ap_bullets as $ap_i => $ap_bullet ) : ?>
+		<?php $ap_icon = $ap_values && ! empty( $ap_bullet_icons[ $ap_i ] ) ? '<span class="ap-demo-cta__icon" aria-hidden="true">' . $ap_bullet_icons[ $ap_i ] . '</span>' : $ap_check; ?>
+					<li><?php echo $ap_icon; // phpcs:ignore WordPress.Security.EscapeOutput -- fixed markup or sanitised by ap_ui_svg(). ?><span><?php echo esc_html( $ap_bullet ); ?></span></li>
 	<?php endforeach; ?>
 				</ul>
 <?php endif; ?>

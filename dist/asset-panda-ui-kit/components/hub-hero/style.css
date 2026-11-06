@@ -731,44 +731,50 @@ to{transform:translateX(-50%)}
 	}
 }
 
-/* ------------------------------------------------------------ Copy / art spacing on desktops (QA 2026-10-29)
- * Joseph: "There should be space between the headers and content on the left from the images on the right ...
- * Implement to all inner pages with content - image hero sections", as on /asset-intelligence-platform/ (130px at
- * 1440, 109px at 1280, 67px at 1024). On the industry hubs the photo group started 41px inside the copy at 1440
- * (Construction) and up to 73px at 1366. Wherever copy and art sit side by side (1001px up):
- *  - the copy keeps its width and text; from 1321px it starts where the chip strip starts ((stage - 1120px) / 2);
- *  - the art canvas scales down by --apg-f about the photo group's right edge (--apg-x1 less its 16px margin) and
- *    the canvas foot, so the group keeps its arrangement and moves away from the copy; the backdrop and the veil
- *    inside the canvas take the inverse scale about the same point, so they stay exactly where they were;
- *  - the factor is the room between the copy column's edge (plus 10% of the stage, 8% up to 1180px) and the
- *    group's right edge, over the group's width (--apg-rw less its margins), read as tan(atan2(room, width))
- *    since CSS cannot divide two lengths; the section is the size container (the stage is at most 1440px).
- * Without trig functions or container units the factor is a fixed .62. Tablets and phones are untouched. */
+/* ------------------------------------------------------------ Figma hero frame on desktops (QA 2026-10-29 evening)
+ * Joseph: "the hero images have become too small ... let's follow the hero banners in figma for accuracy. Exactly as
+ * figma dictates." Each hub's Figma hero is a 1440 x 640 frame drawn from the page top with its nav over the first
+ * 64px, and the art canvas is that frame (the photos are placed in % of it by the props). Here the 72px header sits
+ * above the hero, so the hero is the frame's lower 568px and the canvas is drawn from 72px above it: every photo is
+ * back at its Figma size and page position, standing on the hero's foot. This replaces the copy / art spacing pass
+ * from earlier today (the canvas scaled to about .6-.75 about the photo group's right edge):
+ *  - the band is 568px (the frame's 640 less the header);
+ *  - the copy is centred where Figma centres it, 13.5px below the frame's middle (page y 333.5): the column's two
+ *    spacers share the free height equally inside a box that starts 13px down, so a hub with a shorter lede sits
+ *    lower, as in its frame;
+ *  - the white fade over the photos' feet is Figma's (Government and Healthcare frames: 372px tall, from y 269;
+ *    it was the solution hero's 191px);
+ *  - narrower desktops (1001-1439px) scale the canvas with the stage (stage / 1440, read as tan(atan2(stage,
+ *    1440px)); the section is the size container) about its left foot, so the photos keep Figma's proportions and
+ *    still stand on the foot; the backdrop and the white fade inside the canvas take the inverse scale about the
+ *    same point, so they still cover the hero. Wider screens keep the 1440 canvas centred with the backdrop and the
+ *    fade running to the window edges.
+ * Without container units or trig functions the ratio takes fixed steps. Tablets and phones are untouched. */
 @media (min-width: 1001px) {
-	.ap-hub-hero { --apg-f: .62; }
-	.ap-hub-hero .apg-hero-visual { scale: var(--apg-f); transform-origin: calc((var(--apg-x1, 1300) - 16) * 1px) 100%; }
+	.ap-hub-hero:not(.ap-hub-hero--eduhub) { --apg-f: var(--apg-s, 1); }
+	.ap-hub-hero .apg-hero-stage { height: 568px; }
+	.ap-hub-hero .apg-hero-visual { top: -72px; left: 0; margin-left: 0; scale: var(--apg-f, 1); transform-origin: 0 100%; }
 	.ap-hub-hero .apg-hero-visual > .apg-hero-bg,
-	.ap-hub-hero .apg-hero-visual > .apg-hero-veil { scale: calc(1 / var(--apg-f)); transform-origin: calc((var(--apg-x1, 1300) - 16) * 1px - 720px + max(720px, 50vw)) 100%; }
+	.ap-hub-hero .apg-hero-visual > .apg-hero-veil { scale: calc(1 / var(--apg-f, 1)); transform-origin: 0 100%; }
+	.ap-hub-hero .apg-hero-visual > .apg-hero-veil { height: 372px; }
+	.ap-hub-hero .apg-hero-in { padding-top: 13px; }
+	.ap-hub-hero .apg-hero-in::before,
+	.ap-hub-hero .apg-hero-in::after { flex: 1 1 0; min-height: 0; }
+}
+@media (min-width: 1001px) and (max-width: 1180px) {
+	.ap-hub-hero:not(.ap-hub-hero--eduhub) { --apg-s: .75; }
+}
+@media (min-width: 1181px) and (max-width: 1320px) {
+	.ap-hub-hero:not(.ap-hub-hero--eduhub) { --apg-s: .86; }
+}
+@media (min-width: 1321px) and (max-width: 1439px) {
+	.ap-hub-hero:not(.ap-hub-hero--eduhub) { --apg-s: .95; }
 }
 @media (min-width: 1321px) {
 	.ap-hub-hero .apg-hero-in { left: max(40px, (100% - 1120px) / 2); }
 }
 @supports (width: 1cqw) and (scale: tan(atan2(1px, 2px))) {
 	@media (min-width: 1001px) {
-		.ap-hub-hero:not(.ap-hub-hero--eduhub) {
-			container-type: inline-size;
-			--apg-s: min(100cqw, 1440px);
-			--apg-cl: 40px;
-			--apg-cw: 440px;
-			--apg-gr: calc(var(--apg-s) + 44px);
-			--apg-gap: calc(var(--apg-s) * .08);
-			--apg-f: clamp(.3, tan(atan2(calc(var(--apg-gr) - var(--apg-cl) - var(--apg-cw) - var(--apg-gap)), calc((var(--apg-rw, 660) - 32) * 1px))), 1);
-		}
-	}
-	@media (min-width: 1181px) {
-		.ap-hub-hero:not(.ap-hub-hero--eduhub) { --apg-cw: 500px; --apg-gr: calc(var(--apg-s) - 119px); --apg-gap: calc(var(--apg-s) * .1); }
-	}
-	@media (min-width: 1321px) {
-		.ap-hub-hero:not(.ap-hub-hero--eduhub) { --apg-cl: max(40px, (var(--apg-s) - 1120px) / 2); --apg-cw: 554px; --apg-gr: calc(var(--apg-s) / 2 + (var(--apg-x1, 1300) - 736) * 1px); }
+		.ap-hub-hero:not(.ap-hub-hero--eduhub) { container-type: inline-size; --apg-s: tan(atan2(min(100cqw, 1440px), 1440px)); }
 	}
 }

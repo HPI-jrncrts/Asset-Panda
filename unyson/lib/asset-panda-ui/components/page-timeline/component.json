@@ -1,0 +1,17 @@
+{
+	"name": "page-timeline",
+	"description": "Journey section of the 2026 company pages (Our Company, Figma 7385:186215): a sticky intro column (eyebrow, heading with a gradient phrase, lede) beside a timeline of milestones. Each milestone sits behind a left rule that deepens from indigo-200 to indigo-600 down the list and carries a year label, a heading, paragraphs, an optional small note and arrow links; an optional closing statement in gradient type ends the last milestone.",
+	"props": {
+		"anchor": { "type": "string", "required": false, "default": "", "description": "id on the section (letters, digits, hyphens)." },
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small uppercase label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading (h2). Line breaks are kept." },
+		"title_accent": { "type": "string", "required": false, "default": "", "description": "Words of the heading painted with the brand gradient (first occurrence); must appear in title." },
+		"lede": { "type": "string", "required": false, "default": "", "description": "Copy under the heading. Blank line = new paragraph; [label](url) links, **bold**." },
+		"items": { "type": "array", "required": true, "description": "Milestones, top to bottom. Each: year (small label), title (h3), body (blank line = new paragraph; [label](url), **bold**), optional note (small print under the body; [label](url) links), optional links [{ label, url }] (arrow links in a row)." },
+		"closing_lead": { "type": "string", "required": false, "default": "", "description": "Bold upper-case line that opens the closing statement inside the last milestone." },
+		"closing_text": { "type": "string", "required": false, "default": "", "description": "Closing statement in large gradient type under closing_lead." },
+		"look": { "type": "string", "required": false, "default": "journey", "enum": [ "journey", "steps" ], "description": "journey: Our Company's milestones (year label over the heading; rules indigo-200 to -600). steps: numbered steps (Our Technology, Figma 7460:109053): each item's year is drawn as a large thin number beside its heading, and the number and rule cycle indigo, pink, green, amber, blue." },
+		"cta_label": { "type": "string", "required": false, "default": "", "description": "Gradient button under the intro lede. Renders only with cta_url." },
+		"cta_url": { "type": "string", "required": false, "default": "", "description": "Button destination (a page, #anchor, http(s) or mailto:)." }
+	}
+}

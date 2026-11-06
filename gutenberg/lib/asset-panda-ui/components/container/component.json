@@ -1,0 +1,61 @@
+{
+	"name": "container",
+	"description": "A styled box that holds other blocks (builder library, 2026-11): card, lavender panel, gradient band, navy band, glass, outline, soft wash or plain, with width, padding, corner, background image and decoration options. The component draws the box; the block adapter puts its inner blocks where the box's <!--ap-slot--> marker is.",
+	"props": {
+		"look": {
+			"type": "string",
+			"required": false,
+			"default": "card",
+			"enum": [ "plain", "card", "lavender", "gradient", "navy", "glass", "outline", "wash" ],
+			"description": "The look: white card, soft lavender panel, indigo-to-teal gradient band, deep navy band, frosted glass, outline, the blog header's soft colour wash, or no box at all."
+		},
+		"width": {
+			"type": "string",
+			"required": false,
+			"default": "content",
+			"enum": [ "narrow", "content", "wide", "full" ],
+			"description": "Width: 800px (article), 1120px, 1280px, or the full page width."
+		},
+		"padding": {
+			"type": "string",
+			"required": false,
+			"default": "l",
+			"enum": [ "none", "s", "m", "l", "xl" ],
+			"description": "Inside space: 0, 24, 40, 64 or 96px (smaller on phones)."
+		},
+		"text_align": {
+			"type": "string",
+			"required": false,
+			"default": "left",
+			"enum": [ "left", "center" ],
+			"description": "Text alignment inside the box."
+		},
+		"radius": {
+			"type": "string",
+			"required": false,
+			"default": "l",
+			"enum": [ "none", "m", "l", "xl" ],
+			"description": "Corner rounding."
+		},
+		"background_image": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Optional background image URL (covers the box)."
+		},
+		"overlay": {
+			"type": "string",
+			"required": false,
+			"default": "none",
+			"enum": [ "none", "light", "dark" ],
+			"description": "Wash over the background image so text stays readable."
+		},
+		"decoration": {
+			"type": "string",
+			"required": false,
+			"default": "none",
+			"enum": [ "none", "orbs", "glow", "grid", "panda" ],
+			"description": "Background decoration: soft indigo and teal orbs, one large glow, a dot grid, or the panda peeking from the corner."
+		}
+	}
+}

@@ -85,7 +85,7 @@ $class  = 'ap-thanks-calendly' . ( $props['hide_international'] ? ' ap-thanks-ca
 						<p class="ap-thanks-calendly__body"><?php echo esc_html( $track['body'] ); ?></p>
 					<?php endif; ?>
 				</div>
-				<div class="ap-thanks-calendly__cal" data-ap-calendly="<?php echo esc_url( $track['url'] ); ?>">
+				<div class="ap-thanks-calendly__cal" data-ap-form-skin data-ap-calendly="<?php echo esc_url( $track['url'] ); ?>">
 					<a class="ap-thanks-calendly__fallback" href="<?php echo esc_url( $track['url'] ); ?>" target="_blank" rel="noopener">Open the scheduler</a>
 				</div>
 			</div>

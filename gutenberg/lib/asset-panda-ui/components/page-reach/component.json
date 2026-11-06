@@ -1,0 +1,17 @@
+{
+	"name": "page-reach",
+	"description": "Who-we-serve section of the 2026 company pages (Our Company, Figma 7450:97488): copy on the left (eyebrow, heading with a gradient phrase, paragraphs, an optional gradient highlight line between them, arrow links) beside a staggered stack of white stat cards (icon, small kicker, bold line, short text) over a dotted world map.",
+	"props": {
+		"anchor": { "type": "string", "required": false, "default": "", "description": "id on the section (letters, digits, hyphens)." },
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small uppercase label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading (h2). Line breaks are kept." },
+		"title_accent": { "type": "string", "required": false, "default": "", "description": "Words of the heading painted with the brand gradient (first occurrence); must appear in title." },
+		"body": { "type": "string", "required": false, "default": "", "description": "Copy above the highlight. Blank line = new paragraph; [label](url) links, **bold**." },
+		"highlight": { "type": "string", "required": false, "default": "", "description": "One line in large gradient type between body and body_after." },
+		"body_after": { "type": "string", "required": false, "default": "", "description": "Copy under the highlight (same markup as body)." },
+		"links": { "type": "array", "required": false, "default": [], "description": "Arrow links under the copy, stacked. Each: label, url." },
+		"cards": { "type": "array", "required": false, "default": [], "description": "Stat cards, top to bottom (staggered on desktop). Each: icon (88px image URL; empty = no icon), kicker (small line), title (bold line), text (short line)." },
+		"map": { "type": "string", "required": false, "default": "", "description": "Decorative backdrop behind the cards (the dotted world map). Empty = none." },
+		"foot": { "type": "string", "required": false, "default": "", "description": "Closing line centred under the copy and cards (Our Technology mobile section: From audits to equipment checkouts ...). Same light markup as body." }
+	}
+}

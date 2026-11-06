@@ -108,7 +108,7 @@
 	align-items: flex-start;
 	gap: 8px;
 	padding: 8px 12px;
-	border: 1px solid;
+	border: 1px solid #e6e8f0;
 	border-radius: var(--ap-radius-md);
 	box-shadow: 0 2px 24px rgba(255, 201, 124, 0.08);
 }
@@ -520,5 +520,82 @@
 @media (min-width: 769px) {
 	.ap-problem-callouts--cta-nowrap .ap-problem-callouts__cta-title {
 		white-space: nowrap;
+	}
+}
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: --ap-section-y top and bottom at every width (was 80 / 80,
+ * then 56 / --ph-pb-m and 40 / --ph-pb-s per page on phones; the pb_m / pb_s
+ * props no longer change the band's padding), --ap-section-head-gap under the
+ * head (was 40). */
+html body .ap-problem-callouts.ap-problem-callouts { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+.ap-problem-callouts .ap-problem-callouts__inner { gap: var(--ap-section-head-gap, 48px); }
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-problem-callouts.ap-problem-callouts.ap-problem-callouts .ap-problem-callouts__title { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+/* Section eyebrow on the type scale too: 12px at 390 to 14px at 1440, 800, 4% tracking, upper case. */
+html body .ap-problem-callouts.ap-problem-callouts.ap-problem-callouts .ap-problem-callouts__eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }
+
+/* ---- bar only (2026-10-31) ----
+ * Just the call-out bar as its own band. Its heading is the band's h2, so it is held to the bar's type against the
+ * theme's h2 rules (no tracking or balancing: "Also Managing Mining Samples ..." broke in two at ~350px).
+ * wide (Partners' Channel Partnerships, as the MSP / Mining LIMS call-outs, photo-tags' .sp-pcta): 928px, the button
+ * at the foot of the copy, 20px/800 heading at 1.4 over 18px copy held to 640px, the button as wide as its label.
+ * standard (Mining Asset Management / Mining LIMS cross-links, Joseph: "Change the UI to [Local Government's One
+ * number, backed by the record]"): the section's own 794px bar exactly as on Local Government. */
+.ap-problem-callouts--bar .ap-problem-callouts__cta-title {
+	letter-spacing: 0;
+	text-transform: none;
+	text-wrap: wrap;
+	max-width: none;
+}
+
+.ap-problem-callouts .ap-problem-callouts__cta-eyebrow {
+	margin: 0 0 6px;
+	color: var(--ap-text-eyebrow, #5044e1);
+	font-family: var(--ap-font-body);
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: .56px;
+	text-transform: uppercase;
+}
+
+.ap-problem-callouts--bar-wide .ap-problem-callouts__cta {
+	max-width: 928px;
+	align-items: flex-end;
+	background: linear-gradient(36.85deg, var(--ap-indigo-50, #eef2ff) 0%, #fff 99.93%);
+}
+
+.ap-problem-callouts--bar-wide .ap-problem-callouts__cta-title {
+	line-height: 1.4;
+}
+
+.ap-problem-callouts--bar-wide .ap-problem-callouts__cta-sub {
+	max-width: 640px;
+	margin-top: 4px;
+}
+
+.ap-problem-callouts--bar .ap-problem-callouts__btn {
+	max-width: none;
+}
+
+@media (max-width: 768px) {
+	.ap-problem-callouts--bar .ap-problem-callouts__cta {
+		align-items: stretch;
+	}
+
+	.ap-problem-callouts--bar .ap-problem-callouts__btn {
+		white-space: normal;
+		text-align: center;
+	}
+}
+
+@media (max-width: 560px) {
+	.ap-problem-callouts--bar .ap-problem-callouts__cta-sub {
+		font-size: 16px;
 	}
 }

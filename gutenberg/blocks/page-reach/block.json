@@ -1,0 +1,69 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/page-reach",
+	"title": "AP Page Reach",
+	"category": "design",
+	"icon": "block-default",
+	"description": "Who-we-serve section of the 2026 company pages (Our Company, Figma 7450:97488): copy on the left (eyebrow, heading with a gradient phrase, paragraphs, an optional gradient highlight line between them, arrow links) beside a staggered stack of white stat cards (icon, small kicker, bold line, short text) over a dotted world map. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"title_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"body": {
+			"type": "string",
+			"default": ""
+		},
+		"highlight": {
+			"type": "string",
+			"default": ""
+		},
+		"body_after": {
+			"type": "string",
+			"default": ""
+		},
+		"links": {
+			"type": "array",
+			"default": []
+		},
+		"cards": {
+			"type": "array",
+			"default": []
+		},
+		"map": {
+			"type": "string",
+			"default": ""
+		},
+		"foot": {
+			"type": "string",
+			"default": ""
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

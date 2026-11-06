@@ -214,3 +214,89 @@
 		padding: 28px 24px;
 	}
 }
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: --ap-section-y top and bottom (was 72 / 88),
+ * --ap-section-head-gap under the head (was 48). */
+html body .ap-card-grid.ap-card-grid { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+html body .ap-card-grid .ap-card-grid__head { margin-bottom: var(--ap-section-head-gap, 48px); }
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-card-grid.ap-card-grid.ap-card-grid h2.ap-card-grid__title { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+html body .ap-card-grid.ap-card-grid.ap-card-grid h1.ap-card-grid__title { font-size: var(--ap-type-h1-size); font-weight: var(--ap-type-h1-weight); line-height: var(--ap-type-h1-line); letter-spacing: var(--ap-type-h1-track); }
+/* Section eyebrow on the type scale too: 12px at 390 to 14px at 1440, 800, 4% tracking, upper case. */
+html body .ap-card-grid.ap-card-grid.ap-card-grid .ap-card-grid__eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }
+
+/* ------------------------------------------------------------ look: resource (2026-10-29)
+ * The Resource Center's listing cards (resource-cards/style.css) for a grid of cards with no links
+ * (/start-a-free-trial-email-only/ templates): a light-ruled white card with no resting shadow and
+ * the listing's 12px corners, the photo filling the listing's 40:21 frame, the listing's title and
+ * copy type, and its row and column gaps (3 / 2 / 1 columns as the listing: 1024px and 768px). The
+ * cards are not links, so they take no hover lift. */
+.ap-card-grid.ap-card-grid--resource .ap-card-grid__grid {
+	gap: 40px 32px;
+}
+
+.ap-card-grid.ap-card-grid--resource .ap-card-grid__card {
+	border: 1px solid var(--ap-stroke);
+	border-radius: var(--ap-radius-lg);
+	background: var(--ap-surface);
+	box-shadow: none;
+}
+
+.ap-card-grid.ap-card-grid--resource .ap-card-grid__card:not(.ap-card-grid__card--image) {
+	padding: 24px;
+}
+
+.ap-card-grid.ap-card-grid--resource .ap-card-grid__media {
+	overflow: hidden;
+	aspect-ratio: 40 / 21;
+	background: var(--ap-slate-100);
+}
+
+.ap-card-grid.ap-card-grid--resource .ap-card-grid__media img {
+	height: 100%;
+	object-fit: cover;
+}
+
+.ap-card-grid.ap-card-grid--resource .ap-card-grid__card--image .ap-card-grid__body {
+	padding: 20px 24px 24px;
+}
+
+.ap-card-grid.ap-card-grid--resource .ap-card-grid__card-title {
+	margin: 0 0 8px;
+	font-family: var(--ap-font-display);
+	font-size: 22px;
+	font-weight: var(--ap-weight-heading);
+	line-height: 1.3;
+	letter-spacing: 0;
+}
+
+.ap-card-grid.ap-card-grid--resource .ap-card-grid__text {
+	font-size: 16px;
+	line-height: var(--ap-line-body);
+}
+
+@media (max-width: 1023px) {
+	.ap-card-grid.ap-card-grid--resource .ap-card-grid__grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 32px 24px;
+	}
+}
+
+@media (max-width: 767px) {
+	.ap-card-grid.ap-card-grid--resource .ap-card-grid__grid {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 24px;
+	}
+}
+
+
+/* QA 2026-10-29: sections without a gradient are pure white (Joseph, 2026-10-29). The soft variant keeps
+   its colour wash; only the grey ground goes, so it no longer ends in a hard grey-to-white step. */
+.ap-card-grid--soft {
+	background: #fff;
+}

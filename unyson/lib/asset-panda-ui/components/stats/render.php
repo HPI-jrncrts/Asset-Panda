@@ -47,7 +47,8 @@ $classes = array(
 ?>
 <section class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>">
 	<div class="ap-stats-inner">
-		<div class="ap-stats-grid">
+		<?php if ( '' !== trim( (string) $props['eyebrow'] ) ) : ?><p class="ap-stats-eyebrow"><?php echo esc_html( trim( (string) $props['eyebrow'] ) ); ?></p>
+		<?php endif; ?><div class="ap-stats-grid">
 			<?php foreach ( $items as $i => $item ) : ?>
 				<div class="ap-stat"<?php if ( $reveal ) : ?> data-ap-reveal data-ap-reveal-delay="<?php echo esc_attr( (string) ( ( $i % $columns ) + 1 ) ); ?>"<?php endif; ?>>
 					<div class="ap-stat-number"><?php echo esc_html( $item['value'] ); ?></div>

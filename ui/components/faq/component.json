@@ -13,6 +13,7 @@
 		"title_gap": { "type": "integer", "required": false, "default": 28, "description": "Vertical variant: space between the heading and the first question, in px (live: 82 on most product pages, 54 on Fire, 28 on Police)." },
 		"tone": { "type": "string", "required": false, "default": "gradient", "enum": [ "gradient", "white", "fade" ], "description": "Section background: the grey-to-white gradient, plain white (live Higher Education and Local Government), or fade (white at the top fading to light grey at the bottom, Figma Integrations hub FAQ). The hub variant keeps its own gradient by default and takes white or fade; eduhub ignores it." },
 		"question_tone": { "type": "string", "required": false, "default": "default", "enum": [ "default", "accent" ], "description": "Hub variant: closed questions in the heading colour (default) or in indigo (live Government)." },
+		"size": { "type": "string", "required": false, "default": "default", "enum": [ "default", "compact" ], "description": "Hub variant: compact steps the type down to match a compact integration-detail body — heading 20–24px, questions 16–17px, answers 15px, tighter rows and section padding." },
 		"layout": { "type": "string", "required": false, "default": "stack", "enum": [ "stack", "split" ], "description": "Hub variant: stack puts the heading centred over the questions (today's hub FAQ); split puts the heading in a left column beside the questions from 1025px wide and stacks it above them below that (Figma Integrations hub FAQ, 7310:163738)." }
 	}
 }

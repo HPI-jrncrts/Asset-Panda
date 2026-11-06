@@ -150,3 +150,39 @@
 
 /* QA 2026-10-29 (Joseph, sitewide): sections without a colour gradient are pure white — the white-to-#f9fafb fades
  * showed as a grey band against the next section. */
+
+/* Partners, 2026-10-31: an eyebrow over the heading, and mark: panda — the Asset Panda mark in a frosted disc in
+ * place of the Ursa orb, for bands that are not about Ursa AI. */
+.ap-ursa-band .ap-ursa-band__eyebrow {
+	margin: 0;
+	color: var(--ap-text-eyebrow-inverse, #a7b3fa);
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: .56px;
+	text-transform: uppercase;
+}
+.ap-ursa-band__orb--panda {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.ap-ursa-band__orb--panda::before {
+	content: "";
+	position: absolute;
+	inset: 20px 21px;
+	border-radius: 50%;
+	background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, .95) 0%, rgba(225, 230, 254, .9) 55%, rgba(131, 140, 246, .7) 100%);
+	box-shadow: 0 0 40px rgba(131, 140, 246, .55), inset 0 0 0 1px rgba(255, 255, 255, .6);
+}
+.ap-ursa-band__orb.ap-ursa-band__orb--panda img {
+	position: relative;
+	left: auto;
+	top: auto;
+	width: 64px;
+	height: auto;
+}
+@media (max-width: 767px) {
+	.ap-ursa-band__orb--panda::before { inset: 14px 16px; }
+	.ap-ursa-band__orb.ap-ursa-band__orb--panda img { left: auto; top: auto; width: 52px; height: auto; }
+}

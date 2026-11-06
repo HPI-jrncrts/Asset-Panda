@@ -14,7 +14,18 @@
 }
 
 .ap-solution-awards {
+	background: #fff; /* white by default since QA 2026-10-29 (sitewide: no off-white sections); tone grey keeps the old band */
+}
+
+.ap-solution-awards.ap-solution-awards--grey {
 	background: #f9fafb;
+}
+
+.ap-solution-awards.ap-solution-awards--white {
+	background: #fff;
+}
+
+.ap-solution-awards {
 	overflow: hidden;
 	font-family: var(--ap-font-body, 'Manrope', Arial, sans-serif);
 }
@@ -112,3 +123,8 @@
 		transform-origin: center;
 	}
 }
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: a compact band, --ap-section-y-sm top and bottom (was 40 /
+ * 32 / 24 by breakpoint). */
+.ap-solution-awards .ap-solution-awards__wrap { padding-top: var(--ap-section-y-sm, 40px); padding-bottom: var(--ap-section-y-sm, 40px); }

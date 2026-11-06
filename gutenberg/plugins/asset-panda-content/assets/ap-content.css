@@ -935,3 +935,105 @@ html body .ap26-article :is(.ap26-cta-mini__btn, p.ap-jump a, .wp-block-button__
 		font-size: 13px !important;
 	}
 }
+
+/* 1.3.12 (QA 2026-10-30): the gate drawn as the kit's form card (render.php) — the card brings its own white box,
+ * shadow and fields, so the lilac panel around it goes. */
+.ap-content-gate.ap-content-gate--card {
+	max-width: 640px;
+	padding: 0;
+	background: none;
+	border: 0;
+	border-radius: 0;
+}
+
+/* 1.3.13 (QA 2026-10-30, Joseph: "if any contained icons are present for some posts, make sure to include them on
+ * the staging site"): the case studies' facts row (Industry / Location / Customer Since) and feature cards, rebuilt
+ * as blocks with live's icons (.ap-cs-facts / .ap-cs-cards, see the content of each case study). Facts: three
+ * centred columns, a 76px icon over the label and value. Cards: white, a hairline edge and 16px corners; a 48px icon,
+ * the title over a divider, then the text — two to a row in the article column, one on phones. */
+.ap-cs-facts.ap-cs-facts {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 24px;
+	margin: 40px 0;
+	text-align: center;
+}
+.ap-cs-facts .ap-cs-fact > *,
+.ap-cs-cards .ap-cs-card > * {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+.ap-cs-facts .ap-cs-icon {
+	margin: 0 auto 16px;
+}
+.ap-cs-facts .ap-cs-icon img {
+	display: block;
+	width: 76px;
+	height: 76px;
+	margin: 0 auto;
+	object-fit: contain;
+}
+.ap-cs-facts .ap-cs-fact h4.wp-block-heading {
+	margin: 0 0 4px;
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 1.4;
+	color: #25272c;
+}
+.ap-cs-facts .ap-cs-fact p {
+	margin: 0;
+	font-size: 16px;
+	line-height: 1.5;
+	color: #4a4e5a;
+}
+.ap-cs-cards.ap-cs-cards {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 24px;
+	margin: 40px 0;
+}
+.ap-cs-cards .ap-cs-card {
+	padding: 20px 20px 24px;
+	border: 1px solid #e6e9f2;
+	border-radius: 16px;
+	background: #fff;
+}
+.ap-cs-cards .ap-cs-icon {
+	margin: 0 0 16px;
+}
+.ap-cs-cards .ap-cs-icon img {
+	display: block;
+	width: 48px;
+	height: 48px;
+	object-fit: contain;
+}
+.ap-cs-cards .ap-cs-card h3.wp-block-heading {
+	margin: 0;
+	padding-bottom: 16px;
+	border-bottom: 1px solid #e6e9f2;
+	font-size: 18px;
+	font-weight: 800;
+	line-height: 1.3;
+	color: #25272c;
+}
+.ap-cs-cards .ap-cs-card p {
+	margin: 16px 0 0;
+	font-size: 16px;
+	line-height: 1.5;
+	color: #4a4e5a;
+}
+@media (max-width: 640px) {
+	.ap-cs-facts.ap-cs-facts {
+		grid-template-columns: 1fr;
+		gap: 28px;
+	}
+	.ap-cs-cards.ap-cs-cards {
+		grid-template-columns: 1fr;
+	}
+}
+/* WordPress's flow layout gives every block after the first a top margin; in these grids that pushed the second and
+ * later items down, out of line with the first. */
+.ap-cs-facts.ap-cs-facts > *,
+.ap-cs-cards.ap-cs-cards > * {
+	margin-block: 0;
+}

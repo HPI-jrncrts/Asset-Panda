@@ -1391,9 +1391,9 @@
   /* ---------- Testimonial sliders (live page/cases.js) ----------
      One slide shows at a time; dots, arrows and the progress line pick it. Images of slides not
      yet shown wait in data-src and load when their slide or a neighbour comes up. Sliders advance
-     on their own every CASES_AUTO_MS; a mouse over a slider or keyboard focus in it pauses it (taps
-     do not, so phones keep advancing), a dot or arrow restarts the count, and visitors who ask for
-     reduced motion get no auto-advance. Keyed off data-ap-cases; data-ready makes a second run (or
+     on their own every data-ap-autoplay ms (CASES_AUTO_MS when absent, 0 = off); a mouse over a
+     slider or keyboard focus in it pauses it (taps do not, so phones keep advancing), a dot or
+     arrow restarts the count, and visitors who ask for reduced motion get no auto-advance. Keyed off data-ap-cases; data-ready makes a second run (or
      a second component's copy of this code) a no-op. */
   const CASES_AUTO_MS = 3000;
 
@@ -1426,14 +1426,18 @@
     let timer = 0;
     let hovered = false;
     let focused = false;
-    const autoplay = count > 1 && !casesReducedMotion();
+    const attr = root.getAttribute('data-ap-autoplay');
+    let ms = attr === null || attr === '' ? CASES_AUTO_MS : parseInt(attr, 10);
+    if (!(ms >= 0)) ms = CASES_AUTO_MS;
+    if (ms > 0 && ms < 1500) ms = 1500;
+    const autoplay = count > 1 && ms > 0 && !casesReducedMotion();
 
     function schedule() {
       clearTimeout(timer);
       const running = autoplay && !hovered && !focused && !document.hidden;
       /* Screen readers announce a slide change only when a person made it. */
       live.setAttribute('aria-live', running ? 'off' : 'polite');
-      if (running) timer = setTimeout(() => go(current + 1), CASES_AUTO_MS);
+      if (running) timer = setTimeout(() => go(current + 1), ms);
     }
 
     function go(index) {
@@ -1535,16 +1539,41 @@
      (everything under the hero: the following sections, the footer and its wrappers). All three are
      measured here on load and on resize only, never from the hero's own content, so the fold stays
      put while the form grows and the calendar opens. */
+  /* The element that ends the page: whichever footer sits lowest (its <footer> landmark when it has
+     one, so the landmark's own padding counts). */
+  function foldEnd() {
+    let end = null;
+    let endBottom = -Infinity;
+    for (const el of document.querySelectorAll('.ap-site-footer, .ap-demo-footer')) {
+      const box = (el.closest('footer') || el).getBoundingClientRect();
+      if (box.bottom > endBottom) { end = el.closest('footer') || el; endBottom = box.bottom; }
+    }
+    return end;
+  }
+
+  const foldLast = {};
+  function setFoldVar(name, value) {
+    const v = (Math.round(value * 100) / 100) + 'px';
+    if (foldLast[name] === v) return;
+    foldLast[name] = v;
+    document.documentElement.style.setProperty(name, v);
+  }
+
   function measureFold() {
     const hero = document.querySelector('[data-ap-fold]');
     if (!hero) return;
-    const root = document.documentElement;
     const box = hero.getBoundingClientRect();
-    const heroBottom = Math.round(box.bottom + window.scrollY);
-    root.style.setProperty('--ap-d26-vh', window.innerHeight + 'px');
-    root.style.setProperty('--ap-d26-fold-top', Math.max(0, Math.round(box.top + window.scrollY)) + 'px');
-    /* What sits under the hero does not depend on the hero's height, so this is stable. */
-    root.style.setProperty('--ap-d26-below', Math.max(0, Math.max(root.scrollHeight, document.body.scrollHeight) - heroBottom) + 'px');
+    setFoldVar('--ap-d26-vh', window.innerHeight);
+    setFoldVar('--ap-d26-fold-top', Math.max(0, box.top + window.scrollY));
+    /* Distance from the hero's bottom to the bottom of the page-ending footer. Unlike scrollHeight
+       (which never drops below the window height and counts anything that sits in the page for a
+       moment: a password-manager frame, the chat widget settling, a scrollbar flicker), it does not
+       depend on the hero's own height, so re-measuring is always safe and one bad read can't stick
+       (fix ported from the www build, worktree commit f01d156, 2026-10-27). */
+    const end = foldEnd();
+    if (end) {
+      setFoldVar('--ap-d26-below', Math.max(0, end.getBoundingClientRect().bottom - box.bottom));
+    }
   }
 
   function initFold() {
@@ -1560,6 +1589,7 @@
     measureFold();
     window.addEventListener('resize', later);
     window.addEventListener('load', measureFold);
+    if ('ResizeObserver' in window) new ResizeObserver(later).observe(document.body);
   }
 
   /* The count-up and the fold run at once (the markup is already parsed when this footer script
@@ -1572,4 +1602,53 @@
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
+})();
+
+(() => {
+  /* QA 2026-10-29: the one-screen hero squeezes the testimonial card on laptop screens. Each quote is
+     clamped to the lines that fit its slide, so it ends on "…" and the author row always shows; a
+     slide with no room for a single line shows its title and author only. Runs on load, on resize, when the
+     fonts arrive and when the hero column changes size; one read pass, then one write pass. */
+  function fitQuotes() {
+    const sets = document.querySelectorAll('.ap-demo-booking .ap-d26-v1-side .ap-d26-qslides');
+    if (!sets.length) return;
+    const wide = window.matchMedia('(min-width:1024px)').matches;
+    sets.forEach((set) => {
+      const slides = [...set.querySelectorAll('.ap-d26-qslide')];
+      slides.forEach((s) => { const t = s.querySelector('.ap-d26-qtext'); if (t) { t.style.removeProperty('-webkit-line-clamp'); t.style.removeProperty('display'); } });
+      if (!wide) return;
+      const plan = slides.map((s) => {
+        const t = s.querySelector('.ap-d26-qtext');
+        if (!t) return null;
+        const gap = parseFloat(getComputedStyle(s).rowGap) || 0;
+        let fixed = 0;
+        for (const k of s.children) if (k !== t) fixed += k.getBoundingClientRect().height;
+        fixed += gap * (s.children.length - 1);
+        const cs = getComputedStyle(t), lh = parseFloat(cs.lineHeight) || 24, max = parseInt(cs.webkitLineClamp, 10) || 99;
+        return [t, Math.min(max, Math.floor((s.clientHeight - fixed - 2) / lh))];
+      });
+      const apply = (t, n) => { if (n < 1) t.style.display = 'none'; else t.style.setProperty('-webkit-line-clamp', String(n)); };
+      plan.forEach((x) => { if (x) apply(x[0], x[1]); });
+      /* Check pass: a quote the card still squeezes below its clamped height loses a line. */
+      plan.forEach((x) => {
+        if (!x) return;
+        const lh = parseFloat(getComputedStyle(x[0]).lineHeight) || 24;
+        for (let n = x[1]; n > 0 && x[0].clientHeight + 1 < n * lh; ) apply(x[0], --n);
+      });
+    });
+  }
+  let queued = false;
+  const later = () => { if (queued) return; queued = true; requestAnimationFrame(() => { queued = false; fitQuotes(); }); };
+  if (!document.querySelector('.ap-demo-booking .ap-d26-qslides') || document.documentElement.hasAttribute('data-ap-qfit')) return;
+  document.documentElement.setAttribute('data-ap-qfit', '1');
+  later();
+  window.addEventListener('resize', later);
+  window.addEventListener('load', later);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(later);
+  /* The hero's height is set by the fold measure (after load, on resize); the side column's size
+     follows the hero, never the card's content, so watching it cannot loop. */
+  if ('ResizeObserver' in window) {
+    const ro = new ResizeObserver(later);
+    document.querySelectorAll('.ap-demo-booking .ap-d26-v1-side').forEach((el) => ro.observe(el));
+  }
 })();

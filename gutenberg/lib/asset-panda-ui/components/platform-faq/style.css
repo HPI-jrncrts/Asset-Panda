@@ -11,7 +11,7 @@
       position:relative; box-sizing:border-box; overflow:hidden;
       width:100%; /* live broke out of the theme container with 100vw; the block is already full width */   
       font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
-      color:var(--ink); background:#f9fafb;
+      color:var(--ink); background:#fff;
     }
 .ap-platform-faq *,.ap-platform-faq *::before,.ap-platform-faq *::after{box-sizing:border-box;}
 .ap-platform-faq__wrap{
@@ -26,16 +26,24 @@
       list-style:none; cursor:pointer;
       display:flex; gap:24px; align-items:center; padding:20px 16px;
       font-size:20px; font-weight:800; line-height:1.4; color:var(--ink);
-      transition:color .15s ease;
+      -webkit-tap-highlight-color:transparent;
+      transition:color var(--ap-dur-base) var(--ap-ease-standard);
     }
 .ap-platform-faq__q::-webkit-details-marker{display:none;}
-.ap-platform-faq__q:hover{color:var(--i);}
-.ap-platform-faq__item[open] .ap-platform-faq__q{color:var(--i);}
+@media (hover:hover){.ap-platform-faq__q:hover{color:var(--i);}}
+/* No box around the opened row: the theme outlines any focused element and a
+   click focuses the <summary>. Keyboard focus underlines the question. */
+.ap-platform-faq__q:focus{outline:none;}
+.ap-platform-faq__q:focus-visible{color:var(--i);}
+.ap-platform-faq__q:focus-visible .ap-platform-faq__qt{text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:4px;}
+/* :where() keeps the plain [open] specificity; data-ap-closing (motion.js, while
+   a row animates shut) drops the open look as the motion starts. */
+.ap-platform-faq__item[open]:where(:not([data-ap-closing])) .ap-platform-faq__q{color:var(--i);}
 .ap-platform-faq__qt{flex:1 1 0; min-width:0;}
 .ap-platform-faq__ic{flex:none; width:32px; height:32px; display:flex; align-items:center; justify-content:center;}
 .ap-platform-faq__ic svg{width:20px; height:20px; display:block;}
-.ap-platform-faq__ic .v{transition:transform .2s ease, opacity .2s ease; transform-origin:center;}
-.ap-platform-faq__item[open] .ap-platform-faq__ic .v{transform:rotate(90deg); opacity:0;}
+.ap-platform-faq__ic .v{transition:transform var(--ap-dur-base) var(--ap-ease-standard), opacity var(--ap-dur-base) var(--ap-ease-standard); transform-origin:center;}
+.ap-platform-faq__item[open]:where(:not([data-ap-closing])) .ap-platform-faq__ic .v{transform:rotate(90deg); opacity:0;}
 .ap-platform-faq__a{margin:0; padding:0 72px 24px 16px; font-size:16px; font-weight:400; line-height:1.6; color:var(--body);}
 .ap-platform-faq__a .g{
       font-weight:700;
@@ -49,7 +57,14 @@
 .ap-platform-faq__q{font-size:17px; padding:18px 8px; gap:16px;}
 .ap-platform-faq__a{padding:0 44px 20px 8px; font-size:15px;}
 }
+@media (prefers-reduced-motion:reduce){.ap-platform-faq__q,.ap-platform-faq__ic .v{transition:none;}}
 @media (max-width:560px){.ap-platform-faq__wrap{padding:56px 20px 28px;}
 .ap-platform-faq__title{font-size:27px;}
 .ap-platform-faq__q{font-size:16px;}
 }
+
+/* ------------------------------------------------------------ Section rhythm + type scale (QA 2026-10-28, sections agent)
+ * Padding on the kit section rhythm (tokens.css "section rhythm") and the
+ * section title / eyebrow on the type-scale tokens, like every other section. */
+html body .ap-platform-faq.ap-platform-faq .ap-platform-faq__wrap { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+html body .ap-platform-faq.ap-platform-faq .ap-platform-faq__title { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }

@@ -228,3 +228,18 @@ html body .ap-capability-scene.ap-capability-scene.ap-capability-scene .ap-capab
 	-webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 160px), transparent 100%);
 	        mask-image: linear-gradient(180deg, #000 calc(100% - 160px), transparent 100%);
 }
+
+/* ------------------------------------------------------------ QA 2026-10-30 (Joseph, /asset-intelligence-platform/,
+ * mobiles only): "The gradient is currently linear and set vertically. Can we change that into circular splash".
+ * On a phone the section is a tall stack, so the desktop glow artwork, stretched to the section, became a vertical
+ * band. Phones get a round splash instead: overlapping teal, indigo and lilac circles around the middle of the
+ * capability list, fading out well before the edges. Tablets and desktops keep the artwork. */
+@media (max-width:767px){
+	.ap-capability-scene .ap-capability-scene__glow{
+		background-image:
+			radial-gradient(circle 200px at 36% 44%, rgba(0,169,145,.24), rgba(0,169,145,0) 100%),
+			radial-gradient(circle 220px at 66% 50%, rgba(80,68,225,.20), rgba(80,68,225,0) 100%),
+			radial-gradient(circle 160px at 52% 38%, rgba(146,120,255,.14), rgba(146,120,255,0) 100%);
+		background-size:100% 100%;
+	}
+}

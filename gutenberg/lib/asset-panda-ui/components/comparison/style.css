@@ -14,7 +14,7 @@
 .ap-compare--home .ap-compare-table .ap-left-empty {grid-column:1;grid-row:7}
 .ap-compare--home .ap-compare-table .ap-center-cta {grid-column:2;grid-row:7}
 .ap-compare--home .ap-compare-table .ap-right-empty {grid-column:3;grid-row:7}
-.ap-compare--home {width: 100%; max-width: none; margin: 0 !important; padding: 80px 24px 40px; background: #F9FAFB; font-family: "Manrope", Arial, sans-serif !important; overflow: hidden;}
+.ap-compare--home {width: 100%; max-width: none; margin: 0 !important; padding: 80px 24px 40px; background: #fff; font-family: "Manrope", Arial, sans-serif !important; overflow: hidden;}
 .ap-compare--home, .ap-compare--home * {box-sizing: border-box;}
 .ap-compare--home .ap-compare-inner {position: relative; width: 100%; max-width: 1120px; margin: 0 auto;}
 .ap-compare--home .ap-compare-heading {position: relative; width: 100%; max-width: 640px; margin: 0 auto 40px; text-align: center;}
@@ -42,7 +42,7 @@
 .ap-compare--home .ap-center-copy {display: flex; align-items: flex-start; gap: 8px; padding: 32px; border-top: 1px solid #838CF6; border-left: 0 !important; border-right: 0 !important;}
 .ap-compare--home .ap-center-copy p {margin: 0; color: #201C4A; font-size: 14px; line-height: 1.5; font-weight: 400;}
 .ap-compare--home .ap-right-copy {display: flex; align-items: flex-start; gap: 8px; padding: 32px 32px 32px 24px; background: #F2F5F8; border-top: 1px solid #D1DDE6; border-right: 1px solid #D1DDE6; border-left: 0;}
-.ap-compare--home .ap-right-copy p {margin: 0; color: #5B616E; font-family: "Inter", "Manrope", Arial, sans-serif; font-size: 14px; line-height: 1.5; font-weight: 300;}
+.ap-compare--home .ap-right-copy p {margin: 0; color: #5B616E; font-family: var(--ap-font-body); font-size: 14px; line-height: 1.5; font-weight: 400;}
 @media (min-width: 1280px) {
 	.ap-compare--home .ap-right-copy-end {border-bottom: 1px solid #D1DDE6 !important; border-radius: 0 0 16px 0;}
 	.ap-compare--home .ap-right-empty {visibility: hidden !important; border: 0 !important; outline: 0 !important; box-shadow: none !important; background: transparent !important;}
@@ -91,11 +91,42 @@
 .ap-compare--home .ap-cell.ap-center-cta {border-bottom:.9px solid #838CF6!important}
 .ap-compare--home .ap-cell.ap-right-empty {border-bottom:.9px solid #D1DDE6!important}
 
+/* ---- QA 2026-10-29 (Joseph, homepage batch 1) ----
+ * Phones (the stacked card): the card's outline is drawn once by .ap-compare-table::after, so the centre cells must not
+ * draw their own left/right/bottom hairlines on top of it — that was the "double line" on the CTA's right edge. */
+@media (max-width: 767px) {
+	.ap-compare--home .ap-compare-table .ap-cell.ap-center-top, .ap-compare--home .ap-compare-table .ap-cell.ap-center-title, .ap-compare--home .ap-compare-table .ap-cell.ap-center-copy, .ap-compare--home .ap-compare-table .ap-cell.ap-center-cta {border-left: 0 !important; border-right: 0 !important;}
+	.ap-compare--home .ap-compare-table .ap-cell.ap-center-cta {border-bottom: 0 !important;}
+}
+/* Tablets keep the three columns (fluid 31 / 38 / 31 instead of the desktop's 347 / 427 / 347 px); the stacked
+ * card is for phones only. Every rule here answers one the stacked block above sets for ≤1279. */
+@media (min-width: 768px) and (max-width: 1279px) {
+	.ap-compare--home .ap-compare-table {display: grid; width: 100%; max-width: 100%; margin: 0; grid-template-columns: 31% 38% 31%; grid-template-rows: 150px 80px repeat(4, minmax(110px, auto)) auto; justify-content: center; align-items: stretch; background: none; border: 0 !important; border-radius: 0; box-shadow: none; overflow: visible; isolation: auto;}
+	.ap-compare--home .ap-compare-table::before {display: block; left: 31%; width: 38%;}
+	.ap-compare--home .ap-compare-table::after {display: none;}
+	.ap-compare--home .ap-left-spacer, .ap-compare--home .ap-left-empty, .ap-compare--home .ap-right-empty {display: block !important;}
+	.ap-compare--home .ap-right-top, .ap-compare--home .ap-left-title, .ap-compare--home .ap-right-title {display: flex !important;}
+	.ap-compare--home .ap-right-empty {visibility: hidden !important;}
+	.ap-compare--home .ap-right-top {height: 98px; padding: 20px;}
+	.ap-compare--home .ap-center-top-img {height: 150px;}
+	.ap-compare--home .ap-left-title, .ap-compare--home .ap-center-title, .ap-compare--home .ap-right-title {min-height: 80px; padding: 20px; font-size: 17px; line-height: 1.2;}
+	.ap-compare--home .ap-center-title {display: flex; border-top: 1px solid #838CF6 !important; border-left: 0 !important; border-right: 0 !important; color: #201C4A;}
+	.ap-compare--home .ap-center-title .ap-compare-vs {display: inline; color: inherit; font-weight: inherit;}
+	.ap-compare--home .ap-right-title {padding-left: 16px;}
+	.ap-compare--home .ap-left-label {display: flex; align-items: center; padding: 24px 20px; border-top: 1px solid #D1DDE6; border-left: 0 !important; border-right: 0 !important; color: #4B5563; font-size: 15px; font-weight: 800;}
+	.ap-compare--home .ap-center-copy {padding: 24px 20px; border-top: 1px solid #838CF6 !important; border-left: 0 !important; border-right: 0 !important; background: transparent;}
+	.ap-compare--home .ap-right-copy, .ap-compare--home .ap-right-copy-end {padding: 24px 20px 24px 16px; background: #F2F5F8; border-top: 1px solid #D1DDE6 !important; border-right: 1px solid #D1DDE6 !important; border-left: 0 !important; border-bottom: 0 !important; border-radius: 0;}
+	.ap-compare--home .ap-right-copy-end {border-bottom: 1px solid #D1DDE6 !important; border-radius: 0 0 16px 0;}
+	.ap-compare--home .ap-right-copy p {color: #5B616E;}
+	.ap-compare--home .ap-center-cta {padding: 24px 20px 20px; border-top: 1px solid #838CF6 !important; border-left: 0 !important; border-right: 0 !important; border-bottom: 0 !important; border-radius: 0 0 16px 16px;}
+	.ap-compare--home .ap-compare-cta {width: 100%;}
+}
+
 /* ---- platform (live platform sheet) ---- */
 .ap-compare--platform .ap-compare-table .ap-left-empty {grid-column:1;grid-row:7}
 .ap-compare--platform .ap-compare-table .ap-center-cta {grid-column:2;grid-row:7}
 .ap-compare--platform .ap-compare-table .ap-right-empty {grid-column:3;grid-row:7}
-.ap-compare--platform {width: 100%; max-width: none; margin: 0 !important; padding: 80px 24px 80px; background: #F9FAFB; font-family: "Manrope", Arial, sans-serif !important; overflow: hidden;}
+.ap-compare--platform {width: 100%; max-width: none; margin: 0 !important; padding: 80px 24px 80px; background: #fff; font-family: "Manrope", Arial, sans-serif !important; overflow: hidden;}
 .ap-compare--platform, .ap-compare--platform * {box-sizing: border-box;}
 .ap-compare--platform .ap-compare-inner {position: relative; width: 100%; max-width: 1121px; margin: 0 auto;}
 .ap-compare--platform .ap-compare-heading {position: relative; width: 100%; max-width: 800px; margin: 0 auto 40px; text-align: center;}
@@ -122,7 +153,7 @@
 .ap-compare--platform .ap-center-copy p {margin: 0; color: #201C4A; font-size: 14px; line-height: 1.5; font-weight: 400;}
 .ap-compare--platform .ap-center-copy-end {border-radius: 0 0 16px 16px; padding-bottom: 56px;}
 .ap-compare--platform .ap-right-copy {display: flex; align-items: flex-start; gap: 8px; padding: 32px 32px 32px 24px; background: #F2F5F8; border-top: 1px solid #D1DDE6; border-right: 1px solid #D1DDE6; border-left: 0;}
-.ap-compare--platform .ap-right-copy p {margin: 0; color: #5B616E; font-family: "Inter", "Manrope", Arial, sans-serif; font-size: 14px; line-height: 1.5; font-weight: 300;}
+.ap-compare--platform .ap-right-copy p {margin: 0; color: #5B616E; font-family: var(--ap-font-body); font-size: 14px; line-height: 1.5; font-weight: 400;}
 .ap-compare--platform .ap-right-copy-end {border-bottom: 1px solid #D1DDE6; border-radius: 0 0 16px 0;}
 .ap-compare--platform .ap-panda-mini-img, .ap-compare--platform .ap-table-mini-img {display: block; flex: 0 0 24px; width: 24px; height: 24px; margin-top: 1px; object-fit: contain;}
 .ap-compare--platform .ap-ursa {display: inline; font-weight: 700; background: linear-gradient(75.71deg, #806991 6.52%, #00A991 60%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; white-space: nowrap;}
@@ -165,7 +196,7 @@
 }
 
 /* ---- guide (the comparison guides, e.g. Asset Panda vs EZO): the home look with any number of rows, a winner pill under each criterion and a footnote ---- */
-.ap-compare--guide {width: 100%; max-width: none; margin: 0 !important; padding: 80px 24px 64px; background: #F9FAFB; font-family: "Manrope", Arial, sans-serif !important; overflow: hidden;}
+.ap-compare--guide {width: 100%; max-width: none; margin: 0 !important; padding: 80px 24px 64px; background: #fff; font-family: "Manrope", Arial, sans-serif !important; overflow: hidden;}
 .ap-compare--guide, .ap-compare--guide * {box-sizing: border-box;}
 .ap-compare--guide .ap-compare-inner {position: relative; width: 100%; max-width: 1120px; margin: 0 auto;}
 .ap-compare--guide .ap-compare-heading {position: relative; width: 100%; max-width: 800px; margin: 0 auto 40px; text-align: center;}
@@ -193,7 +224,7 @@
 .ap-compare--guide .ap-center-copy {display: flex; align-items: flex-start; gap: 8px; padding: 24px 32px; border-top: 1px solid #838CF6; border-left: 0 !important; border-right: 0 !important;}
 .ap-compare--guide .ap-center-copy p {margin: 0; color: #201C4A; font-size: 14px; line-height: 1.5; font-weight: 400;}
 .ap-compare--guide .ap-right-copy {display: flex; align-items: flex-start; gap: 8px; padding: 24px 32px 24px 24px; background: #F2F5F8; border-top: 1px solid #D1DDE6; border-right: 1px solid #D1DDE6; border-left: 0;}
-.ap-compare--guide .ap-right-copy p {margin: 0; color: #5B616E; font-family: "Inter", "Manrope", Arial, sans-serif; font-size: 14px; line-height: 1.5; font-weight: 300;}
+.ap-compare--guide .ap-right-copy p {margin: 0; color: #5B616E; font-family: var(--ap-font-body); font-size: 14px; line-height: 1.5; font-weight: 400;}
 .ap-compare--guide .ap-panda-mini-img, .ap-compare--guide .ap-table-mini-img {display: block; flex: 0 0 24px; width: 24px; height: 24px; margin-top: 1px; object-fit: contain;}
 .ap-compare--guide .ap-compare-winner {display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 999px; font-size: 12px; line-height: 1.2; font-weight: 700; letter-spacing: 0.02em; white-space: nowrap;}
 .ap-compare--guide .ap-compare-winner__k {font-weight: 600; opacity: 0.75;}
@@ -247,3 +278,22 @@
 	.ap-compare--guide .ap-compare-heading p:not(.ap-eyebrow) {font-size: 16px;}
 	.ap-compare--guide .ap-compare-table, .ap-compare--guide .ap-compare-note {max-width: 360px;}
 }
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: --ap-section-y top and bottom (home was 80 / 40, 80 / 48,
+ * 56 / 40; platform 80 / 80, 80 / 64 by width), --ap-section-head-gap under
+ * the heading (was 40 / 24). */
+html body .ap-compare.ap-compare { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+html body .ap-compare .ap-compare-heading { margin-bottom: var(--ap-section-head-gap, 48px); }
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-compare.ap-compare.ap-compare h2 { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+/* Section eyebrow on the type scale too: 12px at 390 to 14px at 1440, 800, 4% tracking, upper case. */
+html body .ap-compare.ap-compare.ap-compare .ap-eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }
+
+/* Motion (QA 2026-10-28, motion agent's R4): hover moves use translate / scale, never transform (scroll entrances own transform), on the house timing. */
+html body .ap-compare .ap-compare-link svg { transition: translate var(--ap-dur-base, .3s) var(--ap-ease-standard, ease); }
+html body .ap-compare .ap-compare-link:hover svg { transform: none; translate: 4px 0; }

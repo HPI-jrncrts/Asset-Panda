@@ -25,6 +25,10 @@ $image = trim( (string) $props['image'] );
 $img_w = max( 0, (int) $props['image_width'] );
 $img_h = max( 0, (int) $props['image_height'] );
 $bg    = trim( (string) $props['background'] );
+// First-screen backdrop (a CSS background): preload it (PageSpeed LCP).
+if ( '' !== $bg && function_exists( 'ap_ui_preload_image' ) ) {
+	echo ap_ui_preload_image( $bg ); // phpcs:ignore WordPress.Security.EscapeOutput -- built from esc_url() in the loader.
+}
 
 $links = array();
 foreach ( is_array( $props['links'] ) ? $props['links'] : array() as $link ) {

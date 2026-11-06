@@ -35,6 +35,7 @@ $props = array(
 	'secondary_label' => $attributes['secondary_label'] ?? '',
 	'secondary_url'   => $attributes['secondary_url'] ?? '',
 	'note'            => $attributes['note'] ?? '',
+	'joined'          => $attributes['joined'] ?? false,
 );
 
 $ap_html = ap_render_component( 'page-cards', $props );

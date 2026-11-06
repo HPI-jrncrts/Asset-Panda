@@ -8,6 +8,10 @@
 	"description": "Asset-type scene: three use-case cards arranged around the assistant artwork, with a closing line and two buttons. Live: .apx-bft on /asset-intelligence-platform/. This block is an adapter — it holds no markup; it maps attributes to kit props.",
 	"textdomain": "assetpanda",
 	"attributes": {
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
 		"eyebrow": {
 			"type": "string",
 			"default": ""
@@ -63,6 +67,14 @@
 		"secondary_url": {
 			"type": "string",
 			"default": ""
+		},
+		"splash": {
+			"type": "boolean",
+			"default": false
+		},
+		"attached": {
+			"type": "boolean",
+			"default": false
 		},
 		"align": {
 			"type": "string",

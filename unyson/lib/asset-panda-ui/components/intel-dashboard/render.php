@@ -165,7 +165,7 @@ $ap_chips       = static function ( array $chips ) {
 								<?php if ( '' !== $image_mobile ) : ?>
 									<source media="(max-width:1080px)" srcset="<?php echo esc_url( $image_mobile ); ?>" />
 								<?php endif; ?>
-								<img class="epx-dash__table epx-drev" src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( $props['image_alt'] ); ?>" loading="lazy" decoding="async" />
+								<img class="epx-dash__table epx-drev" src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( $props['image_alt'] ); ?>" loading="eager" fetchpriority="low" decoding="async" />
 							</picture>
 						<?php endif; ?>
 

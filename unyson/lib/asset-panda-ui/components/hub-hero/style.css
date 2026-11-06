@@ -1,7 +1,16 @@
 /*
- * hub-hero — ported from the live #ap-gov-hero. Photo placement arrives as
- * inline percentages (numbers only); the phone composite image arrives as
- * --apg-mbg on the root.
+ * hub-hero — the industry hub hero (default variant), laid out exactly like the
+ * solution-hero on the Pharmaceutical & Laboratory page, which QA 2026-10-28 made
+ * the standard for the whole family ("This is the correct hero spacing, size,
+ * etc"): a 640px stage, the copy column at 160px (40px from 1320px down), the
+ * eyebrow 131px from the top, the chip strip 16px off the foot, a 191px veil, and
+ * below 1001px the copy over the art over the chips.
+ *
+ * The art (backdrop + up to three cut-out photos, placed in % by the props) sits
+ * on a fixed 1440x640 canvas so it is never squeezed: centred on wide screens,
+ * right-anchored on laptops like the solution-hero's visual box, and on tablets
+ * and phones scaled so the photo group (its bounds arrive as --apg-x0/-x1/-y0/-rw,
+ * canvas px, computed in render.php) fills the width under the copy.
  */
 
 :where(.ap-hub-hero, .ap-hub-hero *, .ap-hub-hero *::before, .ap-hub-hero *::after) {
@@ -13,25 +22,35 @@
 	width:100%;
 	background:#fff;
 	overflow:hidden;
-	font-family:Manrope,sans-serif;
+	font-family:var(--ap-font-display);
 	--gu:calc(100vw / 1440)
 }
 
 .ap-hub-hero .apg-hero-stage {
 	position:relative;
-	width:100%;
-	aspect-ratio:var(--apg-ratio, 1440/640)
+	max-width:1440px;
+	height:640px;
+	margin:0 auto
 }
 
+/* The 1440x640 art canvas. */
 .ap-hub-hero .apg-hero-visual {
 	position:absolute;
-	inset:0
+	top:0;
+	left:50%;
+	width:1440px;
+	height:640px;
+	margin-left:-720px
 }
 
+/* The backdrop runs edge to edge on screens wider than the canvas (as the
+ * solution-hero's backdrop does), keeping its top edge. */
 .ap-hub-hero .apg-hero-bg {
 	position:absolute;
-	inset:0;
-	width:100%;
+	top:0;
+	left:calc(50% - max(720px, 50vw));
+	width:max(1440px, 100vw);
+	max-width:none;
 	height:100%;
 	object-fit:cover;
 	object-position:center top
@@ -39,7 +58,8 @@
 
 .ap-hub-hero .apg-hero-photo {
 	position:absolute;
-	display:block
+	display:block;
+	max-width:none
 }
 
 .ap-hub-hero .apg-hero-p1 {
@@ -78,43 +98,63 @@
 	object-fit:fill
 }
 
+/* The solution-hero's veil: 191px, white from 85%. */
 .ap-hub-hero .apg-hero-veil {
 	position:absolute;
-	left:0;
-	right:0;
+	left:calc(50% - max(720px, 50vw));
+	width:max(1440px, 100vw);
 	bottom:-1px;
-	height:var(--apg-veil, 58.125%);
-	background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0) 25.86%,rgba(255,255,255,.846) 72.753%,#fff 100%)
+	height:191px;
+	pointer-events:none;
+	background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0) 25.86%,rgba(255,255,255,.846) 85.385%,#fff 100%)
 }
 
+/* Copy column. Top-anchored like the solution-hero: the ::before spacer holds the
+ * eyebrow 131px down and shrinks only when long copy would reach the chips. */
 .ap-hub-hero .apg-hero-in {
 	position:absolute;
-	left:11.1111%;
-	top:var(--apg-ctop, calc(50% + 14 * var(--gu)));
-	transform:translateY(-50%);
-	width:38.8889%;
+	left:160px;
+	top:0;
+	height:calc(100% - 58px);
+	width:554px;
 	display:flex;
 	flex-direction:column;
-	gap:calc(16 * var(--gu));
+	gap:16px;
 	align-items:flex-start;
-	z-index:3
+	z-index:4
+}
+
+.ap-hub-hero .apg-hero-in::before {
+	content:"";
+	flex:0 1 115px;
+	min-height:24px
+}
+
+.ap-hub-hero .apg-hero-in::after {
+	content:"";
+	flex:0 0 16px
+}
+
+.ap-hub-hero .apg-hero-in > * {
+	flex-shrink:0
 }
 
 .ap-hub-hero .apg-eyebrow {
-	font-size:14px;
-	font-weight:800;
-	line-height:1.2;
-	letter-spacing:.56px;
+	font-size:var(--ap-type-eyebrow-size);
+	font-weight:var(--ap-type-eyebrow-weight);
+	line-height:var(--ap-type-eyebrow-line);
+	letter-spacing:var(--ap-type-eyebrow-track);
 	text-transform:uppercase;
-	color:#5044e1;
+	color:var(--ap-type-eyebrow-color);
 	margin:0
 }
 
 .ap-hub-hero h1.apg-h1 {
-	font-size:48px;
-	font-weight:800;
-	line-height:1.2;
-	color:#25272c;
+	font-size:var(--ap-type-h1-size);
+	font-weight:var(--ap-type-h1-weight);
+	line-height:var(--ap-type-h1-line);
+	letter-spacing:var(--ap-type-h1-track);
+	color:var(--ap-text-heading);
 	margin:0
 }
 
@@ -126,17 +166,19 @@
 }
 
 .ap-hub-hero .apg-hero-body {
-	font-size:18px;
-	line-height:1.5;
-	color:#5b616e;
+	font-size:var(--ap-type-lede-size);
+	font-weight:var(--ap-type-lede-weight);
+	line-height:var(--ap-type-lede-line);
+	color:var(--ap-type-lede-color);
 	margin:0
 }
 
 .ap-hub-hero .apg-cta-row {
 	display:flex;
+	flex-wrap:wrap;
 	align-items:center;
-	gap:calc(24 * var(--gu));
-	padding-top:calc(16 * var(--gu));
+	gap:24px;
+	padding-top:16px;
 	width:100%
 }
 
@@ -151,7 +193,7 @@
 	border:1px solid #5044e1;
 	background:linear-gradient(55.106deg,#5044e1 0%,#00a991 70.44%);
 	color:#fff;
-	font-family:Manrope,sans-serif;
+	font-family:var(--ap-font-display);
 	font-size:16px;
 	font-weight:600;
 	line-height:1.2;
@@ -165,23 +207,51 @@
 	box-shadow:0 8px 20px rgba(80,68,225,.25)
 }
 
-.ap-hub-hero .apg-badges {
-	display:flex;
-	align-items:center;
-	gap:calc(28 * var(--gu))
+.ap-hub-hero .apg-btn:hover,
+.ap-hub-hero .apg-btn:focus,
+.ap-hub-hero .apg-btn:visited {
+	color:#fff;
+	text-decoration:none
 }
 
+.ap-hub-hero .apg-btn:focus-visible {
+	outline:3px solid #5044e1;
+	outline-offset:2px
+}
+
+.ap-hub-hero .apg-badges {
+	display:flex;
+	flex-wrap:wrap;
+	align-items:center;
+	gap:28px
+}
+
+.ap-hub-hero .apg-badges img {
+	display:block;
+	width:auto;
+	height:66px;
+	object-fit:contain
+}
+
+/* The solution-hero's badge sizes. */
+.ap-hub-hero .apg-badges img.apg-badge-soc2 {width:55px;height:70px}
+.ap-hub-hero .apg-badges img.apg-badge-govramp {width:66px;height:66px}
+.ap-hub-hero .apg-badges img.apg-badge-hipaa {width:102px;height:56px}
+
+/* Chip strip over the foot of the stage, as the solution-hero's. */
 .ap-hub-hero .apg-feats {
 	position:absolute;
 	left:50%;
 	transform:translateX(-50%);
-	bottom:calc(16 * var(--gu));
-	width:77.7778%;
-	max-width:1120px;
+	bottom:16px;
+	width:min(1120px, calc(100% - 80px));
+	max-width:none;
 	display:flex;
+	flex-wrap:wrap;
+	row-gap:12px;
 	align-items:center;
 	justify-content:space-between;
-	z-index:3
+	z-index:4
 }
 
 .ap-hub-hero .apg-feats-track {
@@ -196,9 +266,15 @@
 	border-radius:8px
 }
 
-.ap-hub-hero .apg-feat img {
+.ap-hub-hero .apg-feat img,
+.ap-hub-hero .apg-feat .ap-inline-icon svg {
 	width:24px;
 	height:24px;
+	display:block;
+	flex:0 0 auto
+}
+
+.ap-hub-hero .apg-feat .ap-inline-icon {
 	display:block
 }
 
@@ -215,18 +291,32 @@
 
 @media (min-width:768px) {
 	.ap-hub-hero .apg-hero-p1 {
-	animation:apHubHeroRise .9s cubic-bezier(.22,1,.36,1) both .15s
+	animation:apHubHeroRiseLcp .9s cubic-bezier(.22,1,.36,1) both .15s
 }
 
 .ap-hub-hero .apg-hero-p2 {
-	animation:apHubHeroRise .9s cubic-bezier(.22,1,.36,1) both .3s
+	animation:apHubHeroRiseLcp .9s cubic-bezier(.22,1,.36,1) both .3s
 }
 
 .ap-hub-hero .apg-hero-p3w {
-	animation:apHubHeroRise .9s cubic-bezier(.22,1,.36,1) both .45s
+	animation:apHubHeroRiseLcp .9s cubic-bezier(.22,1,.36,1) both .45s
 }
 
 
+}
+
+/* LCP (QA 2026-10-28): the H1 and the hero photo enter from 40% opacity instead of 0, so they are painted
+   (and count for Largest Contentful Paint) on the first frame; the rise is unchanged. */
+@keyframes apHubHeroRiseLcp {
+	from {
+	opacity:.4;
+	translate:0 calc(18 * var(--gu))
+}
+
+to {
+	opacity:1;
+	translate:0 0
+}
 }
 
 @keyframes apHubHeroRise {
@@ -243,106 +333,139 @@ to {
 
 }
 
-@media (max-width:767px) {
-	.ap-hub-hero {
-	--gu:1px
+/* Laptops: the copy moves to 40px and the art is anchored to the right edge
+ * (the solution-hero's visual box sits 103px in, 60px out below 1181px). */
+@media (max-width:1320px) {
+	.ap-hub-hero .apg-hero-in { left:40px; width:500px }
+	.ap-hub-hero .apg-hero-visual { left:calc(100% - 103px - var(--apg-x1, 1300) * 1px); margin-left:0 }
 }
 
-.ap-hub-hero .apg-hero-stage {
+@media (max-width:1180px) {
+	.ap-hub-hero .apg-hero-in { width:440px }
+	.ap-hub-hero .apg-hero-visual { left:calc(100% + 60px - var(--apg-x1, 1300) * 1px) }
+}
+
+/* Tablets and phones: copy, then the photo group scaled to the width, then the
+ * chips (the solution-hero's stacked layout). --apg-k is one canvas px. */
+@media (max-width:1000px) {
+	.ap-hub-hero .apg-hero-stage {
+	max-width:none;
+	height:auto;
+	padding:56px 0 8px;
 	display:flex;
 	flex-direction:column;
-	aspect-ratio:auto;
-	position:relative
-}
-
-.ap-hub-hero .apg-hero-stage::before {
-	content:"";
-	position:absolute;
-	left:0;
-	right:0;
-	top:0;
-	bottom:0;
-	background-image:var(--apg-mbg, none);
-	background-size:cover;
-	background-position:center bottom;
-	background-repeat:no-repeat;
-	z-index:0
+	container-type:inline-size
 }
 
 .ap-hub-hero .apg-hero-in {
+	order:0;
+	position:static;
+	width:auto;
+	height:auto;
+	max-width:640px;
+	padding:0 40px
+}
+
+.ap-hub-hero .apg-hero-in::before,
+.ap-hub-hero .apg-hero-in::after {
+	display:none
+}
+
+.ap-hub-hero .apg-hero-visual {
+	--apg-a:min(100cqw - 40px, 600px);
+	--apg-k:calc(var(--apg-a) / var(--apg-rw, 660));
+	order:1;
+	position:relative;
+	flex:none;
+	align-self:flex-start;
+	top:auto;
+	left:auto;
+	width:calc(1440 * var(--apg-k));
+	height:calc(640 * var(--apg-k));
+	margin:calc(32px - var(--apg-y0, 56) * var(--apg-k)) 0 0 calc((100cqw - var(--apg-a)) / 2 - var(--apg-x0, 650) * var(--apg-k));
+	clip-path:inset(calc(var(--apg-y0, 56) * var(--apg-k)) 0 0 0)
+}
+
+.ap-hub-hero .apg-hero-bg,
+.ap-hub-hero .apg-hero-veil {
+	left:0;
+	width:100%
+}
+
+.ap-hub-hero .apg-hero-veil {
+	height:calc(191 * var(--apg-k))
+}
+
+/* The backdrop fades in under the copy instead of starting at a hard edge. */
+.ap-hub-hero .apg-hero-bg {
+	-webkit-mask-image:linear-gradient(180deg,transparent calc(var(--apg-y0, 56) * var(--apg-k)),#000 calc((var(--apg-y0, 56) + 160) * var(--apg-k)));
+	mask-image:linear-gradient(180deg,transparent calc(var(--apg-y0, 56) * var(--apg-k)),#000 calc((var(--apg-y0, 56) + 160) * var(--apg-k)))
+}
+
+.ap-hub-hero .apg-feats {
+	order:2;
 	position:relative;
 	left:auto;
-	top:auto;
+	bottom:auto;
 	transform:none;
-	order:1;
-	width:100%;
-	padding:24px 24px 4px;
+	width:auto;
+	margin:-64px 0 0;
+	padding:64px 40px 20px;
+	justify-content:flex-start;
+	gap:16px;
+	z-index:5;
+	background:linear-gradient(180deg,rgba(255,255,255,0) 0,rgba(255,255,255,.9) 44px,#fff 64px)
+}
+
+
+}
+
+/* Phones: centred copy, a full-width button, centred badges, the chips scroll. */
+@media (max-width:700px) {
+	.ap-hub-hero .apg-hero-in {
 	align-items:center;
-	text-align:center;
-	gap:10px
-}
-
-.ap-hub-hero .apg-eyebrow {
-	font-size:12px;
-	letter-spacing:.48px
-}
-
-.ap-hub-hero h1.apg-h1 {
-	font-size:30px
-}
-
-.ap-hub-hero .apg-hero-body {
-	font-size:15px
+	text-align:center
 }
 
 .ap-hub-hero .apg-cta-row {
 	flex-direction:column;
 	align-items:center;
-	gap:16px;
-	padding-top:6px
+	gap:16px
 }
 
 .ap-hub-hero .apg-btn {
-	width:100%;
-	font-size:16px;
-	min-height:46px;
-	padding:14px
+	width:100%
 }
 
 .ap-hub-hero .apg-badges {
-	gap:20px;
 	justify-content:center
 }
 
-.ap-hub-hero .apg-hero-visual {
-	order:2;
-	position:relative;
-	inset:auto;
-	width:100%;
-	aspect-ratio:360/330;
-	overflow:hidden
-}
-
-.ap-hub-hero .apg-hero-bg,.ap-hub-hero .apg-hero-photo,.ap-hub-hero .apg-hero-p3w,.ap-hub-hero .apg-hero-veil {
-	display:none
-}
-
-.ap-hub-hero .apg-hero-in,.ap-hub-hero .apg-hero-visual,.ap-hub-hero .apg-feats {
-	position:relative;
-	z-index:1
-}
-
 .ap-hub-hero .apg-feats {
-	position:relative;
-	left:auto;
-	transform:none;
-	bottom:auto;
-	order:3;
-	width:100%;
-	max-width:none;
+	padding:64px 0 18px;
 	overflow:hidden;
-	justify-content:flex-start;
-	padding:8px 0 16px
+	flex-wrap:nowrap
+}
+
+.ap-hub-hero .apg-feats::before,
+.ap-hub-hero .apg-feats::after {
+	content:"";
+	position:absolute;
+	bottom:0;
+	height:calc(100% - 64px);
+	width:32px;
+	z-index:1;
+	pointer-events:none
+}
+
+.ap-hub-hero .apg-feats::before {
+	left:0;
+	background:linear-gradient(90deg,#fff,rgba(255,255,255,0))
+}
+
+.ap-hub-hero .apg-feats::after {
+	right:0;
+	background:linear-gradient(270deg,#fff,rgba(255,255,255,0))
 }
 
 .ap-hub-hero .apg-feats-track {
@@ -356,7 +479,8 @@ to {
 }
 
 .ap-hub-hero .apg-feat {
-	margin-right:28px
+	margin-right:28px;
+	padding:8px 0
 }
 
 .ap-hub-hero .apg-feat-dup {
@@ -378,43 +502,36 @@ to {
 
 }
 
-/*apbnfix3*/@media (max-width:767px) {
-	.ap-hub-hero .apg-hero-stage::before {
-	background-image:var(--apg-mbg, none),var(--apg-mbg, none);
-	background-size:100% auto,cover;
-	background-position:center bottom,center top;
-	background-repeat:no-repeat
+@media (max-width:640px) {
+	.ap-hub-hero .apg-hero-stage { padding-top:40px }
+	.ap-hub-hero .apg-hero-in { padding:0 20px }
+	.ap-hub-hero .apg-badges { gap:16px }
 }
 
-.ap-hub-hero .apg-hero-visual {
-	aspect-ratio:var(--apg-mratio, 393/378)
+@media (prefers-reduced-motion: reduce) {
+	.ap-hub-hero .apg-feats-track { animation:none }
+	.ap-hub-hero .apg-feat-dup { display:none }
 }
 
-
+/* No photos: fall back to the phone composite under the copy (mobile_background). */
+@media (max-width:1000px) {
+	.ap-hub-hero:not(:has(.apg-hero-photo, .apg-hero-p3w)) .apg-hero-visual {
+	width:100%;
+	height:auto;
+	margin:32px 0 0;
+	clip-path:none;
+	aspect-ratio:var(--apg-mratio, 393/378);
+	background:var(--apg-mbg, none) center bottom / cover no-repeat
 }
 
-.ap-hub-hero .apg-badges img {
-	width:auto;
-	height:calc(66 * var(--gu));
-	object-fit:contain
-}
-
-.ap-hub-hero .apg-feat .ap-inline-icon svg {
-	width:24px;
-	height:24px;
-	display:block
-}
-
-@media (max-width:767px) {
-	.ap-hub-hero .apg-badges img {
-	height:50px
+.ap-hub-hero:not(:has(.apg-hero-photo, .apg-hero-p3w)) .apg-hero-bg {
+	display:none
 }
 
 
 }
 
-/* Education hub: the chips sit in a ruled band under the stage, and scroll as
- * a marquee on phones (live .ap-hero-feats-band). */
+/* Features band (features_band: true): the chips in a ruled band under the stage. */
 .ap-hub-hero .apg-feats--band {
 	position: static;
 	transform: none;
@@ -431,16 +548,6 @@ to {
 
 @media (max-width: 1024px) {
 	.ap-hub-hero .apg-feats--band { padding: 16px 20px; overflow: hidden; }
-}
-
-/* Live sizes each compliance badge by kind (#ap-gov-hero .apg-badge-*). */
-.ap-hub-hero .apg-badges img.apg-badge-soc2 {width:calc(55.1 * var(--gu));height:calc(70 * var(--gu))}
-.ap-hub-hero .apg-badges img.apg-badge-govramp {width:calc(65.92 * var(--gu));height:calc(66 * var(--gu))}
-.ap-hub-hero .apg-badges img.apg-badge-hipaa {width:calc(101.98 * var(--gu));height:calc(55.39 * var(--gu))}
-@media (max-width:767px) {
-	.ap-hub-hero .apg-badges img.apg-badge-soc2 {width:42px;height:54px}
-	.ap-hub-hero .apg-badges img.apg-badge-govramp {width:50px;height:50px}
-	.ap-hub-hero .apg-badges img.apg-badge-hipaa {width:80px;height:44px}
 }
 
 
@@ -471,16 +578,16 @@ to {
 .ap-hub-hero.ap-hub-hero--eduhub .apf-dash img{position:absolute;object-fit:fill;border:0;max-width:none;margin:0;top:-26.5%;left:-23.38%;width:123.38%;height:149.06%}
 .ap-hub-hero.ap-hub-hero--eduhub .apf-photo{position:absolute}
 .ap-hub-hero.ap-hub-hero--eduhub .apf-photo img{position:absolute;object-fit:fill;border:0;max-width:none;margin:0}
-.ap-hub-hero.ap-hub-hero--eduhub .apf-photo1{left:51.875%;top:14.464%;width:28.958%;height:100.000%;animation:apHubHeroEduApfRise .8s cubic-bezier(.25,.45,.45,.95) .1s both}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-photo1{left:51.875%;top:14.464%;width:28.958%;height:100.000%;animation:apHubHeroEduApfRiseLcp .8s cubic-bezier(.25,.45,.45,.95) .1s both}
 .ap-hub-hero.ap-hub-hero--eduhub .apf-photo1 img{left:-0.04%;top:0;width:100.08%;height:111.79%}
-.ap-hub-hero.ap-hub-hero--eduhub .apf-photo2{left:64.024%;top:36.429%;width:25.278%;height:78.036%;animation:apHubHeroEduApfRise .8s cubic-bezier(.25,.45,.45,.95) .2s both}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-photo2{left:64.024%;top:36.429%;width:25.278%;height:78.036%;animation:apHubHeroEduApfRiseLcp .8s cubic-bezier(.25,.45,.45,.95) .2s both}
 .ap-hub-hero.ap-hub-hero--eduhub .apf-photo2 img{left:0;top:0;width:100%;height:124.94%}
-.ap-hub-hero.ap-hub-hero--eduhub .apf-photo3{left:44.517%;top:37.857%;width:26.806%;height:76.607%;animation:apHubHeroEduApfRise .8s cubic-bezier(.25,.45,.45,.95) .3s both}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-photo3{left:44.517%;top:37.857%;width:26.806%;height:76.607%;animation:apHubHeroEduApfRiseLcp .8s cubic-bezier(.25,.45,.45,.95) .3s both}
 .ap-hub-hero.ap-hub-hero--eduhub .apf-photo3 img{left:-0.09%;top:0;width:100.17%;height:135.2%}
 .ap-hub-hero.ap-hub-hero--eduhub .apf-veil{position:absolute;left:0;right:0;bottom:0;height:66.429%;background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0) 25.86%,rgba(255,255,255,.846) 72.753%,rgba(255,255,255,1) 100%);left:calc(50% - 50vw);right:auto;width:100vw}
 .ap-hub-hero.ap-hub-hero--eduhub .apf-content{position:absolute;left:max(11.111%,calc(50% - 560px));top:52.500%;width:min(38.889%,560px);transform:translateY(-50%);display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:16px;line-height:normal}
 .ap-hub-hero.ap-hub-hero--eduhub .apf-eyebrow{margin:0;width:100%;font-weight:800;line-height:1.2;color:#5044e1;font-size:14px;letter-spacing:.56px;text-transform:uppercase;opacity:0;animation:apHubHeroEduApfRiseText .6s cubic-bezier(.25,.45,.45,.95) .15s forwards}
-.ap-hub-hero.ap-hub-hero--eduhub .apf-headline{margin:0;width:100%;font-weight:800;line-height:1.2;color:#25272c;font-size:48px;opacity:0;animation:apHubHeroEduApfRiseText .6s cubic-bezier(.25,.45,.45,.95) .28s forwards}
+.ap-hub-hero.ap-hub-hero--eduhub .apf-headline{margin:0;width:100%;font-weight:800;line-height:1.2;color:#25272c;font-size:48px;opacity:0;animation:apHubHeroEduApfRiseTextLcp .6s cubic-bezier(.25,.45,.45,.95) .28s both}
 .ap-hub-hero.ap-hub-hero--eduhub .apf-headline .apf-grad{background-image:linear-gradient(38.8deg,#5044e1 0%,#00a991 70.44%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
 .ap-hub-hero.ap-hub-hero--eduhub .apf-body{margin:0;width:100%;font-weight:400;line-height:1.5;color:#5b616e;font-size:18px;opacity:0;animation:apHubHeroEduApfRiseText .6s cubic-bezier(.25,.45,.45,.95) .4s forwards}
 .ap-hub-hero.ap-hub-hero--eduhub .apf-cta-row{display:flex;gap:24px;align-items:center;padding-top:16px;width:100%;opacity:0;animation:apHubHeroEduApfRiseText .6s cubic-bezier(.25,.45,.45,.95) .52s forwards}
@@ -497,6 +604,14 @@ to {
 to{opacity:.4}
 }
 @keyframes apHubHeroEduApfRise{from{opacity:0;transform:translateY(14px)}
+to{opacity:1;transform:translateY(0)}
+}
+/* LCP (QA 2026-10-28): the H1 and the hero photo enter from 40% opacity instead of 0, so they are painted
+   (and count for Largest Contentful Paint) on the first frame; the rise is unchanged. */
+@keyframes apHubHeroEduApfRiseLcp{from{opacity:.4;transform:translateY(14px)}
+to{opacity:1;transform:translateY(0)}
+}
+@keyframes apHubHeroEduApfRiseTextLcp{from{opacity:.4;transform:translateY(10px)}
 to{opacity:1;transform:translateY(0)}
 }
 @keyframes apHubHeroEduApfRiseText{from{opacity:0;transform:translateY(10px)}
@@ -607,3 +722,59 @@ to{transform:translateX(-50%)}
 }
 /* Live's page script repaints every primary button with this gradient (inline style). */
 .ap-hub-hero.ap-hub-hero--eduhub .apf-cta-row .ap-btn.ap-btn-primary {background-image:linear-gradient(54.33deg,#5044e1 0%,#00a991 70.44%)}
+
+/* QA 2026-10-29 (Joseph, sitewide): on phones the hero's eyebrow sits 16px under the header, as on the K-12 page
+ * (his reference for the spacing). */
+@media (max-width: 767px) {
+	html body .apg-hero-stage {
+		padding-top: 16px !important;
+	}
+}
+
+/* ------------------------------------------------------------ Figma hero frame on desktops (QA 2026-10-29 evening)
+ * Joseph: "the hero images have become too small ... let's follow the hero banners in figma for accuracy. Exactly as
+ * figma dictates." Each hub's Figma hero is a 1440 x 640 frame drawn from the page top with its nav over the first
+ * 64px, and the art canvas is that frame (the photos are placed in % of it by the props). Here the 72px header sits
+ * above the hero, so the hero is the frame's lower 568px and the canvas is drawn from 72px above it: every photo is
+ * back at its Figma size and page position, standing on the hero's foot. This replaces the copy / art spacing pass
+ * from earlier today (the canvas scaled to about .6-.75 about the photo group's right edge):
+ *  - the band is 568px (the frame's 640 less the header);
+ *  - the copy is centred where Figma centres it, 13.5px below the frame's middle (page y 333.5): the column's two
+ *    spacers share the free height equally inside a box that starts 13px down, so a hub with a shorter lede sits
+ *    lower, as in its frame;
+ *  - the white fade over the photos' feet is Figma's (Government and Healthcare frames: 372px tall, from y 269;
+ *    it was the solution hero's 191px);
+ *  - narrower desktops (1001-1439px) scale the canvas with the stage (stage / 1440, read as tan(atan2(stage,
+ *    1440px)); the section is the size container) about its left foot, so the photos keep Figma's proportions and
+ *    still stand on the foot; the backdrop and the white fade inside the canvas take the inverse scale about the
+ *    same point, so they still cover the hero. Wider screens keep the 1440 canvas centred with the backdrop and the
+ *    fade running to the window edges.
+ * Without container units or trig functions the ratio takes fixed steps. Tablets and phones are untouched. */
+@media (min-width: 1001px) {
+	.ap-hub-hero:not(.ap-hub-hero--eduhub) { --apg-f: var(--apg-s, 1); }
+	.ap-hub-hero .apg-hero-stage { height: 568px; }
+	.ap-hub-hero .apg-hero-visual { top: -72px; left: 0; margin-left: 0; scale: var(--apg-f, 1); transform-origin: 0 100%; }
+	.ap-hub-hero .apg-hero-visual > .apg-hero-bg,
+	.ap-hub-hero .apg-hero-visual > .apg-hero-veil { scale: calc(1 / var(--apg-f, 1)); transform-origin: 0 100%; }
+	.ap-hub-hero .apg-hero-visual > .apg-hero-veil { height: 372px; }
+	.ap-hub-hero .apg-hero-in { padding-top: 13px; }
+	.ap-hub-hero .apg-hero-in::before,
+	.ap-hub-hero .apg-hero-in::after { flex: 1 1 0; min-height: 0; }
+}
+@media (min-width: 1001px) and (max-width: 1180px) {
+	.ap-hub-hero:not(.ap-hub-hero--eduhub) { --apg-s: .75; }
+}
+@media (min-width: 1181px) and (max-width: 1320px) {
+	.ap-hub-hero:not(.ap-hub-hero--eduhub) { --apg-s: .86; }
+}
+@media (min-width: 1321px) and (max-width: 1439px) {
+	.ap-hub-hero:not(.ap-hub-hero--eduhub) { --apg-s: .95; }
+}
+@media (min-width: 1321px) {
+	.ap-hub-hero .apg-hero-in { left: max(40px, (100% - 1120px) / 2); }
+}
+@supports (width: 1cqw) and (scale: tan(atan2(1px, 2px))) {
+	@media (min-width: 1001px) {
+		.ap-hub-hero:not(.ap-hub-hero--eduhub) { container-type: inline-size; --apg-s: tan(atan2(min(100cqw, 1440px), 1440px)); }
+	}
+}

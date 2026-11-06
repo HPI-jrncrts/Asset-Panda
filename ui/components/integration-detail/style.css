@@ -36,6 +36,13 @@
 	background: var(--ap-white);
 }
 
+/* With the integration-titlebar on the page (51px, sliding in under the site
+ * header once the H1 has gone), the sticky index and the jump offset clear it
+ * too: header 72 + bar 51 + the same 32px gap (60 + 51 + 28 below 1025px). */
+body:has(.ap-integration-titlebar) .ap-integration-detail {
+	--ap-idet-sticky-top: 155px;
+}
+
 .ap-integration-detail--tone-indigo { --ap-idet-tone: var(--ap-brand-indigo); --ap-idet-tone-50: var(--ap-indigo-50); }
 .ap-integration-detail--tone-teal   { --ap-idet-tone: var(--ap-brand-green);  --ap-idet-tone-50: var(--ap-green-50); }
 .ap-integration-detail--tone-amber  { --ap-idet-tone: var(--ap-brand-yellow); --ap-idet-tone-50: var(--ap-yellow-50); }
@@ -219,6 +226,78 @@
 	visibility: hidden;
 }
 
+/* ---- Overview logo card (split-hero pages: the video lives in the hero) ----
+ * The hero's frosted partner + Asset Panda PRO card, set on the same colour
+ * wash, in the video's 780px slot. The logos run larger than in the old hero
+ * (80px; 56px on phones); a wide wordmark is capped at 200px. */
+.ap-integration-detail__pair {
+	display: grid;
+	place-items: center;
+	min-height: clamp(220px, 175.45px + 11.43vw, 340px);
+	padding: 32px 24px;
+	background-color: var(--ap-white);
+	background-image: url("assets/pair-bg.webp");
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	border: 1px solid var(--ap-slate-100);
+	border-radius: var(--ap-radius-xl);
+}
+
+.ap-integration-detail__pair-card {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 20px;
+	max-width: 100%;
+	padding: 28px 36px;
+	background: color-mix(in srgb, var(--ap-white) 40%, transparent);
+	border: 1px solid var(--ap-white);
+	border-radius: var(--ap-radius-xl);
+}
+
+.ap-integration-detail__pair-logo {
+	display: block;
+	width: auto;
+	height: 80px;
+	max-width: 200px;
+	object-fit: contain;
+}
+
+.ap-integration-detail__pair-plus {
+	display: block;
+	flex: none;
+	width: 12px;
+	height: 12px;
+}
+
+.ap-integration-detail__pair-brand {
+	display: block;
+	flex: none;
+	width: 76px;
+	height: 80px;
+}
+
+@media (max-width: 639.98px) {
+	.ap-integration-detail__pair {
+		border-radius: var(--ap-radius-lg);
+	}
+
+	.ap-integration-detail__pair-card {
+		gap: 14px;
+		padding: 18px 22px;
+	}
+
+	.ap-integration-detail__pair-logo { height: 56px; max-width: 150px; }
+	.ap-integration-detail__pair-brand { width: 53px; height: 56px; }
+	.ap-integration-detail__pair-plus { width: 10px; height: 10px; }
+}
+
+@media (forced-colors: active) {
+	.ap-integration-detail__pair,
+	.ap-integration-detail__pair-card { border-color: CanvasText; }
+}
+
 /* ---- Key capabilities: tinted cards ---- */
 .ap-integration-detail .ap-integration-detail__cards {
 	display: grid;
@@ -323,6 +402,7 @@
 }
 
 .ap-integration-detail__step-text {
+	max-width: 760px;
 	color: var(--ap-text-body);
 	font-size: 1rem;
 	line-height: 1.5;
@@ -504,6 +584,254 @@
 	outline-offset: 2px;
 }
 
+/* ---- Supported data: a ruled table in a rounded frame ----
+ * The header row sits on the indigo wash; each row's first cell is its row
+ * header (heading colour, bold). The frame scrolls sideways if a long table
+ * ever outgrows the column; below 640px every row becomes a card whose cells
+ * carry their column label. */
+.ap-integration-detail__table-wrap {
+	overflow-x: auto;
+	background: var(--ap-white);
+	border: 1px solid var(--ap-slate-200);
+	border-radius: var(--ap-radius-lg);
+}
+
+.ap-integration-detail__table-wrap:focus-visible {
+	outline: 2px solid var(--ap-brand-indigo);
+	outline-offset: 2px;
+}
+
+.ap-integration-detail .ap-integration-detail__table {
+	width: 100%;
+	margin: 0;
+	border: 0;
+	border-collapse: separate;
+	border-spacing: 0;
+	font-size: 1rem;
+	line-height: 1.5;
+	text-align: left;
+}
+
+.ap-integration-detail .ap-integration-detail__table th,
+.ap-integration-detail .ap-integration-detail__table td {
+	padding: 16px 20px;
+	vertical-align: top;
+	text-align: left;
+	background: none;
+	border: 0;
+}
+
+.ap-integration-detail .ap-integration-detail__table thead th {
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-utility);
+	font-size: 0.875rem;
+	font-weight: var(--ap-weight-button, 600);
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+	background: var(--ap-indigo-50);
+	border-bottom: 1px solid var(--ap-indigo-200);
+}
+
+.ap-integration-detail .ap-integration-detail__table tbody tr + tr > * {
+	border-top: 1px solid var(--ap-slate-200);
+}
+
+.ap-integration-detail .ap-integration-detail__table tbody th {
+	color: var(--ap-text-heading);
+	font-family: var(--ap-font-display);
+	font-weight: var(--ap-type-heading-weight, 800);
+}
+
+.ap-integration-detail .ap-integration-detail__table td {
+	color: var(--ap-text-body);
+}
+
+.ap-integration-detail__table--cols-2 tbody th { width: 30%; }
+.ap-integration-detail__table--cols-3 tbody th { width: 28%; }
+.ap-integration-detail__table--cols-3 td:nth-child(2) { width: 26%; }
+
+/* Small print under a table or a checklist. */
+.ap-integration-detail .ap-integration-detail__note {
+	max-width: 720px;
+	color: var(--ap-slate-500);
+	font-size: 0.875rem;
+	line-height: 1.5;
+}
+
+.ap-integration-detail .ap-integration-detail__table-wrap + .ap-integration-detail__note {
+	margin-top: 16px;
+}
+
+/* ---- Steps: one guide link under the list ("Detailed setup: ...") ---- */
+.ap-integration-detail .ap-integration-detail__guide {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	column-gap: 8px;
+	row-gap: 4px;
+	margin-top: 28px;
+	color: var(--ap-text-body);
+	font-size: 1rem;
+	line-height: 1.5;
+}
+
+.ap-integration-detail .ap-integration-detail__guide-link {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	min-height: 44px;
+	color: var(--ap-brand-indigo);
+	font-family: var(--ap-font-utility);
+	font-weight: var(--ap-weight-button, 600);
+	text-decoration: underline;
+	text-decoration-color: transparent;
+	text-underline-offset: 4px;
+	transition: text-decoration-color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-integration-detail .ap-integration-detail__guide-link:visited {
+	color: var(--ap-brand-indigo);
+}
+
+.ap-integration-detail .ap-integration-detail__guide-link:hover {
+	color: var(--ap-brand-indigo);
+	text-decoration-color: currentColor;
+}
+
+.ap-integration-detail .ap-integration-detail__guide-link:hover .ap-integration-detail__link-arrow {
+	translate: 4px 0;
+}
+
+.ap-integration-detail .ap-integration-detail__guide-link:focus-visible {
+	outline: 2px solid var(--ap-brand-indigo);
+	outline-offset: 2px;
+	border-radius: var(--ap-radius-sm);
+}
+
+/* ---- Requirements: checklist (an indigo tick in a tinted disc) ---- */
+.ap-integration-detail .ap-integration-detail__checks {
+	display: grid;
+	gap: 14px;
+	max-width: 720px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ap-integration-detail .ap-integration-detail__checks li {
+	position: relative;
+	margin: 0;
+	padding-left: 36px;
+	color: var(--ap-text-body);
+	font-size: var(--ap-type-lede-size);
+	line-height: 1.5;
+}
+
+.ap-integration-detail__checks li::before,
+.ap-integration-detail__checks li::after {
+	content: "";
+	position: absolute;
+}
+
+.ap-integration-detail__checks li::before {
+	left: 0;
+	top: calc(0.75em - 12px);
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	background: var(--ap-indigo-50);
+	border: 1px solid var(--ap-indigo-200);
+}
+
+.ap-integration-detail__checks li::after {
+	left: 7px;
+	top: calc(0.75em - 5px);
+	width: 10px;
+	height: 6px;
+	border-left: 2px solid var(--ap-brand-indigo);
+	border-bottom: 2px solid var(--ap-brand-indigo);
+	rotate: -45deg;
+}
+
+.ap-integration-detail .ap-integration-detail__checks + .ap-integration-detail__note {
+	margin-top: 20px;
+}
+
+.ap-integration-detail .ap-integration-detail__checks + .ap-integration-detail__help,
+.ap-integration-detail .ap-integration-detail__note + .ap-integration-detail__help,
+.ap-integration-detail .ap-integration-detail__guide + .ap-integration-detail__help {
+	margin-top: 32px;
+}
+
+/* A guide link right after a checklist or its note sits a little closer. */
+.ap-integration-detail .ap-integration-detail__checks + .ap-integration-detail__guide,
+.ap-integration-detail .ap-integration-detail__note + .ap-integration-detail__guide {
+	margin-top: 16px;
+}
+
+/* Phones: every table row becomes a card — its row header on top, then each
+ * cell under its column label (the header row is kept for screen readers). */
+@media (max-width: 639.98px) {
+	.ap-integration-detail .ap-integration-detail__table,
+	.ap-integration-detail .ap-integration-detail__table tbody,
+	.ap-integration-detail .ap-integration-detail__table tr,
+	.ap-integration-detail .ap-integration-detail__table th,
+	.ap-integration-detail .ap-integration-detail__table td {
+		display: block;
+		width: auto;
+	}
+
+	.ap-integration-detail .ap-integration-detail__table thead {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
+	}
+
+	.ap-integration-detail .ap-integration-detail__table tbody tr {
+		padding: 16px 0;
+	}
+
+	.ap-integration-detail .ap-integration-detail__table tbody tr + tr {
+		border-top: 1px solid var(--ap-slate-200);
+	}
+
+	.ap-integration-detail .ap-integration-detail__table tbody tr + tr > * {
+		border-top: 0;
+	}
+
+	.ap-integration-detail .ap-integration-detail__table th,
+	.ap-integration-detail .ap-integration-detail__table td {
+		padding: 4px 16px;
+	}
+
+	.ap-integration-detail .ap-integration-detail__table td[data-label]::before {
+		content: attr(data-label);
+		display: block;
+		margin-top: 8px;
+		color: var(--ap-slate-500);
+		font-family: var(--ap-font-utility);
+		font-size: 0.75rem;
+		font-weight: var(--ap-weight-button, 600);
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-integration-detail .ap-integration-detail__guide-link { transition: none; }
+	.ap-integration-detail .ap-integration-detail__guide-link:hover .ap-integration-detail__link-arrow { translate: none; }
+}
+
+@media (forced-colors: active) {
+	.ap-integration-detail__table-wrap,
+	.ap-integration-detail .ap-integration-detail__table thead th,
+	.ap-integration-detail .ap-integration-detail__table tbody tr + tr > * { border-color: CanvasText; }
+	.ap-integration-detail__checks li::after { border-color: CanvasText; }
+}
+
 /* ---- The index ----
  * Figma: 282px, rows 16px tall padding, 1px rules; the current row's 8px dot
  * wears its part's colour. Figma greys the other rows to #d8dbdf (1.4:1); they
@@ -574,6 +902,12 @@
 		max-width: 780px;
 	}
 
+	/* index: false — the parts take the whole container (as wide as the FAQ
+	 * below); headings, copy and lists keep their reading measure. */
+	.ap-integration-detail__layout--single.ap-integration-detail__layout--wide {
+		max-width: none;
+	}
+
 	.ap-integration-detail__nav {
 		position: sticky;
 		top: var(--ap-idet-sticky-top);
@@ -613,6 +947,10 @@
 @media (max-width: 1024.98px) {
 	.ap-integration-detail {
 		--ap-idet-sticky-top: 88px;
+	}
+
+	body:has(.ap-integration-titlebar) .ap-integration-detail {
+		--ap-idet-sticky-top: 139px;
 	}
 
 	.ap-integration-detail__layout {
@@ -761,4 +1099,115 @@
 	.ap-integration-detail__card,
 	.ap-integration-detail__help { border-color: CanvasText; }
 	.ap-integration-detail .ap-integration-detail__nav a[aria-current="true"] .ap-integration-detail__nav-dot { background-color: Highlight; }
+}
+
+/* ---- size "compact": a lighter body (the integration detail pages) ----
+ * Headings 20–24px (the section title too, so "About ..." matches the parts),
+ * card / step titles 18px, copy 16px, table 15px, tighter cards and spacing.
+ * Same layout; only type, padding and gaps step down. */
+.ap-integration-detail--compact {
+	--ap-idet-h3: clamp(1.25rem, 1.1786rem + 0.3048vw, 1.5rem);
+	--ap-idet-part-gap: clamp(44px, 39.55px + 1.143vw, 64px);
+	--ap-idet-body-gap: clamp(20px, 18.22px + 0.457vw, 28px);
+}
+
+.ap-integration-detail--compact .ap-integration-detail__title {
+	font-size: var(--ap-idet-h3);
+	line-height: 1.35;
+}
+
+.ap-integration-detail--compact .ap-integration-detail__lede,
+.ap-integration-detail--compact .ap-integration-detail__copy,
+.ap-integration-detail--compact .ap-integration-detail__card-text,
+.ap-integration-detail--compact .ap-integration-detail__checks li {
+	font-size: 1rem;
+}
+
+.ap-integration-detail--compact .ap-integration-detail__card-title,
+.ap-integration-detail--compact .ap-integration-detail__step-title {
+	font-size: clamp(1.0625rem, 1.0446rem + 0.0762vw, 1.125rem);
+	line-height: 1.35;
+}
+
+.ap-integration-detail--compact .ap-integration-detail__cards {
+	gap: 12px;
+}
+
+.ap-integration-detail--compact .ap-integration-detail__card {
+	min-height: 0;
+}
+
+.ap-integration-detail--compact .ap-integration-detail__card-lead {
+	gap: 12px;
+}
+
+.ap-integration-detail--compact .ap-integration-detail__card-icon,
+.ap-integration-detail--compact .ap-integration-detail__card-icon img,
+.ap-integration-detail--compact .ap-integration-detail__card-icon svg {
+	width: 28px;
+	height: 28px;
+}
+
+.ap-integration-detail--compact .ap-integration-detail__steps {
+	gap: 16px;
+}
+
+.ap-integration-detail--compact .ap-integration-detail__step {
+	gap: 10px;
+}
+
+.ap-integration-detail--compact .ap-integration-detail__step-num {
+	width: 24px;
+	font-size: 1.125rem;
+}
+
+.ap-integration-detail--compact .ap-integration-detail__step-text,
+.ap-integration-detail--compact .ap-integration-detail__guide {
+	font-size: 0.9375rem;
+}
+
+.ap-integration-detail--compact .ap-integration-detail__table {
+	font-size: 0.9375rem;
+}
+
+.ap-integration-detail--compact .ap-integration-detail__table th,
+.ap-integration-detail--compact .ap-integration-detail__table td {
+	padding: 12px 16px;
+}
+
+.ap-integration-detail--compact .ap-integration-detail__table thead th {
+	font-size: 0.8125rem;
+}
+
+.ap-integration-detail--compact .ap-integration-detail__note {
+	font-size: 0.8125rem;
+}
+
+.ap-integration-detail--compact .ap-integration-detail__checks {
+	gap: 10px;
+}
+
+@media (min-width: 768px) {
+	.ap-integration-detail--compact .ap-integration-detail__card {
+		gap: 32px;
+		padding: 18px 28px 18px 20px;
+	}
+
+	.ap-integration-detail--compact .ap-integration-detail__step {
+		padding: 16px 32px;
+	}
+}
+
+@media (min-width: 1025px) {
+	.ap-integration-detail--compact .ap-integration-detail__nav a {
+		padding: 14px 0;
+		font-size: 0.9375rem;
+	}
+}
+
+@media (max-width: 639.98px) {
+	.ap-integration-detail--compact .ap-integration-detail__table th,
+	.ap-integration-detail--compact .ap-integration-detail__table td {
+		padding: 4px 16px;
+	}
 }

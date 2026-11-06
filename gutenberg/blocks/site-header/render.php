@@ -25,6 +25,7 @@ $props = array(
 	'logo'            => $attributes['logo'] ?? 'logo-asset-panda.png',
 	'logo_alt'        => $attributes['logo_alt'] ?? 'Asset Panda',
 	'home_url'        => $attributes['home_url'] ?? '/',
+	'logo_link'       => $attributes['logo_link'] ?? true,
 	'nav'             => $attributes['nav'] ?? array(),
 	'login_url'       => $attributes['login_url'] ?? 'https://login.assetpanda.com/users/sign_in',
 	'login_links'     => $attributes['login_links'] ?? array(),

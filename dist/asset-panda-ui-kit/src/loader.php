@@ -625,6 +625,33 @@ function ap_ui_enqueue_motion() {
 }
 
 /**
+ * Register and enqueue the builder animations (src/anim.css): the ap-anim-*
+ * classes a page builder puts on a block. Not part of any component, so the
+ * builder calls this when it sees one of those classes on a rendered block;
+ * a page without them never receives the file.
+ */
+function ap_ui_enqueue_anim() {
+	if ( ! function_exists( 'wp_enqueue_style' ) || '' === AP_UI_URL ) {
+		return;
+	}
+
+	if ( ! wp_style_is( 'ap-ui-anim', 'registered' ) ) {
+		wp_register_style(
+			'ap-ui-anim',
+			AP_UI_URL . '/src/anim.css',
+			array( 'ap-ui-tokens' ),
+			AP_UI_VERSION
+		);
+		ap_ui_allow_inline( 'ap-ui-anim', AP_UI_DIR . '/src/anim.css' );
+	}
+	if ( ! wp_style_is( 'ap-ui-tokens', 'registered' ) ) {
+		wp_register_style( 'ap-ui-tokens', AP_UI_URL . '/src/tokens.css', array(), AP_UI_VERSION );
+		ap_ui_allow_inline( 'ap-ui-tokens', AP_UI_DIR . '/src/tokens.css' );
+	}
+	wp_enqueue_style( 'ap-ui-anim' );
+}
+
+/**
  * Register and enqueue a component's optional behaviour.js.
  *
  * Most components have none — this no-ops cleanly when the file is absent.
@@ -704,7 +731,265 @@ function ap_render_component( $component, array $props = array() ) {
 		return ob_get_clean();
 	};
 
-	return $renderer( $render, $props, $component );
+	$html = $renderer( $render, $props, $component );
+
+	/**
+	 * Filters whether the alt-text pass runs on a component's output.
+	 *
+	 * @param bool   $run       Default true.
+	 * @param string $component Component name.
+	 */
+	if ( is_string( $html ) && function_exists( 'apply_filters' ) && apply_filters( 'ap_ui_alt_pass', true, $component ) ) {
+		try {
+			$html = ap_ui_alt_pass( $html );
+		} catch ( \Throwable $e ) {
+			return $html;
+		}
+	}
+	return $html;
+}
+
+/**
+ * Alt text for every image a component prints (crawl fix, 2026-11-04).
+ *
+ * An <img alt=""> is skipped by screen readers: right for the kit's icons,
+ * arrows and scene layers, and the fallback for photos whose alt was never
+ * written. Crawlers report each one as "missing alt text" (1,459 images on
+ * www, all inside kit sections). For each image whose alt is empty:
+ *  1. an uploads image whose Media Library entry has alt text gets that
+ *     text, written by a person, and stays visible to screen readers;
+ *  2. any other gets a short label from where it sits: the aria-label of the
+ *     link or control around it, else the first heading (or __title /
+ *     __heading / __name element) of the smallest element around it that has
+ *     one (a card's title for a card's image, a section's heading for a
+ *     section's art), else "Arrow" / "Quotation mark" / "Check mark" for
+ *     those glyphs, else "Asset Panda"; plus aria-hidden="true", so assistive
+ *     technology still skips it exactly as it did with alt="".
+ * Never the file name. Images that already have alt text are left alone.
+ *
+ * @param string $html Component output.
+ * @return string
+ */
+function ap_ui_alt_pass( $html ) {
+	if ( ! function_exists( 'wp_strip_all_tags' ) || false === stripos( $html, '<img' )
+		|| ! preg_match( '#<img\b(?![^>]*(?<![\w-])alt\s*=\s*(["\'])\s*[^"\'\s])[^>]*>#i', $html ) ) {
+		return $html;
+	}
+
+	// Blank script/style bodies (same length, so offsets hold) so their text is never read as tags.
+	$scan = preg_replace_callback(
+		'#(<(script|style)\b[^>]*>)(.*?)(</\2>)#is',
+		static function ( $m ) {
+			return $m[1] . str_repeat( ' ', strlen( $m[3] ) ) . $m[4];
+		},
+		$html
+	);
+	if ( ! is_string( $scan ) || ! preg_match_all( '#<(/?)([a-zA-Z][a-zA-Z0-9-]*)\b([^>]*)>#', $scan, $tokens, PREG_SET_ORDER | PREG_OFFSET_CAPTURE ) ) {
+		return $html;
+	}
+
+	$void  = array_flip( array( 'img', 'br', 'hr', 'input', 'meta', 'link', 'source', 'area', 'base', 'col', 'embed', 'param', 'track', 'wbr', 'path', 'circle', 'rect', 'line', 'polygon', 'polyline', 'ellipse', 'stop', 'use' ) );
+	$clean = static function ( $fragment ) {
+		$text = html_entity_decode( wp_strip_all_tags( (string) $fragment ), ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+		$text = trim( preg_replace( '/\s+/u', ' ', $text ) );
+		if ( preg_match( '/^(.{120}).+$/us', $text, $cut ) ) {
+			$text = (string) preg_replace( '/[\s,.;:\x{2013}\x{2014}-]+$/u', '', (string) preg_replace( '/\s+\S*$/u', '', $cut[1] ) );
+		}
+		return $text;
+	};
+	$attr  = static function ( $attrs, $name ) {
+		return preg_match( '/(?<![\w-])' . $name . '\s*=\s*(["\'])(.*?)\1/is', $attrs, $m ) ? $m[2] : null;
+	};
+
+	$elements = array(); // id => [ heading text or '', aria-label or '' ]
+	$stack    = array(); // [ name, id, title-like, content start ]
+	$images   = array(); // [ offset, length, tag, ancestor ids innermost last ]
+	$next_id  = 0;
+	foreach ( $tokens as $t ) {
+		$closing = '/' === $t[1][0];
+		$name    = strtolower( $t[2][0] );
+		$attrs   = $t[3][0];
+		if ( ! $closing ) {
+			if ( 'img' === $name ) {
+				$images[] = array( $t[0][1], strlen( $t[0][0] ), $t[0][0], array_column( $stack, 1 ) );
+				continue;
+			}
+			if ( isset( $void[ $name ] ) || '/' === substr( rtrim( $attrs ), -1 ) ) {
+				continue;
+			}
+			$class     = (string) $attr( $attrs, 'class' );
+			$label     = trim( (string) $attr( $attrs, 'aria-label' ) );
+			$titleish  = (bool) preg_match( '/^h[1-6]$/', $name ) || (bool) preg_match( '/__(title|heading|name|caption)\b/', $class );
+			$elements[ $next_id ] = array( '', html_entity_decode( $label, ENT_QUOTES | ENT_HTML5, 'UTF-8' ) );
+			$stack[]              = array( $name, $next_id, $titleish, $t[0][1] + strlen( $t[0][0] ) );
+			++$next_id;
+			continue;
+		}
+		// Close the nearest open element of this name (tolerant of stray tags).
+		for ( $i = count( $stack ) - 1; $i >= 0; $i-- ) {
+			if ( $stack[ $i ][0] !== $name ) {
+				continue;
+			}
+			$open = $stack[ $i ];
+			if ( $open[2] ) {
+				$text = $clean( substr( $html, $open[3], $t[0][1] - $open[3] ) );
+				if ( '' !== $text ) {
+					// The first heading inside an element names it, and every element around it that has none yet.
+					for ( $k = $i - 1; $k >= 0; $k-- ) {
+						if ( '' === $elements[ $stack[ $k ][1] ][0] ) {
+							$elements[ $stack[ $k ][1] ][0] = $text;
+						}
+					}
+				}
+			}
+			array_splice( $stack, $i );
+			break;
+		}
+	}
+	if ( ! $images ) {
+		return $html;
+	}
+
+	// Media Library alt for the uploads images among them, in one lookup.
+	$srcs = array();
+	foreach ( $images as $im ) {
+		$src = (string) $attr( $im[2], 'src' );
+		$lazy = $attr( $im[2], 'data-[a-z-]*src' );
+		if ( ( '' === $src || 0 === strpos( $src, 'data:' ) ) && null !== $lazy ) {
+			$src = $lazy;
+		}
+		$srcs[] = html_entity_decode( $src, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+	}
+	$library = ap_ui_media_alts( $srcs );
+
+	$out  = '';
+	$prev = 0;
+	foreach ( $images as $n => $im ) {
+		$tag = $im[2];
+		$alt = $attr( $tag, 'alt' );
+		if ( null !== $alt && '' !== trim( $alt ) ) {
+			continue;
+		}
+		$text = isset( $library[ $srcs[ $n ] ] ) ? $library[ $srcs[ $n ] ] : '';
+		$hide = '' === $text;
+		if ( $hide ) {
+			$class = strtolower( (string) $attr( $tag, 'class' ) );
+			if ( preg_match( '/arrow|chev/', $class ) ) {
+				$text = 'Arrow';
+			} elseif ( preg_match( '/quote/', $class ) ) {
+				$text = 'Quotation mark';
+			} elseif ( preg_match( '/\b(check|tick)/', $class ) ) {
+				$text = 'Check mark';
+			} else {
+				foreach ( array_reverse( $im[3] ) as $id ) {
+					if ( '' !== $elements[ $id ][1] ) {
+						$text = $clean( $elements[ $id ][1] );
+						break;
+					}
+					if ( '' !== $elements[ $id ][0] ) {
+						$text = $elements[ $id ][0];
+						break;
+					}
+				}
+			}
+			if ( '' === $text ) {
+				$text = 'Asset Panda';
+			}
+		}
+		$alt_attr = 'alt="' . esc_attr( $text ) . '"';
+		if ( null !== $alt ) {
+			$new = preg_replace_callback(
+				'/(?<![\w-])alt\s*=\s*(["\'])(.*?)\1/is',
+				static function () use ( $alt_attr ) {
+					return $alt_attr;
+				},
+				$tag,
+				1
+			);
+		} else {
+			$end = '/>' === substr( $tag, -2 ) ? -2 : -1;
+			$new = rtrim( substr( $tag, 0, $end ) ) . ' ' . $alt_attr . ( -2 === $end ? ' />' : '>' );
+		}
+		if ( $hide && ! preg_match( '/\baria-hidden\s*=/i', $new ) ) {
+			$new = preg_replace( '/^<img\b/i', '<img aria-hidden="true"', $new, 1 );
+		}
+		$out .= substr( $html, $prev, $im[0] - $prev ) . $new;
+		$prev = $im[0] + $im[1];
+	}
+	return $out . substr( $html, $prev );
+}
+
+/**
+ * Media Library alt text for uploads image URLs (served copies such as
+ * x-1024x768.jpg or x.jpg.w828.webp count as x.jpg). One query per call,
+ * memoised for the request and kept 12 hours in the object cache.
+ *
+ * @param string[] $urls Image URLs.
+ * @return array<string, string> URL => alt ('' when none).
+ */
+function ap_ui_media_alts( array $urls ) {
+	static $memo = array();
+	$result = array();
+	if ( ! $urls || ! function_exists( 'wp_get_upload_dir' ) || empty( $GLOBALS['wpdb'] ) ) {
+		return $result;
+	}
+	$dir   = wp_get_upload_dir();
+	$bpath = (string) wp_parse_url( (string) $dir['baseurl'], PHP_URL_PATH );
+	if ( '' === $bpath ) {
+		return $result;
+	}
+	$rels = array();
+	$need = array();
+	foreach ( array_unique( $urls ) as $url ) {
+		$path = (string) wp_parse_url( (string) $url, PHP_URL_PATH );
+		if ( 0 !== strpos( $path, $bpath . '/' ) ) {
+			continue;
+		}
+		$rel = rawurldecode( substr( $path, strlen( $bpath ) + 1 ) );
+		$rel = preg_replace( '/(\.(?:jpe?g|png|gif|webp|avif))(?:\.w\d+)?\.webp$/i', '$1', $rel );
+		$rel = preg_replace( '/-\d+x\d+(\.[a-z0-9]+)$/i', '$1', (string) $rel );
+		if ( '' === (string) $rel ) {
+			continue;
+		}
+		$rels[ $url ] = $rel;
+		if ( isset( $memo[ $rel ] ) ) {
+			continue;
+		}
+		$hit = function_exists( 'wp_cache_get' ) ? wp_cache_get( md5( $rel ), 'ap_ui_alt' ) : false;
+		if ( false !== $hit ) {
+			$memo[ $rel ] = (string) $hit;
+		} else {
+			$need[ $rel ] = true;
+		}
+	}
+	if ( $need ) {
+		global $wpdb;
+		$values = array();
+		foreach ( array_keys( $need ) as $rel ) {
+			$values[] = $rel;
+			$values[] = preg_replace( '/(\.[a-z0-9]+)$/i', '-scaled$1', $rel );
+		}
+		$in   = implode( ',', array_fill( 0, count( $values ), '%s' ) );
+		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT post_id, meta_value FROM {$wpdb->postmeta} WHERE meta_key = '_wp_attached_file' AND meta_value IN ($in)", $values ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
+		$ids  = array();
+		foreach ( (array) $rows as $row ) {
+			$ids[ preg_replace( '/-scaled(\.[a-z0-9]+)$/i', '$1', (string) $row->meta_value ) ] = (int) $row->post_id;
+		}
+		if ( $ids && function_exists( 'update_meta_cache' ) ) {
+			update_meta_cache( 'post', array_values( $ids ) );
+		}
+		foreach ( array_keys( $need ) as $rel ) {
+			$alt          = isset( $ids[ $rel ] ) ? trim( (string) get_post_meta( $ids[ $rel ], '_wp_attachment_image_alt', true ) ) : '';
+			$memo[ $rel ] = $alt;
+			if ( function_exists( 'wp_cache_set' ) ) {
+				wp_cache_set( md5( $rel ), $alt, 'ap_ui_alt', 12 * HOUR_IN_SECONDS );
+			}
+		}
+	}
+	foreach ( $rels as $url => $rel ) {
+		$result[ $url ] = isset( $memo[ $rel ] ) ? $memo[ $rel ] : '';
+	}
+	return $result;
 }
 
 /**

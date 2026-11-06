@@ -31,7 +31,7 @@ if ( empty( $items ) ) {
 	return;
 }
 ?>
-<section class="ap-solution-awards">
+<section class="ap-solution-awards<?php echo 'grey' === ( $props['tone'] ?? '' ) ? ' ap-solution-awards--grey' : ' ap-solution-awards--white'; ?>">
 	<div class="ap-solution-awards__wrap">
 		<div class="ap-solution-awards__ticker">
 			<div class="ap-solution-awards__row">
@@ -39,7 +39,8 @@ if ( empty( $items ) ) {
 					<img class="ap-solution-awards__rev<?php echo $i ? ' ap-solution-awards__rev--d' . esc_attr( (string) min( $i, 6 ) ) : ''; ?>" src="<?php echo esc_url( $item['image'] ); ?>" alt="<?php echo esc_attr( $item['alt'] ); ?>"<?php echo $item['dims']; // phpcs:ignore WordPress.Security.EscapeOutput -- integers. ?> loading="lazy" decoding="async" />
 				<?php endforeach; ?>
 				<?php foreach ( $items as $item ) : ?>
-					<img class="ap-solution-awards__dup" src="<?php echo esc_url( $item['image'] ); ?>" alt="" aria-hidden="true"<?php echo $item['dims']; // phpcs:ignore WordPress.Security.EscapeOutput -- integers. ?> loading="lazy" decoding="async" />
+					<?php // Eager (WordPress adds loading="lazy" to sized images unless one is set): the duplicate copies sit off-screen in the phone marquee and stayed blank until they scrolled into view. Same URLs as the first row, so no extra request. ?>
+					<img class="ap-solution-awards__dup" src="<?php echo esc_url( $item['image'] ); ?>" alt="" aria-hidden="true"<?php echo $item['dims']; // phpcs:ignore WordPress.Security.EscapeOutput -- integers. ?> loading="eager" decoding="async" />
 				<?php endforeach; ?>
 			</div>
 		</div>

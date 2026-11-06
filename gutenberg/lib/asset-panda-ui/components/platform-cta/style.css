@@ -109,3 +109,72 @@
 @media (max-width: 479px) {
 	.ap-platform-cta .ap-btn-group .ap-btn {flex: 1 1 100% !important; width: 100% !important; white-space: normal !important;}
 }
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: one token above the card and below it (was 80 above and
+ * 72/64/56 below). The closing band paints the upper half of the CTA/footer
+ * seam glow at its bottom edge; site-footer paints the lower half with the
+ * same ellipses (see site-footer/style.css "one seam gradient"). */
+.ap-platform-cta { padding-top: var(--ap-section-y, 64px); }
+.ap-platform-cta .ap-final-cta-section { padding-bottom: var(--ap-section-y, 64px) !important; }
+.ap-platform-cta {
+	background:
+		radial-gradient(ellipse 34% 300px at 6% 100%, rgba(230, 28, 85, .23), rgba(230, 28, 85, .09) 45%, rgba(230, 28, 85, 0) 100%),
+		radial-gradient(ellipse 36% 300px at 50% 100%, rgba(0, 169, 145, .26), rgba(0, 169, 145, .11) 45%, rgba(0, 169, 145, 0) 100%),
+		radial-gradient(ellipse 34% 300px at 94% 100%, rgba(102, 102, 238, .33), rgba(102, 102, 238, .14) 45%, rgba(102, 102, 238, 0) 100%),
+		#fff;
+}
+@media (max-width: 1279px) {
+	.ap-platform-cta {
+		background:
+			radial-gradient(ellipse 40% 220px at 4% 100%, rgba(230, 28, 85, .23), rgba(230, 28, 85, .09) 45%, rgba(230, 28, 85, 0) 100%),
+			radial-gradient(ellipse 42% 220px at 50% 100%, rgba(0, 169, 145, .26), rgba(0, 169, 145, .11) 45%, rgba(0, 169, 145, 0) 100%),
+			radial-gradient(ellipse 40% 220px at 96% 100%, rgba(102, 102, 238, .33), rgba(102, 102, 238, .14) 45%, rgba(102, 102, 238, 0) 100%),
+			#fff;
+	}
+}
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-platform-cta.ap-platform-cta.ap-platform-cta h2 { font-size: var(--ap-type-h2-size) !important; font-weight: var(--ap-type-h2-weight) !important; line-height: var(--ap-type-h2-line) !important; letter-spacing: var(--ap-type-h2-track) !important; }
+
+/* ------------------------------------------------------------ = the homepage's closing card (QA 2026-10-29)
+ * "FOLLOW THE HOMEPAGE (excluding the contents) … The size and placement should be 100% the same." This band is
+ * already a port of the footer's final CTA; what still differed from the homepage's card:
+ *  - side gutters: 24px at every width; the footer's are 24 / 32 (≤1279) / 20 (≤767);
+ *  - the art: a taller image ran 563px wide at its own height (522px on UrsaAI); it now fits the footer art's
+ *    proportion (1126:728, contain, anchored bottom-right), so the art never outgrows the homepage's;
+ *  - phones: the two buttons were forced full width and stacked; they now sit side by side like the homepage's and
+ *    only a label too long for the row wraps to a second row (at content width); ≤360 stacks as the footer does.
+ * Button sizes come from the sitewide CTA button scale (tokens.css). */
+html body .ap-platform-cta.ap-platform-cta { padding-left: 24px; padding-right: 24px; }
+html body .ap-platform-cta.ap-platform-cta .ap-final-cta-art img { height: auto !important; aspect-ratio: 1126 / 728; }
+@media (max-width: 1279px) {
+	html body .ap-platform-cta.ap-platform-cta { padding-left: 32px; padding-right: 32px; }
+}
+@media (max-width: 767px) {
+	html body .ap-platform-cta.ap-platform-cta { padding-left: 20px; padding-right: 20px; }
+}
+@media (max-width: 479px) {
+	html body .ap-platform-cta.ap-platform-cta .ap-btn-group .ap-btn { flex: 0 0 auto !important; width: auto !important; white-space: nowrap !important; }
+}
+@media (max-width: 360px) {
+	html body .ap-platform-cta.ap-platform-cta .ap-btn-group .ap-btn { flex: 1 1 auto !important; width: 100% !important; white-space: normal !important; }
+}
+
+/* QA 2026-10-30 (Joseph, /start-a-free-trial-email-only/: "For the blue section, you can make the height smaller since
+ * it's just a call to action section"): size "compact". The same card, 300px tall instead of 532 on desktops (56px
+ * of padding), the product art scaled to the card's height in the bottom-right corner; stacked layouts (991px and
+ * down) keep the copy, show the art a step smaller and trim the padding. */
+@media (min-width: 992px) {
+	html body .ap-platform-cta.ap-platform-cta--compact .ap-final-cta-card { min-height: 300px !important; padding: 56px 64px !important; }
+	html body .ap-platform-cta.ap-platform-cta--compact .ap-final-cta-copy { gap: 28px !important; }
+	html body .ap-platform-cta.ap-platform-cta--compact .ap-final-cta-art { width: 420px !important; height: 270px !important; }
+	html body .ap-platform-cta.ap-platform-cta--compact .ap-final-cta-art img { width: auto !important; max-width: 100% !important; max-height: 270px !important; }
+}
+@media (max-width: 991px) {
+	html body .ap-platform-cta.ap-platform-cta--compact .ap-final-cta-card { padding-top: 40px !important; }
+	html body .ap-platform-cta.ap-platform-cta--compact .ap-final-cta-art { min-height: 0 !important; max-width: 420px !important; margin: 24px auto 0 !important; }
+}

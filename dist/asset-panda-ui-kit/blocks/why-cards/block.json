@@ -8,6 +8,10 @@
 	"description": "Centred heading over three linked use-case glass cards on a brand splash (indigo / teal orbs on white, fading out at the edges). Live: the .epx-why section on the solution pages, Emergency Preparedness, School Reunification and Help Desk (rules ported). This block is an adapter — it holds no markup; it maps attributes to kit props.",
 	"textdomain": "assetpanda",
 	"attributes": {
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
 		"eyebrow": {
 			"type": "string",
 			"default": ""
@@ -41,6 +45,14 @@
 				2,
 				3
 			]
+		},
+		"groups": {
+			"type": "array",
+			"default": []
+		},
+		"note": {
+			"type": "string",
+			"default": ""
 		},
 		"align": {
 			"type": "string",

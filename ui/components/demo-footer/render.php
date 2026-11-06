@@ -31,14 +31,17 @@ $ap_px = static function ( $value ) {
 $ap_apps    = $ap_list( $props['apps'], 'image' );
 $ap_links   = $ap_list( $props['links'], 'url' );
 $ap_social  = $ap_list( $props['social'], 'url' );
+$ap_logo    = trim( (string) $props['logo'] );
 $ap_address = trim( (string) $props['address'] );
 $ap_copy    = trim( (string) $props['copyright'] );
 $ap_pin     = ap_ui_asset_url( 'demo-footer', 'icon-map-pin.svg' );
 ?>
-<section class="ap-demo-footer ap-d26-sec" aria-label="<?php echo esc_attr( $props['logo_alt'] ); ?>" data-ap-demo-footer>
+<section class="ap-demo-footer ap-d26-sec<?php echo true === $props['slim'] ? ' ap-demo-footer--slim' : ''; ?>" aria-label="<?php echo esc_attr( $props['logo_alt'] ); ?>" data-ap-demo-footer>
 	<div class="ap-d26-foot">
 		<div class="ap-d26-foot-left">
-			<a class="ap-d26-foot-logo" href="<?php echo esc_url( $props['logo_url'] ); ?>" aria-label="<?php echo esc_attr( trim( (string) $props['logo_alt'] ) . ' home' ); ?>"><img src="<?php echo esc_url( $props['logo'] ); ?>" alt="<?php echo esc_attr( $props['logo_alt'] ); ?>" width="140" height="54" loading="lazy" decoding="async"></a>
+			<?php if ( '' !== $ap_logo ) : ?>
+				<a class="ap-d26-foot-logo" href="<?php echo esc_url( $props['logo_url'] ); ?>" aria-label="<?php echo esc_attr( trim( (string) $props['logo_alt'] ) . ' home' ); ?>"><img src="<?php echo esc_url( $ap_logo ); ?>" alt="<?php echo esc_attr( $props['logo_alt'] ); ?>" width="140" height="54" loading="lazy" decoding="async"></a>
+			<?php endif; ?>
 			<?php if ( '' !== $ap_copy ) : ?>
 				<p class="ap-d26-foot-copy"><?php echo esc_html( $ap_copy ); ?></p>
 			<?php endif; ?>

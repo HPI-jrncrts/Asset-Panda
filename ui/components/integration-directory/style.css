@@ -1055,3 +1055,18 @@
 		top: 104px;
 	}
 }
+
+/* QA 2026-10-30 (Joseph, /integrations/): "let's remove all 'Learn More->' hyperlinks. The container cannot be clickable
+ * although leave the hover effect as is." The hub's cards carry no url any more (page content), so they are not links
+ * and draw no Learn More row; the lift-and-tint hover that only linked cards had now belongs to every hub card. The
+ * compare layouts keep their own look. */
+@media (hover: hover) {
+	.ap-integration-directory:not(.ap-integration-directory--compare) .ap-integration-directory__card:hover {
+		translate: 0 -2px;
+		border-color: var(--ap-indigo-100);
+		background: var(--ap-indigo-50);
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.ap-integration-directory:not(.ap-integration-directory--compare) .ap-integration-directory__card:hover { translate: 0 0; }
+}

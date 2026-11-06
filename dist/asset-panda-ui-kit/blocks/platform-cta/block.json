@@ -44,6 +44,14 @@
 			"type": "string",
 			"default": ""
 		},
+		"size": {
+			"type": "string",
+			"default": "default",
+			"enum": [
+				"default",
+				"compact"
+			]
+		},
 		"align": {
 			"type": "string",
 			"default": "full"

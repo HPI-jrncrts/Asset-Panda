@@ -336,20 +336,92 @@ html body .ap-why-cards:not(.ap-why-cards--readiness) .ap-why-cards__card:hover 
 /* ------------------------------------------------------------ Grid of cards (opt-in: columns 2 / 3)
  * Figma Desktop - Compare > industries (7379:184440): six cards three across with 24px gaps, each row as
  * tall as its tallest card (the Explore link stays pinned to the card foot). Two across on tablets, one on
- * phones. */
+ * phones. A wrapping flex row rather than a grid, so a short last row is centred (Purchasing Contracts
+ * 2026-10-31: "3x2 windowed grid. Like 3 at the top and 2 below and then it's center aligned"). */
 .ap-why-cards--cols .ap-why-cards__grid {
-	display: grid;
-	grid-template-columns: repeat(var(--ap-why-cols, 3), minmax(0, 1fr));
-	gap: 24px;
+	--ap-why-gap: 24px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: var(--ap-why-gap);
+}
+
+.ap-why-cards--cols .ap-why-cards__card {
+	flex: 0 0 calc((100% - (var(--ap-why-cols, 3) - 1) * var(--ap-why-gap)) / var(--ap-why-cols, 3));
 }
 
 .ap-why-cards--cols-2 { --ap-why-cols: 2; }
 .ap-why-cards--cols-3 { --ap-why-cols: 3; }
 
 @media (max-width: 1000px) {
-	.ap-why-cards--cols .ap-why-cards__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+	.ap-why-cards--cols .ap-why-cards__grid { --ap-why-gap: 16px; flex-direction: row; }
+	.ap-why-cards.ap-why-cards--cols { --ap-why-cols: 2; }
 }
 
 @media (max-width: 640px) {
-	.ap-why-cards--cols .ap-why-cards__grid { grid-template-columns: minmax(0, 1fr); }
+	.ap-why-cards.ap-why-cards--cols { --ap-why-cols: 1; }
+}
+
+/* Groups (Purchasing Contracts): each label sits 24px over its cards; a set of cards sits a section head gap
+ * plus 16px over the next label, so the groups read as one section in three parts. */
+.ap-why-cards__group {
+	text-align: center;
+}
+
+.ap-why-cards .ap-why-cards__group + .ap-why-cards__grid {
+	margin-top: calc(24px - var(--ap-section-head-gap, 48px));
+}
+
+.ap-why-cards .ap-why-cards__grid + .ap-why-cards__group {
+	margin-top: 16px;
+}
+
+/* Contract terms: one line per term, the term name in bold. */
+.ap-why-cards__card p strong {
+	font-weight: 700;
+	color: #25272c;
+}
+
+/* Partners (Joseph 2026-10-31: "change the UI into this [Purchasing Contracts' cards] ... we still need to add the
+ * logos for the containers"): a partner's logo in a white box across the card's top (72px tall, the logo held to
+ * 40px), several arrow links stacked at the card foot, and the small print centred under the cards. */
+.ap-why-cards__logo {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 72px;
+	padding: 12px 16px;
+	border: 1px solid rgba(37, 39, 44, .06);
+	border-radius: 12px;
+	background: #fff;
+}
+
+.ap-why-cards__logo img {
+	display: block;
+	width: auto;
+	height: auto;
+	max-width: 70%;
+	max-height: 40px;
+	object-fit: contain;
+}
+
+.ap-why-cards__links {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 12px;
+	margin-top: auto;
+}
+
+.ap-why-cards__links .ap-why-cards__link {
+	margin-top: 0;
+}
+
+.ap-why-cards .ap-why-cards__note {
+	max-width: 820px;
+	font-size: 14px;
+	line-height: 1.5;
+	color: #4a4e5a;
+	text-align: center;
 }

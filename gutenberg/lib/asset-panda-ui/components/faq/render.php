@@ -6,8 +6,11 @@
  * closes with no JavaScript at all; `name` makes the group exclusive in
  * browsers that support it and simply allows several open in those that don't.
  *
- * Deliberately NOT animated: animating ::details-content needs
- * `overflow: hidden`, which slices any superscript on a panel's first line.
+ * Each list carries data-ap-accordion, so the shared motion runtime
+ * (src/motion.js) animates a row's height as it opens and closes. That clips
+ * the row itself only while it moves — not the answer box — so a superscript
+ * on an answer's first line is never sliced (the reason ::details-content
+ * stays un-animated). Without the script the rows open instantly.
  *
  * @var array $props Validated props.
  */
@@ -56,11 +59,23 @@ if ( in_array( $props['variant'], array( 'hub', 'eduhub' ), true ) ) {
 	if ( $ap_faq_hub && 'accent' === $props['question_tone'] ) {
 		$ap_faq_class .= ' ap-faq--q-accent';
 	}
+	// Integrations pages: a white or white-to-grey band (hub only; the default
+	// tone keeps the hub's own gradient), and the heading-beside-questions layout.
+	if ( $ap_faq_hub && in_array( $props['tone'], array( 'white', 'fade' ), true ) ) {
+		$ap_faq_class .= ' ap-faq--' . $props['tone'];
+	}
+	$ap_faq_split = $ap_faq_hub && 'split' === $props['layout'];
+	if ( $ap_faq_split ) {
+		$ap_faq_class .= ' ap-faq--split';
+	}
+	if ( 'compact' === $props['size'] ) {
+		$ap_faq_class .= ' ap-faq--compact';
+	}
 	?>
 <section class="<?php echo esc_attr( $ap_faq_class ); ?>"<?php echo $props['reveal'] ? ' data-ap-reveal' : ''; ?>>
 	<?php if ( $ap_faq_hub ) : ?>
-		<h2 class="apg-h2"><?php echo ap_ui_brandmarks( ap_ui_lines( $title ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; only <br> and a fixed span are added. ?></h2>
-		<div class="apg-faq-list">
+		<?php echo $ap_faq_split ? '<div class="apg-faq-split">' : ''; ?><?php echo ( ! $ap_faq_split && '' !== $eyebrow ) ? '<p class="apg-eyebrow">' . esc_html( $eyebrow ) . '</p>' : ''; // phpcs:ignore WordPress.Security.EscapeOutput -- esc_html(). Opt-in: hub stack only, on this line so pages without an eyebrow keep their bytes. ?><h2 class="apg-h2"><?php echo ap_ui_brandmarks( ap_ui_lines( $title ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; only <br> and a fixed span are added. ?></h2>
+		<div class="apg-faq-list" data-ap-accordion>
 			<?php foreach ( $items as $i => $item ) : ?>
 				<details class="apg-faq-item" name="<?php echo esc_attr( $group ); ?>"<?php echo ( 0 === $i && $props['open_first'] ) ? ' open' : ''; ?>>
 					<summary class="apg-faq-q"><span class="apg-q-text"><?php echo ap_ui_brandmarks( esc_html( $item['q'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; brandmarks adds a fixed span. ?></span><span class="apg-faq-ico" aria-hidden="true"></span></summary>
@@ -68,10 +83,10 @@ if ( in_array( $props['variant'], array( 'hub', 'eduhub' ), true ) ) {
 				</details>
 			<?php endforeach; ?>
 		</div>
-	<?php else : ?>
+	<?php echo $ap_faq_split ? '</div>' : ''; ?><?php else : ?>
 		<div class="apf-container">
 			<h2 class="apf-h2"><?php echo ap_ui_brandmarks( ap_ui_lines( $title ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; only <br> and a fixed span are added. ?></h2>
-			<div class="apf-list">
+			<div class="apf-list" data-ap-accordion>
 				<?php foreach ( $items as $i => $item ) : ?>
 					<details class="apf-item" name="<?php echo esc_attr( $group ); ?>"<?php echo ( 0 === $i && $props['open_first'] ) ? ' open' : ''; ?>>
 						<summary class="apf-q"><?php echo ap_ui_brandmarks( esc_html( $item['q'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; brandmarks adds a fixed span. ?><span class="apf-q-icon" aria-hidden="true"></span></summary>
@@ -117,6 +132,9 @@ if ( $vertical ) {
 if ( 'white' === $props['tone'] ) {
 	$classes[] = 'ap-faq--white';
 }
+if ( 'fade' === $props['tone'] ) {
+	$classes[] = 'ap-faq--fade';
+}
 $gap = (int) $props['title_gap'];
 $gap_m = (int) $props['title_gap_m'];
 $ap_faq_vars = array();
@@ -134,7 +152,7 @@ if ( $vertical && $gap_m >= 0 && $gap_m <= 200 && $gap_m !== $gap ) {
 		<?php endif; ?>
 		<h2 class="ap-faq__title"><?php echo ap_ui_brandmarks( ap_ui_lines( $title ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; only <br> and a fixed span are added. ?></h2>
 
-		<div class="ap-faq__list">
+		<div class="ap-faq__list" data-ap-accordion>
 			<?php foreach ( $items as $i => $item ) : ?>
 				<details
 					class="ap-faq__item"

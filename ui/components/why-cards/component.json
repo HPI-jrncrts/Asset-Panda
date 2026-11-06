@@ -2,11 +2,14 @@
 	"name": "why-cards",
 	"description": "Centred heading over three linked use-case glass cards on a brand splash (indigo / teal orbs on white, fading out at the edges). Live: the .epx-why section on the solution pages, Emergency Preparedness, School Reunification and Help Desk (rules ported).",
 	"props": {
+		"anchor": { "type": "string", "required": false, "default": "", "description": "id on the section (letters, digits, hyphens), e.g. purchasing-partners on Partners." },
 		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading." },
-		"title": { "type": "string", "required": true, "description": "Heading." },
+		"title": { "type": "string", "required": false, "default": "", "description": "Heading. Optional when groups carry the section (Purchasing Contracts): the head then shows only what is set." },
 		"lede": { "type": "string", "required": false, "default": "", "description": "Optional paragraph under the heading." },
-		"items": { "type": "array", "required": true, "description": "Cards. Each: title (line breaks kept) and body; optional url (links the title), link_label (with url: an arrow link under the body carries the url instead of the title), icon (image URL) or icon_svg (inline SVG), icon_alt." },
+		"items": { "type": "array", "required": false, "default": [], "description": "Cards. Each: title (line breaks kept) and body (line breaks kept, **bold**); optional url (links the title), link_label (with url: an arrow link under the body carries the url instead of the title), links (several arrow links at the foot, each label and url; Partners: View / Email Carahsoft), logo (a partner logo in a white box above the title) with logo_alt, logo_w, logo_h, icon (image URL) or icon_svg (inline SVG), icon_alt." },
 		"variant": { "type": "string", "required": false, "default": "solution", "enum": [ "solution", "readiness", "service" ], "description": "All variants: glass cards over the splash. solution: the six solution pages. readiness: deeper bottom space, still icons (Emergency Preparedness, School Reunification). service: shallow bottom space (Help Desk)." },
-		"columns": { "type": "integer", "required": false, "default": 0, "enum": [ 0, 2, 3 ], "description": "0: every card in one row (today's three-card band). 2 or 3: the cards wrap into a grid that many columns wide from 1001px (24px gaps; two columns from 641px, one below), for more than three cards, e.g. the Compare hub's six industry cards (Figma 7379:184440)." }
+		"columns": { "type": "integer", "required": false, "default": 0, "enum": [ 0, 2, 3 ], "description": "0: every card in one row (today's three-card band). 2 or 3: the cards wrap into a grid that many columns wide from 1001px (24px gaps; two columns from 641px, one below), for more than three cards, e.g. the Compare hub's six industry cards (Figma 7379:184440). A short last row is centred (five cards: three over two)." },
+		"groups": { "type": "array", "required": false, "default": [], "description": "Labelled card groups after items, all in the one section over the one splash (Purchasing Contracts: State, Local & Education / Federal / International). Each: heading (drawn as the eyebrow label, an h2 when the section has no title, else an h3), optional anchor (id), items (as above). Laid out by columns." },
+		"note": { "type": "string", "required": false, "default": "", "description": "Small print centred under the cards (Partners: confirm availability and pricing with the partner)." }
 	}
 }

@@ -27,9 +27,12 @@ $props = array(
 	'lede'         => $attributes['lede'] ?? '',
 	'id_prefix'    => $attributes['id_prefix'] ?? 'integration',
 	'head_width'   => $attributes['head_width'] ?? 'default',
+	'size'         => $attributes['size'] ?? 'default',
+	'index'        => $attributes['index'] ?? true,
 	'nav_label'    => $attributes['nav_label'] ?? 'On this page',
 	'overview'     => $attributes['overview'] ?? array(),
 	'capabilities' => $attributes['capabilities'] ?? array(),
+	'data'         => $attributes['data'] ?? array(),
 	'steps'        => $attributes['steps'] ?? array(),
 	'requirements' => $attributes['requirements'] ?? array(),
 );

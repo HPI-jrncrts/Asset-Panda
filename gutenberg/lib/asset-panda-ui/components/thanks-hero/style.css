@@ -213,3 +213,30 @@
 		padding: 0 6px;
 	}
 }
+
+/* ---- kit type scale (QA 2026-10-28) ----
+ * Title (H1, was clamp(36px, 4vw, 48px) at -0.03em; 40px on the trial variant) and the gradient subtitle (H2 sized as a card title).
+ * One heading scale across every hero (ui/src/tokens.css --ap-type-*): same size, weight 800, zero
+ * tracking at every width, so no H1 reads thicker or tighter than another. */
+.ap-thanks-hero .ap-thanks-hero__title {
+	font-size: var(--ap-type-h1-size);
+	font-weight: var(--ap-type-h1-weight);
+	line-height: var(--ap-type-h1-line);
+	letter-spacing: var(--ap-type-h1-track);
+}
+.ap-thanks-hero .ap-thanks-hero__sub {
+	font-size: var(--ap-type-h3-size);
+	font-weight: var(--ap-type-h3-weight);
+	line-height: var(--ap-type-h3-line);
+	letter-spacing: var(--ap-type-h3-track);
+}
+.ap-thanks-hero .ap-thanks-hero__body {
+	font-size: var(--ap-type-lede-size);
+	line-height: var(--ap-type-lede-line);
+}
+
+/* phone side padding (QA 2026-10-28): the copy sat 10px from the screen edge; it now has 20px, like
+ * every other hero. The calendar below keeps the full width. */
+@media (max-width: 767px) {
+	.ap-thanks-hero .ap-thanks-hero__copy { padding: 0 10px; }
+}

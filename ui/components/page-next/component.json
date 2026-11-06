@@ -1,0 +1,12 @@
+{
+	"name": "page-next",
+	"description": "Closing links section of the 2026 company pages (Our Company, Figma 7460:105096): an intro column (eyebrow, heading with a gradient phrase, paragraphs) beside a stack of glass link cards (28px icon, bold label), over soft indigo and green orbs.",
+	"props": {
+		"anchor": { "type": "string", "required": false, "default": "", "description": "id on the section (letters, digits, hyphens)." },
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small uppercase label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading (h2). Line breaks are kept." },
+		"title_accent": { "type": "string", "required": false, "default": "", "description": "Words of the heading painted with the brand gradient (first occurrence); must appear in title." },
+		"body": { "type": "string", "required": false, "default": "", "description": "Copy under the heading. Blank line = new paragraph; [label](url) links, **bold**." },
+		"cards": { "type": "array", "required": true, "description": "Link cards, top to bottom. Each: title (the link text), url, icon (28px image URL; empty = no icon)." }
+	}
+}

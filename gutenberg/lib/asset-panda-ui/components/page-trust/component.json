@@ -1,0 +1,20 @@
+{
+	"name": "page-trust",
+	"description": "Trust-and-recognition section of the 2026 company pages (Our Company, Figma 7460:104417): intro copy (eyebrow, heading, paragraphs) beside an icon aside (heading, short copy), then a row of award cards (badge image, title, category lines, linked or plain), then an outline and a gradient button and an arrow link, centred.",
+	"props": {
+		"anchor": { "type": "string", "required": false, "default": "", "description": "id on the section (letters, digits, hyphens)." },
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small uppercase label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading (h2). Line breaks are kept." },
+		"body": { "type": "string", "required": false, "default": "", "description": "Intro copy. Blank line = new paragraph; [label](url) links, **bold**." },
+		"aside_icon": { "type": "string", "required": false, "default": "", "description": "Aside icon (40px image URL)." },
+		"aside_title": { "type": "string", "required": false, "default": "", "description": "Aside heading (h3)." },
+		"aside_body": { "type": "string", "required": false, "default": "", "description": "Aside copy (same markup as body)." },
+		"awards": { "type": "array", "required": false, "default": [], "description": "Award cards (four to a row on desktop). Each: image (badge URL), image_alt, width and height (drawn 90px tall), title (h3), items [{ label, url }] (category lines; url optional)." },
+		"secondary_label": { "type": "string", "required": false, "default": "", "description": "Outline button text. Renders only with secondary_url." },
+		"secondary_url": { "type": "string", "required": false, "default": "", "description": "Outline button destination." },
+		"cta_label": { "type": "string", "required": false, "default": "", "description": "Gradient button text. Renders only with cta_url." },
+		"cta_url": { "type": "string", "required": false, "default": "", "description": "Gradient button destination." },
+		"link_label": { "type": "string", "required": false, "default": "", "description": "Arrow link under the buttons. Renders only with link_url." },
+		"link_url": { "type": "string", "required": false, "default": "", "description": "Arrow link destination." }
+	}
+}

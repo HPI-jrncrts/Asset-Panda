@@ -31,7 +31,7 @@ if ( empty( $ap_items ) ) {
 $ap_count = count( $ap_items );
 $ap_quote = trim( (string) $props['quote_icon'] );
 if ( '' === $ap_quote ) {
-	$ap_quote = ap_ui_asset_url( 'demo-stories', 'quote-up.png' );
+	$ap_quote = ap_ui_asset_url( 'demo-stories', 'quote-up.svg' );
 }
 $ap_arrow = ap_ui_asset_url( 'demo-stories', 'icon-arrow.svg' );
 
@@ -62,7 +62,7 @@ $ap_all     = trim( (string) $props['viewall_label'] );
 		<?php if ( '' !== $ap_heading ) : ?>
 			<h2 class="ap-d26-sr"><?php echo esc_html( $ap_heading ); ?></h2>
 		<?php endif; ?>
-		<div class="ap-d26-cases" data-ap-cases aria-roledescription="carousel" aria-label="<?php echo esc_attr( $ap_heading ); ?>">
+		<div class="ap-d26-cases" data-ap-cases data-ap-autoplay="<?php echo esc_attr( (string) max( 0, (int) $props['autoplay_ms'] ) ); ?>" aria-roledescription="carousel" aria-label="<?php echo esc_attr( $ap_heading ); ?>">
 			<div class="ap-d26-case-slides" aria-live="polite">
 				<?php foreach ( $ap_items as $ap_i => $ap_item ) : ?>
 					<?php

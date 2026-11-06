@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Asset Panda Media Localizer
  * Description:       Gives the new site its own copy of every file it uses from www.assetpanda.com. An administrator sends a list of live file addresses to the REST route; each file is copied into this site's uploads folder at the SAME relative path (so the address is still right after the domain moves), JPG/GIF images (and heavy PNGs) get a WebP copy beside them, and the pages are served with the local copies. Images the pages serve without a WebP or phone-size copy get one made in the background, and a page whose first screen has no image preload gets one for its hero image. Settings live in the option ap_media_localizer.
- * Version:           1.2.0
+ * Version:           1.3.0
  * Requires at least: 6.5
  * Requires PHP:      7.4
  * Author:            Asset Panda
@@ -42,7 +42,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'AP_MEDIA_VERSION', '1.2.0' );
+define( 'AP_MEDIA_VERSION', '1.3.0' );
 define( 'AP_MEDIA_OPTION', 'ap_media_localizer' );
 
 /** Live hosts whose /wp-content/ files are copied. */
@@ -345,14 +345,17 @@ function ap_media_rewrite_html( $html ) {
 define( 'AP_MEDIA_PHONE_W', 828 );
 
 /**
- * Widths of the smaller copies cut from a big image, largest first. 828 covers a full-width image on a 2× phone;
- * 640 covers an image drawn at two thirds of a phone (a hero's person layer, a card) and a 475px desktop column.
- * The browser picks the smallest candidate that is still at least as wide as the drawn size × screen density.
+ * Widths of the smaller copies cut from a big image, largest first. 1280 covers an image drawn wider than the
+ * screen on a phone (a hero layer at 168vw: PageSpeed's phone needed 1211px and fell through to the 1848px
+ * original, 105 KB against about 50 KB; 2026-11-04) and a half-width image on a tablet; 828 covers a full-width image
+ * on a 2× phone; 640 covers an image drawn at two thirds of a phone (a hero's person layer, a card) and a 475px
+ * desktop column. The browser picks the smallest candidate that is still at least as wide as the drawn size ×
+ * screen density. A width is only cut from files at least 200px wider than it.
  *
  * @return int[]
  */
 function ap_media_variant_widths() {
-	return array( AP_MEDIA_PHONE_W, 640 );
+	return array( 1280, AP_MEDIA_PHONE_W, 640 );
 }
 
 /** The smaller copy of a served uploads file at one width: `<served rel>.w<width>.webp`. */
@@ -789,6 +792,14 @@ function ap_media_note_companion( $rel ) {
 			$saved = is_array( $saved ) ? $saved : array();
 			$skip  = get_option( AP_MEDIA_SKIP_OPTION, array() );
 			$skip  = is_array( $skip ) ? $skip : array();
+			// A file skipped as "nothing missing" is queued again when it lacks something new (a width added later);
+			// files the maker declined (small PNG, animated GIF, no editor) stay skipped.
+			$skip  = array_filter(
+				$skip,
+				static function ( $why ) {
+					return 'nothing missing' !== $why;
+				}
+			);
 			$new   = array_diff( array_keys( $GLOBALS['ap_media_variant_todo'] ), $saved, array_keys( $skip ) );
 			// Only files that really lack something are queued, so a complete file never churns the queue.
 			$new = array_values( array_filter( $new, 'ap_media_companions_missing' ) );

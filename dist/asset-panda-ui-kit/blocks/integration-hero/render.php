@@ -28,6 +28,12 @@ $props = array(
 	'logo_alt'       => $attributes['logo_alt'] ?? '',
 	'brand_logo'     => $attributes['brand_logo'] ?? '',
 	'brand_logo_alt' => $attributes['brand_logo_alt'] ?? 'Asset Panda PRO',
+	'lede'           => $attributes['lede'] ?? '',
+	'layout'         => $attributes['layout'] ?? 'center',
+	'video_url'      => $attributes['video_url'] ?? '',
+	'video_poster'   => $attributes['video_poster'] ?? '',
+	'video_thumb'    => $attributes['video_thumb'] ?? 'poster',
+	'video_title'    => $attributes['video_title'] ?? '',
 	'cta_label'      => $attributes['cta_label'] ?? '',
 	'cta_url'        => $attributes['cta_url'] ?? '',
 );

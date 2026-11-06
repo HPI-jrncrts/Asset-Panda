@@ -46,8 +46,11 @@ $photo  = trim( (string) $props['photo'] );
 $logo   = trim( (string) $props['logo'] );
 $pull   = trim( (string) $props['pull'] );
 $accent = trim( (string) $props['pull_accent'] );
+// Opt-in extras (Partners): a button under the attribution, and a portrait without the corner fade.
+$ap_cta_label = trim( (string) $props['cta_label'] );
+$ap_cta_url   = trim( (string) $props['cta_url'] );
 ?>
-<section class="ap-founder-quote"<?php echo '' !== trim( (string) $props['eyebrow'] ) ? ' aria-label="' . esc_attr( $props['eyebrow'] ) . '"' : ''; ?>>
+<section class="ap-founder-quote<?php echo false === $props['photo_fade'] ? ' ap-founder-quote--nofade' : ''; ?>"<?php echo '' !== trim( (string) $props['eyebrow'] ) ? ' aria-label="' . esc_attr( $props['eyebrow'] ) . '"' : ''; ?>>
 	<div class="ap-founder-quote__glow" aria-hidden="true"></div>
 	<div class="ap-founder-quote__wrap">
 		<div class="ap-founder-quote__head">
@@ -87,6 +90,9 @@ $accent = trim( (string) $props['pull_accent'] );
 						<?php endif; ?>
 					</div>
 				<?php endif; ?>
+<?php if ( '' !== $ap_cta_label && '' !== $ap_cta_url ) : ?>
+				<p class="ap-founder-quote__cta"><a class="ap-founder-quote__btn" href="<?php echo esc_url( $ap_cta_url ); ?>"><?php echo esc_html( $ap_cta_label ); ?></a></p>
+<?php endif; ?>
 			</blockquote>
 		</div>
 	</div>

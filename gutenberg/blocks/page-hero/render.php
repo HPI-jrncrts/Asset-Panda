@@ -42,6 +42,11 @@ $props = array(
 	'image_height'    => $attributes['image_height'] ?? 0,
 	'image_frame'     => $attributes['image_frame'] ?? 'card',
 	'stats'           => $attributes['stats'] ?? array(),
+	'facts_title'     => $attributes['facts_title'] ?? '',
+	'facts'           => $attributes['facts'] ?? array(),
+	'panel_title'     => $attributes['panel_title'] ?? '',
+	'panel_body'      => $attributes['panel_body'] ?? '',
+	'panel_links'     => $attributes['panel_links'] ?? array(),
 );
 
 $ap_html = ap_render_component( 'page-hero', $props );

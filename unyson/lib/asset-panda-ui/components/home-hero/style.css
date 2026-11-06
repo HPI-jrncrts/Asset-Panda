@@ -514,9 +514,38 @@ html body .ap-home-hero.ap-home-hero.apu-open .ap-ursa-frame {transition:height 
  * on its 54.33deg gradient and fades a brighter one in over it with a green
  * hairline (live's inline transition leaves only box-shadow animated); the
  * secondary fills mint. Hover lifts use translate (the kit reserves transform). */
-.ap-home-hero .ap-btn-primary { position: relative !important; isolation: isolate; transition: box-shadow .35s ease !important; }
+.ap-home-hero .ap-btn-primary { position: relative !important; isolation: isolate; transition: box-shadow .35s ease, translate .35s ease !important; }
 .ap-home-hero .ap-btn-primary::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background-image: linear-gradient(54.33deg, #5044E1 -20%, #00A991 60%); opacity: 0; transition: opacity .35s ease; pointer-events: none; }
 .ap-home-hero .ap-btn-primary:hover, .ap-home-hero .ap-btn-primary:focus-visible { box-shadow: inset 0 0 0 1px #009882 !important; }
 .ap-home-hero .ap-btn-primary:hover::before, .ap-home-hero .ap-btn-primary:focus-visible::before { opacity: 1; }
 .ap-home-hero .ap-btn-secondary { transition: translate 0.2s ease, background-color .28s ease, border-color .28s ease, color .28s ease !important; }
 .ap-home-hero .ap-btn-secondary:hover, .ap-home-hero .ap-btn-secondary:focus-visible { background-color: #EFFEFA !important; border-color: #C7FFF1 !important; color: #04C8A8 !important; }
+
+/* ---- kit type scale (QA 2026-10-28) ----
+ * The homepage's H1 is the eyebrow ("Voted #1 Asset Management Software", by design for SEO) and its
+ * visual headline is an H2; both now take the kit type tokens, so the eyebrow, the headline and the
+ * paragraph are the same size, weight and tracking as on every other hero (the headline was -0.02em,
+ * which drew it denser than the rest). The gradient second line stays three quarters of the first. */
+html body .ap-home-hero .ap-eyebrow {font-size: var(--ap-type-eyebrow-size) !important; font-weight: var(--ap-type-eyebrow-weight) !important; line-height: var(--ap-type-eyebrow-line) !important; letter-spacing: var(--ap-type-eyebrow-track) !important;}
+html body .ap-home-hero .ap-hero-title {font-size: var(--ap-type-h1-size) !important; font-weight: var(--ap-type-h1-weight) !important; line-height: var(--ap-type-h1-line) !important; letter-spacing: var(--ap-type-h1-track) !important;}
+html body .ap-home-hero .ap-hero-title .ap-h1-gradient {font-size: .75em !important; letter-spacing: inherit !important;}
+html body .ap-home-hero .ap-copy {font-size: var(--ap-type-lede-size) !important; line-height: var(--ap-type-lede-line) !important;}
+
+/* The backdrop is an <img> (it is the page's largest first-screen paint, and a CSS background is
+ * found only after the stylesheet is parsed). Same placement as the old background: cover, centred. */
+html body .ap-home-hero .ap-hero-bg-img {position: absolute !important; inset: 0 !important; width: 100% !important; height: 100% !important; max-width: none !important; object-fit: cover !important; object-position: center center !important; display: block !important; z-index: 0 !important; pointer-events: none !important;}
+
+/* QA 2026-10-29 (Joseph, sitewide): on phones the hero's eyebrow sits 16px under the header, as on the K-12 page
+ * (his reference for the spacing). */
+@media (max-width: 767px) {
+	html body .ap-home-hero {
+		padding-top: 16px !important;
+	}
+}
+
+/* QA 2026-10-29 (Figma QA): sections without a colour gradient are pure white (Joseph, sitewide). The client-logo
+ * band's white-to-#F9FAFB fade ended in a grey strip against the white stats section below; Figma has the band on
+ * white. Background only — the band's position, shadow and marquee are unchanged. */
+html body .ap-home-hero .ap-client-logo-band,
+html body .ap-home-hero.ap-logo-band-fixed .ap-client-logo-band,
+html body .ap-home-hero.ap-logo-band-released .ap-client-logo-band { background: #fff !important; }

@@ -10,6 +10,7 @@
 		"secondary_label": { "type": "string", "required": false, "default": "", "description": "Outline button text." },
 		"secondary_url": { "type": "string", "required": false, "default": "", "description": "Outline button destination." },
 		"image": { "type": "string", "required": false, "default": "", "description": "Product art, bottom-right of the card." },
-		"image_alt": { "type": "string", "required": false, "default": "", "description": "Art alt text (empty when decorative, as live)." }
+		"image_alt": { "type": "string", "required": false, "default": "", "description": "Art alt text (empty when decorative, as live)." },
+		"size": { "type": "string", "required": false, "default": "default", "enum": [ "default", "compact" ], "description": "default: the full closing card (532px tall with the product art). compact: a short call-to-action card, the art scaled down beside the copy (the free-trial page)." }
 	}
 }

@@ -20,7 +20,7 @@
    this at class weight, so any later rule in this sheet still wins. */
 .ap-capability-scene :where(h1,h2,h3,h4,h5,h6,blockquote,caption,figcaption,p){text-wrap:wrap;}
 .ap-capability-scene__glow{position:absolute; inset:0; z-index:0; pointer-events:none;
-      background-image:url('https://www.assetpanda.com/wp-content/webp-express/webp-images/uploads/2026/08/Intelligence-Built-In-Section.png.webp');
+      background-image:url('/wp-content/uploads/2026/08/Intelligence-Built-In-Section.png.webp');
       background-repeat:no-repeat; background-position:center; background-size:100% 100%;
     }
 .ap-capability-scene__wrap{
@@ -155,3 +155,91 @@
 .ap-capability-scene__btn--outline{background:#fff;border:1px solid #00a991;color:#00a991;}
 .ap-capability-scene__btn:hover{translate:0 -2px;box-shadow:0 8px 20px rgba(37,39,44,.12);}
 @media (max-width:560px){.ap-capability-scene__btn{flex:1 1 100%;white-space:normal;}}
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: --ap-section-y top and bottom (was 80 / 112, 64 / 80, 56 / 64 by width). */
+html body .ap-capability-scene .ap-capability-scene__wrap { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-capability-scene.ap-capability-scene.ap-capability-scene .ap-capability-scene__title { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+/* Section eyebrow on the type scale too: 12px at 390 to 14px at 1440, 800, 4% tracking, upper case. */
+html body .ap-capability-scene.ap-capability-scene.ap-capability-scene .ap-capability-scene__eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }
+
+/* lines_size "lg" (Ursa AI frame 7261:111780): 20/1.4/800 lines in a 510px panel. */
+.ap-capability-scene--lines-lg .ap-capability-scene__lines{font-size:20px; font-weight:800; line-height:1.4;}
+@media (min-width:901px){
+	.ap-capability-scene--lines-lg .ap-capability-scene__panel{min-height:510px;}
+}
+@media (max-width:560px){
+	.ap-capability-scene--lines-lg .ap-capability-scene__lines{font-size:18px;}
+}
+
+/* ------------------------------------------------------------ QA 2026-10-29 (Joseph: "make the Ursa AI orb float")
+ * The orb is painted into the panda artwork (Group-5452), so render.php draws that file twice in one box: the
+ * panda layer with the orb masked out, and an orb layer masked to the orb alone (solid to 64px from its centre at
+ * 150, 151 of the 424 × 417 file, feathered out to 76px, short of the paws). The two masks are exact complements
+ * and the orb layer adds with plus-lighter inside the isolated box, so at rest the pair rebuilds the original
+ * pixel for pixel. The orb then drifts up ~1.6% of the art (≈7px at full size) and back on a 6s ease-in-out loop,
+ * with a soft teal/indigo halo behind it brightening at the top of the drift. Compositor-only (translate, opacity).
+ * Reduced motion, or no mask / plus-lighter support: one plain image, exactly as before. */
+.ap-capability-scene .ap-capability-scene__art--orb{
+	--ap-cs-orb-at:35.377% 36.211%;   /* centre: 150, 151 */
+	--ap-cs-orb-r:17.925% 18.225%;    /* 76px across 424 and 417 */
+	--ap-cs-orb-solid:84.21%;         /* 64 / 76 */
+	display:grid; isolation:isolate;
+}
+.ap-capability-scene__art--orb > img,
+.ap-capability-scene__art--orb::before{grid-area:1 / 1; display:block; width:100%; height:auto; max-width:none;}
+.ap-capability-scene__orb{display:none;}
+@supports ((mask-image:none) or (-webkit-mask-image:none)) and (mix-blend-mode:plus-lighter){
+	@media (prefers-reduced-motion:no-preference){
+		.ap-capability-scene__art--orb .ap-capability-scene__artimg{
+			-webkit-mask-image:radial-gradient(var(--ap-cs-orb-r) at var(--ap-cs-orb-at), transparent var(--ap-cs-orb-solid), #000 100%);
+			        mask-image:radial-gradient(var(--ap-cs-orb-r) at var(--ap-cs-orb-at), transparent var(--ap-cs-orb-solid), #000 100%);
+		}
+		.ap-capability-scene__art--orb .ap-capability-scene__orb{
+			display:block; position:relative; z-index:2; mix-blend-mode:plus-lighter;
+			-webkit-mask-image:radial-gradient(var(--ap-cs-orb-r) at var(--ap-cs-orb-at), #000 var(--ap-cs-orb-solid), transparent 100%);
+			        mask-image:radial-gradient(var(--ap-cs-orb-r) at var(--ap-cs-orb-at), #000 var(--ap-cs-orb-solid), transparent 100%);
+			animation:apCapabilitySceneOrbFloat 6s ease-in-out infinite; will-change:translate;
+		}
+		.ap-capability-scene__art--orb::before{
+			content:""; align-self:stretch; z-index:0; pointer-events:none; opacity:.3;
+			background:radial-gradient(25% 25.4% at var(--ap-cs-orb-at), rgba(0,169,145,0) 50%, rgba(0,169,145,.2) 64%, rgba(80,68,225,.12) 80%, rgba(80,68,225,0) 100%);
+			animation:apCapabilitySceneOrbGlow 6s ease-in-out infinite; will-change:translate, opacity;
+		}
+		.ap-capability-scene__art--orb .ap-capability-scene__artimg{position:relative; z-index:1;}
+	}
+}
+@keyframes apCapabilitySceneOrbFloat{0%,100%{translate:0 0;} 50%{translate:0 -1.6%;}}
+@keyframes apCapabilitySceneOrbGlow{0%,100%{translate:0 0; opacity:.3;} 50%{translate:0 -1.6%; opacity:.9;}}
+
+/* ------------------------------------------------------------ QA 2026-10-29 (Figma QA)
+ * Sections without a colour gradient are pure white (Joseph, sitewide): the base white-to-#f9fafb fade ended in a
+ * grey band against the white section below (/asset-intelligence-platform/, /ursa-ai/, /solutions/enterprise/).
+ * The glow artwork (Intelligence-Built-In-Section, stretched over the section) has the same fade baked in — white at
+ * the top, #f9fbfc along the bottom edge — so the base turns white and the artwork fades out over its last 160px
+ * into it. The blooms behind the cards are untouched. */
+.ap-capability-scene { background: #fff; }
+.ap-capability-scene .ap-capability-scene__glow {
+	-webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 160px), transparent 100%);
+	        mask-image: linear-gradient(180deg, #000 calc(100% - 160px), transparent 100%);
+}
+
+/* ------------------------------------------------------------ QA 2026-10-30 (Joseph, /asset-intelligence-platform/,
+ * mobiles only): "The gradient is currently linear and set vertically. Can we change that into circular splash".
+ * On a phone the section is a tall stack, so the desktop glow artwork, stretched to the section, became a vertical
+ * band. Phones get a round splash instead: overlapping teal, indigo and lilac circles around the middle of the
+ * capability list, fading out well before the edges. Tablets and desktops keep the artwork. */
+@media (max-width:767px){
+	.ap-capability-scene .ap-capability-scene__glow{
+		background-image:
+			radial-gradient(circle 200px at 36% 44%, rgba(0,169,145,.24), rgba(0,169,145,0) 100%),
+			radial-gradient(circle 220px at 66% 50%, rgba(80,68,225,.20), rgba(80,68,225,0) 100%),
+			radial-gradient(circle 160px at 52% 38%, rgba(146,120,255,.14), rgba(146,120,255,0) 100%);
+		background-size:100% 100%;
+	}
+}

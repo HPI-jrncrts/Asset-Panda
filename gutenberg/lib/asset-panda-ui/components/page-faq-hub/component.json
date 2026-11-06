@@ -1,0 +1,14 @@
+{
+	"name": "page-faq-hub",
+	"description": "Help-centre FAQ for /faq/: a sticky topic list with question counts and an instant search beside topic groups (each an h2) of questions (h3) that open in place; on phones the topics become a sideways chip row over the search. Answers take paragraphs, bulleted and numbered lists, **bold** and [label](url) links. One FAQPage JSON-LD for every question. Search, topic highlight and the empty state are behaviour.js; without it every question shows and opens on click.",
+	"props": {
+		"anchor": { "type": "string", "required": false, "default": "", "description": "id on the section (letters, digits, hyphens)." },
+		"nav_title": { "type": "string", "required": false, "default": "Topics", "description": "Small label over the topic list." },
+		"search": { "type": "boolean", "required": false, "default": true, "description": "Show the search box (filters questions and answers as you type)." },
+		"search_label": { "type": "string", "required": false, "default": "Search questions", "description": "Search box label (visually hidden) and placeholder." },
+		"empty_text": { "type": "string", "required": false, "default": "No question matches that search.", "description": "Shown when a search leaves nothing; [label](url) links allowed." },
+		"open_first": { "type": "boolean", "required": false, "default": false, "description": "Open the first question of the first topic." },
+		"schema": { "type": "boolean", "required": false, "default": true, "description": "Print one FAQPage JSON-LD with every question (answers as plain text)." },
+		"groups": { "type": "array", "required": true, "description": "Topics, in order. Each: title (the topic h2), optional id (anchor; derived from the title when empty), items (array of {q, a}). In a: a blank line starts a new block; a block whose lines all start with '- ' is a bulleted list, '1. ' a numbered list; otherwise a paragraph (line breaks kept). [label](url) links and **bold** anywhere." }
+	}
+}

@@ -39,7 +39,8 @@
 				"icon",
 				"number",
 				"badge",
-				"plain"
+				"plain",
+				"row"
 			]
 		},
 		"columns": {
@@ -74,6 +75,10 @@
 		"note": {
 			"type": "string",
 			"default": ""
+		},
+		"joined": {
+			"type": "boolean",
+			"default": false
 		},
 		"align": {
 			"type": "string",

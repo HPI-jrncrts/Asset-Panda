@@ -28,6 +28,11 @@ function ap_site_defaults() {
 		'tracking'                 => true,
 		'gtm_id'                   => 'GTM-WVPZ4X',
 		'loader'                   => 'gtm', // 'gtm' (standard) or 'stape' (first-party custom loader).
+		// When the container starts (Joseph 2026-11-04, "after the page settles"): 'settled' = on the
+		// visitor's first scroll, tap, key or mouse move, or gtm_delay_ms after the load event, whichever
+		// comes first; 'immediate' = in <head>, as before.
+		'gtm_timing'               => 'settled',
+		'gtm_delay_ms'             => 3000,
 		'stape_domain'             => 'data.assetpanda.com',
 		'stape_loader'             => 'xlaymtlkg.js',
 		'stape_query'              => 'a7a=Dg9RMzk0TDsxOzZANV8XUVVFXVIJF1wNFBgJAB0YDwgGRQ8bAA%3D%3D',
@@ -60,6 +65,19 @@ function ap_site_defaults() {
 		// WordPress's emoji detection script (any host). Its blob Worker stalls the main thread for ~400 ms in
 		// Lighthouse and PageSpeed runs (TBT 1.4–1.7 s on the AIP page); every supported browser renders emoji itself.
 		'no_emoji_scripts'         => true,
+
+		// Sign-in protection (includes/login.php, any host): lockout after failed sign-ins, one message for any wrong
+		// username or password, XML-RPC off.
+		'login_guard'              => true,
+		'login_limit'              => 5,
+		'login_window'             => 15,
+		// Google reCAPTCHA v3 on the sign-in and lost-password forms: production hosts plus recaptcha_hosts, and only
+		// once both keys are saved (Settings → Asset Panda Site). The key's domain list must include each host.
+		'recaptcha'                => true,
+		'recaptcha_site_key'       => '',
+		'recaptcha_secret'         => '',
+		'recaptcha_threshold'      => 0.5,
+		'recaptcha_hosts'          => array(),
 
 		// Homepage hero: frame the live Ursa demo instead of the posters.
 		'ursa_demo'                => true,
@@ -109,7 +127,7 @@ function ap_site_defaults() {
 
 /** Setting keys that are on/off switches. */
 function ap_site_bool_keys() {
-	return array( 'tracking', 'cookiebot', 'geotargetly', 'headers', 'csp_report_only', 'https_redirect', 'ursa_demo', 'sitemap_exclude', 'user_enumeration', 'no_emoji_scripts' );
+	return array( 'tracking', 'cookiebot', 'geotargetly', 'headers', 'csp_report_only', 'https_redirect', 'ursa_demo', 'sitemap_exclude', 'user_enumeration', 'no_emoji_scripts', 'login_guard', 'recaptcha' );
 }
 
 /** Setting keys that hold path pattern lists. */
@@ -146,6 +164,10 @@ function ap_site_settings() {
 	// Emergency loader switch from wp-config.php.
 	if ( defined( 'AP_SITE_GTM_LOADER' ) && in_array( AP_SITE_GTM_LOADER, array( 'gtm', 'stape' ), true ) ) {
 		$settings['loader'] = AP_SITE_GTM_LOADER;
+	}
+	// Emergency timing switch from wp-config.php ('immediate' restores the head snippet).
+	if ( defined( 'AP_SITE_GTM_TIMING' ) && in_array( AP_SITE_GTM_TIMING, array( 'immediate', 'settled' ), true ) ) {
+		$settings['gtm_timing'] = AP_SITE_GTM_TIMING;
 	}
 	return $settings;
 }

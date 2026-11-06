@@ -1003,3 +1003,26 @@
 		transition: none;
 	}
 }
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: --ap-section-y top and bottom (was 80 and its phone steps). */
+html body .ap-plans-compare.ap-plans-compare { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+/* PageSpeed: the backdrop is radial gradients already; drop the blur filter. */
+.ap-plans-compare--clean .ap-plans-compare__stage::before { filter: none; }
+/* Phones (QA 2026-10-27): no text under 12px (prices' small print, the tag 11px caps). */
+@media (max-width: 767px) {
+	html body .ap-plans-compare small { font-size: 12px; }
+	html body .ap-plans-compare .ap-plans-compare__tag { font-size: 11px; }
+}
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-plans-compare.ap-plans-compare.ap-plans-compare .ap-plans-compare__title { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+/* Tablets (QA 2026-10-28): /pricing-v2/ scrolled sideways at 768px. The
+ * visually-hidden labels in the table cells (.ap-plans-compare__sr, absolutely
+ * positioned) took the stage as their containing block, so they sat outside
+ * the table's scroll frame and widened the page by the table's overflow. The
+ * frame now contains them. */
+.ap-plans-compare .ap-plans-compare__box { position: relative; }

@@ -31,6 +31,7 @@ $props = array(
 	'background'        => $attributes['background'] ?? '',
 	'cards'             => $attributes['cards'] ?? array(),
 	'note'              => $attributes['note'] ?? '',
+	'cta_eyebrow'       => $attributes['cta_eyebrow'] ?? '',
 	'cta_title'         => $attributes['cta_title'] ?? '',
 	'cta_accent'        => $attributes['cta_accent'] ?? '',
 	'cta_sub'           => $attributes['cta_sub'] ?? '',
@@ -41,6 +42,7 @@ $props = array(
 	'cta_nowrap'        => $attributes['cta_nowrap'] ?? false,
 	'phone'             => $attributes['phone'] ?? array(),
 	'reveal'            => $attributes['reveal'] ?? true,
+	'bar_style'         => $attributes['bar_style'] ?? 'wide',
 );
 
 $ap_html = ap_render_component( 'problem-callouts', $props );

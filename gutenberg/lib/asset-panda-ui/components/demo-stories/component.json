@@ -7,6 +7,7 @@
 		"heading": { "type": "string", "required": false, "default": "Customer stories", "description": "Visually hidden section heading (h2) and the slider's accessible name." },
 		"viewall_label": { "type": "string", "required": false, "default": "View All Case Studies", "description": "View All link text. Renders only with viewall_url." },
 		"viewall_url": { "type": "string", "required": false, "default": "", "description": "View All destination." },
-		"quote_icon": { "type": "string", "required": false, "default": "", "description": "Quote mark image URL. Empty uses the kit's." }
+		"quote_icon": { "type": "string", "required": false, "default": "", "description": "Quote mark image URL. Empty uses the kit's." },
+		"autoplay_ms": { "type": "integer", "required": false, "default": 3000, "description": "Milliseconds between automatic slide changes (default 3000; 0 turns autoplay off; values under 1500 are raised to 1500). Autoplay pauses on hover, keyboard focus, touch, a playing video, an off-screen slider and a hidden tab, and never runs under prefers-reduced-motion." }
 	}
 }

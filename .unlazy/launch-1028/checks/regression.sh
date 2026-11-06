@@ -31,5 +31,8 @@ run "parity-fixes.mjs" "PARITY FIXES PASSED"
 run "round-1029b.mjs" "ROUND 1029B PASSED"
 run "round-1029c.mjs" "ROUND 1029C PASSED"
 run "figma-page.mjs --path /compare/ --markup .unlazy/launch-1028/pages/compare-page.html" "FIGMA PAGE CHECK PASSED"
+run "testimonial-interval.mjs" "TESTIMONIAL INTERVAL PASSED"
+run "rev-1031.mjs" "REV 1031 PASSED"
+run "drawer-mirror.mjs" "DRAWER MIRROR PASSED"
 echo "REGRESSION $pass/$total${failed:+ — failed:$failed}" >> $L
 tail -1 $L

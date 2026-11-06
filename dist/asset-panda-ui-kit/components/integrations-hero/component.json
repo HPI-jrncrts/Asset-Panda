@@ -5,7 +5,7 @@
 		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small uppercase label above the title, e.g. INTEGRATIONS." },
 		"title": { "type": "string", "required": true, "description": "Title (the page H1). Line breaks are kept." },
 		"lede": { "type": "string", "required": false, "default": "", "description": "Paragraph under the title. Line breaks are kept." },
-		"cta_label": { "type": "string", "required": false, "default": "Book a Demo", "description": "Button text. The button renders only when cta_label and cta_url are both set." },
+		"cta_label": { "type": "string", "required": false, "default": "Free Demo", "description": "Button text. The button renders only when cta_label and cta_url are both set." },
 		"cta_url": { "type": "string", "required": false, "default": "/get-a-demo/", "description": "Button destination." },
 		"panda": { "type": "string", "required": false, "default": "/wp-content/uploads/2026/10/integ-hub-panda.webp", "description": "Panda image (transparent WebP) shown in the app card. Empty shows the card without a panda." },
 		"logos": {

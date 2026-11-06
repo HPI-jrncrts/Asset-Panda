@@ -44,6 +44,7 @@ $props = array(
 	'image_height'    => $attributes['image_height'] ?? 0,
 	'image_style'     => $attributes['image_style'] ?? 'photo',
 	'reverse'         => $attributes['reverse'] ?? false,
+	'tight'           => $attributes['tight'] ?? false,
 );
 
 $ap_html = ap_render_component( 'page-split', $props );

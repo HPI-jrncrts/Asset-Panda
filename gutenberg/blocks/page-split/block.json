@@ -115,6 +115,10 @@
 			"type": "boolean",
 			"default": false
 		},
+		"tight": {
+			"type": "boolean",
+			"default": false
+		},
 		"align": {
 			"type": "string",
 			"default": "full"

@@ -205,3 +205,58 @@ html body .ap-asset-scene.ap-asset-scene.ap-asset-scene .ap-asset-scene__eyebrow
 		background:#fff;
 	}
 }
+
+/* ------------------------------------------------------------ QA 2026-10-30 (Joseph, /asset-intelligence-platform/,
+ * mobiles only): "remove the lines we put in mobiles" — the connector lines (behaviour.js) are hidden on phones; the
+ * icon discs stay on their cards. "The gradient is only behind the panda, let's spread it a little bit up to the top.
+ * Making the orb look like emitting the gradient" — a soft glow centred on the orb rises behind it into the space
+ * under the last card, and the artwork's own wash fades in over a longer stretch instead of starting in a hard line
+ * at the panda's arms. "Adjust the orb and panda to go up … 15px away from the bottom of the public safety container
+ * card" — the artwork is pulled up so the orb's top edge sits 15px under the last card at every phone width (the orb
+ * top is .151 of the artwork box's width below the box's top). Tablets keep the lines and spacing. */
+@media (max-width:767px){
+	.ap-asset-scene .ap-asset-scene__wires{display:none;}
+	html body .ap-asset-scene .ap-asset-scene__art{margin-top:calc(-29px - .151 * min(100% + 2 * var(--ap-as-gutter), 480px));}
+	/* The glow is laid out on the artwork's box, which the old narrow-screen block pins static with !important. */
+	.ap-asset-scene .ap-asset-scene__stage .ap-asset-scene__art{position:relative !important; z-index:0 !important;}
+	.ap-asset-scene .ap-asset-scene__art::before{
+		content:""; position:absolute; z-index:-2; left:-12%; right:-12%; top:-34%; bottom:30%; pointer-events:none;
+		background:
+			radial-gradient(ellipse 42% 46% at 40% 58%, rgba(80,68,225,.22), rgba(80,68,225,0) 100%),
+			radial-gradient(ellipse 42% 46% at 60% 58%, rgba(0,169,145,.22), rgba(0,169,145,0) 100%);
+	}
+	.ap-asset-scene .ap-asset-scene__art img{
+		-webkit-mask-image:
+			radial-gradient(ellipse 7.6% 10% at 49.9% 54.4%, #000 88%, transparent 100%),
+			linear-gradient(180deg, transparent 60%, #000 71%);
+		        mask-image:
+			radial-gradient(ellipse 7.6% 10% at 49.9% 54.4%, #000 88%, transparent 100%),
+			linear-gradient(180deg, transparent 60%, #000 71%);
+	}
+}
+
+/* splash (Partners' Become a Partner, Joseph 2026-10-31: "Add a gradient splash (center) on this section"): soft
+ * indigo and green washes centred behind the heading and the scene, under the content. */
+.ap-asset-scene--splash::before{
+      content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+      background:
+        radial-gradient(34% 30% at 50% 42%, rgba(80,68,225,.16) 0%, rgba(80,68,225,0) 72%),
+        radial-gradient(28% 26% at 58% 52%, rgba(0,169,145,.14) 0%, rgba(0,169,145,0) 72%),
+        radial-gradient(24% 22% at 42% 56%, rgba(131,140,246,.14) 0%, rgba(131,140,246,0) 72%);
+    }
+.ap-asset-scene--splash > *{position:relative; z-index:1;}
+
+/* attached (Partners' Become a Partner, Joseph 2026-10-31: "make sure the circle icons floating are attached to each
+ * container", "Adjust the size of the panda smaller", "move the 3 cards closer"). Desktop only. The artwork is drawn
+ * at 78% (1147px of the 1120px stage, centred) and lifted 160px, so the stage is 700px tall instead of 930px. Its
+ * three icon discs then sit (in stage px) at 387,260 (left), 556,203 (top) and 730,262 (right), and each card is
+ * placed on its disc: the top card's foot on the top disc, the side cards' inner edges on theirs, centred on them.
+ * Percentages of the 1120 x 700 stage, so the layout scales with the stage between 1001 and 1167px. */
+@media (min-width:1001px){
+.ap-asset-scene--attached .ap-asset-scene__stage{aspect-ratio:1120/700;}
+.ap-asset-scene--attached .ap-asset-scene__art,
+.ap-asset-scene--attached .ap-asset-scene__icons{width:102.44%; left:-1.22%; top:-22.857%;}
+.ap-asset-scene--attached .ap-asset-scene__card--it{top:auto; bottom:71.07%;}
+.ap-asset-scene--attached .ap-asset-scene__card--field{left:6%; top:37.17%; translate:0 -50%;}
+.ap-asset-scene--attached .ap-asset-scene__card--safety{left:65.2%; top:37.4%; translate:0 -50%;}
+}

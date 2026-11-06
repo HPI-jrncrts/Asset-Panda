@@ -5,7 +5,9 @@
  * Matches the live .epx-faq section. Built on <details>, so it opens and
  * closes with no JavaScript; `name` makes the group exclusive where supported.
  * Live animates ::details-content, which needs overflow: hidden and slices a
- * superscript on a panel's first line, so the kit opens it without the tween.
+ * superscript on a panel's first line. The kit leaves that alone; instead the
+ * list carries data-ap-accordion and the shared motion runtime animates the
+ * row's height (clipping the row only while it moves).
  *
  * @var array $props Validated props.
  */
@@ -45,7 +47,7 @@ $group = 'ap-solution-faq-' . $ap_sfaq_instance;
 <section class="ap-solution-faq ap-solution-faq--<?php echo esc_attr( $variant ); ?><?php echo 'white' === $props['tone'] ? ' ap-solution-faq--white' : ''; ?>">
 	<div class="ap-solution-faq__wrap">
 		<h2 class="ap-solution-faq__title ap-solution-faq__rev"><?php echo ap_ui_brandmarks( ap_ui_lines( $props['title'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; only <br> and a fixed span are added. ?></h2>
-		<div class="ap-solution-faq__list ap-solution-faq__rev ap-solution-faq__rev--d1">
+		<div class="ap-solution-faq__list ap-solution-faq__rev ap-solution-faq__rev--d1" data-ap-accordion>
 			<?php foreach ( $items as $i => $item ) : ?>
 				<details class="ap-solution-faq__item" name="<?php echo esc_attr( $group ); ?>"<?php echo ( 0 === $i && $props['open_first'] ) ? ' open' : ''; ?>>
 					<summary><<?php echo $q_tag; // phpcs:ignore WordPress.Security.EscapeOutput -- fixed h3/span. ?> class="ap-solution-faq__q"><?php echo ap_ui_brandmarks( esc_html( $item['q'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; brandmarks adds a fixed span. ?></<?php echo $q_tag; // phpcs:ignore WordPress.Security.EscapeOutput -- fixed h3/span. ?>><span class="ap-solution-faq__mark" aria-hidden="true"></span></summary>

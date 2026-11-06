@@ -93,6 +93,17 @@ if ( '' !== $cta_logo && ! preg_match( '#^(?:[a-z][a-z0-9+.\-]*:|/)#i', $cta_log
 $cta_label  = trim( (string) $props['cta_label'] );
 $cta_url    = trim( (string) $props['cta_url'] );
 $has_cta    = '' !== $cta_title || '' !== $cta_sub || ( '' !== $cta_label && '' !== $cta_url );
+// Bar only (Mining Asset Management, 2026-10-31: "Also Managing Mining Samples ..." takes the LIMS call-out bar's UI):
+// no head, stage or note, just the CTA bar, whose heading then stands as the section's h2. The eyebrow alone does not
+// make a head (it defaults to "The Challenge").
+$has_head = '' !== $title || '' !== $lede || '' !== $kicker;
+$bar_only = ! $has_head && '' === $image && empty( $cards ) && '' === $note;
+if ( $bar_only && ! $has_cta ) {
+	return;
+}
+$cta_tag = $has_head ? 'h3' : 'h2';
+$cta_eyebrow = trim( (string) $props['cta_eyebrow'] );
+$bar_class   = $bar_only ? ' ap-problem-callouts--bar ap-problem-callouts--bar-' . ( 'standard' === $props['bar_style'] ? 'standard' : 'wide' ) : '';
 ?>
 <?php
 // Phone spacing differs by page (live splits it between the theme's grid and
@@ -105,17 +116,20 @@ foreach ( array( 'stage_mt' => '--ph-stage-mt', 'gap' => '--ph-gap', 'note_mt' =
 	}
 }
 ?>
-<section class="ap-problem-callouts<?php echo $props['cta_accent_inline'] ? ' ap-problem-callouts--accent-inline' : ''; ?><?php echo $props['cta_nowrap'] ? ' ap-problem-callouts--cta-nowrap' : ''; ?>"<?php echo $ap_phone ? ' style="' . esc_attr( implode( ';', $ap_phone ) ) . '"' : ''; ?>>
+<section class="ap-problem-callouts<?php echo esc_attr( $bar_class ); ?><?php echo $props['cta_accent_inline'] ? ' ap-problem-callouts--accent-inline' : ''; ?><?php echo $props['cta_nowrap'] ? ' ap-problem-callouts--cta-nowrap' : ''; ?>"<?php echo $ap_phone ? ' style="' . esc_attr( implode( ';', $ap_phone ) ) . '"' : ''; ?>>
 	<?php if ( '' !== $background ) : ?>
-		<img class="ap-problem-callouts__bg" src="<?php echo esc_url( $background ); ?>" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+		<img class="ap-problem-callouts__bg" src="<?php echo esc_url( $background ); ?>" alt="" aria-hidden="true" loading="eager" fetchpriority="low" decoding="async" />
 	<?php endif; ?>
 
 	<div class="ap-problem-callouts__inner">
+		<?php if ( $has_head ) : ?>
 		<div class="ap-problem-callouts__header"<?php echo $props['reveal'] ? ' data-ap-reveal' : ''; ?>>
 			<?php if ( '' !== $eyebrow ) : ?>
 				<p class="ap-problem-callouts__eyebrow"><?php echo esc_html( $eyebrow ); ?></p>
 			<?php endif; ?>
-			<h2 class="ap-problem-callouts__title"><?php echo ap_ui_brandmarks( ap_ui_lines( $title ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; only <br> and a fixed span are added. ?></h2>
+			<?php if ( '' !== $title ) : ?>
+				<h2 class="ap-problem-callouts__title"><?php echo ap_ui_brandmarks( ap_ui_lines( $title ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; only <br> and a fixed span are added. ?></h2>
+			<?php endif; ?>
 			<?php if ( '' !== $lede ) : ?>
 				<p class="ap-problem-callouts__lede"><?php echo ap_ui_brandmarks( ap_ui_lines( $lede ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; only <br> and a fixed span are added. ?></p>
 			<?php endif; ?>
@@ -123,6 +137,7 @@ foreach ( array( 'stage_mt' => '--ph-stage-mt', 'gap' => '--ph-gap', 'note_mt' =
 				<p class="ap-problem-callouts__kicker"><?php echo esc_html( $kicker ); ?></p>
 			<?php endif; ?>
 		</div>
+		<?php endif; ?>
 
 		<?php if ( '' !== $image || ! empty( $cards ) ) : ?>
 			<div class="ap-problem-callouts__stage">
@@ -164,13 +179,16 @@ foreach ( array( 'stage_mt' => '--ph-stage-mt', 'gap' => '--ph-gap', 'note_mt' =
 						</span>
 					<?php endif; ?>
 					<div>
+						<?php if ( '' !== $cta_eyebrow ) : ?>
+							<p class="ap-problem-callouts__cta-eyebrow"><?php echo esc_html( $cta_eyebrow ); ?></p>
+						<?php endif; ?>
 						<?php if ( '' !== $cta_title || '' !== $cta_accent ) : ?>
-							<h3 class="ap-problem-callouts__cta-title">
+							<<?php echo tag_escape( $cta_tag ); ?> class="ap-problem-callouts__cta-title">
 								<?php echo ap_ui_brandmarks( esc_html( $cta_title ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; brandmarks adds a fixed span. ?>
 								<?php if ( '' !== $cta_accent ) : ?>
 									<span class="ap-problem-callouts__cta-accent"><?php echo ap_ui_brandmarks( esc_html( $cta_accent ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; brandmarks adds a fixed span. ?></span>
 								<?php endif; ?>
-							</h3>
+							</<?php echo tag_escape( $cta_tag ); ?>>
 						<?php endif; ?>
 						<?php if ( '' !== $cta_sub ) : ?>
 							<p class="ap-problem-callouts__cta-sub"><?php echo esc_html( $cta_sub ); ?></p>

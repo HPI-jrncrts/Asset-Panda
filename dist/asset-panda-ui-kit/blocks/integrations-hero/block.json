@@ -22,7 +22,7 @@
 		},
 		"cta_label": {
 			"type": "string",
-			"default": "Book a Demo"
+			"default": "Free Demo"
 		},
 		"cta_url": {
 			"type": "string",

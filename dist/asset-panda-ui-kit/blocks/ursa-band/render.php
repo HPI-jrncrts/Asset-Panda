@@ -22,10 +22,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $props = array(
+	'eyebrow'   => $attributes['eyebrow'] ?? '',
 	'title'     => $attributes['title'] ?? '',
 	'body'      => $attributes['body'] ?? '',
 	'cta_label' => $attributes['cta_label'] ?? 'Free Demo',
 	'cta_url'   => $attributes['cta_url'] ?? '/get-a-demo/',
+	'mark'      => $attributes['mark'] ?? 'ursa',
 	'joined'    => $attributes['joined'] ?? true,
 );
 

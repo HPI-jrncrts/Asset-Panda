@@ -3,7 +3,7 @@
 	"description": "Utility page hero for the 2026 company and resource pages (integrations, partners, compare, FAQ, tutorials, about, careers, reviews, ROI calculator): an eyebrow, a headline with an optional gradient phrase, lede paragraphs, check chips, two buttons and badges on the soft brand colour wash; centred, or split beside a framed product image. An optional stat row closes it. The eyebrow can carry the page h1 (live's small-label h1 pattern) with the headline as the h2.",
 	"props": {
 		"anchor": { "type": "string", "required": false, "default": "", "description": "id on the section (letters, digits, hyphens)." },
-		"layout": { "type": "string", "required": false, "default": "center", "enum": [ "center", "split" ], "description": "center: copy centred on the wash. split: copy left, image right from 1001px (stacked below); needs image." },
+		"layout": { "type": "string", "required": false, "default": "center", "enum": [ "center", "split", "photo", "panel" ], "description": "center: copy centred on the wash. split: copy left, image right from 1001px (stacked below); needs image. photo: copy left over image drawn full-bleed behind the hero, fading to white at the bottom (Our Company, Figma 7412:193397); below 1001px the image follows the copy as a banner; needs image. panel: the photo layout's left-aligned copy on a gradient (no image) with a white text card on the right like a hero form card (Purchasing Contracts); needs panel_title." },
 		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small uppercase label above the headline." },
 		"eyebrow_tag": { "type": "string", "required": false, "default": "p", "enum": [ "p", "h1" ], "description": "h1 when the page's h1 is the small label (live: 'Asset Panda Integrations' over 'Integrating With The World's Best'); then title_tag should be h2." },
 		"title": { "type": "string", "required": true, "description": "Headline. Line breaks are kept." },
@@ -16,11 +16,16 @@
 		"secondary_label": { "type": "string", "required": false, "default": "", "description": "Secondary (outline) button text. Renders only with secondary_url." },
 		"secondary_url": { "type": "string", "required": false, "default": "", "description": "Secondary button destination." },
 		"badges": { "type": "array", "required": false, "default": [], "description": "Badge images under the buttons. Each: image (URL), alt, optional w and h (intrinsic px; drawn 56px tall)." },
-		"image": { "type": "string", "required": false, "default": "", "description": "split: the hero image (PNG/WebP). Loaded eagerly with high priority (it is the page's largest paint)." },
+		"image": { "type": "string", "required": false, "default": "", "description": "split: the hero image (PNG/WebP). photo: the full-bleed background (a flattened export with its own wash, anchored top right). Loaded eagerly with high priority (it is the page's largest paint)." },
 		"image_alt": { "type": "string", "required": false, "default": "", "description": "Image alt text (empty when decorative)." },
 		"image_width": { "type": "integer", "required": false, "default": 0, "description": "Image intrinsic width in px (sets the aspect ratio; 0 omits it)." },
 		"image_height": { "type": "integer", "required": false, "default": 0, "description": "Image intrinsic height in px." },
 		"image_frame": { "type": "string", "required": false, "default": "card", "enum": [ "card", "plain" ], "description": "card: the image sits in a white rounded frame with a soft shadow (screenshots). plain: drawn as is (cut-out art)." },
-		"stats": { "type": "array", "required": false, "default": [], "description": "Optional figures along the bottom. Each: value (e.g. 30+) and label." }
+		"stats": { "type": "array", "required": false, "default": [], "description": "Optional figures along the bottom. Each: value (e.g. 30+) and label." },
+		"facts_title": { "type": "string", "required": false, "default": "", "description": "Heading (h2) of the fact card under the buttons, e.g. Asset Panda at a glance (Our Company, Figma 7450:97441)." },
+		"facts": { "type": "array", "required": false, "default": [], "description": "Fact card under the buttons: a glass card of label-over-value pairs, four to a row. Each: label (small upper-case), value, optional tone (yellow, green, indigo, blue; default cycles in that order)." },
+		"panel_title": { "type": "string", "required": false, "default": "", "description": "panel layout: heading (h2) of the text card beside the copy, e.g. Available Purchasing Contracts." },
+		"panel_body": { "type": "string", "required": false, "default": "", "description": "panel layout: paragraphs under the card heading (blank line = new paragraph; **bold** and [label](url) as in the lede)." },
+		"panel_links": { "type": "array", "required": false, "default": [], "description": "panel layout: arrow links listed at the foot of the card. Each: label, url (a page, #anchor or http(s))." }
 	}
 }

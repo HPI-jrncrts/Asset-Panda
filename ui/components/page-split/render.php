@@ -89,7 +89,7 @@ $check = '<svg viewBox="0 0 20 20" width="20" height="20" fill="none" aria-hidde
 $qmark = '<svg class="ap-page-split__qmark" width="40" height="32" viewBox="0 0 40 32" fill="none" aria-hidden="true" focusable="false"><path d="M0 32V19.2C0 8.53 5.33 2.13 16 0l2 4.27C11.6 6.13 8.67 9.6 8.4 14.67H16V32H0Zm22 0V19.2C22 8.53 27.33 2.13 38 0l2 4.27c-6.4 1.86-9.33 5.33-9.6 10.4H38V32H22Z" fill="currentColor"></path></svg>';
 
 $has_media = '' !== $image;
-$classes   = 'ap-page-split ap-page-split--' . $tone . ( $has_media ? ' ap-page-split--media' : ' ap-page-split--solo' ) . ( $reverse ? ' ap-page-split--reverse' : '' ) . ( $quote ? ' ap-page-split--quote' : '' );
+$classes   = 'ap-page-split ap-page-split--' . $tone . ( $has_media ? ' ap-page-split--media' : ' ap-page-split--solo' ) . ( $reverse ? ' ap-page-split--reverse' : '' ) . ( $quote ? ' ap-page-split--quote' : '' ) . ( ! empty( $props['tight'] ) ? ' ap-page-split--tight' : '' );
 ?>
 <section class="<?php echo esc_attr( $classes ); ?>"<?php echo '' !== $anchor ? ' id="' . esc_attr( $anchor ) . '"' : ''; ?>>
 	<?php if ( 'soft' === $tone ) : ?>
@@ -130,7 +130,7 @@ $classes   = 'ap-page-split ap-page-split--' . $tone . ( $has_media ? ' ap-page-
 						<?php foreach ( $links as $l ) : ?>
 							<li>
 								<a href="<?php echo esc_url( $l['url'], $protocols ); ?>">
-									<span class="ap-page-split__link-label"><?php echo ap_ui_brandmarks( esc_html( $l['label'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped. ?><?php if ( '' !== $l['note'] ) : ?><small><?php echo esc_html( $l['note'] ); ?></small><?php endif; ?></span>
+									<span class="ap-page-split__link-label"><?php // The label text has its own span so a brand mark in it ("Meet Ursa AI") stays on the label's line instead of becoming a row of this column flex box. ?><span class="ap-page-split__link-text"><?php echo ap_ui_brandmarks( esc_html( $l['label'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped. ?></span><?php if ( '' !== $l['note'] ) : ?><small><?php echo esc_html( $l['note'] ); ?></small><?php endif; ?></span>
 									<?php echo $arrow; // phpcs:ignore WordPress.Security.EscapeOutput -- fixed markup. ?>
 								</a>
 							</li>

@@ -1,0 +1,25 @@
+{
+	"name": "lp-booking",
+	"description": "Booking page: a heading and lede over one white card holding the event details (logo, event name, duration, description) beside an inline scheduler, on the soft colour wash. The scheduler is a Calendly inline widget or a Cal.com inline embed, mounted when the card nears the viewport. Live: the /calendly-booking-page-*/ pages (bs-section--thank-you-calendar, Calendly or Cal.com).",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small uppercase label above the heading." },
+		"title": { "type": "string", "required": false, "default": "", "description": "Page heading (h1) above the card. Empty makes the event name the h1." },
+		"lede": { "type": "string", "required": false, "default": "", "description": "Line under the heading." },
+		"background": { "type": "string", "required": false, "default": "", "description": "Wash picture URL, drawn cover-sized. Empty draws the kit's soft gradient." },
+		"logo": { "type": "string", "required": false, "default": "", "description": "Logo above the event name (live: the Asset Panda Pro logo)." },
+		"logo_alt": { "type": "string", "required": false, "default": "", "description": "Logo alt text (empty when decorative)." },
+		"logo_width": { "type": "integer", "required": false, "default": 0, "description": "Logo intrinsic width in px. 0 omits it." },
+		"logo_height": { "type": "integer", "required": false, "default": 0, "description": "Logo intrinsic height in px. 0 omits it." },
+		"event_title": { "type": "string", "required": true, "description": "Event name, e.g. Asset Panda Demo." },
+		"duration": { "type": "string", "required": false, "default": "", "description": "Meeting length beside a clock, e.g. 30 min. Empty hides the line." },
+		"body": { "type": "string", "required": false, "default": "", "description": "Event description." },
+		"provider": { "type": "string", "required": false, "default": "calendly", "enum": [ "calendly", "cal" ], "description": "calendly: a Calendly inline widget (calendly_url). cal: a Cal.com inline embed (cal_link)." },
+		"calendly_url": { "type": "string", "required": false, "default": "", "description": "Calendly scheduling link (https://calendly.com/…, query string kept, e.g. hide_event_type_details=1)." },
+		"cal_link": { "type": "string", "required": false, "default": "", "description": "Cal.com booking path, e.g. team/asset-panda-sales/asset-panda-demo." },
+		"cal_namespace": { "type": "string", "required": false, "default": "", "description": "Cal.com embed namespace (live: asset-panda-demo, asset-panda-pricing). Empty uses the last part of cal_link." },
+		"height": { "type": "integer", "required": false, "default": 640, "description": "Scheduler height in px on desktop (taller on phones)." },
+		"hide_international": { "type": "boolean", "required": false, "default": false, "description": "Hide the card for international visitors (html.ap-intl), as the legacy thank-you calendars do." },
+		"contact_email": { "type": "string", "required": false, "default": "info@assetpanda.com", "description": "Shown under the card, with the phone, for anyone who cannot book online. Empty hides the line." },
+		"contact_phone": { "type": "string", "required": false, "default": "(888) 928-6112", "description": "Phone number for the line under the card." }
+	}
+}

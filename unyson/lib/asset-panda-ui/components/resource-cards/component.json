@@ -1,0 +1,20 @@
+{
+	"name": "resource-cards",
+	"description": "Resource card grid after live's listing cards (photo, uppercase type label, category, title, excerpt, Read More →, in a light-ruled card), with the 'Showing 1–6 of N' line, numbered pagination (Previous / pages / Next) and an empty state. On a listing (variant grid) behaviour.js turns a click on a category tab (resource-hero's rail), a page number, an empty-state link back into the same listing, or a search of the same listing (resource-search's Enter / View all) into an in-place change: the leaving cards fade out, a skeleton holds the space while the filtered page is fetched, the new count, cards and pager fade and rise in with a short stagger, the listing's height is held so the tab rail never jumps, and the address, title and Back button follow; a page that turns out to be another listing, or any failure, loads normally; without JavaScript the links load the page as before. Variant related = the 'Related resources' row under an article: centred heading, three cards, no count or pagination.",
+	"props": {
+		"variant": { "type": "string", "default": "grid", "enum": ["grid", "related"] },
+		"heading": { "type": "string", "default": "", "description": "Section heading (H2). Optional on the grid." },
+		"count_text": { "type": "string", "default": "", "description": "e.g. Showing 1–6 of 268." },
+		"items": { "type": "array", "default": [], "description": "Cards. Each: title, url (both required); image, image_alt, image_w, image_h; label + label_url (resource type); category + category_url; excerpt; date (display text) + date_iso." },
+		"eager": { "type": "integer", "default": 0, "description": "How many leading card images load eagerly (the first row of a listing is in the first screen)." },
+		"more_label": { "type": "string", "default": "Read More" },
+		"pages": { "type": "array", "default": [], "description": "Page links in order. Each: label, url, current (boolean), gap (boolean: an ellipsis, no link)." },
+		"prev_url": { "type": "string", "default": "" },
+		"next_url": { "type": "string", "default": "" },
+		"prev_label": { "type": "string", "default": "Previous" },
+		"next_label": { "type": "string", "default": "Next" },
+		"empty_title": { "type": "string", "default": "No resources found." },
+		"empty_text": { "type": "string", "default": "" },
+		"empty_links": { "type": "array", "default": [], "description": "Links offered in the empty state. Each: label, url." }
+	}
+}

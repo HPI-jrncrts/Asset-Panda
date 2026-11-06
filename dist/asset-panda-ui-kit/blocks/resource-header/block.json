@@ -48,6 +48,10 @@
 			"type": "string",
 			"default": ""
 		},
+		"video": {
+			"type": "string",
+			"default": ""
+		},
 		"image_alt": {
 			"type": "string",
 			"default": ""

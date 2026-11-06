@@ -2,7 +2,8 @@
 // same-site and answers 200 without redirecting, every panel image loads, and the phone menu shows the
 // same seven groups.
 import { DEV, launch, guardPage, head, sleep } from './lib.mjs';
-const EXPECT = ['Public Sector', 'Education', 'Healthcare', 'Industry & Field Operations', 'Energy & Utilities', 'Transportation & Logistics', 'Business & Nonprofit'];
+// "Industrial" since 2026-10-30 (Navigation Implementation Map, Who We Help tab).
+const EXPECT = ['Public Sector', 'Education', 'Healthcare', 'Industrial', 'Energy & Utilities', 'Transportation & Logistics', 'Business & Nonprofit'];
 const norm = (s) => s.replace(/\s+/g, ' ').replace(/&amp;/g, '&').trim();
 const browser = await launch();
 const problems = [];

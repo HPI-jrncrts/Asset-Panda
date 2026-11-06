@@ -418,3 +418,16 @@ html body .ap-faq.ap-faq.ap-faq .ap-faq__eyebrow { font-size: var(--ap-type-eyeb
 .ap-faq.ap-faq--hub .apg-eyebrow + h2.apg-h2 {
 	max-width: 800px;
 }
+
+/* ---- Hub variant, size "compact" (integration detail pages): the FAQ steps
+ * down with the compact integration-detail body — heading 20–24px like the
+ * page's other section headings, questions 16–17px, answers 15px. */
+.ap-faq.ap-faq--hub.ap-faq--compact{padding:clamp(40px,34.65px + 1.371vw,56px) 24px 32px}
+/* html body + the class twice: outranks the site-wide FAQ heading token rule (html body .ap-faq.ap-faq.ap-faq :is(... h2.apg-h2)). */
+html body .ap-faq.ap-faq--hub.ap-faq--compact.ap-faq--compact h2.apg-h2{font-size:clamp(1.25rem,1.1786rem + .3048vw,1.5rem);line-height:1.35;margin-bottom:24px}
+.ap-faq.ap-faq--hub.ap-faq--compact .apg-faq-q{gap:16px;padding:14px 12px}
+.ap-faq.ap-faq--hub.ap-faq--compact .apg-faq-q span.apg-q-text{font-size:clamp(1rem,.9821rem + .0762vw,1.0625rem);font-weight:700;line-height:1.4}
+.ap-faq.ap-faq--hub.ap-faq--compact .apg-faq-ico{width:24px;height:24px;flex:0 0 24px}
+.ap-faq.ap-faq--hub.ap-faq--compact .apg-faq-ico::before{left:5px;right:5px;top:11px}
+.ap-faq.ap-faq--hub.ap-faq--compact .apg-faq-ico::after{top:5px;bottom:5px;left:11px}
+.ap-faq.ap-faq--hub.ap-faq--compact .apg-faq-a-in p{font-size:.9375rem;padding:0 12px 18px}

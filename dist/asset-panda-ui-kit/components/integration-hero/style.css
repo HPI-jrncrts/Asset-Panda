@@ -120,6 +120,16 @@
 	text-wrap: balance;
 }
 
+/* Optional lede under the H1 (the integration pages' one-line summary). */
+.ap-integration-hero .ap-integration-hero__lede {
+	max-width: 680px;
+	margin: 0;
+	color: var(--ap-type-lede-color, var(--ap-text-body));
+	font-size: var(--ap-type-lede-size);
+	line-height: var(--ap-type-lede-line);
+	text-wrap: pretty;
+}
+
 .ap-integration-hero__actions {
 	display: flex;
 	justify-content: center;
@@ -163,6 +173,218 @@
 	outline-offset: 2px;
 }
 
+/* ---- layout "split": copy left, video right ----
+ * The column runs the site's 1120px container so the copy lines up with the
+ * page body below. From 1025px: copy (up to 500px) and video (up to 600px,
+ * 16:9) side by side, vertically centred; below, the video stacks under the
+ * copy (max 720px). Everything in the copy column is left-aligned. */
+.ap-integration-hero--split {
+	padding-bottom: clamp(48px, 39.09px + 2.286vw, 72px);
+	text-align: left;
+}
+
+.ap-integration-hero--split .ap-integration-hero__inner {
+	grid-template-columns: minmax(0, 1fr);
+	justify-items: stretch;
+	align-items: center;
+	gap: 32px;
+	width: min(var(--ap-host-container, 1120px), 100%);
+	max-width: none;
+}
+
+.ap-integration-hero__copy {
+	display: grid;
+	justify-items: start;
+	gap: 16px;
+	min-width: 0;
+	max-width: 620px;
+}
+
+.ap-integration-hero--split .ap-integration-hero__actions {
+	justify-content: flex-start;
+	padding-top: 8px;
+}
+
+.ap-integration-hero__media {
+	position: relative;
+	width: 100%;
+	max-width: 720px;
+	aspect-ratio: 16 / 9;
+	overflow: hidden;
+	background: var(--ap-indigo-950);
+	border: 1px solid var(--ap-white);
+	border-radius: var(--ap-radius-xl);
+	box-shadow: var(--ap-shadow-md);
+}
+
+.ap-integration-hero__poster,
+.ap-integration-hero__player {
+	position: absolute;
+	inset: 0;
+	display: block;
+	width: 100%;
+	height: 100%;
+	border: 0;
+}
+
+.ap-integration-hero__poster {
+	object-fit: cover;
+}
+
+.ap-integration-hero__player {
+	background: var(--ap-black);
+}
+
+.ap-integration-hero__media.is-playing .ap-integration-hero__poster {
+	visibility: hidden;
+}
+
+.ap-integration-hero .ap-integration-hero__play {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-items: center;
+	text-decoration: none;
+	cursor: pointer;
+	-webkit-tap-highlight-color: transparent;
+}
+
+/* Figma: a 72px black-70% disc with a 20 x 16 triangle turned to point right,
+ * nudged 2px right of centre (as on the integration-detail video). */
+.ap-integration-hero__play-btn {
+	display: grid;
+	place-items: center;
+	width: 72px;
+	height: 72px;
+	border-radius: 50%;
+	background: url("assets/play-circle.svg") center / 72px 72px no-repeat;
+	transition: scale var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-integration-hero__play-btn img {
+	display: block;
+	width: 20px;
+	height: 16px;
+	translate: 2px 0;
+	rotate: 90deg;
+}
+
+.ap-integration-hero .ap-integration-hero__play:hover .ap-integration-hero__play-btn {
+	scale: 1.08;
+}
+
+/* The frame clips, so the focus ring sits on the disc: white, then indigo. */
+.ap-integration-hero .ap-integration-hero__play:focus { outline: none; }
+.ap-integration-hero .ap-integration-hero__play:focus-visible .ap-integration-hero__play-btn {
+	outline: 3px solid var(--ap-white);
+	outline-offset: 2px;
+	box-shadow: 0 0 0 8px var(--ap-brand-indigo);
+}
+
+/* video_thumb "logos": the frame is the thumbnail — the hero colour wash with
+ * the frosted partner + Asset Panda PRO card, drawn in container units (cqw =
+ * 1% of the frame width) so it keeps its proportions at every size, like a
+ * picture would. The card sits a little above centre; the play disc under it. */
+.ap-integration-hero__media--logos {
+	container-type: inline-size;
+	background: var(--ap-white) url("assets/hero-bg.webp") center / cover no-repeat;
+	border-color: var(--ap-slate-100);
+}
+
+.ap-integration-hero__thumb {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-items: center;
+	padding-bottom: 12cqw;
+}
+
+.ap-integration-hero__thumb-card {
+	display: flex;
+	align-items: center;
+	gap: 3.5cqw;
+	padding: 4.5cqw 6cqw;
+	background: color-mix(in srgb, var(--ap-white) 40%, transparent);
+	border: 1px solid var(--ap-white);
+	border-radius: clamp(10px, 2.6cqw, 16px);
+}
+
+.ap-integration-hero__thumb-logo {
+	display: block;
+	width: auto;
+	height: 10cqw;
+	max-width: 30cqw;
+	object-fit: contain;
+}
+
+.ap-integration-hero__thumb-plus {
+	display: block;
+	flex: none;
+	width: 1.8cqw;
+	height: 1.8cqw;
+}
+
+.ap-integration-hero__thumb-brand {
+	display: block;
+	flex: none;
+	width: 9.6cqw;
+	height: 10cqw;
+}
+
+.ap-integration-hero .ap-integration-hero__media--logos .ap-integration-hero__play {
+	place-items: end center;
+	padding-bottom: 6cqw;
+}
+
+.ap-integration-hero__media--logos .ap-integration-hero__play-btn {
+	width: clamp(44px, 11cqw, 72px);
+	height: clamp(44px, 11cqw, 72px);
+	background-size: 100% 100%;
+}
+
+.ap-integration-hero__media--logos.is-playing .ap-integration-hero__thumb {
+	visibility: hidden;
+}
+
+/* No video: the logo card takes the right column. */
+.ap-integration-hero__aside {
+	display: flex;
+	justify-content: flex-start;
+}
+
+@media (min-width: 1025px) {
+	.ap-integration-hero--split .ap-integration-hero__inner {
+		grid-template-columns: minmax(0, 500px) minmax(0, 600px);
+		justify-content: space-between;
+		column-gap: 48px;
+	}
+
+	.ap-integration-hero__media {
+		max-width: none;
+	}
+
+	.ap-integration-hero__aside {
+		justify-content: center;
+	}
+}
+
+@media (max-width: 639.98px) {
+	.ap-integration-hero__media {
+		border-radius: var(--ap-radius-lg);
+	}
+
+	.ap-integration-hero__play-btn {
+		width: 56px;
+		height: 56px;
+		background-size: 56px 56px;
+	}
+
+	.ap-integration-hero__play-btn img {
+		width: 16px;
+		height: 13px;
+	}
+}
+
 /* Entrance on load, not on scroll: each block rises in turn from a visible
  * resting state, so a failed animation never leaves the hero blank. */
 @media (prefers-reduced-motion: no-preference) {
@@ -172,11 +394,24 @@
 	.ap-integration-hero__inner > :nth-child(2) { animation-delay: var(--ap-stagger-step); }
 	.ap-integration-hero__inner > :nth-child(3) { animation-delay: calc(var(--ap-stagger-step) * 2); }
 	.ap-integration-hero__inner > :nth-child(4) { animation-delay: calc(var(--ap-stagger-step) * 3); }
+	.ap-integration-hero__inner > :nth-child(5) { animation-delay: calc(var(--ap-stagger-step) * 4); }
+
+	/* Split: the copy column's lines rise in turn, then the video. */
+	.ap-integration-hero--split .ap-integration-hero__inner > .ap-integration-hero__copy { animation: none; }
+	.ap-integration-hero__copy > * {
+		animation: ap-integration-hero-in var(--ap-dur-slow) var(--ap-ease-out) backwards;
+	}
+	.ap-integration-hero__copy > :nth-child(2) { animation-delay: var(--ap-stagger-step); }
+	.ap-integration-hero__copy > :nth-child(3) { animation-delay: calc(var(--ap-stagger-step) * 2); }
+	.ap-integration-hero__copy > :nth-child(4) { animation-delay: calc(var(--ap-stagger-step) * 3); }
+	.ap-integration-hero--split .ap-integration-hero__inner > :nth-child(2) { animation-delay: calc(var(--ap-stagger-step) * 2); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.ap-integration-hero .ap-integration-hero__btn { transition: none; }
+	.ap-integration-hero .ap-integration-hero__btn,
+	.ap-integration-hero__play-btn { transition: none; }
 	.ap-integration-hero .ap-integration-hero__btn:hover { translate: none; }
+	.ap-integration-hero .ap-integration-hero__play:hover .ap-integration-hero__play-btn { scale: none; }
 }
 
 @keyframes ap-integration-hero-in {

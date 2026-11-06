@@ -514,6 +514,35 @@ function ap_content_gate_html( $post_id ) {
 	$text    = trim( (string) get_post_meta( $post_id, '_ap_gate_text', true ) );
 	$target  = 'ap-gate-form-' . (int) $post_id;
 
+	// 1.3.12 (QA 2026-10-30, white papers reskinned with the blog post layout): with a kit whose form-hero has the
+	// card variant, the gate is that card — the Get a Demo card and fields, the same skin written into HubSpot's
+	// iframe when it draws the form in one, and the "Form not loading?" fallback — instead of live's lilac panel
+	// with HubSpot's own red button. Same anchor, same HubSpot form.
+	if ( ap_content_kit_ready( 'form-hero' ) && function_exists( 'ap_ui_contract' ) ) {
+		$contract = ap_ui_contract( 'form-hero' );
+		if ( is_array( $contract ) && in_array( 'card', (array) ( $contract['props']['variant']['enum'] ?? array() ), true ) ) {
+			$title = '' !== $heading ? $heading : 'Get The White Paper';
+			return '<div class="ap-content-gate ap-content-gate--card" id="' . esc_attr( ap_content_gate_anchor( $post_id ) ) . '">'
+				. ap_render_component(
+					'form-hero',
+					array(
+						'variant'        => 'card',
+						'title'          => $title,
+						'title_tag'      => 'h1',
+						'form_title'     => $title,
+						'form_intro'     => $text,
+						'hubspot_portal' => $portal,
+						'hubspot_form'   => $form,
+						'hubspot_region' => $region,
+						'form_embed'     => 'v2',
+						'fallback_email' => 'info@assetpanda.com',
+						'fallback_phone' => '(888) 928-6112',
+					)
+				)
+				. '</div>';
+		}
+	}
+
 	wp_enqueue_script( 'ap-content-hsforms', 'https://js.hsforms.net/forms/embed/v2.js', array(), null, true ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 	wp_add_inline_script(
 		'ap-content-hsforms',

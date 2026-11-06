@@ -8,6 +8,7 @@
 		"cta_label": { "type": "string", "required": false, "default": "", "description": "Header link text, e.g. View All Case Studies. Renders only with cta_url." },
 		"cta_url": { "type": "string", "required": false, "default": "", "description": "Header link destination." },
 		"items": { "type": "array", "required": true, "description": "Slides. Each: title (required); optional category, quote, author, role, logo, logo_alt, image, image_alt, link_label, link_url." },
-		"reveal": { "type": "boolean", "required": false, "default": true, "description": "Reveal the section on scroll." }
+		"reveal": { "type": "boolean", "required": false, "default": true, "description": "Reveal the section on scroll." },
+		"autoplay_ms": { "type": "integer", "required": false, "default": 3000, "description": "Milliseconds between automatic slide changes (default 3000; 0 turns autoplay off; values under 1500 are raised to 1500). Autoplay pauses on hover, keyboard focus, touch, a playing video, an off-screen slider and a hidden tab, and never runs under prefers-reduced-motion." }
 	}
 }

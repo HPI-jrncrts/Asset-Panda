@@ -147,7 +147,9 @@ $scene = static function ( $row ) use ( $ap_pct, $edu, $p ) {
 					} else {
 						$class = 'apg-feat-card' . ( '#5044e1' === $accent ? ' apg-fc-indigo' : ( '#00a991' === $accent ? ' apg-fc-green' : '' ) );
 					}
-					$rule = ( '' !== $accent && ! in_array( $accent, array( '#5044e1', '#00a991' ), true ) ) ? ' style="' . esc_attr( 'border-color:' . $accent ) . '"' : '';
+					// border-left-color, not border-color: WordPress's global styles give any element whose inline style
+					// contains "border-color" a solid border on all four sides (the third, orange Government card, 2026-10-30).
+					$rule = ( '' !== $accent && ! in_array( $accent, array( '#5044e1', '#00a991' ), true ) ) ? ' style="' . esc_attr( 'border-left-color:' . $accent ) . '"' : '';
 					?>
 					<?php if ( $edu ) : ?>
 						<div class="<?php echo esc_attr( $class ); ?>"<?php echo $rule; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped above. ?>>

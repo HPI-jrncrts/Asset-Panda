@@ -124,6 +124,10 @@ if ( 'trust' === $layout ) :
 endif;
 
 $bg_style = '' !== $background ? ' style="' . esc_attr( '--ap-plans-hero-bg:url("' . esc_url( $background ) . '")' ) . '"' : '';
+// First-screen backdrop (a CSS background): preload it (PageSpeed LCP).
+if ( '' !== $background && function_exists( 'ap_ui_preload_image' ) ) {
+	echo ap_ui_preload_image( $background ); // phpcs:ignore WordPress.Security.EscapeOutput -- built from esc_url() in the loader.
+}
 
 if ( 'split' === $layout ) :
 	/*

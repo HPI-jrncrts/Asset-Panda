@@ -23,6 +23,7 @@
 		"image_width": { "type": "integer", "required": false, "default": 0, "description": "Intrinsic width in px (0 omits it)." },
 		"image_height": { "type": "integer", "required": false, "default": 0, "description": "Intrinsic height in px." },
 		"image_style": { "type": "string", "required": false, "default": "photo", "enum": [ "photo", "circle", "card", "plain" ], "description": "photo: rounded 16px corners with a soft shadow; circle: round crop (a headshot); card: inside a white frame (screenshots); plain: as is (illustrations)." },
-		"reverse": { "type": "boolean", "required": false, "default": false, "description": "Image on the left from 1001px." }
+		"reverse": { "type": "boolean", "required": false, "default": false, "description": "Image on the left from 1001px." },
+		"tight": { "type": "boolean", "required": false, "default": false, "description": "Half the usual space above and below the row (Our Technology's What Is Asset Panda, Joseph 2026-10-31: \"cut the extra space in half\"): 24px from tablets up, 16px on phones, as the art carries its own soft margin." }
 	}
 }

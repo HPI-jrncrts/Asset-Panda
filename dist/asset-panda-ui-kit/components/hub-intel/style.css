@@ -209,3 +209,11 @@ html body .ap-hub-intel.ap-hub-intel.ap-hub-intel h2.apu-h2 { font-size: var(--a
 	}
 }
 
+
+/* A band of rows alone (no feature cards under them — Partners' Government Procurement row, Joseph 2026-10-31:
+ * "Remove the gradient background, this can be white") draws no colour puddle: the puddle exists to sit in the
+ * gap between the first row and what follows it. */
+.ap-hub-intel--gov:not(:has(.apg-int-feats)) > .apg-int-row:first-child::after,
+.ap-hub-intel--eduhub:not(:has(.apu-features)) .apu-container > .apu-block:first-child::after {
+	display: none;
+}

@@ -2,7 +2,7 @@
 // chip strip visible inside the hero above the art with the art's top 8–14px below the strip, strip track animating;
 // at 1440: every connector line starts within 8px of the panda tile and ends within 8px of its card's edge; Local
 // Government list: no data-ap-reveal, hover-shadow rule present; footer Company column: "Our Technology" →
-// /asset-intelligence-platform/.
+// /our-technology/ (since 2026-10-30; was /asset-intelligence-platform/).
 import { DEV, launch, guardPage, sleep } from './lib.mjs';
 const PAGES = ['local-government', 'public-works', 'fire', 'police', 'k12'];
 const problems = [];
@@ -74,7 +74,9 @@ await p.waitForTimeout(1200);
 const sl = await p.evaluate(() => { const s = document.querySelector('.ap-sticky-list'); const cards = s ? s.querySelectorAll('.ap-sticky-list__card') : []; const rev = s ? s.querySelectorAll('[data-ap-reveal]').length : -1; const hasHover = [...document.styleSheets].some((ss) => { try { return [...ss.cssRules].some((r) => /ap-sticky-list__card:hover/.test(r.cssText || '') || (r.cssRules && [...r.cssRules].some((q) => /ap-sticky-list__card:hover/.test(q.cssText || '')))); } catch (e) { return false; } }); const foot = [...document.querySelectorAll('footer a')].find((a) => /Our Technology/i.test(a.textContent)); return { cards: cards.length, reveal: rev, hasHover, footerLink: foot ? foot.getAttribute('href') : null }; });
 ok(sl.cards > 0 && sl.reveal === 0, 'Local Government list: cards present, none with data-ap-reveal', 'cards=' + sl.cards + ' reveal=' + sl.reveal);
 ok(sl.hasHover, 'Local Government list: hover shadow rule shipped');
-ok(sl.footerLink === '/asset-intelligence-platform/', 'footer Company column links Our Technology → /asset-intelligence-platform/', 'href=' + sl.footerLink);
+// Amended 2026-10-30: the Navigation Implementation Map's Footer tab links /our-technology/, and the Our Technology
+// doc says "retain; do not redirect" (the page is rebuilt there), replacing the 10-19 redirect to the platform page.
+ok(sl.footerLink === '/our-technology/', 'footer Company column links Our Technology → /our-technology/', 'href=' + sl.footerLink);
 await p.close();
 await browser.close();
 if (problems.length) { console.log('QA BATCH2 FAILED: ' + problems.length); process.exit(1); }

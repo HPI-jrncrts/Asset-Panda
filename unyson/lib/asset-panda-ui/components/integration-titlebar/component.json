@@ -1,0 +1,35 @@
+{
+	"name": "integration-titlebar",
+	"description": "Slim sticky title bar for an integration detail page: the partner logo + Asset Panda PRO mark beside the eyebrow and page title. Slides in under the site header once the hero's H1 has left the viewport (Figma 'Sticky Title Bar', 7333:171865). Place it right after integration-hero.",
+	"props": {
+		"eyebrow": {
+			"type": "string",
+			"required": false,
+			"default": "Integrations",
+			"description": "Small label above the title."
+		},
+		"title": {
+			"type": "string",
+			"required": true,
+			"description": "Page title, as in the hero H1 (e.g. 'Slack + Asset Panda PRO')."
+		},
+		"logo": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Partner logo URL."
+		},
+		"brand_logo": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Asset Panda mark; empty uses the kit's panda PRO mark."
+		},
+		"watch": {
+			"type": "string",
+			"required": false,
+			"default": ".ap-integration-hero__title",
+			"description": "CSS selector of the heading whose departure shows the bar; falls back to the page's first H1."
+		}
+	}
+}

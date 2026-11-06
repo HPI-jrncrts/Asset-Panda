@@ -1,0 +1,17 @@
+{
+	"name": "compare-hero",
+	"description": "Compare hub hero: a centred eyebrow, H1, lede and one button over the soft 2026 colour wash, above a wide illustration (the Asset Panda panda arm-wrestling a rival) that fades into white at the foot of the hero. Figma: Desktop - Compare > Hero Section (7333:173311).",
+	"props": {
+		"title": { "type": "string", "required": true, "description": "The H1, e.g. Find the right asset management solution for your team. Line breaks are kept." },
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small uppercase label above the title, e.g. COMPARE ASSET PANDA PRO." },
+		"lede": { "type": "string", "required": false, "default": "", "description": "Paragraph under the title. Line breaks are kept." },
+		"cta_label": { "type": "string", "required": false, "default": "", "description": "Button text, e.g. Book a Demo. Renders only with cta_url." },
+		"cta_url": { "type": "string", "required": false, "default": "", "description": "Button destination, e.g. /get-a-demo/." },
+		"image": { "type": "string", "required": false, "default": "", "description": "Illustration under the copy (transparent WebP or PNG, cropped to the part Figma shows: 1536 x 548 for the 1090 x 389 slot). Empty leaves the hero as copy only." },
+		"image_alt": { "type": "string", "required": false, "default": "", "description": "Alt text of the illustration. Leave empty when it is decoration (the copy carries the message)." },
+		"image_w": { "type": "integer", "required": false, "default": 1536, "description": "Intrinsic width of the illustration in px (sets its aspect ratio)." },
+		"image_h": { "type": "integer", "required": false, "default": 548, "description": "Intrinsic height of the illustration in px." },
+		"layout": { "type": "string", "required": false, "default": "wide", "enum": ["wide", "compact"], "description": "wide: the 2026-10-28 frame (1090px illustration under the copy, 797px hero). compact: the 2026-10-29 redesign (Figma 7333:173311, 661px): the copy 57px under the header, an 811px illustration slot (give the art already cropped to that window, e.g. 1427 x 523) whose top tucks 56px under the button row, the optional glow behind it, and a shorter white fade." },
+		"glow": { "type": "string", "required": false, "default": "", "description": "Compact layout only: soft light image drawn behind the illustration (Figma 'image 11', a 1443 x 563 window centred on the art and starting 266px above it at 1440). Transparent WebP. Decorative." }
+	}
+}

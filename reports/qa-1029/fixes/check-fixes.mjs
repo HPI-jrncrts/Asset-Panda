@@ -51,7 +51,10 @@ for (const path of ['/careers/', '/contact/', '/our-company/', '/solutions/gover
   const r = await p.evaluate(() => [...document.querySelectorAll('.ap-mobile-menu-login a')].filter((a) => { const b = a.getBoundingClientRect(); return b.width > 100 && b.height >= 40 && b.top >= 0 && b.bottom <= innerHeight; }).map((a) => a.getAttribute('href')));
   ok('F6 phone drawer shows both logins', r.some((h) => /assetpanda\.app/.test(h)) && r.some((h) => /login\.assetpanda\.com/.test(h)), JSON.stringify(r)); await p.close(); await sleep(3300); }
 // F7: the four missed CTA classes follow the sitewide button scale (42.8px/14px/800 desktop, 36px/13px phones)
-for (const [path, w] of [['/integrations/slack/', 1440], ['/integrations/slack/', 390], ['/contact/', 1440], ['/solutions/asset-management-ot-ga/', 1440]]) {
+// 2026-10-30 (Joseph): the integration detail pages are drafts while their content is written, so /integrations/slack/
+// (the detail page's .ap-integration-detail__btn / .ap-integration-more__btn) is not public; put its two rows back,
+// [['/integrations/slack/', 1440], ['/integrations/slack/', 390]], once the detail pages are published again.
+for (const [path, w] of [['/contact/', 1440], ['/solutions/asset-management-ot-ga/', 1440]]) {
   const p = await open(path, w, 900);
   const r = await p.evaluate((w) => { const want = w > 1100 ? [42.8, '14px'] : [36, '13px']; const els = [...document.querySelectorAll('.ap-integration-detail__btn, .ap-integration-more__btn, .ap-card-grid__btn, .ap-article-cta__btn')]; return { n: els.length, bad: els.filter((a) => { const cs = getComputedStyle(a); return Math.abs(a.getBoundingClientRect().height - want[0]) > 1 || cs.fontSize !== want[1] || cs.fontWeight !== '800'; }).map((a) => a.textContent.trim().slice(0, 20)) }; }, w);
   ok(`F7 CTA size ${path} @${w}`, r.n > 0 && r.bad.length === 0, JSON.stringify(r)); await p.close(); await sleep(3300);

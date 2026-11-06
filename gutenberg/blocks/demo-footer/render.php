@@ -30,6 +30,7 @@ $props = array(
 	'address'   => $attributes['address'] ?? '',
 	'links'     => $attributes['links'] ?? array(),
 	'social'    => $attributes['social'] ?? array(),
+	'slim'      => $attributes['slim'] ?? false,
 );
 
 $ap_html = ap_render_component( 'demo-footer', $props );

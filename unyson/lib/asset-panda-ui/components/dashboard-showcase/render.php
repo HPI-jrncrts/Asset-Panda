@@ -134,7 +134,7 @@ if ( $ap_lede_m >= 12 && $ap_lede_m <= 28 && 18 !== $ap_lede_m ) {
 ?>
 <section class="<?php echo esc_attr( implode( ' ', $ap_dash_classes ) ); ?>"<?php echo $ap_dash_vars ? ' style="' . esc_attr( implode( ';', $ap_dash_vars ) ) . '"' : ''; ?>>
 	<?php if ( '' !== $background ) : ?>
-		<img class="ap-dashboard-showcase__bg" src="<?php echo esc_url( $background ); ?>" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+		<img class="ap-dashboard-showcase__bg" src="<?php echo esc_url( $background ); ?>" alt="" aria-hidden="true" loading="eager" fetchpriority="low" decoding="async" />
 	<?php endif; ?>
 
 	<div class="ap-dashboard-showcase__inner">
@@ -152,7 +152,7 @@ if ( $ap_lede_m >= 12 && $ap_lede_m <= 28 && 18 !== $ap_lede_m ) {
 			<div class="ap-dashboard-showcase__stage">
 				<?php if ( '' !== $image ) : ?>
 					<figure class="ap-dashboard-showcase__shot">
-						<img src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( $props['image_alt'] ); ?>" loading="lazy" decoding="async" />
+						<img src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( $props['image_alt'] ); ?>" loading="eager" fetchpriority="low" decoding="async" />
 					</figure>
 				<?php endif; ?>
 

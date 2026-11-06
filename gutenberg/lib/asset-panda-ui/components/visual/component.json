@@ -1,0 +1,64 @@
+{
+	"name": "visual",
+	"description": "One image used as a design element (builder library, 2026-11): a photo cut to a circle, blob, pill or rounded frame, or transparent art (pandas, orbs, icons) as it is. Optional glow, shadow or ring, a size step, alignment, caption and link. Animations come from the block's ap-anim-* class, not from here.",
+	"props": {
+		"image": {
+			"type": "string",
+			"required": true,
+			"description": "Image URL (Media Library or kit asset)."
+		},
+		"alt": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Alt text. Empty for pure decoration; the kit's alt pass then labels it from its surroundings and hides it from screen readers."
+		},
+		"shape": {
+			"type": "string",
+			"required": false,
+			"default": "rounded",
+			"enum": [ "none", "rounded", "circle", "blob", "pill" ],
+			"description": "Frame. `none` keeps transparent art uncut; circle, blob and pill crop the image (cover)."
+		},
+		"size": {
+			"type": "string",
+			"required": false,
+			"default": "m",
+			"enum": [ "xs", "s", "m", "l", "xl", "full" ],
+			"description": "Width step: 64, 120, 200, 320, 480px, or the full width of its column."
+		},
+		"fit": {
+			"type": "string",
+			"required": false,
+			"default": "cover",
+			"enum": [ "cover", "contain" ],
+			"description": "How the image fills a cropped frame."
+		},
+		"effect": {
+			"type": "string",
+			"required": false,
+			"default": "none",
+			"enum": [ "none", "shadow", "glow-indigo", "glow-teal", "ring", "gradient-ring" ],
+			"description": "Soft drop shadow, coloured glow, white ring, or the indigo-to-teal gradient ring."
+		},
+		"position": {
+			"type": "string",
+			"required": false,
+			"default": "center",
+			"enum": [ "left", "center", "right" ],
+			"description": "Horizontal position in its column."
+		},
+		"caption": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Optional line under the image."
+		},
+		"link_url": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Optional link for the image."
+		}
+	}
+}

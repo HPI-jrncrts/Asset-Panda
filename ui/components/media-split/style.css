@@ -371,3 +371,21 @@ html body *:has(> .ap-media-split) + *:has(> .ap-media-split) > .ap-media-split.
 			radial-gradient(ellipse 40% 30% at 30% 60%, rgba(230, 28, 85, .13), rgba(230, 28, 85, .05) 45%, rgba(230, 28, 85, 0) 100%);
 	}
 }
+
+/* QA 2026-10-30 (Joseph, /solutions/non-profit/, /solutions/transportation-logistics/, /solutions/msp-it-asset-management/:
+ * "please make sure the square container is not visible"). Their Ursa scene artwork (the *-intel-scene picture) is
+ * painted on its own pale panel, whose straight edges read as a box beside the copy. On those pages (WordPress 2349,
+ * 1095, 2341) the picture's outer 2.5% is clear (the panel's white rim sits about 2% in) and the edges fade in to full
+ * strength 9–10% in, so the panel melts into the section while the panda, the orb and the equipment stay whole. */
+:is(body.page-id-2349, body.page-id-1095, body.page-id-2341) .apg-int-scene > img[src*="intel-scene"] {
+	-webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 2.5%, #000 10%, #000 89%, rgba(0, 0, 0, 0) 97.5%), linear-gradient(to right, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 2.5%, #000 9%, #000 91%, rgba(0, 0, 0, 0) 97.5%);
+	-webkit-mask-composite: source-in;
+	mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 2.5%, #000 10%, #000 89%, rgba(0, 0, 0, 0) 97.5%), linear-gradient(to right, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 2.5%, #000 9%, #000 91%, rgba(0, 0, 0, 0) 97.5%);
+	mask-composite: intersect;
+}
+/* Transportation & Logistics (1095) also lays a glow picture (fp26-transportation-logistics-intel-glow) behind the
+ * scene, and that file has a white patch exactly where the scene sits — the box was in the glow, not the scene. On that
+ * page the glow picture is not drawn. */
+body.page-id-1095 .ap-media-split img[src*="intel-glow"] { display: none; }
+/* QA 2026-10-30 (Joseph: "Please remove the gradient background behind the panda here. We already have a gradient in
+ * between the sections"): no glow is painted behind the scene on this page either. */

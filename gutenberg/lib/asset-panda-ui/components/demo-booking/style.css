@@ -1421,3 +1421,114 @@
 	line-height: 1.2;
 	text-indent: 1px;
 }
+
+
+/* QA 2026-10-29: the hero is one screen tall on desktop, so on most laptop screens the testimonial card
+   was squeezed and its overflow cut the author's name and logo in half. The slides now fit the card's
+   room: behaviour.js (fitQuotes) clamps each quote to the lines that fit, so it ends on "…", and the
+   title and author row always show in full. Screens up to 999px tall get the compact card the ≤899px
+   rule already uses. */
+@media (min-width:1024px) {
+	.ap-demo-booking .ap-d26-v1-side .ap-d26-qslides {
+		flex: 1 1 auto;
+		min-height: 0;
+		grid-template-rows: minmax(0,1fr);
+	}
+	.ap-demo-booking .ap-d26-v1-side .ap-d26-qslide {
+		min-height: 0;
+	}
+	.ap-demo-booking .ap-d26-v1-side .ap-d26-qicon,
+	.ap-demo-booking.ap-d26-sec .ap-d26-v1-side .ap-d26-qtitle,
+	.ap-demo-booking .ap-d26-v1-side .ap-d26-qauthor {
+		flex-shrink: 0;
+	}
+	.ap-demo-booking.ap-d26-sec .ap-d26-v1-side .ap-d26-qtext {
+		display: -webkit-box;
+		flex: 0 1 auto;
+		min-height: 0;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 5;
+		overflow: hidden;
+	}
+}
+@media (min-width:1024px) and (max-height:999px) {
+	.ap-demo-booking .ap-d26-v1-side .ap-d26-qcard {
+		gap: 14px;
+		padding: 20px 28px 22px;
+	}
+	.ap-demo-booking.ap-d26-sec .ap-d26-v1-side .ap-d26-qslide {
+		gap: 10px;
+	}
+	.ap-demo-booking.ap-d26-sec .ap-d26-v1-side .ap-d26-qicon {
+		width: 24px;
+		height: 24px;
+	}
+	.ap-demo-booking.ap-d26-sec .ap-d26-v1-side .ap-d26-qtitle {
+		font-size: 20px;
+	}
+	.ap-demo-booking.ap-d26-sec .ap-d26-v1-side .ap-d26-qtext {
+		font-size: 15px;
+		line-height: 1.45;
+	}
+	.ap-demo-booking.ap-d26-sec .ap-d26-v1-side .ap-d26-qlogo {
+		height: 60px;
+	}
+}
+@media (min-width:1024px) and (max-height:760px) {
+	.ap-demo-booking.ap-d26-sec .ap-d26-v1-side .ap-d26-qtext {
+		-webkit-line-clamp: 3;
+	}
+}
+
+/* ---------- Dark backdrop (backdrop: dark; the focused Get a Demo page, Joseph 2026-10-30, after
+   MaintainX's demo page) ----------
+   A navy scrim over the background image (an inset shadow paints above the background and under the
+   content, so nothing needs a z-index) and no fade into the band below. The copy and widget sit on a
+   white card like the testimonial card; the widget's own shadowed cards go flat inside it (the bordered
+   calendar panel keeps its frame). Field edges darken to the slot buttons' slate, which also clears 3:1
+   against white. */
+.ap-demo-booking.ap-d26-hero--dark {
+	box-shadow: inset 0 0 0 100vmax rgba(36,44,74,.5);
+}
+.ap-demo-booking.ap-d26-hero--dark .ap-d26-fade {
+	display: none;
+}
+.ap-demo-booking.ap-d26-hero--dark .ap-d26-v1-main {
+	padding: 40px;
+	border-radius: 16px;
+	background: #fff;
+	box-shadow: 0 8px 24px rgba(10,10,10,.08);
+}
+.ap-demo-booking.ap-d26-hero--dark .ap-d26-v1-main .ap-dw-card:not(.ap-dw-cal) {
+	padding: 0;
+	border-radius: 0;
+	box-shadow: none;
+}
+.ap-demo-booking.ap-d26-hero--dark .ap-dw-field {
+	border-color: var(--ap-slate-500);
+}
+.ap-demo-booking.ap-d26-hero--dark .ap-dw-field:focus-within {
+	border-color: var(--ap-brand-green);
+}
+.ap-demo-booking.ap-d26-hero--dark .ap-dw .ap-dw-tz select {
+	border-color: var(--ap-slate-500)!important;
+}
+@media (min-width:1024px) {
+
+	/* Each card as tall as its content, centred in the hero: the form card grows with the names and the
+	   calendar up to the hero's height (then the calendar scrolls inside it, as on the light page). */
+	.ap-demo-booking.ap-d26-hero--dark .ap-d26-v1-main {
+		align-self: center;
+		max-height: 100%;
+	}
+}
+@media (min-width:1024px) and (max-height:760px) {
+	.ap-demo-booking.ap-d26-hero--dark .ap-d26-v1-main {
+		padding: 24px 32px;
+	}
+}
+@media (max-width:767px) {
+	.ap-demo-booking.ap-d26-hero--dark .ap-d26-v1-main {
+		padding: 24px 20px 28px;
+	}
+}

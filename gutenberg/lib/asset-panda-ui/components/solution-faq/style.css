@@ -16,7 +16,7 @@
 }
 
 .ap-solution-faq {
-	background: linear-gradient(180deg, #f9fafb 0%, #fff 100%);
+	background: #fff;
 	overflow: hidden;
 	font-family: var(--ap-font-body, 'Manrope', Arial, sans-serif);
 }
@@ -54,10 +54,15 @@
 
 .ap-solution-faq__item {
 	border-top: 1px solid #b6bac3;
-	transition: background .2s cubic-bezier(.4, 0, .2, 1);
+	transition: background-color var(--ap-dur-base) var(--ap-ease-standard);
 }
 
-.ap-solution-faq__item:hover { background: rgba(80, 68, 225, .04); }
+/* A faint hover wash on CLOSED rows only, and only where a real pointer
+ * hovers. It used to stay on the opened row (and stick after a tap on
+ * phones), framing the open question and answer in a tinted box. */
+@media (hover: hover) {
+	.ap-solution-faq__item:not([open]):hover { background: rgba(80, 68, 225, .04); }
+}
 
 .ap-solution-faq__item summary {
 	display: flex;
@@ -70,6 +75,8 @@
 	font-weight: 800;
 	line-height: 1.4;
 	color: #25272c;
+	-webkit-tap-highlight-color: transparent;
+	transition: color var(--ap-dur-base) var(--ap-ease-standard);
 }
 
 .ap-solution-faq__item summary::-webkit-details-marker { display: none; }
@@ -91,12 +98,21 @@
 	text-align: inherit;
 }
 
-.ap-solution-faq__item summary:focus-visible {
-	outline: 3px solid #5044e1;
-	outline-offset: -3px;
+/* No box around the row: the theme outlines any focused element, and a mouse
+ * click focuses the <summary>. Keyboard focus underlines the question. */
+.ap-solution-faq__item summary:focus { outline: none; }
+
+.ap-solution-faq__item summary:focus-visible { color: #5044e1; }
+
+.ap-solution-faq__item summary:focus-visible > .ap-solution-faq__q {
+	text-decoration: underline;
+	text-decoration-thickness: 2px;
+	text-underline-offset: 4px;
 }
 
-.ap-solution-faq__item[open] summary { color: #5044e1; }
+/* :where() keeps the plain [open] specificity; data-ap-closing (set by
+ * motion.js while a row animates shut) drops the open look as it starts. */
+.ap-solution-faq__item[open]:where(:not([data-ap-closing])) summary { color: #5044e1; }
 
 .ap-solution-faq__mark {
 	position: relative;
@@ -114,15 +130,15 @@
 	translate: -50% -50%;
 	background: #00a991;
 	border-radius: 2px;
-	transition: rotate .3s cubic-bezier(.4, 0, .2, 1), background .2s;
+	transition: rotate var(--ap-dur-base) var(--ap-ease-standard), background-color var(--ap-dur-base) var(--ap-ease-standard);
 }
 
 .ap-solution-faq__mark::before { width: 19px; height: 2.7px; }
 .ap-solution-faq__mark::after { width: 2.7px; height: 19px; }
 
-.ap-solution-faq__item[open] .ap-solution-faq__mark::before { background: #5044e1; }
+.ap-solution-faq__item[open]:where(:not([data-ap-closing])) .ap-solution-faq__mark::before { background: #5044e1; }
 
-.ap-solution-faq__item[open] .ap-solution-faq__mark::after {
+.ap-solution-faq__item[open]:where(:not([data-ap-closing])) .ap-solution-faq__mark::after {
 	rotate: 90deg;
 	background: #5044e1;
 }
@@ -175,6 +191,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+	.ap-solution-faq__item,
+	.ap-solution-faq__item summary,
 	.ap-solution-faq__mark::before,
 	.ap-solution-faq__mark::after { transition: none; }
 }
@@ -195,3 +213,12 @@
 
 	.ap-solution-faq--solution :is(h2, h3) { text-wrap: balance; }
 }
+
+/* ------------------------------------------------------------ Section rhythm + type scale (QA 2026-10-28, sections agent)
+ * Padding on the kit section rhythm (tokens.css "section rhythm") and the
+ * section title / eyebrow on the type-scale tokens, like every other section. */
+html body .ap-solution-faq.ap-solution-faq .ap-solution-faq__wrap { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+html body .ap-solution-faq.ap-solution-faq .ap-solution-faq__title { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+
+/* QA 2026-10-29 (Joseph, sitewide): sections without a colour gradient are pure white — the white-to-#f9fafb fades
+ * showed as a grey band against the next section. */

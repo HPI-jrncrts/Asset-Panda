@@ -1,0 +1,15 @@
+{
+	"name": "resource-hero",
+	"description": "Listing hero of the Resource Center, its type listings (Blog, Case Studies, Success Stories, White Papers, Webinars) and the Press Room, after live's ap-r26 hero: eyebrow, H1, one line of copy, the instant search field (resource-search), and a rail of category tabs (All + the first few, a ••• button opens the rest) over a soft gradient wash.",
+	"props": {
+		"eyebrow": { "type": "string", "default": "Resource Center" },
+		"title": { "type": "string", "required": true, "description": "The H1." },
+		"description": { "type": "string", "default": "" },
+		"search": { "type": "object", "default": {}, "description": "resource-search props; the field is left out when empty or without index_url." },
+		"tabs": { "type": "array", "default": [], "description": "Category tabs in order. Each: label (required), url (required), active (boolean)." },
+		"tabs_label": { "type": "string", "default": "Filter by category", "description": "Accessible name of the tab rail." },
+		"visible_tabs": { "type": "integer", "default": 7, "description": "Tabs shown before the ••• button on wide screens (All counts as one). Phones scroll the whole rail instead." },
+		"more_label": { "type": "string", "default": "Show more categories" },
+		"less_label": { "type": "string", "default": "Show fewer categories" }
+	}
+}

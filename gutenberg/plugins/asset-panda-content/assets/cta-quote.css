@@ -74,3 +74,16 @@
 .ap-cta-quote > :last-child {
 	margin-bottom: 0;
 }
+
+/* 1.3.15 (QA 2026-10-30, "if any contained icons are present for some posts, make sure to include them"): the
+ * customer's logo at the top of a case study / success story quote, as live draws it (blockquote-logo). */
+.wp-block-quote.is-style-ap-cta-quote .ap-quote-logo {
+	margin: 0 0 14px;
+}
+.wp-block-quote.is-style-ap-cta-quote .ap-quote-logo img {
+	display: block;
+	width: auto;
+	height: auto;
+	max-width: 180px;
+	max-height: 48px;
+}

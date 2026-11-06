@@ -1,0 +1,103 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/container",
+	"title": "AP Container",
+	"category": "design",
+	"icon": "screenoptions",
+	"description": "A styled box that holds other blocks (builder library, 2026-11): card, lavender panel, gradient band, navy band, glass, outline, soft wash or plain, with width, padding, corner, background image and decoration options. The component draws the box; the block adapter puts its inner blocks where the box's <!--ap-slot--> marker is. This block is an adapter: it maps attributes to kit props and places its inner blocks in the box.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"look": {
+			"type": "string",
+			"default": "card",
+			"enum": [
+				"plain",
+				"card",
+				"lavender",
+				"gradient",
+				"navy",
+				"glass",
+				"outline",
+				"wash"
+			]
+		},
+		"width": {
+			"type": "string",
+			"default": "content",
+			"enum": [
+				"narrow",
+				"content",
+				"wide",
+				"full"
+			]
+		},
+		"padding": {
+			"type": "string",
+			"default": "l",
+			"enum": [
+				"none",
+				"s",
+				"m",
+				"l",
+				"xl"
+			]
+		},
+		"text_align": {
+			"type": "string",
+			"default": "left",
+			"enum": [
+				"left",
+				"center"
+			]
+		},
+		"radius": {
+			"type": "string",
+			"default": "l",
+			"enum": [
+				"none",
+				"m",
+				"l",
+				"xl"
+			]
+		},
+		"background_image": {
+			"type": "string",
+			"default": ""
+		},
+		"overlay": {
+			"type": "string",
+			"default": "none",
+			"enum": [
+				"none",
+				"light",
+				"dark"
+			]
+		},
+		"decoration": {
+			"type": "string",
+			"default": "none",
+			"enum": [
+				"none",
+				"orbs",
+				"glow",
+				"grid",
+				"panda"
+			]
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"anchor": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

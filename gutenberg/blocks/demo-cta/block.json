@@ -114,6 +114,22 @@
 				"card"
 			]
 		},
+		"look": {
+			"type": "string",
+			"default": "dark",
+			"enum": [
+				"dark",
+				"values"
+			]
+		},
+		"title_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"bullet_icons": {
+			"type": "array",
+			"default": []
+		},
 		"align": {
 			"type": "string",
 			"default": "full"

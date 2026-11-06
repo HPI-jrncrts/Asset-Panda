@@ -535,3 +535,27 @@ html body .ap-assist-problem--body-md .ap-assist-problem__copy li { font-size: v
 		text-align: center;
 	}
 }
+
+/* ------------------------------------------------------------ QA 2026-10-30 (Joseph, /ursa-ai/ "Ursa AI, explained",
+ * phones only): "We have 4 text boxes below the panda in mobiles right? Can we move that up in mobiles above the panda
+ * and in 2x2 grid position? … Just make sure to readjust the panda. The desktop and tablet is fine as is." On that page
+ * (WordPress 2328), and since the same day on /solutions/help-desk-ticketing/ "Any question. One place to start." (751,
+ * Joseph: "Same revision with the /ursa-ai/"), the four chips now open the art block as a two-by-two grid right under the copy, and the panda,
+ * ring and orb stage follows below them: the stage keeps its design coordinates but is measured from the block's foot
+ * instead of its top, and its glow moves down with it. */
+@media (max-width: 700px) {
+	:is(body.page-id-2328, body.page-id-751) .ap-assist-problem__art {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		align-items: stretch;
+		gap: 10px;
+		padding-top: 0;
+		padding-bottom: calc(var(--stage-h) + 36px);
+	}
+	:is(body.page-id-2328, body.page-id-751) .ap-assist-problem__fc { left: 0; display: flex; }
+	:is(body.page-id-2328, body.page-id-751) .ap-assist-problem__flo { width: 100%; }
+	:is(body.page-id-2328, body.page-id-751) .ap-assist-problem__ring { top: calc(100% - var(--stage-h) - 8px - 75px * var(--ps)); }
+	:is(body.page-id-2328, body.page-id-751) .ap-assist-problem__pandabox { top: calc(100% - var(--stage-h) - 8px + 9px * var(--ps)); }
+	:is(body.page-id-2328, body.page-id-751) .ap-assist-problem__orb { top: calc(100% - var(--stage-h) - 8px + 41px * var(--ps)); }
+	:is(body.page-id-2328, body.page-id-751) .ap-assist-problem__artwrap::before { top: auto; bottom: -16px; }
+}

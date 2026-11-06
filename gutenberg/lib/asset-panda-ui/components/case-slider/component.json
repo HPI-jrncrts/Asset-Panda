@@ -9,6 +9,7 @@
 		"quote_icon": { "type": "string", "required": false, "default": "", "description": "Quote mark image. Empty uses the kit's own." },
 		"items": { "type": "array", "required": true, "description": "Stories. Each: quote (required); title (headline), author, role, link_label, link_url, image, image_alt, logo, logo_alt; hub variants also logo_w / logo_h (logo size in px) and logo_text (a wordmark badge instead of a logo image; *starred* text is set bold) with logo_style (hospice, osage or fresenius)." },
 		"viewall_label": { "type": "string", "required": false, "default": "", "description": "Link to all stories. Renders only with viewall_url." },
-		"viewall_url": { "type": "string", "required": false, "default": "", "description": "View-all destination." }
+		"viewall_url": { "type": "string", "required": false, "default": "", "description": "View-all destination." },
+		"autoplay_ms": { "type": "integer", "required": false, "default": 3000, "description": "Milliseconds between automatic slide changes (default 3000; 0 turns autoplay off; values under 1500 are raised to 1500). Autoplay pauses on hover, keyboard focus, touch, a playing video, an off-screen slider and a hidden tab, and never runs under prefers-reduced-motion." }
 	}
 }

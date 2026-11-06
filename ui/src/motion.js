@@ -73,7 +73,9 @@
 	function ctaKind( el ) {
 		var cs = getComputedStyle( el );
 		var bg = cs.backgroundImage || '';
-		var border = cs.borderTopColor;
+		// A border only counts when it is drawn: a plain green text link (the header's Sales phone number) has a 0px
+		// border whose colour is still its green text, and was being dressed as an outline button (QA 2026-10-30).
+		var border = parseFloat( cs.borderTopWidth ) > 0 ? cs.borderTopColor : 'transparent';
 		var fill = cs.backgroundColor;
 		var green = function ( c ) {
 			return c === 'rgb(0, 169, 145)' || c === 'rgb(0, 128, 110)';

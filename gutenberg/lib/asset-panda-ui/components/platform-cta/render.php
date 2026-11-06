@@ -30,7 +30,7 @@ $ap_ursa = static function ( $escaped ) {
 	return preg_replace( '/\bUrsa\s?AI\b/', 'Ursa<sup class="apx-cta-sup">AI</sup>', (string) $escaped );
 };
 ?>
-<section class="ap-platform-cta">
+<section class="ap-platform-cta<?php echo 'compact' === $props['size'] ? ' ap-platform-cta--compact' : ''; ?>">
 	<div class="ap-final-cta-section">
 		<div class="ap-final-cta-card">
 			<div class="ap-final-cta-copy">

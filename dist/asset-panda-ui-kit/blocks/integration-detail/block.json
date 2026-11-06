@@ -5,7 +5,7 @@
 	"title": "AP Integration Detail",
 	"category": "design",
 	"icon": "block-default",
-	"description": "Integration detail body: a section head over a sticky numbered index (from 1025px) beside up to four parts — Overview (copy + product video), Key Capabilities (tinted cards), How It Works (numbered steps) and Requirements (copy + help card). Every part is optional; the index numbers whatever is present. Figma: Integrations Detail Page Template > Platform Section (7318:168656). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"description": "Integration detail body: a section head over a sticky numbered index (from 1025px) beside up to five parts — Overview (copy + product video), Key Capabilities (tinted cards), Supported Data (a table), How It Works (numbered steps) and Requirements (copy or a checklist + help card). Every part is optional; the index numbers whatever is present. Figma: Integrations Detail Page Template > Platform Section (7318:168656). This block is an adapter — it holds no markup; it maps attributes to kit props.",
 	"textdomain": "assetpanda",
 	"attributes": {
 		"eyebrow": {
@@ -32,6 +32,18 @@
 				"full"
 			]
 		},
+		"size": {
+			"type": "string",
+			"default": "default",
+			"enum": [
+				"default",
+				"compact"
+			]
+		},
+		"index": {
+			"type": "boolean",
+			"default": true
+		},
 		"nav_label": {
 			"type": "string",
 			"default": "On this page"
@@ -41,6 +53,10 @@
 			"default": {}
 		},
 		"capabilities": {
+			"type": "object",
+			"default": {}
+		},
+		"data": {
 			"type": "object",
 			"default": {}
 		},

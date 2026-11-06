@@ -41,7 +41,11 @@ for (const slug of ['inventory-management', 'calibration-management']) {
     const bgs = cards.map((c) => getComputedStyle(c).backgroundColor);
     return { n: cards.length, worst: Math.round(worst), ops, bgs };
   });
-  ok(r.n === 3 && r.worst === 0, 'help desk: the three floating cards do not overlap', JSON.stringify(r));
+  // Amended 2026-10-30 (Joseph: "Make the lady bigger. The cards should overlap a little bit with each other and the
+  // lady", Figma 6365:30711): the request card and the Ursa reply now overlap, she stands in front of both and the
+  // follow-up card sits in front of her.
+  const z = await p.evaluate(() => { const zi = (s) => { const e = document.querySelector('.ap-assist-hero ' + s); return e ? parseInt(getComputedStyle(e).zIndex, 10) : null; }; return { msg: zi('.epx-hv--msg'), ursa: zi('.epx-hv--ursa'), photo: zi('.ap-assist-hero__photo'), resp: zi('.epx-hv--resp'), photoH: Math.round((document.querySelector('.ap-assist-hero__photo') || { getBoundingClientRect: () => ({ height: 0 }) }).getBoundingClientRect().height) }; });
+  ok(r.n === 3 && r.worst > 0 && z.msg < z.ursa && z.ursa < z.photo && z.photo < z.resp, 'help desk: cards overlap as in Figma, her in front of the request and Ursa cards, the follow-up card in front of her', JSON.stringify({ worst: r.worst, ...z }));
   ok(r.ops.every((o) => o >= 0.99) && r.bgs.every((b) => /rgb\(255, 255, 255\)|rgba\(255, 255, 255, 1\)/.test(b)), 'help desk: cards are solid white, no wash', JSON.stringify({ ops: r.ops, bgs: r.bgs }));
   await p.close(); await sleep(3500);
 }
@@ -68,8 +72,9 @@ for (const slug of ['inventory-management', 'calibration-management']) {
   const p = await open('/solutions/education/');
   const r = await p.evaluate(() => ({ chips: [1, 2, 3, 4].map((i) => { const c = document.querySelector('.apr-chip-' + i); return c ? getComputedStyle(c).animationName : 'missing'; }), viewAll: !!document.querySelector('.ap-help-all'), posts: document.querySelectorAll('.ap-mega-who-we-help .ap-mega-post').length, icons: [...document.querySelectorAll('img.ap-icon-img')].filter((i) => i.loading === 'lazy').length }));
   ok(r.chips.every((a) => a && a !== 'none' && a !== 'missing'), 'education problem-scene: the four chips float', JSON.stringify(r.chips));
-  ok(r.viewAll, 'mega menu: View All Industries link present');
-  ok(r.posts >= 2, 'mega menu: Who We Help cabinets carry latest posts', 'post cards=' + r.posts);
+  // Amended 2026-10-30 (Joseph: remove every View All Industries link; keep 1 post per cabinet at the story card's size).
+  ok(!r.viewAll, 'mega menu: no View All Industries link');
+  ok(r.posts >= 7, 'mega menu: Who We Help cabinets carry their latest post', 'post cards=' + r.posts);
   ok(r.icons === 0, 'mega menu: no option icon is lazy-loaded', 'lazy=' + r.icons);
   await p.close(); await sleep(3500);
 }

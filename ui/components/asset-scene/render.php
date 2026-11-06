@@ -42,7 +42,8 @@ $image  = trim( (string) $props['image'] );
 // The link arrow, drawn inline in live's teal (fixed, decorative).
 $arrow  = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M17.75 16L21.5 12.25L17.75 8.5M21.5 12.25H3.5" stroke="#00A991" stroke-linecap="round" stroke-linejoin="round"></path></svg>';
 ?>
-<section class="ap-asset-scene" aria-label="<?php echo esc_attr( wp_strip_all_tags( '' !== trim( (string) $props['eyebrow'] ) ? $props['eyebrow'] : $props['title'] ) ); ?>">
+<?php $ap_anchor = preg_match( '/^[A-Za-z][A-Za-z0-9_-]{0,63}$/', trim( (string) $props['anchor'] ) ) ? trim( (string) $props['anchor'] ) : ''; ?>
+<section class="ap-asset-scene<?php echo ! empty( $props['splash'] ) ? ' ap-asset-scene--splash' : ''; ?><?php echo ! empty( $props['attached'] ) ? ' ap-asset-scene--attached' : ''; ?>"<?php echo '' !== $ap_anchor ? ' id="' . esc_attr( $ap_anchor ) . '"' : ''; ?> aria-label="<?php echo esc_attr( wp_strip_all_tags( '' !== trim( (string) $props['eyebrow'] ) ? $props['eyebrow'] : $props['title'] ) ); ?>">
 	<div class="ap-asset-scene__wrap">
 		<div class="ap-asset-scene__head">
 			<?php if ( '' !== trim( (string) $props['eyebrow'] ) ) : ?>
@@ -92,7 +93,11 @@ $arrow  = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="fa
 			<?php endforeach; ?>
 		</div>
 
-		<?php if ( '' !== trim( (string) $props['foot_title'] ) || '' !== trim( (string) $props['foot_body'] ) ) : ?>
+		<?php
+		// The buttons draw on their own too (Partners' Become a Partner has buttons but no closing line).
+		$ap_scene_btns = ( '' !== trim( (string) $props['cta_label'] ) && '' !== trim( (string) $props['cta_url'] ) ) || ( '' !== trim( (string) $props['secondary_label'] ) && '' !== trim( (string) $props['secondary_url'] ) );
+		?>
+		<?php if ( '' !== trim( (string) $props['foot_title'] ) || '' !== trim( (string) $props['foot_body'] ) || $ap_scene_btns ) : ?>
 			<div class="ap-asset-scene__foot">
 				<?php if ( '' !== trim( (string) $props['foot_title'] ) ) : ?>
 					<p class="ap-asset-scene__ft"><?php echo ap_ui_brandmarks( esc_html( $props['foot_title'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; brandmarks adds a fixed span. ?></p>

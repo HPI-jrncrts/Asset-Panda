@@ -2,19 +2,22 @@
 	"name": "asset-scene",
 	"description": "Asset-type scene: three use-case cards arranged around the assistant artwork, with a closing line and two buttons. Live: .apx-bft on /asset-intelligence-platform/.",
 	"props": {
+		"anchor": { "type": "string", "required": false, "default": "", "description": "id on the section (letters, digits, hyphens), e.g. reseller-program on Partners." },
 		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading." },
 		"title": { "type": "string", "required": true, "description": "Heading." },
 		"title_accent": { "type": "string", "required": false, "default": "", "description": "Part of the heading painted with the brand gradient." },
 		"lede": { "type": "string", "required": false, "default": "", "description": "Paragraph under the heading." },
 		"image": { "type": "string", "required": false, "default": "", "description": "Artwork behind the cards." },
 		"image_alt": { "type": "string", "required": false, "default": "", "description": "Alt text for the artwork." },
-		"mobile_image": { "type": "string", "required": false, "default": "", "description": "Narrow-screen version of the artwork." },
+		"mobile_image": { "type": "string", "required": false, "default": "", "description": "No longer drawn (QA 2026-10-29): narrow screens show the main artwork cropped, so its connector lines stay. Kept so existing blocks still validate." },
 		"items": { "type": "array", "required": true, "description": "Up to three cards. Each: kicker, title, body, link_label, url; slot (it, field, safety) decides where it sits." },
 		"foot_title": { "type": "string", "required": false, "default": "", "description": "Closing line above the buttons." },
 		"foot_body": { "type": "string", "required": false, "default": "", "description": "Closing paragraph." },
 		"cta_label": { "type": "string", "required": false, "default": "", "description": "Primary button text." },
 		"cta_url": { "type": "string", "required": false, "default": "", "description": "Primary button destination." },
 		"secondary_label": { "type": "string", "required": false, "default": "", "description": "Outlined button text." },
-		"secondary_url": { "type": "string", "required": false, "default": "", "description": "Outlined button destination." }
+		"secondary_url": { "type": "string", "required": false, "default": "", "description": "Outlined button destination." },
+		"splash": { "type": "boolean", "required": false, "default": false, "description": "A soft indigo-and-green gradient splash centred behind the heading and the scene (Partners' Become a Partner, Joseph 2026-10-31)." },
+		"attached": { "type": "boolean", "required": false, "default": false, "description": "Desktop: each card pinned to its icon disc (the top card's foot, the side cards' inner edges on the disc), the cards drawn in closer and the artwork (orb and panda) at 78%, for a section with little copy (Partners' Become a Partner, Joseph 2026-10-31). Tablets and phones keep the stacked layout." }
 	}
 }

@@ -59,7 +59,7 @@ if ( empty( $items ) ) {
 
 $anchor    = preg_match( '/^[A-Za-z][A-Za-z0-9_-]{0,63}$/', trim( (string) $props['anchor'] ) ) ? trim( (string) $props['anchor'] ) : '';
 $tone      = 'soft' === $props['tone'] ? 'soft' : 'white';
-$look      = in_array( $props['look'], array( 'icon', 'number', 'badge', 'plain' ), true ) ? $props['look'] : 'icon';
+$look      = in_array( $props['look'], array( 'icon', 'number', 'badge', 'plain', 'row' ), true ) ? $props['look'] : 'icon';
 $columns   = in_array( $props['columns'], array( '2', '3', '4' ), true ) ? $props['columns'] : '3';
 $eyebrow   = trim( (string) $props['eyebrow'] );
 $title     = trim( (string) $props['title'] );
@@ -100,7 +100,9 @@ $ap_paras = static function ( $text ) use ( $ap_rich ) {
 
 $arrow = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M17.25 15.75L21 12L17.25 8.25M21 12H3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>';
 
-$classes = 'ap-page-cards ap-page-cards--' . $tone . ' ap-page-cards--' . $look . ' ap-page-cards--cols-' . $columns;
+// Fewer cards than columns (a lone UK partner): the row is centred instead of left-aligned.
+$few     = 'row' !== $look && count( $items ) < (int) $columns;
+$classes = 'ap-page-cards ap-page-cards--' . $tone . ' ap-page-cards--' . $look . ' ap-page-cards--cols-' . $columns . ( $few ? ' ap-page-cards--few' : '' ) . ( ! empty( $props['joined'] ) ? ' ap-page-cards--joined' : '' );
 ?>
 <section class="<?php echo esc_attr( $classes ); ?>"<?php echo '' !== $anchor ? ' id="' . esc_attr( $anchor ) . '"' : ''; ?>>
 	<?php if ( 'soft' === $tone ) : ?>
@@ -126,8 +128,16 @@ $classes = 'ap-page-cards ap-page-cards--' . $tone . ' ap-page-cards--' . $look 
 				<?php
 				$url      = '' !== $item['url'] ? esc_url( $item['url'], $protocols ) : '';
 				$has_icon = '' !== $item['icon_svg'] || '' !== $item['icon'];
+				// Plain look with an image: a partner logo in a box beside the copy (Partners page, 2026-10-30).
+				$logo = 'plain' === $look && '' !== $item['image'];
 				?>
-				<li class="ap-page-cards__card ap-page-cards__card--<?php echo esc_attr( $item['accent'] ); ?><?php echo '' !== $url ? ' ap-page-cards__card--link' : ''; ?>" data-ap-reveal data-ap-reveal-delay="<?php echo esc_attr( (string) ( $i % (int) $columns ) ); ?>">
+				<li class="ap-page-cards__card ap-page-cards__card--<?php echo esc_attr( $item['accent'] ); ?><?php echo '' !== $url ? ' ap-page-cards__card--link' : ''; ?><?php echo $logo ? ' ap-page-cards__card--logo' : ''; ?>" data-ap-reveal data-ap-reveal-delay="<?php echo esc_attr( (string) ( $i % (int) $columns ) ); ?>">
+					<?php if ( $logo ) : ?>
+						<div class="ap-page-cards__logo">
+							<img src="<?php echo esc_url( $item['image'] ); ?>" alt="<?php echo esc_attr( $item['image_alt'] ); ?>"<?php echo $item['image_w'] > 0 && $item['image_h'] > 0 ? ' width="' . esc_attr( (string) $item['image_w'] ) . '" height="' . esc_attr( (string) $item['image_h'] ) . '"' : ''; ?> loading="lazy" decoding="async" />
+						</div>
+						<div class="ap-page-cards__text">
+					<?php endif; ?>
 					<?php if ( 'number' === $look ) : ?>
 						<div class="ap-page-cards__top">
 							<span class="ap-page-cards__num"><?php echo esc_html( '' !== $item['number'] ? $item['number'] : (string) ( $i + 1 ) ); ?></span>
@@ -139,7 +149,7 @@ $classes = 'ap-page-cards ap-page-cards--' . $tone . ' ap-page-cards--' . $look 
 						<div class="ap-page-cards__badge">
 							<img src="<?php echo esc_url( $item['image'] ); ?>" alt="<?php echo esc_attr( $item['image_alt'] ); ?>"<?php echo $item['image_w'] > 0 && $item['image_h'] > 0 ? ' width="' . esc_attr( (string) $item['image_w'] ) . '" height="' . esc_attr( (string) $item['image_h'] ) . '"' : ''; ?> loading="lazy" decoding="async" />
 						</div>
-					<?php elseif ( 'icon' === $look && $has_icon ) : ?>
+					<?php elseif ( ( 'icon' === $look || 'row' === $look ) && $has_icon ) : ?>
 						<span class="ap-page-cards__icon" aria-hidden="true"><?php echo '' !== $item['icon_svg'] ? $item['icon_svg'] : '<img src="' . esc_url( $item['icon'] ) . '" alt="" width="40" height="40" loading="lazy" decoding="async" />'; // phpcs:ignore WordPress.Security.EscapeOutput -- sanitised by ap_ui_svg() / esc_url. ?></span>
 					<?php endif; ?>
 					<?php if ( '' !== $item['title'] ) : ?>
@@ -163,6 +173,9 @@ $classes = 'ap-page-cards ap-page-cards--' . $tone . ' ap-page-cards--' . $look 
 					<?php endif; ?>
 					<?php if ( '' !== $url && '' !== $item['link_label'] ) : ?>
 						<span class="ap-page-cards__more" aria-hidden="true"><?php echo esc_html( $item['link_label'] ); ?><?php echo $arrow; // phpcs:ignore WordPress.Security.EscapeOutput -- fixed markup. ?></span>
+					<?php endif; ?>
+					<?php if ( $logo ) : ?>
+						</div>
 					<?php endif; ?>
 				</li>
 			<?php endforeach; ?>

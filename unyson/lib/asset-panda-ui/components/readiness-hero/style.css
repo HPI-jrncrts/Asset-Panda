@@ -48,7 +48,7 @@
 .ap-readiness-hero .epx-g{background:linear-gradient(41.5deg,#5044E1 3.6%,#00A991 50.1%);-webkit-background-clip:text;background-clip:text;color:transparent}
 .ap-readiness-hero__lede{font-size:18px;line-height:1.5;color:#4a4e5a;font-weight:400}
 .ap-readiness-hero__cta{display:flex;gap:24px;align-items:center;padding-top:16px;flex-wrap:wrap}
-.ap-readiness-hero .epx-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:16px;border-radius:4px;font-size:16px;font-weight:600;line-height:1.2;text-decoration:none;transition:transform .2s cubic-bezier(.4,0,.2,1),box-shadow .2s cubic-bezier(.4,0,.2,1)}
+.ap-readiness-hero .epx-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:16px;border-radius:4px;font-size:16px;font-weight:600;line-height:1.2;text-decoration:none;transition:transform var(--ap-dur-base) var(--ap-ease-standard),box-shadow var(--ap-dur-base) var(--ap-ease-standard),background-color var(--ap-dur-base) var(--ap-ease-standard),border-color var(--ap-dur-base) var(--ap-ease-standard),color var(--ap-dur-base) var(--ap-ease-standard)}
 .ap-readiness-hero .epx-btn--primary{background:linear-gradient(55.1deg,#5044E1 0%,#00A991 70.44%);border:1px solid #5044e1;color:#fff}
 .ap-readiness-hero .epx-btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(80,68,225,.28)}
 .ap-readiness-hero .epx-btn:active{transform:scale(.98)}
@@ -62,6 +62,10 @@
 .ap-readiness-hero__strip .ap-readiness-hero__pill--dup{display:none}
 @keyframes apReadinessHeroEpxUp{from{opacity:0;transform:translateY(24px)}
 }
+/* LCP (QA 2026-10-28): the H1 and the hero photo enter from 40% opacity instead of 0, so they are painted
+   (and count for Largest Contentful Paint) on the first frame; the rise is unchanged. */
+@keyframes apReadinessHeroEpxUpLcp{from{opacity:.4;transform:translateY(24px)}
+}
 @keyframes apReadinessHeroEpxUpC{from{opacity:0;transform:translateY(calc(-50% + 24px))}
 to{transform:translateY(-50%)}
 }
@@ -73,7 +77,7 @@ to{transform:translateY(-50%)}
 @keyframes apReadinessHeroEpxDraw{from{stroke-dashoffset:var(--len)}
 }
 .ap-readiness-hero__eyebrow{animation:apReadinessHeroEpxUp .6s cubic-bezier(.16,1,.3,1) 0s backwards}
-.ap-readiness-hero__h1{animation:apReadinessHeroEpxUp .6s cubic-bezier(.16,1,.3,1) .08s backwards}
+.ap-readiness-hero__h1{animation:apReadinessHeroEpxUpLcp .6s cubic-bezier(.16,1,.3,1) .08s backwards}
 .ap-readiness-hero__lede{animation:apReadinessHeroEpxUp .6s cubic-bezier(.16,1,.3,1) .16s backwards}
 .ap-readiness-hero__cta{animation:apReadinessHeroEpxUp .6s cubic-bezier(.16,1,.3,1) .24s backwards}
 .ap-readiness-hero .epx-hcard--1 .epx-hcard__rev{animation:apReadinessHeroEpxIn .5s cubic-bezier(.16,1,.3,1) .4s backwards}
@@ -100,7 +104,7 @@ to{transform:translateY(-50%)}
 .ap-readiness-hero__visual{order:1}
 .ap-readiness-hero__ticker{order:2}
 .ap-readiness-hero__orbs{height:100%;background:linear-gradient(120deg,#eafaf6 0%,#f2f1fd 45%,#fff 80%)}
-.ap-readiness-hero__content{position:static;transform:none;width:auto;max-width:640px;padding:0 40px;animation:apReadinessHeroEpxUp .6s cubic-bezier(.16,1,.3,1) 0s backwards}
+.ap-readiness-hero__content{position:static;transform:none;width:auto;max-width:640px;padding:0 40px;animation:apReadinessHeroEpxUpLcp .6s cubic-bezier(.16,1,.3,1) 0s backwards}
 .ap-readiness-hero__eyebrow,.ap-readiness-hero__h1,.ap-readiness-hero__lede,.ap-readiness-hero__cta{animation:none}
 .ap-readiness-hero__visual{position:relative;top:auto;right:auto;width:min(932px,100%);height:auto;aspect-ratio:932/558;margin:32px auto 0}
 .ap-readiness-hero .epx-hcard__flo{animation:none}
@@ -138,3 +142,78 @@ to{transform:translateY(-50%)}
 .ap-readiness-hero--reunification .ap-readiness-hero__photo{inset:auto;right:118px;top:-17px;width:748px;height:575px;object-fit:cover}
 @media (max-width:1120px){.ap-readiness-hero--reunification .ap-readiness-hero__photo{right:260px}}
 @media (max-width:1000px){.ap-readiness-hero--reunification .ap-readiness-hero__photo{inset:0;right:auto;top:auto;width:100%;height:100%;object-fit:contain}}
+
+/* ---- kit type scale (QA 2026-10-28) ----
+ * Eyebrow, H1 and lede (the H1 was 48px with -1px tracking from the old live baseline, 36px on phones).
+ * One heading scale across every hero (ui/src/tokens.css --ap-type-*): same size, weight 800, zero
+ * tracking at every width, so no H1 reads thicker or tighter than another. */
+.ap-readiness-hero .ap-readiness-hero__eyebrow {
+	font-size: var(--ap-type-eyebrow-size);
+	font-weight: var(--ap-type-eyebrow-weight);
+	line-height: var(--ap-type-eyebrow-line);
+	letter-spacing: var(--ap-type-eyebrow-track);
+	text-transform: uppercase;
+}
+.ap-readiness-hero .ap-readiness-hero__h1 {
+	font-size: var(--ap-type-h1-size);
+	font-weight: var(--ap-type-h1-weight);
+	line-height: var(--ap-type-h1-line);
+	letter-spacing: var(--ap-type-h1-track);
+}
+.ap-readiness-hero .ap-readiness-hero__lede {
+	font-size: var(--ap-type-lede-size);
+	line-height: var(--ap-type-lede-line);
+}
+
+/* phone top padding (QA 2026-10-28): 40px above the eyebrow on phones, as on the solution and hub heroes. */
+@media (max-width: 640px) {
+	.ap-readiness-hero .ap-readiness-hero__stage { padding-top: 40px; }
+}
+
+/* ------------------------------------------------------------ Figma hero frame on desktops (QA 2026-10-29 evening)
+ * Joseph (reference: Figma 5530:18134, Emergency Preparedness): "The image on the hero needs to reach the bottom of
+ * the hero section. The white overlay at the bottom with the little icons covers a portion of the banner image ...
+ * Exactly as figma dictates." The Figma hero is a 1440 x 640 frame drawn from the page top with its nav over the
+ * first 64px; here the 72px header sits above the hero, so the hero is the frame's lower 568px and everything keeps
+ * its Figma page position. This replaces the copy / art spacing pass from earlier today (the visual scaled to about
+ * .55-.72 and lifted, the photo's foot faded out):
+ *  - the band is 568px and the backdrop is drawn from the frame's top, 72px up;
+ *  - the copy stays centred as Figma centres it, 13.5px below the frame's middle (page y 333.5);
+ *  - the visual (photo, cards, panda badge, connector lines) is drawn at its Figma size and place (photo from y 82,
+ *    running off the right edge) standing on the hero's foot, so the people reach the bottom edge;
+ *  - the white fade is Figma's (y 361-640, 280px tall, not 357px), drawn over the photo and under the cards, so the
+ *    chip row sits over the foot of the photo without hiding the people above it;
+ *  - narrower desktops (1001-1439px) scale the visual and its overhang with the stage (stage / 1440, read as
+ *    tan(atan2(stage, 1440px)); the section is the size container) about the stage's right edge and foot. The visual
+ *    is resized rather than transformed (a transform would make it a stacking context and put the fade over its
+ *    cards); its cards, badge and lines take the factor through their own scale, from their top-left corner.
+ * Without container units or trig functions the ratio takes fixed steps. Phones and tablets are untouched. */
+@media (min-width: 1001px) {
+	.ap-readiness-hero { --ap-rh-f: var(--ap-rh-s, 1); }
+	.ap-readiness-hero__stage { height: 568px; }
+	.ap-readiness-hero__orbs { top: -72px; }
+	.ap-readiness-hero__content { top: calc(50% - 22.5px); }
+	.ap-readiness-hero__visual { top: auto; bottom: 0; right: calc(-118px * var(--ap-rh-f)); width: calc(932px * var(--ap-rh-f)); height: calc(558px * var(--ap-rh-f)); }
+	.ap-readiness-hero .ap-readiness-hero__visual > .epx-hcard,
+	.ap-readiness-hero .ap-readiness-hero__visual > .ap-readiness-hero__logowrap,
+	.ap-readiness-hero .ap-readiness-hero__visual > .epx-line { scale: var(--ap-rh-f); transform-origin: 0 0; }
+	.ap-readiness-hero__veil { height: 280px; }
+	.ap-readiness-hero--reunification .ap-readiness-hero__photo { right: calc(118px * var(--ap-rh-f)); top: calc(-17px * var(--ap-rh-f)); width: calc(748px * var(--ap-rh-f)); height: calc(575px * var(--ap-rh-f)); }
+}
+@media (min-width: 1001px) and (max-width: 1180px) {
+	.ap-readiness-hero { --ap-rh-s: .75; }
+}
+@media (min-width: 1181px) and (max-width: 1320px) {
+	.ap-readiness-hero { --ap-rh-s: .86; }
+}
+@media (min-width: 1321px) and (max-width: 1439px) {
+	.ap-readiness-hero { --ap-rh-s: .95; }
+}
+@media (min-width: 1281px) {
+	.ap-readiness-hero__content { left: max(40px, (100% - 1120px) / 2); }
+}
+@supports (width: 1cqw) and (scale: tan(atan2(1px, 2px))) {
+	@media (min-width: 1001px) {
+		.ap-readiness-hero { container-type: inline-size; --ap-rh-s: tan(atan2(min(100cqw, 1440px), 1440px)); }
+	}
+}

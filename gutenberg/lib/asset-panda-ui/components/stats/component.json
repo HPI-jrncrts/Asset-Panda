@@ -2,6 +2,12 @@
 	"name": "stats",
 	"description": "A grid of headline statistics. Each stat has a gradient-filled value, a label, and optional supporting copy. Ported from the live homepage stats band (#ap-stats-v3); used on the homepage between the hero and the comparison table.",
 	"props": {
+		"eyebrow": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Optional centred label above the stats (Ursa AI frame 7262:114721)."
+		},
 		"items": {
 			"type": "array",
 			"required": true,

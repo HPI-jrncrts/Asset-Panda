@@ -29,6 +29,7 @@ if ( empty( $items ) ) {
 }
 
 $tone      = 'soft' === $props['tone'] ? 'soft' : 'white';
+$look      = 'resource' === $props['look'] ? ' ap-card-grid--resource' : '';
 $anchor    = preg_match( '/^[A-Za-z][A-Za-z0-9_-]{0,63}$/', trim( (string) $props['anchor'] ) ) ? trim( (string) $props['anchor'] ) : '';
 $title     = trim( (string) $props['title'] );
 $title_tag = 'h1' === $props['title_tag'] ? 'h1' : 'h2';
@@ -58,7 +59,7 @@ $ap_rich = static function ( $text ) use ( $ap_text ) {
 	return $out . $ap_text( substr( $text, $pos ) );
 };
 ?>
-<section class="ap-card-grid ap-card-grid--<?php echo esc_attr( $tone ); ?>"<?php echo '' !== $anchor ? ' id="' . esc_attr( $anchor ) . '"' : ''; ?>>
+<section class="ap-card-grid ap-card-grid--<?php echo esc_attr( $tone ); ?><?php echo esc_attr( $look ); ?>"<?php echo '' !== $anchor ? ' id="' . esc_attr( $anchor ) . '"' : ''; ?>>
 	<div class="ap-card-grid__inner">
 		<?php if ( '' !== $title || '' !== $eyebrow || '' !== $intro ) : ?>
 			<div class="ap-card-grid__head">

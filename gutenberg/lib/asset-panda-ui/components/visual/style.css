@@ -1,0 +1,127 @@
+/*
+ * visual — one image as a design element (builder library, 2026-11): a photo
+ * cut to a circle, blob, pill or rounded frame, or transparent art (pandas,
+ * orbs, icons) left uncut, with an optional glow, shadow or ring.
+ */
+
+.ap-visual {
+	--ap-visual-w: 200px;
+	--ap-visual-fit: cover;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 12px;
+	margin: 24px 0;
+}
+
+.ap-visual,
+.ap-visual * { box-sizing: border-box; }
+
+.ap-visual--align-left { align-items: flex-start; }
+.ap-visual--align-right { align-items: flex-end; }
+
+.ap-visual--size-xs { --ap-visual-w: 64px; }
+.ap-visual--size-s { --ap-visual-w: 120px; }
+.ap-visual--size-m { --ap-visual-w: 200px; }
+.ap-visual--size-l { --ap-visual-w: 320px; }
+.ap-visual--size-xl { --ap-visual-w: 480px; }
+.ap-visual--size-full { --ap-visual-w: 100%; }
+
+.ap-visual--fit-contain { --ap-visual-fit: contain; }
+
+.ap-visual .ap-visual__frame {
+	position: relative;
+	display: block;
+	width: var(--ap-visual-w);
+	max-width: 100%;
+}
+
+.ap-visual .ap-visual__link { display: block; }
+
+.ap-visual .ap-visual__img {
+	display: block;
+	width: 100%;
+	height: auto;
+	margin: 0;
+	border-radius: 0;
+}
+
+/* Cropped frames: the frame clips, the image fills it. */
+.ap-visual--rounded .ap-visual__frame,
+.ap-visual--circle .ap-visual__frame,
+.ap-visual--blob .ap-visual__frame,
+.ap-visual--pill .ap-visual__frame {
+	overflow: hidden;
+	background: var(--ap-slate-100);
+}
+
+.ap-visual--rounded .ap-visual__frame { border-radius: var(--ap-radius-xl); }
+
+.ap-visual--circle .ap-visual__frame {
+	aspect-ratio: 1 / 1;
+	border-radius: 50%;
+}
+
+.ap-visual--blob .ap-visual__frame {
+	aspect-ratio: 1 / 1;
+	border-radius: 42% 58% 63% 37% / 41% 44% 56% 59%;
+}
+
+.ap-visual--pill .ap-visual__frame {
+	aspect-ratio: 2 / 1;
+	border-radius: var(--ap-radius-pill);
+}
+
+.ap-visual--circle .ap-visual__img,
+.ap-visual--blob .ap-visual__img,
+.ap-visual--pill .ap-visual__img {
+	height: 100%;
+	object-fit: var(--ap-visual-fit);
+}
+
+/* Effects on a frame: box-shadow follows the frame's radius. */
+.ap-visual--fx-shadow:not(.ap-visual--none) .ap-visual__frame { box-shadow: var(--ap-shadow-md); }
+.ap-visual--fx-glow-indigo:not(.ap-visual--none) .ap-visual__frame {
+	box-shadow: 0 18px 60px color-mix(in srgb, var(--ap-brand-indigo) 38%, transparent);
+}
+.ap-visual--fx-glow-teal:not(.ap-visual--none) .ap-visual__frame {
+	box-shadow: 0 18px 60px color-mix(in srgb, var(--ap-brand-green) 38%, transparent);
+}
+.ap-visual--fx-ring:not(.ap-visual--none) .ap-visual__frame {
+	border: 6px solid var(--ap-white);
+	box-shadow: 0 0 0 1px var(--ap-indigo-100), var(--ap-shadow-md);
+}
+.ap-visual--fx-gradient-ring:not(.ap-visual--none) .ap-visual__frame {
+	padding: 5px;
+	background: var(--ap-gradient-action);
+}
+.ap-visual--fx-gradient-ring:not(.ap-visual--none) .ap-visual__link,
+.ap-visual--fx-gradient-ring:not(.ap-visual--none) .ap-visual__img { border-radius: inherit; }
+.ap-visual--fx-gradient-ring.ap-visual--rounded .ap-visual__img { border-radius: calc(var(--ap-radius-xl) - 5px); }
+
+/* Effects on uncut art (pandas, orbs): the shadow follows the drawing, not a box. */
+.ap-visual--none.ap-visual--fx-shadow .ap-visual__img { filter: drop-shadow(0 10px 24px rgba(37, 39, 44, 0.18)); }
+.ap-visual--none.ap-visual--fx-glow-indigo .ap-visual__img {
+	filter: drop-shadow(0 12px 36px color-mix(in srgb, var(--ap-brand-indigo) 45%, transparent));
+}
+.ap-visual--none.ap-visual--fx-glow-teal .ap-visual__img {
+	filter: drop-shadow(0 12px 36px color-mix(in srgb, var(--ap-brand-green) 45%, transparent));
+}
+
+.ap-visual .ap-visual__caption {
+	max-width: var(--ap-visual-w);
+	margin: 0;
+	color: var(--ap-slate-500);
+	font-family: var(--ap-font-body);
+	font-size: 14px;
+	line-height: 1.5;
+	text-align: center;
+}
+
+.ap-visual--align-left .ap-visual__caption { text-align: left; }
+.ap-visual--align-right .ap-visual__caption { text-align: right; }
+
+@media (max-width: 767px) {
+	.ap-visual--size-l { --ap-visual-w: 240px; }
+	.ap-visual--size-xl { --ap-visual-w: 100%; }
+}

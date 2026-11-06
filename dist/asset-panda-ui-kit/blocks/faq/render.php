@@ -33,6 +33,7 @@ $props = array(
 	'title_gap'     => $attributes['title_gap'] ?? 28,
 	'tone'          => $attributes['tone'] ?? 'gradient',
 	'question_tone' => $attributes['question_tone'] ?? 'default',
+	'size'          => $attributes['size'] ?? 'default',
 	'layout'        => $attributes['layout'] ?? 'stack',
 );
 

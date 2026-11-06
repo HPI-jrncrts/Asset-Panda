@@ -5,7 +5,7 @@
 	"title": "AP Integration Hero",
 	"category": "design",
 	"icon": "block-default",
-	"description": "Integration detail page hero: a centred eyebrow, a frosted card pairing the partner logo with the Asset Panda PRO mark, the H1 and one call to action, over the soft colour wash of the 2026 heroes. Figma: Integrations Detail Page Template > Hero Section (7318:166961). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"description": "Integration detail page hero over the soft colour wash of the 2026 heroes. layout center: a centred eyebrow, a frosted card pairing the partner logo with the Asset Panda PRO mark, the H1, lede and one call to action (Figma: Integrations Detail Page Template > Hero Section, 7318:166961). layout split: the copy (eyebrow, H1, lede, button) left-aligned in the left column and the integration video on the right (poster + play, the player swapped in on click); the logo card then moves to the page body (integration-detail overview logo). Below 1025px the video stacks under the copy. This block is an adapter — it holds no markup; it maps attributes to kit props.",
 	"textdomain": "assetpanda",
 	"attributes": {
 		"title": {
@@ -31,6 +31,38 @@
 		"brand_logo_alt": {
 			"type": "string",
 			"default": "Asset Panda PRO"
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"layout": {
+			"type": "string",
+			"default": "center",
+			"enum": [
+				"center",
+				"split"
+			]
+		},
+		"video_url": {
+			"type": "string",
+			"default": ""
+		},
+		"video_poster": {
+			"type": "string",
+			"default": ""
+		},
+		"video_thumb": {
+			"type": "string",
+			"default": "poster",
+			"enum": [
+				"poster",
+				"logos"
+			]
+		},
+		"video_title": {
+			"type": "string",
+			"default": ""
 		},
 		"cta_label": {
 			"type": "string",

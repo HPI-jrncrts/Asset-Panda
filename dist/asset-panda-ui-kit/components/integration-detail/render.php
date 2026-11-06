@@ -7,8 +7,12 @@
  * that sticks under the site header from 1025px, and a 780px column of parts:
  *   Overview      eyebrow, H3, paragraphs, product video (poster + play)
  *   Capabilities  eyebrow, H3, lede, tinted cards (icon, H4, text)
- *   Steps         eyebrow, H3, numbered steps on a coloured left rule
- *   Requirements  eyebrow, H3, text, help card (panda, title, text, button)
+ *   Data          eyebrow, H3, lede, a table (first cell of a row = its row
+ *                 header), small-print note; stacked cards below 640px
+ *   Steps         eyebrow, H3, numbered steps on a coloured left rule, an
+ *                 optional guide link under them ("Detailed setup: ...")
+ *   Requirements  eyebrow, H3, text, checklist + note, help card (panda,
+ *                 title, text, button)
  *
  * Every part is optional and renders only when it has content; the index and
  * its numbers (01, 02 ...) come from the parts present, so a page with an
@@ -89,17 +93,21 @@ foreach ( is_array( $raw ) ? $raw : array( $raw ) as $p ) {
 $ov_poster = $ap_idet_str( $ov, 'video_poster' );
 $ov_url    = $ap_idet_str( $ov, 'video_url' );
 $ov_embed  = $ap_idet_embed( $ov_url );
-if ( '' !== $ap_idet_str( $ov, 'title' ) || $paras || '' !== $ov_poster || $ov_embed ) {
+$ov_logo   = $ap_idet_str( $ov, 'logo' );
+if ( '' !== $ap_idet_str( $ov, 'title' ) || $paras || '' !== $ov_poster || $ov_embed || '' !== $ov_logo ) {
 	$parts[] = array(
-		'key'     => 'overview',
-		'slug'    => 'overview',
-		'label'   => 'Overview',
-		'data'    => $ov,
-		'paras'   => $paras,
-		'poster'  => $ov_poster,
-		'url'     => $ov_url,
-		'embed'   => $ov_embed,
-		'v_title' => $ap_idet_str( $ov, 'video_title' ),
+		'key'      => 'overview',
+		'slug'     => 'overview',
+		'label'    => 'Overview',
+		'data'     => $ov,
+		'paras'    => $paras,
+		'poster'   => $ov_poster,
+		'url'      => $ov_url,
+		'embed'    => $ov_embed,
+		'v_title'  => $ap_idet_str( $ov, 'video_title' ),
+		'logo'     => $ov_logo,
+		'logo_alt' => $ap_idet_str( $ov, 'logo_alt' ),
+		'brand'    => $ap_idet_str( $ov, 'brand_logo' ),
 	);
 }
 
@@ -126,6 +134,44 @@ if ( $cards || '' !== $ap_idet_str( $cap, 'title' ) ) {
 		'label' => 'Key Capabilities',
 		'data'  => $cap,
 		'cards' => $cards,
+	);
+}
+
+// ---- Supported Data (a table) ----
+$dat     = is_array( $props['data'] ) ? $props['data'] : array();
+$d_cols  = array();
+$d_rows  = array();
+$raw_c   = $dat['columns'] ?? array();
+foreach ( is_array( $raw_c ) ? $raw_c : array() as $c ) {
+	$d_cols[] = is_scalar( $c ) ? trim( (string) $c ) : '';
+}
+$raw_r = $dat['rows'] ?? array();
+foreach ( is_array( $raw_r ) ? $raw_r : array() as $row ) {
+	if ( ! is_array( $row ) ) {
+		continue;
+	}
+	$cells = array();
+	foreach ( array_values( $row ) as $cell ) {
+		$cells[] = is_scalar( $cell ) ? trim( (string) $cell ) : '';
+	}
+	if ( '' !== implode( '', $cells ) ) {
+		$d_rows[] = $cells;
+	}
+}
+// The table is as wide as its widest row (or its header); short rows are padded.
+$d_width = count( $d_cols );
+foreach ( $d_rows as $cells ) {
+	$d_width = max( $d_width, count( $cells ) );
+}
+if ( $d_rows || '' !== $ap_idet_str( $dat, 'title' ) ) {
+	$parts[] = array(
+		'key'   => 'data',
+		'slug'  => 'data',
+		'label' => 'Supported Data',
+		'data'  => $dat,
+		'cols'  => array_pad( $d_cols, $d_width, '' ),
+		'rows'  => $d_rows,
+		'width' => $d_width,
 	);
 }
 
@@ -156,6 +202,14 @@ foreach ( ( is_array( $stp['items'] ?? null ) ? $stp['items'] : array() ) as $it
 		'links' => $s_links,
 	);
 }
+// Optional single link under the steps (e.g. "Detailed setup:" + the knowledge-base article).
+$s_guide = is_array( $stp['guide'] ?? null ) ? $stp['guide'] : array();
+$s_guide = array(
+	'intro' => $ap_idet_str( $s_guide, 'intro' ),
+	'label' => $ap_idet_str( $s_guide, 'label' ),
+	'url'   => $ap_idet_str( $s_guide, 'url' ),
+);
+$has_guide = '' !== $s_guide['label'] && '' !== $s_guide['url'] && '' !== esc_url( $s_guide['url'] );
 if ( $steps || '' !== $ap_idet_str( $stp, 'title' ) ) {
 	$parts[] = array(
 		'key'   => 'steps',
@@ -163,6 +217,7 @@ if ( $steps || '' !== $ap_idet_str( $stp, 'title' ) ) {
 		'label' => 'How It Works',
 		'data'  => $stp,
 		'steps' => $steps,
+		'guide' => $has_guide ? $s_guide : null,
 	);
 }
 
@@ -177,7 +232,25 @@ $help = array(
 	'icon'  => $ap_idet_str( $help, 'icon' ),
 );
 $has_help = '' !== $help['title'] || '' !== $help['text'];
-if ( $has_help || '' !== $ap_idet_str( $req, 'title' ) || '' !== $ap_idet_str( $req, 'text' ) ) {
+// Optional checklist + small print under the requirements copy.
+$r_items = array();
+$raw_i   = $req['items'] ?? array();
+foreach ( is_array( $raw_i ) ? $raw_i : array() as $it ) {
+	$it = is_scalar( $it ) ? trim( (string) $it ) : '';
+	if ( '' !== $it ) {
+		$r_items[] = $it;
+	}
+}
+$r_note = $ap_idet_str( $req, 'note' );
+// Optional guide link after the checklist (a doc may place "Detailed setup: ..." here instead of under the steps).
+$r_guide = is_array( $req['guide'] ?? null ) ? $req['guide'] : array();
+$r_guide = array(
+	'intro' => $ap_idet_str( $r_guide, 'intro' ),
+	'label' => $ap_idet_str( $r_guide, 'label' ),
+	'url'   => $ap_idet_str( $r_guide, 'url' ),
+);
+$r_guide = ( '' !== $r_guide['label'] && '' !== $r_guide['url'] && '' !== esc_url( $r_guide['url'] ) ) ? $r_guide : null;
+if ( $has_help || $r_items || '' !== $ap_idet_str( $req, 'title' ) || '' !== $ap_idet_str( $req, 'text' ) ) {
 	$parts[] = array(
 		'key'      => 'requirements',
 		'slug'     => 'requirements',
@@ -185,6 +258,9 @@ if ( $has_help || '' !== $ap_idet_str( $req, 'title' ) || '' !== $ap_idet_str( $
 		'data'     => $req,
 		'help'     => $help,
 		'has_help' => $has_help,
+		'items'    => $r_items,
+		'note'     => $r_note,
+		'guide'    => $r_guide,
 	);
 }
 
@@ -203,7 +279,11 @@ $id_prefix = strtolower( trim( (string) $props['id_prefix'] ) );
 $id_prefix = preg_match( '/^[a-z][a-z0-9-]{0,39}$/', $id_prefix ) ? $id_prefix : 'integration';
 $suffix    = $ap_idet_instance > 1 ? '-' . $ap_idet_instance : '';
 $title_id  = $id_prefix . '-details-title' . $suffix;
-$has_nav   = count( $parts ) >= 2;
+$has_nav   = count( $parts ) >= 2 && false !== $props['index'];
+// Heading levels: under a section heading the parts are H3 (items H4); with no section heading
+// the parts carry the page's H2s (items H3), so the outline still steps down from the H1.
+$h_part = '' !== $title ? 'h3' : 'h2';
+$h_item = '' !== $title ? 'h4' : 'h3';
 foreach ( $parts as $i => $part ) {
 	$parts[ $i ]['id']  = $id_prefix . '-' . $part['slug'] . $suffix;
 	$parts[ $i ]['num'] = sprintf( '%02d', $i + 1 );
@@ -229,11 +309,12 @@ $nav_label = '' !== $nav_label ? $nav_label : 'On this page';
 $nav_tones = array(
 	'overview'     => 'indigo',
 	'capabilities' => 'teal',
+	'data'         => 'indigo',
 	'steps'        => 'rose',
 	'requirements' => 'amber',
 );
 ?>
-<section class="ap-integration-detail<?php echo 'full' === $props['head_width'] ? ' ap-integration-detail--head-full' : ''; ?>" data-ap-integration-detail<?php echo '' !== $title ? ' aria-labelledby="' . esc_attr( $title_id ) . '"' : ''; ?>>
+<section class="ap-integration-detail<?php echo 'full' === $props['head_width'] ? ' ap-integration-detail--head-full' : ''; ?><?php echo 'compact' === $props['size'] ? ' ap-integration-detail--compact' : ''; ?>" data-ap-integration-detail<?php echo '' !== $title ? ' aria-labelledby="' . esc_attr( $title_id ) . '"' : ''; ?>>
 	<div class="ap-integration-detail__inner">
 		<?php if ( '' !== $eyebrow || '' !== $title || '' !== $lede ) : ?>
 			<div class="ap-integration-detail__head">
@@ -250,7 +331,7 @@ $nav_tones = array(
 		<?php endif; ?>
 
 		<?php if ( $parts ) : ?>
-			<div class="ap-integration-detail__layout<?php echo $has_nav ? '' : ' ap-integration-detail__layout--single'; ?>"<?php echo $has_nav ? ' style="' . esc_attr( '--ap-idet-parts:' . count( $parts ) ) . '"' : ''; ?>>
+			<div class="ap-integration-detail__layout<?php echo $has_nav ? '' : ' ap-integration-detail__layout--single'; ?><?php echo false === $props['index'] ? ' ap-integration-detail__layout--wide' : ''; ?>"<?php echo $has_nav ? ' style="' . esc_attr( '--ap-idet-parts:' . count( $parts ) ) . '"' : ''; ?>>
 				<?php if ( $has_nav ) : ?>
 					<nav class="ap-integration-detail__nav" aria-label="<?php echo esc_attr( $nav_label ); ?>">
 						<ol role="list">
@@ -280,7 +361,7 @@ $nav_tones = array(
 									<p class="ap-integration-detail__part-eyebrow"><?php echo esc_html( $p_eye ); ?></p>
 								<?php endif; ?>
 								<?php if ( '' !== $p_head ) : ?>
-									<h3 class="ap-integration-detail__h3"><?php echo $ap_idet_text( $p_head ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped by ap_ui_lines(). ?></h3>
+									<<?php echo esc_html( $h_part ); ?> class="ap-integration-detail__h3"><?php echo $ap_idet_text( $p_head ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped by ap_ui_lines(). ?></<?php echo esc_html( $h_part ); ?>>
 								<?php endif; ?>
 								<?php if ( 'overview' === $part['key'] && $part['paras'] ) : ?>
 									<div class="ap-integration-detail__copy">
@@ -314,6 +395,21 @@ $nav_tones = array(
 									</a>
 								<?php endif; ?>
 							</div>
+						<?php elseif ( 'overview' === $part['key'] && '' !== $part['logo'] ) : ?>
+							<?php
+							// The partner + Asset Panda PRO logo card on the hero's colour wash, in the
+							// video's place (the split hero carries the video). Decoration unless the
+							// logo has alt text — the hero H1 already names both products.
+							$pair_alt   = $part['logo_alt'];
+							$pair_brand = '' !== $part['brand'] ? $part['brand'] : ap_ui_asset_url( 'integration-detail', 'panda-pro.svg' );
+							?>
+							<div class="ap-integration-detail__pair">
+								<div class="ap-integration-detail__pair-card"<?php echo '' === $pair_alt ? ' aria-hidden="true"' : ''; ?>>
+									<img class="ap-integration-detail__pair-logo" src="<?php echo esc_url( $part['logo'] ); ?>" alt="<?php echo esc_attr( $pair_alt ); ?>" width="80" height="80" loading="lazy" decoding="async" />
+									<img class="ap-integration-detail__pair-plus" src="<?php echo esc_url( ap_ui_asset_url( 'integration-detail', 'plus.svg' ) ); ?>" alt="<?php echo '' !== $pair_alt ? '+' : ''; ?>" width="12" height="12" loading="lazy" decoding="async" />
+									<img class="ap-integration-detail__pair-brand" src="<?php echo esc_url( $pair_brand ); ?>" alt="<?php echo '' !== $pair_alt ? 'Asset Panda Pro' : ''; ?>" width="76" height="80" loading="lazy" decoding="async" />
+								</div>
+							</div>
 						<?php endif; ?>
 
 						<?php if ( 'capabilities' === $part['key'] && $part['cards'] ) : ?>
@@ -326,7 +422,7 @@ $nav_tones = array(
 											<?php elseif ( '' !== $card['icon'] ) : ?>
 												<span class="ap-integration-detail__card-icon" aria-hidden="true"><img src="<?php echo esc_url( $card['icon'] ); ?>" alt="" width="36" height="36" loading="lazy" decoding="async" /></span>
 											<?php endif; ?>
-											<h4 class="ap-integration-detail__card-title"><?php echo $ap_idet_text( $card['title'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped by ap_ui_lines(). ?></h4>
+											<<?php echo esc_html( $h_item ); ?> class="ap-integration-detail__card-title"><?php echo $ap_idet_text( $card['title'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped by ap_ui_lines(). ?></<?php echo esc_html( $h_item ); ?>>
 										</div>
 										<?php if ( '' !== $card['text'] ) : ?>
 											<p class="ap-integration-detail__card-text"><?php echo $ap_idet_text( $card['text'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped by ap_ui_lines(). ?></p>
@@ -336,13 +432,49 @@ $nav_tones = array(
 							</ul>
 						<?php endif; ?>
 
+						<?php if ( 'data' === $part['key'] && $part['rows'] ) : ?>
+							<?php
+							$t_label = '' !== $p_head ? $p_head : ( '' !== $p_eye ? $p_eye : $part['label'] );
+							$t_has_h = '' !== implode( '', $part['cols'] );
+							?>
+							<div class="ap-integration-detail__table-wrap" role="region" aria-label="<?php echo esc_attr( $t_label ); ?>" tabindex="0">
+								<table class="ap-integration-detail__table ap-integration-detail__table--cols-<?php echo esc_attr( (string) min( 4, $part['width'] ) ); ?>">
+									<?php if ( $t_has_h ) : ?>
+										<thead>
+											<tr>
+												<?php foreach ( $part['cols'] as $col ) : ?>
+													<th scope="col"><?php echo esc_html( $col ); ?></th>
+												<?php endforeach; ?>
+											</tr>
+										</thead>
+									<?php endif; ?>
+									<tbody>
+										<?php foreach ( $part['rows'] as $cells ) : ?>
+											<tr>
+												<?php foreach ( array_pad( $cells, $part['width'], '' ) as $c => $cell ) : ?>
+													<?php if ( 0 === $c ) : ?>
+														<th scope="row"><?php echo $ap_idet_text( $cell ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped by ap_ui_lines(). ?></th>
+													<?php else : ?>
+														<td<?php echo '' !== $part['cols'][ $c ] ? ' data-label="' . esc_attr( $part['cols'][ $c ] ) . '"' : ''; ?>><?php echo $ap_idet_text( $cell ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped by ap_ui_lines(). ?></td>
+													<?php endif; ?>
+												<?php endforeach; ?>
+											</tr>
+										<?php endforeach; ?>
+									</tbody>
+								</table>
+							</div>
+							<?php if ( '' !== $ap_idet_str( $d, 'note' ) ) : ?>
+								<p class="ap-integration-detail__note"><?php echo $ap_idet_text( $ap_idet_str( $d, 'note' ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped by ap_ui_lines(). ?></p>
+							<?php endif; ?>
+						<?php endif; ?>
+
 						<?php if ( 'steps' === $part['key'] && $part['steps'] ) : ?>
 							<ol class="ap-integration-detail__steps" role="list">
 								<?php foreach ( $part['steps'] as $n => $step ) : ?>
 									<li class="ap-integration-detail__step ap-integration-detail--tone-<?php echo esc_attr( $step['tone'] ); ?>">
 										<div class="ap-integration-detail__step-top">
 											<span class="ap-integration-detail__step-num" aria-hidden="true"><?php echo esc_html( (string) ( $n + 1 ) ); ?></span>
-											<h4 class="ap-integration-detail__step-title"><?php echo $ap_idet_text( $step['title'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped by ap_ui_lines(). ?></h4>
+											<<?php echo esc_html( $h_item ); ?> class="ap-integration-detail__step-title"><?php echo $ap_idet_text( $step['title'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped by ap_ui_lines(). ?></<?php echo esc_html( $h_item ); ?>>
 										</div>
 										<?php if ( '' !== $step['text'] ) : ?>
 											<p class="ap-integration-detail__step-text"><?php echo $ap_idet_text( $step['text'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped by ap_ui_lines(). ?></p>
@@ -356,6 +488,35 @@ $nav_tones = array(
 									</li>
 								<?php endforeach; ?>
 							</ol>
+							<?php if ( ! empty( $part['guide'] ) ) : ?>
+								<?php $g = $part['guide']; ?>
+								<p class="ap-integration-detail__guide">
+									<?php if ( '' !== $g['intro'] ) : ?>
+										<span class="ap-integration-detail__guide-intro"><?php echo esc_html( $g['intro'] ); ?></span>
+									<?php endif; ?>
+									<a class="ap-integration-detail__guide-link" href="<?php echo esc_url( $g['url'] ); ?>"><span class="ap-integration-detail__link-text"><?php echo esc_html( $g['label'] ); ?></span><span class="ap-integration-detail__link-arrow" aria-hidden="true"></span></a>
+								</p>
+							<?php endif; ?>
+						<?php endif; ?>
+
+						<?php if ( 'requirements' === $part['key'] && $part['items'] ) : ?>
+							<ul class="ap-integration-detail__checks" role="list">
+								<?php foreach ( $part['items'] as $it ) : ?>
+									<li><?php echo $ap_idet_text( $it ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped by ap_ui_lines(). ?></li>
+								<?php endforeach; ?>
+							</ul>
+						<?php endif; ?>
+						<?php if ( 'requirements' === $part['key'] && '' !== $part['note'] ) : ?>
+							<p class="ap-integration-detail__note"><?php echo $ap_idet_text( $part['note'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped by ap_ui_lines(). ?></p>
+						<?php endif; ?>
+						<?php if ( 'requirements' === $part['key'] && ! empty( $part['guide'] ) ) : ?>
+							<?php $g = $part['guide']; ?>
+							<p class="ap-integration-detail__guide">
+								<?php if ( '' !== $g['intro'] ) : ?>
+									<span class="ap-integration-detail__guide-intro"><?php echo esc_html( $g['intro'] ); ?></span>
+								<?php endif; ?>
+								<a class="ap-integration-detail__guide-link" href="<?php echo esc_url( $g['url'] ); ?>"><span class="ap-integration-detail__link-text"><?php echo esc_html( $g['label'] ); ?></span><span class="ap-integration-detail__link-arrow" aria-hidden="true"></span></a>
+							</p>
 						<?php endif; ?>
 
 						<?php if ( 'requirements' === $part['key'] && $part['has_help'] ) : ?>

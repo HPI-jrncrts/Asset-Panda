@@ -22,6 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $props = array(
+	'anchor'          => $attributes['anchor'] ?? '',
 	'eyebrow'         => $attributes['eyebrow'] ?? '',
 	'title'           => $attributes['title'] ?? '',
 	'title_accent'    => $attributes['title_accent'] ?? '',
@@ -36,6 +37,8 @@ $props = array(
 	'cta_url'         => $attributes['cta_url'] ?? '',
 	'secondary_label' => $attributes['secondary_label'] ?? '',
 	'secondary_url'   => $attributes['secondary_url'] ?? '',
+	'splash'          => $attributes['splash'] ?? false,
+	'attached'        => $attributes['attached'] ?? false,
 );
 
 $ap_html = ap_render_component( 'asset-scene', $props );

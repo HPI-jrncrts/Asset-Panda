@@ -200,3 +200,171 @@
 		margin-top: 28px;
 	}
 }
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: --ap-section-y above and below the band (was 32 / 16 around
+ * the soft panel); the soft panel keeps its own inner padding, the white
+ * layout (no panel) adds none of its own (was 40 inside 32). */
+html body .ap-media-band.ap-media-band { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+html body .ap-media-band.ap-media-band--white .ap-media-band__inner { padding-top: 0; padding-bottom: 0; }
+/* Soft panels in a row (the trial page's three bands) are one group: the
+ * later ones drop their top padding, so panels sit one --ap-section-y apart. */
+html body *:has(> .ap-media-band) + *:has(> .ap-media-band) > .ap-media-band.ap-media-band { padding-top: 0; }
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-media-band.ap-media-band.ap-media-band h2.ap-media-band__title { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+html body .ap-media-band.ap-media-band.ap-media-band h3.ap-media-band__title { font-size: var(--ap-type-h3-size); font-weight: var(--ap-type-h3-weight); line-height: var(--ap-type-h3-line); letter-spacing: var(--ap-type-h3-track); }
+/* Section eyebrow on the type scale too: 12px at 390 to 14px at 1440, 800, 4% tracking, upper case. */
+html body .ap-media-band.ap-media-band.ap-media-band .ap-media-band__eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }
+
+/* ------------------------------------------------------------ video_look: theater (2026-10-29)
+ * The kit's video theater (page-videos/style.css on /tutorials/) around this band's one video:
+ * a dark indigo panel with the brand glows in two corners, the 16:9 player inside it with its
+ * deep shadow, the poster cropped to fill the player and page-videos' round white play button
+ * (the band's own icon, repainted: no YouTube red). The video still plays only on a click
+ * (behaviour.js is unchanged); the player then takes the same 16:9 box. */
+.ap-media-band.ap-media-band--theater .ap-media-band__media--video {
+	position: relative;
+	isolation: isolate;
+	max-width: none;
+	margin-top: 40px;
+	padding: 24px;
+	overflow: hidden;
+	border-radius: var(--ap-radius-2xl);
+	background: var(--ap-surface-dark);
+	box-shadow: 0 30px 80px rgba(32, 28, 74, .22);
+}
+
+.ap-media-band.ap-media-band--theater .ap-media-band__media--video::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+	background:
+		radial-gradient(55% 75% at 0% 0%, rgba(80, 68, 225, .42) 0%, rgba(80, 68, 225, 0) 70%),
+		radial-gradient(45% 65% at 100% 100%, rgba(0, 169, 145, .26) 0%, rgba(0, 169, 145, 0) 70%);
+}
+
+.ap-media-band.ap-media-band--theater .ap-media-band__play,
+.ap-media-band.ap-media-band--theater .ap-media-band__frame {
+	position: relative;
+	z-index: 1;
+	display: block;
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	overflow: hidden;
+	border-radius: var(--ap-radius-xl);
+	background: var(--ap-indigo-950);
+	box-shadow: 0 24px 56px rgba(0, 0, 0, .35);
+}
+
+.ap-media-band.ap-media-band--theater .ap-media-band__play img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: scale var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-media-band.ap-media-band--theater .ap-media-band__play::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(180deg, rgba(32, 28, 74, 0) 40%, rgba(32, 28, 74, .32) 100%);
+	opacity: .6;
+	transition: opacity var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-media-band.ap-media-band--theater .ap-media-band__icon {
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, .94);
+	box-shadow: 0 10px 30px rgba(0, 0, 0, .35), 0 0 0 8px rgba(255, 255, 255, .18);
+	transition-property: scale, box-shadow, background-color;
+	transition-duration: var(--ap-dur-base);
+	transition-timing-function: var(--ap-ease-standard);
+}
+
+/* The icon's triangle (x 27-45 of its 68-wide box) is drawn 22px tall; the box it sat in is cleared. */
+.ap-media-band.ap-media-band--theater .ap-media-band__icon svg {
+	width: 75px;
+	height: 53px;
+}
+
+.ap-media-band.ap-media-band--theater .ap-media-band__icon path:first-child {
+	fill: transparent;
+}
+
+.ap-media-band.ap-media-band--theater .ap-media-band__icon path:last-child {
+	fill: var(--ap-brand-indigo);
+	transition: fill var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-media-band.ap-media-band--theater .ap-media-band__play:hover img,
+.ap-media-band.ap-media-band--theater .ap-media-band__play:focus-visible img {
+	scale: 1.03;
+}
+
+.ap-media-band.ap-media-band--theater .ap-media-band__play:hover::after {
+	opacity: 1;
+}
+
+.ap-media-band.ap-media-band--theater .ap-media-band__play:hover .ap-media-band__icon,
+.ap-media-band.ap-media-band--theater .ap-media-band__play:focus-visible .ap-media-band__icon {
+	background: var(--ap-brand-indigo);
+	box-shadow: 0 14px 36px rgba(80, 68, 225, .45), 0 0 0 10px rgba(255, 255, 255, .22);
+}
+
+.ap-media-band.ap-media-band--theater .ap-media-band__play:hover .ap-media-band__icon path:last-child,
+.ap-media-band.ap-media-band--theater .ap-media-band__play:focus-visible .ap-media-band__icon path:last-child {
+	fill: var(--ap-white);
+}
+
+.ap-media-band.ap-media-band--theater .ap-media-band__play:focus-visible {
+	outline: 3px solid var(--ap-white);
+	outline-offset: -3px;
+}
+
+@media (max-width: 767px) {
+	.ap-media-band.ap-media-band--theater .ap-media-band__inner {
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	.ap-media-band.ap-media-band--theater .ap-media-band__media--video {
+		margin-top: 28px;
+		padding: 12px;
+		border-radius: var(--ap-radius-xl);
+	}
+
+	.ap-media-band.ap-media-band--theater .ap-media-band__play,
+	.ap-media-band.ap-media-band--theater .ap-media-band__frame {
+		border-radius: var(--ap-radius-lg);
+	}
+
+	.ap-media-band.ap-media-band--theater .ap-media-band__icon {
+		width: 64px;
+		height: 64px;
+	}
+
+	.ap-media-band.ap-media-band--theater .ap-media-band__icon svg {
+		width: 60px;
+		height: 42px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-media-band.ap-media-band--theater .ap-media-band__play img,
+	.ap-media-band.ap-media-band--theater .ap-media-band__play::after,
+	.ap-media-band.ap-media-band--theater .ap-media-band__icon {
+		transition: none;
+	}
+}

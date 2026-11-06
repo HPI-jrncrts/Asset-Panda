@@ -81,6 +81,11 @@ if ( '' !== trim( (string) $props['background'] ) ) {
 if ( '' !== trim( (string) $props['background_mobile'] ) ) {
 	$vars[] = '--ap-readiness-hero-bg-m:url("' . esc_url_raw( $props['background_mobile'] ) . '")';
 }
+// First-screen backdrop (a CSS background): preload it, unless phones get a different file.
+$ap_pre = '' === trim( (string) $props['background_mobile'] ) ? trim( (string) $props['background'] ) : '';
+if ( '' !== $ap_pre && function_exists( 'ap_ui_preload_image' ) ) {
+	echo ap_ui_preload_image( $ap_pre ); // phpcs:ignore WordPress.Security.EscapeOutput -- built from esc_url() in the loader.
+}
 
 $defs    = ap_ui_svg( $props['defs_svg'] );
 $photo   = trim( (string) $props['photo'] );
@@ -102,7 +107,7 @@ $ap_pill = static function ( $f, $dup ) {
 				<img class="ap-readiness-hero__photo" src="<?php echo esc_url( $photo ); ?>" alt="<?php echo esc_attr( $props['photo_alt'] ); ?>" decoding="async" fetchpriority="high" />
 			<?php endif; ?>
 			<?php if ( '' !== $mobile ) : ?>
-				<img class="ap-readiness-hero__mobcards" src="<?php echo esc_url( $mobile ); ?>" alt="<?php echo esc_attr( $props['mobile_image_alt'] ); ?>" loading="lazy" decoding="async" />
+				<img class="ap-readiness-hero__mobcards" src="<?php echo esc_url( $mobile ); ?>" alt="<?php echo esc_attr( $props['mobile_image_alt'] ); ?>" decoding="async" />
 			<?php endif; ?>
 			<?php echo implode( '', $lines ); // phpcs:ignore WordPress.Security.EscapeOutput -- each sanitised by ap_ui_svg(). ?>
 			<?php foreach ( $cards as $i => $card ) : ?>
@@ -152,7 +157,7 @@ $ap_pill = static function ( $f, $dup ) {
 				<?php if ( $badges ) : ?>
 					<span class="ap-readiness-hero__badges">
 						<?php foreach ( $badges as $b ) : ?>
-							<img src="<?php echo esc_url( $b['image'] ); ?>" alt="<?php echo esc_attr( $b['alt'] ?? '' ); ?>" loading="lazy" decoding="async" />
+							<img src="<?php echo esc_url( $b['image'] ); ?>" alt="<?php echo esc_attr( $b['alt'] ?? '' ); ?>" decoding="async" />
 						<?php endforeach; ?>
 					</span>
 				<?php endif; ?>

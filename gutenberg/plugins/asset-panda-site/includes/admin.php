@@ -105,6 +105,12 @@ function ap_site_sanitize_settings( $input ) {
 	if ( isset( $input['loader'] ) && in_array( $input['loader'], array( 'gtm', 'stape' ), true ) ) {
 		$out['loader'] = $input['loader'];
 	}
+	if ( isset( $input['gtm_timing'] ) && in_array( $input['gtm_timing'], array( 'immediate', 'settled' ), true ) ) {
+		$out['gtm_timing'] = $input['gtm_timing'];
+	}
+	if ( isset( $input['gtm_delay_ms'] ) ) {
+		$out['gtm_delay_ms'] = max( 0, min( 10000, (int) $input['gtm_delay_ms'] ) );
+	}
 	if ( isset( $input['stape_domain'] ) ) {
 		$host = strtolower( trim( (string) $input['stape_domain'] ) );
 		if ( ap_site_valid_hostname( $host ) ) {
@@ -144,6 +150,59 @@ function ap_site_sanitize_settings( $input ) {
 		} else {
 			ap_site_settings_error( 'Ursa demo URL must start with https://; kept the previous one.' );
 		}
+	}
+	foreach ( array( 'login_limit' => array( 3, 50 ), 'login_window' => array( 1, 1440 ) ) as $key => $range ) {
+		if ( isset( $input[ $key ] ) ) {
+			$n = (int) $input[ $key ];
+			if ( $n >= $range[0] && $n <= $range[1] ) {
+				$out[ $key ] = $n;
+			} else {
+				ap_site_settings_error( sprintf( '%s must be between %d and %d; kept %s.', 'login_limit' === $key ? 'Failed attempts' : 'Lockout minutes', $range[0], $range[1], $current[ $key ] ) );
+			}
+		}
+	}
+	// reCAPTCHA keys: Google's keys are 40 characters of letters, digits, - and _. An empty secret box keeps the saved
+	// secret (it is never printed back); "Remove the keys" clears both.
+	if ( ! empty( $input['recaptcha_clear'] ) ) {
+		$out['recaptcha_site_key'] = '';
+		$out['recaptcha_secret']   = '';
+	} else {
+		if ( isset( $input['recaptcha_site_key'] ) ) {
+			$key = trim( (string) $input['recaptcha_site_key'] );
+			if ( '' === $key || preg_match( '/^[A-Za-z0-9_-]{20,80}$/', $key ) ) {
+				$out['recaptcha_site_key'] = $key;
+			} else {
+				ap_site_settings_error( 'reCAPTCHA site key looks wrong (letters, digits, - and _ only); kept the previous one.' );
+			}
+		}
+		if ( isset( $input['recaptcha_secret'] ) && '' !== trim( (string) $input['recaptcha_secret'] ) ) {
+			$secret = trim( (string) $input['recaptcha_secret'] );
+			if ( preg_match( '/^[A-Za-z0-9_-]{20,80}$/', $secret ) ) {
+				$out['recaptcha_secret'] = $secret;
+			} else {
+				ap_site_settings_error( 'reCAPTCHA secret key looks wrong (letters, digits, - and _ only); kept the previous one.' );
+			}
+		}
+	}
+	if ( isset( $input['recaptcha_threshold'] ) ) {
+		$t = (float) $input['recaptcha_threshold'];
+		if ( $t >= 0.1 && $t <= 0.9 ) {
+			$out['recaptcha_threshold'] = round( $t, 1 );
+		} else {
+			ap_site_settings_error( 'reCAPTCHA score must be between 0.1 and 0.9; kept ' . $current['recaptcha_threshold'] . '.' );
+		}
+	}
+	if ( array_key_exists( 'recaptcha_hosts', $input ) ) {
+		$hosts = array();
+		foreach ( ap_site_lines( $input['recaptcha_hosts'] ) as $host ) {
+			$h = ap_site_normalize_host( $host );
+			if ( '' !== $h ) {
+				$hosts[] = $h;
+			} else {
+				ap_site_settings_error( 'Ignored "' . $host . '": not a host name.' );
+			}
+		}
+		$out['recaptcha_hosts'] = array_values( array_unique( $hosts ) );
 	}
 	foreach ( ap_site_pattern_keys() as $key ) {
 		if ( ! array_key_exists( $key, $input ) ) {
@@ -228,7 +287,7 @@ function ap_site_render_admin_page() {
 		delete_transient( 'ap_site_apply_notice_' . get_current_user_id() );
 	}
 	$rows = array(
-		array( 'Google Tag Manager', 'tracking', 'Loader: ' . ( 'stape' === ap_site_effective_loader( $s ) ? 'Stape custom loader (' . $s['stape_domain'] . ')' : 'standard (googletagmanager.com)' ) . ' · container ' . $s['gtm_id'] . ' · not on ' . implode( ', ', $s['tracking_exclude'] ) ),
+		array( 'Google Tag Manager', 'tracking', 'Loader: ' . ( 'stape' === ap_site_effective_loader( $s ) ? 'Stape custom loader (' . $s['stape_domain'] . ')' : 'standard (googletagmanager.com)' ) . ( 'settled' === $s['gtm_timing'] ? ' · starts on first interaction or ' . (int) $s['gtm_delay_ms'] . ' ms after load' : ' · starts in the head' ) . ' · container ' . $s['gtm_id'] . ' · not on ' . implode( ', ', $s['tracking_exclude'] ) ),
 		array( 'Cookiebot consent banner', 'cookiebot', 'cbid ' . $s['cookiebot_id'] . ( $s['cookiebot_exclude'] ? ' · not on ' . implode( ', ', $s['cookiebot_exclude'] ) : ' · every page, as live' ) ),
 		array( 'Geotargetly', 'geotargetly', 'Old theme\'s Core/International switch; the 2026 header does not need it.' ),
 		array( 'Security headers', 'headers', 'CSP frame-ancestors, Permissions-Policy, Referrer-Policy, X-Frame-Options (not on ' . implode( ', ', $s['xfo_omit'] ) . '), nosniff, X-XSS-Protection' ),
@@ -351,6 +410,11 @@ function ap_site_render_admin_page() {
 							<label><input type="radio" name="<?php echo esc_attr( $name ); ?>[loader]" value="gtm" <?php checked( 'gtm', $s['loader'] ); ?> /> Standard loader from www.googletagmanager.com (what live uses today)</label><br />
 							<label><input type="radio" name="<?php echo esc_attr( $name ); ?>[loader]" value="stape" <?php checked( 'stape', $s['loader'] ); ?> /> Stape custom loader from the first-party domain below (not blocked by ad blockers)</label>
 						</fieldset>
+						<fieldset style="margin-top:8px">
+							<label><input type="radio" name="<?php echo esc_attr( $name ); ?>[gtm_timing]" value="settled" <?php checked( 'settled', $s['gtm_timing'] ); ?> /> Start when the page has settled: on the first scroll, tap, key or mouse move, or after the delay below (faster pages)</label><br />
+							<label><input type="radio" name="<?php echo esc_attr( $name ); ?>[gtm_timing]" value="immediate" <?php checked( 'immediate', $s['gtm_timing'] ); ?> /> Start straight away in the page head (as before 2026-11-04)</label><br />
+							<label>Delay after the page has loaded <input type="number" min="0" max="10000" step="250" class="small-text" name="<?php echo esc_attr( $name ); ?>[gtm_delay_ms]" value="<?php echo esc_attr( (string) $s['gtm_delay_ms'] ); ?>" /> ms</label>
+						</fieldset>
 						<p>
 							<label>Stape domain <input type="text" class="regular-text code" name="<?php echo esc_attr( $name ); ?>[stape_domain]" value="<?php echo esc_attr( $s['stape_domain'] ); ?>" /></label><br />
 							<label>Stape loader file <input type="text" class="regular-text code" name="<?php echo esc_attr( $name ); ?>[stape_loader]" value="<?php echo esc_attr( $s['stape_loader'] ); ?>" /></label><br />
@@ -400,6 +464,28 @@ function ap_site_render_admin_page() {
 				<tr>
 					<th scope="row">Emoji script</th>
 					<td><label><input type="checkbox" name="<?php echo esc_attr( $name ); ?>[no_emoji_scripts]" value="1" <?php checked( $s['no_emoji_scripts'] ); ?> /> Keep WordPress's emoji detection script off the pages (PageSpeed: removes a ~400 ms main-thread stall; emoji still render from the system font)</label></td>
+				</tr>
+				<tr>
+					<th scope="row">Sign-in protection</th>
+					<td>
+						<label><input type="checkbox" name="<?php echo esc_attr( $name ); ?>[login_guard]" value="1" <?php checked( $s['login_guard'] ); ?> /> Lock out an address after repeated failed sign-ins, show one message for any wrong username or password, turn XML-RPC off (any host)</label><br />
+						<label>Failed attempts allowed <input type="number" min="3" max="50" class="small-text" name="<?php echo esc_attr( $name ); ?>[login_limit]" value="<?php echo esc_attr( (string) $s['login_limit'] ); ?>" /></label>
+						<label>within, and locked for, <input type="number" min="1" max="1440" class="small-text" name="<?php echo esc_attr( $name ); ?>[login_window]" value="<?php echo esc_attr( (string) $s['login_window'] ); ?>" /> minutes</label>
+						<p class="description">This server sees your address as <code><?php echo esc_html( ap_site_login_ip() ); ?></code>. It should match your own public address (search "what is my IP"); if it shows a proxy's address instead, everyone behind that proxy shares one count.</p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">Google reCAPTCHA v3</th>
+					<td>
+						<label><input type="checkbox" name="<?php echo esc_attr( $name ); ?>[recaptcha]" value="1" <?php checked( $s['recaptcha'] ); ?> /> Check the sign-in and lost-password forms with reCAPTCHA v3 (invisible; nothing to click)</label>
+						<p><?php echo ( '' !== $s['recaptcha_site_key'] && '' !== $s['recaptcha_secret'] ) ? ( ap_site_recaptcha_on() ? '<strong>Active on this address.</strong>' : 'Keys saved; not checked on this address (not a production host or listed below).' ) : 'Not active: paste both keys from google.com/recaptcha/admin (type: Score based, v3; domains: assetpanda.com and any staging address listed below).'; // phpcs:ignore WordPress.Security.EscapeOutput -- fixed strings. ?></p>
+						<label>Site key <input type="text" class="regular-text code" autocomplete="off" name="<?php echo esc_attr( $name ); ?>[recaptcha_site_key]" value="<?php echo esc_attr( $s['recaptcha_site_key'] ); ?>" /></label><br />
+						<label>Secret key <input type="password" class="regular-text code" autocomplete="new-password" name="<?php echo esc_attr( $name ); ?>[recaptcha_secret]" value="" placeholder="<?php echo esc_attr( '' !== $s['recaptcha_secret'] ? '(saved; leave empty to keep)' : '' ); ?>" /></label><br />
+						<label>Lowest score accepted <input type="number" step="0.1" min="0.1" max="0.9" class="small-text" name="<?php echo esc_attr( $name ); ?>[recaptcha_threshold]" value="<?php echo esc_attr( (string) $s['recaptcha_threshold'] ); ?>" /> (Google suggests 0.5)</label><br />
+						<label>Also check on these addresses (one per line, e.g. a staging address)<br /><textarea name="<?php echo esc_attr( $name ); ?>[recaptcha_hosts]" rows="2" cols="50" class="code"><?php echo esc_textarea( implode( "\n", (array) $s['recaptcha_hosts'] ) ); ?></textarea></label><br />
+						<label><input type="checkbox" name="<?php echo esc_attr( $name ); ?>[recaptcha_clear]" value="1" /> Remove the keys</label>
+						<p class="description">If a sign-in problem ever locks everyone out: add <code>define( 'AP_SITE_DISABLE', true );</code> to wp-config.php, or deactivate this plugin from the WP Engine portal.</p>
+					</td>
 				</tr>
 				<tr>
 					<th scope="row">Yoast sitemap</th>

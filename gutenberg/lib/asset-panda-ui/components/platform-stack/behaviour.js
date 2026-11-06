@@ -22,7 +22,8 @@
 
 	var mq = window.matchMedia ? window.matchMedia.bind( window ) : null;
 	var desktop = mq ? mq( '(min-width: 1280px)' ) : null;
-	var phone = mq ? mq( '(max-width: 767px)' ) : null;
+	// Phones AND tablets (QA 2026-10-29, Joseph): the scrolled-to card fills and shows its preview below 1280px.
+	var phone = mq ? mq( '(max-width: 1279px)' ) : null;
 	var FILL = 'is-mobile-scroll-active';
 
 	// Indexes of the targets currently inside an observer's band.

@@ -1,0 +1,10 @@
+{
+	"name": "ursa-steps",
+	"description": "Ursa AI \"Ask. Build. Analyze. Act.\" section: a centred heading over stacked glass cards; each card has a numbered label and title beside its copy, then a two-column checklist; a card can be dark (indigo) with the Ursa orb. Ursa AI frame 7261:111601.",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading (an H2). Line breaks are kept." },
+		"lede": { "type": "string", "required": false, "default": "", "description": "Paragraph under the heading. UrsaAI renders as the brand mark." },
+		"items": { "type": "array", "required": true, "description": "Cards. Each: num (e.g. 01), label (e.g. Ask), title, body (UrsaAI renders as the brand mark), checks (list of strings, split into two columns, first column gets the extra one), tone (light | dark; dark = indigo card with the Ursa orb)." }
+	}
+}

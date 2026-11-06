@@ -14,14 +14,14 @@
 	max-width: none;
 	margin: 0;
 	padding: 80px 24px;
-	background: #F9FAFB;
+	background: #fff; /* white, not off-white (QA 2026-10-29, sitewide) */
 	font-family: 'Manrope', Arial, sans-serif;
 	overflow: hidden;
 }
 
 /* Theme variants: live is the slate-50 band (alt). */
 .ap-stats--light { background: #FFFFFF; }
-.ap-stats--alt { background: #F9FAFB; }
+.ap-stats--alt { background: #fff; }
 .ap-stats--dark { background: var(--ap-surface-dark); }
 
 .ap-stats,
@@ -152,4 +152,24 @@
 	.ap-stats .ap-stat-label {
 		font-size: 13px;
 	}
+}
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: --ap-section-y top and bottom (was 80 / 64 / 40 by width). */
+html body .ap-stats.ap-stats { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+
+/* Optional eyebrow (Ursa AI frame 7262:114721): centred over the row, 32px above it. */
+.ap-stats .ap-stats-eyebrow {
+	margin: 0 0 32px;
+	text-align: center;
+	color: var(--ap-text-eyebrow, #5044e1);
+	font-size: var(--ap-type-eyebrow-size, 14px);
+	font-weight: var(--ap-type-eyebrow-weight, 800);
+	line-height: var(--ap-type-eyebrow-line, 1.2);
+	letter-spacing: var(--ap-type-eyebrow-track, .04em);
+	text-transform: uppercase;
+}
+.ap-stats--dark .ap-stats-eyebrow { color: var(--ap-text-body-inverse); }
+@media (max-width: 767px) {
+	.ap-stats .ap-stats-eyebrow { margin-bottom: 24px; }
 }

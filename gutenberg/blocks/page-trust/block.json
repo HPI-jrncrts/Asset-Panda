@@ -1,0 +1,81 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/page-trust",
+	"title": "AP Page Trust",
+	"category": "design",
+	"icon": "block-default",
+	"description": "Trust-and-recognition section of the 2026 company pages (Our Company, Figma 7460:104417): intro copy (eyebrow, heading, paragraphs) beside an icon aside (heading, short copy), then a row of award cards (badge image, title, category lines, linked or plain), then an outline and a gradient button and an arrow link, centred. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"body": {
+			"type": "string",
+			"default": ""
+		},
+		"aside_icon": {
+			"type": "string",
+			"default": ""
+		},
+		"aside_title": {
+			"type": "string",
+			"default": ""
+		},
+		"aside_body": {
+			"type": "string",
+			"default": ""
+		},
+		"awards": {
+			"type": "array",
+			"default": []
+		},
+		"secondary_label": {
+			"type": "string",
+			"default": ""
+		},
+		"secondary_url": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_label": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_url": {
+			"type": "string",
+			"default": ""
+		},
+		"link_label": {
+			"type": "string",
+			"default": ""
+		},
+		"link_url": {
+			"type": "string",
+			"default": ""
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

@@ -21,7 +21,11 @@ const ROOT = path.resolve(import.meta.dirname, '..');
 const COMPONENTS = path.join(ROOT, 'ui', 'components');
 const BLOCKS = path.join(ROOT, 'gutenberg', 'blocks');
 
-const HAND_WRITTEN = new Set();
+// container: its render places the inner blocks in the component's <!--ap-slot--> (a generated adapter has no inner blocks).
+const HAND_WRITTEN = new Set(['container']);
+
+/** Blocks that sit in their column rather than spanning the page (no `alignfull` by default). */
+const ALIGN_DEFAULT = { visual: '' };
 
 /** Icons are editorial, not derivable from the contract. */
 const ICONS = {
@@ -96,6 +100,8 @@ const ICONS = {
   'thanks-calendly': 'calendar-alt',
   'login-splash': 'admin-network',
   'roi-calculator': 'calculator',
+  visual: 'format-image',
+  container: 'screenoptions',
 };
 
 const titleCase = (s) =>
@@ -150,7 +156,8 @@ function buildBlockJson(name, contract) {
    * `align` is a block-level concern, so it is NOT a kit prop and is never
    * passed through to ap_render_component().
    */
-  attributes.align = { type: 'string', default: 'full' };
+  // No default at all for in-column blocks: an empty-string default still prints a bare `align` class.
+  attributes.align = name in ALIGN_DEFAULT && ! ALIGN_DEFAULT[name] ? { type: 'string' } : { type: 'string', default: ALIGN_DEFAULT[name] || 'full' };
 
   return {
     $schema: 'https://schemas.wp.org/trunk/block.json',

@@ -11,7 +11,7 @@
 
 /* ---- readiness — Emergency Preparedness ---- */
 .ap-intel-dashboard--readiness .epx-dash,.ap-intel-dashboard--readiness .epx-dash *{box-sizing:border-box;margin:0;padding:0}
-.ap-intel-dashboard--readiness .epx-dash{position:relative;width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);background:#fff;overflow:hidden;font-family:'Manrope',Arial,sans-serif}
+.ap-intel-dashboard--readiness .epx-dash{position:relative;width:100%;margin-left:0;margin-right:0;background:#fff;overflow:hidden;font-family:'Manrope',Arial,sans-serif}
 .ap-intel-dashboard--readiness .epx-dash__orbs{position:absolute;inset:0;background:var(--ap-intel-dashboard-bg) center center no-repeat;background-size:100% 100%}
 .ap-intel-dashboard--readiness .epx-dash__wrap{position:relative;max-width:1200px;margin:0 auto;padding:40px 40px 80px;display:flex;flex-direction:column;align-items:center;gap:0}
 .ap-intel-dashboard--readiness .epx-dash__head{position:static;height:auto;background:none;display:flex;flex-direction:column;gap:16px;align-items:center;max-width:856px;text-align:center}
@@ -67,7 +67,7 @@
 .ap-intel-dashboard--readiness .epx-dash__checks li{flex:0 0 368px;display:flex;gap:8px;align-items:flex-start;font-size:16px;line-height:1.6;color:#25272c;padding:8px 12px}
 .ap-intel-dashboard--readiness .epx-dash__checks svg{flex:0 0 auto}
 .ap-intel-dashboard--readiness .epx-dash__ctas{display:flex;gap:16px;align-items:center;margin-top:16px;flex-wrap:wrap;justify-content:center}
-.ap-intel-dashboard--readiness .epx-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:16px;border-radius:4px;font-size:16px;font-weight:600;line-height:1.2;text-decoration:none;transition:transform .2s cubic-bezier(.4,0,.2,1),box-shadow .2s cubic-bezier(.4,0,.2,1)}
+.ap-intel-dashboard--readiness .epx-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:16px;border-radius:4px;font-size:16px;font-weight:600;line-height:1.2;text-decoration:none;transition:transform var(--ap-dur-base) var(--ap-ease-standard),box-shadow var(--ap-dur-base) var(--ap-ease-standard),background-color var(--ap-dur-base) var(--ap-ease-standard),border-color var(--ap-dur-base) var(--ap-ease-standard),color var(--ap-dur-base) var(--ap-ease-standard)}
 .ap-intel-dashboard--readiness .epx-btn--primary{background:linear-gradient(55.1deg,#5044E1 0%,#00A991 70.44%);border:1px solid #5044e1;color:#fff}
 .ap-intel-dashboard--readiness .epx-btn--outline{background:#fff;border:1px solid #00a991;color:#00a991}
 .ap-intel-dashboard--readiness .epx-btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(80,68,225,.28)}
@@ -128,7 +128,7 @@
 
 /* ---- reunification — School Reunification ---- */
 .ap-intel-dashboard--reunification .epx-dash,.ap-intel-dashboard--reunification .epx-dash *{box-sizing:border-box;margin:0;padding:0}
-.ap-intel-dashboard--reunification .epx-dash{position:relative;width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);background:#fff;overflow:hidden;font-family:'Manrope',Arial,sans-serif}
+.ap-intel-dashboard--reunification .epx-dash{position:relative;width:100%;margin-left:0;margin-right:0;background:#fff;overflow:hidden;font-family:'Manrope',Arial,sans-serif}
 .ap-intel-dashboard--reunification .epx-dash__orbs{position:absolute;inset:0;background:var(--ap-intel-dashboard-bg) center center no-repeat;background-size:100% 100%}
 .ap-intel-dashboard--reunification .epx-dash__wrap{position:relative;max-width:1200px;margin:0 auto;padding:40px 40px 80px;display:flex;flex-direction:column;align-items:center;gap:0}
 .ap-intel-dashboard--reunification .epx-dash__head{position:static;height:auto;background:none;display:flex;flex-direction:column;gap:16px;align-items:center;max-width:856px;text-align:center}
@@ -182,7 +182,7 @@
 .ap-intel-dashboard--reunification .epx-dash__checks li{flex:0 0 368px;display:flex;gap:8px;align-items:flex-start;font-size:16px;line-height:1.6;color:#25272c;padding:8px 12px}
 .ap-intel-dashboard--reunification .epx-dash__checks svg{flex:0 0 auto}
 .ap-intel-dashboard--reunification .epx-dash__ctas{display:flex;gap:16px;align-items:center;margin-top:16px;flex-wrap:wrap;justify-content:center}
-.ap-intel-dashboard--reunification .epx-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:16px;border-radius:4px;font-size:16px;font-weight:600;line-height:1.2;text-decoration:none;transition:transform .2s cubic-bezier(.4,0,.2,1),box-shadow .2s cubic-bezier(.4,0,.2,1)}
+.ap-intel-dashboard--reunification .epx-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:16px;border-radius:4px;font-size:16px;font-weight:600;line-height:1.2;text-decoration:none;transition:transform var(--ap-dur-base) var(--ap-ease-standard),box-shadow var(--ap-dur-base) var(--ap-ease-standard),background-color var(--ap-dur-base) var(--ap-ease-standard),border-color var(--ap-dur-base) var(--ap-ease-standard),color var(--ap-dur-base) var(--ap-ease-standard)}
 .ap-intel-dashboard--reunification .epx-btn--primary{background:linear-gradient(55.1deg,#5044E1 0%,#00A991 70.44%);border:1px solid #5044e1;color:#fff}
 .ap-intel-dashboard--reunification .epx-btn--outline{background:#fff;border:1px solid #00a991;color:#00a991}
 .ap-intel-dashboard--reunification .epx-btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(80,68,225,.28)}
@@ -244,7 +244,7 @@
 
 /* ---- service — Help Desk Ticketing ---- */
 .ap-intel-dashboard--service .epx-dash,.ap-intel-dashboard--service .epx-dash *{box-sizing:border-box;margin:0;padding:0}
-.ap-intel-dashboard--service .epx-dash{position:relative;width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);background:#fff;overflow:hidden;font-family:'Manrope',Arial,sans-serif}
+.ap-intel-dashboard--service .epx-dash{position:relative;width:100%;margin-left:0;margin-right:0;background:#fff;overflow:hidden;font-family:'Manrope',Arial,sans-serif}
 .ap-intel-dashboard--service .epx-dash__orbs{position:absolute;inset:0;background:var(--ap-intel-dashboard-bg) center center no-repeat;background-size:cover}
 .ap-intel-dashboard--service .epx-dash__wrap{position:relative;max-width:1200px;margin:0 auto;padding:40px 40px 40px;display:flex;flex-direction:column;align-items:center;gap:0}
 .ap-intel-dashboard--service .epx-dash__head{position:static;height:auto;background:none;display:flex;flex-direction:column;gap:16px;align-items:center;max-width:856px;text-align:center}
@@ -307,7 +307,7 @@
 .ap-intel-dashboard--service .epx-dash__checks li{flex:0 0 368px;display:flex;gap:8px;align-items:flex-start;font-size:16px;line-height:1.6;color:#25272c;padding:8px 12px}
 .ap-intel-dashboard--service .epx-dash__checks svg{flex:0 0 auto}
 .ap-intel-dashboard--service .epx-dash__ctas{display:flex;gap:16px;align-items:center;margin-top:16px;flex-wrap:wrap;justify-content:center}
-.ap-intel-dashboard--service .epx-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:16px;border-radius:4px;font-size:16px;font-weight:600;line-height:1.2;text-decoration:none;transition:transform .2s cubic-bezier(.4,0,.2,1),box-shadow .2s cubic-bezier(.4,0,.2,1)}
+.ap-intel-dashboard--service .epx-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:16px;border-radius:4px;font-size:16px;font-weight:600;line-height:1.2;text-decoration:none;transition:transform var(--ap-dur-base) var(--ap-ease-standard),box-shadow var(--ap-dur-base) var(--ap-ease-standard),background-color var(--ap-dur-base) var(--ap-ease-standard),border-color var(--ap-dur-base) var(--ap-ease-standard),color var(--ap-dur-base) var(--ap-ease-standard)}
 .ap-intel-dashboard--service .epx-btn--primary{background:linear-gradient(55.1deg,#5044E1 0%,#00A991 70.44%);border:1px solid #5044e1;color:#fff}
 .ap-intel-dashboard--service .epx-btn--outline{background:#fff;border:1px solid #00a991;color:#00a991}
 .ap-intel-dashboard--service .epx-btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(80,68,225,.28)}
@@ -433,7 +433,7 @@
 
 /* ---- solution — the September 2026 solution pages (asset management sheet; per-page check width and tip heights arrive as props) ---- */
 .ap-intel-dashboard--solution .epx-dash,.ap-intel-dashboard--solution .epx-dash *{box-sizing:border-box;margin:0;padding:0}
-.ap-intel-dashboard--solution .epx-dash{position:relative;width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);background:#fff;overflow:hidden;font-family:'Manrope',Arial,sans-serif}
+.ap-intel-dashboard--solution .epx-dash{position:relative;width:100%;margin-left:0;margin-right:0;background:#fff;overflow:hidden;font-family:'Manrope',Arial,sans-serif}
 .ap-intel-dashboard--solution .epx-dash__orbs{position:absolute;inset:0;background:var(--ap-intel-dashboard-bg) center center no-repeat;background-size:cover}
 .ap-intel-dashboard--solution .epx-dash__wrap{position:relative;max-width:1200px;margin:0 auto;padding:40px 40px 40px;display:flex;flex-direction:column;align-items:center;gap:0}
 .ap-intel-dashboard--solution .epx-dash__head{position:static;height:auto;background:none;display:flex;flex-direction:column;gap:16px;align-items:center;max-width:856px;text-align:center}
@@ -477,7 +477,7 @@
 .ap-intel-dashboard--solution .epx-dash__checks li{flex:0 0 var(--ap-intel-dashboard-check-w, 368px);display:flex;gap:8px;align-items:flex-start;font-size:16px;line-height:1.6;color:#25272c;padding:8px 12px}
 .ap-intel-dashboard--solution .epx-dash__checks svg{flex:0 0 auto}
 .ap-intel-dashboard--solution .epx-dash__ctas{display:flex;gap:16px;align-items:center;margin-top:16px;flex-wrap:wrap;justify-content:center}
-.ap-intel-dashboard--solution .epx-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:16px;border-radius:4px;font-size:16px;font-weight:600;line-height:1.2;text-decoration:none;transition:transform .2s cubic-bezier(.4,0,.2,1),box-shadow .2s cubic-bezier(.4,0,.2,1)}
+.ap-intel-dashboard--solution .epx-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:16px;border-radius:4px;font-size:16px;font-weight:600;line-height:1.2;text-decoration:none;transition:transform var(--ap-dur-base) var(--ap-ease-standard),box-shadow var(--ap-dur-base) var(--ap-ease-standard),background-color var(--ap-dur-base) var(--ap-ease-standard),border-color var(--ap-dur-base) var(--ap-ease-standard),color var(--ap-dur-base) var(--ap-ease-standard)}
 .ap-intel-dashboard--solution .epx-btn--primary{background:linear-gradient(55.1deg,#5044E1 0%,#00A991 70.44%);border:1px solid #5044e1;color:#fff}
 .ap-intel-dashboard--solution .epx-btn--outline{background:#fff;border:1px solid #00a991;color:#00a991}
 .ap-intel-dashboard--solution .epx-btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(80,68,225,.28)}
@@ -602,3 +602,173 @@
 
 /* ---- shared: the Ursa mark's "AI" (live sets it page-wide, outside the dash sheets) ---- */
 .ap-intel-dashboard .epx-g .epx-sup{color:#00a991;-webkit-text-fill-color:#00a991}
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: every variant pads --ap-section-y top and bottom (was 40 /
+ * 40 or 40 / 80 desktop and 32 / 24 or 32 / 56 phone, by variant). */
+.ap-intel-dashboard .epx-dash__wrap { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+
+/* Tablets (QA 2026-10-27): from 641 to 1080px the tip cards wrapped at their
+ * desktop widths, three in a row stretched to the tallest (empty space in the
+ * short ones) and a lone fourth card below. They now sit two by two in equal
+ * columns, top-aligned, under the dashboard screenshot. */
+@media (min-width: 641px) and (max-width: 1080px) {
+	html body .ap-intel-dashboard .epx-dash .epx-dash__stage { align-items: flex-start; max-width: 760px; margin-left: auto; margin-right: auto; }
+	html body .ap-intel-dashboard .epx-dash .epx-dash__stage > .epx-tip { flex: 0 0 calc(50% - 8px); width: calc(50% - 8px) !important; max-width: none; }
+}
+/* Phones and tablets (QA 2026-10-27): once the tips are stacked cards (1080px
+ * and below) their small labels were 8px / 11px; they read at 12px. */
+@media (max-width: 1080px) {
+	html body .ap-intel-dashboard .epx-tip .epx-tip__mini { font-size: 12px; line-height: 1.4; }
+	html body .ap-intel-dashboard .epx-tip .epx-tip__nm { font-size: max(12px, 1em); }
+	html body .ap-intel-dashboard .epx-tip .epx-tag { font-size: 12px; }
+}
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-intel-dashboard.ap-intel-dashboard.ap-intel-dashboard .epx-dash .epx-dash__h2 { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+/* Section eyebrow on the type scale too: 12px at 390 to 14px at 1440, 800, 4% tracking, upper case. */
+html body .ap-intel-dashboard.ap-intel-dashboard.ap-intel-dashboard .epx-dash .epx-dash__eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }
+
+/* Motion (QA 2026-10-28, motion agent's R4): hover moves use translate / scale, never transform (scroll entrances own transform), on the house timing. */
+html body .ap-intel-dashboard .epx-btn { transition: translate var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), box-shadow var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), background-color var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), border-color var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), color var(--ap-dur-base, .3s) var(--ap-ease-standard, ease); }
+html body .ap-intel-dashboard .epx-btn:hover { transform: none; translate: 0 -2px; }
+
+/* QA 2026-10-29 (Joseph, all solution pages): on phones the tool image is shown as itself — full strength, no veil —
+ * in a white card, as the product pages' dashboard shows on a phone. */
+@media (max-width: 1080px) {
+	html body .ap-intel-dashboard .epx-dash__table {
+		opacity: 1 !important;
+		background: #fff;
+		border: 1px solid #e6e9f2 !important;
+		border-radius: 12px !important;
+		box-shadow: 0 8px 24px rgba(15, 23, 42, .08);
+		padding: 6px;
+		box-sizing: border-box;
+	}
+}
+
+/* QA 2026-10-29 (Joseph, /solutions/emergency-preparedness/: "The circles are too big … Other pages have it
+ * correct"): the readiness photo circles were drawn at their files' own size (209–320px masked to a circle), about
+ * 2.1x the School Reunification ones; every circle is now scaled to .48 about its own centre, which lands each on
+ * the reunification size for the same slot (a 44 … b 96). Desktop stage only — phones hide the circles. */
+@media (min-width: 1081px) {
+	.ap-intel-dashboard--readiness .epx-chip { scale: .48; }
+}
+
+/* QA 2026-10-29 (Joseph, /solutions/school-reunification-software/: "The background … is too stretched sideways.
+ * Let's keep the original size in width"): wider than the 1440px artwork, the backdrop no longer stretches to the
+ * window; it keeps its own 1440px width, centred, and its blue side edges fade out over 160px into the white page. */
+@media (min-width: 1441px) {
+	.ap-intel-dashboard--reunification .epx-dash__orbs,
+	.ap-intel-dashboard--readiness .epx-dash__orbs {
+		left: 50%;
+		right: auto;
+		width: 1440px;
+		translate: -50% 0;
+		-webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 0, #000 160px, #000 calc(100% - 160px), rgba(0, 0, 0, 0) 100%);
+		mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 0, #000 160px, #000 calc(100% - 160px), rgba(0, 0, 0, 0) 100%);
+	}
+}
+
+
+/* QA 2026-10-29 (Figma check): the floating stat cards were a fixed 176px, so a title or status line ("Available
+   Devices", "Ready for deployment") wrapped, the card grew taller and the avatar below it covered the last line
+   (Equipment, IT). Figma sizes these cards to their text: each stat card now fits its content on one line per row
+   (176px minimum, 260px maximum). The two list cards keep their fixed size.
+   QA 2026-10-30 (Joseph, phones: "expand these last 2 containers same width as the ones above so it's consistent"):
+   only where the cards float over the table (desktop, 1081px and up). Where they stack, every card takes the
+   stacked layout's own width again, so the stat and detail cards match the list cards above them. */
+@media (min-width: 1081px) {
+	.ap-intel-dashboard .epx-dash__stage > .epx-tip:not(:has(.epx-tip__list)) {
+		width: max-content;
+		min-width: 176px;
+		max-width: 260px;
+		white-space: nowrap;
+	}
+}
+
+/* QA 2026-10-30 (Joseph approved the Local Government dashboard splash for this list: /barcode-labels/ and 21
+ * /solutions/ pages, Emergency Preparedness and School Reunification included, "already center splash but looks
+ * ugly"). As on the product pages' dashboard section, the colour wash is an oval splash in the middle of the section
+ * that fades to white well before every edge, and the faded table's edges melt into it instead of ending in a hard
+ * line (softly at the sides and top, longer at the bottom). Scoped to the listed WordPress pages: 1308 barcode-labels,
+ * 774 asset-management, 775 inventory, 777 IT, 776 fixed-asset, 1663 barcode-tracking, 1429 reservations, 1667
+ * compliance, 1557 mobile-audit, 1559 CMMS, 751 help desk, 1558 inspection, 1432 repair, 1431 calibration, 1430
+ * facilities, 1555 fleet, 1428 lifecycle, 779 equipment, 778 tool-tracking, 1556 leased, 749 reunification, 637 EP.
+ * Added later on 10-30 at his request: 1309 rail, 1310 aviation, 1121 warehouse, 2372 water, 1217 electric, 1216
+ * renewable energy, 1666 oil and gas, 1665 mining LIMS, 2390 pharmaceutical lab, 1218 hospital facilities, 2381
+ * biomedical, 1311 maritime ports. */
+:is(body.page-id-1308, body.page-id-774, body.page-id-775, body.page-id-777, body.page-id-776, body.page-id-1663, body.page-id-1429, body.page-id-1667, body.page-id-1557, body.page-id-1559, body.page-id-751, body.page-id-1558, body.page-id-1432, body.page-id-1431, body.page-id-1430, body.page-id-1555, body.page-id-1428, body.page-id-779, body.page-id-778, body.page-id-1556, body.page-id-749, body.page-id-637, body.page-id-1309, body.page-id-1310, body.page-id-1121, body.page-id-2372, body.page-id-1217, body.page-id-1216, body.page-id-1666, body.page-id-1665, body.page-id-2390, body.page-id-1218, body.page-id-2381, body.page-id-1311) .ap-intel-dashboard .epx-dash__orbs {
+	-webkit-mask-image: radial-gradient(ellipse 44% 42% at 50% 56%, #000 35%, rgba(0, 0, 0, 0) 100%);
+	mask-image: radial-gradient(ellipse 44% 42% at 50% 56%, #000 35%, rgba(0, 0, 0, 0) 100%);
+}
+@media (min-width: 1081px) {
+	:is(body.page-id-1308, body.page-id-774, body.page-id-775, body.page-id-777, body.page-id-776, body.page-id-1663, body.page-id-1429, body.page-id-1667, body.page-id-1557, body.page-id-1559, body.page-id-751, body.page-id-1558, body.page-id-1432, body.page-id-1431, body.page-id-1430, body.page-id-1555, body.page-id-1428, body.page-id-779, body.page-id-778, body.page-id-1556, body.page-id-749, body.page-id-637, body.page-id-1309, body.page-id-1310, body.page-id-1121, body.page-id-2372, body.page-id-1217, body.page-id-1216, body.page-id-1666, body.page-id-1665, body.page-id-2390, body.page-id-1218, body.page-id-2381, body.page-id-1311) .ap-intel-dashboard .epx-dash__table {
+		-webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, #000 14%, #000 62%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0, #000 9%, #000 91%, rgba(0, 0, 0, 0) 100%);
+		-webkit-mask-composite: source-in;
+		mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, #000 14%, #000 62%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0, #000 9%, #000 91%, rgba(0, 0, 0, 0) 100%);
+		mask-composite: intersect;
+	}
+}
+@media (max-width: 767px) {
+	:is(body.page-id-1308, body.page-id-774, body.page-id-775, body.page-id-777, body.page-id-776, body.page-id-1663, body.page-id-1429, body.page-id-1667, body.page-id-1557, body.page-id-1559, body.page-id-751, body.page-id-1558, body.page-id-1432, body.page-id-1431, body.page-id-1430, body.page-id-1555, body.page-id-1428, body.page-id-779, body.page-id-778, body.page-id-1556, body.page-id-749, body.page-id-637, body.page-id-1309, body.page-id-1310, body.page-id-1121, body.page-id-2372, body.page-id-1217, body.page-id-1216, body.page-id-1666, body.page-id-1665, body.page-id-2390, body.page-id-1218, body.page-id-2381, body.page-id-1311) .ap-intel-dashboard .epx-dash__orbs {
+		-webkit-mask-image: radial-gradient(ellipse 70% 38% at 50% 50%, #000 35%, rgba(0, 0, 0, 0) 100%);
+		mask-image: radial-gradient(ellipse 70% 38% at 50% 50%, #000 35%, rgba(0, 0, 0, 0) 100%);
+	}
+}
+
+/* QA 2026-10-30 (Joseph, /solutions/it-asset-tracking/, WordPress 777): "move the circle below 'Available Devices' a
+ * little bit to the center so it doesn't overlap" and "Add maybe 2 px on the available devices container cause the
+ * word devices is about to overlap the container". The photo circle under that card moves 56px right and 56px down,
+ * clear of the card's foot; the card is 186px wide (was the 176px minimum, with its title 10px wider than the room
+ * inside the padding), so "Devices" keeps the card's full 12px padding. */
+body.page-id-777 .ap-intel-dashboard--solution .sp-chip--3 { left: 550.57px; top: 579.9px; }
+body.page-id-777 .ap-intel-dashboard--solution .epx-dash__stage > .epx-tip.sp-tip--3 { min-width: 186px; }
+
+/* QA 2026-10-30 (Joseph, /solutions/school-reunification-software/: "The exceptions flagged container is overlapping
+ * texts. let's expand the container wider. Kindly check all solution pages and its containers on this section ... just
+ * make it a bit tad wider so it caters all texts"). The cards that size to their text (stat and assignment cards,
+ * 176-260px) measured only the title, not the 32px icon floated beside it, so a long title ("Exceptions Flagged",
+ * "Student Assignment", "Available Devices") ran 8-40px past the card's padding and was clipped at its edge. On the
+ * desktop stage the icon now sits in the title's own 40px left padding instead of floating beside it, so every card
+ * is as wide as its title plus icon and padding; fixed-width list cards wrap exactly as before (112px of title). */
+@media (min-width: 1081px) {
+	.ap-intel-dashboard .epx-dash__stage > .epx-tip > .epx-tip__ico { position: absolute; left: 12px; top: 13px; float: none; margin: 0; }
+	.ap-intel-dashboard .epx-dash__stage > .epx-tip > .epx-tip__hd { padding-left: 40px; }
+	/* A stat card's line under its number may wrap once the card reaches its 260px cap (oil and gas: "Inspection,
+	 * calibration or service due within 7 days" ran 96px past the card). */
+	.ap-intel-dashboard .epx-dash__stage > .epx-tip:not(:has(.epx-tip__list)) .epx-tip__sub { white-space: normal; }
+}
+/* The same on every variant (readiness, reunification, service and solution): on phones each stacked card is the
+ * full column width — some card rules (the list card's fixed 176px, a detail card's own width) out-ranked the
+ * variants' own phone rule. */
+@media (max-width: 640px) {
+	.ap-intel-dashboard .epx-dash .epx-dash__stage > .epx-tip {
+		width: 100% !important;
+		max-width: none !important;
+	}
+}
+
+/* QA 2026-10-31 (Joseph, /solutions/emergency-preparedness/ "Find the answer before the pressure is on": "make the
+ * gradient colors a little bit stronger in the background", beside the compliance page's section as the reference).
+ * The readiness backdrop gains three soft brand glows over the artwork (teal left, indigo right, periwinkle under the
+ * cards) and 1.6x saturation, and from tablets up its centre splash opens a little (48% x 46%, solid to 40%) so more
+ * of the colour shows around the cards. Measured on the 1440px stage band: mean saturation 5.8 -> 10.2 (compliance
+ * 9.8); the wash still fades to white before every edge. */
+.ap-intel-dashboard--readiness .epx-dash__orbs {
+	background:
+		radial-gradient(38% 30% at 26% 56%, rgba(0, 169, 145, .34) 0%, rgba(0, 169, 145, 0) 70%),
+		radial-gradient(38% 30% at 74% 50%, rgba(80, 68, 225, .3) 0%, rgba(80, 68, 225, 0) 70%),
+		radial-gradient(30% 22% at 50% 62%, rgba(131, 140, 246, .26) 0%, rgba(131, 140, 246, 0) 70%),
+		var(--ap-intel-dashboard-bg) center center / 100% 100% no-repeat;
+	filter: saturate(1.6);
+}
+@media (min-width: 768px) {
+	body.page-id-637 .ap-intel-dashboard--readiness .epx-dash__orbs {
+		-webkit-mask-image: radial-gradient(ellipse 48% 46% at 50% 56%, #000 40%, rgba(0, 0, 0, 0) 100%);
+		mask-image: radial-gradient(ellipse 48% 46% at 50% 56%, #000 40%, rgba(0, 0, 0, 0) 100%);
+	}
+}

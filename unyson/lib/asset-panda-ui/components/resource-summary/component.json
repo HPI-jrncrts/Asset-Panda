@@ -1,0 +1,10 @@
+{
+	"name": "resource-summary",
+	"description": "The success-story summary panel after live (www.assetpanda.com/resource-center/success-stories/…): a rounded off-white panel with a centred 'The Summary' heading and paragraph, and a white card listing the key Asset Panda features in columns. Runs a little wider than the article column on desktop.",
+	"props": {
+		"title": { "type": "string", "default": "The Summary" },
+		"text": { "type": "string", "default": "", "description": "The summary paragraph. Inline links, bold and italics are kept (sanitised); anything else is dropped." },
+		"features_title": { "type": "string", "default": "Key Asset Panda Features:" },
+		"features": { "type": "array", "default": [], "description": "Feature lines (strings; inline links/bold kept, sanitised)." }
+	}
+}

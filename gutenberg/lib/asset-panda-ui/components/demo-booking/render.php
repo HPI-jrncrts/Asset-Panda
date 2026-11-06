@@ -56,7 +56,7 @@ $ap_story_text = static function ( $text ) {
 
 $ap_quote_icon = trim( (string) $props['quote_icon'] );
 if ( '' === $ap_quote_icon ) {
-	$ap_quote_icon = ap_ui_asset_url( 'demo-booking', 'quote-up.png' );
+	$ap_quote_icon = ap_ui_asset_url( 'demo-booking', 'quote-up.svg' );
 }
 
 // esc_url_raw() strips quotes, spaces and backslashes, so the URL cannot leave url("…").
@@ -102,7 +102,7 @@ $ap_email = trim( (string) $props['contact_email'] );
 $ap_phone = trim( (string) $props['contact_phone'] );
 $ap_tel   = preg_replace( '/[^0-9+\-]/', '', str_replace( ' ', '-', $ap_phone ) ); // (888) 928-6112 -> 888-928-6112
 
-$ap_classes = 'ap-demo-booking ap-d26-sec ap-d26-hero' . ( $ap_split ? ' ap-d26-v1' : '' );
+$ap_classes = 'ap-demo-booking ap-d26-sec ap-d26-hero' . ( $ap_split ? ' ap-d26-v1' : '' ) . ( 'dark' === $props['backdrop'] ? ' ap-d26-hero--dark' : '' );
 
 /*
  * Award badges: the set, then an aria-hidden copy the marquee scrolls into
@@ -149,13 +149,13 @@ if ( $ap_awards ) {
 			<?php endif; ?>
 		</div>
 		<?php endif; ?>
-		<div class="ap-dw ap-dw--v1" data-ap-demo-widget data-mode="picker" data-view="<?php echo esc_attr( $ap_view ); ?>" data-team="<?php echo esc_attr( trim( (string) $props['cal_team'] ) ); ?>" data-user="<?php echo esc_attr( trim( (string) $props['cal_user'] ) ); ?>" data-event="<?php echo esc_attr( trim( (string) $props['cal_event'] ) ); ?>" data-source="<?php echo esc_attr( $ap_source ); ?>" data-max-days="<?php echo esc_attr( (string) $ap_max_days ); ?>" data-track-path="<?php echo esc_attr( trim( (string) $props['track_path'] ) ); ?>" data-hs-portal="<?php echo esc_attr( trim( (string) $props['hs_portal'] ) ); ?>" data-hs-form="<?php echo esc_attr( trim( (string) $props['hs_form'] ) ); ?>" data-guard="<?php echo esc_attr( $ap_guard ); ?>" data-work-email="<?php echo esc_attr( (string) $props['work_email'] ); ?>" data-thanks-url="<?php echo esc_url( $ap_thanks ); ?>" data-thanks-preview-url="<?php echo esc_url( $ap_preview ); ?>">
+		<div class="ap-dw ap-dw--v1" data-ap-form-skin data-ap-demo-widget data-mode="picker" data-view="<?php echo esc_attr( $ap_view ); ?>" data-team="<?php echo esc_attr( trim( (string) $props['cal_team'] ) ); ?>" data-user="<?php echo esc_attr( trim( (string) $props['cal_user'] ) ); ?>" data-event="<?php echo esc_attr( trim( (string) $props['cal_event'] ) ); ?>" data-source="<?php echo esc_attr( $ap_source ); ?>" data-max-days="<?php echo esc_attr( (string) $ap_max_days ); ?>" data-track-path="<?php echo esc_attr( trim( (string) $props['track_path'] ) ); ?>" data-hs-portal="<?php echo esc_attr( trim( (string) $props['hs_portal'] ) ); ?>" data-hs-form="<?php echo esc_attr( trim( (string) $props['hs_form'] ) ); ?>" data-guard="<?php echo esc_attr( $ap_guard ); ?>" data-work-email="<?php echo esc_attr( (string) $props['work_email'] ); ?>" data-thanks-url="<?php echo esc_url( $ap_thanks ); ?>" data-thanks-preview-url="<?php echo esc_url( $ap_preview ); ?>">
 			<p class="ap-dw-ribbon" hidden></p>
 			<form class="ap-dw-card ap-dw-form" novalidate onsubmit="return false">
 				<div class="ap-dw-fields">
 					<label class="ap-dw-field"><span class="ap-dw-label">Work email*</span><input type="email" name="email" autocomplete="email" inputmode="email" required></label>
 					<p class="ap-dw-err" data-err="email" role="alert" hidden></p>
-					<div class="ap-dw-names" hidden>
+					<div class="ap-dw-names"<?php echo 'with_email' === $props['names'] ? '' : ' hidden'; ?>>
 						<div class="ap-dw-pair">
 							<label class="ap-dw-field"><span class="ap-dw-label">First name*</span><input type="text" name="firstname" autocomplete="given-name" required></label>
 							<label class="ap-dw-field"><span class="ap-dw-label">Last name*</span><input type="text" name="lastname" autocomplete="family-name" required></label>
@@ -223,7 +223,7 @@ if ( $ap_awards ) {
 		<div class="ap-d26-v1-side">
 			<?php if ( $ap_stories ) : ?>
 				<?php $ap_count = count( $ap_stories ); ?>
-				<div class="ap-d26-qcard" data-ap-cases aria-roledescription="carousel" aria-label="What customers say">
+				<div class="ap-d26-qcard" data-ap-cases data-ap-autoplay="<?php echo esc_attr( (string) max( 0, (int) $props['autoplay_ms'] ) ); ?>" aria-roledescription="carousel" aria-label="What customers say">
 					<div class="ap-d26-qslides" aria-live="polite">
 						<?php foreach ( $ap_stories as $ap_i => $ap_story ) : ?>
 							<?php

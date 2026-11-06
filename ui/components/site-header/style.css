@@ -1940,3 +1940,141 @@ html:has(.ap-site-header__mob.is-open) {
 	font-size: 12px;
 	font-weight: 500;
 }
+
+/* QA 2026-10-30 (Joseph): "The who we help blog posts, let's keep 1. We had that big container when we had the
+ * testimonial added before right? Let's follow that size for the 1 most recent blog post for each industry." Each Who
+ * We Help cabinet now gets one post (latest-posts.php), drawn as the customer-story card was: the column's full width,
+ * a 200px photo, a divider, then the category and title in the card's 24px padding, with its soft lift. */
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-posts__grid {
+	grid-template-columns: minmax(0, 1fr);
+	grid-auto-rows: auto;
+}
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-post:only-child {
+	flex-direction: column;
+	box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+}
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-post:only-child .ap-mega-post__media {
+	flex: 0 0 auto;
+	width: auto;
+	height: 200px;
+	min-height: 0;
+	aspect-ratio: auto;
+}
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-post:only-child .ap-mega-post__body {
+	gap: 12px;
+	padding: 24px 24px 32px;
+	border-top: 1px solid var(--ap-athens-100);
+}
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-post:only-child .ap-mega-post__title {
+	-webkit-line-clamp: 3;
+	min-height: 0;
+	font-size: 16px;
+	line-height: 1.4;
+}
+
+/* QA 2026-10-30 (Joseph): "For Tier A users (US, CA, NZ, AU, UK), we have a phone number CTA button on the header nav
+ * right? Let's remove the container and just have it as a hyperlink text linking to the tel: link." The desktop link
+ * was already plain text; the phone menu drew it as an outlined button under Free Demo. It is now green link text
+ * there too (still a 44px tap target, underlined on hover/press). */
+@media (max-width: 1100px) {
+	.ap-site-header__mob .ap-mobile-menu-actions .ap-mobile-sales {
+		border-color: transparent;
+		background: none;
+		color: var(--ap-green-600);
+		font-size: 15px;
+		font-weight: 700;
+	}
+	.ap-site-header__mob .ap-mobile-menu-actions .ap-mobile-sales:hover,
+	.ap-site-header__mob .ap-mobile-menu-actions .ap-mobile-sales:active {
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+}
+
+/* QA 2026-10-30 (Joseph: "Can we please remove the green container during hover? It's a hyperlink text for
+ * telephone"): the desktop Sales number stays text on hover — no fill (motion.js no longer takes it for an outline
+ * button) — and is underlined, as the phone menu's is. */
+.ap-site-header__desk .ap-header-sales:hover,
+.ap-site-header__desk .ap-header-sales:focus-visible {
+	background: none;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+/* QA 2026-10-30 (Joseph: "for the container with the blog post, can we please add an excerpt in the container below
+ * the title? And re-add the date when it was published. Hide the author."): the Who We Help post card shows a
+ * one-sentence summary under the title (latest-posts.php picks a whole sentence, so nothing trails off), then the
+ * publish date at the foot. No author is drawn. */
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-post:only-child .ap-mega-post__excerpt {
+	display: block;
+	margin-top: -4px;
+	color: var(--ap-text-body);
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.5;
+}
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-post:only-child .ap-mega-post__date {
+	display: block;
+	margin-top: 4px;
+	color: var(--ap-slate-500);
+	font-size: 13px;
+	font-weight: 600;
+}
+
+/* Navigation Implementation Map, Featured tab (2026-10-30, Joseph: "I've also included a plan for which content to
+ * feature in the Featured Menu section. Could you check if it's possible to display two content cards instead of just
+ * one?"): each Who We Help cabinet shows its two featured resources as two cards side by side, each a smaller version
+ * of the single card: photo, type, title and the map's short description. Where the column is too narrow for two
+ * (under 400px, laptops near 1100px) they stack as thumbnail rows (the generic rule above). */
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-post:not(:only-child) {
+	box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+}
+.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-post:not(:only-child) .ap-mega-post__excerpt {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
+	overflow: hidden;
+	color: var(--ap-text-body);
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 1.5;
+}
+@container (min-width: 401px) {
+	.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-posts__grid:has(> .ap-mega-post + .ap-mega-post) {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 16px;
+	}
+	.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-post:not(:only-child) .ap-mega-post__media {
+		aspect-ratio: 16 / 10;
+	}
+	.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-post:not(:only-child) .ap-mega-post__body {
+		gap: 8px;
+		padding: 16px 16px 20px;
+		border-top: 1px solid var(--ap-athens-100);
+	}
+	.ap-site-header__desk .ap-mega-panel--figma-2026 .ap-mega-post:not(:only-child) .ap-mega-post__title {
+		-webkit-line-clamp: 3;
+		min-height: 0;
+		font-size: 15px;
+		line-height: 1.4;
+	}
+}
+
+/* Drawer = desktop menu (QA 2026-11-01). A tab's own name above the headed groups the drawer splits it into
+ * (Products: "Purpose-Built Products" over Public Sector and Education), drawn as the section's lead line in the
+ * heading colour so the small indigo group labels read as its parts; the hub link of a linked top item (Resources)
+ * uses the drawer's existing view-all link look. */
+@media (max-width: 1100px) {
+	.ap-site-header__mob p.ap-mobile-tabhead {
+		margin: 14px 0 0;
+		color: var(--ap-slate-900);
+		font-size: 13px;
+		font-weight: 800;
+		line-height: 1.2;
+	}
+
+	.ap-site-header__mob .ap-mobile-hub {
+		margin-top: 0;
+		border-bottom: 1px solid rgba(221, 229, 238, 0.8);
+	}
+}

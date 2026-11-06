@@ -59,7 +59,7 @@
 			var doc = html.scrollHeight - window.innerHeight;
 			var p = doc > 0 ? Math.min(100, Math.max(0, Math.round((window.scrollY || html.scrollTop) / doc * 100))) : 0;
 			if (pct) pct.textContent = p + '%';
-			if (fill) fill.style.width = p + '%';
+			if (fill) fill.style.transform = 'scaleX(' + (p / 100) + ')';
 			setActive(current);
 		}
 		function onScroll() {

@@ -27,7 +27,7 @@
 .ap-photo-tags .sp-pcta__logo{flex:0 0 42px;display:inline-flex;padding-top:3px}
 .ap-photo-tags .sp-pcta__title{font-size:20px;font-weight:800;line-height:1.4;color:#25272c}
 .ap-photo-tags .sp-pcta__text{font-size:18px;line-height:1.5;color:#4a4e5a;margin-top:4px;max-width:640px}
-.ap-photo-tags .epx-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:16px;border-radius:4px;font-size:16px;font-weight:600;line-height:1.2;text-decoration:none;white-space:nowrap;transition:transform .2s cubic-bezier(.4,0,.2,1),box-shadow .2s cubic-bezier(.4,0,.2,1)}
+.ap-photo-tags .epx-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:16px;border-radius:4px;font-size:16px;font-weight:600;line-height:1.2;text-decoration:none;white-space:nowrap;transition:transform var(--ap-dur-base) var(--ap-ease-standard),box-shadow var(--ap-dur-base) var(--ap-ease-standard),background-color var(--ap-dur-base) var(--ap-ease-standard),border-color var(--ap-dur-base) var(--ap-ease-standard),color var(--ap-dur-base) var(--ap-ease-standard)}
 .ap-photo-tags .epx-btn--primary{background:linear-gradient(42.98deg,#5044E1 0%,#00A991 70.44%);border:1px solid #5044e1;color:#fff}
 .ap-photo-tags .epx-btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(80,68,225,.28)}
 .ap-photo-tags .epx-btn:focus-visible{outline:3px solid #5044e1;outline-offset:2px}
@@ -67,3 +67,28 @@
 .ap-photo-tags .epx-sup{font-size:.64em;vertical-align:super;font-weight:700}
 .ap-photo-tags .epx-g.epx-g{padding-top:1em;padding-bottom:.4em}
 .ap-photo-tags .epx-g .epx-sup{color:#00A991;-webkit-text-fill-color:#00A991}
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: --ap-section-y top and bottom, --ap-section-head-gap between
+ * the head, the photo and the call-out (was 80 / 56 and 40 / 32). */
+.ap-photo-tags .ap-photo-tags__wrap { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); gap: var(--ap-section-head-gap, 48px); }
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-photo-tags.ap-photo-tags.ap-photo-tags .ap-photo-tags__h2 { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+/* Section eyebrow on the type scale too: 12px at 390 to 14px at 1440, 800, 4% tracking, upper case. */
+html body .ap-photo-tags.ap-photo-tags.ap-photo-tags .ap-photo-tags__eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }
+
+/* Tablets (QA 2026-10-28): from 641 to 1100px the two tag columns were sized
+ * to their longest one-line tag, so long tags ran to within 10px of the screen
+ * edge at 768. The columns now share the width (up to the photo's) and long
+ * tags wrap inside them. */
+@media (min-width: 641px) and (max-width: 1100px) {
+	html body .ap-photo-tags .ap-photo-tags__tags { grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; max-width: 680px; }
+}
+
+/* Motion (QA 2026-10-28, motion agent's R4): hover moves use translate / scale, never transform (scroll entrances own transform), on the house timing. */
+html body .ap-photo-tags .epx-btn { transition: translate var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), box-shadow var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), background-color var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), border-color var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), color var(--ap-dur-base, .3s) var(--ap-ease-standard, ease); }
+html body .ap-photo-tags .epx-btn:hover { transform: none; translate: 0 -2px; }

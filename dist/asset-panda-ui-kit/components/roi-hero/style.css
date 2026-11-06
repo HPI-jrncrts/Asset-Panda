@@ -645,3 +645,24 @@ html.ap-intl .ap-roi-hero .ap-roi-hero__fallback-phone {
 		padding-top: 16px !important;
 	}
 }
+
+/* QA 2026-10-30 (Joseph, /roi-calculator/: "Can we add a gradient background on the hero"): the brand wash of the
+ * Integrations hero — teal from the top left, indigo from the right, a touch of pink at the top — over the white
+ * section, fading back to white along its foot so the white calculator section below meets it with no seam. The
+ * form card stays white. Phones get the same wash, its blooms taller and narrower. */
+.ap-roi-hero {
+	background-color: var(--ap-white);
+	background-image:
+		linear-gradient(180deg, rgba(255, 255, 255, 0) 62%, var(--ap-white) 100%),
+		radial-gradient(60% 95% at 4% 0%, rgba(0, 169, 145, .30) 0%, rgba(0, 169, 145, .15) 34%, rgba(0, 169, 145, .05) 60%, rgba(0, 169, 145, 0) 82%),
+		radial-gradient(56% 90% at 96% 36%, rgba(80, 68, 225, .28) 0%, rgba(80, 68, 225, .14) 34%, rgba(80, 68, 225, .05) 60%, rgba(80, 68, 225, 0) 82%),
+		radial-gradient(40% 60% at 58% 0%, rgba(230, 28, 85, .09) 0%, rgba(230, 28, 85, .04) 40%, rgba(230, 28, 85, 0) 80%);
+}
+@media (max-width: 767px) {
+	.ap-roi-hero {
+		background-image:
+			linear-gradient(180deg, rgba(255, 255, 255, 0) 70%, var(--ap-white) 100%),
+			radial-gradient(100% 46% at 0% 4%, rgba(0, 169, 145, .28) 0%, rgba(0, 169, 145, .13) 36%, rgba(0, 169, 145, .04) 62%, rgba(0, 169, 145, 0) 84%),
+			radial-gradient(100% 46% at 100% 34%, rgba(80, 68, 225, .26) 0%, rgba(80, 68, 225, .12) 36%, rgba(80, 68, 225, .04) 62%, rgba(80, 68, 225, 0) 84%);
+	}
+}

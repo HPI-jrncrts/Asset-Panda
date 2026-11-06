@@ -25,7 +25,7 @@ $ap_icon = static function ( $item, $key = 'icon_svg', $class = '' ) {
 		return '<span class="' . esc_attr( trim( 'ap-inline-icon ' . $class ) ) . '" aria-hidden="true">' . $svg . '</span>';
 	}
 	$icon = trim( (string) ( $item['icon'] ?? '' ) );
-	return '' !== $icon ? '<img class="' . esc_attr( $class ) . '" src="' . esc_url( $icon ) . '" alt="" loading="lazy" decoding="async" />' : '';
+	return '' !== $icon ? '<img class="' . esc_attr( $class ) . '" src="' . esc_url( $icon ) . '" alt="" width="24" height="24" decoding="async" />' : '';
 };
 
 // Title with a gradient slice: escape first, then wrap the slice.
@@ -53,6 +53,10 @@ $tiles     = array_values( array_filter( $arr( $props['tiles'] ), static functio
 $tones     = array( 'ticket', 'flag', 'history' );
 $actions   = array_values( array_filter( $arr( $assistant['actions'] ?? null ), static function ( $a ) { return is_array( $a ) && '' !== trim( (string) ( $a['label'] ?? '' ) ); } ) );
 $bg        = trim( (string) $props['background'] );
+// First-screen backdrop (a CSS background): preload it (PageSpeed LCP).
+if ( '' !== $bg && function_exists( 'ap_ui_preload_image' ) ) {
+	echo ap_ui_preload_image( $bg ); // phpcs:ignore WordPress.Security.EscapeOutput -- built from esc_url() in the loader.
+}
 ?>
 <section class="ap-assist-hero"<?php echo '' !== $bg ? ' style="' . esc_attr( '--ap-assist-bg:url("' . esc_url_raw( $bg ) . '")' ) . '"' : ''; ?>>
 	<div class="ap-assist-hero__orbs" aria-hidden="true"></div>

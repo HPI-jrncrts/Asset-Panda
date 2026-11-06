@@ -1,0 +1,87 @@
+/*
+ * Builder animations (2026-11): behaviours a page builder applies to any
+ * block through an ap-anim-* class on the block's wrapper. Loaded only on a
+ * page that uses one (ap_ui_enqueue_anim()), never as part of the kit's base.
+ *
+ *   ambient (always on)   ap-anim-float, ap-anim-float-slow, ap-anim-sway,
+ *                         ap-anim-pulse, ap-anim-glow, ap-anim-spin-slow
+ *   on hover              ap-anim-hover-lift, ap-anim-hover-grow
+ *   on scroll (reveal)    ap-anim-reveal, -reveal-left, -reveal-right,
+ *                         -reveal-fade, -reveal-zoom — the builder adds
+ *                         data-ap-reveal to the block, so the motion layer
+ *                         (motion.css / motion.js) runs these; only the zoom
+ *                         entrance is defined here.
+ *
+ * Motion rules of the kit hold: ambient and hover effects move with the
+ * individual `translate` / `rotate` / `scale` properties, never `transform`
+ * (scroll entrances own it), and nothing moves for prefers-reduced-motion.
+ * Ambient loops are slower than any UI token, so their durations live here.
+ */
+
+:root {
+	--ap-anim-ambient: 6s;
+	--ap-anim-ambient-slow: 9s;
+	--ap-anim-spin: 40s;
+	--ap-anim-distance: 12px;
+}
+
+@keyframes ap-anim-float {
+	0%, 100% { translate: 0 0; }
+	50% { translate: 0 calc(var(--ap-anim-distance) * -1); }
+}
+
+@keyframes ap-anim-sway {
+	0%, 100% { rotate: -2deg; }
+	50% { rotate: 2deg; }
+}
+
+@keyframes ap-anim-pulse {
+	0%, 100% { scale: 1; }
+	50% { scale: 1.04; }
+}
+
+@keyframes ap-anim-glow {
+	0%, 100% { filter: drop-shadow(0 0 0 transparent); }
+	50% { filter: drop-shadow(0 10px 30px color-mix(in srgb, var(--ap-brand-indigo, #5044e1) 45%, transparent)); }
+}
+
+@keyframes ap-anim-spin {
+	to { rotate: 360deg; }
+}
+
+.ap-anim-float { animation: ap-anim-float var(--ap-anim-ambient) ease-in-out infinite; }
+.ap-anim-float-slow { animation: ap-anim-float var(--ap-anim-ambient-slow) ease-in-out infinite; }
+.ap-anim-sway { animation: ap-anim-sway var(--ap-anim-ambient) ease-in-out infinite; transform-origin: 50% 100%; }
+.ap-anim-pulse { animation: ap-anim-pulse var(--ap-anim-ambient) ease-in-out infinite; }
+.ap-anim-glow { animation: ap-anim-glow var(--ap-anim-ambient) ease-in-out infinite; }
+.ap-anim-spin-slow { animation: ap-anim-spin var(--ap-anim-spin) linear infinite; }
+
+.ap-anim-hover-lift,
+.ap-anim-hover-grow {
+	transition:
+		translate var(--ap-dur-base, 0.3s) var(--ap-ease-standard, cubic-bezier(0.25, 0.45, 0.45, 0.95)),
+		scale var(--ap-dur-base, 0.3s) var(--ap-ease-standard, cubic-bezier(0.25, 0.45, 0.45, 0.95)),
+		box-shadow var(--ap-dur-base, 0.3s) var(--ap-ease-standard, cubic-bezier(0.25, 0.45, 0.45, 0.95));
+}
+
+.ap-anim-hover-lift:hover { translate: 0 -6px; }
+.ap-anim-hover-grow:hover { scale: 1.03; }
+
+/* The zoom entrance (the other reveals are the motion layer's own). */
+html.ap-motion [data-ap-reveal="zoom"]:not(.ap-inview) {
+	opacity: 0;
+	transform: scale(0.94);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	[class*="ap-anim-"] {
+		animation: none !important;
+		transition: none !important;
+	}
+
+	.ap-anim-hover-lift:hover,
+	.ap-anim-hover-grow:hover {
+		translate: none;
+		scale: none;
+	}
+}

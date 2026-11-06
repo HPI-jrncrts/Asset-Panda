@@ -961,3 +961,10 @@ html body .ap-pricing-calculator.ap-pricing-calculator--2026 {
 		transition: none;
 	}
 }
+
+/* QA 2026-10-30 (Joseph, /roi-calculator/: "Remove the background on the calculator" — the splash behind it): the
+ * indigo / green splash around the calculator is gone at every width; the section is plain white and the calculator
+ * keeps its frosted glass card (80% white, white rim, soft shadow). */
+html body .ap-pricing-calculator.ap-pricing-calculator--2026 {
+	background: var(--ap-white);
+}

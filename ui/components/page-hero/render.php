@@ -13,6 +13,16 @@
  * eyebrow_tag h1 the label keeps that h1 and the headline becomes the h2, so
  * the page's heading outline survives the reskin unchanged.
  *
+ * The photo layout (Our Company, Figma 7412:193397) draws the image full-bleed
+ * behind left-aligned copy instead of the wash; below 1001px it follows the
+ * copy as a banner.
+ *
+ * The panel layout (Purchasing Contracts, 2026-10-31: "follow the Hero UI from
+ * this ... no background image. Just gradient ... on a container, sort of like
+ * on a form container on a hero but this will be all texts") keeps that
+ * left-aligned copy on a CSS gradient and sets a white text card on the right:
+ * an h2, paragraphs and arrow links. It stacks under the copy below 1001px.
+ *
  * No entrance animation on the copy: it is the page's largest paint, and a
  * fade would only delay it (PageSpeed). The image loads eagerly at high
  * priority and is preloaded.
@@ -36,9 +46,13 @@ $title_tag   = 'h2' === $props['title_tag'] ? 'h2' : 'h1';
 if ( 'h1' === $eyebrow_tag ) {
 	$title_tag = 'h2';
 }
-$accent = trim( (string) $props['title_accent'] );
-$image  = trim( (string) $props['image'] );
-$layout = 'split' === $props['layout'] && '' !== $image ? 'split' : 'center';
+$accent      = trim( (string) $props['title_accent'] );
+$image       = trim( (string) $props['image'] );
+$panel_title = trim( (string) $props['panel_title'] );
+$layout      = in_array( $props['layout'], array( 'split', 'photo' ), true ) && '' !== $image ? $props['layout'] : 'center';
+if ( 'panel' === $props['layout'] && '' !== $panel_title ) {
+	$layout = 'panel';
+}
 $frame  = 'plain' === $props['image_frame'] ? 'plain' : 'card';
 $img_w  = max( 0, (int) $props['image_width'] );
 $img_h  = max( 0, (int) $props['image_height'] );
@@ -111,7 +125,40 @@ foreach ( is_array( $props['stats'] ) ? $props['stats'] : array() as $stat ) {
 	}
 }
 
-$preload = 'split' === $layout ? ap_ui_preload_image( $image ) : '';
+// Fact card (Our Company "Asset Panda at a glance", Figma 7450:97441): label over value, label in a brand tone.
+$fact_tones = array( 'yellow', 'green', 'indigo', 'blue' );
+$facts      = array();
+foreach ( is_array( $props['facts'] ) ? $props['facts'] : array() as $fact ) {
+	if ( is_array( $fact ) && '' !== trim( (string) ( $fact['label'] ?? '' ) ) && '' !== trim( (string) ( $fact['value'] ?? '' ) ) ) {
+		$tone    = (string) ( $fact['tone'] ?? '' );
+		$facts[] = array(
+			'label' => trim( (string) $fact['label'] ),
+			'value' => trim( (string) $fact['value'] ),
+			'tone'  => in_array( $tone, $fact_tones, true ) ? $tone : $fact_tones[ count( $facts ) % 4 ],
+		);
+	}
+}
+$facts_title = trim( (string) $props['facts_title'] );
+
+// Panel card (panel layout): paragraphs as in the lede, then arrow links.
+$panel_paras = array();
+foreach ( preg_split( '/\R\s*\R/', trim( (string) $props['panel_body'] ) ) as $para ) {
+	if ( '' !== trim( $para ) ) {
+		$panel_paras[] = trim( $para );
+	}
+}
+$panel_links = array();
+foreach ( is_array( $props['panel_links'] ) ? $props['panel_links'] : array() as $link ) {
+	if ( is_array( $link ) && '' !== trim( (string) ( $link['label'] ?? '' ) ) && '' !== esc_url( trim( (string) ( $link['url'] ?? '' ) ), $protocols ) ) {
+		$panel_links[] = array(
+			'label' => trim( (string) $link['label'] ),
+			'url'   => trim( (string) $link['url'] ),
+		);
+	}
+}
+$arrow = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true" focusable="false"><path d="M17.25 15.75L21 12L17.25 8.25M21 12H3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>';
+
+$preload = in_array( $layout, array( 'split', 'photo' ), true ) ? ap_ui_preload_image( $image ) : '';
 $check   = '<svg viewBox="0 0 20 20" width="20" height="20" fill="none" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="10" fill="currentColor" opacity=".14"></circle><path d="M6 10.4l2.6 2.6L14 7.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>';
 
 $classes = 'ap-page-hero ap-page-hero--' . $layout . ( $stats ? ' ap-page-hero--has-stats' : '' );
@@ -119,6 +166,12 @@ $classes = 'ap-page-hero ap-page-hero--' . $layout . ( $stats ? ' ap-page-hero--
 <?php echo $preload; // phpcs:ignore WordPress.Security.EscapeOutput -- built from esc_url in the loader. ?>
 <section class="<?php echo esc_attr( $classes ); ?>"<?php echo '' !== $anchor ? ' id="' . esc_attr( $anchor ) . '"' : ''; ?>>
 	<div class="ap-page-hero__wash" aria-hidden="true"></div>
+	<?php if ( 'photo' === $layout ) : ?>
+		<?php $photo_alt = trim( (string) $props['image_alt'] ); ?>
+		<div class="ap-page-hero__photo"<?php echo '' === $photo_alt ? ' aria-hidden="true"' : ''; ?>>
+			<img src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( $photo_alt ); ?>"<?php echo $img_w > 0 && $img_h > 0 ? ' width="' . esc_attr( (string) $img_w ) . '" height="' . esc_attr( (string) $img_h ) . '"' : ''; ?> loading="eager" fetchpriority="high" decoding="async" />
+		</div>
+	<?php endif; ?>
 	<div class="ap-page-hero__inner">
 		<div class="ap-page-hero__copy">
 			<?php if ( '' !== $eyebrow ) : ?>
@@ -161,9 +214,39 @@ $classes = 'ap-page-hero ap-page-hero--' . $layout . ( $stats ? ' ap-page-hero--
 				</div>
 			<?php endif; ?>
 		</div>
+		<?php if ( 'panel' === $layout ) : ?>
+			<div class="ap-page-hero__panel">
+				<h2 class="ap-page-hero__panel-title"><?php echo esc_html( $panel_title ); ?></h2>
+				<?php foreach ( $panel_paras as $para ) : ?>
+					<p class="ap-page-hero__panel-text"><?php echo $ap_rich( $para ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?></p>
+				<?php endforeach; ?>
+				<?php if ( $panel_links ) : ?>
+					<ul class="ap-page-hero__panel-links">
+						<?php foreach ( $panel_links as $link ) : ?>
+							<li><a href="<?php echo esc_url( $link['url'], $protocols ); ?>"><span><?php echo esc_html( $link['label'] ); ?></span><?php echo $arrow; // phpcs:ignore WordPress.Security.EscapeOutput -- fixed markup. ?></a></li>
+						<?php endforeach; ?>
+					</ul>
+				<?php endif; ?>
+			</div>
+		<?php endif; ?>
 		<?php if ( 'split' === $layout ) : ?>
 			<div class="ap-page-hero__media ap-page-hero__media--<?php echo esc_attr( $frame ); ?>">
 				<img src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( (string) $props['image_alt'] ); ?>"<?php echo $img_w > 0 && $img_h > 0 ? ' width="' . esc_attr( (string) $img_w ) . '" height="' . esc_attr( (string) $img_h ) . '"' : ''; ?> loading="eager" fetchpriority="high" decoding="async" />
+			</div>
+		<?php endif; ?>
+		<?php if ( $facts ) : ?>
+			<div class="ap-page-hero__facts">
+				<?php if ( '' !== $facts_title ) : ?>
+					<h2 class="ap-page-hero__facts-title"><?php echo esc_html( $facts_title ); ?></h2>
+				<?php endif; ?>
+				<dl class="ap-page-hero__facts-list">
+					<?php foreach ( $facts as $fact ) : ?>
+						<div class="ap-page-hero__fact ap-page-hero__fact--<?php echo esc_attr( $fact['tone'] ); ?>">
+							<dt><?php echo esc_html( $fact['label'] ); ?></dt>
+							<dd><?php echo esc_html( $fact['value'] ); ?></dd>
+						</div>
+					<?php endforeach; ?>
+				</dl>
 			</div>
 		<?php endif; ?>
 	</div>

@@ -1391,9 +1391,9 @@
   /* ---------- Testimonial sliders (live page/cases.js) ----------
      One slide shows at a time; dots, arrows and the progress line pick it. Images of slides not
      yet shown wait in data-src and load when their slide or a neighbour comes up. Sliders advance
-     on their own every CASES_AUTO_MS; a mouse over a slider or keyboard focus in it pauses it (taps
-     do not, so phones keep advancing), a dot or arrow restarts the count, and visitors who ask for
-     reduced motion get no auto-advance. Keyed off data-ap-cases; data-ready makes a second run (or
+     on their own every data-ap-autoplay ms (CASES_AUTO_MS when absent, 0 = off); a mouse over a
+     slider or keyboard focus in it pauses it (taps do not, so phones keep advancing), a dot or
+     arrow restarts the count, and visitors who ask for reduced motion get no auto-advance. Keyed off data-ap-cases; data-ready makes a second run (or
      a second component's copy of this code) a no-op. */
   const CASES_AUTO_MS = 3000;
 
@@ -1426,14 +1426,18 @@
     let timer = 0;
     let hovered = false;
     let focused = false;
-    const autoplay = count > 1 && !casesReducedMotion();
+    const attr = root.getAttribute('data-ap-autoplay');
+    let ms = attr === null || attr === '' ? CASES_AUTO_MS : parseInt(attr, 10);
+    if (!(ms >= 0)) ms = CASES_AUTO_MS;
+    if (ms > 0 && ms < 1500) ms = 1500;
+    const autoplay = count > 1 && ms > 0 && !casesReducedMotion();
 
     function schedule() {
       clearTimeout(timer);
       const running = autoplay && !hovered && !focused && !document.hidden;
       /* Screen readers announce a slide change only when a person made it. */
       live.setAttribute('aria-live', running ? 'off' : 'polite');
-      if (running) timer = setTimeout(() => go(current + 1), CASES_AUTO_MS);
+      if (running) timer = setTimeout(() => go(current + 1), ms);
     }
 
     function go(index) {

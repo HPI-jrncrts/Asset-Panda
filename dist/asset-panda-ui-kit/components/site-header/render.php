@@ -32,9 +32,12 @@
  * Since 2026-10-29 (client QA) a tab may carry `posts` — its two latest blog
  * posts, supplied by the adapter — which are drawn beside the links in place
  * of the customer-story card; the card remains the fallback for a tab that
- * receives no posts. A top-level item may set `all_label` + `all_url`: a
- * "View All Industries" link is then drawn under the option list of every one
- * of its tab panels and at the end of its phone-drawer section, and
+ * receives no posts. Since 2026-10-30 (client QA) each cabinet shows one post,
+ * drawn at the story card's size, and the "View All Industries" link is gone
+ * (an item's all_label / all_url are ignored). Later on 2026-10-30 (Navigation
+ * Implementation Map, Featured tab) each cabinet's two featured resources
+ * arrive as its `posts` instead (the adapter resolves their images), drawn as
+ * two cards side by side. An item's
  * `posts_label` heads the posts column (the tab heading then tops the links
  * column, level with it). The option icons, desktop and drawer, load with the
  * page (eager, low priority) instead of lazily, so a menu never opens with
@@ -162,7 +165,7 @@ $ap_sh_link = static function ( $link ) use ( $ap_sh_src, $ap_sh_icon_var ) {
 	<a class="ap-mega-link" href="<?php echo esc_url( $link['url'] ); ?>">
 		<span class="ap-icon-box" aria-hidden="true"<?php echo '' !== $icon_style ? ' style="' . esc_attr( $icon_style ) . '"' : ''; ?>>
 			<?php if ( '' !== $icon ) : ?>
-				<img class="ap-icon-img" src="<?php echo esc_url( $icon ); ?>" alt="" width="24" height="24" loading="eager" fetchpriority="low" decoding="async" />
+				<img class="ap-icon-img" src="<?php echo esc_url( $icon ); ?>" alt="<?php echo esc_attr( trim( wp_strip_all_tags( (string) $link['title'] ) ) . ' icon' ); ?>" width="24" height="24" loading="eager" fetchpriority="low" decoding="async" />
 			<?php endif; ?>
 		</span>
 		<span class="ap-link-copy">
@@ -223,7 +226,7 @@ $ap_sh_card = static function ( $card ) use ( $ap_sh_src, $ap_sh_blank ) {
 			</span>
 		<?php endif; ?>
 		<span class="ap-mega-card__body">
-			<span class="ap-mega-card__mark" aria-hidden="true"><img src="<?php echo esc_url( ap_ui_asset_url( 'site-header', 'quote.svg' ) ); ?>" alt="" /></span>
+			<span class="ap-mega-card__mark" aria-hidden="true"><img src="<?php echo esc_url( ap_ui_asset_url( 'site-header', 'quote.svg' ) ); ?>" alt="Quotation mark" /></span>
 			<span class="ap-mega-card__text">
 				<span class="ap-mega-card__copy">
 					<span class="ap-mega-card__title"><?php echo esc_html( $card['title'] ); ?></span>
@@ -319,6 +322,7 @@ $ap_sh_post_list = static function ( $items, $label ) use ( $ap_sh_src, $ap_sh_b
 	foreach ( $items as $item ) {
 		$image    = $ap_sh_src( $item['image'] ?? '' );
 		$category = trim( (string) ( $item['category'] ?? '' ) );
+		$excerpt  = trim( (string) ( $item['excerpt'] ?? '' ) );
 		$date     = trim( (string) ( $item['date'] ?? '' ) );
 		$datetime = trim( (string) ( $item['datetime'] ?? '' ) );
 		$width    = (int) ( $item['image_width'] ?? 0 );
@@ -339,6 +343,9 @@ $ap_sh_post_list = static function ( $items, $label ) use ( $ap_sh_src, $ap_sh_b
 					<span class="ap-mega-post__type"><?php echo esc_html( $category ); ?></span>
 				<?php endif; ?>
 				<span class="ap-mega-post__title"><?php echo esc_html( $item['title'] ); ?></span>
+				<?php if ( '' !== $excerpt ) : ?>
+					<span class="ap-mega-post__excerpt"><?php echo esc_html( $excerpt ); ?></span>
+				<?php endif; ?>
 				<?php if ( '' !== $date ) : ?>
 					<time class="ap-mega-post__date"<?php echo '' !== $datetime ? ' datetime="' . esc_attr( $datetime ) . '"' : ''; ?>><?php echo esc_html( $date ); ?></time>
 				<?php endif; ?>
@@ -347,16 +354,6 @@ $ap_sh_post_list = static function ( $items, $label ) use ( $ap_sh_src, $ap_sh_b
 		<?php
 	}
 	echo '</div></div>';
-};
-
-// "View All …" link under a tab panel's option list (nav item all_label + all_url).
-$ap_sh_all_link = static function ( $label, $url ) {
-	if ( '' === $label || '' === $url ) {
-		return;
-	}
-	?>
-	<a class="ap-help-all" href="<?php echo esc_url( $url ); ?>"><?php echo esc_html( $label ); ?> <span class="ap-help-all__arrow" aria-hidden="true">&rarr;</span></a>
-	<?php
 };
 
 // Drawer icons are the desktop icons' URLs, so eager costs no extra request: they are decoded
@@ -368,7 +365,7 @@ $ap_sh_mobile_item = static function ( $link ) use ( $ap_sh_src, $ap_sh_icon_var
 	<a class="ap-mobile-item" href="<?php echo esc_url( $link['url'] ); ?>">
 		<span class="ap-mobile-link-icon" aria-hidden="true"<?php echo '' !== $icon_style ? ' style="' . esc_attr( $icon_style ) . '"' : ''; ?>>
 			<?php if ( '' !== $icon ) : ?>
-				<img class="ap-mobile-icon-img" src="<?php echo esc_url( $icon ); ?>" alt="" width="22" height="22" loading="eager" fetchpriority="low" decoding="async" />
+				<img class="ap-mobile-icon-img" src="<?php echo esc_url( $icon ); ?>" alt="<?php echo esc_attr( trim( wp_strip_all_tags( (string) $link['title'] ) ) . ' icon' ); ?>" width="22" height="22" loading="eager" fetchpriority="low" decoding="async" />
 			<?php endif; ?>
 		</span>
 		<span class="ap-mobile-link-copy"><strong><?php echo ap_ui_brandmarks( esc_html( $link['title'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; brandmarks adds a fixed span. ?></strong></span>
@@ -397,6 +394,9 @@ $login_links = array_values(
 $logo     = $ap_sh_src( $props['logo'] );
 $logo_alt = (string) $props['logo_alt'];
 $home_url = '' !== trim( (string) $props['home_url'] ) ? $props['home_url'] : '/';
+// logo_link false: the logo is a plain span, so it leads nowhere (same classes, same look).
+$logo_tag  = false === $props['logo_link'] ? 'span' : 'a';
+$logo_href = 'a' === $logo_tag ? ' href="' . esc_url( $home_url ) . '"' : '';
 // Digits, "+" and "-" only, so the link reads tel:888-928-6112 exactly as on live.
 $tel      = preg_replace( '/[^0-9+\-]/', '', (string) $props['phone_tel'] );
 $phone    = trim( (string) $props['phone_label'] );
@@ -410,7 +410,7 @@ $menu_id  = 'ap-site-header-menu';
 		<div class="ap-site-header__banner">
 			<div class="ap-app-banner-left">
 				<?php if ( '' !== $app_icon ) : ?>
-					<span class="ap-app-icon" aria-hidden="true"><img src="<?php echo esc_url( $app_icon ); ?>" alt="" /></span>
+					<span class="ap-app-icon" aria-hidden="true"><img src="<?php echo esc_url( $app_icon ); ?>" alt="Asset Panda app icon" /></span>
 				<?php endif; ?>
 				<span class="ap-app-text"><?php echo esc_html( $props['app_text'] ); ?></span>
 			</div>
@@ -421,11 +421,11 @@ $menu_id  = 'ap-site-header-menu';
 
 	<div class="ap-site-header__desk">
 		<div class="ap-head-inner">
-			<a class="ap-head-logo" href="<?php echo esc_url( $home_url ); ?>">
+			<<?php echo $logo_tag; ?> class="ap-head-logo"<?php echo $logo_href; // phpcs:ignore WordPress.Security.EscapeOutput -- esc_url above. ?>>
 				<?php if ( '' !== $logo ) : ?>
 					<img src="<?php echo esc_url( $logo ); ?>" alt="<?php echo esc_attr( $logo_alt ); ?>" width="520" height="200" decoding="async" />
 				<?php endif; ?>
-			</a>
+			</<?php echo $logo_tag; ?>>
 
 			<nav class="ap-head-nav" aria-label="Main navigation">
 				<?php foreach ( $nav as $item ) : ?>
@@ -445,8 +445,6 @@ $menu_id  = 'ap-site-header-menu';
 							$columns     = 'columns' === trim( (string) ( $item['layout'] ?? '' ) );
 							$variant     = sanitize_title( (string) ( $item['variant'] ?? '' ) );
 							$posts_label = trim( (string) ( $item['posts_label'] ?? '' ) );
-							$all_label   = trim( (string) ( $item['all_label'] ?? '' ) );
-							$all_url     = trim( (string) ( $item['all_url'] ?? '' ) );
 							?>
 							<div class="ap-mega-panel ap-mega-<?php echo esc_attr( sanitize_title( $label ) ); ?><?php echo '' !== $variant ? ' ap-mega-panel--' . esc_attr( $variant ) : ''; ?>">
 								<?php if ( $columns ) : ?>
@@ -535,7 +533,6 @@ $menu_id  = 'ap-site-header-menu';
 																<p class="ap-mega-heading ap-help-links__heading"><?php echo esc_html( $heading ); ?></p>
 															<?php endif; ?>
 															<?php $ap_sh_group_block( $groups ); ?>
-															<?php $ap_sh_all_link( $all_label, $all_url ); ?>
 														</div>
 														<?php if ( $featured ) : ?>
 															<?php $ap_sh_feature_list( $featured ); ?>
@@ -547,7 +544,6 @@ $menu_id  = 'ap-site-header-menu';
 													</div>
 												<?php else : ?>
 													<?php $ap_sh_group_block( $groups ); ?>
-													<?php $ap_sh_all_link( $all_label, $all_url ); ?>
 												<?php endif; ?>
 											</div>
 										<?php endforeach; ?>
@@ -588,11 +584,11 @@ $menu_id  = 'ap-site-header-menu';
 
 	<div class="ap-site-header__mob">
 		<div class="ap-mobile-head-inner">
-			<a class="ap-mobile-logo" href="<?php echo esc_url( $home_url ); ?>">
+			<<?php echo $logo_tag; ?> class="ap-mobile-logo"<?php echo $logo_href; // phpcs:ignore WordPress.Security.EscapeOutput -- esc_url above. ?>>
 				<?php if ( '' !== $logo ) : ?>
 					<img src="<?php echo esc_url( $logo ); ?>" alt="<?php echo esc_attr( $logo_alt ); ?>" width="520" height="200" decoding="async" />
 				<?php endif; ?>
-			</a>
+			</<?php echo $logo_tag; ?>>
 			<div class="ap-mobile-actions">
 				<?php if ( $trial ) : ?>
 					<a class="ap-mobile-free" href="<?php echo esc_url( $props['trial_url'] ); ?>"><?php echo esc_html( $props['trial_label'] ); ?></a>
@@ -610,16 +606,51 @@ $menu_id  = 'ap-site-header-menu';
 				$tabs      = $ap_sh_tabs( $item );
 				$label     = trim( (string) $item['label'] );
 				$url       = trim( (string) ( $item['url'] ?? '' ) );
-				$all_label = trim( (string) ( $item['all_label'] ?? '' ) );
-				$all_url   = trim( (string) ( $item['all_url'] ?? '' ) );
 				?>
 				<?php if ( $tabs ) : ?>
 					<details>
 						<summary><?php echo esc_html( $label ); ?></summary>
-						<?php foreach ( $tabs as $tab ) : ?>
-							<?php foreach ( $ap_sh_sections( $tab ) as $section ) : ?>
+						<?php
+						/*
+						 * The drawer mirrors the desktop menu (QA 2026-11-01: "make sure the menu in desktop reflects also in
+						 * mobile and tablet"). A top item that is a link on desktop (Resources, its hub) opens its section with
+						 * that link, as Who We Help's hub links do; a tab the drawer splits into its headed groups (Products'
+						 * Purpose-Built Products) keeps its own name above them.
+						 */
+						?>
+						<?php if ( '' !== $url ) : ?>
+							<a class="ap-mobile-all ap-mobile-hub" href="<?php echo esc_url( $url ); ?>"><?php echo esc_html( $label ); ?><span class="ap-mobile-subhead-chev" aria-hidden="true">&rsaquo;</span></a>
+						<?php endif; ?>
+						<?php
+						// Tab names are drawn for every tab of an item once any of its tabs splits into named groups, so
+						// sibling tabs read as siblings (Core Platform beside Purpose-Built Products, not under it); a group
+						// that only repeats its tab's name then drops that duplicate label.
+						$ap_sh_parts = array();
+						foreach ( $tabs as $tab ) {
+							$sections      = $ap_sh_sections( $tab );
+							$tab_label     = trim( (string) $tab['label'] );
+							$ap_sh_parts[] = array(
+								'label'    => $tab_label,
+								'url'      => trim( (string) ( $tab['url'] ?? '' ) ),
+								'sections' => $sections,
+								'split'    => count( $sections ) > 1 && '' !== $tab_label && ! in_array( $tab_label, array_column( $sections, 'label' ), true ),
+							);
+						}
+						$ap_sh_named = in_array( true, array_column( $ap_sh_parts, 'split' ), true );
+						?>
+						<?php foreach ( $ap_sh_parts as $part ) : ?>
+							<?php if ( $ap_sh_named && '' !== $part['label'] ) : ?>
+								<?php if ( '' !== $part['url'] ) : ?>
+									<a class="ap-mobile-all ap-mobile-tabhead" href="<?php echo esc_url( $part['url'] ); ?>"><?php echo esc_html( $part['label'] ); ?><span class="ap-mobile-subhead-chev" aria-hidden="true">&rsaquo;</span></a>
+								<?php else : ?>
+									<p class="ap-mobile-tabhead"><?php echo esc_html( $part['label'] ); ?></p>
+								<?php endif; ?>
+							<?php endif; ?>
+							<?php foreach ( $part['sections'] as $section ) : ?>
 								<div class="ap-mobile-subgroup">
-									<?php if ( '' !== $section['url'] ) : ?>
+									<?php if ( $ap_sh_named && $section['label'] === $part['label'] ) : ?>
+										<?php // The tab's name above already labels this group. ?>
+									<?php elseif ( '' !== $section['url'] ) : ?>
 										<a class="ap-mobile-subhead" href="<?php echo esc_url( $section['url'] ); ?>"><?php echo esc_html( $section['label'] ); ?><span class="ap-mobile-subhead-chev" aria-hidden="true">&rsaquo;</span></a>
 									<?php else : ?>
 										<p><?php echo esc_html( $section['label'] ); ?></p>
@@ -630,9 +661,6 @@ $menu_id  = 'ap-site-header-menu';
 								</div>
 							<?php endforeach; ?>
 						<?php endforeach; ?>
-						<?php if ( '' !== $all_label && '' !== $all_url ) : ?>
-							<a class="ap-mobile-all" href="<?php echo esc_url( $all_url ); ?>"><?php echo esc_html( $all_label ); ?><span class="ap-mobile-subhead-chev" aria-hidden="true">&rsaquo;</span></a>
-						<?php endif; ?>
 					</details>
 				<?php elseif ( '' !== $url ) : ?>
 					<a class="ap-mobile-top-link" href="<?php echo esc_url( $url ); ?>"><?php echo esc_html( $label ); ?></a>

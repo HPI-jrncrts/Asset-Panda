@@ -24,6 +24,10 @@ $title_tag = 'h2' === $props['title_tag'] ? 'h2' : 'h1';
 $subtitle  = trim( (string) $props['subtitle'] );
 $body      = trim( (string) $props['body'] );
 $bg        = trim( (string) $props['background'] );
+// First-screen backdrop (a CSS background): preload it (PageSpeed LCP).
+if ( '' !== $bg && function_exists( 'ap_ui_preload_image' ) ) {
+	echo ap_ui_preload_image( $bg ); // phpcs:ignore WordPress.Security.EscapeOutput -- built from esc_url() in the loader.
+}
 
 /*
  * The booking link and namespace reach the browser as data attributes, so

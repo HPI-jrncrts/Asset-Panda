@@ -38,8 +38,8 @@ $ap_ursa = static function ( $escaped ) {
 ?>
 <section class="ap-platform-faq" aria-label="<?php echo esc_attr( $props['title'] ); ?>">
 	<div class="ap-platform-faq__wrap">
-		<h2 class="ap-platform-faq__title"><?php echo esc_html( $props['title'] ); ?></h2>
-		<div class="ap-platform-faq__list">
+		<h2 class="ap-platform-faq__title"><?php echo $props['title_mark'] ? $ap_ursa( esc_html( $props['title'] ) ) : esc_html( $props['title'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; only fixed spans are added. ?></h2>
+		<div class="ap-platform-faq__list" data-ap-accordion>
 			<?php foreach ( $items as $i => $item ) : ?>
 				<details class="ap-platform-faq__item"<?php echo ( 0 === $i && $props['open_first'] ) ? ' open' : ''; ?>>
 					<summary class="ap-platform-faq__q">

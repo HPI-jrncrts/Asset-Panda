@@ -1429,3 +1429,27 @@
 		transition: none;
 	}
 }
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: --ap-section-y below the plans (was 80 / 56 / 64 by width
+ * and variant) and above them unless the picker opens the page (the opener
+ * keeps its own space under the site header). */
+html body .ap-plans-picker.ap-plans-picker { padding-bottom: var(--ap-section-y, 64px); }
+html body .ap-plans-picker.ap-plans-picker:not(.ap-plans-picker--opener) { padding-top: var(--ap-section-y, 64px); }
+/* PageSpeed: the glow is radial gradients already; drop the blur filter. */
+.ap-plans-picker--clean .ap-plans-picker__grid::before { filter: none; }
+/* Phones (QA 2026-10-27): no text under 12px. */
+@media (max-width: 767px) {
+	html body .ap-plans-picker .ap-plans-picker__lbl { font-size: 12px; }
+}
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-plans-picker.ap-plans-picker.ap-plans-picker h2.ap-plans-picker__title { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+html body .ap-plans-picker.ap-plans-picker.ap-plans-picker h1.ap-plans-picker__title { font-size: var(--ap-type-h1-size); font-weight: var(--ap-type-h1-weight); line-height: var(--ap-type-h1-line); letter-spacing: var(--ap-type-h1-track); }
+/* QA 2026-10-28: the plan cards' "Everything in …, plus" line and the record
+ * labels read at 12px at every width (were 11 / 11.5px). */
+html body .ap-plans-picker .ap-plans-picker__plus,
+html body .ap-plans-picker .ap-plans-picker__lbl { font-size: 12px; }

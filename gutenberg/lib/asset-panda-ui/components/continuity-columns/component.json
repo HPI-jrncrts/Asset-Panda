@@ -13,6 +13,19 @@
 			"required": true,
 			"description": "Heading."
 		},
+		"title_accent": {
+			"type": "string",
+			"required": false,
+			"default": "",
+			"description": "Part of the heading painted with the brand gradient (must appear in title)."
+		},
+		"variant": {
+			"type": "string",
+			"required": false,
+			"default": "timeline",
+			"enum": [ "timeline", "numbered" ],
+			"description": "timeline: labelled columns over the rule (Asset Intelligence Platform). numbered: each column is a card ruled on the left in its accent colour, with a number glyph before the title (Ursa AI frame 7261:114417); items take icon_svg (the glyph) and accent (a #hex colour)."
+		},
 		"lede": {
 			"type": "string",
 			"required": false,

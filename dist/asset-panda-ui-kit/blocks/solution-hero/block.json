@@ -56,6 +56,10 @@
 			"type": "object",
 			"default": {}
 		},
+		"form": {
+			"type": "object",
+			"default": {}
+		},
 		"cards": {
 			"type": "array",
 			"default": []
@@ -83,6 +87,10 @@
 				"slice",
 				"heading"
 			]
+		},
+		"choices": {
+			"type": "array",
+			"default": []
 		},
 		"align": {
 			"type": "string",

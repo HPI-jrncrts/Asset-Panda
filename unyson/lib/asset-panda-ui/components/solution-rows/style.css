@@ -95,7 +95,7 @@
 	align-items: flex-start;
 	min-height: 145px;
 	padding: 24px 40px;
-	border: 1px solid;
+	border: 1px solid #e6e8f0;
 	border-radius: 16px;
 	box-shadow: 0 2px 10px rgba(37, 39, 44, .05);
 	translate: 0 0;
@@ -300,3 +300,46 @@
 .ap-solution-rows__row--cyan .ap-solution-rows__badge { color: #06b6d4; }
 /* A long title beside a badge keeps shrinking instead of wrapping under the icon. */
 .ap-solution-rows__row--badged .ap-solution-rows__lead h3 { flex: 1 1 0; min-width: 0; }
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: --ap-section-y top and bottom, --ap-section-head-gap from the
+ * head to the rows (was 80 / 40 desktop, 56 / 24 phone, gap 40). */
+.ap-solution-rows .ap-solution-rows__wrap { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); gap: var(--ap-section-head-gap, 48px); }
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-solution-rows.ap-solution-rows.ap-solution-rows .ap-solution-rows__title { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+/* Section eyebrow on the type scale too: 12px at 390 to 14px at 1440, 800, 4% tracking, upper case. */
+html body .ap-solution-rows.ap-solution-rows.ap-solution-rows .ap-solution-rows__eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }
+
+/* Motion (QA 2026-10-28, motion agent's R4): hover moves use translate / scale, never transform (scroll entrances own transform), on the house timing. */
+html body .ap-solution-rows .ap-solution-rows__cta svg { transition: translate var(--ap-dur-base, .3s) var(--ap-ease-standard, ease); }
+html body .ap-solution-rows .ap-solution-rows__cta:hover svg { transform: none; translate: 4px 0; }
+html body .ap-solution-rows .ap-solution-rows__row:hover .ap-solution-rows__cta svg { transform: none; translate: 6px 0; }
+
+/* Optional row subtitle (Ursa AI frame 7264:115165): 20/1.4/800 over the copy, 8px above it; the link
+ * then sits 24px under the copy as in the frame. */
+.ap-solution-rows .ap-solution-rows__sub {
+	margin: 0;
+	font-family: inherit;
+	font-size: 20px;
+	font-weight: 800;
+	line-height: 1.4;
+	letter-spacing: normal;
+	text-transform: none;
+	color: #25272c;
+}
+.ap-solution-rows__sub + p { margin-top: -8px; }
+.ap-solution-rows__body:has(> .ap-solution-rows__sub) > .ap-solution-rows__cta { margin-top: 8px; }
+@media (max-width: 1000px) {
+	.ap-solution-rows .ap-solution-rows__sub { font-size: 18px; }
+}
+
+/* tone_arrows: the link arrow takes the row's tone colour. */
+.ap-solution-rows--tone-arrows .ap-solution-rows__row--green .ap-solution-rows__cta svg path { stroke: #00a991; }
+.ap-solution-rows--tone-arrows .ap-solution-rows__row--yellow .ap-solution-rows__cta svg path { stroke: #de8d14; }
+.ap-solution-rows--tone-arrows .ap-solution-rows__row--blue .ap-solution-rows__cta svg path { stroke: #3b82f6; }
+.ap-solution-rows--tone-arrows .ap-solution-rows__row--red .ap-solution-rows__cta svg path { stroke: #e61c55; }
+.ap-solution-rows--tone-arrows .ap-solution-rows__row--cyan .ap-solution-rows__cta svg path { stroke: #06b6d4; }

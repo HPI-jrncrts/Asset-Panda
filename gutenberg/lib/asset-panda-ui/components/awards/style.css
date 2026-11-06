@@ -136,7 +136,7 @@
  * (42vw at 480px and below) on a 126px track. */
 .ap-awards--layout-row {
 	padding: 40px 24px;
-	background: linear-gradient(360deg, #fff 0%, #f9fafb 100%);
+	background: #fff;
 }
 .ap-awards--layout-row .ap-awards__inner { width: 100%; max-width: 1120px; margin: 0 auto; }
 .ap-awards--layout-row .ap-awards__grid {
@@ -191,7 +191,7 @@
  * scrolls sideways wherever the browser shows a scrollbar.
  */
 .ap-awards.ap-awards--layout-hub{position:relative;font-family:Manrope,sans-serif;padding:40px 24px;overflow:visible;background:none}
-.ap-awards.ap-awards--layout-hub::before{content:"";position:absolute;top:0;bottom:0;left:0;width:100%;background:#f9fafb;pointer-events:none;z-index:0}
+.ap-awards.ap-awards--layout-hub::before{content:"";position:absolute;top:0;bottom:0;left:0;width:100%;background:#fff;pointer-events:none;z-index:0}
 .ap-awards.ap-awards--layout-hub .apg-aw-viewport{position:relative;z-index:1;max-width:1120px;margin:0 auto;overflow:hidden}
 .ap-awards.ap-awards--layout-hub .apg-aw-track{display:flex;align-items:center;justify-content:space-between;width:100%}
 .ap-awards.ap-awards--layout-hub .apg-aw-track img{display:block;object-fit:contain;width:var(--aw-w,auto);height:var(--aw-h,auto);max-width:165px;max-height:101px;border-radius:var(--aw-r,0)}
@@ -211,8 +211,8 @@
  * with 48px gaps from 1025px, a 22s marquee with 56px gaps below; 24px above and
  * below on phones. Full-bleed backdrop as in the hub layout.
  */
-.ap-awards.ap-awards--layout-eduhub{position:relative;width:100%;overflow:visible;background:linear-gradient(360deg,#ffffff 0%,#f9fafb 100%);padding:40px 24px;font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif}
-.ap-awards.ap-awards--layout-eduhub::before{content:"";position:absolute;top:0;bottom:0;left:0;width:100%;background:#f9fafb;pointer-events:none}
+.ap-awards.ap-awards--layout-eduhub{position:relative;width:100%;overflow:visible;background:#fff;padding:40px 24px;font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif}
+.ap-awards.ap-awards--layout-eduhub::before{content:"";position:absolute;top:0;bottom:0;left:0;width:100%;background:#fff;pointer-events:none}
 .ap-awards.ap-awards--layout-eduhub>.apw-viewport{position:relative}
 .ap-awards.ap-awards--layout-eduhub *{box-sizing:border-box}
 .ap-awards.ap-awards--layout-eduhub .apw-viewport{width:100%;max-width:1120px;margin:0 auto;overflow:hidden}
@@ -238,3 +238,17 @@
 .ap-awards.ap-awards--layout-eduhub .apw-track{width:100%;flex-wrap:wrap;justify-content:center;gap:24px 48px}
 .ap-awards.ap-awards--layout-eduhub .apw-item[aria-hidden="true"]{display:none}
 }
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: every layout is a compact band, --ap-section-y-sm top and
+ * bottom at every width (was 40 / 36 / 24 by layout and width). */
+html body .ap-awards.ap-awards { padding-top: var(--ap-section-y-sm, 40px); padding-bottom: var(--ap-section-y-sm, 40px); }
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-awards.ap-awards.ap-awards .ap-awards__title { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+
+/* QA 2026-10-29 (Joseph, sitewide): sections without a colour gradient are pure white — the white-to-#f9fafb fades
+ * showed as a grey band against the next section. */

@@ -356,6 +356,12 @@ add_filter(
 			if ( ! ap_content_has_gate( $id ) ) {
 				return $content;
 			}
+			// 1.3.17 (Joseph 2026-10-31: "On all White Paper post type pages, let's move the CTA section 'Get The White
+			// paper' form below the featured image"): a resource opens with the form, straight under the header image,
+			// then its body (no jump button: the form is already at the top). Pages keep the form after the body.
+			if ( 'resource' === get_post_type( $id ) ) {
+				return ap_content_gate_html( $id ) . $content;
+			}
 			return ap_content_gate_jump( $content, $id ) . ap_content_gate_html( $id );
 		} catch ( \Throwable $e ) {
 			return $content;

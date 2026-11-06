@@ -176,3 +176,9 @@
 
 	.ap-solution-trust--solution .ap-solution-trust__label { text-wrap: balance; }
 }
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: a compact band, --ap-section-y-sm top and bottom at every
+ * width (was 40 / 50 / 32 / 28 by breakpoint and variant). */
+.ap-solution-trust .ap-solution-trust__wrap,
+.ap-solution-trust--solution .ap-solution-trust__wrap { padding-top: var(--ap-section-y-sm, 40px); padding-bottom: var(--ap-section-y-sm, 40px); }

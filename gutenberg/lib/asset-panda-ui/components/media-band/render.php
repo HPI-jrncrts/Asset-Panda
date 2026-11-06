@@ -42,12 +42,13 @@ $video_id = '';
 if ( preg_match( '#(?:youtube(?:-nocookie)?\.com/(?:embed/|watch\?(?:.*&)?v=|shorts/)|youtu\.be/)([A-Za-z0-9_-]{11})#', (string) $props['video'], $m ) ) {
 	$video_id = $m[1];
 }
+$theater     = '' !== $video_id && 'theater' === $props['video_look'] ? ' ap-media-band--theater' : '';
 $video_title = trim( (string) $props['video_title'] );
 if ( '' === $video_title ) {
 	$video_title = 'Play video';
 }
 ?>
-<section class="ap-media-band ap-media-band--<?php echo esc_attr( $tone ); ?> ap-media-band--<?php echo esc_attr( $layout ); ?>"<?php echo '' !== $anchor ? ' id="' . esc_attr( $anchor ) . '"' : ''; ?>>
+<section class="ap-media-band ap-media-band--<?php echo esc_attr( $tone ); ?> ap-media-band--<?php echo esc_attr( $layout ); ?><?php echo esc_attr( $theater ); ?>"<?php echo '' !== $anchor ? ' id="' . esc_attr( $anchor ) . '"' : ''; ?>>
 	<div class="ap-media-band__inner">
 		<div class="ap-media-band__copy">
 			<?php if ( '' !== $eyebrow ) : ?>

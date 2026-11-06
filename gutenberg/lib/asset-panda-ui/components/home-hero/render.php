@@ -67,8 +67,18 @@ $ap_logo = static function ( $l, $dup ) {
 	return '<img class="' . esc_attr( trim( 'ap-logo ' . $l['cls'] . ( $dup ? ' ap-logo-dup' : '' ) ) ) . '" src="' . esc_url( $l['image'] ) . '" alt="' . esc_attr( $dup ? '' : $l['alt'] ) . '"' . ( $l['w'] && $l['h'] ? ' width="' . $l['w'] . '" height="' . $l['h'] . '"' : '' ) . ( $dup ? ' aria-hidden="true"' : '' ) . ' decoding="async" />';
 };
 ?>
-<section class="ap-home-hero" data-ap-home-hero<?php echo '' !== $background ? ' style="' . esc_attr( '--ap-home-hero-bg:url("' . esc_url_raw( $background ) . '")' ) . '"' : ''; ?>>
+<?php
+// The backdrop is the first-screen image (PageSpeed LCP): an <img> the browser finds in the HTML, plus a
+// preload hint in <head>, instead of the CSS background it used to be (--ap-home-hero-bg stays unset).
+if ( '' !== $background && function_exists( 'ap_ui_preload_image' ) ) {
+	echo ap_ui_preload_image( $background ); // phpcs:ignore WordPress.Security.EscapeOutput -- built from esc_url() in the loader.
+}
+?>
+<section class="ap-home-hero" data-ap-home-hero>
 	<div class="ap-hero-bg" aria-hidden="true">
+		<?php if ( '' !== $background ) : ?>
+			<img class="ap-hero-bg-img" src="<?php echo esc_url( $background ); ?>" alt="" width="1920" height="1517" decoding="async" fetchpriority="high" />
+		<?php endif; ?>
 		<span class="ap-bg-shape ap-bg-red"></span>
 		<span class="ap-bg-shape ap-bg-indigo"></span>
 		<span class="ap-bg-shape ap-bg-violet"></span>

@@ -59,12 +59,10 @@
 	border: 2px solid var(--pv-line2);
 	border-radius: 8px;
 	background: #fff;
-	transition: border-color var(--ap-dur-fast, 0.2s) ease;
+	transition: border-color var(--ap-dur-base) var(--ap-ease-standard);
 }
 
-.ap-plans-faq__item[open] {
-	border-color: var(--pv-indigo-lt);
-}
+/* An open card no longer turns its border indigo - no highlight box on open. */
 
 .ap-plans-faq__q {
 	display: flex;
@@ -78,7 +76,8 @@
 	line-height: 1.5;
 	list-style: none;
 	cursor: pointer;
-	transition: color var(--ap-dur-fast, 0.2s) ease;
+	-webkit-tap-highlight-color: transparent;
+	transition: color var(--ap-dur-base) var(--ap-ease-standard);
 }
 
 .ap-plans-faq__q::-webkit-details-marker {
@@ -94,18 +93,31 @@
 	line-height: 1;
 }
 
-.ap-plans-faq__item[open] .ap-plans-faq__q::after {
+.ap-plans-faq__item[open]:where(:not([data-ap-closing])) .ap-plans-faq__q::after {
 	content: "\2212";
 }
 
-.ap-plans-faq__q:hover {
-	color: var(--pv-indigo);
+@media (hover: hover) {
+	.ap-plans-faq__q:hover {
+		color: var(--pv-indigo);
+	}
+}
+
+/* No box around the row: the theme outlines any focused element and a click
+ * focuses the <summary>. Keyboard focus colours and underlines the question
+ * (and rings the plus in the clean variant); mouse and tap show nothing. */
+.ap-plans-faq__q:focus {
+	outline: none;
 }
 
 .ap-plans-faq__q:focus-visible {
-	outline: 2px solid var(--pv-indigo);
-	outline-offset: 2px;
-	border-radius: 6px;
+	color: var(--pv-indigo);
+}
+
+.ap-plans-faq__q:focus-visible .ap-plans-faq__qt {
+	text-decoration: underline;
+	text-decoration-thickness: 2px;
+	text-underline-offset: 4px;
 }
 
 .ap-plans-faq__a {
@@ -194,10 +206,14 @@
 	color: var(--pv-ink);
 	font-size: 17px;
 	font-weight: 500;
-	transition: background-color var(--ap-dur-fast, 0.2s) ease, border-color var(--ap-dur-fast, 0.2s) ease, color var(--ap-dur-fast, 0.2s) ease;
+	transition: background-color var(--ap-dur-base) var(--ap-ease-standard), border-color var(--ap-dur-base) var(--ap-ease-standard), color var(--ap-dur-base) var(--ap-ease-standard), box-shadow var(--ap-dur-base) var(--ap-ease-standard);
 }
 
-.ap-plans-faq--clean .ap-plans-faq__item[open] .ap-plans-faq__q::after {
+.ap-plans-faq--clean .ap-plans-faq__q:focus-visible::after {
+	box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--pv-indigo);
+}
+
+.ap-plans-faq--clean .ap-plans-faq__item[open]:where(:not([data-ap-closing])) .ap-plans-faq__q::after {
 	border-color: var(--pv-indigo);
 	background: var(--pv-indigo);
 	color: #fff;
@@ -253,3 +269,9 @@
 		transition: none;
 	}
 }
+
+/* ------------------------------------------------------------ Section rhythm + type scale (QA 2026-10-28, sections agent)
+ * Padding on the kit section rhythm (tokens.css "section rhythm") and the
+ * section title / eyebrow on the type-scale tokens, like every other section. */
+html body .ap-plans-faq.ap-plans-faq.ap-plans-faq { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+html body .ap-plans-faq.ap-plans-faq .ap-plans-faq__title { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }

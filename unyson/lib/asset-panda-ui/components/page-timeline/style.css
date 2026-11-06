@@ -1,0 +1,367 @@
+/*
+ * page-timeline — "Our Journey" (Our Company, Figma 7385:186215).
+ *
+ * Type follows the 2026 scale: 14px/800 indigo eyebrow, 40px/800 h2 with the indigo-to-green phrase, 18px slate
+ * lede; milestones 24px/800 h3 over 16px body, 12px note, 14px/600 arrow links; closing line 16px/700 upper-case
+ * over 28px gradient type. Rules: indigo-200, -400, -600 down the list, 3px. Links nudge with translate on the
+ * house timing; never transform.
+ */
+
+.ap-page-timeline,
+.ap-page-timeline * {
+	box-sizing: border-box;
+}
+
+.ap-page-timeline {
+	position: relative;
+	width: 100%;
+	background: var(--ap-white);
+	font-family: var(--ap-font-body);
+	color: var(--ap-text-body);
+}
+
+.ap-page-timeline__wrap {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 20px 40px;
+	display: flex;
+	align-items: flex-start;
+	gap: 40px;
+}
+
+.ap-page-timeline__intro {
+	position: sticky;
+	top: 72px;
+	flex: 0 0 450px;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	padding: 80px 0;
+}
+
+.ap-page-timeline .ap-page-timeline__eyebrow {
+	margin: 0;
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: 0.56px;
+	text-transform: uppercase;
+	color: var(--ap-text-eyebrow);
+}
+
+.ap-page-timeline .ap-page-timeline__title {
+	margin: 0;
+	font-family: var(--ap-font-display);
+	font-size: 40px;
+	font-weight: var(--ap-weight-display);
+	line-height: 1.2;
+	letter-spacing: 0;
+	color: var(--ap-text-heading);
+}
+
+.ap-page-timeline__accent,
+.ap-page-timeline .ap-page-timeline__closing-text {
+	background-image: linear-gradient(53.5deg, var(--ap-brand-indigo) 3.6%, var(--ap-brand-green) 50.1%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+.ap-page-timeline__lede {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.ap-page-timeline .ap-page-timeline__lede p {
+	margin: 0;
+	font-size: 18px;
+	line-height: 1.5;
+	color: var(--ap-text-body);
+}
+
+.ap-page-timeline__list {
+	flex: 1 1 0;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	margin: 0;
+	padding: 80px 0;
+	list-style: none;
+}
+
+.ap-page-timeline__item {
+	--ap-tl-rule: var(--ap-indigo-200);
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 16px;
+	margin: 0;
+	padding: 24px 40px;
+	border-left: 3px solid var(--ap-tl-rule);
+}
+
+.ap-page-timeline__item--mid {
+	--ap-tl-rule: #838cf6;
+}
+
+.ap-page-timeline__item--deep {
+	--ap-tl-rule: var(--ap-indigo-600);
+}
+
+.ap-page-timeline .ap-page-timeline__year {
+	margin: 0;
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: 0.56px;
+	text-transform: uppercase;
+	color: var(--ap-tl-rule);
+}
+
+.ap-page-timeline .ap-page-timeline__item-title {
+	margin: 0;
+	font-family: var(--ap-font-display);
+	font-size: 24px;
+	font-weight: var(--ap-weight-display);
+	line-height: 1.3;
+	letter-spacing: 0;
+	color: var(--ap-text-heading);
+}
+
+.ap-page-timeline__body {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	width: 100%;
+}
+
+.ap-page-timeline .ap-page-timeline__body p {
+	margin: 0;
+	font-size: 16px;
+	line-height: 1.5;
+	color: var(--ap-text-body);
+}
+
+.ap-page-timeline .ap-page-timeline__note {
+	margin: 0;
+	font-size: 12px;
+	line-height: 1.5;
+	color: var(--ap-text-body);
+}
+
+.ap-page-timeline .ap-page-timeline__body a,
+.ap-page-timeline .ap-page-timeline__note a {
+	color: var(--ap-brand-green);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+.ap-page-timeline__links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px 40px;
+	margin: 0;
+	padding: 24px 0 0;
+	list-style: none;
+}
+
+.ap-page-timeline__links li {
+	margin: 0;
+}
+
+.ap-page-timeline .ap-page-timeline__links a {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 14px;
+	font-weight: var(--ap-weight-link);
+	line-height: 1.2;
+	color: var(--ap-text-heading);
+	text-decoration: none;
+}
+
+.ap-page-timeline__links svg {
+	flex: 0 0 24px;
+	color: var(--ap-brand-indigo);
+	translate: 0 0;
+	transition: translate var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+@media (hover: hover) {
+	.ap-page-timeline .ap-page-timeline__links a:hover svg {
+		translate: 4px 0;
+	}
+}
+
+.ap-page-timeline__closing {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	max-width: 720px;
+	padding-top: 24px;
+}
+
+.ap-page-timeline .ap-page-timeline__closing-lead {
+	margin: 0;
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 1.5;
+	text-transform: uppercase;
+	color: var(--ap-text-heading);
+}
+
+.ap-page-timeline .ap-page-timeline__closing-text {
+	margin: 0;
+	font-family: var(--ap-font-display);
+	font-size: 28px;
+	font-weight: 400;
+	line-height: 1.2;
+}
+
+@media (max-width: 1000px) {
+	.ap-page-timeline__wrap {
+		flex-direction: column;
+		gap: 0;
+	}
+
+	.ap-page-timeline__intro {
+		position: static;
+		flex: 0 0 auto;
+		width: 100%;
+		max-width: 680px;
+		padding: 64px 0 24px;
+	}
+
+	.ap-page-timeline__list {
+		width: 100%;
+		padding: 24px 0 64px;
+	}
+}
+
+@media (max-width: 640px) {
+	.ap-page-timeline__wrap {
+		padding: 0 20px;
+	}
+
+	.ap-page-timeline .ap-page-timeline__title {
+		font-size: 28px;
+	}
+
+	.ap-page-timeline .ap-page-timeline__lede p {
+		font-size: 16px;
+	}
+
+	.ap-page-timeline__item {
+		padding: 16px 0 16px 20px;
+	}
+
+	.ap-page-timeline .ap-page-timeline__item-title {
+		font-size: 20px;
+	}
+
+	.ap-page-timeline .ap-page-timeline__closing-text {
+		font-size: 22px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-page-timeline__links svg {
+		transition: none;
+	}
+}
+
+/* ---- steps (Our Technology "How it works", Figma 7460:109053) ----
+ * A gradient button under the intro; each step's number (32px, light) sits beside its 24px/800 heading in the
+ * step's colour, which also paints the 3px rule: indigo, pink, green, amber, blue, then round again. */
+.ap-page-timeline__cta {
+	margin: 24px 0 0;
+}
+
+.ap-page-timeline .ap-page-timeline__btn,
+.ap-page-timeline .ap-page-timeline__btn:visited {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 14px 16px;
+	border: 0;
+	border-radius: var(--ap-radius-sm, 4px);
+	background-image: linear-gradient(54.6deg, var(--ap-brand-indigo) 0%, var(--ap-brand-green) 70.44%);
+	color: var(--ap-white);
+	font-family: var(--ap-font-display);
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 1.2;
+	text-decoration: none;
+	translate: 0 0;
+	transition: translate var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), box-shadow var(--ap-dur-base, .3s) var(--ap-ease-standard, ease);
+}
+
+.ap-page-timeline .ap-page-timeline__btn:hover,
+.ap-page-timeline .ap-page-timeline__btn:focus-visible {
+	color: var(--ap-white);
+	translate: 0 -2px;
+	box-shadow: 0 8px 20px rgba(80, 68, 225, 0.25);
+}
+
+.ap-page-timeline--steps .ap-page-timeline__item:nth-child(5n + 1) { --ap-tl-rule: var(--ap-brand-indigo); }
+.ap-page-timeline--steps .ap-page-timeline__item:nth-child(5n + 2) { --ap-tl-rule: #e61c55; }
+.ap-page-timeline--steps .ap-page-timeline__item:nth-child(5n + 3) { --ap-tl-rule: var(--ap-brand-green); }
+.ap-page-timeline--steps .ap-page-timeline__item:nth-child(5n + 4) { --ap-tl-rule: var(--ap-brand-yellow, #de8d14); }
+.ap-page-timeline--steps .ap-page-timeline__item:nth-child(5n + 5) { --ap-tl-rule: #3b6cf6; }
+
+.ap-page-timeline__step {
+	display: flex;
+	align-items: baseline;
+	gap: 24px;
+}
+
+.ap-page-timeline .ap-page-timeline__num {
+	flex: 0 0 auto;
+	min-width: 16px;
+	font-family: var(--ap-font-display);
+	font-size: 32px;
+	font-weight: 300;
+	line-height: 1;
+	color: var(--ap-tl-rule);
+}
+
+@media (max-width: 640px) {
+	.ap-page-timeline__step {
+		gap: 16px;
+	}
+
+	.ap-page-timeline .ap-page-timeline__num {
+		font-size: 28px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-page-timeline .ap-page-timeline__btn {
+		transition: none;
+	}
+}
+
+/* Our Technology (Joseph 2026-10-31: "cut the extra space in half" between What Is Asset Panda and How it works):
+ * the steps look opens with half the journey's top space. */
+.ap-page-timeline--steps .ap-page-timeline__wrap {
+	padding-top: 10px;
+}
+
+.ap-page-timeline--steps .ap-page-timeline__intro,
+.ap-page-timeline--steps .ap-page-timeline__list {
+	padding-top: 40px;
+}
+
+@media (max-width: 1000px) {
+	.ap-page-timeline--steps .ap-page-timeline__intro {
+		padding-top: 32px;
+	}
+
+	.ap-page-timeline--steps .ap-page-timeline__list {
+		padding-top: 24px;
+	}
+}

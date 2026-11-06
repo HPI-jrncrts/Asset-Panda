@@ -31,6 +31,7 @@ $props = array(
 	'secondary_url'   => $attributes['secondary_url'] ?? '',
 	'image'           => $attributes['image'] ?? '',
 	'image_alt'       => $attributes['image_alt'] ?? '',
+	'size'            => $attributes['size'] ?? 'default',
 );
 
 $ap_html = ap_render_component( 'platform-cta', $props );

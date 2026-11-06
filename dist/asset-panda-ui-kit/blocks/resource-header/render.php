@@ -31,6 +31,7 @@ $props = array(
 	'date'        => $attributes['date'] ?? '',
 	'date_iso'    => $attributes['date_iso'] ?? '',
 	'image'       => $attributes['image'] ?? '',
+	'video'       => $attributes['video'] ?? '',
 	'image_alt'   => $attributes['image_alt'] ?? '',
 	'image_w'     => $attributes['image_w'] ?? 0,
 	'image_h'     => $attributes['image_h'] ?? 0,

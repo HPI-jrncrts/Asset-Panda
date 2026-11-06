@@ -40,7 +40,7 @@ if ( empty( $items ) ) {
 $count      = count( $items );
 $quote_icon = trim( (string) $props['quote_icon'] );
 if ( '' === $quote_icon ) {
-	$quote_icon = ap_ui_asset_url( 'story-slider', 'quote-up.png' );
+	$quote_icon = ap_ui_asset_url( 'story-slider', 'quote-up.svg' );
 }
 $arrow = ap_ui_asset_url( 'story-slider', 'icon-arrow.svg' );
 
@@ -71,7 +71,7 @@ $ap_logo = static function ( $item ) use ( $ap_px, $ap_wordmark ) {
 	return '';
 };
 ?>
-<section class="ap-story-slider<?php echo 'default' !== $props['variant'] ? ' ap-story-slider--' . esc_attr( $props['variant'] ) : ''; ?><?php echo 'wide' === $props['stack'] ? ' ap-story-slider--wide' : ''; ?>" data-ap-story>
+<section class="ap-story-slider<?php echo 'default' !== $props['variant'] ? ' ap-story-slider--' . esc_attr( $props['variant'] ) : ''; ?><?php echo 'wide' === $props['stack'] ? ' ap-story-slider--wide' : ''; ?>" data-ap-story data-ap-autoplay="<?php echo esc_attr( (string) max( 0, (int) $props['autoplay_ms'] ) ); ?>">
 	<div class="apc-container">
 		<div class="apc-header">
 			<?php if ( '' !== trim( (string) $props['eyebrow'] ) ) : ?>

@@ -1,0 +1,18 @@
+{
+	"name": "page-values",
+	"description": "People-and-values section of the 2026 company pages (Our Company, Figma 7455:103802): a header row (eyebrow, heading with a gradient phrase, lede; an arrow link on the right), then a list of icon points (40px icon, bold line, short text) beside a rounded photo.",
+	"props": {
+		"anchor": { "type": "string", "required": false, "default": "", "description": "id on the section (letters, digits, hyphens)." },
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small uppercase label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading (h2). Line breaks are kept." },
+		"title_accent": { "type": "string", "required": false, "default": "", "description": "Words of the heading painted with the brand gradient (first occurrence); must appear in title." },
+		"lede": { "type": "string", "required": false, "default": "", "description": "Copy under the heading. Blank line = new paragraph; [label](url) links, **bold**." },
+		"link_label": { "type": "string", "required": false, "default": "", "description": "Arrow link at the right of the header row. Renders only with link_url." },
+		"link_url": { "type": "string", "required": false, "default": "", "description": "Arrow link destination." },
+		"items": { "type": "array", "required": true, "description": "Points. Each: icon (40px image URL; empty = no icon), title (h3), text (short copy; [label](url), **bold**)." },
+		"image": { "type": "string", "required": false, "default": "", "description": "Photo beside the points (cropped to 3:2, 16px corners). Empty = points only." },
+		"image_alt": { "type": "string", "required": false, "default": "", "description": "Photo alt text (empty when decorative)." },
+		"image_width": { "type": "integer", "required": false, "default": 0, "description": "Photo intrinsic width in px (0 omits it)." },
+		"image_height": { "type": "integer", "required": false, "default": 0, "description": "Photo intrinsic height in px." }
+	}
+}

@@ -46,6 +46,9 @@ $props = array(
 	'anchor'            => $attributes['anchor'] ?? '',
 	'bullets'           => $attributes['bullets'] ?? array(),
 	'panel'             => $attributes['panel'] ?? 'plain',
+	'look'              => $attributes['look'] ?? 'dark',
+	'title_accent'      => $attributes['title_accent'] ?? '',
+	'bullet_icons'      => $attributes['bullet_icons'] ?? array(),
 );
 
 $ap_html = ap_render_component( 'demo-cta', $props );

@@ -7,7 +7,7 @@
  * per-card colour to them. Lifecycle's red hover art comes from --ap-pstack-hover-bg.
  */
 
-.ap-pstack {--ap-sticky-top: 28px; --ap-menu-offset: 90px; --ap-stack-sticky-top: 104px; --ap-card-step: 24px; background: #ffffff; padding: 120px 0 80px; width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); font-family: 'Manrope', Arial, sans-serif !important; overflow: visible !important;}
+.ap-pstack {--ap-sticky-top: 28px; --ap-menu-offset: 90px; --ap-stack-sticky-top: 104px; --ap-card-step: 24px; background: #ffffff; padding: 120px 0 80px; width: 100%; margin-left: 0; margin-right: 0; font-family: 'Manrope', Arial, sans-serif !important; overflow: visible !important;}
 .ap-pstack, .ap-pstack * {box-sizing: border-box;}
 .ap-pstack .ap-platform-wrap {width: 100%; max-width: 1100px; margin: 0 auto;}
 .ap-pstack .ap-platform-head {display: grid; grid-template-columns: 536px 1fr; gap: 40px; align-items: start; margin-bottom: 32px;}
@@ -62,32 +62,34 @@
 .ap-pstack .ap-card-visual {position: absolute; left: 32px; right: 32px; top: 187px; width: 716px; height: 512px; z-index: 2; border-radius: 8px; pointer-events: none;}
 .ap-pstack .ap-screen-base {position: absolute; inset: 0; padding: 5.2px; background: rgba(255, 255, 255, 0.1); box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08); border-radius: 8px; overflow: hidden; transition: opacity 0.32s ease, transform 0.32s ease, filter 0.32s ease;}
 .ap-pstack .ap-screen-base img {width: 100%; height: 100%; display: block; object-fit: cover; object-position: top left; border-radius: 5.78976px;}
-.ap-pstack .ap-hover-art {position: absolute; opacity: 0; transform: translateY(18px) scale(0.98); transform-origin: center top; transition: opacity 0.34s ease, transform 0.34s ease, filter 0.34s ease; z-index: 4;}
+/* QA 2026-10-29 (Joseph): the hover preview pops out from the centre of the image block (scale from 0.84), not up
+ * from the bottom; card 2 takes card 3's placement, card 4 fills to the card's bottom, card 6 runs edge to edge. */
+.ap-pstack .ap-hover-art {position: absolute; opacity: 0; transform: scale(0.84); transform-origin: 50% 50%; transition: opacity 0.34s ease, transform 0.34s ease, filter 0.34s ease; z-index: 4;}
 .ap-pstack .ap-hover-art img {display: block; max-width: none; height: auto;}
-.ap-pstack .ap-card:hover .ap-screen-base {opacity: 0.48; transform: translateY(12px) scale(1.11); transform-origin: center top; filter: saturate(0.85) contrast(0.95) brightness(1.04);}
-.ap-pstack .ap-card:hover .ap-hover-art {opacity: 1; transform: translateY(0) scale(1);}
+.ap-pstack .ap-card:hover .ap-screen-base {opacity: 0.48; transform: scale(1.06); transform-origin: 50% 50%; filter: saturate(0.85) contrast(0.95) brightness(1.04);}
+.ap-pstack .ap-card:hover .ap-hover-art {opacity: 1; transform: scale(1);}
 .ap-pstack .ap-hover-card-1 {left: 0; top: 0; width: 716px;}
 .ap-pstack .ap-hover-card-1 img {width: 716px;}
-.ap-pstack .ap-card-custom:hover .ap-screen-base {opacity: 0; transform: translateY(8px) scale(1.04); filter: none;}
-.ap-pstack .ap-card-custom:hover .ap-hover-card-1 {transform: translateY(0) scale(1.035);}
-.ap-pstack .ap-hover-card-2 {left: 88px; top: 38px; width: 540px;}
-.ap-pstack .ap-hover-card-2 img {width: 540px;}
-.ap-pstack .ap-card-gold:hover .ap-hover-card-2 {transform: translateY(0) scale(1.08);}
+.ap-pstack .ap-card-custom:hover .ap-screen-base {opacity: 0; transform: scale(1.04); filter: none;}
+.ap-pstack .ap-card-custom:hover .ap-hover-card-1 {transform: scale(1.035);}
+.ap-pstack .ap-hover-card-2 {left: 54px; top: 34px; width: 650px;}
+.ap-pstack .ap-hover-card-2 img {width: 650px;}
+.ap-pstack .ap-card-gold:hover .ap-hover-card-2 {transform: scale(1.05);}
 .ap-pstack .ap-hover-card-3 {left: 54px; top: 34px; width: 650px;}
 .ap-pstack .ap-hover-card-3 img {width: 650px;}
-.ap-pstack .ap-card-pink:hover .ap-hover-card-3, .ap-pstack #ap-card-mobile:hover .ap-hover-card-3, .ap-pstack #ap-card-lifecycle:hover .ap-hover-card-3 {transform: translateY(0) scale(1.05);}
-.ap-pstack .ap-hover-card-4 {left: 154px; top: 128px; width: 408px;}
-.ap-pstack .ap-hover-card-4 img {width: 408px;}
-.ap-pstack #ap-card-inspection:hover .ap-hover-card-4 {transform: translateY(0) scale(1.06);}
+.ap-pstack .ap-card-pink:hover .ap-hover-card-3, .ap-pstack #ap-card-mobile:hover .ap-hover-card-3, .ap-pstack #ap-card-lifecycle:hover .ap-hover-card-3 {transform: scale(1.05);}
+.ap-pstack .ap-hover-card-4 {left: 0; top: 0; width: 716px;}
+.ap-pstack .ap-hover-card-4 img {width: 716px;}
+.ap-pstack #ap-card-inspection:hover .ap-hover-card-4 {transform: scale(1.02);}
 .ap-pstack .ap-hover-card-5 {left: -23px; top: 146px; width: 832px;}
 .ap-pstack .ap-hover-card-5 img {width: 832px;}
-.ap-pstack .ap-card-plum:hover .ap-hover-card-5 {transform: translateY(0) scale(1.04);}
-.ap-pstack .ap-hover-card-6 {left: -23px; top: 146px; width: 832px;}
-.ap-pstack .ap-hover-card-6 img {width: 832px;}
-.ap-pstack #ap-card-reporting:hover .ap-hover-card-6, .ap-pstack #ap-card-reporting.is-mobile-scroll-active .ap-hover-card-6 {transform: translateY(0) scale(1.04) !important;}
+.ap-pstack .ap-card-plum:hover .ap-hover-card-5 {transform: scale(1.04);}
+.ap-pstack .ap-hover-card-6 {left: 0; right: 0; top: 0; bottom: 0; width: 100%; display: flex; align-items: center;}
+.ap-pstack .ap-hover-card-6 img {width: 100%;}
+.ap-pstack #ap-card-reporting:hover .ap-hover-card-6, .ap-pstack #ap-card-reporting.is-mobile-scroll-active .ap-hover-card-6 {transform: scale(1) !important;}
 .ap-pstack .ap-hover-card-7 {left: 0; top: 0; width: 716px;}
 .ap-pstack .ap-hover-card-7 img {width: 716px;}
-.ap-pstack #ap-card-ursa:hover .ap-hover-card-7, .ap-pstack #ap-card-ursa.is-mobile-scroll-active .ap-hover-card-7 {transform: translateY(0) scale(1.035) !important;}
+.ap-pstack #ap-card-ursa:hover .ap-hover-card-7, .ap-pstack #ap-card-ursa.is-mobile-scroll-active .ap-hover-card-7 {transform: scale(1.035) !important;}
 @media (min-width: 1280px) {
 	.ap-pstack .ap-card.is-scroll-active:not(:hover), .ap-pstack .ap-card.is-scroll-reveal:not(:hover), .ap-pstack .ap-card.is-mobile-scroll-active:not(:hover) {transform: none !important; box-shadow: none !important;}
 	.ap-pstack .ap-card-custom.is-scroll-active:not(:hover), .ap-pstack .ap-card-custom.is-scroll-reveal:not(:hover), .ap-pstack .ap-card-custom.is-mobile-scroll-active:not(:hover) {background: linear-gradient(79.73deg, #EEF2FF 0%, #FFFFFF 100.03%) !important; border-color: #5044E1 !important;}
@@ -207,6 +209,8 @@ body.home .wp-block-html:has(.ap-pstack), body.home .entry-content > .wp-block-h
 	.ap-pstack .is-mobile-scroll-active .ap-link-plum .ap-arrow, .ap-pstack .is-scroll-active .ap-link-plum .ap-arrow {color:#55376D !important;}
 	.ap-pstack .ap-card .ap-screen-base {opacity:1 !important; transform:none !important; filter:none !important;}
 	.ap-pstack .ap-hover-art {display:none !important;}
+	/* QA 2026-10-29 (Joseph): tablets highlight per scroll like phones — the scrolled-to card shows its preview too. */
+	.ap-pstack .ap-card.is-mobile-scroll-active .ap-hover-art {display:block !important; opacity:1 !important; transform:scale(1) !important;}
 }
 .ap-pstack sup {font-size: 0.55em; line-height: 1; vertical-align: super; font-weight: 800;}
 .ap-pstack .ap-nav-item .ap-dot {opacity:1 !important;transform:none !important}
@@ -235,9 +239,10 @@ body.home .wp-block-html:has(.ap-pstack), body.home .entry-content > .wp-block-h
 .ap-pstack .ap-hover-art {z-index:4!important}
 .ap-pstack #ap-card-lifecycle:hover .ap-card-visual::after, .ap-pstack #ap-card-lifecycle.is-mobile-scroll-active .ap-card-visual::after {opacity:0!important}
 .ap-pstack #ap-card-lifecycle:hover .ap-screen-base, .ap-pstack #ap-card-lifecycle.is-mobile-scroll-active .ap-screen-base {opacity:0!important}
-.ap-pstack #ap-card-reporting .ap-hover-art {top:auto!important;bottom:0!important;left:0!important;right:0!important;width:100%!important;transform:translateY(40px)!important}
+/* QA 2026-10-29 (Joseph): card 6's preview runs edge to edge, vertically centred, and pops from the centre. */
+.ap-pstack #ap-card-reporting .ap-hover-art {top:0!important;bottom:0!important;left:0!important;right:0!important;width:100%!important;height:auto!important;display:flex;align-items:center;transform:scale(0.84)!important}
 .ap-pstack #ap-card-reporting .ap-hover-art img {width:100%!important;height:auto!important}
-.ap-pstack #ap-card-reporting:hover .ap-hover-art, .ap-pstack #ap-card-reporting.is-mobile-scroll-active .ap-hover-art {transform:translateY(0)!important}
+.ap-pstack #ap-card-reporting:hover .ap-hover-art, .ap-pstack #ap-card-reporting.is-mobile-scroll-active .ap-hover-art {transform:scale(1)!important}
 @media(max-width:767px) {
 	.ap-pstack .ap-card.is-mobile-scroll-active .ap-hover-art {display:block!important;opacity:1!important;left:50%!important;right:auto!important;top:auto!important;bottom:6%!important;transform:translateX(-50%)!important;width:90%!important;max-width:90%!important}
 	.ap-pstack .ap-card.is-mobile-scroll-active .ap-hover-art img {width:100%!important;max-width:100%!important;height:auto!important}
@@ -264,9 +269,10 @@ html body .ap-pstack #ap-card-reporting {--ap-acc:#00A991;background:linear-grad
 html body .ap-pstack #ap-card-reporting:hover {background:#00A991!important;border-color:#00A991!important}
 html body .ap-pstack #ap-card-reporting .ap-arrow {color:#00A991!important}
 html body .ap-pstack #ap-card-reporting:hover .ap-arrow {color:#fff!important}
-.ap-pstack #ap-card-reporting .ap-hover-art {top:auto!important;bottom:0!important;left:0!important;right:0!important;width:100%!important;transform:translateY(40px)!important}
+.ap-pstack #ap-card-reporting .ap-hover-art {top:0!important;bottom:0!important;left:0!important;right:0!important;width:100%!important;height:auto!important;display:flex;align-items:center;transform:scale(0.84)!important}
 .ap-pstack #ap-card-reporting .ap-hover-art img {width:100%!important;height:auto!important}
-html body .ap-pstack #ap-card-reporting:hover .ap-hover-card-6, html body .ap-pstack #ap-card-ursa:hover .ap-hover-card-7 {transform:translateY(0)!important;opacity:1!important}
+html body .ap-pstack #ap-card-reporting:hover .ap-hover-card-6 {transform:scale(1)!important;opacity:1!important}
+html body .ap-pstack #ap-card-ursa:hover .ap-hover-card-7 {transform:scale(1.035)!important;opacity:1!important}
 html body .ap-pstack #ap-card-ursa:hover .ap-screen-base {opacity:.35!important}
 @media (max-width:767px) {
 	html body .ap-pstack #ap-card-ursa.is-mobile-scroll-active {background:linear-gradient(76.48deg,#5044E1 -2.52%,#00A991 86%)!important;border-color:#5044E1!important}
@@ -304,8 +310,8 @@ html body .ap-pstack #ap-card-ursa:hover .ap-screen-base {opacity:.35!important}
 @media (min-width:1280px) {
 	html body .ap-pstack #ap-card-custom:hover .ap-screen-base, html body .ap-pstack #ap-card-ownership:hover .ap-screen-base, html body .ap-pstack #ap-card-mobile:hover .ap-screen-base, html body .ap-pstack #ap-card-inspection:hover .ap-screen-base, html body .ap-pstack #ap-card-reporting:hover .ap-screen-base {opacity:1!important;transform:none!important;filter:none!important}
 	html body .ap-pstack #ap-card-custom:hover .ap-card-visual::after, html body .ap-pstack #ap-card-ownership:hover .ap-card-visual::after, html body .ap-pstack #ap-card-mobile:hover .ap-card-visual::after, html body .ap-pstack #ap-card-inspection:hover .ap-card-visual::after, html body .ap-pstack #ap-card-reporting:hover .ap-card-visual::after {opacity:.72!important}
-	html body .ap-pstack #ap-card-reporting .ap-hover-art {top:auto!important;bottom:150px!important;left:0!important;right:0!important;width:100%!important}
-	html body .ap-pstack #ap-card-reporting:hover .ap-hover-art {transform:translateY(0)!important;opacity:1!important}
+	html body .ap-pstack #ap-card-reporting .ap-hover-art {top:0!important;bottom:0!important;left:0!important;right:0!important;width:100%!important}
+	html body .ap-pstack #ap-card-reporting:hover .ap-hover-art {transform:scale(1)!important;opacity:1!important}
 	html body .ap-pstack #ap-card-lifecycle .ap-hover-art {left:0!important;top:0!important;right:auto!important;bottom:auto!important;width:100%!important;height:373px!important;background-size:cover!important;background-position:center top!important}
 	html body .ap-pstack #ap-card-lifecycle:hover .ap-hover-art {transform:none!important;opacity:1!important}
 }
@@ -314,3 +320,73 @@ html body .ap-pstack #ap-card-ursa:hover .ap-screen-base {opacity:.35!important}
 /* Kit addition: behaviour.js sentinels — rail top, and rail bottom less the index height. */
 .ap-pstack .ap-pstack-sentinel { position: absolute; left: 0; top: 0; width: 1px; height: 1px; pointer-events: none; visibility: hidden; }
 .ap-pstack .ap-pstack-sentinel--end { top: calc(100% - var(--ap-pstack-nav-h, 0px)); }
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: one token on top at every width (was 104 desktop, 96 tablet,
+ * 64 phone) and below the cards under 1280px (was 180 / 120); desktop keeps
+ * its sticky-stack run-out below the last card.
+ *
+ * Phone cards (QA: "mobile responsive on containers looks ass" — the pink
+ * lifecycle card's screenshot was shifted half its width out of the card,
+ * cropped, with ~200px of empty fill under it). Below 768px every card is
+ * copy, then the product screenshot framed flush to the card's bottom edge
+ * at one fixed ratio: no 560px minimum height, no tint wash over the
+ * screenshot, no hover art (it was positioned for the 780px desktop card).
+ * The scroll-active colour fill stays. The :is(#_, …) argument lifts these
+ * to id weight so they outrank the ported per-card (#ap-card-*) rules. */
+html body .ap-pstack { padding-top: var(--ap-section-y, 64px) !important; }
+@media (max-width: 1279px) {
+	html body .ap-pstack { padding-bottom: var(--ap-section-y, 56px) !important; }
+}
+@media (max-width: 767px) {
+	html body .ap-pstack .ap-platform-head { margin-bottom: 20px !important; }
+	html body .ap-pstack .ap-platform-body { gap: 16px !important; }
+	html body .ap-pstack .ap-platform-cards .ap-stack-card:is(#_, .ap-card) { min-height: 0 !important; height: auto !important; padding: 24px 20px 0 !important; }
+	html body .ap-pstack .ap-platform-cards .ap-stack-card + .ap-stack-card { margin-top: 16px !important; }
+	html body .ap-pstack .ap-platform-cards .ap-stack-card:is(#_, .ap-card) .ap-card-copy { gap: 12px; }
+	html body .ap-pstack .ap-platform-cards .ap-stack-card:is(#_, .ap-card) .ap-card-visual { position: relative !important; inset: auto !important; width: 100% !important; height: auto !important; aspect-ratio: 16 / 10; margin-top: 24px !important; border-radius: 10px 10px 0 0 !important; overflow: hidden; }
+	html body .ap-pstack .ap-platform-cards .ap-stack-card:is(#_, .ap-card) .ap-screen-base { inset: 0 !important; padding: 4px 4px 0 !important; border-radius: 10px 10px 0 0 !important; background: rgba(255, 255, 255, .55) !important; opacity: 1 !important; transform: none !important; filter: none !important; }
+	html body .ap-pstack .ap-platform-cards .ap-stack-card:is(#_, .ap-card) .ap-screen-base img { width: 100% !important; height: 100% !important; object-fit: cover !important; object-position: left top !important; border-radius: 7px 7px 0 0 !important; background: #fff !important; }
+	html body .ap-pstack .ap-platform-cards .ap-stack-card:is(#_, .ap-card) .ap-hover-art { display: none !important; }
+	html body .ap-pstack .ap-platform-cards .ap-stack-card:is(#_, .ap-card) .ap-card-visual::after { opacity: 0 !important; }
+	/* Lifecycle and reporting keep a pink / teal arrow; on their own pink / teal fill it vanished. */
+	html body .ap-pstack .ap-platform-cards .ap-stack-card.is-mobile-scroll-active:is(#_, .ap-card) .ap-arrow { color: #fff !important; }
+}
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-pstack.ap-pstack.ap-pstack .ap-platform-head h2 { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+/* Section eyebrow on the type scale too: 12px at 390 to 14px at 1440, 800, 4% tracking, upper case. */
+html body .ap-pstack.ap-pstack.ap-pstack .ap-platform-head .ap-eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }
+
+/* ------------------------------------------------------------ Motion (QA 2026-10-28, motion agent's R2)
+ * Hover channels ran on 0.2 / 0.25 / 0.28 / 0.32 / 0.35 / 0.55s with mixed
+ * curves, and the card lift and link nudge animated transform. Every hover
+ * channel is now on the house timing (--ap-dur-base / --ap-ease-standard), and
+ * the card lift and link nudge use translate. The screenshot / hover-art swap
+ * inside a card keeps its transform positioning (it is placement per card and
+ * breakpoint, not an entrance), only its timing changes. */
+html body .ap-pstack .ap-card { transition: translate var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), box-shadow var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), border-color var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), background-color var(--ap-dur-base, .3s) var(--ap-ease-standard, ease) !important; }
+html body .ap-pstack .ap-card:hover { transform: none; translate: 0 -3px; }
+html body .ap-pstack :is(.ap-platform-link, .ap-card-link) { transition: translate var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), opacity var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), color var(--ap-dur-base, .3s) var(--ap-ease-standard, ease); }
+html body .ap-pstack :is(.ap-platform-link, .ap-card-link):hover { transform: none; translate: 2px 0; }
+html body .ap-pstack .ap-card-copy :is(h3, p) { transition: color var(--ap-dur-base, .3s) var(--ap-ease-standard, ease); }
+html body .ap-pstack .ap-dot { transition: background-color var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), opacity var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), transform var(--ap-dur-base, .3s) var(--ap-ease-standard, ease); }
+html body .ap-pstack .ap-label { transition: color var(--ap-dur-base, .3s) var(--ap-ease-standard, ease); }
+html body .ap-pstack .ap-screen-base { transition: opacity var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), transform var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), filter var(--ap-dur-base, .3s) var(--ap-ease-standard, ease) !important; }
+html body .ap-pstack .ap-hover-art { transition: opacity var(--ap-dur-base, .3s) var(--ap-ease-standard, ease), transform var(--ap-dur-base, .3s) var(--ap-ease-standard, ease) !important; }
+html body .ap-pstack .ap-card-visual::after { transition: opacity var(--ap-dur-base, .3s) var(--ap-ease-standard, ease); }
+@media (prefers-reduced-motion: reduce) {
+	html body .ap-pstack :is(.ap-card, .ap-card-link, .ap-platform-link, .ap-screen-base, .ap-hover-art, .ap-dot, .ap-label) { transition: none !important; }
+	html body .ap-pstack .ap-card:hover { translate: none; }
+}
+/* QA 2026-10-29 (Joseph, second pass) at full desktop: card 4's preview sits on the card's bottom edge and grows out
+ * from there (the old slide-up offset of 20px is gone); card 6's strip runs to the card's left and right edges, past
+ * the screenshot frame (the frame sits 33px / 31px inside the card). */
+@media (min-width: 1280px) {
+	.ap-pstack #ap-card-inspection .ap-hover-art {top: auto !important; bottom: 140px !important; transform: scale(0.9) !important; transform-origin: 50% 100% !important; transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) !important;}
+	.ap-pstack #ap-card-inspection:hover .ap-hover-art, .ap-pstack #ap-card-inspection.is-mobile-scroll-active .ap-hover-art {transform: scale(1) !important;}
+	html body .ap-pstack #ap-card-reporting.ap-card .ap-hover-art {left: -33px !important; right: -31px !important; width: auto !important;}
+}

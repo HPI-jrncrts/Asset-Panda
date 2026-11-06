@@ -52,8 +52,13 @@ if ( '' !== $accent && false !== strpos( $label, $accent ) ) {
 				<?php foreach ( $items as $i => $item ) : ?>
 					<img class="ap-solution-trust__rev ap-solution-trust__rev--d<?php echo esc_attr( (string) min( $i + 1, 5 ) ); ?><?php echo $item['cover'] ? ' ap-solution-trust__cover' : ''; ?>" src="<?php echo esc_url( $item['image'] ); ?>" alt="<?php echo esc_attr( $item['alt'] ); ?>"<?php echo $dims; // phpcs:ignore WordPress.Security.EscapeOutput -- fixed integers. ?> loading="lazy" decoding="async" />
 				<?php endforeach; ?>
-				<?php foreach ( $items as $item ) : ?>
-					<img class="ap-solution-trust__dup<?php echo $item['cover'] ? ' ap-solution-trust__cover' : ''; ?>" src="<?php echo esc_url( $item['image'] ); ?>" alt="" aria-hidden="true"<?php echo $dims; // phpcs:ignore WordPress.Security.EscapeOutput -- fixed integers. ?> loading="lazy" decoding="async" />
+				<?php
+				// The copies ride the phone marquee, which carries them in from off screen; lazy-loading them left the
+				// later logos blank until they had scrolled into view (QA 2026-10-28, screenshot item 4). They share
+				// the first row's URLs, so loading them eagerly costs no extra request.
+				foreach ( $items as $item ) :
+					?>
+					<img class="ap-solution-trust__dup<?php echo $item['cover'] ? ' ap-solution-trust__cover' : ''; ?>" src="<?php echo esc_url( $item['image'] ); ?>" alt="" aria-hidden="true"<?php echo $dims; // phpcs:ignore WordPress.Security.EscapeOutput -- fixed integers. ?> loading="eager" decoding="async" />
 				<?php endforeach; ?>
 			</div>
 		</div>

@@ -26,7 +26,9 @@ const done = async (p) => { await p.close(); await sleep(3300); };
 {
   const p = await open('/ursa-ai/');
   const offs = await p.evaluate(async () => { const c = document.querySelector('.ap-ursa-steps'); c.scrollIntoView(); await new Promise((r) => setTimeout(r, 800)); return [...document.querySelectorAll('.ap-ursa-steps__card')].map((card) => { const l = card.querySelector('.ap-ursa-steps__lead'), b = card.querySelector('.ap-ursa-steps__top > .ap-ursa-steps__body'); if (!l || !b) return null; const lr = l.getBoundingClientRect(), br = b.getBoundingClientRect(); return Math.round((br.top + br.height / 2) - (lr.top + lr.height / 2)); }); });
-  ok(offs.filter((o) => o !== null).length >= 3 && offs.every((o) => o === null || Math.abs(o) <= 4), 'Ursa: each card\'s right-hand copy centred on its heading block', JSON.stringify(offs));
+  // Amended 2026-10-30 (Joseph: the copy beside each card's title is removed and the cards sit in a 2x2 grid; the
+  // grid itself is checked in round-1029b). Here: no light card carries side copy any more.
+  ok(offs.length === 4 && offs.slice(0, 3).every((o) => o === null), 'Ursa: no copy beside the light cards\' titles', JSON.stringify(offs));
   await done(p);
 }
 // hub puddles

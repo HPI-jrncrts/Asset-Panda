@@ -5,7 +5,7 @@
 	"title": "AP Demo Footer",
 	"category": "design",
 	"icon": "table-row-after",
-	"description": "Compact footer of the 2026 Get a Demo pages (live #ap-demo-footer): logo and copyright left; app-store badges, address, legal links and social icons right. behaviour.js moves it into the global footer, whose CTA band and link columns this page hides. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"description": "Compact footer of the 2026 Get a Demo pages (live #ap-demo-footer): logo (optional) and copyright left; app-store badges, address, legal links and social icons right. behaviour.js moves it into the global footer, whose CTA band and link columns this page hides. This block is an adapter — it holds no markup; it maps attributes to kit props.",
 	"textdomain": "assetpanda",
 	"attributes": {
 		"logo": {
@@ -39,6 +39,10 @@
 		"social": {
 			"type": "array",
 			"default": []
+		},
+		"slim": {
+			"type": "boolean",
+			"default": false
 		},
 		"align": {
 			"type": "string",

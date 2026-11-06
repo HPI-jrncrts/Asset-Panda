@@ -1,0 +1,177 @@
+/*
+ * container — a styled box that holds other blocks (builder library, 2026-11).
+ * Box styles, width, inside space, corners, a background image with an
+ * optional wash, and background decorations. Inner blocks keep their own
+ * styles; on the dark styles (gradient, navy) their text turns white.
+ */
+
+.ap-container {
+	--ap-container-pad: 64px;
+	--ap-container-max: 1120px;
+	--ap-container-radius: var(--ap-radius-xl);
+	position: relative;
+	isolation: isolate;
+	box-sizing: border-box;
+	width: calc(100% - 32px);
+	max-width: var(--ap-container-max);
+	margin: 48px auto;
+	padding: var(--ap-container-pad);
+	overflow: hidden;
+	border-radius: var(--ap-container-radius);
+	color: var(--ap-slate-700);
+	font-family: var(--ap-font-body);
+}
+
+.ap-container *,
+.ap-container *::before,
+.ap-container *::after { box-sizing: border-box; }
+
+/* Width */
+.ap-container--w-narrow { --ap-container-max: 800px; }
+.ap-container--w-content { --ap-container-max: 1120px; }
+.ap-container--w-wide { --ap-container-max: 1280px; }
+.ap-container--w-full {
+	--ap-container-max: none;
+	--ap-container-radius: 0;
+	width: 100%;
+	margin: 0;
+}
+
+/* Inside space */
+.ap-container--pad-none { --ap-container-pad: 0; }
+.ap-container--pad-s { --ap-container-pad: 24px; }
+.ap-container--pad-m { --ap-container-pad: 40px; }
+.ap-container--pad-l { --ap-container-pad: 64px; }
+.ap-container--pad-xl { --ap-container-pad: 96px; }
+
+/* Corners (full width stays square unless set) */
+.ap-container--radius-none { --ap-container-radius: 0; }
+.ap-container--radius-m:not(.ap-container--w-full) { --ap-container-radius: var(--ap-radius-md); }
+.ap-container--radius-l:not(.ap-container--w-full) { --ap-container-radius: var(--ap-radius-xl); }
+.ap-container--radius-xl:not(.ap-container--w-full) { --ap-container-radius: var(--ap-radius-2xl); }
+
+.ap-container--align-center { text-align: center; }
+.ap-container--align-center .wp-block-buttons { justify-content: center; }
+.ap-container--align-center .ap-container__inner > * { margin-left: auto; margin-right: auto; }
+
+/* Styles */
+.ap-container--card {
+	border: 1px solid var(--ap-slate-200);
+	background: var(--ap-white);
+	box-shadow: var(--ap-shadow-md);
+}
+
+.ap-container--lavender {
+	border: 1px solid var(--ap-indigo-100);
+	background: var(--ap-indigo-50);
+}
+
+.ap-container--gradient {
+	background: var(--ap-gradient-action);
+	color: var(--ap-white);
+}
+
+.ap-container--navy {
+	background: var(--ap-indigo-950);
+	color: var(--ap-white-80);
+}
+
+.ap-container--glass {
+	border: 1px solid var(--ap-white-70);
+	background: var(--ap-white-60);
+	box-shadow: var(--ap-shadow-md);
+	-webkit-backdrop-filter: blur(16px);
+	backdrop-filter: blur(16px);
+}
+
+.ap-container--outline {
+	border: 2px solid var(--ap-indigo-200);
+	background: transparent;
+}
+
+.ap-container--wash {
+	background:
+		radial-gradient(30% 45% at 8% 30%, color-mix(in srgb, var(--ap-brand-red) 22%, transparent), transparent 72%),
+		radial-gradient(36% 50% at 22% 80%, color-mix(in srgb, var(--ap-brand-indigo) 26%, transparent), transparent 72%),
+		radial-gradient(34% 50% at 88% 40%, color-mix(in srgb, var(--ap-brand-indigo) 24%, transparent), transparent 72%),
+		radial-gradient(40% 50% at 55% 90%, color-mix(in srgb, var(--ap-brand-green) 24%, transparent), transparent 72%),
+		var(--ap-white);
+}
+
+.ap-container--plain { background: transparent; }
+
+/* Text on the dark styles */
+.ap-container--gradient :is(h1, h2, h3, h4, h5, h6, p, li, figcaption, blockquote, cite),
+.ap-container--navy :is(h1, h2, h3, h4, h5, h6) { color: var(--ap-white); }
+.ap-container--navy :is(p, li, figcaption, blockquote, cite) { color: var(--ap-white-80); }
+.ap-container--gradient a:not(.wp-block-button__link),
+.ap-container--navy a:not(.wp-block-button__link) { color: var(--ap-white); }
+
+/* Background image and its wash */
+.ap-container--has-bg {
+	background-image: var(--ap-container-bg);
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+.ap-container--overlay-light::before,
+.ap-container--overlay-dark::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+}
+
+.ap-container--overlay-light::before { background: var(--ap-white-70); }
+.ap-container--overlay-dark::before { background: color-mix(in srgb, var(--ap-indigo-950) 72%, transparent); }
+.ap-container--overlay-dark :is(h1, h2, h3, h4, h5, h6, p, li) { color: var(--ap-white); }
+
+/* Decorations */
+.ap-container .ap-container__deco {
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+}
+
+.ap-container--deco-orbs .ap-container__deco {
+	background:
+		radial-gradient(circle at 12% 18%, color-mix(in srgb, var(--ap-brand-indigo) 30%, transparent) 0, transparent 26%),
+		radial-gradient(circle at 90% 82%, color-mix(in srgb, var(--ap-brand-green) 28%, transparent) 0, transparent 24%);
+	filter: blur(18px);
+}
+
+.ap-container--deco-glow .ap-container__deco {
+	background: radial-gradient(60% 70% at 50% 110%, color-mix(in srgb, var(--ap-brand-indigo) 34%, transparent), transparent 70%);
+}
+
+.ap-container--deco-grid .ap-container__deco {
+	background-image: radial-gradient(color-mix(in srgb, var(--ap-indigo-300) 55%, transparent) 1px, transparent 1.5px);
+	background-size: 22px 22px;
+	-webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 85%);
+	mask-image: linear-gradient(180deg, #000 0%, transparent 85%);
+}
+
+.ap-container--deco-panda .ap-container__deco {
+	inset: auto 20px -12px auto;
+	width: 120px;
+	height: 132px;
+	background: var(--ap-container-panda) right bottom / contain no-repeat;
+	opacity: 0.9;
+}
+
+/* Inner blocks: no stray space at the box edges */
+.ap-container .ap-container__inner { position: relative; }
+.ap-container .ap-container__inner > :first-child { margin-top: 0; }
+.ap-container .ap-container__inner > :last-child { margin-bottom: 0; }
+
+@media (max-width: 767px) {
+	.ap-container { margin: 32px auto; }
+	.ap-container--pad-s { --ap-container-pad: 16px; }
+	.ap-container--pad-m { --ap-container-pad: 24px; }
+	.ap-container--pad-l { --ap-container-pad: 32px 20px; }
+	.ap-container--pad-xl { --ap-container-pad: 48px 20px; }
+	.ap-container--deco-panda .ap-container__deco { width: 80px; height: 88px; }
+}

@@ -109,13 +109,13 @@
 	visibility: hidden;
 	opacity: 0;
 	translate: 18px 0;
-	transition: opacity .42s cubic-bezier(.25,.45,.45,.95),translate .52s cubic-bezier(.25,.45,.45,.95),visibility 0s linear .52s;
+	transition: opacity .26s cubic-bezier(.25,.45,.45,.95),translate .52s cubic-bezier(.25,.45,.45,.95),visibility 0s linear .52s;
 }
 .ap-demo-stories .ap-d26-case.is-active {
 	visibility: visible;
 	opacity: 1;
 	translate: 0 0;
-	transition: opacity .48s cubic-bezier(.25,.45,.45,.95) .05s,translate .55s cubic-bezier(.25,.45,.45,.95) .05s,visibility 0s;
+	transition: opacity .48s cubic-bezier(.25,.45,.45,.95) .12s,translate .55s cubic-bezier(.25,.45,.45,.95) .05s,visibility 0s;
 }
 .ap-demo-stories .ap-d26-case-copy {
 	display: flex;
@@ -261,7 +261,8 @@
 	line-height: 1;
 	color: #25272c;
 	cursor: pointer;
-	transition: border-color .25s ease,box-shadow .25s ease,translate .25s ease;
+	-webkit-tap-highlight-color: transparent;
+	transition: border-color var(--ap-dur-base) var(--ap-ease-standard),box-shadow var(--ap-dur-base) var(--ap-ease-standard),translate var(--ap-dur-base) var(--ap-ease-standard);
 }
 .ap-demo-stories.ap-d26-sec .ap-d26-case-arrow:hover {
 	translate: 0 -2px;
@@ -418,3 +419,8 @@
 		translate: none!important;
 	}
 }
+
+/* Autoplay swipe (behaviour.js): how far a slide travels as it enters or leaves;
+ * inside the side padding on phones. */
+.ap-demo-stories { --d26-swipe: 40px; }
+@media (max-width: 767px) { .ap-demo-stories { --d26-swipe: 16px; } }

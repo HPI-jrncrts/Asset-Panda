@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       AP Template Library
  * Description:       A template picker for the Asset Panda 2026 site. Every template is a real reference page or resource on this site (solution, product / who we help, industry hub, platform, integration, landing, blog post, case study, compare, utility…). Pick one in Template Library, fill in its sections as boxes with text fields and image pickers, and "Send to Draft" builds a new draft from the reference's blocks. Nothing is ever published by this plugin.
- * Version:           1.0.1
+ * Version:           1.2.1
  * Requires at least: 6.5
  * Requires PHP:      7.4
  * Author:            Asset Panda
@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'AP_TL_VERSION', '1.0.1' );
+define( 'AP_TL_VERSION', '1.2.1' );
 define( 'AP_TL_FILE', __FILE__ );
 define( 'AP_TL_DIR', __DIR__ );
 define( 'AP_TL_OPTION', 'ap_tl_settings' );
@@ -69,7 +69,7 @@ if ( version_compare( PHP_VERSION, '7.4', '<' ) ) {
 	return;
 }
 
-$ap_tl_includes = array( 'registry', 'sanitize', 'blocks', 'drafts', 'rest', 'admin' );
+$ap_tl_includes = array( 'registry', 'sanitize', 'blocks', 'drafts', 'rest', 'admin', 'starter' );
 foreach ( $ap_tl_includes as $ap_tl_include ) {
 	if ( ! is_readable( AP_TL_DIR . '/includes/' . $ap_tl_include . '.php' ) ) {
 		ap_tl_fail( 'file includes/' . $ap_tl_include . '.php is missing; the plugin is idle. Re-upload the zip.' );

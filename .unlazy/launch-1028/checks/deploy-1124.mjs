@@ -31,8 +31,14 @@ const close = async (p) => { await p.close(); await sleep(3200); };
   ok(r.liquidLeft === 0, 'buttons: no liquid markup left', 'count=' + r.liquidLeft);
   ok(r.demoKind === (r.intl ? 'outline' : 'grad'), 'header Free Demo classified by its current look', JSON.stringify({ kind: r.demoKind, intl: r.intl }));
   ok(r.fxFits, 'gradient button: edge-light layer is sized to the button');
-  ok(r.posts.length >= 7 && r.posts.every((n) => n === 4), 'mega menu: every Who We Help cabinet shows 4 posts', JSON.stringify(r.posts));
-  ok(r.dateShown === false, 'mega menu: post dates hidden');
+  // Amended again 2026-10-30 evening (Navigation Implementation Map, Featured tab; Joseph: "Could you check if it's
+  // possible to display two content cards instead of just one?"): every Who We Help cabinet shows the map's two
+  // featured resources (was: its 1 latest post).
+  ok(r.posts.length >= 7 && r.posts.every((n) => n === 2), 'mega menu: every Who We Help cabinet shows its 2 featured resources', JSON.stringify(r.posts));
+  // Each card: the map's type label, title and short description; no author (the excerpt/no-author rule of the
+  // earlier "add an excerpt ... Hide the author" item still holds; featured resources carry no date).
+  const card = await p.evaluate(() => { const c = document.querySelector('.ap-mega-who-we-help .ap-mega-post'); const e = c && c.querySelector('.ap-mega-post__excerpt'); return { type: c ? (c.querySelector('.ap-mega-post__type') || {}).textContent : '', title: c ? c.querySelector('.ap-mega-post__title').textContent.trim() : '', excerpt: e ? e.textContent.trim() : '', excerptShown: !!e && getComputedStyle(e).display !== 'none', img: !!(c && c.querySelector('img')), author: !!document.querySelector('.ap-mega-who-we-help .ap-mega-post__author') }; });
+  ok(card.type === 'Case Study' && card.title === 'Georgia Sheriff’s Office Modernizes Operations' && card.excerptShown && /[.!?…]$/.test(card.excerpt) && card.img && !card.author, 'mega menu: featured card shows the map\'s type, title and description with an image, no author', JSON.stringify(card));
   ok(r.loginGrad, 'login icon: gradient layer present');
   ok(r.aurora && !r.auroraSvg, 'industries: pre-rendered background, no live SVG blur');
   // Outline hover: header demo (if outline) fills green with white text.
@@ -104,8 +110,16 @@ const close = async (p) => { await p.close(); await sleep(3200); };
   const p = await open('/asset-intelligence-platform/', 390, 844);
   await p.locator('.ap-asset-scene__stage').first().scrollIntoViewIfNeeded(); await p.waitForTimeout(1500);
   const w = await p.evaluate(() => { const s = document.querySelector('.ap-asset-scene__stage'); return { drawn: s.getAttribute('data-ap-wires'), paths: s.querySelectorAll('.ap-asset-scene__wires path').length, discs: s.querySelectorAll('.ap-asset-scene__disc').length }; });
-  ok(w.drawn === 'drawn' && w.paths === 3 && w.discs === 3, 'AIP phone: three lines from the orb to discs on the cards', JSON.stringify(w));
+  // Amended 2026-10-30 (Joseph, mobiles only: "Let's remove the lines we put in mobiles" + orb ~15px under the last card).
+  const w2 = await p.evaluate(() => { const s = document.querySelector('.ap-asset-scene__stage'); const wires = s.querySelector('.ap-asset-scene__wires'); const cards = [...s.querySelectorAll('.ap-asset-scene__card')]; const art = s.querySelector('.ap-asset-scene__art'); return { wires: wires ? getComputedStyle(wires).display : 'missing', lastCard: Math.round(cards[cards.length - 1].getBoundingClientRect().bottom), artTop: Math.round(art.getBoundingClientRect().top) }; });
+  ok(w.discs === 3 && w2.wires === 'none', 'AIP phone: discs on the cards, no connector lines', JSON.stringify({ ...w, ...w2 }));
+  ok(w2.artTop < w2.lastCard, 'AIP phone: orb and panda pulled up under the last card', JSON.stringify(w2));
   await close(p);
+  const t = await open('/asset-intelligence-platform/', 820, 1100);
+  await t.locator('.ap-asset-scene__stage').first().scrollIntoViewIfNeeded(); await t.waitForTimeout(1500);
+  const tw = await t.evaluate(() => { const s = document.querySelector('.ap-asset-scene__stage'); const wr = s.querySelector('.ap-asset-scene__wires'); return { drawn: s.getAttribute('data-ap-wires'), paths: s.querySelectorAll('.ap-asset-scene__wires path').length, shown: !!wr && getComputedStyle(wr).display !== 'none' }; });
+  ok(tw.drawn === 'drawn' && tw.paths === 3 && tw.shown, 'AIP tablet: the three lines stay', JSON.stringify(tw));
+  await close(t);
   const e = await open('/solutions/education/');
   // Amended 2026-10-29 late (Joseph: "move the gradient … between the 2 sections"): the puddle is drawn under the first row.
   ok(await e.evaluate(() => { const row = document.querySelector('.ap-hub-intel--gov > .apg-int-row:first-child, .ap-hub-intel--eduhub .apu-container > .apu-block:first-child'); return !!row && /radial-gradient/.test(getComputedStyle(row, '::after').backgroundImage); }), 'hub intelligence section: gradient puddle between the rows');

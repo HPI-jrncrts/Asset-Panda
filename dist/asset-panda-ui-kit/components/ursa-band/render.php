@@ -26,9 +26,16 @@ $cta_url   = trim( (string) $props['cta_url'] );
 	<div class="ap-ursa-band__wrap">
 		<div class="ap-ursa-band__card">
 			<img class="ap-ursa-band__glow" src="<?php echo esc_url( ap_ui_asset_url( 'ursa-band', 'glow-green.svg' ) ); ?>" alt="" width="729" height="639" loading="lazy" decoding="async" />
+			<?php if ( 'panda' === $props['mark'] ) : ?>
+				<span class="ap-ursa-band__orb ap-ursa-band__orb--panda" aria-hidden="true"><img src="<?php echo esc_url( ap_ui_asset_url( 'ursa-band', 'panda-mark.svg' ) ); ?>" alt="" width="42" height="48" loading="lazy" decoding="async" /></span>
+			<?php else : ?>
 			<span class="ap-ursa-band__orb" aria-hidden="true"><img src="<?php echo esc_url( ap_ui_asset_url( 'ursa-band', 'orb.svg' ) ); ?>" alt="" width="191" height="199" loading="lazy" decoding="async" /></span>
+			<?php endif; ?>
 			<div class="ap-ursa-band__content">
 				<div class="ap-ursa-band__copy">
+					<?php if ( '' !== trim( (string) $props['eyebrow'] ) ) : ?>
+						<p class="ap-ursa-band__eyebrow"><?php echo esc_html( $props['eyebrow'] ); ?></p>
+					<?php endif; ?>
 					<h2 class="ap-ursa-band__title"><?php echo ap_ui_brandmarks( esc_html( $title ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; brandmarks adds a fixed span. ?></h2>
 					<?php if ( '' !== $body ) : ?>
 						<p class="ap-ursa-band__body"><?php echo ap_ui_brandmarks( ap_ui_lines( $body ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; only <br> and a fixed span are added. ?></p>

@@ -173,7 +173,7 @@
  * row becomes the marquee. Every rule is one class deeper than the default
  * strip's, so it wins at any width without touching the inline layout.
  */
-.ap-trust-strip--stacked { background: linear-gradient(180deg, #fff 0%, #f9fafb 100%); }
+.ap-trust-strip--stacked { background: #fff; }
 .ap-trust-strip--stacked .ap-trust-strip__inner { width: 100%; max-width: 1200px; flex-direction: column; align-items: center; gap: 24px; padding: 20px 40px; border-top: 0; overflow: hidden; }
 .ap-trust-strip--stacked .ap-trust-strip__label { flex: none; width: auto; max-width: 779px; text-align: center; color: #25272c; }
 .ap-trust-strip--stacked .ap-trust-strip__accent { background: none; -webkit-text-fill-color: currentColor; color: #5044e1; }
@@ -228,7 +228,7 @@
  * as live); below 768px the label sits centred above a marquee of 90x64 logos.
  */
 .ap-trust-strip.ap-trust-strip--hub{position:relative;background:#fff;font-family:Manrope,sans-serif;padding:0 24px}
-.ap-trust-strip.ap-trust-strip--hub .apg-trust-in{max-width:1120px;margin:0 auto;display:flex;align-items:center;gap:40px;padding:40px 0;border-top:1px solid #edeef1}
+.ap-trust-strip.ap-trust-strip--hub .apg-trust-in{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:40px;padding:40px;border-top:1px solid #edeef1}
 .ap-trust-strip.ap-trust-strip--hub .apg-trust-label{width:172px;flex:0 0 172px;font-size:14px;font-weight:700;line-height:1.2;color:#25272c;margin:0}
 .ap-trust-strip.ap-trust-strip--hub .apg-trust-grad{background:linear-gradient(34deg,#5044e1 0%,#00a991 70.44%);-webkit-background-clip:text;background-clip:text;color:transparent}
 .ap-trust-strip.ap-trust-strip--hub .apg-trust-logos{flex:1;overflow:hidden;padding:0 40px}
@@ -296,3 +296,56 @@
 
 /* The staging theme sets text-wrap:pretty on paragraphs; live wraps plainly. */
 .ap-trust-strip--hub p, .ap-trust-strip--eduhub p {text-wrap:wrap}
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: every layout is a compact band, --ap-section-y-sm top and
+ * bottom at every width (was 40 / 32 / 28 / 24 / 20 by layout and width). */
+html body .ap-trust-strip .ap-trust-strip__inner,
+html body .ap-trust-strip.ap-trust-strip--hub .apg-trust-in,
+html body .ap-trust-strip.ap-trust-strip--eduhub .apt-inner { padding-top: var(--ap-section-y-sm, 40px); padding-bottom: var(--ap-section-y-sm, 40px); }
+
+/* Tablets (QA 2026-10-27): between 768 and 1100px the hub strip kept its
+ * desktop row, so six 110px logos were squeezed into ~430px and overlapped.
+ * There the label sits centred above the logos, which wrap into centred rows
+ * at their phone size. */
+@media (min-width: 768px) and (max-width: 1100px) {
+	html body .ap-trust-strip.ap-trust-strip--hub .apg-trust-in { flex-direction: column; gap: 20px; text-align: center; }
+	html body .ap-trust-strip.ap-trust-strip--hub .apg-trust-label { width: auto; flex: none; }
+	html body .ap-trust-strip.ap-trust-strip--hub .apg-trust-logos { width: 100%; padding: 0; }
+	html body .ap-trust-strip.ap-trust-strip--hub .apg-trust-track { flex-wrap: wrap; justify-content: center; gap: 12px 36px; }
+	html body .ap-trust-strip.ap-trust-strip--hub .apg-trust-track img { width: 96px; height: 64px; }
+}
+
+/* Tablets and phones (QA 2026-10-28): from 900px down the Education strip's
+ * label sat flush against the left screen edge (its "margin: 0 auto" had no
+ * room beside the logo row). The label now has its own centred line above the
+ * logos. */
+@media (max-width: 900px) {
+	html body .ap-trust-strip.ap-trust-strip--eduhub .apt-inner { flex-direction: column; align-items: center; gap: 20px; }
+	html body .ap-trust-strip.ap-trust-strip--eduhub .apt-label { max-width: none; width: 100%; padding: 0 24px; }
+	html body .ap-trust-strip.ap-trust-strip--eduhub .apt-badges { align-self: flex-start; }
+	html body .ap-trust-strip.ap-trust-strip--eduhub .apt-badges--still { align-self: stretch; }
+}
+
+/* Stacked layout: optional label width cap and logo gap (props label_width / gap; Ursa AI frame 7261:107243). */
+.ap-trust-strip--stacked[style*="--ts-label-w"] .ap-trust-strip__label { max-width: min(var(--ts-label-w), 100%); }
+@media (min-width: 1141px) {
+	.ap-trust-strip--stacked[style*="--ts-gap"] .ap-trust-strip__badges { gap: var(--ts-gap); }
+}
+
+/* QA 2026-10-29 (Joseph, sitewide): sections without a colour gradient are pure white — the white-to-#f9fafb fades
+ * showed as a grey band against the next section. */
+
+
+/* QA 2026-10-29: Education hub on phones and tablets. Below 900px the band stacks into a column, but it
+   still wrapped, so its one flex line took the logo ticker's width (~1000px): the caption was centred in
+   that line, off the right edge of the screen, and the logo row's flex-basis (320px) became its height,
+   a ~250px blank band. One line, the row at its own height, the caption centred on screen. */
+@media (max-width: 900px) {
+	html body .ap-trust-strip.ap-trust-strip--eduhub .apt-inner {
+		flex-wrap: nowrap;
+	}
+	html body .ap-trust-strip.ap-trust-strip--eduhub .apt-badges {
+		flex: 0 0 auto;
+	}
+}

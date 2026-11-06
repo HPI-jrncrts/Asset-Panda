@@ -36,6 +36,7 @@ foreach ( is_array( $props['items'] ) ? $props['items'] : array() as $item ) {
 	$items[] = array(
 		'title'      => trim( (string) $item['title'] ),
 		'body'       => trim( (string) ( $item['body'] ?? '' ) ),
+		'subtitle'   => trim( (string) ( $item['subtitle'] ?? '' ) ),
 		'icon_svg'   => ap_ui_svg( $item['icon_svg'] ?? '' ),
 		'badge'      => trim( (string) ( $item['badge'] ?? '' ) ),
 		'link_label' => trim( (string) ( $item['link_label'] ?? '' ) ),
@@ -69,7 +70,7 @@ $arrow = 'solution' === $variant
 	? '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M17.25 15.75L21 12L17.25 8.25M21 12H3" stroke="#5044E1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>'
 	: '<svg viewBox="0 0 19 8.5" width="19" height="9" fill="none" aria-hidden="true"><path d="M14.75 8L18.5 4.25L14.75 0.5M18.5 4.25H0.5" stroke="#5044E1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"></path></svg>';
 ?>
-<section class="ap-solution-rows ap-solution-rows--<?php echo esc_attr( $variant ); ?>" style="<?php echo esc_attr( '--ap-srows-head:' . $head_w . 'px' ); ?>">
+<section class="ap-solution-rows ap-solution-rows--<?php echo esc_attr( $variant ); ?><?php echo $props['tone_arrows'] ? ' ap-solution-rows--tone-arrows' : ''; ?>" style="<?php echo esc_attr( '--ap-srows-head:' . $head_w . 'px' ); ?>">
 	<div class="ap-solution-rows__wrap">
 		<div class="ap-solution-rows__head ap-solution-rows__rev">
 			<?php if ( '' !== $eyebrow ) : ?>
@@ -93,7 +94,8 @@ $arrow = 'solution' === $variant
 						<?php endif; ?>
 					</div>
 					<div class="ap-solution-rows__body">
-						<?php if ( '' !== $item['body'] ) : ?>
+						<?php if ( '' !== $item['subtitle'] ) : ?><h4 class="ap-solution-rows__sub"><?php echo ap_ui_brandmarks( esc_html( $item['subtitle'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; brandmarks adds a fixed span. ?></h4>
+						<?php endif; ?><?php if ( '' !== $item['body'] ) : ?>
 							<p><?php echo ap_ui_brandmarks( ap_ui_lines( $item['body'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; only <br> and a fixed span are added. ?></p>
 						<?php endif; ?>
 						<?php if ( '' !== $item['link_label'] && '' !== $item['url'] ) : ?>

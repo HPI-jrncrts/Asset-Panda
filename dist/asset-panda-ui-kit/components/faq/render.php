@@ -68,6 +68,9 @@ if ( in_array( $props['variant'], array( 'hub', 'eduhub' ), true ) ) {
 	if ( $ap_faq_split ) {
 		$ap_faq_class .= ' ap-faq--split';
 	}
+	if ( 'compact' === $props['size'] ) {
+		$ap_faq_class .= ' ap-faq--compact';
+	}
 	?>
 <section class="<?php echo esc_attr( $ap_faq_class ); ?>"<?php echo $props['reveal'] ? ' data-ap-reveal' : ''; ?>>
 	<?php if ( $ap_faq_hub ) : ?>

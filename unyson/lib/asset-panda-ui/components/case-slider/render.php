@@ -49,7 +49,7 @@ $hub      = in_array( $variant, array( 'hub', 'hub-industry' ), true );
 $eyebrow  = trim( (string) $props['eyebrow'] );
 $lede     = trim( (string) $props['lede'] );
 $arrow    = esc_url( ap_ui_asset_url( 'case-slider', 'icon-arrow.svg' ) );
-$quote    = esc_url( '' !== trim( (string) $props['quote_icon'] ) ? trim( (string) $props['quote_icon'] ) : ap_ui_asset_url( 'case-slider', 'quote-up.png' ) );
+$quote    = esc_url( '' !== trim( (string) $props['quote_icon'] ) ? trim( (string) $props['quote_icon'] ) : ap_ui_asset_url( 'case-slider', 'quote-up.svg' ) );
 $progress = round( 100 / count( $items ), 3 );
 
 // View All: in the controls row on the solution pages, centred under them on Help Desk.
@@ -69,7 +69,7 @@ if ( $hub && '' !== trim( (string) $props['viewall_label'] ) && '' !== trim( (st
 	);
 }
 ?>
-<section class="ap-case-slider ap-case-slider--<?php echo esc_attr( $variant ); ?><?php echo $hub && 'hub-industry' === $variant ? ' ap-case-slider--hub' : ''; ?>" data-ap-case-slider>
+<section class="ap-case-slider ap-case-slider--<?php echo esc_attr( $variant ); ?><?php echo $hub && 'hub-industry' === $variant ? ' ap-case-slider--hub' : ''; ?>" data-ap-case-slider data-ap-autoplay="<?php echo esc_attr( (string) max( 0, (int) $props['autoplay_ms'] ) ); ?>">
 	<div class="apg-case-head">
 		<?php if ( '' !== $eyebrow ) : ?>
 			<p class="apg-eyebrow"><?php echo esc_html( $eyebrow ); ?></p>

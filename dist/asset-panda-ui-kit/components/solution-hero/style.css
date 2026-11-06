@@ -316,56 +316,221 @@
 .ap-solution-hero--accent-heading .ap-solution-hero__h1 { background-image: linear-gradient(44.62deg, #5044e1 3.63%, #00a991 50.12%); -webkit-background-clip: text; background-clip: text; }
 .ap-solution-hero--accent-heading .ap-solution-hero__h1 .epx-g { background: none; color: transparent; -webkit-text-fill-color: transparent; }
 
-/* ------------------------------------------------------------ Copy / art spacing on desktops (QA 2026-10-29)
- * Joseph: "There should be space between the headers and content on the left from the images on the right", as
- * on /asset-intelligence-platform/ (its art starts 130px past its copy at 1440, 109px at 1280, 67px at 1024);
- * /barcode-labels/ marked "MOVE". The art box (photo + cards + chips, laid out per page and scaled as one unit)
- * ended on the chip strip's right edge but started inside the copy column: up to 129px over it at 1440 and 196px
- * at 1366, where the column also jumped to a 160px inset. Wherever copy and art sit side by side (1001px up):
- *  - the copy column keeps its width and text. From 1321px it starts where the chip strip under it starts
- *    ((stage - 1120px) / 2: 100px at 1321, 160px at 1440) instead of a fixed 160px; the art box still ends where
- *    the strip ends;
- *  - the art keeps 10% of the stage width clear of the copy column's edge (144px at 1440, 128px at 1280; 8%, 82px,
- *    at 1024), never less than the AIP hero's own gap at the same width;
- *  - the art box scales down as one unit to the room that is left (never up), so each page's photo, cards and
- *    chips keep their placement, and a card set behind the person stays behind it;
- *  - the box hangs one section inset below the header (level with the eyebrow, as narrow desktops already did);
- *    a box shorter than 352px is instead centred on the copy's usual middle (176px under the eyebrow), so a wide,
- *    flat composition sits level with the copy as AIP's art does; the photo's foot fades out where it now ends
- *    above the chip strip.
- * The scale is room / box width. CSS cannot divide two lengths, so it is read as tan(atan2(room, width)), which
- * equals that ratio. The section is the size container (its width excludes the scrollbar; the stage inside it is
- * at most 1440px), and the section, not the stage, so the stacking of veil, art and copy inside it is unchanged.
- * Without trig functions or container units the box takes fixed steps instead. Phones and tablets (1000px and
- * down) are untouched. */
+/* ------------------------------------------------------------ Figma hero frame on desktops (QA 2026-10-29 evening)
+ * Joseph: "Adjust the spacing below for the little icons. The image on the hero needs to reach the bottom of the hero
+ * section. The white overlay at the bottom with the little icons covers a portion of the banner image ... let's
+ * follow the hero banners in figma for accuracy. Exactly as figma dictates." Each page's Figma hero is a 1440 x 640
+ * frame drawn from the page top with its nav over the first 64px; here the 72px header sits above the hero, so the
+ * hero is the frame's lower 568px and everything in it keeps its Figma page position. This replaces the copy / art
+ * spacing pass from earlier today (the art scaled to .7-.86 and hung from the top, the photo's foot faded out):
+ *  - the band is 568px (the frame's 640 less the header) and the backdrop is drawn from the frame's top, 72px up;
+ *  - the copy is centred where Figma centres it, 13.5px below the frame's middle (page y 333.5): the column's two
+ *    spacers share the free height equally inside a box that starts 13px down. With the family's usual copy (two
+ *    title lines, three lede lines) the eyebrow lands at 159.5px from the page top as drawn; a page with longer
+ *    copy starts higher, as its own frame does (Reservations 130.5, Non-Profit 117.5), instead of being pushed
+ *    down into the chips;
+ *  - the art box (photo + cards, laid out per page) is drawn at its Figma size at the page's Figma x (render.php
+ *    passes it as --ap-sh-vx; a page that sends no x, such as /partners/, keeps its box ending on the chip strip's
+ *    right edge, 160px in) and stands on the hero's foot, so the photo runs to the bottom edge with no fade of its
+ *    own and the chip strip sits over the foot of the art, 16px off the bottom (Figma 582-624);
+ *  - the white fade is Figma's (the /barcode-labels/ frame's: 291px tall, from y 349; it was 191px) and is layered
+ *    as Figma layers it: over the photo (and the card set behind the person) but under the floating cards and icon
+ *    chips, so no card is washed. For that the box is scaled with zoom, not a transform, which would make it a
+ *    stacking context and put the fade over its cards; browsers without zoom keep the transform and the old order;
+ *  - narrower desktops (1001-1439px) scale the box with the stage (x and size times stage / 1440, which CSS reads as
+ *    tan(atan2(stage, 1440px)); the section is the size container), so each page keeps Figma's proportions; wider
+ *    screens keep the 1440 layout centred while the backdrop and the white fade run to the window edges.
+ * Without container units or trig functions the ratio takes fixed steps. Phones and tablets (1000px and down) are
+ * untouched. */
 @media (min-width: 1001px) {
-	.ap-solution-hero__vwrap { --ap-sh-fit: .75; top: calc(var(--ap-section-y, 56px) + max(0px, 176px - var(--ap-sh-vh, 518px) * var(--ap-sh-z) / 2)); bottom: auto; }
-	.ap-solution-hero__photo { -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent 100%); mask-image: linear-gradient(to bottom, #000 70%, transparent 100%); }
+	.ap-solution-hero__stage { height: 568px; }
+	.ap-solution-hero__orbs { background-position: center -72px; }
+	.ap-solution-hero__content { padding-top: 13px; }
+	.ap-solution-hero__content::before,
+	.ap-solution-hero__content::after { flex: 1 1 0; min-height: 0; }
+	/* Keeps Joseph's earlier ask ("a lot of solution pages has a lot of space at the top ... diminish that space"):
+	 * the copy never starts lower than it did before this pass (eyebrow at page y 136, 64px under the header). Pages
+	 * whose Figma copy starts higher (Reservations, Non-Profit) still sit as drawn; the cap only stops the centring
+	 * from pushing the usual copy 24px down to Figma's 159.5. */
+	.ap-solution-hero__content::before { max-height: 35px; }
+	.ap-solution-hero__vwrap { --ap-sh-z: var(--ap-sh-s, 1); left: calc(var(--ap-sh-vx, calc(1280px - var(--ap-sh-vw, 637px))) * var(--ap-sh-z)); right: auto; top: auto; bottom: 0; }
+	.ap-solution-hero__photo { -webkit-mask-image: none; mask-image: none; }
+	.ap-solution-hero__veil { height: 291px; }
 }
-@media (min-width: 1181px) {
-	.ap-solution-hero__vwrap { --ap-sh-fit: .85; }
+@supports (zoom: 1) {
+	@media (min-width: 1001px) {
+		.ap-solution-hero__visual { transform: none; zoom: var(--ap-sh-z, 1); }
+		.ap-solution-hero__veil { z-index: 2; }
+		.ap-solution-hero .epx-hv { z-index: 3; }
+		.ap-solution-hero .epx-hv.epx-hv--below { z-index: 0; }
+	}
+}
+@media (min-width: 1001px) and (max-width: 1180px) {
+	.ap-solution-hero { --ap-sh-s: .75; }
+}
+@media (min-width: 1181px) and (max-width: 1320px) {
+	.ap-solution-hero { --ap-sh-s: .86; }
+}
+@media (min-width: 1321px) and (max-width: 1439px) {
+	.ap-solution-hero { --ap-sh-s: .95; }
 }
 @media (min-width: 1321px) {
 	.ap-solution-hero__content { left: max(40px, (100% - 1120px) / 2); }
-	.ap-solution-hero__vwrap { --ap-sh-fit: .7; right: max(40px, (100% - 1120px) / 2); }
 }
 @supports (width: 1cqw) and (scale: tan(atan2(1px, 2px))) {
 	@media (min-width: 1001px) {
-		.ap-solution-hero {
-			container-type: inline-size;
-			--ap-sh-s: min(100cqw, 1440px);
-			--ap-sh-cl: 40px;
-			--ap-sh-cw: 440px;
-			--ap-sh-ar: 16px;
-			--ap-sh-gap: calc(var(--ap-sh-s) * .08);
-			--ap-sh-cap: .86;
-		}
-		.ap-solution-hero__vwrap { --ap-sh-fit: clamp(.3, tan(atan2(calc(var(--ap-sh-s) - var(--ap-sh-ar) - var(--ap-sh-cl) - var(--ap-sh-cw) - var(--ap-sh-gap)), calc(var(--ap-sh-vw, 637px) * var(--ap-sh-k, 1)))), var(--ap-sh-cap)); }
+		.ap-solution-hero { container-type: inline-size; --ap-sh-s: tan(atan2(min(100cqw, 1440px), 1440px)); }
 	}
-	@media (min-width: 1181px) {
-		.ap-solution-hero { --ap-sh-cw: 500px; --ap-sh-ar: 40px; --ap-sh-gap: calc(var(--ap-sh-s) * .1); --ap-sh-cap: 1; }
+}
+
+/* ------------------------------------------------------------ Form card in the hero (QA 2026-10-30, /barcode-labels/)
+ * Joseph: "Please create a container that is vertically square that will fit into the hero because we're moving the
+ * form into the hero section. The hero image should be removed and replaced with that container. The same homepage
+ * layout should be fine". With a form (the form prop) the art is not drawn; a 480px-wide card holding the form stands
+ * where the art stood, its right edge on the chip strip's (160px in), taller than wide, as the homepage's interactive
+ * frame stands beside its copy. The band grows with the card when the form is taller than the 568px stage, keeping
+ * 32px above the card and the chip strip's room below it; the copy stays centred on the band. Tablets and phones
+ * (1000px and down) show the card full width under the copy, before the chip strip. */
+@media (min-width: 1001px) {
+	.ap-solution-hero--form .ap-solution-hero__stage { height: auto; min-height: 568px; padding: 32px 0 88px; }
+	.ap-solution-hero--form .ap-solution-hero__formwrap {
+		position: relative;
+		z-index: 5;
+		width: min(480px, 100% - 600px);
+		min-height: 448px;
+		margin: 0 40px 0 auto;
+		display: flex;
+		flex-direction: column;
 	}
-	@media (min-width: 1321px) {
-		.ap-solution-hero { --ap-sh-cl: max(40px, (var(--ap-sh-s) - 1120px) / 2); --ap-sh-cw: 554px; --ap-sh-ar: var(--ap-sh-cl); }
-	}
+	.ap-solution-hero--form .ap-solution-hero__formwrap > .ap-form-hero,
+	.ap-solution-hero--form .ap-solution-hero__formwrap .ap-form-hero__card { flex: 1 1 auto; }
+	.ap-solution-hero--form .ap-solution-hero__formwrap > .ap-form-hero { display: flex; flex-direction: column; }
+	.ap-solution-hero--form .ap-solution-hero__ticker { z-index: 6; }
+}
+@media (min-width: 1321px) {
+	.ap-solution-hero--form .ap-solution-hero__formwrap { margin-right: max(40px, (100% - 1120px) / 2); width: 480px; }
+}
+@media (max-width: 1000px) {
+	.ap-solution-hero--form .ap-solution-hero__formwrap { order: 1; width: min(546px, 100% - 80px); margin: 32px auto 0; }
+}
+@media (max-width: 640px) {
+	.ap-solution-hero--form .ap-solution-hero__formwrap { width: calc(100% - 40px); margin-top: 28px; }
+}
+
+/* QA 2026-10-30 (Joseph, /barcode-labels/ on phones: the form's button "looks like it's behind the white overlay").
+ * Below 1001px the icon strip is pulled 64px up over the foot of the art and fades it to white — right for a photo,
+ * but with the form card in the hero it covered the card's last 64px (the submit button). With a form the strip
+ * starts under the card instead, keeping its white side fades; the card sits above it. The compliance badges under
+ * the button are drawn a step smaller on phones (Joseph: "make the 3 icons ... a bit smaller"). */
+@media (max-width: 1000px) {
+	.ap-solution-hero--form .ap-solution-hero__formwrap { position: relative; z-index: 6; }
+	.ap-solution-hero--form .ap-solution-hero__ticker { z-index: 4; margin-top: 8px; padding-top: 16px; background: none; }
+}
+@media (max-width: 700px) {
+	.ap-solution-hero--form .ap-solution-hero__ticker { margin-top: 8px; padding-top: 16px; }
+	.ap-solution-hero--form .ap-solution-hero__ticker::before,
+	.ap-solution-hero--form .ap-solution-hero__ticker::after { height: calc(100% - 16px); }
+	.ap-solution-hero--form .ap-solution-hero__badges img { max-height: 52px; width: auto; }
+}
+
+/* ------------------------------------------------------------ Partners, 2026-10-31 (Joseph)
+ * "Add 5px more at the top of the banner, it's too close to the header": the badges_below hero (Partners only)
+ * starts its copy 18px under the stage top instead of 13px on desktop. */
+@media (min-width: 1001px) {
+	.ap-solution-hero--badges-below .ap-solution-hero__content { padding-top: 28px; }
+}
+
+/* choices (Partners): Looking to Buy / Want to Resell at the foot of the hero. Joseph 2026-10-31 (second pass):
+ * "Put them into 1 glass container like the about us page and just add a line divider in between ... Instead of
+ * adding CTA buttons, turn them into hyperlink texts ... With icons" — Our Company's "Asset Panda at a glance" card
+ * (page-hero facts: white-bordered glass, 16px radius) holding the two choices side by side, a hairline between
+ * them, each an icon tile, a 20px/800 title, the copy and an arrow link. The card rises 40px into the hero's art. */
+.ap-solution-hero__choices {
+	position: relative;
+	z-index: 5;
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	width: min(1120px, 100% - 80px);
+	margin: -40px auto 64px;
+	padding: 24px 0 28px;
+	border: 1px solid #fff;
+	border-radius: var(--ap-radius-xl, 16px);
+	background: linear-gradient(135deg, rgba(255, 255, 255, .72) 0%, rgba(255, 255, 255, .5) 100%);
+	-webkit-backdrop-filter: blur(14px) saturate(140%);
+	backdrop-filter: blur(14px) saturate(140%);
+	box-shadow: 0 8px 32px rgba(37, 39, 44, .06), inset 0 1px 0 rgba(255, 255, 255, .9);
+}
+.ap-solution-hero__choice { display: flex; min-width: 0; padding: 0 32px; }
+.ap-solution-hero__choice + .ap-solution-hero__choice { border-left: 1px solid rgba(37, 39, 44, .12); }
+.ap-solution-hero__choice-body { flex: 1 1 auto; min-width: 0; display: flex; align-items: flex-start; gap: 16px; }
+.ap-solution-hero__choice-copy { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; }
+.ap-solution-hero__choice-icon { flex: 0 0 48px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 12px; background: #fff; box-shadow: inset 0 0 0 1px #e1e6fe; color: var(--ap-brand-indigo, #5044e1); }
+.ap-solution-hero__choice:nth-child(2n) .ap-solution-hero__choice-icon { color: var(--ap-brand-green, #00a991); box-shadow: inset 0 0 0 1px #c7fff1; }
+.ap-solution-hero__choice-icon svg { display: block; width: 28px; height: 28px; }
+.ap-solution-hero__choice-icon svg [stroke]:not([stroke="none"]) { stroke: currentColor; }
+.ap-solution-hero .ap-solution-hero__choice-title { margin: 0 0 4px; font-family: var(--ap-font-display); font-size: 20px; font-weight: 800; line-height: 1.2; letter-spacing: 0; color: var(--ap-text-heading, #25272c); }
+.ap-solution-hero .ap-solution-hero__choice-text { margin: 0; font-family: var(--ap-font-body); font-size: 16px; line-height: 1.5; color: var(--ap-text-body, #4a4e5a); }
+.ap-solution-hero .ap-solution-hero__choice-text strong { font-weight: 700; color: var(--ap-text-heading, #25272c); }
+.ap-solution-hero .ap-solution-hero__choice-link,
+.ap-solution-hero .ap-solution-hero__choice-link:visited { display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; color: var(--ap-text-heading, #25272c); font-family: var(--ap-font-body); font-size: 16px; font-weight: 700; line-height: 1.3; text-decoration: none; }
+.ap-solution-hero__choice-link svg { flex: 0 0 24px; color: var(--ap-brand-indigo, #5044e1); translate: 0 0; transition: translate var(--ap-dur-base, .3s) var(--ap-ease-standard, ease); }
+.ap-solution-hero .ap-solution-hero__choice-link:hover span,
+.ap-solution-hero .ap-solution-hero__choice-link:focus-visible span { text-decoration: underline; text-underline-offset: 3px; }
+.ap-solution-hero__choice-link:hover svg,
+.ap-solution-hero__choice-link:focus-visible svg { translate: 4px 0; }
+@media (max-width: 1000px) {
+	.ap-solution-hero__choices { grid-template-columns: minmax(0, 1fr); width: min(1120px, 100% - 48px); margin: -24px auto 48px; padding: 0; }
+	.ap-solution-hero__choice { padding: 24px; }
+	.ap-solution-hero__choice + .ap-solution-hero__choice { border-left: 0; border-top: 1px solid rgba(37, 39, 44, .12); }
+}
+@media (max-width: 600px) {
+	.ap-solution-hero__choices { width: calc(100% - 32px); margin: -16px auto 40px; }
+	.ap-solution-hero__choice { padding: 20px 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+	.ap-solution-hero__choice-link svg { transition: none; }
+}
+
+/* Partners, Joseph 2026-10-31 (third pass): "The white overlay can be moved at the bottom of the gradient" and "Add
+ * 10px spacing from the bottom of the header to the Our Partner Network text" (the 28px above). With the choice card
+ * under the stage, the backdrop covers the whole hero (cover, so it runs on behind the card), the stage's white veil
+ * gives way to a fade on the photo's own foot, and the white fade sits at the hero's bottom edge, under the card. */
+@media (min-width: 1001px) {
+	.ap-solution-hero--choices .ap-solution-hero__orbs { background-size: cover; background-position: center top; }
+	.ap-solution-hero--choices .ap-solution-hero__stage .ap-solution-hero__veil { display: none; }
+	.ap-solution-hero--choices .ap-solution-hero__photo { -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%); mask-image: linear-gradient(to bottom, #000 78%, transparent 100%); }
+	.ap-solution-hero--choices::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; height: 120px; pointer-events: none; background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #fff 100%); }
+}
+
+/* ------------------------------------------------------------ Tablets and phones, Joseph 2026-10-31 (post-launch)
+ * Tablets (701-1000px): "Tablet hero image has an extra white space on the right side ... Maybe adjust the image to
+ * the top to be a background of the texts as well?" The backdrop was the art's dashboard half at a fixed 600px
+ * height, anchored from the left, so from ~835px it ended short of the right edge (a white strip down the hero and
+ * under the chip row), and a white wash hid it behind the copy. It now covers the whole hero as on desktops, copy
+ * included: drawn from 30% across, so the copy sits on the gradient half and the dashboard half runs behind the
+ * art, under a light wash that keeps the dashboard's figures quiet behind the copy. "The overlay white is also
+ * overlapping below": the stage's 8px foot showed the backdrop's lavender edge as a line under the white chip row;
+ * the row now ends the hero. */
+@media (min-width: 701px) and (max-width: 1000px) {
+	.ap-solution-hero .ap-solution-hero__orbs { background: linear-gradient(180deg, rgba(255, 255, 255, .5) 0, rgba(255, 255, 255, .38) 38%, rgba(255, 255, 255, 0) 58%), var(--ap-solution-bg, none) 30% top / cover no-repeat, #fff; }
+	.ap-solution-hero .ap-solution-hero__stage { padding-bottom: 0; }
+}
+/* Form card, tablets and phones (/barcode-labels/): "make sure the white overlay is visible covering the bottom
+ * part of the hero. But the slider little icons should be on top of the overlay." The chip row gets its white fade
+ * back. The fade starts behind the card's foot (the card is drawn above the row, so its button stays clear) and is
+ * white where the chips start; the chips keep their place 24px under the card. */
+@media (max-width: 1000px) {
+	.ap-solution-hero--form .ap-solution-hero__ticker { margin-top: -40px; padding-top: 64px; background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, .9) 44px, #fff 64px); }
+}
+@media (max-width: 700px) {
+	.ap-solution-hero--form .ap-solution-hero__ticker { margin-top: -40px; padding-top: 64px; }
+	.ap-solution-hero--form .ap-solution-hero__ticker::before,
+	.ap-solution-hero--form .ap-solution-hero__ticker::after { height: calc(100% - 64px); }
+}
+/* Partners on phones: "The mobile needs the gradient with the tool background please." The choices hero covers its
+ * copy with its backdrop (gradient and dashboard) on every screen, and keeps the desktop's white fade at its foot,
+ * under the choice card. */
+@media (max-width: 1000px) {
+	.ap-solution-hero--choices .ap-solution-hero__orbs { background: #fff var(--ap-solution-bg, none) 36% top / cover no-repeat; }
+	.ap-solution-hero--choices::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; height: 120px; pointer-events: none; background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #fff 100%); }
 }

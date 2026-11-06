@@ -163,3 +163,18 @@ html body .ap-platform-cta.ap-platform-cta .ap-final-cta-art img { height: auto 
 @media (max-width: 360px) {
 	html body .ap-platform-cta.ap-platform-cta .ap-btn-group .ap-btn { flex: 1 1 auto !important; width: 100% !important; white-space: normal !important; }
 }
+
+/* QA 2026-10-30 (Joseph, /start-a-free-trial-email-only/: "For the blue section, you can make the height smaller since
+ * it's just a call to action section"): size "compact". The same card, 300px tall instead of 532 on desktops (56px
+ * of padding), the product art scaled to the card's height in the bottom-right corner; stacked layouts (991px and
+ * down) keep the copy, show the art a step smaller and trim the padding. */
+@media (min-width: 992px) {
+	html body .ap-platform-cta.ap-platform-cta--compact .ap-final-cta-card { min-height: 300px !important; padding: 56px 64px !important; }
+	html body .ap-platform-cta.ap-platform-cta--compact .ap-final-cta-copy { gap: 28px !important; }
+	html body .ap-platform-cta.ap-platform-cta--compact .ap-final-cta-art { width: 420px !important; height: 270px !important; }
+	html body .ap-platform-cta.ap-platform-cta--compact .ap-final-cta-art img { width: auto !important; max-width: 100% !important; max-height: 270px !important; }
+}
+@media (max-width: 991px) {
+	html body .ap-platform-cta.ap-platform-cta--compact .ap-final-cta-card { padding-top: 40px !important; }
+	html body .ap-platform-cta.ap-platform-cta--compact .ap-final-cta-art { min-height: 0 !important; max-width: 420px !important; margin: 24px auto 0 !important; }
+}

@@ -914,3 +914,71 @@ html body .ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form :is(input[type="subm
 }
 html body .ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form :is(input[type="submit"], .hs-button):is(:hover, :focus-visible) { background: linear-gradient(60.14deg, #4237c9 0%, #00957f 70.44%) !important; }
 html body .ap-demo-cta.ap-demo-cta--card .ap-demo-cta__form :is(input[type="submit"], .hs-button):focus-visible { outline: 2px solid #5044e1 !important; outline-offset: 2px !important; }
+
+/* ------------------------------------------------------------ values look (Partners, 2026-10-31)
+ * Joseph: "Change the UI and background into this [Our Company's Our People] ... Instead of using an image, let's use
+ * the form". The dark gradient card gives way to Our People's light wash; the copy is dark on it (14px/800 indigo
+ * eyebrow, the section heading with its gradient phrase, 18px lede) and the bullets become Our People's icon rows
+ * (40px brand line icon beside a 20px/800 line). The HubSpot form keeps the white card it already has, lifted on a
+ * soft indigo shadow. Written one class above the form card's `html body` rules so it wins at every width. */
+html body .ap-demo-cta.ap-demo-cta--form.ap-demo-cta--values {
+	background:
+		radial-gradient(40% 60% at 96% 6%, rgba(199, 255, 241, .6) 0%, rgba(199, 255, 241, 0) 70%),
+		radial-gradient(30% 46% at 10% 60%, rgba(131, 140, 246, .12) 0%, rgba(131, 140, 246, 0) 70%),
+		linear-gradient(180deg, var(--ap-slate-50, #f8fafc) 0%, var(--ap-indigo-50, #eef2ff) 100%);
+}
+html body .ap-demo-cta.ap-demo-cta--form.ap-demo-cta--values .ap-demo-cta__card {
+	min-height: 0;
+	padding: 0;
+	overflow: visible;
+	border-radius: 0;
+	background: none;
+	box-shadow: none;
+	align-items: center;
+}
+html body .ap-demo-cta.ap-demo-cta--form.ap-demo-cta--values .ap-demo-cta__card::after { display: none; }
+@media (min-width: 992px) {
+	html body .ap-demo-cta.ap-demo-cta--form.ap-demo-cta--values .ap-demo-cta__card { grid-template-columns: minmax(0, 1fr) minmax(0, 520px); column-gap: 64px; }
+}
+html body .ap-demo-cta.ap-demo-cta--form.ap-demo-cta--values .ap-demo-cta__copy { width: auto; max-width: 560px; gap: 16px; }
+html body .ap-demo-cta.ap-demo-cta--form.ap-demo-cta--values .ap-demo-cta__eyebrow {
+	width: auto;
+	margin: 0 0 16px;
+	color: var(--ap-text-eyebrow, #5044e1);
+	font-family: var(--ap-font-body);
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: .56px;
+	text-transform: uppercase;
+}
+html body .ap-demo-cta.ap-demo-cta--form.ap-demo-cta--values .ap-demo-cta__title { width: auto; color: var(--ap-text-heading, #25272c); }
+html body .ap-demo-cta.ap-demo-cta--form.ap-demo-cta--values .ap-demo-cta__accent {
+	background-image: linear-gradient(35.9deg, var(--ap-brand-indigo) 3.6%, var(--ap-brand-green) 50.1%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+html body .ap-demo-cta.ap-demo-cta--form.ap-demo-cta--values .ap-demo-cta__body { width: auto; color: var(--ap-text-body, #4a4e5a); }
+html body .ap-demo-cta.ap-demo-cta--form.ap-demo-cta--values .ap-demo-cta__list { gap: 28px; margin-top: 16px; }
+html body .ap-demo-cta.ap-demo-cta--form.ap-demo-cta--values .ap-demo-cta__list li {
+	align-items: center;
+	gap: 16px;
+	color: var(--ap-text-heading, #25272c);
+	font-family: var(--ap-font-display);
+	font-size: 20px;
+	font-weight: 800;
+	line-height: 1.3;
+}
+html body .ap-demo-cta.ap-demo-cta--form.ap-demo-cta--values .ap-demo-cta__icon { flex: 0 0 40px; display: inline-flex; width: 40px; height: 40px; color: var(--ap-brand-indigo, #5044e1); }
+html body .ap-demo-cta.ap-demo-cta--form.ap-demo-cta--values .ap-demo-cta__icon svg { display: block; width: 40px; height: 40px; }
+html body .ap-demo-cta.ap-demo-cta--form.ap-demo-cta--values .ap-demo-cta__check { flex-basis: 24px; width: 24px; height: 24px; margin-top: 0; }
+html body .ap-demo-cta.ap-demo-cta--form.ap-demo-cta--values .ap-demo-cta__panel--card { box-shadow: 0 24px 48px rgba(32, 28, 74, .12), 0 2px 8px rgba(32, 28, 74, .06); }
+@media (max-width: 767px) {
+	html body .ap-demo-cta.ap-demo-cta--form.ap-demo-cta--values .ap-demo-cta__list { gap: 20px; }
+	html body .ap-demo-cta.ap-demo-cta--form.ap-demo-cta--values .ap-demo-cta__list li { font-size: 18px; }
+	html body .ap-demo-cta.ap-demo-cta--form.ap-demo-cta--values .ap-demo-cta__icon,
+	html body .ap-demo-cta.ap-demo-cta--form.ap-demo-cta--values .ap-demo-cta__icon svg { width: 32px; height: 32px; flex-basis: 32px; }
+}

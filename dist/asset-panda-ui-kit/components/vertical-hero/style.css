@@ -947,40 +947,70 @@ img.ap-vhero__layer {
 	}
 }
 
-/* ------------------------------------------------------------ Copy / art spacing (QA 2026-10-29)
- * Joseph: "The hero image like the lady, the guy, everything is too big ... It should be the same as
- * /asset-intelligence-platform/ ... There should be space between the headers and content on the left from the
- * images on the right." The person, her three cards and the panda tile started 41-88px past the copy at 1440 and
- * 24-43px at 1024 (AIP: 130px and 67px), at full stage size. From 1024px up they now scale down together, as one
- * picture, about the copy container's right edge and the stage's foot, so each page keeps its own arrangement and
- * the art moves away from the copy: x' = edge + (x - edge) * k (and the same for y from the foot), with the
- * cards and the tile redrawn at k times their size through --u. The connector lines follow on their own (the
- * behaviour script redraws them from where the tile and the cards are). The translucent dashboard behind the copy
- * is background and stays where it is. Desktops (1181px up) take k = .8: the art starts 136px or more past the
- * copy at 1440 and 1280. Tablets in landscape (1024-1180px) take k = .85, 92px or more at 1024. */
+/* ------------------------------------------------------------ Figma hero frame (QA 2026-10-29 evening)
+ * Joseph: "Remove space at the top. And expand the gradient background at the sides beyond the margins. Best
+ * example: /asset-intelligence-platform/ ... let's follow the hero banners in figma for accuracy. Exactly as figma
+ * dictates." Each product page's Figma hero is a 1440 x 640 frame drawn from the page top, its nav over the first
+ * 64px. Here the 72px header sits above the hero, so the hero is the frame's lower 568px and every layer keeps its
+ * Figma page position. This replaces the copy / art spacing pass from earlier today (the art scaled to .8, .85 on
+ * tablets) and the 1.3.138 wide-screen cap (backdrop faded to white at the sides). On desktops (1181px up):
+ *  - the 1440 x 550 picture (Figma y 90-640: dashboard, person, cards, badge, lines) starts 18 frame px under the
+ *    header and is drawn at its Figma size, so the person stands on the hero's foot (y 640) as drawn; the stage no
+ *    longer clips, so the backdrop (orbs, dashboard) paints up to the header as in the frame; the orbs are drawn
+ *    at their frame positions (their viewBox is the frame's, so they start at the frame's top, 90 units above the
+ *    picture, not at the picture's top), and the white fade over the person's foot is Figma's (357 units from y 284,
+ *    0 to 25.86%, .846 at 85.385%), lighter than the live gradient it replaces;
+ *  - the chips sit over the foot of the picture as in Figma (582-624: 16px off the foot; 8 x 12px chip padding, 16px
+ *    text and 24px icons spread across the 1120px content width) instead of in a ruled band under the hero;
+ *  - the copy is centred where Figma centres it, 13.5px below the frame's middle (y 333.5): the copy box ends 45
+ *    frame px above the hero's foot. Its badges take Figma's sizes and spacing (SOC 2 55 x 70, GovRAMP 66, HIPAA
+ *    102 x 55, 28px apart, 24px after the button; they were all 54px tall, 18px apart), so the copy is as tall as
+ *    the frame's and its eyebrow lands where Figma's does;
+ *  - --ap-vhero-su is one frame px at the hero's width (the section is the size container, capped at 1440), so the
+ *    offsets scale with the picture on narrower desktops.
+ * Wider than 1440 the picture keeps its 1440 design size, centred (the copy exactly where it is at 1440), while the
+ * gradient backdrop (the orbs, stretched to the window) and the white foot fade run to the window edges, as the AIP
+ * hero's backdrop does; only the dashboard screenshot keeps its 120px side fades, so it never ends on a hard edge. */
 @media (min-width: 1181px) {
-	.ap-vhero { --ap-vhero-k: .8; }
-	.ap-vhero .ap-vhero__person,
-	.ap-vhero .ap-vhero__card,
-	.ap-vhero .ap-vhero__badge {
-		left: calc(50% + 560px + (var(--x, 0%) - 50% - 560px) * var(--ap-vhero-k));
-		top: calc(100% + (var(--y, 0%) - 100%) * var(--ap-vhero-k));
+	.ap-vhero { container-type: inline-size; --ap-vhero-su: calc(min(100cqw, 1440px) / 1440); }
+	.ap-vhero.ap-vhero .ap-vhero__stage { margin-top: calc(18 * var(--ap-vhero-su)); overflow: visible; }
+	.ap-vhero.ap-vhero .ap-vhero__stage > .ap-vhero__orbs--d { top: calc(-90 * var(--u)); }
+	.ap-vhero.ap-vhero .ap-vhero__stage > .ap-vhero__veil {
+		top: auto;
+		height: calc(357 * var(--u));
+		background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 25.86%, rgba(255, 255, 255, .846) 85.385%, #fff 100%);
 	}
-	.ap-vhero .ap-vhero__person { width: calc(var(--w, 100%) * var(--ap-vhero-k)); height: calc(var(--h, 100%) * var(--ap-vhero-k)); }
-	.ap-vhero .ap-vhero__card,
-	.ap-vhero .ap-vhero__badge { --u: calc(100cqw / 1440 * var(--ap-vhero-k)); }
+	.ap-vhero.ap-vhero .ap-vhero__in { bottom: calc(45 * var(--ap-vhero-su)); }
+	.ap-vhero.ap-vhero .ap-vhero__copy { margin-top: 0; }
+	.ap-vhero.ap-vhero .ap-vhero__cta { gap: 24px; }
+	.ap-vhero.ap-vhero .ap-vhero__certs { gap: 28px; }
+	.ap-vhero.ap-vhero .ap-vhero__certs img[src*="soc2" i] { height: 70px; }
+	.ap-vhero.ap-vhero .ap-vhero__certs img[src*="govramp" i] { height: 66px; }
+	.ap-vhero.ap-vhero .ap-vhero__certs img[src*="hipaa" i] { height: 55px; }
+	.ap-vhero.ap-vhero--band .ap-vhero__feats {
+		position: absolute;
+		left: 50%;
+		translate: -50% 0;
+		bottom: 16px;
+		width: min(var(--ap-page-max-content-xl, 1120px), 100% - 48px);
+		padding: 0;
+		border-bottom: 0;
+		gap: 0;
+	}
+	.ap-vhero.ap-vhero--band .ap-vhero__feat { gap: 8px; padding: 8px 12px; font-size: 16px; font-weight: 400; line-height: 1.6; }
+	.ap-vhero.ap-vhero--band .ap-vhero__feat img,
+	.ap-vhero.ap-vhero--band .ap-vhero__feat .ap-inline-icon svg { width: 24px; height: 24px; }
 }
 
 /* Tablets in landscape (1024-1180px). Here the stage is stretched to the whole hero and its layers are slid down
  * so the 1440x550 picture ends on the chip strip — but the layers' top / height percentages were read against the
  * stretched stage, so the person and the dashboard were drawn up to 1.55x too tall, and the person and cards
- * (whose entrance animation holds translate at 0) were never slid down at all. In this range the picture is now
- * placed in its own 550-unit space: top offsets come from margin-top (a percentage of the stage width, so
- * y% x 550/1440), images keep their own proportions (height: auto; the veil gets its height from padding), and
- * the art sits at its scaled place above the strip directly instead of through the slide. The edge is the copy
- * container's right edge (min(100%, 1168px) less its 24px padding). Phones and 768-1023px are untouched. */
+ * (whose entrance animation holds translate at 0) were never slid down at all. In this range the picture is placed
+ * in its own 550-unit space: top offsets come from margin-top (a percentage of the stage width, so y% x 550/1440),
+ * images keep their own proportions (height: auto; the veil gets its height from padding), and the art sits at its
+ * place above the strip directly instead of through the slide, at its full Figma size (the .85 scale-down from
+ * earlier today is gone). Phones and 768-1023px are untouched. */
 @media (min-width: 1024px) and (max-width: 1180px) {
-	.ap-vhero { --ap-vhero-k: .85; }
 	.ap-vhero.ap-vhero .ap-vhero__stage > .ap-vhero__dash,
 	.ap-vhero.ap-vhero .ap-vhero__stage > .ap-vhero__dashveil { top: 0; margin-top: calc(var(--y, 0%) * 550 / 1440); }
 	.ap-vhero.ap-vhero .ap-vhero__stage > .ap-vhero__dash { height: auto; }
@@ -989,29 +1019,26 @@ img.ap-vhero__layer {
 	.ap-vhero.ap-vhero .ap-vhero__stage > .ap-vhero__card,
 	.ap-vhero.ap-vhero .ap-vhero__stage > .ap-vhero__badge {
 		translate: none;
-		left: calc(50% + min(50%, 584px) - 24px + (var(--x, 0%) - 50% - min(50%, 584px) + 24px) * var(--ap-vhero-k));
-		top: calc(100cqh - var(--ap-vhero-feats-h, 66px) - 38.19444cqw * var(--ap-vhero-k));
-		margin-top: calc(var(--y, 0%) * 550 / 1440 * var(--ap-vhero-k));
+		top: calc(100cqh - var(--ap-vhero-feats-h, 66px) - 38.19444cqw);
+		margin-top: calc(var(--y, 0%) * 550 / 1440);
 	}
-	.ap-vhero.ap-vhero .ap-vhero__stage > .ap-vhero__person { width: calc(var(--w, 100%) * var(--ap-vhero-k)); height: auto; }
-	.ap-vhero.ap-vhero .ap-vhero__stage > .ap-vhero__card,
-	.ap-vhero.ap-vhero .ap-vhero__stage > .ap-vhero__badge { --u: calc(100cqw / 1440 * var(--ap-vhero-k)); }
+	.ap-vhero.ap-vhero .ap-vhero__stage > .ap-vhero__person { height: auto; }
 }
 
-/* QA 2026-10-29 (Joseph, wide screen: "Why is the hero banner spacing getting bigger?"): the stage is a 1440 x 550
- * picture scaled to the window, so on a 2560px screen the art and the dashboard grew 1.8x (hero 1032px tall) while
- * the copy kept its size and sat lower and lower. Wider than 1440 the picture now keeps its 1440 design size,
- * centred (hero 604px tall, the copy exactly where it is at 1440), and its background layers fade into the white
- * sides over their outer 120px instead of ending at a hard edge. 1440 and below are unchanged. */
 @media (min-width: 1441px) {
 	.ap-vhero .ap-vhero__stage {
 		max-width: 1440px;
 		margin-left: auto;
 		margin-right: auto;
 	}
+	.ap-vhero.ap-vhero .ap-vhero__stage > .ap-vhero__orbs--d,
+	.ap-vhero.ap-vhero .ap-vhero__stage > .ap-vhero__veil {
+		left: calc(50% - 50vw);
+		right: auto;
+		width: 100vw;
+	}
 	.ap-vhero .ap-vhero__stage > .ap-vhero__dash,
-	.ap-vhero .ap-vhero__stage > .ap-vhero__dashveil,
-	.ap-vhero .ap-vhero__stage > .ap-vhero__orbs {
+	.ap-vhero .ap-vhero__stage > .ap-vhero__dashveil {
 		-webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 0, #000 120px, #000 calc(100% - 120px), rgba(0, 0, 0, 0) 100%);
 		mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 0, #000 120px, #000 calc(100% - 120px), rgba(0, 0, 0, 0) 100%);
 	}

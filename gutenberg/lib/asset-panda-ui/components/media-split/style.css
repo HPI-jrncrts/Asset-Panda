@@ -301,3 +301,91 @@ to {
 .ap-media-split .apg-int-head .apg-h2 { margin: 0; }
 
 /* stack-900 variant generated */
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: --ap-section-y top and bottom at every width (was 40 / 40
+ * plus per-page --apg-pad-t / --apg-pad-b of 80 and 160, then 48 / 64 and
+ * 28 / 28 on phones). Two splits in a row are one section in two rows: the
+ * second drops its top padding, so the rows sit one --ap-section-y apart
+ * instead of two. */
+html body .ap-media-split.ap-media-split { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+html body *:has(> .ap-media-split) + *:has(> .ap-media-split) > .ap-media-split.ap-media-split { padding-top: 0; }
+html body .ap-media-split .apg-int-head { margin-bottom: var(--ap-section-head-gap, 48px); }
+/* PageSpeed: the glows are radial gradients already; drop the blur filter. */
+.ap-media-split .apg-glow { filter: none; }
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-media-split.ap-media-split.ap-media-split h2.apg-h2 { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+/* Section eyebrow on the type scale too: 12px at 390 to 14px at 1440, 800, 4% tracking, upper case. */
+html body .ap-media-split.ap-media-split.ap-media-split .apg-eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }
+/* Phones (QA 2026-10-28): the paragraph under the title was 14px while every
+ * other section's copy is 16px on phones. */
+@media (max-width: 767px) {
+	html body .ap-media-split .apg-int-body { font-size: 16px; }
+}
+
+/* QA 2026-10-29 (Joseph, /solutions/energy-utilities/ and the other industry pages with two splits in a row:
+ * "move the gradient in between sections"; "remove the gradient background on the panda … the square is obvious").
+ * 1. The same soft "puddle" the hub pages carry, anchored to the gap between the two rows: drawn by the FIRST split
+ *    (its own stacking context, so the wash sits behind its content; matched through the block wrapper, since a
+ *    :has() may not sit inside another :has()) and centred 32px below it (the middle of the
+ *    64px gap); the second split is transparent so the wash shows on through to its content.
+ * 2. The scene art is drawn with a multiply blend: its white or near-white ground then shows whatever is behind it
+ *    (white, or the puddle) instead of a visible box. Over white it is pixel-identical. */
+html body .wp-block-assetpanda-media-split:has(+ .wp-block-assetpanda-media-split) > .ap-media-split {
+	isolation: isolate;
+}
+html body .wp-block-assetpanda-media-split:has(+ .wp-block-assetpanda-media-split) > .ap-media-split::after {
+	content: "";
+	position: absolute;
+	z-index: -1;
+	left: 50%;
+	width: 100vw;
+	translate: -50% 0;
+	top: calc(100% - 182px);
+	height: 300px;
+	pointer-events: none;
+	background:
+		radial-gradient(ellipse 26% 44% at 50% 50%, rgba(80, 68, 225, .20), rgba(80, 68, 225, .08) 45%, rgba(80, 68, 225, 0) 100%),
+		radial-gradient(ellipse 20% 36% at 62% 40%, rgba(0, 169, 145, .20), rgba(0, 169, 145, .07) 45%, rgba(0, 169, 145, 0) 100%),
+		radial-gradient(ellipse 18% 34% at 39% 62%, rgba(230, 28, 85, .13), rgba(230, 28, 85, .05) 45%, rgba(230, 28, 85, 0) 100%),
+		radial-gradient(ellipse 16% 30% at 57% 66%, rgba(243, 191, 81, .18), rgba(243, 191, 81, .06) 45%, rgba(243, 191, 81, 0) 100%),
+		radial-gradient(ellipse 22% 38% at 44% 36%, rgba(120, 108, 240, .16), rgba(120, 108, 240, .06) 45%, rgba(120, 108, 240, 0) 100%);
+}
+html body *:has(> .ap-media-split) + *:has(> .ap-media-split) > .ap-media-split.ap-media-split {
+	background: transparent;
+}
+.ap-media-split .apg-int-scene img {
+	mix-blend-mode: multiply;
+}
+@media (max-width: 767px) {
+	html body .wp-block-assetpanda-media-split:has(+ .wp-block-assetpanda-media-split) > .ap-media-split::after {
+		top: calc(100% - 150px);
+		height: 260px;
+		background:
+			radial-gradient(ellipse 60% 40% at 50% 50%, rgba(80, 68, 225, .20), rgba(80, 68, 225, .08) 45%, rgba(80, 68, 225, 0) 100%),
+			radial-gradient(ellipse 45% 32% at 70% 42%, rgba(0, 169, 145, .20), rgba(0, 169, 145, .07) 45%, rgba(0, 169, 145, 0) 100%),
+			radial-gradient(ellipse 40% 30% at 30% 60%, rgba(230, 28, 85, .13), rgba(230, 28, 85, .05) 45%, rgba(230, 28, 85, 0) 100%);
+	}
+}
+
+/* QA 2026-10-30 (Joseph, /solutions/non-profit/, /solutions/transportation-logistics/, /solutions/msp-it-asset-management/:
+ * "please make sure the square container is not visible"). Their Ursa scene artwork (the *-intel-scene picture) is
+ * painted on its own pale panel, whose straight edges read as a box beside the copy. On those pages (WordPress 2349,
+ * 1095, 2341) the picture's outer 2.5% is clear (the panel's white rim sits about 2% in) and the edges fade in to full
+ * strength 9–10% in, so the panel melts into the section while the panda, the orb and the equipment stay whole. */
+:is(body.page-id-2349, body.page-id-1095, body.page-id-2341) .apg-int-scene > img[src*="intel-scene"] {
+	-webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 2.5%, #000 10%, #000 89%, rgba(0, 0, 0, 0) 97.5%), linear-gradient(to right, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 2.5%, #000 9%, #000 91%, rgba(0, 0, 0, 0) 97.5%);
+	-webkit-mask-composite: source-in;
+	mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 2.5%, #000 10%, #000 89%, rgba(0, 0, 0, 0) 97.5%), linear-gradient(to right, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 2.5%, #000 9%, #000 91%, rgba(0, 0, 0, 0) 97.5%);
+	mask-composite: intersect;
+}
+/* Transportation & Logistics (1095) also lays a glow picture (fp26-transportation-logistics-intel-glow) behind the
+ * scene, and that file has a white patch exactly where the scene sits — the box was in the glow, not the scene. On that
+ * page the glow picture is not drawn. */
+body.page-id-1095 .ap-media-split img[src*="intel-glow"] { display: none; }
+/* QA 2026-10-30 (Joseph: "Please remove the gradient background behind the panda here. We already have a gradient in
+ * between the sections"): no glow is painted behind the scene on this page either. */

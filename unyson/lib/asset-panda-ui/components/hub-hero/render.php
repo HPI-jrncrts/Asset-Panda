@@ -43,7 +43,7 @@ $ap_icon = static function ( $item, $class = '' ) {
 		return '<span class="' . esc_attr( trim( 'ap-inline-icon ' . $class ) ) . '" aria-hidden="true">' . $svg . '</span>';
 	}
 	$icon = trim( (string) ( $item['icon'] ?? '' ) );
-	return '' !== $icon ? '<img class="' . esc_attr( $class ) . '" src="' . esc_url( $icon ) . '" alt="" loading="lazy" decoding="async" />' : '';
+	return '' !== $icon ? '<img class="' . esc_attr( $class ) . '" src="' . esc_url( $icon ) . '" alt="" width="24" height="24" decoding="async" />' : '';
 };
 
 $title   = trim( (string) $props['title'] );
@@ -69,7 +69,35 @@ if ( is_numeric( $props['content_top'] ) && $props['content_top'] > 0 ) {
 if ( preg_match( '#^\s*(\d+(?:\.\d+)?)\s*/\s*(\d+(?:\.\d+)?)\s*$#', (string) $props['mobile_ratio'], $m ) && '393/378' !== $m[1] . '/' . $m[2] ) {
 	$vars[] = '--apg-mratio:' . $m[1] . '/' . $m[2];
 }
+// The photo group's bounds on the 1440x640 art canvas, in canvas px (unitless):
+// the stylesheet right-anchors the art by them on laptops and scales the group to
+// the width under the copy on tablets and phones. Numbers only.
+$ap_x0 = 1440;
+$ap_x1 = 0;
+$ap_y0 = 640;
+foreach ( array_slice( $photos, 0, 3 ) as $photo ) {
+	if ( ! isset( $photo['x'], $photo['y'], $photo['w'] ) || ! is_numeric( $photo['x'] ) || ! is_numeric( $photo['y'] ) || ! is_numeric( $photo['w'] ) ) {
+		continue;
+	}
+	$ap_x0 = min( $ap_x0, (float) $photo['x'] * 14.4 );
+	$ap_x1 = max( $ap_x1, ( (float) $photo['x'] + (float) $photo['w'] ) * 14.4 );
+	$ap_y0 = min( $ap_y0, (float) $photo['y'] * 6.4 );
+}
+if ( $ap_x1 > $ap_x0 + 40 ) {
+	$ap_x0  = max( 0, $ap_x0 - 16 );
+	$ap_x1  = min( 1440, $ap_x1 + 16 );
+	$ap_y0  = max( 0, min( 600, $ap_y0 - 8 ) );
+	$vars[] = '--apg-x0:' . round( $ap_x0 );
+	$vars[] = '--apg-x1:' . round( $ap_x1 );
+	$vars[] = '--apg-y0:' . round( $ap_y0 );
+	$vars[] = '--apg-rw:' . round( $ap_x1 - $ap_x0 );
+}
 $root_st = implode( ';', $vars );
+
+// The backdrop is the first-screen image: ask for it before the stylesheet is parsed.
+if ( 'eduhub' !== $props['variant'] && '' !== trim( (string) $props['background'] ) && function_exists( 'ap_ui_preload_image' ) ) {
+	echo ap_ui_preload_image( $props['background'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- built from esc_url() in the loader.
+}
 
 // Live sizes each compliance badge by kind (.apg-badge-soc2 / -govramp / -hipaa).
 $ap_badge_class = static function ( $badge ) {
@@ -158,7 +186,7 @@ endif;
 	<div class="apg-hero-stage">
 		<div class="apg-hero-visual">
 			<?php if ( '' !== trim( (string) $props['background'] ) ) : ?>
-				<img class="apg-hero-bg" src="<?php echo esc_url( $props['background'] ); ?>" alt="" decoding="async" fetchpriority="high" />
+				<img class="apg-hero-bg" src="<?php echo esc_url( $props['background'] ); ?>" alt="" width="1440" height="640" decoding="async" fetchpriority="high" />
 			<?php endif; ?>
 			<?php foreach ( array_slice( $photos, 0, 3 ) as $i => $photo ) : ?>
 				<?php $box = $ap_pct( $photo, array( 'x' => 'left', 'y' => 'top', 'w' => 'width', 'h' => 'height' ) ); ?>
@@ -167,7 +195,7 @@ endif;
 						<img src="<?php echo esc_url( $photo['image'] ); ?>" alt="<?php echo esc_attr( $photo['alt'] ?? '' ); ?>" style="<?php echo esc_attr( $ap_pct( $photo, array( 'ix' => 'left', 'iy' => 'top', 'iw' => 'width', 'ih' => 'height' ) ) ); ?>" decoding="async" />
 					</div>
 				<?php else : ?>
-					<img class="apg-hero-photo apg-hero-p<?php echo esc_attr( (string) ( $i + 1 ) ); ?>" src="<?php echo esc_url( $photo['image'] ); ?>" alt="<?php echo esc_attr( $photo['alt'] ?? '' ); ?>" style="<?php echo esc_attr( $box ); ?>" decoding="async" />
+					<img class="apg-hero-photo apg-hero-p<?php echo esc_attr( (string) ( $i + 1 ) ); ?>" src="<?php echo esc_url( $photo['image'] ); ?>" alt="<?php echo esc_attr( $photo['alt'] ?? '' ); ?>" style="<?php echo esc_attr( $box ); ?>"<?php echo isset( $photo['w'], $photo['h'] ) && is_numeric( $photo['w'] ) && is_numeric( $photo['h'] ) ? ' width="' . (int) round( (float) $photo['w'] * 14.4 ) . '" height="' . (int) round( (float) $photo['h'] * 6.4 ) . '"' : ''; ?> decoding="async" />
 				<?php endif; ?>
 			<?php endforeach; ?>
 			<div class="apg-hero-veil"></div>

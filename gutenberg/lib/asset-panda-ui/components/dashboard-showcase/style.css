@@ -201,7 +201,7 @@
 	align-items: center;
 	justify-content: center;
 	padding: 4px;
-	border: 1px solid;
+	border: 1px solid #e6e8f0;
 	border-radius: var(--ap-radius-sm);
 }
 
@@ -351,7 +351,7 @@
 	display: inline-flex;
 	align-items: center;
 	padding: 0 4px;
-	border: 0.5px solid;
+	border: 0.5px solid #e6e8f0;
 	border-radius: var(--ap-radius-xs);
 	font-family: var(--ap-font-body);
 	font-size: 14px;
@@ -407,7 +407,7 @@
 	align-items: center;
 	justify-content: center;
 	overflow: hidden;
-	border: 1px solid;
+	border: 1px solid #e6e8f0;
 	border-radius: 50%;
 }
 
@@ -811,4 +811,50 @@
 	max-height: 48px;
 	padding: 16px;
 	font-weight: 600;
+}
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: --ap-section-y top and bottom (was 80 / 56 / 40 by width),
+ * --ap-section-head-gap from the head to the dashboard stage (was 64 / 40). */
+html body .ap-dashboard-showcase.ap-dashboard-showcase { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+html body .ap-dashboard-showcase .ap-dashboard-showcase__stage { margin-top: var(--ap-section-head-gap, 48px); }
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-dashboard-showcase.ap-dashboard-showcase.ap-dashboard-showcase .ap-dashboard-showcase__title { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+/* Section eyebrow on the type scale too: 12px at 390 to 14px at 1440, 800, 4% tracking, upper case. */
+html body .ap-dashboard-showcase.ap-dashboard-showcase.ap-dashboard-showcase .ap-dashboard-showcase__eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }
+/* Tablets and phones (QA 2026-10-28): once the tip cards stack (768px and
+ * below) their small labels read at 12px (were 8px). */
+@media (max-width: 768px) {
+	html body .ap-dashboard-showcase .ap-dashboard-showcase__tip-sub { font-size: 12px; line-height: 1.4; }
+}
+
+/* QA 2026-10-29/30 (Joseph): "instead of eating the entire section … center splash it on the section". Tried on
+ * /products/asset-panda-for-local-government/ first; approved 10-30 for every page with this section (the six product
+ * pages). The colour wash fades out from the middle of the section to white well before every edge (an oval mask on
+ * the wash only; cards and text untouched). */
+.ap-dashboard-showcase .ap-dashboard-showcase__bg {
+	-webkit-mask-image: radial-gradient(ellipse 44% 42% at 50% 54%, #000 35%, rgba(0, 0, 0, 0) 100%);
+	mask-image: radial-gradient(ellipse 44% 42% at 50% 54%, #000 35%, rgba(0, 0, 0, 0) 100%);
+}
+@media (max-width: 767px) {
+	.ap-dashboard-showcase .ap-dashboard-showcase__bg {
+		-webkit-mask-image: radial-gradient(ellipse 70% 38% at 50% 50%, #000 35%, rgba(0, 0, 0, 0) 100%);
+		mask-image: radial-gradient(ellipse 70% 38% at 50% 50%, #000 35%, rgba(0, 0, 0, 0) 100%);
+	}
+}
+/* QA 2026-10-30 (Joseph, Local Government: "check the background image? It looks cut off at the bottom"): on the
+ * coloured wash the faded table read as a framed card; on the white around the splash its frame vanishes and the
+ * table stopped in a hard line through a row. Its edges now fade out (softly at the sides and top, longer at the
+ * bottom) so it melts into the section. Desktop stage only; phones show the screenshot whole. */
+@media (min-width: 768px) {
+	.ap-dashboard-showcase .ap-dashboard-showcase__shot {
+		-webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, #000 14%, #000 62%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0, #000 9%, #000 91%, rgba(0, 0, 0, 0) 100%);
+		-webkit-mask-composite: source-in;
+		mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, #000 14%, #000 62%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0, #000 9%, #000 91%, rgba(0, 0, 0, 0) 100%);
+		mask-composite: intersect;
+	}
 }

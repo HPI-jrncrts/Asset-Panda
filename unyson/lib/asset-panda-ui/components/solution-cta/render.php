@@ -2,9 +2,11 @@
 /**
  * solution-cta — the solution pages' closing call to action.
  *
- * Matches the live .epx-fcta section: a gradient card, copy on the left, the
- * product image pinned to the card's right edge from 1001px and set under the
- * copy below it. The card reveals through a CSS scroll timeline, as on live.
+ * After the live .epx-fcta section: copy on the left, the product image pinned
+ * to the right from 1001px and set under the copy below it. Since QA
+ * 2026-10-29 the colour is a soft splash on the section itself; __card is a
+ * layout box only (no fill). It reveals through a CSS scroll timeline, as on
+ * live.
  *
  * @var array $props Validated props.
  */
@@ -19,7 +21,7 @@ $body    = trim( (string) $props['body'] );
 $image   = trim( (string) $props['image'] );
 $has_cta = '' !== trim( (string) $props['cta_label'] ) && '' !== trim( (string) $props['cta_url'] );
 ?>
-<section class="ap-solution-cta ap-solution-cta--<?php echo esc_attr( $variant ); ?>">
+<section class="ap-solution-cta ap-solution-cta--<?php echo esc_attr( $variant ); ?><?php echo 'splash' === ( $props['look'] ?? 'card' ) ? ' ap-solution-cta--splash' : ''; ?>">
 	<div class="ap-solution-cta__wrap">
 		<div class="ap-solution-cta__card ap-solution-cta__rev">
 			<div class="ap-solution-cta__content">

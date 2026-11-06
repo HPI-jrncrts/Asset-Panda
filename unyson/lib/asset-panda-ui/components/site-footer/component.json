@@ -312,8 +312,16 @@
 							"url": "/our-company/"
 						},
 						{
+							"label": "Our Technology",
+							"url": "/our-technology/"
+						},
+						{
 							"label": "Partners",
 							"url": "/partners/"
+						},
+						{
+							"label": "Purchasing Contracts",
+							"url": "/purchasing-contracts/"
 						},
 						{
 							"label": "Careers",

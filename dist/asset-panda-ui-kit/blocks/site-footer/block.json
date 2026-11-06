@@ -298,11 +298,15 @@
 						},
 						{
 							"label": "Our Technology",
-							"url": "/asset-intelligence-platform/"
+							"url": "/our-technology/"
 						},
 						{
 							"label": "Partners",
 							"url": "/partners/"
+						},
+						{
+							"label": "Purchasing Contracts",
+							"url": "/purchasing-contracts/"
 						},
 						{
 							"label": "Careers",

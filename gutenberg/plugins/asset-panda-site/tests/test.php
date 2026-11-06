@@ -134,6 +134,9 @@ check( 'value comparison tolerates Yoast clean-up (@, trailing slash) but not re
 $p_page   = $pages['page']['path'];
 $p_splash = $pages['splash']['path'];
 
+// The live-identity checks below compare with live's head snippet: the "immediate" timing (1.3.3 defaults to
+// "settled"; see the settings switches).
+ap_site_update_settings( array( 'gtm_timing' => 'immediate' ) );
 $r = http( 'GET', $p_page, $WWW, $https );
 file_put_contents( getenv( 'AP_TEST_STATE' ) . '/sample-www-page.html', $r['body'] );
 file_put_contents( getenv( 'AP_TEST_STATE' ) . '/sample-www-page.headers.json', json_encode( $r['headers'], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) );
@@ -181,6 +184,17 @@ ap_site_update_settings( array( 'stape_query' => 'not valid!' ) );
 $r = http( 'GET', $p_page, $WWW, $https );
 check( 'stape with an invalid token falls back to the standard loader', false !== strpos( $r['body'], 'googletagmanager.com/gtm.js' ) );
 ap_site_update_settings( array( 'loader' => 'gtm', 'stape_query' => ap_site_defaults()['stape_query'] ) );
+
+check( 'gtm timing: "settled" is the default (2026-11-04)', 'settled' === ap_site_defaults()['gtm_timing'] && 3000 === ap_site_defaults()['gtm_delay_ms'] );
+ap_site_update_settings( array( 'gtm_timing' => 'settled', 'gtm_delay_ms' => 3000 ) );
+$r  = http( 'GET', $p_page, $WWW, $https );
+$gp = strpos( $r['body'], 'googletagmanager.com/gtm.js' );
+check( 'settled timing: one loader, in <head>, started on first interaction or 3000 ms after load, exempt from Cookiebot blocking', 1 === substr_count( $r['body'], 'googletagmanager.com/gtm.js' ) && false !== $gp && $gp < strpos( $r['body'], '</head>' ) && false !== strpos( $r['body'], "ev=['scroll','pointerdown','keydown','touchstart','mousemove']" ) && false !== strpos( $r['body'], '},3000);' ) && false !== strpos( $r['body'], "setAttribute('data-cookieconsent','ignore')" ) );
+check( 'settled timing: a Tag Assistant / Preview visit (?gtm_debug=) starts GTM at once', false !== strpos( $r['body'], 'if(/[?&]gtm_debug=/.test(w.location.search)){load();return;}' ) );
+check( 'settled timing: noscript unchanged', 1 === substr_count( $r['body'], 'googletagmanager.com/ns.html' ) );
+ap_site_update_settings( array( 'gtm_delay_ms' => 99999 ) );
+check( 'settled timing: delay is capped at 10 s', 10000 >= (int) ap_site_settings()['gtm_delay_ms'] || false !== strpos( ap_site_gtm_head_html(), '},10000);' ) );
+ap_site_update_settings( array( 'gtm_timing' => 'immediate', 'gtm_delay_ms' => 3000 ) );
 
 ap_site_update_settings( array( 'tracking' => false ) );
 $r = http( 'GET', $p_page, $WWW, $https );

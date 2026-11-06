@@ -7,7 +7,7 @@
  * of a 488px slide and a white card (57% wide) overlaps it from the left, 58px
  * down; phones: the photo sits on top and the card overlaps it by 40px. The
  * author's logo sits beside the author (under it on phones). Arrows, a rule
- * and dots sit beneath; behaviour.js loops and autoplays every 5 seconds.
+ * and dots sit beneath; behaviour.js loops and autoplays every autoplay_ms (3 s).
  *
  * The track is a scroll-snap list, so it works with keyboard, touch and
  * trackpad before behaviour.js runs. Controls render hidden and are revealed
@@ -40,7 +40,7 @@ $reveal  = (bool) $props['reveal'];
 $has_cta = '' !== trim( (string) $props['cta_label'] ) && '' !== trim( (string) $props['cta_url'] );
 $count   = count( $items );
 ?>
-<section class="ap-cases" data-ap-cases>
+<section class="ap-cases" data-ap-cases data-ap-autoplay="<?php echo esc_attr( (string) max( 0, (int) $props['autoplay_ms'] ) ); ?>">
 	<div class="ap-cases__inner">
 		<div class="ap-cases__head"<?php echo $reveal ? ' data-ap-reveal' : ''; ?>>
 			<div class="ap-cases__headings">

@@ -880,3 +880,76 @@
 		height: var(--pv-card-h);
 	}
 }
+
+/* ---- QA 2026-10-30 (Joseph, /tutorials/): "For the video container, we have that dark blue section right? Let's remove
+ * that and turn it into glass opaque and add a gradient background to that section". The section gets a centred
+ * splash (teal, indigo and lilac blooms that fade to white well before its edges, so no seam shows against the
+ * sections around it); the theater panel is frosted white glass over it instead of the dark indigo panel, and every
+ * text and card in it takes the light treatment: dark headings and copy, white cards with a hairline edge and a soft
+ * indigo shadow. The player keeps its dark frame behind the video. ---- */
+.ap-page-videos,
+.ap-page-videos.ap-page-videos--soft {
+	background:
+		radial-gradient(34% 44% at 12% 30%, rgba(0, 169, 145, .42), rgba(0, 169, 145, 0) 76%),
+		radial-gradient(36% 46% at 88% 70%, rgba(80, 68, 225, .42), rgba(80, 68, 225, 0) 76%),
+		radial-gradient(30% 36% at 60% 88%, rgba(146, 120, 255, .30), rgba(146, 120, 255, 0) 76%),
+		radial-gradient(26% 32% at 40% 12%, rgba(146, 120, 255, .22), rgba(146, 120, 255, 0) 76%),
+		var(--ap-white);
+}
+.ap-page-videos .ap-page-videos__theater {
+	background: rgba(255, 255, 255, .42);
+	-webkit-backdrop-filter: blur(24px) saturate(1.2);
+	backdrop-filter: blur(24px) saturate(1.2);
+	border: 1px solid rgba(255, 255, 255, .85);
+	color: var(--ap-text-body);
+	box-shadow: 0 24px 60px rgba(80, 68, 225, .12);
+}
+.ap-page-videos .ap-page-videos__theater::before { display: none; }
+.ap-page-videos .ap-page-videos__count { color: var(--ap-type-eyebrow-color, var(--ap-brand-indigo)); }
+.ap-page-videos .ap-page-videos__name { color: var(--ap-text-heading); }
+.ap-page-videos .ap-page-videos__body p { color: var(--ap-text-body); }
+.ap-page-videos .ap-page-videos__body li { color: var(--ap-text-heading); }
+.ap-page-videos .ap-page-videos__body a { color: var(--ap-indigo-600); }
+.ap-page-videos .ap-page-videos__body a:hover { color: var(--ap-green-700); }
+.ap-page-videos .ap-page-videos__deck-title { color: var(--ap-text-heading); }
+.ap-page-videos .ap-page-videos__deck-count { color: var(--ap-slate-500); }
+.ap-page-videos .ap-page-videos__card {
+	border-color: var(--ap-athens-100);
+	background: var(--ap-white);
+	color: var(--ap-text-body);
+	box-shadow: 0 10px 24px rgba(32, 28, 74, .10);
+}
+.ap-page-videos .ap-page-videos__slot.is-next .ap-page-videos__card {
+	border-color: var(--ap-athens-200);
+	color: var(--ap-text-heading);
+	box-shadow: 0 16px 32px rgba(32, 28, 74, .14);
+}
+.ap-page-videos .ap-page-videos__card::after { background: rgba(80, 68, 225, .04); }
+.ap-page-videos .ap-page-videos__thumb { background: var(--ap-athens-50); }
+.ap-page-videos .ap-page-videos__index { color: var(--ap-slate-500); }
+.ap-page-videos .ap-page-videos__slot.is-next .ap-page-videos__index { color: var(--ap-indigo-600); }
+@media (hover: hover) {
+	.ap-page-videos .ap-page-videos__card:hover {
+		border-color: var(--ap-athens-200);
+		color: var(--ap-text-heading);
+	}
+}
+@media (max-width: 1100px) {
+	.ap-page-videos .ap-page-videos__cards { scrollbar-color: rgba(32, 28, 74, .2) transparent; }
+}
+
+/* QA 2026-10-31 (Joseph, /tutorials/: "Add overlay white on top of the gradient background on the video section ...
+ * Just right below the video container so the section divider is not obvious"): a white fade over the splash from
+ * just under the theater panel (the section's 96px foot) to full white 24px above the edge. Same day ("Can we also add
+ * the overlay at the top of the section please? I just noticed the divider at the top."): a matching fade at the top,
+ * white at the edge to clear 110px down (the panel starts 72px in). */
+.ap-page-videos,
+.ap-page-videos.ap-page-videos--soft {
+	background:
+		linear-gradient(180deg, #fff 0, rgba(255, 255, 255, 0) 110px, rgba(255, 255, 255, 0) calc(100% - 150px), #fff calc(100% - 24px)),
+		radial-gradient(34% 44% at 12% 30%, rgba(0, 169, 145, .42), rgba(0, 169, 145, 0) 76%),
+		radial-gradient(36% 46% at 88% 70%, rgba(80, 68, 225, .42), rgba(80, 68, 225, 0) 76%),
+		radial-gradient(30% 36% at 60% 88%, rgba(146, 120, 255, .30), rgba(146, 120, 255, 0) 76%),
+		radial-gradient(26% 32% at 40% 12%, rgba(146, 120, 255, .22), rgba(146, 120, 255, 0) 76%),
+		var(--ap-white);
+}

@@ -17,7 +17,9 @@
 			"default": "center",
 			"enum": [
 				"center",
-				"split"
+				"split",
+				"photo",
+				"panel"
 			]
 		},
 		"eyebrow": {
@@ -101,6 +103,26 @@
 			]
 		},
 		"stats": {
+			"type": "array",
+			"default": []
+		},
+		"facts_title": {
+			"type": "string",
+			"default": ""
+		},
+		"facts": {
+			"type": "array",
+			"default": []
+		},
+		"panel_title": {
+			"type": "string",
+			"default": ""
+		},
+		"panel_body": {
+			"type": "string",
+			"default": ""
+		},
+		"panel_links": {
 			"type": "array",
 			"default": []
 		},

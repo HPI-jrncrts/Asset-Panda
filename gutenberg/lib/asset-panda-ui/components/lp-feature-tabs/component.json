@@ -1,0 +1,12 @@
+{
+	"name": "lp-feature-tabs",
+	"description": "Feature library: centred heading over pill tabs (CSS-only, no script) that switch between grids of checked features, each a title and a line of copy; three across on desktop, two on tablets, one on phones. With one tab the bar is left out and the grid shows alone. Live: the 'Explore all of our features' tabs (bs-tab-slider) on /solutions/asset-management-ot-ga/.",
+	"props": {
+		"anchor": { "type": "string", "required": false, "default": "", "description": "id on the section (letters, digits, hyphens)." },
+		"tone": { "type": "string", "required": false, "default": "soft", "enum": [ "soft", "white" ], "description": "Section background: the soft grey band or white." },
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small uppercase label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading (h2). Line breaks are kept." },
+		"intro": { "type": "string", "required": false, "default": "", "description": "Paragraph under the heading." },
+		"tabs": { "type": "array", "required": true, "description": "Up to 8 tabs, in order; the first opens. Each: label (required) and items (list of { title (required), body })." }
+	}
+}

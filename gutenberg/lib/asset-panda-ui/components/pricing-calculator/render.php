@@ -172,11 +172,30 @@ $cta_url       = trim( (string) $props['cta_url'] );
 $footer_text   = trim( (string) $props['footer_text'] );
 $footer_label  = trim( (string) $props['footer_link_label'] );
 $footer_url    = trim( (string) $props['footer_link_url'] );
+$disclaimer    = trim( (string) $props['disclaimer'] );
+
+// variant 2026 = the Figma "Pricing - New Jun 11 2026" card. Every addition it
+// makes is gated on this flag, so the classic output stays byte-identical.
+$is_2026 = '2026' === (string) $props['variant'];
+
+// Figma's breakdown icons (exported from node 7169:88817), shipped in assets/.
+$figma_icons = array(
+	'time'   => 'icon-clock.svg',
+	'money'  => 'icon-dollar.svg',
+	'shield' => 'icon-shield.svg',
+);
+$icon_html = static function ( $icon ) use ( $is_2026, $icons, $figma_icons ) {
+	$url = $is_2026 ? ap_ui_asset_url( 'pricing-calculator', $figma_icons[ $icon ] ) : '';
+	if ( '' === $url ) {
+		return $icons[ $icon ];
+	}
+	return '<img src="' . esc_url( $url ) . '" width="20" height="20" alt="" loading="lazy" decoding="async">';
+};
 
 // Ids pair each label with its slider; unique across the page.
 $uid = function_exists( 'wp_unique_id' ) ? wp_unique_id( 'ap-pricing-calc-' ) : 'ap-pricing-calc-' . substr( md5( uniqid( '', true ) ), 0, 8 );
 ?>
-<section class="ap-pricing-calculator" data-ap-roi data-ap-roi-time-pct="<?php echo esc_attr( $plain( $time_pct ) ); ?>" data-ap-roi-loss-pct="<?php echo esc_attr( $plain( $loss_pct ) ); ?>" data-ap-roi-weeks="<?php echo esc_attr( $plain( $weeks ) ); ?>" data-ap-roi-base="<?php echo esc_attr( $plain( $baseline ) ); ?>">
+<section class="ap-pricing-calculator<?php echo $is_2026 ? ' ap-pricing-calculator--2026' : ''; ?>" data-ap-roi data-ap-roi-time-pct="<?php echo esc_attr( $plain( $time_pct ) ); ?>" data-ap-roi-loss-pct="<?php echo esc_attr( $plain( $loss_pct ) ); ?>" data-ap-roi-weeks="<?php echo esc_attr( $plain( $weeks ) ); ?>" data-ap-roi-base="<?php echo esc_attr( $plain( $baseline ) ); ?>">
 	<div class="ap-pricing-calculator__card">
 		<div class="ap-pricing-calculator__grid">
 			<div class="ap-pricing-calculator__inputs">
@@ -234,7 +253,7 @@ $uid = function_exists( 'wp_unique_id' ) ? wp_unique_id( 'ap-pricing-calc-' ) : 
 					<?php if ( '' !== $total_label ) : ?>
 						<p class="ap-pricing-calculator__kicker"><?php echo esc_html( $total_label ); ?></p>
 					<?php endif; ?>
-					<p class="ap-pricing-calculator__total" data-ap-roi-output="total"><?php echo esc_html( $results['total'] ); ?></p>
+					<p class="ap-pricing-calculator__total" data-ap-roi-output="total"<?php echo $is_2026 ? ' aria-live="polite" aria-atomic="true"' : ''; ?>><?php echo esc_html( $results['total'] ); ?></p>
 					<?php if ( '' !== $total_text ) : ?>
 						<p class="ap-pricing-calculator__subtext"><?php echo esc_html( $total_text ); ?></p>
 					<?php endif; ?>
@@ -244,7 +263,7 @@ $uid = function_exists( 'wp_unique_id' ) ? wp_unique_id( 'ap-pricing-calc-' ) : 
 					<div class="ap-pricing-calculator__breakdown">
 						<?php foreach ( $rows as $row ) : ?>
 							<div class="ap-pricing-calculator__row">
-								<span class="ap-pricing-calculator__icon ap-pricing-calculator__icon--<?php echo esc_attr( $row['icon'] ); ?>" aria-hidden="true"><?php echo $icons[ $row['icon'] ]; // phpcs:ignore WordPress.Security.EscapeOutput -- fixed markup from the array above, keyed by a validated enum. ?></span>
+								<span class="ap-pricing-calculator__icon ap-pricing-calculator__icon--<?php echo esc_attr( $row['icon'] ); ?>" aria-hidden="true"><?php echo $icon_html( $row['icon'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- fixed markup from the arrays above (or an esc_url'd asset URL), keyed by a validated enum. ?></span>
 								<div>
 									<?php if ( '' !== $row['title'] ) : ?>
 										<p class="ap-pricing-calculator__row-title"><?php echo esc_html( $row['title'] ); ?></p>
@@ -276,8 +295,11 @@ $uid = function_exists( 'wp_unique_id' ) ? wp_unique_id( 'ap-pricing-calc-' ) : 
 		<p class="ap-pricing-calculator__footer-link">
 			<?php echo esc_html( $footer_text ); ?>
 			<?php if ( '' !== $footer_label && '' !== $footer_url ) : ?>
-				<a href="<?php echo esc_url( $footer_url, array( 'http', 'https', 'tel', 'mailto' ) ); ?>"><?php echo esc_html( $footer_label ); ?></a>
+				<a href="<?php echo esc_url( $footer_url, array( 'http', 'https', 'tel', 'mailto' ) ); ?>"><?php echo esc_html( $footer_label ); echo $is_2026 ? '<span class="ap-pricing-calculator__arrow" aria-hidden="true">&#8594;</span>' : ''; // phpcs:ignore WordPress.Security.EscapeOutput -- fixed markup. ?></a>
 			<?php endif; ?>
 		</p>
 	<?php endif; ?>
+<?php if ( '' !== $disclaimer ) : ?>
+	<p class="ap-pricing-calculator__disclaimer"><?php echo esc_html( $disclaimer ); ?></p>
+<?php endif; ?>
 </section>

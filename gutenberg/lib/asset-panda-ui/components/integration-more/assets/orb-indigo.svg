@@ -1,0 +1,12 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="1140" height="500" viewBox="0 0 1140 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Decorative / Indigo Orb 01" filter="url(#filter0_f_0_326)">
+<ellipse cx="570" cy="250" rx="382" ry="62" fill="#C8D2FD"/>
+</g>
+<defs>
+<filter id="filter0_f_0_326" x="0" y="0" width="1140" height="500" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="94" result="effect1_foregroundBlur_0_326"/>
+</filter>
+</defs>
+</svg>

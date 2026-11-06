@@ -689,44 +689,88 @@ html body .ap-assist-hero .ap-assist-hero__orbs {
 		#fff !important;
 }
 
-/* ------------------------------------------------------------ Copy / art spacing on desktops (QA 2026-10-29)
- * Joseph: "There should be space between the headers and content on the left from the images on the right", as
- * on /asset-intelligence-platform/ (130px at 1440, 109px at 1280, 67px at 1024). The art (request card, Ursa
- * reply, follow-up card, tiles and the photo) sat 59px from the copy at 1440 and ran 37px into it at 1366, where
- * the column jumped to a 160px inset. Same rules as the solution hero, wherever copy and art sit side by side
- * (1001px up): the copy keeps its width and text and, from 1281px, starts where the chip strip starts
- * ((stage - 1120px) / 2); the art keeps 10% of the stage width (8% up to 1180px) clear of the copy column's edge
- * and scales down as one unit to the room that is left (never up), anchored on the strip's right edge and hung
- * one section inset below the header (level with the eyebrow). The art itself is the right 534px of the 644px
- * box (the request card starts 110px in), so that is what has to fit; tan(atan2(room, 534px)) is room / 534px.
- * The photo already fades out through its own mask. Phones and tablets (1000px and down) are untouched. */
+/* ------------------------------------------------------------ Figma hero frame on desktops (QA 2026-10-29 evening)
+ * Joseph: "The image on the hero needs to reach the bottom of the hero section ... Exactly as figma dictates." The
+ * Figma hero is a 1440 x 640 frame drawn from the page top with its nav over the first 64px; here the 72px header
+ * sits above the hero, so the hero is the frame's lower 568px and everything keeps its Figma page position. This
+ * replaces the copy / art spacing pass from earlier today (the art scaled to .78-.88 and hung from the top):
+ *  - the band is 568px (the frame's 640 less the header);
+ *  - the copy is centred where Figma centres it, 13.5px below the frame's middle (page y 333.5): the column's two
+ *    spacers share the free height equally inside a box that starts 13px down;
+ *  - the art box (cards, tiles and the photo, in the arrangement agreed earlier today) is drawn at full size,
+ *    standing on the hero's foot and ending on the chip strip's right edge (160px in), so she runs to the bottom
+ *    edge and fades out under the chips through her own mask;
+ *  - the chips are Figma's 42px (582-624): each icon was an inline svg in a block wrapper, whose line box made the
+ *    chip 48px tall and lifted the row 6px;
+ *  - narrower desktops (1001-1439px) scale the box and its inset with the stage (stage / 1440, read as
+ *    tan(atan2(stage, 1440px)); the section is the size container); wider screens keep the 1440 layout centred.
+ * Without container units or trig functions the ratio takes fixed steps. Phones and tablets (1000px and down) are
+ * untouched. */
 @media (min-width: 1001px) {
-	.ap-assist-hero__vwrap { --ap-ah-fit: .78; top: var(--ap-section-y, 56px); bottom: auto; }
+	.ap-assist-hero__stage { height: 568px; }
+	.ap-assist-hero__content { padding-top: 13px; }
+	.ap-assist-hero__content::before,
+	.ap-assist-hero__content::after { flex: 1 1 0; min-height: 0; }
+	.ap-assist-hero__vwrap { --ap-ah-fit: var(--ap-ah-s, 1); left: auto; right: calc(160px * var(--ap-ah-fit)); top: auto; bottom: 0; }
+	.ap-assist-hero__pill svg { display: block; }
 }
-@media (min-width: 1181px) {
-	.ap-assist-hero__vwrap { --ap-ah-fit: .88; }
+@media (min-width: 1001px) and (max-width: 1180px) {
+	.ap-assist-hero { --ap-ah-s: .75; }
+}
+@media (min-width: 1181px) and (max-width: 1320px) {
+	.ap-assist-hero { --ap-ah-s: .86; }
+}
+@media (min-width: 1321px) and (max-width: 1439px) {
+	.ap-assist-hero { --ap-ah-s: .95; }
 }
 @media (min-width: 1281px) {
 	.ap-assist-hero__content { left: max(40px, (100% - 1120px) / 2); }
-	.ap-assist-hero__vwrap { --ap-ah-fit: .78; right: max(40px, (100% - 1120px) / 2); }
 }
 @supports (width: 1cqw) and (scale: tan(atan2(1px, 2px))) {
 	@media (min-width: 1001px) {
-		.ap-assist-hero {
-			container-type: inline-size;
-			--ap-ah-s: min(100cqw, 1440px);
-			--ap-ah-cl: 40px;
-			--ap-ah-cw: 440px;
-			--ap-ah-ar: 16px;
-			--ap-ah-gap: calc(var(--ap-ah-s) * .08);
-			--ap-ah-cap: .86;
-		}
-		.ap-assist-hero__vwrap { --ap-ah-fit: clamp(.3, tan(atan2(calc(var(--ap-ah-s) - var(--ap-ah-ar) - var(--ap-ah-cl) - var(--ap-ah-cw) - var(--ap-ah-gap)), 534px)), var(--ap-ah-cap)); }
+		.ap-assist-hero { container-type: inline-size; --ap-ah-s: tan(atan2(min(100cqw, 1440px), 1440px)); }
 	}
-	@media (min-width: 1181px) {
-		.ap-assist-hero { --ap-ah-cw: 500px; --ap-ah-ar: 40px; --ap-ah-gap: calc(var(--ap-ah-s) * .1); --ap-ah-cap: 1; }
+}
+
+/* ------------------------------------------------------------ QA 2026-10-30 (Joseph, /solutions/help-desk-ticketing/)
+ * "Kindly readjust the hero images. Make the lady bigger. The cards should overlap a little bit with each other and the
+ * lady. See figma design for reference" (6365:30711). This supersedes the spaced, no-overlap card arrangement of
+ * 10-29. Everything takes its Figma page position inside the art box (644 x 540, standing on the hero's foot with its
+ * right edge 160px in, so box x = page x - 636 and box y = page y - 100 at 1440): the request card 776,100; the Ursa
+ * reply 955,179, overlapping the request card's right edge; the photo 611,283 at its full 486 x 729, so she shows from
+ * the head down to the foot (357px of her, was 264px from 93px lower), fading out over the last 67px under the chips;
+ * the follow-up card 955,435; the tiles 744,385 / 1057,124 / 1223,474. Layered as Figma layers them: the request card,
+ * then the Ursa reply, then her, then the follow-up card and the tiles in front. Narrower desktops scale the box as
+ * before; phones and tablets (1000px and down) are untouched. */
+@media (min-width: 1001px) {
+	.ap-assist-hero .epx-hv--msg { left: 140px; top: 0; z-index: 2; }
+	.ap-assist-hero .epx-hv--ursa { left: 319px; top: 79px; z-index: 3; }
+	.ap-assist-hero .ap-assist-hero__photo {
+		left: -25px;
+		top: 183px;
+		z-index: 4;
+		-webkit-mask-image: linear-gradient(to bottom, #000 0, #000 290px, transparent 357px);
+		        mask-image: linear-gradient(to bottom, #000 0, #000 290px, transparent 357px);
 	}
-	@media (min-width: 1281px) {
-		.ap-assist-hero { --ap-ah-cl: max(40px, (var(--ap-ah-s) - 1120px) / 2); --ap-ah-cw: 554px; --ap-ah-ar: var(--ap-ah-cl); }
+	.ap-assist-hero .epx-hv--resp { left: 319px; top: 335px; z-index: 5; }
+	.ap-assist-hero .epx-htile { z-index: 6; }
+	.ap-assist-hero .epx-htile--ticket { left: 108px; top: 285px; }
+	.ap-assist-hero .epx-htile--flag { left: 421px; top: 24px; }
+	.ap-assist-hero .epx-htile--history { left: 587px; top: 374px; }
+}
+
+/* ---- phones, Joseph 2026-10-31 (post-launch): "Can we move the lady up? She should be visible atleast halfway above
+ * the hero on mobile ... it's okay to have the lady sit on top of them overlapping in mobiles." She now starts 60px
+ * down the art box (box units, before the phone scale) instead of 276px, in front of the cards and tiles, and still
+ * fades out through her mask before the chip strip, whose top sits ~448px down the box at every phone width:
+ * solid for her first 318px, gone by 388px, so a little over half of her shows. As on desktops (Figma 6365:30711),
+ * the follow-up card stays in front of her. */
+@media (max-width: 700px) {
+	.ap-assist-hero .ap-assist-hero__photo {
+		top: 60px;
+		z-index: 4;
+		-webkit-mask-image: linear-gradient(to bottom, #000 0, #000 318px, transparent 388px);
+		mask-image: linear-gradient(to bottom, #000 0, #000 318px, transparent 388px);
 	}
+	.ap-assist-hero .epx-hv--resp { z-index: 5; }
 }

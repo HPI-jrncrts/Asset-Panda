@@ -39,6 +39,12 @@ $h         = (int) $props['image_h'];
 $side      = 'left' === $props['image_side'] ? 'left' : 'right';
 $date      = trim( (string) $props['date'] );
 $share_url = trim( (string) $props['share_url'] );
+// A YouTube video for the article media slot (QA 2026-10-30, webinars): the 11-character id from an id or any
+// youtube.com / youtu.be URL. It takes the image's place and autoplays muted (browsers only autoplay muted video).
+$video = '';
+if ( preg_match( '~(?:^|youtube(?:-nocookie)?\.com/(?:embed/|watch\?v=|shorts/)|youtu\.be/)([A-Za-z0-9_-]{11})(?:$|[?&#/])~', trim( (string) $props['video'] ), $ap_rh_m ) ) {
+	$video = $ap_rh_m[1];
+}
 
 if ( '' !== $img && function_exists( 'ap_ui_preload_image' ) ) {
 	echo ap_ui_preload_image( $img ); // phpcs:ignore WordPress.Security.EscapeOutput -- built with esc_url/esc_attr in the loader.
@@ -67,7 +73,7 @@ if ( 'article' === $variant ) :
 		$share_a[] = array( 'Email', $share[3][1], '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true" focusable="false"><path d="M3 7C3 6.46957 3.21071 5.96086 3.58579 5.58579C3.96086 5.21071 4.46957 5 5 5H19C19.5304 5 20.0391 5.21071 20.4142 5.58579C20.7893 5.96086 21 6.46957 21 7M3 7V17C3 17.5304 3.21071 18.0391 3.58579 18.4142C3.96086 18.7893 4.46957 19 5 19H19C19.5304 19 20.0391 18.7893 20.4142 18.4142C20.7893 18.0391 21 17.5304 21 17V7M3 7L12 13L21 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' );
 	}
 	?>
-<header class="ap-resource-header ap-resource-header--article<?php echo '' === $img ? ' ap-resource-header--no-img' : ''; ?>">
+<header class="ap-resource-header ap-resource-header--article<?php echo '' === $img && '' === $video ? ' ap-resource-header--no-img' : ''; ?><?php echo '' !== $video ? ' ap-resource-header--video' : ''; ?>">
 	<?php if ( ! empty( $props['wash'] ) ) : ?>
 		<div class="ap-resource-header__wash" aria-hidden="true"></div>
 	<?php endif; ?>
@@ -126,7 +132,11 @@ if ( 'article' === $variant ) :
 				</div>
 			<?php endif; ?>
 		</div>
-		<?php if ( '' !== $img ) : ?>
+		<?php if ( '' !== $video ) : ?>
+			<figure class="ap-resource-header__media ap-resource-header__media--video">
+				<iframe class="ap-resource-header__video" src="<?php echo esc_url( 'https://www.youtube-nocookie.com/embed/' . $video . '?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1' ); ?>" title="<?php echo esc_attr( $title ); ?>" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="eager" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+			</figure>
+		<?php elseif ( '' !== $img ) : ?>
 			<figure class="ap-resource-header__media">
 				<img class="ap-resource-header__img" src="<?php echo esc_url( $img ); ?>" alt="<?php echo esc_attr( (string) $props['image_alt'] ); ?>"
 					width="<?php echo esc_attr( (string) ( $w > 0 ? $w : 1856 ) ); ?>" height="<?php echo esc_attr( (string) ( $h > 0 ? $h : 1160 ) ); ?>" fetchpriority="high" decoding="async" />

@@ -44,6 +44,10 @@
 			"type": "string",
 			"default": ""
 		},
+		"cta_eyebrow": {
+			"type": "string",
+			"default": ""
+		},
 		"cta_title": {
 			"type": "string",
 			"default": ""
@@ -83,6 +87,14 @@
 		"reveal": {
 			"type": "boolean",
 			"default": true
+		},
+		"bar_style": {
+			"type": "string",
+			"default": "wide",
+			"enum": [
+				"wide",
+				"standard"
+			]
 		},
 		"align": {
 			"type": "string",

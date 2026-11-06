@@ -865,7 +865,7 @@ html :where(.ap-asset-scene, .ap-assist-hero, .ap-awards, .ap-solution-awards, .
  * inside product illustrations, and the header's own buttons. Listed by class (not by motion.js's runtime tag) so
  * the size is right at first paint. The ID-weight :not() and !important outrank the components' own button rules
  * (several of them !important), which load after this sheet. */
-html body :is(a.ap-btn, button.ap-btn, .epx-btn, .apx-btn, a.apg-btn, .ap-solution-cta__btn, .ap-demo-cta__btn, .ap-compare-cta, .ap-ursa-band__btn, .ap-ursa-inspect__btn, .ap-capability-scene__btn, .ap-solution-features__btn, .ap-founder-quote__btn, .ap-dashboard-showcase__btn, .ap-compare-hero__btn, .ap-integrations-hero__btn, .ap-integration-hero__btn, .ap-vhero__btn, .ap-page-hero__btn, .ap-page-split__btn, .ap-page-cards__btn, .ap-page-directory__btn, .ap-plans-hero__btn, .ap-plans-picker__btn, .ap-pricing-calculator__btn, .ap-hero__btn, .ap-lp-hero__btn, .ap-mission__btn, .ap-media-band__btn, .ap-problem-callouts__btn, .ap-readiness-problem__btn, .ap-roi-calculator__btn, .aps-ender-btn, .apr-cta-btn, .ap-message-hero__link, .ap-dw-btn, .ap-demo-cta__form input[type="submit"], .ap-demo-cta__form .hs-button):not(#ap-cta-scale):not(.ap-site-header *) {
+html body :is(a.ap-btn, button.ap-btn, .epx-btn, .apx-btn, a.apg-btn, .ap-solution-cta__btn, .ap-demo-cta__btn, .ap-compare-cta, .ap-ursa-band__btn, .ap-ursa-inspect__btn, .ap-capability-scene__btn, .ap-solution-features__btn, .ap-founder-quote__btn, .ap-dashboard-showcase__btn, .ap-compare-hero__btn, .ap-integrations-hero__btn, .ap-integration-hero__btn, .ap-vhero__btn, .ap-page-hero__btn, .ap-page-split__btn, .ap-page-trust__btn, .ap-page-timeline__btn, .ap-solution-hero__choice-btn, .ap-page-cards__btn, .ap-page-directory__btn, .ap-plans-hero__btn, .ap-plans-picker__btn, .ap-pricing-calculator__btn, .ap-hero__btn, .ap-lp-hero__btn, .ap-mission__btn, .ap-media-band__btn, .ap-problem-callouts__btn, .ap-readiness-problem__btn, .ap-roi-calculator__btn, .aps-ender-btn, .apr-cta-btn, .ap-message-hero__link, .ap-dw-btn, .ap-demo-cta__form input[type="submit"], .ap-demo-cta__form .hs-button):not(#ap-cta-scale):not(.ap-site-header *) {
 	box-sizing: border-box !important;
 	min-width: 0 !important;
 	height: auto !important;
@@ -880,7 +880,7 @@ html body :is(a.ap-btn, button.ap-btn, .epx-btn, .apx-btn, a.apg-btn, .ap-soluti
 	text-transform: none !important;
 }
 @media (max-width: 1100px) {
-	html body :is(a.ap-btn, button.ap-btn, .epx-btn, .apx-btn, a.apg-btn, .ap-solution-cta__btn, .ap-demo-cta__btn, .ap-compare-cta, .ap-ursa-band__btn, .ap-ursa-inspect__btn, .ap-capability-scene__btn, .ap-solution-features__btn, .ap-founder-quote__btn, .ap-dashboard-showcase__btn, .ap-compare-hero__btn, .ap-integrations-hero__btn, .ap-integration-hero__btn, .ap-vhero__btn, .ap-page-hero__btn, .ap-page-split__btn, .ap-page-cards__btn, .ap-page-directory__btn, .ap-plans-hero__btn, .ap-plans-picker__btn, .ap-pricing-calculator__btn, .ap-hero__btn, .ap-lp-hero__btn, .ap-mission__btn, .ap-media-band__btn, .ap-problem-callouts__btn, .ap-readiness-problem__btn, .ap-roi-calculator__btn, .aps-ender-btn, .apr-cta-btn, .ap-message-hero__link, .ap-dw-btn, .ap-demo-cta__form input[type="submit"], .ap-demo-cta__form .hs-button):not(#ap-cta-scale):not(.ap-site-header *) {
+	html body :is(a.ap-btn, button.ap-btn, .epx-btn, .apx-btn, a.apg-btn, .ap-solution-cta__btn, .ap-demo-cta__btn, .ap-compare-cta, .ap-ursa-band__btn, .ap-ursa-inspect__btn, .ap-capability-scene__btn, .ap-solution-features__btn, .ap-founder-quote__btn, .ap-dashboard-showcase__btn, .ap-compare-hero__btn, .ap-integrations-hero__btn, .ap-integration-hero__btn, .ap-vhero__btn, .ap-page-hero__btn, .ap-page-split__btn, .ap-page-trust__btn, .ap-page-timeline__btn, .ap-solution-hero__choice-btn, .ap-page-cards__btn, .ap-page-directory__btn, .ap-plans-hero__btn, .ap-plans-picker__btn, .ap-pricing-calculator__btn, .ap-hero__btn, .ap-lp-hero__btn, .ap-mission__btn, .ap-media-band__btn, .ap-problem-callouts__btn, .ap-readiness-problem__btn, .ap-roi-calculator__btn, .aps-ender-btn, .apr-cta-btn, .ap-message-hero__link, .ap-dw-btn, .ap-demo-cta__form input[type="submit"], .ap-demo-cta__form .hs-button):not(#ap-cta-scale):not(.ap-site-header *) {
 		min-height: 36px !important;
 		padding: 9px 12px !important;
 		font-size: 13px !important;
@@ -894,7 +894,7 @@ html body :is(a.ap-btn, button.ap-btn, .epx-btn, .apx-btn, a.apg-btn, .ap-soluti
  * Tutorials read light and large next to every other page). Same rule, same zero specificity; merge into
  * the list above when convenient. site-header and site-footer stay out (they style their own type).
  */
-:where(.ap-article-cta, .ap-compare-hero, .ap-compare-table, .ap-integration-detail, .ap-integration-directory, .ap-integration-hero, .ap-integration-more, .ap-integration-titlebar, .ap-integrations-hero, .ap-lp-booking, .ap-lp-cookies, .ap-lp-ftabs, .ap-lp-hero, .ap-lp-prose, .ap-page-cards, .ap-page-directory, .ap-page-faq-hub, .ap-page-hero, .ap-page-reviews, .ap-page-split, .ap-page-toc, .ap-page-videos, .ap-resource-cards, .ap-resource-header, .ap-resource-hero, .ap-resource-search, .ap-resource-summary, .ap-roi-hero) {
+:where(.ap-article-cta, .ap-compare-hero, .ap-compare-table, .ap-integration-detail, .ap-integration-directory, .ap-integration-hero, .ap-integration-more, .ap-integration-titlebar, .ap-integrations-hero, .ap-lp-booking, .ap-lp-cookies, .ap-lp-ftabs, .ap-lp-hero, .ap-lp-prose, .ap-page-cards, .ap-page-directory, .ap-page-faq-hub, .ap-page-hero, .ap-page-reviews, .ap-page-split, .ap-page-toc, .ap-page-timeline, .ap-page-reach, .ap-page-values, .ap-page-founder, .ap-page-trust, .ap-page-next, .ap-page-videos, .ap-resource-cards, .ap-resource-header, .ap-resource-hero, .ap-resource-search, .ap-resource-summary, .ap-roi-hero) {
 	font-family: var(--ap-font-body);
 	font-size: 1rem;
 	font-weight: var(--ap-weight-body);
@@ -942,4 +942,16 @@ html body :is(.ap-integration-detail__btn, .ap-integration-more__btn, .ap-card-g
 :is(.epx-g, .apx-g, .apx-grad, .apg-h1-grad, .apg-h2-grad, .apg-ender-grad, .aps-grad, .apf-grad, .apu-grad, .apk-grad, .ap-assist-problem__g, .ap-continuity-columns__g, .ap-solution-features__g, .ap-solution-rows__g, .ap-solution-trust__g, .ap-gradient-text, .ap-hero__accent, .ap-h1-gradient, .ap-page-hero__accent, .ap-dashboard-showcase__accent, .ap-fcards__accent, .ap-integration-directory__accent, .ap-plans-hero__accent, .ap-plans-picker__accent, .ap-founder-quote__pull .g, .ap-platform-rows__title .g) {
 	-webkit-box-decoration-break: clone;
 	box-decoration-break: clone;
+}
+
+
+/*
+ * QA 2026-10-29 (N1): the outlined "Talk to Sales" / "Talk to an Expert" button on the purple closing cards was
+ * teal #00a991 on purple (1.5:1 against the card's light end). At rest it is now white with a translucent white
+ * border; hover and focus keep each component's own colours (the approved CTA hover), hence the :not()s.
+ */
+html body :is(.ap-site-footer .ap-final-cta-card, .ap-platform-cta .ap-final-cta-card, .ap-demo-cta--eduhub .ap-final-cta-card) .ap-btn-outline:not(:hover):not(:focus):not(#ap-n1) {
+	color: var(--ap-white) !important;
+	background: transparent !important;
+	border-color: var(--ap-white-60) !important;
 }

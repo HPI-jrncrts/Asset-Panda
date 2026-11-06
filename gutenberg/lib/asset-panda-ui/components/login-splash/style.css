@@ -205,3 +205,20 @@
 	border: 0;
 	vertical-align: middle;
 }
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-login-splash.ap-login-splash.ap-login-splash .ap-login-splash__h1 { font-size: var(--ap-type-h1-size); font-weight: var(--ap-type-h1-weight); line-height: var(--ap-type-h1-line); letter-spacing: var(--ap-type-h1-track); }
+html body .ap-login-splash.ap-login-splash.ap-login-splash .ap-login-splash__h2 { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+
+
+/* QA 2026-10-29: on phones the event artwork (e.g. the 480px Panda Pit Stop logo) ran off the right edge
+   of the screen. Below 576px every art image fits the column; wider screens keep live's behaviour. */
+@media (max-width: 575.98px) {
+	.ap-login-splash__art img,
+	.ap-login-splash__art--wide img {
+		max-width: 100%;
+	}
+}

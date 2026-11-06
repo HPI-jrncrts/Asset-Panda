@@ -404,3 +404,115 @@ function ap_content_seo_head() {
 	}
 	echo $out; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
+
+/**
+ * Alt text for images in a page's own content (crawl fix, 2026-11-04): images
+ * written into post content (an article's figures, a case study's fact icons,
+ * raw-HTML sections) with an empty alt. Kit sections are handled by the kit
+ * (ap_ui_alt_pass). For each empty alt, in order:
+ *  1. the Media Library alt of the attachment (wp-image-N, or the file);
+ *  2. the image's own caption;
+ *  3. otherwise a label from where it sits (the heading or label right after
+ *     it, else the heading before it, else the page title) with
+ *     aria-hidden="true", so screen readers still skip it as they did.
+ * Never the file name; alts that are set are left alone.
+ *
+ * @param string $content Rendered content.
+ * @return string
+ */
+function ap_content_alt_pass( $content ) {
+	if ( ! is_string( $content ) || false === stripos( $content, '<img' ) || is_admin() || is_feed() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) || ! is_singular() ) {
+		return $content;
+	}
+	$empty = '#<img\b(?![^>]*(?<![\w-])alt\s*=\s*(["\'])\s*[^"\'\s])[^>]*>#i';
+	if ( ! preg_match( $empty, $content ) ) {
+		return $content;
+	}
+	$clean = static function ( $html ) {
+		$text = trim( preg_replace( '/\s+/u', ' ', html_entity_decode( wp_strip_all_tags( (string) $html ), ENT_QUOTES | ENT_HTML5, 'UTF-8' ) ) );
+		if ( preg_match( '/^(.{120}).+$/us', $text, $cut ) ) {
+			$text = (string) preg_replace( '/[\s,.;:\x{2013}\x{2014}-]+$/u', '', (string) preg_replace( '/\s+\S*$/u', '', $cut[1] ) );
+		}
+		return $text;
+	};
+	$get   = static function ( $tag, $name ) {
+		return preg_match( '/(?<![\w-])' . $name . '\s*=\s*(["\'])(.*?)\1/is', $tag, $m ) ? $m[2] : null;
+	};
+	$title = $clean( get_the_title( get_queried_object_id() ) );
+
+	$out = preg_replace_callback(
+		'#<img\b[^>]*>#i',
+		static function ( $m ) use ( $content, $clean, $get, $title ) {
+			$tag = $m[0][0];
+			$at  = $m[0][1];
+			$alt = $get( $tag, 'alt' );
+			if ( null !== $alt && '' !== trim( $alt ) ) {
+				return $tag;
+			}
+			$text = '';
+			if ( preg_match( '/\bwp-image-(\d+)\b/', $tag, $id ) ) {
+				$text = trim( (string) get_post_meta( (int) $id[1], '_wp_attachment_image_alt', true ) );
+			}
+			$src = html_entity_decode( (string) $get( $tag, 'src' ), ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+			if ( '' === $text && '' !== $src && function_exists( 'ap_ui_media_alts' ) ) {
+				$found = ap_ui_media_alts( array( $src ) );
+				$text  = isset( $found[ $src ] ) ? $found[ $src ] : '';
+			}
+			if ( '' === $text ) {
+				// The caption of the figure the image is in.
+				$before = substr( $content, 0, $at );
+				$open   = strripos( $before, '<figure' );
+				$shut   = strripos( $before, '</figure>' );
+				if ( false !== $open && ( false === $shut || $shut < $open ) ) {
+					$end = stripos( $content, '</figure>', $at );
+					if ( false !== $end && preg_match( '#<figcaption\b[^>]*>(.*?)</figcaption>#is', substr( $content, $at, $end - $at ), $cap ) ) {
+						$text = $clean( $cap[1] );
+					}
+				}
+			}
+			$hide = '' === $text;
+			if ( $hide ) {
+				$after = substr( $content, $at + strlen( $tag ), 300 );
+				if ( preg_match( '#<(h[1-6]|strong|b)\b[^>]*>(.*?)</\1>#is', $after, $next ) && false === stripos( substr( $after, 0, strpos( $after, $next[0] ) ), '<p' ) ) {
+					$text = $clean( $next[2] );
+				}
+				if ( '' === $text && preg_match_all( '#<h([1-6])\b[^>]*>(.*?)</h\1>#is', substr( $content, 0, $at ), $heads ) ) {
+					$text = $clean( end( $heads[2] ) );
+				}
+				if ( '' === $text ) {
+					$text = '' !== $title ? $title : 'Asset Panda';
+				}
+			}
+			$alt_attr = 'alt="' . esc_attr( $text ) . '"';
+			if ( null !== $alt ) {
+				$tag = preg_replace_callback(
+					'/(?<![\w-])alt\s*=\s*(["\'])(.*?)\1/is',
+					static function () use ( $alt_attr ) {
+						return $alt_attr;
+					},
+					$tag,
+					1
+				);
+			} else {
+				$tag = preg_replace_callback(
+					'#\s*(/?)>$#',
+					static function ( $end ) use ( $alt_attr ) {
+						return ' ' . $alt_attr . ( '' !== $end[1] ? ' />' : '>' );
+					},
+					$tag,
+					1
+				);
+			}
+			if ( $hide && ! preg_match( '/\baria-hidden\s*=/i', $tag ) ) {
+				$tag = preg_replace( '/^<img\b/i', '<img aria-hidden="true"', $tag, 1 );
+			}
+			return $tag;
+		},
+		$content,
+		-1,
+		$count,
+		PREG_OFFSET_CAPTURE
+	);
+	return is_string( $out ) ? $out : $content;
+}
+add_filter( 'the_content', 'ap_content_alt_pass', 40 );

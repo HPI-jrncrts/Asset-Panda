@@ -8,7 +8,7 @@
  * then the phone refinements), so keep the order when editing.
  */
 
-.ap-story-slider { position: relative; background: linear-gradient(rgb(255, 255, 255) 0%, rgb(249, 250, 251) 100%); padding: 80px 24px; }
+.ap-story-slider { position: relative; background: #fff; padding: 80px 24px; }
 .ap-story-slider * { box-sizing: border-box; }
 .ap-story-slider .apc-container { max-width: 1120px; margin: 0px auto; display: flex; flex-direction: column; gap: 80px; font-family: Manrope, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
 .ap-story-slider .apc-header { max-width: 720px; margin: 0px auto; text-align: center; display: flex; flex-direction: column; gap: 16px; }
@@ -33,8 +33,8 @@
 .ap-story-slider .apc-logo img { width: 68px; height: auto; display: block; }
 .ap-story-slider .apc-controls { display: flex; align-items: center; gap: 24px; }
 .ap-story-slider .apc-arrows { display: flex; gap: 16px; flex-shrink: 0; }
-.ap-story-slider .apc-arrow-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgb(230, 233, 242); background: rgb(255, 255, 255); display: flex; align-items: center; justify-content: center; color: rgb(37, 39, 44); cursor: pointer; flex-shrink: 0; transition: border-color 0.25s, background 0.25s, transform 0.25s; }
-.ap-story-slider .apc-arrow-btn:hover { border-color: rgb(37, 39, 44); background: rgb(249, 250, 251); transform: translateY(-1px); }
+.ap-story-slider .apc-arrow-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgb(230, 233, 242); background: rgb(255, 255, 255); display: flex; align-items: center; justify-content: center; color: rgb(37, 39, 44); cursor: pointer; flex-shrink: 0; }
+.ap-story-slider .apc-arrow-btn:hover { border-color: rgb(37, 39, 44); background: rgb(249, 250, 251); }
 .ap-story-slider .apc-progress { flex: 1 1 0px; height: 1px; background: rgb(230, 233, 242); position: relative; overflow: hidden; }
 .ap-story-slider .apc-progress-bar { position: absolute; left: 0px; top: 0px; width: 50%; height: 1px; background: rgb(37, 39, 44); transform: translateX(0px); transition: transform 0.45s cubic-bezier(0.25, 0.45, 0.45, 0.95); }
 .ap-story-slider .apc-dots { display: flex; gap: 6px; flex-shrink: 0; }
@@ -59,8 +59,8 @@
 @media (max-width: 900px) { .ap-story-slider .apc-viewall { width: 100%; justify-content: center; background: linear-gradient(90deg, rgb(80, 68, 225) 0%, rgb(0, 169, 145) 70.44%); color: rgb(255, 255, 255); font-weight: 700; padding: 14px 16px; border-radius: 4px; } }
 @media (max-width: 900px) { .ap-story-slider .apc-viewall img { display: none; } }
 .ap-story-slider .apc-slider { display: grid; grid-template-columns: minmax(0px, 1fr); grid-template-rows: auto auto; row-gap: 36px; }
-.ap-story-slider .apc-slide { grid-area: 1 / 1; position: relative; opacity: 0; visibility: hidden; pointer-events: none; z-index: 1; transform: translateX(18px); transition: opacity 0.42s cubic-bezier(0.25, 0.45, 0.45, 0.95), transform 0.52s cubic-bezier(0.25, 0.45, 0.45, 0.95), visibility linear 0.52s; display: flex !important; }
-.ap-story-slider .apc-slide.is-active { opacity: 1; visibility: visible; pointer-events: auto; transform: translateX(0px); z-index: 2; transition: opacity 0.48s cubic-bezier(0.25, 0.45, 0.45, 0.95) 0.05s, transform 0.55s cubic-bezier(0.25, 0.45, 0.45, 0.95) 0.05s, visibility; }
+.ap-story-slider .apc-slide { grid-area: 1 / 1; position: relative; opacity: 0; visibility: hidden; pointer-events: none; z-index: 1; transform: translateX(18px); transition: opacity 0.26s cubic-bezier(0.25, 0.45, 0.45, 0.95), transform 0.52s cubic-bezier(0.25, 0.45, 0.45, 0.95), visibility linear 0.52s; display: flex !important; }
+.ap-story-slider .apc-slide.is-active { opacity: 1; visibility: visible; pointer-events: auto; transform: translateX(0px); z-index: 2; transition: opacity 0.48s cubic-bezier(0.25, 0.45, 0.45, 0.95) 0.12s, transform 0.55s cubic-bezier(0.25, 0.45, 0.45, 0.95) 0.05s, visibility; }
 .ap-story-slider .apc-slide .apc-copy > * { opacity: 0; transform: translateY(10px); transition: opacity 0.4s cubic-bezier(0.25, 0.45, 0.45, 0.95), transform 0.48s cubic-bezier(0.25, 0.45, 0.45, 0.95); }
 .ap-story-slider .apc-slide.is-active .apc-copy > * { opacity: 1; transform: translateY(0px); }
 .ap-story-slider .apc-slide.is-active .apc-copy > :nth-child(1) { transition-delay: 0.1s; }
@@ -75,9 +75,10 @@
 .ap-story-slider .apc-controls { grid-area: 2 / 1; position: relative; margin: 0px; z-index: 5; }
 .ap-story-slider .apc-progress { position: relative; flex: 1 1 0px; height: 1px; min-width: 80px; background: rgb(230, 233, 242); overflow: hidden; }
 .ap-story-slider .apc-progress-bar { position: absolute; top: 0px; left: 0px; width: 50%; height: 1px; background: rgb(37, 39, 44); transform: translateX(0px); transition: transform 0.55s cubic-bezier(0.25, 0.45, 0.45, 0.95); }
-.ap-story-slider .apc-arrow-btn { transition: background 0.25s, border-color 0.25s, transform 0.25s, box-shadow 0.25s; }
-.ap-story-slider .apc-arrow-btn:hover { transform: translateY(-2px); border-color: rgb(207, 212, 223); box-shadow: rgba(37, 39, 44, 0.08) 0px 5px 14px; }
-.ap-story-slider .apc-arrow-btn:active { transform: translateY(0px); }
+/* Hover lifts with `translate` (never `transform`), every channel on the house curve. */
+.ap-story-slider .apc-arrow-btn { -webkit-tap-highlight-color: transparent; transition: background-color var(--ap-dur-base) var(--ap-ease-standard), border-color var(--ap-dur-base) var(--ap-ease-standard), translate var(--ap-dur-base) var(--ap-ease-standard), box-shadow var(--ap-dur-base) var(--ap-ease-standard); }
+@media (hover: hover) { .ap-story-slider .apc-arrow-btn:hover { translate: 0 -2px; border-color: rgb(207, 212, 223); box-shadow: rgba(37, 39, 44, 0.08) 0px 5px 14px; } }
+.ap-story-slider .apc-arrow-btn:active { translate: none; }
 @media (max-width: 900px) { .ap-story-slider .apc-slider { row-gap: 28px; } }
 @media (max-width: 900px) { .ap-story-slider .apc-slide { transform: translateY(14px); } }
 @media (max-width: 900px) { .ap-story-slider .apc-slide.is-active { transform: translateY(0px); } }
@@ -120,19 +121,22 @@
 .ap-story-slider .apc-lede { margin: 0px; font-weight: 400; font-size: 18px; line-height: 1.5; color: rgb(74, 78, 90); }
 .ap-story-slider .apc-media--video { background: rgb(0, 0, 0); }
 .ap-story-slider .apc-vid { display: block; position: absolute; inset: 0px; width: 100%; height: 100%; padding: 0px; margin: 0px; border: 0px; background: rgb(0, 0, 0); cursor: pointer; overflow: hidden; }
-.ap-story-slider .apc-vid img { display: block; width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s, transform 0.5s cubic-bezier(0.25, 0.45, 0.45, 0.95); }
-.ap-story-slider .apc-vid:hover img { opacity: 0.88; transform: scale(1.02); }
-.ap-story-slider .apc-vid-play { position: absolute; left: 50%; top: 50%; translate: -50% -50%; display: block; pointer-events: none; transition: transform 0.3s cubic-bezier(0.25, 0.45, 0.45, 0.95); }
+.ap-story-slider .apc-vid img { display: block; width: 100%; height: 100%; object-fit: cover; transition: opacity var(--ap-dur-base) var(--ap-ease-standard), scale var(--ap-dur-base) var(--ap-ease-standard); }
+.ap-story-slider .apc-vid:hover img { opacity: 0.88; scale: 1.02; }
+.ap-story-slider .apc-vid-play { position: absolute; left: 50%; top: 50%; translate: -50% -50%; display: block; pointer-events: none; transition: scale var(--ap-dur-base) var(--ap-ease-standard); }
 .ap-story-slider .apc-vid-play svg { display: block; width: 68px; height: 48px; }
-.ap-story-slider .apc-vid-play .apc-vid-bg { fill: rgb(37, 39, 44); fill-opacity: 0.78; transition: fill 0.25s, fill-opacity 0.25s; }
-.ap-story-slider .apc-vid:hover .apc-vid-play { transform: scale(1.06); }
+.ap-story-slider .apc-vid-play .apc-vid-bg { fill: rgb(37, 39, 44); fill-opacity: 0.78; transition: fill var(--ap-dur-base) var(--ap-ease-standard), fill-opacity var(--ap-dur-base) var(--ap-ease-standard); }
+.ap-story-slider .apc-vid:hover .apc-vid-play { scale: 1.06; }
 .ap-story-slider .apc-vid:hover .apc-vid-play .apc-vid-bg { fill: rgb(80, 68, 225); fill-opacity: 1; }
 .ap-story-slider .apc-vid:focus-visible { outline: rgb(80, 68, 225) solid 3px; outline-offset: 3px; }
 .ap-story-slider .apc-media--video iframe { position: absolute; inset: 0px; width: 100%; height: 100%; border: 0px; display: block; }
 .ap-story-slider .apc-slide--video .apc-quote-icon { display: none; }
 @media (max-width: 900px) { .ap-story-slider .apc-vid-play svg { width: 54px; height: 38px; } }
-@media (max-width: 900px) { .ap-story-slider .apc-slide:not(.is-active) { position: absolute; top: 0px; left: 0px; width: 100%; } }
-@media (max-width: 900px) { .ap-story-slider .apc-slide.is-active { position: relative; } }
+/* Phones used to take inactive slides out of the flow so the slider's height
+ * followed the active story. With autoplay that moved everything below the
+ * slider up and down every few seconds (a layout shift each time), so every
+ * slide now stays in the shared grid cell on every width: the slider holds the
+ * tallest story's height and the controls never move. */
 
 /* ---- Kit additions ---- */
 
@@ -242,8 +246,6 @@
 	.ap-story-slider--wide .apc-viewall { grid-area: viewall; width: 100%; margin: 0px; padding: 15px 20px; display: flex; justify-content: center; align-items: center; background: linear-gradient(90deg, rgb(80, 68, 225) 0%, rgb(0, 169, 145) 70.44%); border-radius: 4px; color: rgb(255, 255, 255); font-size: 14px; font-weight: 700; text-align: center; }
 	.ap-story-slider--wide .apc-viewall img { display: none; }
 	.ap-story-slider--wide .apc-vid-play svg { width: 54px; height: 38px; }
-	.ap-story-slider--wide .apc-slide:not(.is-active) { position: absolute; top: 0px; left: 0px; width: 100%; }
-	.ap-story-slider--wide .apc-slide.is-active { position: relative; }
 	.ap-story-slider--wide .apc-logo--wordmark { width: auto; min-width: 84px; min-height: 52px; padding: 8px 12px; }
 	.ap-story-slider--wide .apc-wordmark--hospice strong { font-size: 17px; }
 	.ap-story-slider--wide .apc-wordmark--osage strong { font-size: 23px; }
@@ -273,3 +275,21 @@
 /* A client logo on a video poster (2026-10 Figma): clicks pass through to the play button; gone once the player loads. */
 .ap-story-slider .apc-media--video .apc-logo { z-index: 1; pointer-events: none; }
 .ap-story-slider .apc-media--video:has(iframe) .apc-logo { display: none; }
+
+/* Autoplay swipe (behaviour.js): how far a slide travels as it enters or leaves.
+ * Inside the side padding on phones, so nothing pokes past the screen edge. */
+.ap-story-slider { --apc-swipe: 40px; }
+@media (max-width: 900px) { .ap-story-slider { --apc-swipe: 16px; } }
+.ap-story-slider .apc-dot { position: relative; -webkit-tap-highlight-color: transparent; }
+/* A finger-sized hit area around each small dot, without moving anything. */
+.ap-story-slider .apc-dot::before { content: ""; position: absolute; inset: -12px -3px; }
+
+/* ------------------------------------------------------------ Section rhythm + type scale (QA 2026-10-28, sections agent)
+ * Padding on the kit section rhythm (tokens.css "section rhythm") and the
+ * section title / eyebrow on the type-scale tokens, like every other section. */
+html body .ap-story-slider.ap-story-slider.ap-story-slider { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+html body .ap-story-slider.ap-story-slider h2.apc-h2 { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+html body .ap-story-slider.ap-story-slider .apc-eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }
+
+/* QA 2026-10-29 (Joseph, sitewide): sections without a colour gradient are pure white — the white-to-#f9fafb fades
+ * showed as a grey band against the next section. */

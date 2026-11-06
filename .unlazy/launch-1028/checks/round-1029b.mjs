@@ -28,8 +28,10 @@ const open = async (path, width = 1440, h = 900) => { const p = await browser.ne
   });
   const layers = ['.ap-assist-problem__ring', '.ap-assist-problem__blur', '.ap-assist-problem__orbring'].map((s) => r[s]);
   ok(layers.every((l) => l && typeof l === 'object' && l.cornerAlpha === 0), 'Ursa: ring, blur and orb ring are transparent at the corners', JSON.stringify(layers));
-  const offs = r.offsets.filter((o) => o !== null);
-  ok(offs.length >= 3 && offs.every((o) => Math.abs(o) <= 4), 'Ursa: each card\'s right-hand copy is centred on its heading block', JSON.stringify(r.offsets));
+  // Amended 2026-10-30 (Joseph: "remove all these texts from the cards and do a 2x2 grid instead. The 4th card is the
+  // lower right card"): the light cards have no copy beside their titles and the four cards sit two by two.
+  const g = await p.evaluate(() => [...document.querySelectorAll('.ap-ursa-steps__card')].map((c) => { const b = c.getBoundingClientRect(); return { x: Math.round(b.left), y: Math.round(b.top + scrollY), dark: c.classList.contains('ap-ursa-steps__card--dark'), body: !!c.querySelector('.ap-ursa-steps__body') }; }));
+  ok(g.length === 4 && g[0].y === g[1].y && g[2].y === g[3].y && g[2].y > g[0].y && g[1].x > g[0].x && g[3].x > g[2].x && g[3].dark && g.slice(0, 3).every((c) => !c.body), 'Ursa steps: 2x2 grid, Act lower right, no copy beside the light cards\' titles', JSON.stringify(g));
   await art.screenshot({ path: OUT + '/ursa-art-1440.png' });
   const card2 = p.locator('.ap-ursa-steps__card').nth(1); await card2.scrollIntoViewIfNeeded(); await p.waitForTimeout(600); await card2.screenshot({ path: OUT + '/ursa-card2-1440.png' });
   await p.close(); await sleep(3300);

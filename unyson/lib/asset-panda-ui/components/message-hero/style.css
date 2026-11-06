@@ -156,3 +156,18 @@
 		font-size: 17px;
 	}
 }
+
+/* ---- kit type scale (QA 2026-10-28) ----
+ * The title line of the H1 (was clamp(30px, 3.6vw, 44px) at -0.02em). The big code number is decoration and keeps its size.
+ * One heading scale across every hero (ui/src/tokens.css --ap-type-*): same size, weight 800, zero
+ * tracking at every width, so no H1 reads thicker or tighter than another. */
+.ap-message-hero .ap-message-hero__title {
+	font-size: var(--ap-type-h1-size);
+	font-weight: var(--ap-type-h1-weight);
+	line-height: var(--ap-type-h1-line);
+	letter-spacing: var(--ap-type-h1-track);
+}
+.ap-message-hero .ap-message-hero__body {
+	font-size: var(--ap-type-lede-size);
+	line-height: var(--ap-type-lede-line);
+}

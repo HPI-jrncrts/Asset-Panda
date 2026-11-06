@@ -107,8 +107,15 @@ if ( 'hub' === $props['layout'] || 'eduhub' === $props['layout'] ) :
 	<?php
 	return;
 endif;
+$ap_ts_vars = array();
+if ( (int) $props['label_width'] >= 200 && (int) $props['label_width'] <= 1200 ) {
+	$ap_ts_vars[] = '--ts-label-w:' . (int) $props['label_width'] . 'px';
+}
+if ( (int) $props['gap'] >= 8 && (int) $props['gap'] <= 120 ) {
+	$ap_ts_vars[] = '--ts-gap:' . (int) $props['gap'] . 'px';
+}
 ?>
-<section class="ap-trust-strip<?php echo 'inline' !== $props['layout'] ? ' ap-trust-strip--' . esc_attr( $props['layout'] ) : ''; ?>"<?php echo $props['reveal'] ? ' data-ap-reveal="fade"' : ''; ?>>
+<section class="ap-trust-strip<?php echo 'inline' !== $props['layout'] ? ' ap-trust-strip--' . esc_attr( $props['layout'] ) : ''; ?>"<?php echo $props['reveal'] ? ' data-ap-reveal="fade"' : ''; ?><?php echo $ap_ts_vars ? ' style="' . esc_attr( implode( ';', $ap_ts_vars ) ) . '"' : ''; ?>>
 	<div class="ap-trust-strip__inner">
 		<?php if ( '' !== $label ) : ?>
 			<p class="ap-trust-strip__label"><?php echo $label_html; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped above; only a fixed span is added. ?></p>

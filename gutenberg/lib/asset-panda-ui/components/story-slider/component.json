@@ -63,6 +63,12 @@
 			"required": false,
 			"default": "",
 			"description": "View-all destination."
+		},
+		"autoplay_ms": {
+			"type": "integer",
+			"required": false,
+			"default": 3000,
+			"description": "Milliseconds between automatic slide changes (default 3000; 0 turns autoplay off; values under 1500 are raised to 1500). Autoplay pauses on hover, keyboard focus, touch, a playing video, an off-screen slider and a hidden tab, and never runs under prefers-reduced-motion."
 		}
 	}
 }

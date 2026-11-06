@@ -1,0 +1,363 @@
+/*
+ * page-reach — "Who We Serve" (Our Company, Figma 7450:97488).
+ *
+ * White-to-slate-50 band. Copy: 14px/800 eyebrow, 40px/800 h2 with the indigo-to-green phrase, 18px slate body,
+ * 28px gradient highlight, 14px/600 arrow links. Cards: 90% white, slate-100 border, 16px radius, 24px padding,
+ * 88px icon, 14px kicker, 20px/800 line, 14px text; on desktop they step in and out by the design's offsets
+ * (40 / 0 / 80 / 24px) over the dotted world map.
+ */
+
+.ap-page-reach,
+.ap-page-reach * {
+	box-sizing: border-box;
+}
+
+.ap-page-reach {
+	position: relative;
+	isolation: isolate;
+	width: 100%;
+	overflow: hidden;
+	background: linear-gradient(180deg, var(--ap-white) 0%, var(--ap-slate-50) 100%);
+	font-family: var(--ap-font-body);
+	color: var(--ap-text-body);
+}
+
+.ap-page-reach__orbs {
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+	background:
+		radial-gradient(28% 40% at 22% 72%, rgba(80, 68, 225, 0.08) 0%, rgba(80, 68, 225, 0) 70%),
+		radial-gradient(34% 34% at 72% 96%, rgba(0, 169, 145, 0.1) 0%, rgba(0, 169, 145, 0) 70%);
+}
+
+.ap-page-reach__wrap {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 40px 40px 120px;
+	display: flex;
+	align-items: center;
+	gap: 24px;
+}
+
+.ap-page-reach__copy {
+	flex: 1 1 0;
+	min-width: 0;
+	max-width: 480px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 16px;
+}
+
+.ap-page-reach .ap-page-reach__eyebrow {
+	margin: 0;
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: 0.56px;
+	text-transform: uppercase;
+	color: var(--ap-text-eyebrow);
+}
+
+.ap-page-reach .ap-page-reach__title {
+	margin: 0;
+	font-family: var(--ap-font-display);
+	font-size: 40px;
+	font-weight: var(--ap-weight-display);
+	line-height: 1.2;
+	letter-spacing: 0;
+	color: var(--ap-text-heading);
+}
+
+.ap-page-reach__accent,
+.ap-page-reach .ap-page-reach__highlight {
+	background-image: linear-gradient(41.9deg, var(--ap-brand-indigo) 3.6%, var(--ap-brand-green) 50.1%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+.ap-page-reach__body {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.ap-page-reach .ap-page-reach__body p {
+	margin: 0;
+	font-size: 18px;
+	line-height: 1.5;
+	color: var(--ap-text-body);
+}
+
+.ap-page-reach .ap-page-reach__body a {
+	color: var(--ap-brand-indigo);
+	font-weight: var(--ap-weight-link);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.ap-page-reach .ap-page-reach__highlight {
+	margin: 0;
+	font-family: var(--ap-font-display);
+	font-size: 28px;
+	font-weight: 400;
+	line-height: 1.2;
+}
+
+.ap-page-reach__links {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 16px;
+	margin: 24px 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ap-page-reach__links li {
+	margin: 0;
+}
+
+.ap-page-reach .ap-page-reach__links a {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 14px;
+	font-weight: var(--ap-weight-link);
+	line-height: 1.2;
+	color: var(--ap-text-heading);
+	text-decoration: none;
+}
+
+.ap-page-reach__links svg {
+	flex: 0 0 24px;
+	color: var(--ap-brand-indigo);
+	translate: 0 0;
+	transition: translate var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+@media (hover: hover) {
+	.ap-page-reach .ap-page-reach__links a:hover svg {
+		translate: 4px 0;
+	}
+}
+
+.ap-page-reach__visual {
+	position: relative;
+	flex: 0 0 505px;
+	margin: 0 34px 0 auto;
+}
+
+.ap-page-reach__map {
+	position: absolute;
+	top: 137px;
+	left: -48px;
+	z-index: 0;
+	display: block;
+	width: 603px;
+	max-width: none;
+	height: auto;
+	pointer-events: none;
+}
+
+.ap-page-reach__cards {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ap-page-reach__card {
+	display: flex;
+	align-items: center;
+	gap: 24px;
+	width: 425px;
+	max-width: 100%;
+	margin: 0;
+	padding: 24px;
+	border: 1px solid var(--ap-slate-100);
+	border-radius: var(--ap-radius-lg, 16px);
+	background: rgba(255, 255, 255, 0.9);
+}
+
+.ap-page-reach__card:nth-child(4n + 1) {
+	margin-left: 40px;
+}
+
+.ap-page-reach__card:nth-child(4n + 3) {
+	margin-left: 80px;
+}
+
+.ap-page-reach__card:nth-child(4n + 4) {
+	margin-left: 24px;
+}
+
+.ap-page-reach__icon {
+	flex: 0 0 88px;
+	display: block;
+	width: 88px;
+	height: 88px;
+}
+
+.ap-page-reach__card-text {
+	flex: 1 1 0;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.ap-page-reach .ap-page-reach__kicker,
+.ap-page-reach .ap-page-reach__card-body {
+	margin: 0;
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+.ap-page-reach .ap-page-reach__kicker {
+	color: var(--ap-text-heading);
+}
+
+.ap-page-reach .ap-page-reach__card-body {
+	color: var(--ap-text-body);
+}
+
+.ap-page-reach .ap-page-reach__card-title {
+	margin: 0;
+	font-family: var(--ap-font-display);
+	font-size: 20px;
+	font-weight: 800;
+	line-height: 1.2;
+	color: var(--ap-text-heading);
+}
+
+@media (max-width: 1200px) {
+	.ap-page-reach__visual {
+		flex-basis: 470px;
+		margin-right: 0;
+	}
+
+	.ap-page-reach__card:nth-child(4n + 1) {
+		margin-left: 24px;
+	}
+
+	.ap-page-reach__card:nth-child(4n + 3) {
+		margin-left: 45px;
+	}
+
+	.ap-page-reach__card:nth-child(4n + 4) {
+		margin-left: 12px;
+	}
+}
+
+@media (max-width: 1000px) {
+	.ap-page-reach__wrap {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 40px;
+		padding-top: 64px;
+		padding-bottom: 80px;
+	}
+
+	.ap-page-reach__copy {
+		max-width: 680px;
+	}
+
+	.ap-page-reach__visual {
+		flex: 0 0 auto;
+		width: 100%;
+		margin: 0;
+	}
+
+	.ap-page-reach__map {
+		top: 50%;
+		left: 50%;
+		translate: -50% -50%;
+	}
+
+	.ap-page-reach__card,
+	.ap-page-reach__card:nth-child(n) {
+		width: 100%;
+		margin-left: 0;
+	}
+}
+
+@media (max-width: 640px) {
+	.ap-page-reach__wrap {
+		padding: 48px 20px 64px;
+	}
+
+	.ap-page-reach .ap-page-reach__title {
+		font-size: 28px;
+	}
+
+	.ap-page-reach .ap-page-reach__body p {
+		font-size: 16px;
+	}
+
+	.ap-page-reach .ap-page-reach__highlight {
+		font-size: 22px;
+	}
+
+	.ap-page-reach__card {
+		gap: 16px;
+		padding: 20px;
+	}
+
+	.ap-page-reach__icon {
+		flex-basis: 64px;
+		width: 64px;
+		height: 64px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-page-reach__links svg {
+		transition: none;
+	}
+}
+
+/* ---- foot (Our Technology mobile section, Figma 7470:111469) ----
+ * A closing line centred under the copy and cards, 18px slate; the cards' 120px foot space moves under it. */
+.ap-page-reach--foot .ap-page-reach__wrap {
+	padding-bottom: 40px;
+}
+
+.ap-page-reach__foot {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 40px var(--ap-section-y, 64px);
+	text-align: center;
+}
+
+.ap-page-reach .ap-page-reach__foot p {
+	margin: 0;
+	font-size: 18px;
+	line-height: 1.5;
+	color: var(--ap-text-body);
+}
+
+@media (max-width: 640px) {
+	.ap-page-reach__foot {
+		padding: 0 20px var(--ap-section-y, 40px);
+	}
+
+	.ap-page-reach .ap-page-reach__foot p {
+		font-size: 16px;
+	}
+}
+
+/* With a closing line the band fades back to white at its foot, so the next (white) section meets it without a
+ * seam. */
+.ap-page-reach--foot {
+	background: linear-gradient(180deg, var(--ap-white) 0%, var(--ap-slate-50) 55%, var(--ap-white) 100%);
+}

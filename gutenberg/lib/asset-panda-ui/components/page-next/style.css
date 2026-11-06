@@ -1,0 +1,206 @@
+/*
+ * page-next — "What's Next" (Our Company, Figma 7460:105096).
+ *
+ * Slate-50-to-white band, 80px above and 120px below, with soft indigo and green orbs behind the cards. Intro
+ * 450px: 14px/800 eyebrow, 40px/800 h2 with the indigo-to-green phrase, 18px paragraphs 8px apart. Cards: 24%
+ * white glass, 1px white border, 16px radius, 28px icon, 20px/800 label, 32px apart. Cards lift with translate +
+ * box-shadow on the house timing; never transform.
+ */
+
+.ap-page-next,
+.ap-page-next * {
+	box-sizing: border-box;
+}
+
+.ap-page-next {
+	position: relative;
+	isolation: isolate;
+	width: 100%;
+	overflow: hidden;
+	background: linear-gradient(180deg, var(--ap-slate-50) 0%, var(--ap-white) 100%);
+	font-family: var(--ap-font-body);
+	color: var(--ap-text-body);
+}
+
+.ap-page-next__orbs {
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+	background:
+		radial-gradient(26% 38% at 63% 42%, rgba(80, 68, 225, 0.2) 0%, rgba(80, 68, 225, 0) 72%),
+		radial-gradient(30% 34% at 76% 82%, rgba(0, 169, 145, 0.16) 0%, rgba(0, 169, 145, 0) 72%);
+}
+
+.ap-page-next__wrap {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 80px 40px 120px;
+	display: flex;
+	align-items: flex-start;
+	gap: 40px;
+}
+
+.ap-page-next__intro {
+	flex: 0 0 450px;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.ap-page-next .ap-page-next__eyebrow {
+	margin: 0;
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: 0.56px;
+	text-transform: uppercase;
+	color: var(--ap-text-eyebrow);
+}
+
+.ap-page-next .ap-page-next__title {
+	margin: 0;
+	font-family: var(--ap-font-display);
+	font-size: 40px;
+	font-weight: var(--ap-weight-display);
+	line-height: 1.2;
+	letter-spacing: 0;
+	color: var(--ap-text-heading);
+}
+
+.ap-page-next__accent {
+	background-image: linear-gradient(42deg, var(--ap-brand-indigo) 3.6%, var(--ap-brand-green) 50.1%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+.ap-page-next__body {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.ap-page-next .ap-page-next__body p {
+	margin: 0;
+	font-size: 18px;
+	line-height: 1.5;
+	color: var(--ap-text-body);
+}
+
+.ap-page-next .ap-page-next__body a {
+	color: var(--ap-brand-indigo);
+	font-weight: var(--ap-weight-link);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.ap-page-next__cards {
+	flex: 1 1 0;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 32px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ap-page-next__cards li {
+	margin: 0;
+}
+
+.ap-page-next .ap-page-next__card {
+	display: flex;
+	align-items: center;
+	gap: 24px;
+	padding: 28px 24px;
+	border: 1px solid var(--ap-white);
+	border-radius: var(--ap-radius-lg, 16px);
+	background: rgba(255, 255, 255, 0.24);
+	color: var(--ap-text-heading);
+	text-decoration: none;
+	translate: 0 0;
+	transition: translate var(--ap-dur-base) var(--ap-ease-standard), box-shadow var(--ap-dur-base) var(--ap-ease-standard), border-color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-page-next__icon {
+	flex: 0 0 28px;
+	display: block;
+	width: 28px;
+	height: 28px;
+}
+
+.ap-page-next .ap-page-next__card-title {
+	font-family: var(--ap-font-display);
+	font-size: 20px;
+	font-weight: 800;
+	line-height: 1.2;
+	color: var(--ap-text-heading);
+}
+
+@media (hover: hover) {
+	.ap-page-next .ap-page-next__card:hover {
+		translate: 0 -2px;
+		border-color: var(--ap-indigo-200);
+		box-shadow: 0 10px 28px rgba(80, 68, 225, 0.12);
+	}
+}
+
+.ap-page-next .ap-page-next__card:focus-visible {
+	outline: 3px solid var(--ap-brand-indigo);
+	outline-offset: 2px;
+}
+
+@media (max-width: 1000px) {
+	.ap-page-next__wrap {
+		flex-direction: column;
+		align-items: stretch;
+		padding-top: 64px;
+		padding-bottom: 80px;
+	}
+
+	.ap-page-next__intro {
+		flex: 0 0 auto;
+		max-width: 680px;
+	}
+
+	.ap-page-next__cards {
+		gap: 16px;
+	}
+}
+
+@media (max-width: 640px) {
+	.ap-page-next__wrap {
+		padding: 48px 20px 64px;
+	}
+
+	.ap-page-next .ap-page-next__title {
+		font-size: 28px;
+	}
+
+	.ap-page-next .ap-page-next__body p {
+		font-size: 16px;
+	}
+
+	.ap-page-next .ap-page-next__card {
+		padding: 20px;
+		gap: 16px;
+	}
+
+	.ap-page-next .ap-page-next__card-title {
+		font-size: 18px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-page-next .ap-page-next__card {
+		transition: none;
+	}
+
+	.ap-page-next .ap-page-next__card:hover {
+		translate: none;
+	}
+}

@@ -28,9 +28,9 @@ $hs_portal    = preg_match( '/^\d{3,12}$/', (string) $props['hubspot_portal'] ) 
 $hs_form      = preg_match( '/^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i', (string) $props['hubspot_form'] ) ? (string) $props['hubspot_form'] : '';
 $hs_region    = preg_match( '/^[a-z0-9]{2,6}$/', (string) $props['hubspot_region'] ) ? (string) $props['hubspot_region'] : 'na1';
 if ( '' !== $hs_portal && '' !== $hs_form && '' === $form_id ) {
-	static $ap_demo_cta_instance = 0;
-	++$ap_demo_cta_instance;
-	$form_id = 'ap-demo-cta-form-' . $ap_demo_cta_instance;
+	// Unique across the page: a `static` counter restarts on every render (the
+	// loader includes this file inside a fresh closure).
+	$form_id = function_exists( 'wp_unique_id' ) ? wp_unique_id( 'ap-demo-cta-form-' ) : 'ap-demo-cta-form-' . substr( md5( uniqid( '', true ) ), 0, 8 );
 }
 $cta_label    = trim( (string) $props['cta_label'] );
 $cta_url      = trim( (string) $props['cta_url'] );
@@ -120,8 +120,48 @@ if ( $has_panel ) {
 	$classes[] = 'ap-demo-cta--form';
 }
 $bg = trim( (string) $props['background'] );
+// Opt-in extras (Partners): an id the page's buttons can jump to, a check list under the paragraph, and the
+// form in a white card. Without them the card renders exactly as on the product pages.
+$ap_anchor  = preg_match( '/^[A-Za-z][A-Za-z0-9-]{0,63}$/', trim( (string) $props['anchor'] ) ) ? trim( (string) $props['anchor'] ) : '';
+$ap_bullets = array_values(
+	array_filter(
+		array_map(
+			static function ( $b ) {
+				return is_scalar( $b ) ? trim( (string) $b ) : '';
+			},
+			is_array( $props['bullets'] ) ? $props['bullets'] : array()
+		),
+		static function ( $b ) {
+			return '' !== $b;
+		}
+	)
+);
+$ap_card    = 'card' === $props['panel'] && $has_panel;
+if ( $ap_card ) {
+	$classes[] = 'ap-demo-cta--card';
+}
+// values look (Partners' registration): Our People's light layout; the bullets become icon rows.
+$ap_values = 'values' === $props['look'];
+if ( $ap_values ) {
+	$classes[] = 'ap-demo-cta--values';
+}
+$ap_bullet_icons = array();
+foreach ( is_array( $props['bullet_icons'] ) ? $props['bullet_icons'] : array() as $ap_icon ) {
+	$ap_bullet_icons[] = is_string( $ap_icon ) ? ap_ui_svg( $ap_icon ) : '';
+}
+$ap_title_html = ap_ui_brandmarks( ap_ui_lines( $title ) );
+$ap_accent     = trim( (string) $props['title_accent'] );
+if ( $ap_values && '' !== $ap_accent ) {
+	$ap_needle = ap_ui_brandmarks( esc_html( $ap_accent ) );
+	$ap_at     = strpos( $ap_title_html, $ap_needle );
+	if ( false !== $ap_at ) {
+		$ap_title_html = substr( $ap_title_html, 0, $ap_at ) . '<span class="ap-demo-cta__accent">' . $ap_needle . '</span>' . substr( $ap_title_html, $ap_at + strlen( $ap_needle ) );
+	}
+}
+// Figma's circle-check (20px, brand green stroke), drawn inline beside each list item.
+$ap_check = '<svg class="ap-demo-cta__check" viewBox="0 0 20 20" width="20" height="20" fill="none" aria-hidden="true" focusable="false"><path d="M7.5 10L9.16667 11.6667L12.5 8.33333M2.5 10C2.5 10.9849 2.69399 11.9602 3.0709 12.8701C3.44781 13.7801 4.00026 14.6069 4.6967 15.3033C5.39314 15.9997 6.21993 16.5522 7.12987 16.9291C8.03982 17.306 9.01509 17.5 10 17.5C10.9849 17.5 11.9602 17.306 12.8701 16.9291C13.7801 16.5522 14.6069 15.9997 15.3033 15.3033C15.9997 14.6069 16.5522 13.7801 16.9291 12.8701C17.306 11.9602 17.5 10.9849 17.5 10C17.5 9.01509 17.306 8.03982 16.9291 7.12987C16.5522 6.21993 15.9997 5.39314 15.3033 4.6967C14.6069 4.00026 13.7801 3.44781 12.8701 3.0709C11.9602 2.69399 10.9849 2.5 10 2.5C9.01509 2.5 8.03982 2.69399 7.12987 3.0709C6.21993 3.44781 5.39314 4.00026 4.6967 4.6967C4.00026 5.39314 3.44781 6.21993 3.0709 7.12987C2.69399 8.03982 2.5 9.01509 2.5 10Z" stroke="#00A991" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 ?>
-<section class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>"<?php echo '' !== $bg ? ' style="' . esc_attr( '--ap-demo-cta-bg:url("' . esc_url_raw( $bg ) . '")' ) . '"' : ''; ?>>
+<section class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>"<?php echo '' !== $ap_anchor ? ' id="' . esc_attr( $ap_anchor ) . '"' : ''; ?><?php echo '' !== $bg ? ' style="' . esc_attr( '--ap-demo-cta-bg:url("' . esc_url_raw( $bg ) . '")' ) . '"' : ''; ?>>
 	<div class="ap-demo-cta__inner">
 		<div class="ap-demo-cta__card<?php echo $has_panel ? '' : ( '' !== $image ? ' ap-demo-cta__card--media' : ' ap-demo-cta__card--solo' ); ?>"<?php echo $props['reveal'] ? ' data-ap-reveal' : ''; ?>>
 			<div class="ap-demo-cta__copy">
@@ -129,13 +169,21 @@ $bg = trim( (string) $props['background'] );
 					<?php if ( '' !== $eyebrow ) : ?>
 						<p class="ap-demo-cta__eyebrow"><?php echo esc_html( $eyebrow ); ?></p>
 					<?php endif; ?>
-					<h2 class="ap-demo-cta__title"><?php echo ap_ui_brandmarks( ap_ui_lines( $title ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; only <br> and a fixed span are added. ?></h2>
+					<h2 class="ap-demo-cta__title"><?php echo $ap_title_html; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; only <br> and fixed spans are added. ?></h2>
 				</div>
 
 				<?php if ( '' !== $body ) : ?>
 					<p class="ap-demo-cta__body"><?php echo ap_ui_brandmarks( ap_ui_lines( $body ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; only <br> and a fixed span are added. ?></p>
 				<?php endif; ?>
 
+<?php if ( $ap_bullets ) : ?>
+				<ul class="ap-demo-cta__list">
+	<?php foreach ( $ap_bullets as $ap_i => $ap_bullet ) : ?>
+		<?php $ap_icon = $ap_values && ! empty( $ap_bullet_icons[ $ap_i ] ) ? '<span class="ap-demo-cta__icon" aria-hidden="true">' . $ap_bullet_icons[ $ap_i ] . '</span>' : $ap_check; ?>
+					<li><?php echo $ap_icon; // phpcs:ignore WordPress.Security.EscapeOutput -- fixed markup or sanitised by ap_ui_svg(). ?><span><?php echo esc_html( $ap_bullet ); ?></span></li>
+	<?php endforeach; ?>
+				</ul>
+<?php endif; ?>
 				<?php if ( '' !== $quote || '' !== $quote_sub ) : ?>
 					<div class="ap-demo-cta__quote">
 						<?php if ( '' !== $quote ) : ?>
@@ -159,7 +207,7 @@ $bg = trim( (string) $props['background'] );
 			<?php endif; ?>
 
 			<?php if ( $has_panel ) : ?>
-				<div class="ap-demo-cta__panel">
+				<div class="ap-demo-cta__panel<?php echo $ap_card ? ' ap-demo-cta__panel--card' : ''; ?>" data-ap-form-skin>
 					<?php if ( '' !== $form_heading ) : ?>
 						<h3 class="ap-demo-cta__form-title"><?php echo esc_html( $form_heading ); ?></h3>
 					<?php endif; ?>

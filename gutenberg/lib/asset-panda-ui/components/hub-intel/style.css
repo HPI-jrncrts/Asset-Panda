@@ -38,7 +38,7 @@ to{translate:0 -10px}
 .ap-hub-intel--gov .apg-int-feats{max-width:1120px;margin:0 auto;width:100%;display:flex;gap:120px;align-items:flex-start}
 .ap-hub-intel--gov .apg-feats-head{flex:0 0 408px;width:408px;position:sticky;top:120px}
 .ap-hub-intel--gov .apg-feats-list{flex:1;min-width:0;display:flex;flex-direction:column;gap:24px}
-.ap-hub-intel--gov .apg-feat-card{display:flex;flex-direction:column;gap:16px;align-items:flex-start;padding:24px 40px;border-left:3px solid}
+.ap-hub-intel--gov .apg-feat-card{display:flex;flex-direction:column;gap:16px;align-items:flex-start;padding:24px 40px;border-left:3px solid #5044e1}
 .ap-hub-intel--gov .apg-fc-indigo{border-color:#5044e1}
 .ap-hub-intel--gov .apg-fc-green{border-color:#00a991}
 .ap-hub-intel--gov .apg-feat-head{display:flex;gap:16px;align-items:flex-start;width:100%}
@@ -82,7 +82,7 @@ to{translate:0 -10px}
 .ap-hub-intel--eduhub .apu-features{display:flex;gap:120px;align-items:flex-start}
 .ap-hub-intel--eduhub .apu-features-head{flex:0 0 auto;max-width:408px;display:flex;flex-direction:column;gap:16px;font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif}
 .ap-hub-intel--eduhub .apu-features-list{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:24px}
-.ap-hub-intel--eduhub .apu-fcard{display:flex;gap:40px;padding:24px 40px;border-left:3px solid;font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif}
+.ap-hub-intel--eduhub .apu-fcard{display:flex;gap:40px;padding:24px 40px;border-left:3px solid #e6e8f0;font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif}
 .ap-hub-intel--eduhub .apu-fcard-1{border-color:#5044e1}
 .ap-hub-intel--eduhub .apu-fcard-2{border-color:#00a991}
 .ap-hub-intel--eduhub .apu-fcard-inner{flex:1;display:flex;flex-direction:column;gap:16px}
@@ -130,4 +130,90 @@ to{translate:0 -10px}
 @media (max-width:767px) {
 	.ap-hub-intel--gov.ap-hub-intel--phone-plain {gap:48px}
 	.ap-hub-intel--gov.ap-hub-intel--phone-plain .apg-int-scene {transform:none;margin:0}
+}
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: --ap-section-y top and bottom (was 80 / 112 desktop, 48 / 64
+ * or 48 / 48 phone) and --ap-section-y between the Ursa row and the feature
+ * block (was 80 / 56). */
+html body .ap-hub-intel.ap-hub-intel { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+html body .ap-hub-intel.ap-hub-intel--gov,
+html body .ap-hub-intel.ap-hub-intel--eduhub .apu-container { gap: var(--ap-section-y, 64px); }
+/* PageSpeed: the glows are radial gradients already; drop the blur filters. */
+.ap-hub-intel--gov .apg-glow,
+.ap-hub-intel--eduhub .apu-glow { filter: none; }
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-hub-intel.ap-hub-intel.ap-hub-intel h2.apg-h2 { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+html body .ap-hub-intel.ap-hub-intel.ap-hub-intel h2.apu-h2 { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+/* Phones (QA 2026-10-28): the Ursa row's paragraph was 14px while every other
+ * section's copy is 16px on phones. */
+@media (max-width: 767px) {
+	html body .ap-hub-intel--gov .apg-int-body,
+	html body .ap-hub-intel--eduhub .apu-body { font-size: 16px; }
+}
+
+/* Motion (QA 2026-10-28, motion agent's R3): the Ursa row links switched to
+ * gradient text in one frame on hover; the gradient now sits under the text
+ * and the solid colour fades off it (same fix as case-slider). The Education
+ * links get the house timing. */
+.ap-hub-intel--gov .apg-int-cta span { background: linear-gradient(34deg, #5044e1 0%, #00a991 70.44%); -webkit-background-clip: text; background-clip: text; transition: color var(--ap-dur-base, .3s) var(--ap-ease-standard, ease); }
+.ap-hub-intel--gov .apg-int-cta:hover span { color: transparent; }
+.ap-hub-intel--eduhub a { transition: -webkit-text-fill-color var(--ap-dur-base, .3s) var(--ap-ease-standard, ease); }
+
+/* QA 2026-10-29 (Joseph, every page with this section): a blurred "puddle" of brand colour between the two rows —
+ * a few soft radial washes fading to white well before the edges (radial gradients only, no filter blur, so it costs
+ * nothing to paint). Second pass (Joseph, Government + Education hubs: "move the gradient to the center between the 2
+ * sections"): the puddle is anchored to the 80px gap under the FIRST row, centred on it across the full width,
+ * instead of on the middle of the whole section (which put it behind the second row). The rows sit above it. */
+.ap-hub-intel {
+	position: relative;
+	isolation: isolate;
+	overflow-x: clip;
+}
+.ap-hub-intel--gov > .apg-int-row:first-child,
+.ap-hub-intel--eduhub .apu-container > .apu-block:first-child {
+	position: relative;
+}
+.ap-hub-intel--gov > .apg-int-row:first-child::after,
+.ap-hub-intel--eduhub .apu-container > .apu-block:first-child::after {
+	content: "";
+	position: absolute;
+	z-index: -1;
+	left: 50%;
+	width: 100vw;
+	translate: -50% 0;
+	top: calc(100% - 150px); /* 380px band centred 40px below the row: the middle of the 80px gap */
+	height: 380px;
+	pointer-events: none;
+	background:
+		radial-gradient(ellipse 26% 44% at 50% 50%, rgba(80, 68, 225, .20), rgba(80, 68, 225, .08) 45%, rgba(80, 68, 225, 0) 100%),
+		radial-gradient(ellipse 20% 36% at 62% 40%, rgba(0, 169, 145, .20), rgba(0, 169, 145, .07) 45%, rgba(0, 169, 145, 0) 100%),
+		radial-gradient(ellipse 18% 34% at 39% 62%, rgba(230, 28, 85, .13), rgba(230, 28, 85, .05) 45%, rgba(230, 28, 85, 0) 100%),
+		radial-gradient(ellipse 16% 30% at 57% 66%, rgba(243, 191, 81, .18), rgba(243, 191, 81, .06) 45%, rgba(243, 191, 81, 0) 100%),
+		radial-gradient(ellipse 22% 38% at 44% 36%, rgba(120, 108, 240, .16), rgba(120, 108, 240, .06) 45%, rgba(120, 108, 240, 0) 100%);
+}
+@media (max-width: 767px) {
+	.ap-hub-intel--gov > .apg-int-row:first-child::after,
+	.ap-hub-intel--eduhub .apu-container > .apu-block:first-child::after {
+		top: calc(100% - 110px);
+		height: 300px;
+		background:
+			radial-gradient(ellipse 60% 40% at 50% 50%, rgba(80, 68, 225, .20), rgba(80, 68, 225, .08) 45%, rgba(80, 68, 225, 0) 100%),
+			radial-gradient(ellipse 45% 32% at 70% 42%, rgba(0, 169, 145, .20), rgba(0, 169, 145, .07) 45%, rgba(0, 169, 145, 0) 100%),
+			radial-gradient(ellipse 40% 30% at 30% 60%, rgba(230, 28, 85, .13), rgba(230, 28, 85, .05) 45%, rgba(230, 28, 85, 0) 100%),
+			radial-gradient(ellipse 38% 28% at 62% 64%, rgba(243, 191, 81, .18), rgba(243, 191, 81, .06) 45%, rgba(243, 191, 81, 0) 100%);
+	}
+}
+
+
+/* A band of rows alone (no feature cards under them — Partners' Government Procurement row, Joseph 2026-10-31:
+ * "Remove the gradient background, this can be white") draws no colour puddle: the puddle exists to sit in the
+ * gap between the first row and what follows it. */
+.ap-hub-intel--gov:not(:has(.apg-int-feats)) > .apg-int-row:first-child::after,
+.ap-hub-intel--eduhub:not(:has(.apu-features)) .apu-container > .apu-block:first-child::after {
+	display: none;
 }

@@ -78,7 +78,7 @@ $hs_redirect = trim( (string) $props['form_redirect'] );
 		</div>
 
 		<?php if ( $has_form ) : ?>
-			<div class="ap-pricing-hero__form-card">
+			<div class="ap-pricing-hero__form-card" data-ap-form-skin>
 				<div
 					id="<?php echo esc_attr( $form_id ); ?>"
 					class="ap-pricing-hero__hubspot-form"

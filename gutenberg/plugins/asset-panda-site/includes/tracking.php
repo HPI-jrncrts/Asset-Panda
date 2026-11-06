@@ -108,6 +108,32 @@ function ap_site_gtm_head_html( $s = null ) {
 		$src = "'https://www.googletagmanager.com/gtm.js?id='+i+dl";
 		$arg = $s['gtm_id'];
 	}
+	/*
+	 * "settled": the same loader, started on the first scroll, tap, key or mouse move, or gtm_delay_ms after
+	 * the load event (in an idle moment), whichever comes first. The container's 0.4–1.1 s of script then
+	 * runs after the page has painted and become usable instead of competing with it. Events pushed to
+	 * the dataLayer before then wait in the queue, and GTM replays page view, DOM ready and window loaded
+	 * when it starts. The loader is marked data-cookieconsent="ignore": inserted after Cookiebot's
+	 * auto-blocking has started, it would otherwise be held back like a marketing script (the head
+	 * snippet loads ahead of Cookiebot, so it never was). A Tag Assistant / GTM Preview visit (?gtm_debug=)
+	 * starts it at once: Tag Assistant looks for the container straight away and otherwise reports
+	 * "A Consent Management Platform may be blocking tags".
+	 */
+	if ( 'settled' === ( $s['gtm_timing'] ?? 'immediate' ) ) {
+		$delay = max( 0, min( 10000, (int) ( $s['gtm_delay_ms'] ?? 3000 ) ) );
+		return "<!-- Google Tag Manager (starts on the first interaction, or {$delay} ms after load) -->\n"
+			. "<script data-no-defer=\"1\" data-no-optimize=\"1\">(function(w,d,s,l,i){w[l]=w[l]||[];var go=0,ev=['scroll','pointerdown','keydown','touchstart','mousemove'];\n"
+			. "function load(){if(go)return;go=1;for(var k=0;k<ev.length;k++)w.removeEventListener(ev[k],load,true);\n"
+			. "w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],\n"
+			. "j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.setAttribute('data-cookieconsent','ignore');j.src=\n"
+			. $src . ";f.parentNode.insertBefore(j,f);}\n"
+			. "if(/[?&]gtm_debug=/.test(w.location.search)){load();return;}\n"
+			. "for(var k=0;k<ev.length;k++)w.addEventListener(ev[k],load,{capture:true,passive:true});\n"
+			. "function later(){setTimeout(function(){if(w.requestIdleCallback){w.requestIdleCallback(load,{timeout:2000});}else{load();}}," . $delay . ");}\n"
+			. "if(d.readyState==='complete'){later();}else{w.addEventListener('load',later);}\n"
+			. "})(window,document,'script','dataLayer','" . $arg . "');</script>\n"
+			. "<!-- End Google Tag Manager -->\n";
+	}
 	return "<!-- Google Tag Manager -->\n"
 		. "<script data-no-defer=\"1\" data-no-optimize=\"1\">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':\n"
 		. "new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],\n"

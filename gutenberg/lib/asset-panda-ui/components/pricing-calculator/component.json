@@ -20,6 +20,8 @@
 		"time_saved_pct": { "type": "number", "required": false, "default": 70, "description": "Share of manual tracking time Asset Panda saves, in percent." },
 		"loss_pct": { "type": "number", "required": false, "default": 2, "description": "Share of total asset value protected from loss each year, in percent." },
 		"weeks": { "type": "number", "required": false, "default": 52, "description": "Working weeks per year." },
-		"people_baseline": { "type": "number", "required": false, "default": 10, "description": "Team size the weekly hours describe; the people slider scales hours saved by people / people_baseline." }
+		"people_baseline": { "type": "number", "required": false, "default": 10, "description": "Team size the weekly hours describe; the people slider scales hours saved by people / people_baseline." },
+		"variant": { "type": "string", "required": false, "default": "classic", "enum": ["classic", "2026"], "description": "classic: the live /new-pricing/ port (unchanged). 2026: the Figma 'Pricing - New Jun 11 2026' card (node 7169:88817) — on the white page, a soft centred indigo/green gradient splash behind a frosted-glass card (80% white over a backdrop blur, QA 2026-10-29), Figma's compact type (12px caps labels, 15px slider and row titles, 13px notes), the Figma breakdown icons, AA-contrast greys, a live total for screen readers and an arrow on the sales link." },
+		"disclaimer": { "type": "string", "required": false, "default": "", "description": "Small print centred under the sales line, e.g. the calculator's estimate disclaimer. Empty renders nothing." }
 	}
 }

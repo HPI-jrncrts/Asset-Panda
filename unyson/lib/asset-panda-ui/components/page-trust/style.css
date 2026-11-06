@@ -1,0 +1,352 @@
+/*
+ * page-trust — "Built on Trust" (Our Company, Figma 7460:104417).
+ *
+ * White-to-slate-50 band. Intro: 14px/800 eyebrow, 40px/800 h2, 18px body; aside: 40px icon, 20px/800 h3, 14px
+ * copy. Awards four to a row: badge 90px tall, 20px/800 title, 14px category lines 6px apart. Buttons: the green
+ * outline and the indigo-to-green gradient (page-hero's), 16px apart and centred, then a 14px/600 arrow link.
+ * Buttons lift with translate + box-shadow on the house timing; never transform.
+ */
+
+.ap-page-trust,
+.ap-page-trust * {
+	box-sizing: border-box;
+}
+
+.ap-page-trust {
+	position: relative;
+	width: 100%;
+	background: linear-gradient(180deg, var(--ap-white) 0%, var(--ap-slate-50) 100%);
+	font-family: var(--ap-font-body);
+	color: var(--ap-text-body);
+}
+
+.ap-page-trust__wrap {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 40px 40px 80px;
+	display: flex;
+	flex-direction: column;
+	gap: 80px;
+}
+
+.ap-page-trust__top {
+	display: flex;
+	align-items: flex-end;
+	gap: 40px;
+}
+
+.ap-page-trust__intro,
+.ap-page-trust__aside {
+	flex: 1 1 0;
+	min-width: 0;
+}
+
+.ap-page-trust__intro {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.ap-page-trust .ap-page-trust__eyebrow {
+	margin: 0;
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: 0.56px;
+	text-transform: uppercase;
+	color: var(--ap-text-eyebrow);
+}
+
+.ap-page-trust .ap-page-trust__title {
+	margin: 0;
+	font-family: var(--ap-font-display);
+	font-size: 40px;
+	font-weight: var(--ap-weight-display);
+	line-height: 1.2;
+	letter-spacing: 0;
+	color: var(--ap-text-heading);
+}
+
+.ap-page-trust__body,
+.ap-page-trust__aside-body {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.ap-page-trust .ap-page-trust__body p {
+	margin: 0;
+	font-size: 18px;
+	line-height: 1.5;
+	color: var(--ap-text-body);
+}
+
+.ap-page-trust__aside {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+}
+
+.ap-page-trust__aside-icon {
+	flex: 0 0 40px;
+	display: block;
+	width: 40px;
+	height: 40px;
+}
+
+.ap-page-trust__aside-text {
+	flex: 1 1 0;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.ap-page-trust .ap-page-trust__aside-title,
+.ap-page-trust .ap-page-trust__award-title {
+	margin: 0;
+	font-family: var(--ap-font-display);
+	font-size: 20px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: 0;
+	color: var(--ap-text-heading);
+}
+
+.ap-page-trust .ap-page-trust__aside-body p {
+	margin: 0;
+	font-size: 14px;
+	line-height: 1.5;
+	color: var(--ap-text-body);
+}
+
+.ap-page-trust .ap-page-trust__body a,
+.ap-page-trust .ap-page-trust__aside-body a {
+	color: var(--ap-brand-indigo);
+	font-weight: var(--ap-weight-link);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.ap-page-trust__awards {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 40px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ap-page-trust__award {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 16px;
+	margin: 0;
+}
+
+.ap-page-trust__badge {
+	display: block;
+	width: auto;
+	max-width: 110px;
+	height: 90px;
+	object-fit: contain;
+}
+
+.ap-page-trust__award-items {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	margin: -8px 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ap-page-trust__award-items li {
+	margin: 0;
+	font-size: 14px;
+	line-height: 1.5;
+	color: var(--ap-text-body);
+}
+
+.ap-page-trust .ap-page-trust__award-items a {
+	color: var(--ap-text-body);
+	text-decoration: none;
+}
+
+@media (hover: hover) {
+	.ap-page-trust .ap-page-trust__award-items a:hover {
+		color: var(--ap-brand-indigo);
+		text-decoration: underline;
+		text-underline-offset: 2px;
+	}
+}
+
+.ap-page-trust__actions {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 16px;
+	margin-top: -40px;
+	padding-top: 16px;
+}
+
+.ap-page-trust__buttons {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 16px;
+}
+
+.ap-page-trust .ap-page-trust__btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 48px;
+	padding: 14px 20px;
+	border-radius: var(--ap-radius-sm);
+	font-family: var(--ap-font-body);
+	font-size: 16px;
+	font-weight: var(--ap-weight-button);
+	line-height: 1.2;
+	text-align: center;
+	text-decoration: none;
+	white-space: nowrap;
+	translate: 0 0;
+	transition: translate var(--ap-dur-base) var(--ap-ease-standard), box-shadow var(--ap-dur-base) var(--ap-ease-standard), background-color var(--ap-dur-base) var(--ap-ease-standard), color var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+.ap-page-trust .ap-page-trust__btn--primary,
+.ap-page-trust .ap-page-trust__btn--primary:visited {
+	border: 1px solid var(--ap-brand-indigo);
+	background: linear-gradient(55.1deg, var(--ap-brand-indigo) 0%, var(--ap-brand-green) 70.44%);
+	color: var(--ap-white);
+}
+
+.ap-page-trust .ap-page-trust__btn--outline,
+.ap-page-trust .ap-page-trust__btn--outline:visited {
+	border: 1px solid var(--ap-brand-green);
+	background: rgba(255, 255, 255, 0.6);
+	color: var(--ap-brand-green);
+}
+
+.ap-page-trust .ap-page-trust__btn:hover,
+.ap-page-trust .ap-page-trust__btn:focus-visible {
+	translate: 0 -2px;
+	text-decoration: none;
+}
+
+.ap-page-trust .ap-page-trust__btn--primary:hover,
+.ap-page-trust .ap-page-trust__btn--primary:focus-visible {
+	color: var(--ap-white);
+	box-shadow: 0 6px 18px rgba(80, 68, 225, 0.28);
+}
+
+.ap-page-trust .ap-page-trust__btn--outline:hover,
+.ap-page-trust .ap-page-trust__btn--outline:focus-visible {
+	border-color: var(--ap-brand-green);
+	background: var(--ap-brand-green);
+	color: var(--ap-white);
+}
+
+.ap-page-trust .ap-page-trust__btn:focus-visible {
+	outline: 3px solid var(--ap-brand-indigo);
+	outline-offset: 2px;
+}
+
+.ap-page-trust .ap-page-trust__link {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 14px;
+	font-weight: var(--ap-weight-link);
+	line-height: 1.2;
+	color: var(--ap-text-heading);
+	text-decoration: none;
+}
+
+.ap-page-trust__link svg {
+	flex: 0 0 24px;
+	color: var(--ap-brand-indigo);
+	translate: 0 0;
+	transition: translate var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+@media (hover: hover) {
+	.ap-page-trust .ap-page-trust__link:hover svg {
+		translate: 4px 0;
+	}
+}
+
+@media (max-width: 1000px) {
+	.ap-page-trust__wrap {
+		gap: 56px;
+		padding-top: 64px;
+	}
+
+	.ap-page-trust__top {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 32px;
+	}
+
+	.ap-page-trust__intro,
+	.ap-page-trust__aside {
+		max-width: 680px;
+	}
+
+	.ap-page-trust__awards {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 40px 32px;
+	}
+
+	.ap-page-trust__actions {
+		margin-top: -24px;
+	}
+}
+
+@media (max-width: 640px) {
+	.ap-page-trust__wrap {
+		padding: 48px 20px 64px;
+		gap: 40px;
+	}
+
+	.ap-page-trust .ap-page-trust__title {
+		font-size: 28px;
+	}
+
+	.ap-page-trust .ap-page-trust__body p {
+		font-size: 16px;
+	}
+
+	.ap-page-trust__awards {
+		gap: 32px 20px;
+	}
+
+	.ap-page-trust .ap-page-trust__award-title {
+		font-size: 17px;
+	}
+
+	.ap-page-trust__buttons {
+		flex-direction: column;
+		align-items: stretch;
+		width: 100%;
+	}
+
+	.ap-page-trust .ap-page-trust__btn {
+		width: 100%;
+		white-space: normal;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-page-trust .ap-page-trust__btn,
+	.ap-page-trust__link svg {
+		transition: none;
+	}
+
+	.ap-page-trust .ap-page-trust__btn:hover,
+	.ap-page-trust .ap-page-trust__btn:focus-visible {
+		translate: none;
+	}
+}

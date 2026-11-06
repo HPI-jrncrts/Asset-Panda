@@ -2,6 +2,7 @@
 	"name": "asset-scene",
 	"description": "Asset-type scene: three use-case cards arranged around the assistant artwork, with a closing line and two buttons. Live: .apx-bft on /asset-intelligence-platform/.",
 	"props": {
+		"anchor": { "type": "string", "required": false, "default": "", "description": "id on the section (letters, digits, hyphens), e.g. reseller-program on Partners." },
 		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading." },
 		"title": { "type": "string", "required": true, "description": "Heading." },
 		"title_accent": { "type": "string", "required": false, "default": "", "description": "Part of the heading painted with the brand gradient." },
@@ -15,6 +16,8 @@
 		"cta_label": { "type": "string", "required": false, "default": "", "description": "Primary button text." },
 		"cta_url": { "type": "string", "required": false, "default": "", "description": "Primary button destination." },
 		"secondary_label": { "type": "string", "required": false, "default": "", "description": "Outlined button text." },
-		"secondary_url": { "type": "string", "required": false, "default": "", "description": "Outlined button destination." }
+		"secondary_url": { "type": "string", "required": false, "default": "", "description": "Outlined button destination." },
+		"splash": { "type": "boolean", "required": false, "default": false, "description": "A soft indigo-and-green gradient splash centred behind the heading and the scene (Partners' Become a Partner, Joseph 2026-10-31)." },
+		"attached": { "type": "boolean", "required": false, "default": false, "description": "Desktop: each card pinned to its icon disc (the top card's foot, the side cards' inner edges on the disc), the cards drawn in closer and the artwork (orb and panda) at 78%, for a section with little copy (Partners' Become a Partner, Joseph 2026-10-31). Tablets and phones keep the stacked layout." }
 	}
 }

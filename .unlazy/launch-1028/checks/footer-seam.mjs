@@ -2,7 +2,10 @@
 // Screenshots a 40px band straddling the footer's top edge at 1440 and 390 and compares the pixel rows 3px above and
 // 3px below the edge at 9 x positions. A seam is a jump; passes when every column changes by ≤ 8 (sum of |ΔRGB|).
 import { DEV, launch, guardPage, sleep } from './lib.mjs';
-const PAGES = ['/', '/solutions/inventory-management/', '/solutions/calibration-management/', '/products/asset-panda-for-police/', '/ursa-ai/', '/asset-intelligence-platform/', '/integrations/', '/pricing/'];
+// 2026-10-31: /pricing/ now redirects (302) to /get-a-quote-pro/, which since the go-live swap is the focused booking
+// page (dark backdrop over a one-line footer by design), so it has no footer seam to test; /purchasing-contracts/
+// (closing card then the footer) takes its place.
+const PAGES = ['/', '/solutions/inventory-management/', '/solutions/calibration-management/', '/products/asset-panda-for-police/', '/ursa-ai/', '/asset-intelligence-platform/', '/integrations/', '/purchasing-contracts/'];
 const browser = await launch();
 const bad = [];
 for (const width of [1440, 390]) {

@@ -278,6 +278,16 @@ html body .ap-solution-cta.ap-solution-cta.ap-solution-cta .ap-solution-cta__tit
 /* Without an image there is nothing to be as tall as. */
 .ap-solution-cta--splash .ap-solution-cta__card:not(:has(.ap-solution-cta__media)) { min-height: 0; }
 
+/* Without an image the copy and button are centred in the band, with no gutter kept for art (Partners: the Let's Grow
+   Together band that replaced the channel manager's quote, Joseph 2026-10-30). */
+.ap-solution-cta--splash .ap-solution-cta__card:not(:has(.ap-solution-cta__media)) { justify-content: center; }
+.ap-solution-cta--splash .ap-solution-cta__card:not(:has(.ap-solution-cta__media)) .ap-solution-cta__content {
+	max-width: 720px;
+	align-items: center;
+	text-align: center;
+}
+.ap-solution-cta--splash .ap-solution-cta__card:not(:has(.ap-solution-cta__media)) .ap-solution-cta__btn { align-self: center; }
+
 /* The copy keeps a 32px gutter from the image (it used to sit inside the
    card's left padding instead). */
 .ap-solution-cta--splash .ap-solution-cta__content {

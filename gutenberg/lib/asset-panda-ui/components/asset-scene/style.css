@@ -11,7 +11,7 @@
       position:relative; box-sizing:border-box; overflow:hidden;
       width:100%; /* live broke out of the theme container with 100vw; the block is already full width */
       font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
-      color:var(--ink); background:#f9fafb;
+      color:var(--ink); background:#fff;
     }
 .ap-asset-scene *,.ap-asset-scene *::before,.ap-asset-scene *::after{box-sizing:border-box;}
 /* The dev theme sets text-wrap:pretty on headings and paragraphs; live wraps
@@ -124,4 +124,139 @@
 .ap-asset-scene__lede,.ap-asset-scene__fb{font-size:16px;}
 .ap-asset-scene__ft{font-size:21px;}
 .ap-asset-scene__btns .apx-btn{flex:1 1 100%;}
+}
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: --ap-section-y top and bottom (was 80 / 64 / 56 by width). */
+html body .ap-asset-scene .ap-asset-scene__wrap { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-asset-scene.ap-asset-scene.ap-asset-scene .ap-asset-scene__title { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+/* Section eyebrow on the type scale too: 12px at 390 to 14px at 1440, 800, 4% tracking, upper case. */
+html body .ap-asset-scene.ap-asset-scene.ap-asset-scene .ap-asset-scene__eyebrow { font-size: var(--ap-type-eyebrow-size); font-weight: var(--ap-type-eyebrow-weight); line-height: var(--ap-type-eyebrow-line); letter-spacing: var(--ap-type-eyebrow-track); text-transform: uppercase; }
+
+/* ------------------------------------------------------------ QA 2026-10-29 (Joseph)
+ * "Let's still add the lines in tablet and mobiles" + "the panda and the orb … too far away … diminish half of the
+ * space from the last container".
+ * ≤1000px used to swap in live's narrow artwork (panda + orb only) and hide the icon discs, so the connector lines
+ * vanished. The narrow layout now shows the wide artwork itself, cropped to its centre — the orb, its three
+ * connector lines and icon discs (laptop, truck, shield) and the panda; x 459–1009, y 420–1118 of the 1471 × 1118
+ * file — in a box as wide as the screen (gutters included) up to 480px, which lines the composition up with the
+ * 440px cards above it. The rest of the file overflows that box sideways (the section clips it), so the artwork's
+ * colour wash still fills the band as it does on desktop; above the box it fades in over ~130px of the file and sits
+ * behind the cards. The art now starts 24px under the last card (was 32px, with the old artwork's orb ~118px
+ * below the card on a phone); the first disc lands ~37px under the card and the orb ~85px. */
+@media (max-width:1000px){
+	.ap-asset-scene{--ap-as-gutter:24px;}
+	.ap-asset-scene .ap-asset-scene__stage{isolation:isolate;}
+	html body .ap-asset-scene .ap-asset-scene__art{width:calc(100% + 2 * var(--ap-as-gutter)); max-width:480px; margin:0;}
+	.ap-asset-scene .ap-asset-scene__art img{
+		position:relative; z-index:-1; max-width:none;
+		width:267.455%;         /* 1471 / 550 */
+		margin-left:-83.455%;   /* 459 / 550 */
+		margin-top:-76.364%;    /* 420 / 550 */
+		-webkit-mask-image:linear-gradient(180deg, transparent 27%, #000 39%);
+		        mask-image:linear-gradient(180deg, transparent 27%, #000 39%);
+	}
+}
+@media (max-width:560px){
+	.ap-asset-scene{--ap-as-gutter:20px;}
+}
+
+/* QA 2026-10-29 (Joseph, correction): on narrow screens the icon discs stay with their cards and the connector
+ * lines run from the orb up to them, always behind the cards. behaviour.js draws the lines (.ap-asset-scene__wires,
+ * under the cards) and puts each card's disc on its top edge; the artwork below shows only the orb and the panda —
+ * its own baked discs and short lines are masked out (the orb's ellipse plus everything from the panda's arms down). */
+@media (max-width:1000px){
+	.ap-asset-scene .ap-asset-scene__stage{position:relative; gap:44px;}
+	.ap-asset-scene .ap-asset-scene__card{position:relative; z-index:1;}
+	.ap-asset-scene .ap-asset-scene__art{position:relative; z-index:0;}
+	.ap-asset-scene .ap-asset-scene__art img{
+		-webkit-mask-image:
+			radial-gradient(ellipse 7.6% 10% at 49.9% 54.4%, #000 88%, transparent 100%),
+			linear-gradient(180deg, transparent 63%, #000 66%);
+		        mask-image:
+			radial-gradient(ellipse 7.6% 10% at 49.9% 54.4%, #000 88%, transparent 100%),
+			linear-gradient(180deg, transparent 63%, #000 66%);
+	}
+	.ap-asset-scene .ap-asset-scene__wires{position:absolute; inset:0; z-index:0; width:100%; height:100%; overflow:visible; pointer-events:none; fill:none; stroke:rgba(110, 118, 150, .38); stroke-width:1.5; stroke-linecap:round;}
+	.ap-asset-scene .ap-asset-scene__wires circle{fill:rgba(110, 118, 150, .5); stroke:none;}
+	.ap-asset-scene .ap-asset-scene__disc{position:absolute; z-index:2; top:-24px; left:50%; width:48px; height:48px; margin-left:-24px; border-radius:50%; background-repeat:no-repeat; box-shadow:0 2px 10px rgba(15, 23, 42, .08);}
+}
+
+
+/* QA 2026-10-29: on narrow screens the connector lines were drawn on top of the stacked cards and their text.
+   The "lines behind the cards" rule above (position:relative; z-index:1) loses to the older
+   `position:static !important` block, so the cards stayed unpositioned under the absolutely positioned wires.
+   Same intent, stated strongly enough to win: the cards sit above the wires and the lines show only between them. */
+@media (max-width:1000px){
+	.ap-asset-scene .ap-asset-scene__stage .ap-asset-scene__card{
+		position:relative !important;
+		z-index:1 !important;
+	}
+}
+@media (max-width:1000px){
+	.ap-asset-scene .ap-asset-scene__wrap > .ap-asset-scene__head{
+		position:relative !important;
+		z-index:2 !important;
+		background:#fff;
+	}
+}
+
+/* ------------------------------------------------------------ QA 2026-10-30 (Joseph, /asset-intelligence-platform/,
+ * mobiles only): "remove the lines we put in mobiles" — the connector lines (behaviour.js) are hidden on phones; the
+ * icon discs stay on their cards. "The gradient is only behind the panda, let's spread it a little bit up to the top.
+ * Making the orb look like emitting the gradient" — a soft glow centred on the orb rises behind it into the space
+ * under the last card, and the artwork's own wash fades in over a longer stretch instead of starting in a hard line
+ * at the panda's arms. "Adjust the orb and panda to go up … 15px away from the bottom of the public safety container
+ * card" — the artwork is pulled up so the orb's top edge sits 15px under the last card at every phone width (the orb
+ * top is .151 of the artwork box's width below the box's top). Tablets keep the lines and spacing. */
+@media (max-width:767px){
+	.ap-asset-scene .ap-asset-scene__wires{display:none;}
+	html body .ap-asset-scene .ap-asset-scene__art{margin-top:calc(-29px - .151 * min(100% + 2 * var(--ap-as-gutter), 480px));}
+	/* The glow is laid out on the artwork's box, which the old narrow-screen block pins static with !important. */
+	.ap-asset-scene .ap-asset-scene__stage .ap-asset-scene__art{position:relative !important; z-index:0 !important;}
+	.ap-asset-scene .ap-asset-scene__art::before{
+		content:""; position:absolute; z-index:-2; left:-12%; right:-12%; top:-34%; bottom:30%; pointer-events:none;
+		background:
+			radial-gradient(ellipse 42% 46% at 40% 58%, rgba(80,68,225,.22), rgba(80,68,225,0) 100%),
+			radial-gradient(ellipse 42% 46% at 60% 58%, rgba(0,169,145,.22), rgba(0,169,145,0) 100%);
+	}
+	.ap-asset-scene .ap-asset-scene__art img{
+		-webkit-mask-image:
+			radial-gradient(ellipse 7.6% 10% at 49.9% 54.4%, #000 88%, transparent 100%),
+			linear-gradient(180deg, transparent 60%, #000 71%);
+		        mask-image:
+			radial-gradient(ellipse 7.6% 10% at 49.9% 54.4%, #000 88%, transparent 100%),
+			linear-gradient(180deg, transparent 60%, #000 71%);
+	}
+}
+
+/* splash (Partners' Become a Partner, Joseph 2026-10-31: "Add a gradient splash (center) on this section"): soft
+ * indigo and green washes centred behind the heading and the scene, under the content. */
+.ap-asset-scene--splash::before{
+      content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+      background:
+        radial-gradient(34% 30% at 50% 42%, rgba(80,68,225,.16) 0%, rgba(80,68,225,0) 72%),
+        radial-gradient(28% 26% at 58% 52%, rgba(0,169,145,.14) 0%, rgba(0,169,145,0) 72%),
+        radial-gradient(24% 22% at 42% 56%, rgba(131,140,246,.14) 0%, rgba(131,140,246,0) 72%);
+    }
+.ap-asset-scene--splash > *{position:relative; z-index:1;}
+
+/* attached (Partners' Become a Partner, Joseph 2026-10-31: "make sure the circle icons floating are attached to each
+ * container", "Adjust the size of the panda smaller", "move the 3 cards closer"). Desktop only. The artwork is drawn
+ * at 78% (1147px of the 1120px stage, centred) and lifted 160px, so the stage is 700px tall instead of 930px. Its
+ * three icon discs then sit (in stage px) at 387,260 (left), 556,203 (top) and 730,262 (right), and each card is
+ * placed on its disc: the top card's foot on the top disc, the side cards' inner edges on theirs, centred on them.
+ * Percentages of the 1120 x 700 stage, so the layout scales with the stage between 1001 and 1167px. */
+@media (min-width:1001px){
+.ap-asset-scene--attached .ap-asset-scene__stage{aspect-ratio:1120/700;}
+.ap-asset-scene--attached .ap-asset-scene__art,
+.ap-asset-scene--attached .ap-asset-scene__icons{width:102.44%; left:-1.22%; top:-22.857%;}
+.ap-asset-scene--attached .ap-asset-scene__card--it{top:auto; bottom:71.07%;}
+.ap-asset-scene--attached .ap-asset-scene__card--field{left:6%; top:37.17%; translate:0 -50%;}
+.ap-asset-scene--attached .ap-asset-scene__card--safety{left:65.2%; top:37.4%; translate:0 -50%;}
 }

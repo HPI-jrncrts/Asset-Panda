@@ -83,9 +83,9 @@ $bg     = trim( (string) $props['background'] );
 // does the phone scale table that shrinks it. Both reach CSS as custom
 // properties built from numbers alone; anything left out keeps the stylesheet's
 // asset-management values. Scale steps exist only at the breakpoints the
-// stylesheet declares, so other keys are ignored. The box's x, y and right keys
-// are accepted for compatibility but no longer placed: on desktop the
-// stylesheet anchors the box bottom-right of the stage (QA 2026-10-29).
+// stylesheet declares, so other keys are ignored. The box's x places it on
+// desktop (see below); its y and right keys are accepted for compatibility
+// but not read: the box stands on the stage's foot.
 $ap_style  = array();
 if ( '' !== $bg ) {
 	$ap_style[] = '--ap-solution-bg:url("' . esc_url_raw( $bg ) . '")';
@@ -101,7 +101,14 @@ foreach ( array( 'w' => '--ap-sh-vw', 'h' => '--ap-sh-vh' ) as $key => $var ) {
 		$ap_style[] = $var . ':' . round( (float) $ap_visual[ $key ], 2 ) . 'px';
 	}
 }
-// Normalised art size (QA 2026-10-29, "make sure the image sizes are consistent"): the stylesheet scales
+// The box's x (its left edge in the page's 1440px Figma hero frame) places it on desktop again (QA 2026-10-29
+// evening, "exactly as figma dictates"): the stylesheet draws the box at its Figma size standing on the stage's
+// foot (every page's y + h is the frame's 640px foot), so y is still not read.
+if ( isset( $ap_visual['x'] ) && is_numeric( $ap_visual['x'] ) && (float) $ap_visual['x'] >= 0 && (float) $ap_visual['x'] <= 1440 ) {
+	$ap_style[] = '--ap-sh-vx:' . round( (float) $ap_visual['x'], 2 ) . 'px';
+}
+// Normalised art size (QA 2026-10-29, "make sure the image sizes are consistent"; no longer read on desktop since
+// the evening pass, which draws the box at its Figma size): the stylesheet scaled
 // the visual box (photo + cards, laid out per page in w x h) as one unit so it renders 520px tall on every
 // desktop solution page, or 700px wide if that comes first, so an unusually wide box cannot run into the
 // copy column. CSS calc() cannot divide two lengths, so the factor is computed here; the 637 x 518px
@@ -123,10 +130,37 @@ foreach ( array( 754, 736, 717, 667, 640, 614, 480, 430, 400, 360 ) as $bp ) {
 // without them the markup below is exactly what every solution page already renders.
 $ap_second = '' !== trim( (string) $props['secondary_label'] ) && '' !== trim( (string) $props['secondary_url'] );
 $ap_below  = ! empty( $props['badges_below'] );
+// Optional form card in place of the art (QA 2026-10-30, /barcode-labels/: "we're moving the form into the hero
+// section"). Drawn by form-hero's card variant through the loader, so its stylesheet and form script come with it.
+$ap_form     = is_array( $props['form'] ) ? $props['form'] : array();
+$ap_has_form = '' !== trim( (string) ( $ap_form['hubspot_portal'] ?? '' ) ) && '' !== trim( (string) ( $ap_form['hubspot_form'] ?? '' ) );
+// Optional call-out cards along the bottom of the hero (Partners, 2026-10-31). Opt-in, like the extras above.
+$ap_choices = array();
+foreach ( is_array( $props['choices'] ) ? $props['choices'] : array() as $ap_choice ) {
+	if ( is_array( $ap_choice ) && '' !== trim( (string) ( $ap_choice['title'] ?? '' ) ) ) {
+		$ap_choices[] = array(
+			'title' => trim( (string) $ap_choice['title'] ),
+			'text'  => trim( (string) ( $ap_choice['text'] ?? '' ) ),
+			'icon'  => ap_ui_svg( $ap_choice['icon_svg'] ?? '' ),
+			'label' => trim( (string) ( $ap_choice['cta_label'] ?? '' ) ),
+			'url'   => trim( (string) ( $ap_choice['cta_url'] ?? '' ) ),
+		);
+	}
+}
 ?>
-<section class="ap-solution-hero<?php echo $ap_below ? ' ap-solution-hero--badges-below' : ''; ?><?php echo 'heading' === $props['title_accent_fill'] ? ' ap-solution-hero--accent-heading' : ''; ?>"<?php echo $ap_style ? ' style="' . esc_attr( implode( ';', $ap_style ) ) . '"' : ''; ?>>
+<section class="ap-solution-hero<?php echo $ap_below ? ' ap-solution-hero--badges-below' : ''; ?><?php echo $ap_has_form ? ' ap-solution-hero--form' : ''; ?><?php echo 'heading' === $props['title_accent_fill'] ? ' ap-solution-hero--accent-heading' : ''; ?><?php echo $ap_choices ? ' ap-solution-hero--choices' : ''; ?>"<?php echo $ap_style ? ' style="' . esc_attr( implode( ';', $ap_style ) ) . '"' : ''; ?>>
 	<div class="ap-solution-hero__orbs" aria-hidden="true"></div>
 	<div class="ap-solution-hero__stage">
+		<?php if ( $ap_has_form ) : ?>
+			<div class="ap-solution-hero__formwrap">
+				<?php
+				$ap_form_props = array_intersect_key( $ap_form, array_flip( array( 'anchor', 'form_title', 'form_intro', 'form_note', 'hubspot_portal', 'hubspot_form', 'hubspot_region', 'form_embed', 'form_submit', 'fallback_email', 'fallback_phone' ) ) );
+				$ap_form_props = array_map( static function ( $v ) { return is_scalar( $v ) ? (string) $v : ''; }, $ap_form_props );
+				// The card heading is an h2 (title_tag h1 makes form-hero use h2 for its card); the hero keeps the page's h1.
+				echo ap_render_component( 'form-hero', array_merge( $ap_form_props, array( 'variant' => 'card', 'title' => '' !== trim( $ap_form_props['form_title'] ?? '' ) ? $ap_form_props['form_title'] : 'Talk with an expert', 'title_tag' => 'h1' ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- the component escapes its own output.
+				?>
+			</div>
+		<?php else : ?>
 		<div class="ap-solution-hero__vwrap" aria-hidden="true">
 			<div class="ap-solution-hero__visual">
 				<?php if ( '' !== trim( (string) $props['photo'] ) ) : ?>
@@ -146,6 +180,7 @@ $ap_below  = ! empty( $props['badges_below'] );
 				<?php endforeach; ?>
 			</div>
 		</div>
+		<?php endif; ?>
 		<div class="ap-solution-hero__veil" aria-hidden="true"></div>
 		<div class="ap-solution-hero__content">
 			<?php if ( '' !== trim( (string) $props['eyebrow'] ) ) : ?>
@@ -207,4 +242,26 @@ $ap_below  = ! empty( $props['badges_below'] );
 			</div>
 		<?php endif; ?>
 	</div>
+	<?php if ( $ap_choices ) : ?>
+		<div class="ap-solution-hero__choices">
+			<?php foreach ( $ap_choices as $ap_choice ) : ?>
+				<div class="ap-solution-hero__choice">
+					<div class="ap-solution-hero__choice-body">
+						<?php if ( '' !== $ap_choice['icon'] ) : ?>
+							<span class="ap-solution-hero__choice-icon" aria-hidden="true"><?php echo $ap_choice['icon']; // phpcs:ignore WordPress.Security.EscapeOutput -- sanitised by ap_ui_svg(). ?></span>
+						<?php endif; ?>
+						<div class="ap-solution-hero__choice-copy">
+							<h2 class="ap-solution-hero__choice-title"><?php echo esc_html( $ap_choice['title'] ); ?></h2>
+							<?php if ( '' !== $ap_choice['text'] ) : ?>
+								<p class="ap-solution-hero__choice-text"><?php echo preg_replace( '/\*\*(.+?)\*\*/s', '<strong>$1</strong>', esc_html( $ap_choice['text'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; only <strong> is added. ?></p>
+							<?php endif; ?>
+							<?php if ( '' !== $ap_choice['label'] && '' !== $ap_choice['url'] ) : ?>
+								<a class="ap-solution-hero__choice-link" href="<?php echo esc_url( $ap_choice['url'] ); ?>"><span><?php echo esc_html( $ap_choice['label'] ); ?></span><svg viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true" focusable="false"><path d="M17.25 15.75L21 12L17.25 8.25M21 12H3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></a>
+							<?php endif; ?>
+						</div>
+					</div>
+				</div>
+			<?php endforeach; ?>
+		</div>
+	<?php endif; ?>
 </section>

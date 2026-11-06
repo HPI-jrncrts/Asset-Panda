@@ -415,3 +415,140 @@ add_filter(
 		);
 	}
 );
+
+/**
+ * The blog index (/resource-center/blog/) is WordPress's posts page. Yoast lists the posts page only in the post
+ * sitemap, which is not built while no plain posts are published (the blog lives in the resource type), so the
+ * index that live lists in its page sitemap would drop out of every sitemap. List it with the pages instead.
+ */
+add_filter(
+	'wpseo_sitemap_post_type_first_links',
+	static function ( $links, $post_type ) {
+		return ap_site_guard(
+			static function () use ( $links, $post_type ) {
+				$links = is_array( $links ) ? $links : array();
+				$id    = (int) get_option( 'page_for_posts' );
+				if ( 'page' !== $post_type || ! $id || 'publish' !== get_post_status( $id ) ) {
+					return $links;
+				}
+				if ( (int) wp_count_posts( 'post' )->publish > 0 || '1' === (string) get_post_meta( $id, '_yoast_wpseo_meta-robots-noindex', true ) ) {
+					return $links; // Yoast lists it in the post sitemap, or it is not meant to be indexed.
+				}
+				$links[] = array(
+					'loc' => (string) get_permalink( $id ),
+					'mod' => (string) get_post_modified_time( 'c', true, $id ),
+				);
+				return $links;
+			},
+			$links
+		);
+	},
+	10,
+	2
+);
+
+/*
+ * Company schema (2026-10-30, "New Schema Markup" doc for the Our Company page: "Because Asset Panda uses Yoast SEO, I
+ * recommend enhancing Yoast's existing structured-data graph rather than adding a separate JSON-LD script"). The doc's
+ * PHP, integrated here instead of a separate plugin: verified company facts on Yoast's Organization node (site-wide),
+ * /our-company/ typed as an AboutPage, and that page tied to the Organization's own @id. The founder's @id points at
+ * the page's #rex-kurzius section (the Rex Kurzius row on /our-company/ carries that anchor).
+ */
+add_filter(
+	'wpseo_schema_organization',
+	static function ( $data ) {
+		return ap_site_guard(
+			static function () use ( $data ) {
+				if ( ! is_array( $data ) || empty( $data['@id'] ) ) {
+					return $data;
+				}
+				$data['name']        = 'Asset Panda';
+				$data['foundingDate'] = '2012';
+				$data['slogan']      = 'Help the world work smarter';
+				$data['description'] = 'Asset Panda develops cloud-based asset management and asset intelligence software that connects asset tracking, inspections, maintenance, audits, and operational workflows. Asset Panda Pro includes Ursa AI.';
+				$data['founder']     = array(
+					'@type'    => 'Person',
+					'@id'      => home_url( '/our-company/#rex-kurzius' ),
+					'name'     => 'Rex Kurzius',
+					'jobTitle' => 'Founder and CEO',
+					'url'      => home_url( '/our-company/' ),
+					'worksFor' => array( '@id' => $data['@id'] ),
+				);
+				// Keep Yoast's social profiles and add the verified company profiles.
+				$profiles        = isset( $data['sameAs'] ) ? array_filter( (array) $data['sameAs'], 'is_string' ) : array();
+				$data['sameAs'] = array_values(
+					array_unique(
+						array_merge(
+							$profiles,
+							array(
+								'https://www.linkedin.com/company/asset-panda',
+								'https://www.inc.com/profile/asset-panda',
+							)
+						)
+					)
+				);
+				return $data;
+			},
+			$data
+		);
+	},
+	20
+);
+
+add_filter(
+	'wpseo_schema_webpage',
+	static function ( $data ) {
+		return ap_site_guard(
+			static function () use ( $data ) {
+				if ( is_array( $data ) && is_page( 'our-company' ) ) {
+					$data['@type'] = 'AboutPage';
+				}
+				return $data;
+			},
+			$data
+		);
+	},
+	20
+);
+
+add_filter(
+	'wpseo_schema_graph',
+	static function ( $graph ) {
+		return ap_site_guard(
+			static function () use ( $graph ) {
+				if ( ! is_array( $graph ) || ! is_page( 'our-company' ) ) {
+					return $graph;
+				}
+				// The company's @id: the WebSite node's publisher, else the Organization node itself.
+				$org = null;
+				foreach ( $graph as $node ) {
+					if ( is_array( $node ) && in_array( 'WebSite', (array) ( $node['@type'] ?? array() ), true ) && ! empty( $node['publisher']['@id'] ) ) {
+						$org = $node['publisher']['@id'];
+						break;
+					}
+				}
+				if ( ! $org ) {
+					foreach ( $graph as $node ) {
+						if ( is_array( $node ) && in_array( 'Organization', (array) ( $node['@type'] ?? array() ), true ) && ! empty( $node['@id'] ) ) {
+							$org = $node['@id'];
+							break;
+						}
+					}
+				}
+				if ( ! $org ) {
+					return $graph;
+				}
+				foreach ( $graph as &$node ) {
+					if ( is_array( $node ) && in_array( 'AboutPage', (array) ( $node['@type'] ?? array() ), true ) ) {
+						$node['about']      = array( '@id' => $org );
+						$node['mainEntity'] = array( '@id' => $org );
+					}
+				}
+				unset( $node );
+				return $graph;
+			},
+			$graph
+		);
+	},
+	20
+);

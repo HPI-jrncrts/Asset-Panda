@@ -61,26 +61,11 @@ foreach ( $items as $i => $item ) {
 	$icon_urls[ $i ] = '' !== $sectors[ $i ] ? ap_ui_asset_url( 'industries', $icons[ $sectors[ $i ] ] ) : '';
 }
 ?>
-<section class="ap-industries">
+<?php $ap_ind_id = sanitize_html_class( (string) ( $props['section_id'] ?? '' ) ); ?>
+<section class="ap-industries"<?php echo '' !== $ap_ind_id ? ' id="' . esc_attr( $ap_ind_id ) . '"' : ''; ?>>
 	<div class="ap-sector-bg" aria-hidden="true">
-		<svg class="ap-sector-bg-svg" viewBox="0 0 1440 1207" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
-			<defs>
-				<filter id="<?php echo esc_attr( $uid ); ?>-aurora" x="-35%" y="-35%" width="170%" height="170%" color-interpolation-filters="sRGB">
-					<feGaussianBlur stdDeviation="120"></feGaussianBlur>
-				</filter>
-			</defs>
-			<rect width="1440" height="1207" fill="#ffffff"></rect>
-			<g filter="url(#<?php echo esc_attr( $uid ); ?>-aurora)">
-				<circle cx="214.5" cy="663.5" r="426.5" fill="#5044E1"></circle>
-				<circle cx="1150.5" cy="622.5" r="518.5" fill="#5044E1"></circle>
-				<circle cx="546" cy="956" r="523" fill="#F3BF51"></circle>
-				<circle cx="484.5" cy="737.5" r="426.5" fill="#00A991"></circle>
-				<circle cx="1442.5" cy="1002.5" r="426.5" fill="#00A991"></circle>
-				<ellipse cx="684.5" cy="1206" rx="980.5" ry="438" fill="#ffffff"></ellipse>
-				<ellipse cx="751.5" cy="-49" rx="980.5" ry="438" fill="#F9FAFB"></ellipse>
-			</g>
-			<rect width="1440" height="1207" fill="#ffffff" opacity="0.15"></rect>
-		</svg>
+		<?php /* The aurora was an SVG with a 120px Gaussian blur repainted with the panel; it is the same art pre-rendered (QA 2026-10-29: homepage animations laggy — this blur was ~80% of the page's raster time). */ ?>
+		<img class="ap-sector-bg-img" src="<?php echo esc_url( ap_ui_asset_url( 'industries', 'aurora.webp' ) ); ?>" alt="" width="1440" height="1207" loading="lazy" decoding="async" />
 	</div>
 	<div class="ap-sector-box">
 		<div class="ap-sector-box-bg" aria-hidden="true"></div>
@@ -97,7 +82,8 @@ foreach ( $items as $i => $item ) {
 					<?php foreach ( $items as $i => $item ) : ?>
 						<a class="ap-sector-tab" href="#<?php echo esc_attr( $anchors[ $i ] ); ?>">
 							<?php if ( '' !== $icon_urls[ $i ] ) : ?>
-								<img src="<?php echo esc_url( $icon_urls[ $i ] ); ?>" alt="" aria-hidden="true" width="20" height="20" />
+								<?php // Eager: WordPress would otherwise lazy-load these sized icons, and the tabs that start off-screen in the phone's horizontal scroller stayed blank. ?>
+								<img src="<?php echo esc_url( $icon_urls[ $i ] ); ?>" alt="" aria-hidden="true" width="20" height="20" loading="eager" />
 							<?php endif; ?>
 							<span><?php echo esc_html( $item['title'] ); ?></span>
 						</a>

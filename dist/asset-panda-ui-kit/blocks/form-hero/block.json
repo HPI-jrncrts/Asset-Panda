@@ -15,7 +15,8 @@
 				"light",
 				"dark",
 				"section",
-				"banner"
+				"banner",
+				"card"
 			]
 		},
 		"anchor": {

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "funnel-hub-preview",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["C:/Users/josep/AppData/Local/Temp/claude/6eb68941268fce85/bb452b20-47cf-4835-80a6-1defe0279900/scratchpad/preview-server.mjs"],
+      "port": 8099
+    }
+  ]
+}

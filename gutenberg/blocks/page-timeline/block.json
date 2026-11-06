@@ -1,0 +1,73 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "assetpanda/page-timeline",
+	"title": "AP Page Timeline",
+	"category": "design",
+	"icon": "block-default",
+	"description": "Journey section of the 2026 company pages (Our Company, Figma 7385:186215): a sticky intro column (eyebrow, heading with a gradient phrase, lede) beside a timeline of milestones. Each milestone sits behind a left rule that deepens from indigo-200 to indigo-600 down the list and carries a year label, a heading, paragraphs, an optional small note and arrow links; an optional closing statement in gradient type ends the last milestone. This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"textdomain": "assetpanda",
+	"attributes": {
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"title_accent": {
+			"type": "string",
+			"default": ""
+		},
+		"lede": {
+			"type": "string",
+			"default": ""
+		},
+		"items": {
+			"type": "array",
+			"default": []
+		},
+		"closing_lead": {
+			"type": "string",
+			"default": ""
+		},
+		"closing_text": {
+			"type": "string",
+			"default": ""
+		},
+		"look": {
+			"type": "string",
+			"default": "journey",
+			"enum": [
+				"journey",
+				"steps"
+			]
+		},
+		"cta_label": {
+			"type": "string",
+			"default": ""
+		},
+		"cta_url": {
+			"type": "string",
+			"default": ""
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": true,
+		"align": [
+			"full",
+			"wide"
+		]
+	},
+	"render": "file:./render.php"
+}

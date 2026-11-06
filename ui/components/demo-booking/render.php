@@ -102,7 +102,7 @@ $ap_email = trim( (string) $props['contact_email'] );
 $ap_phone = trim( (string) $props['contact_phone'] );
 $ap_tel   = preg_replace( '/[^0-9+\-]/', '', str_replace( ' ', '-', $ap_phone ) ); // (888) 928-6112 -> 888-928-6112
 
-$ap_classes = 'ap-demo-booking ap-d26-sec ap-d26-hero' . ( $ap_split ? ' ap-d26-v1' : '' );
+$ap_classes = 'ap-demo-booking ap-d26-sec ap-d26-hero' . ( $ap_split ? ' ap-d26-v1' : '' ) . ( 'dark' === $props['backdrop'] ? ' ap-d26-hero--dark' : '' );
 
 /*
  * Award badges: the set, then an aria-hidden copy the marquee scrolls into
@@ -155,7 +155,7 @@ if ( $ap_awards ) {
 				<div class="ap-dw-fields">
 					<label class="ap-dw-field"><span class="ap-dw-label">Work email*</span><input type="email" name="email" autocomplete="email" inputmode="email" required></label>
 					<p class="ap-dw-err" data-err="email" role="alert" hidden></p>
-					<div class="ap-dw-names" hidden>
+					<div class="ap-dw-names"<?php echo 'with_email' === $props['names'] ? '' : ' hidden'; ?>>
 						<div class="ap-dw-pair">
 							<label class="ap-dw-field"><span class="ap-dw-label">First name*</span><input type="text" name="firstname" autocomplete="given-name" required></label>
 							<label class="ap-dw-field"><span class="ap-dw-label">Last name*</span><input type="text" name="lastname" autocomplete="family-name" required></label>
@@ -223,7 +223,7 @@ if ( $ap_awards ) {
 		<div class="ap-d26-v1-side">
 			<?php if ( $ap_stories ) : ?>
 				<?php $ap_count = count( $ap_stories ); ?>
-				<div class="ap-d26-qcard" data-ap-cases aria-roledescription="carousel" aria-label="What customers say">
+				<div class="ap-d26-qcard" data-ap-cases data-ap-autoplay="<?php echo esc_attr( (string) max( 0, (int) $props['autoplay_ms'] ) ); ?>" aria-roledescription="carousel" aria-label="What customers say">
 					<div class="ap-d26-qslides" aria-live="polite">
 						<?php foreach ( $ap_stories as $ap_i => $ap_story ) : ?>
 							<?php

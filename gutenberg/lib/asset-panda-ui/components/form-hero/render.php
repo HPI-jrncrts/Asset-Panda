@@ -10,6 +10,10 @@
  * HubSpot's new editor). Where the visitor goes after submitting is the form's
  * own redirect, set in HubSpot.
  *
+ * The card carries data-ap-form-skin: it is the kit's form skin (HubSpot's own
+ * stylesheet is never attached; style.css draws the fields and button), and
+ * the launch check looks for every form inside such a wrapper.
+ *
  * Live's /get-a-quote-pro/ and /barcode-labels/ show a "Form not loading?"
  * box when no form has appeared after 6 seconds (blocked script, network);
  * it is rendered hidden here and revealed by the same rule.
@@ -26,13 +30,14 @@ if ( '' === $title ) {
 	return;
 }
 
-$variant   = in_array( $props['variant'], array( 'light', 'dark', 'section' ), true ) ? $props['variant'] : 'light';
+$variant   = in_array( $props['variant'], array( 'light', 'dark', 'section', 'banner', 'card' ), true ) ? $props['variant'] : 'light';
 $title_tag = 'h2' === $props['title_tag'] ? 'h2' : 'h1';
 $card_tag  = 'h1' === $title_tag ? 'h2' : 'h3';
 $anchor    = preg_match( '/^[A-Za-z][A-Za-z0-9_-]{0,63}$/', trim( (string) $props['anchor'] ) ) ? trim( (string) $props['anchor'] ) : '';
 $eyebrow   = trim( (string) $props['eyebrow'] );
 $body      = trim( (string) $props['body'] );
-$bg        = trim( (string) $props['background'] );
+// The banner paints its own glows (style.css), so a backdrop picture is neither drawn nor preloaded there.
+$bg        = 'banner' === $variant ? '' : trim( (string) $props['background'] );
 
 $hs_portal = preg_match( '/^\d{3,12}$/', (string) $props['hubspot_portal'] ) ? (string) $props['hubspot_portal'] : '';
 $hs_form   = preg_match( '/^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i', (string) $props['hubspot_form'] ) ? strtolower( (string) $props['hubspot_form'] ) : '';
@@ -41,15 +46,23 @@ $hs_embed  = 'developer' === $props['form_embed'] ? 'developer' : 'v2';
 $hs_submit = substr( trim( (string) $props['form_submit'] ), 0, 60 );
 $has_form  = '' !== $hs_portal && '' !== $hs_form;
 
-static $ap_form_hero_instance = 0;
-++$ap_form_hero_instance;
-$mount_id = 'ap-form-hero-form-' . $ap_form_hero_instance;
+/*
+ * The mount id HubSpot targets, unique across the page. (A `static` counter
+ * here restarts on every render — the loader includes this file inside a fresh
+ * closure — so two forms on one page both became …-form-1 and only the first
+ * was ever drawn; the AWS re:Invent page had an empty second card.)
+ */
+$mount_id = function_exists( 'wp_unique_id' ) ? wp_unique_id( 'ap-form-hero-form-' ) : 'ap-form-hero-form-' . substr( md5( uniqid( '', true ) ), 0, 8 );
 
 $fb_email = sanitize_email( trim( (string) $props['fallback_email'] ) );
 $fb_phone = trim( (string) $props['fallback_phone'] );
 $fb_tel   = preg_replace( '/[^0-9+]/', '', $fb_phone );
 
 $form_title = trim( (string) $props['form_title'] );
+// The card variant has no copy column: the title heads the card when no form_title is given.
+if ( 'card' === $variant && '' === $form_title ) {
+	$form_title = $title;
+}
 $form_intro = trim( (string) $props['form_intro'] );
 $form_note  = trim( (string) $props['form_note'] );
 
@@ -79,39 +92,15 @@ foreach ( is_array( $props['badges'] ) ? $props['badges'] : array() as $badge ) 
 
 $classes = 'ap-form-hero ap-form-hero--' . $variant;
 $style   = '' !== $bg ? '--ap-form-hero-bg:url("' . esc_url_raw( $bg ) . '")' : '';
+// First-screen backdrop (a CSS background): preload it (PageSpeed LCP).
+if ( '' !== $bg && function_exists( 'ap_ui_preload_image' ) ) {
+	echo ap_ui_preload_image( $bg ); // phpcs:ignore WordPress.Security.EscapeOutput -- built from esc_url() in the loader.
+}
+// The form card, buffered once: the section variants draw it beside their copy, the card variant draws it alone.
+ob_start();
 ?>
-<section class="<?php echo esc_attr( $classes ); ?>"<?php echo '' !== $anchor ? ' id="' . esc_attr( $anchor ) . '"' : ''; ?><?php echo '' !== $style ? ' style="' . esc_attr( $style ) . '"' : ''; ?>>
-	<div class="ap-form-hero__inner">
-		<div class="ap-form-hero__copy">
-			<?php if ( '' !== $eyebrow ) : ?>
-				<p class="ap-form-hero__eyebrow"><?php echo esc_html( $eyebrow ); ?></p>
-			<?php endif; ?>
-			<<?php echo tag_escape( $title_tag ); ?> class="ap-form-hero__title"><?php echo ap_ui_lines( $title ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; only <br> is added. ?></<?php echo tag_escape( $title_tag ); ?>>
-			<?php if ( '' !== $body ) : ?>
-				<p class="ap-form-hero__body"><?php echo $ap_rich( $body ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?></p>
-			<?php endif; ?>
-			<?php if ( $bullets ) : ?>
-				<ul class="ap-form-hero__list">
-					<?php foreach ( $bullets as $bullet ) : ?>
-						<li><?php echo $ap_rich( $bullet ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?></li>
-					<?php endforeach; ?>
-				</ul>
-			<?php endif; ?>
-			<?php if ( $badges ) : ?>
-				<div class="ap-form-hero__badges">
-					<?php foreach ( $badges as $badge ) : ?>
-						<?php
-						$w = isset( $badge['w'] ) ? (int) $badge['w'] : 0;
-						$h = isset( $badge['h'] ) ? (int) $badge['h'] : 0;
-						?>
-						<img src="<?php echo esc_url( $badge['image'] ); ?>" alt="<?php echo esc_attr( (string) ( $badge['alt'] ?? '' ) ); ?>"<?php echo $w > 0 && $h > 0 ? ' width="' . esc_attr( (string) $w ) . '" height="' . esc_attr( (string) $h ) . '"' : ''; ?> decoding="async" />
-					<?php endforeach; ?>
-				</div>
-			<?php endif; ?>
-		</div>
-
 		<?php if ( $has_form || '' !== $form_title ) : ?>
-			<div class="ap-form-hero__card">
+			<div class="ap-form-hero__card" data-ap-form-skin>
 				<?php if ( '' !== $form_title ) : ?>
 					<<?php echo tag_escape( $card_tag ); ?> class="ap-form-hero__card-title"><?php echo esc_html( $form_title ); ?></<?php echo tag_escape( $card_tag ); ?>>
 				<?php endif; ?>
@@ -148,5 +137,45 @@ $style   = '' !== $bg ? '--ap-form-hero-bg:url("' . esc_url_raw( $bg ) . '")' : 
 				<?php endif; ?>
 			</div>
 		<?php endif; ?>
+<?php
+$ap_card_html = (string) ob_get_clean();
+
+// card (QA 2026-10-30): just the card, for a host component that places it (the solution hero's form, /barcode-labels/).
+if ( 'card' === $variant ) {
+	echo '<div class="ap-form-hero ap-form-hero--card"' . ( '' !== $anchor ? ' id="' . esc_attr( $anchor ) . '"' : '' ) . '>' . $ap_card_html . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped parts.
+	return;
+}
+?>
+<section class="<?php echo esc_attr( $classes ); ?>"<?php echo '' !== $anchor ? ' id="' . esc_attr( $anchor ) . '"' : ''; ?><?php echo '' !== $style ? ' style="' . esc_attr( $style ) . '"' : ''; ?>>
+	<div class="ap-form-hero__inner">
+		<div class="ap-form-hero__copy">
+			<?php if ( '' !== $eyebrow ) : ?>
+				<p class="ap-form-hero__eyebrow"><?php echo esc_html( $eyebrow ); ?></p>
+			<?php endif; ?>
+			<<?php echo tag_escape( $title_tag ); ?> class="ap-form-hero__title"><?php echo ap_ui_lines( $title ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; only <br> is added. ?></<?php echo tag_escape( $title_tag ); ?>>
+			<?php if ( '' !== $body ) : ?>
+				<p class="ap-form-hero__body"><?php echo $ap_rich( $body ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?></p>
+			<?php endif; ?>
+			<?php if ( $bullets ) : ?>
+				<ul class="ap-form-hero__list">
+					<?php foreach ( $bullets as $bullet ) : ?>
+						<li><?php echo $ap_rich( $bullet ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?></li>
+					<?php endforeach; ?>
+				</ul>
+			<?php endif; ?>
+			<?php if ( $badges ) : ?>
+				<div class="ap-form-hero__badges">
+					<?php foreach ( $badges as $badge ) : ?>
+						<?php
+						$w = isset( $badge['w'] ) ? (int) $badge['w'] : 0;
+						$h = isset( $badge['h'] ) ? (int) $badge['h'] : 0;
+						?>
+						<img src="<?php echo esc_url( $badge['image'] ); ?>" alt="<?php echo esc_attr( (string) ( $badge['alt'] ?? '' ) ); ?>"<?php echo $w > 0 && $h > 0 ? ' width="' . esc_attr( (string) $w ) . '" height="' . esc_attr( (string) $h ) . '"' : ''; ?> decoding="async" />
+					<?php endforeach; ?>
+				</div>
+			<?php endif; ?>
+		</div>
+
+		<?php echo $ap_card_html; // phpcs:ignore WordPress.Security.EscapeOutput -- built above from escaped values. ?>
 	</div>
 </section>

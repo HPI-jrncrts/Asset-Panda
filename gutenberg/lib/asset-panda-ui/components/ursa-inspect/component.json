@@ -1,0 +1,22 @@
+{
+	"name": "ursa-inspect",
+	"description": "Ursa AI photo-inspection section: a copy column (eyebrow, heading, paragraph, checklist, closing note) beside the live Ursa Inspection demo in a card tagged \"Try it live\", with two buttons centred underneath. The demo is framed as on the homepage hero (lazy iframe, sized to the height the demo posts, drawing its own card and tag); its host only lets assetpanda.com frame it, so elsewhere the card shows a poster of the demo at rest. With both set, the poster card shows until the demo's first message, so a refused host keeps the poster. Ursa AI frame 7297:118866.",
+	"props": {
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading (an H2). Line breaks are kept." },
+		"body": { "type": "string", "required": false, "default": "", "description": "Paragraph under the heading. UrsaAI renders as the brand mark." },
+		"checks": { "type": "array", "required": false, "default": [], "description": "Checklist under the paragraph (strings)." },
+		"note": { "type": "string", "required": false, "default": "", "description": "Closing line under the checklist." },
+		"demo_url": { "type": "string", "required": false, "default": "", "description": "The live Ursa Inspection demo, framed the way the homepage hero frames it: https://d11kkw4bm5u36o.cloudfront.net/ (the homepage's src). The demo's CSP (frame-ancestors) only lets https://assetpanda.com and https://*.assetpanda.com frame it: on any other host, staging included, the frame is refused. Set it together with poster: the poster card then shows until the demo posts its first message, so a refused host keeps the poster and assetpanda.com gets the live demo." },
+		"demo_title": { "type": "string", "required": false, "default": "Ursa Inspection live demo", "description": "Accessible title of the demo frame." },
+		"poster": { "type": "string", "required": false, "default": "", "description": "Still of the demo at rest, in the kit's card. Shown in place of the demo when there is no demo_url; with a demo_url it shows until the demo posts its first message (it stays where the host is refused)." },
+		"poster_alt": { "type": "string", "required": false, "default": "", "description": "Alt text for the poster." },
+		"poster_width": { "type": "integer", "required": false, "default": 540, "description": "Poster intrinsic width in px." },
+		"poster_height": { "type": "integer", "required": false, "default": 517, "description": "Poster intrinsic height in px." },
+		"tag": { "type": "string", "required": false, "default": "Try it live", "description": "Hand-drawn tag on the poster card's top-left corner. Empty hides it. The live demo draws its own \"Try it live\" tag, so this one shows only with the poster." },
+		"secondary_label": { "type": "string", "required": false, "default": "", "description": "Outline button, drawn first (with secondary_url)." },
+		"secondary_url": { "type": "string", "required": false, "default": "", "description": "Outline button destination." },
+		"cta_label": { "type": "string", "required": false, "default": "Free Demo", "description": "Solid button (with cta_url)." },
+		"cta_url": { "type": "string", "required": false, "default": "/get-a-demo/", "description": "Solid button destination." }
+	}
+}

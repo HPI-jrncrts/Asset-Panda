@@ -555,3 +555,204 @@
 .ap-page-cards--soft {
 	background: #fff;
 }
+
+/* Plain look with an image (Partners page, 2026-10-30; Jeph: "Partner logos should appear above or beside each card",
+ * and the "Our Partners Template Example" slide): the partner's logo sits in a white box beside the copy, the copy keeps
+ * the card's usual rhythm. Below 641px the logo box tops the card instead. */
+.ap-page-cards .ap-page-cards__card--logo {
+	flex-direction: row;
+	align-items: stretch;
+	gap: 24px;
+}
+
+.ap-page-cards__logo {
+	flex: 0 0 42%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 140px;
+	padding: 20px;
+	border: 1px solid var(--ap-slate-100);
+	border-radius: var(--ap-radius-md);
+	background: var(--ap-white);
+}
+
+.ap-page-cards__logo img {
+	display: block;
+	width: auto;
+	max-width: 100%;
+	height: auto;
+	max-height: 80px;
+	object-fit: contain;
+}
+
+.ap-page-cards__text {
+	flex: 1 1 auto;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 14px;
+}
+
+@media (max-width: 640px) {
+	.ap-page-cards .ap-page-cards__card--logo {
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.ap-page-cards__logo {
+		flex-basis: auto;
+		align-self: stretch;
+		min-height: 104px;
+	}
+
+	.ap-page-cards__logo img {
+		max-height: 64px;
+	}
+}
+
+/* ---- Partners, 2026-10-31 (Joseph) ----
+ * few: fewer cards than columns ("center-align the container since this is the only one") — the row is centred,
+ * each card keeping the width it has in a full row.
+ * joined: the group continues the section above ("remove the extra space above international / UK because it's
+ * just the same section") — no top padding, drawn up so its label sits 40px (28px on phones) under the cards above. */
+.ap-page-cards--few .ap-page-cards__grid {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.ap-page-cards--few .ap-page-cards__card {
+	flex: 0 1 calc((100% - 48px) / 3);
+}
+
+.ap-page-cards--few.ap-page-cards--cols-2 .ap-page-cards__card {
+	flex-basis: calc((100% - 24px) / 2);
+}
+
+.ap-page-cards--few.ap-page-cards--cols-4 .ap-page-cards__card {
+	flex-basis: calc((100% - 72px) / 4);
+}
+
+.ap-page-cards--joined {
+	margin-top: calc(40px - var(--ap-section-y, 64px));
+}
+
+.ap-page-cards--joined .ap-page-cards__wrap {
+	padding-top: 0;
+}
+
+@media (max-width: 1100px) {
+	.ap-page-cards--few .ap-page-cards__card,
+	.ap-page-cards--few.ap-page-cards--cols-4 .ap-page-cards__card {
+		flex-basis: calc((100% - 24px) / 2);
+	}
+}
+
+@media (max-width: 640px) {
+	.ap-page-cards--few .ap-page-cards__card,
+	.ap-page-cards--few.ap-page-cards--cols-2 .ap-page-cards__card,
+	.ap-page-cards--few.ap-page-cards--cols-4 .ap-page-cards__card {
+		flex-basis: 100%;
+	}
+
+	.ap-page-cards--joined {
+		margin-top: calc(28px - var(--ap-section-y, 40px));
+	}
+}
+
+/* ---- Section rhythm (Purchasing Contracts 2026-10-31: "Remove the excess space between sections. It's too much.")
+ * The cards now pad top and bottom with the site's --ap-section-y (64px desktop, 56px tablet, 40px phones) like
+ * every other content section (tokens.css "section rhythm"); they kept their first 80px / 56px, so two stacked
+ * card sections sat 160px apart. */
+.ap-page-cards__wrap {
+	padding-top: var(--ap-section-y, 64px);
+	padding-bottom: var(--ap-section-y, 64px);
+}
+
+/* ---- row look (Our Technology "Real-world workflows", Figma 7460:109120) ----
+ * One card per row across the content width: the 32px line icon and the 24px/800 title on the left, the 18px copy
+ * on the right; each card is washed from white to its accent tint (left to right) behind a 1px accent border. */
+.ap-page-cards--row .ap-page-cards__grid,
+.ap-page-cards--row.ap-page-cards--cols-2 .ap-page-cards__grid,
+.ap-page-cards--row.ap-page-cards--cols-4 .ap-page-cards__grid {
+	grid-template-columns: minmax(0, 1fr);
+	max-width: none;
+}
+
+.ap-page-cards.ap-page-cards--row .ap-page-cards__card {
+	display: grid;
+	grid-template-columns: 32px minmax(0, 1fr) minmax(0, 1.4fr);
+	align-items: start;
+	gap: 0 16px;
+	min-height: 150px;
+	padding: 32px 40px 32px 28px;
+	border-color: var(--ap-pc-c);
+	background: linear-gradient(90deg, var(--ap-white) 0%, var(--ap-pc-t) 100%);
+	box-shadow: none;
+}
+
+.ap-page-cards--row .ap-page-cards__icon {
+	width: 32px;
+	height: 32px;
+	border-radius: 0;
+	background: none;
+}
+
+.ap-page-cards--row .ap-page-cards__icon svg,
+.ap-page-cards--row .ap-page-cards__icon img {
+	width: 32px;
+	height: 32px;
+}
+
+.ap-page-cards.ap-page-cards--row .ap-page-cards__name {
+	grid-column: 2;
+	margin: 0;
+	max-width: 340px;
+	font-size: 24px;
+	line-height: 1.3;
+}
+
+.ap-page-cards--row .ap-page-cards__body {
+	grid-column: 3;
+	padding-left: 24px;
+}
+
+.ap-page-cards.ap-page-cards--row .ap-page-cards__body p {
+	font-size: 18px;
+	line-height: 1.5;
+}
+
+@media (max-width: 800px) {
+	.ap-page-cards.ap-page-cards--row .ap-page-cards__card {
+		grid-template-columns: 32px minmax(0, 1fr);
+		gap: 12px 16px;
+		padding: 24px 20px;
+	}
+
+	.ap-page-cards--row .ap-page-cards__body {
+		grid-column: 1 / -1;
+		padding-left: 0;
+	}
+
+	.ap-page-cards.ap-page-cards--row .ap-page-cards__name {
+		font-size: 20px;
+	}
+
+	.ap-page-cards.ap-page-cards--row .ap-page-cards__body p {
+		font-size: 16px;
+	}
+}
+
+/* The row look's closing line reads at body size (Figma: 18px, the label in bold). */
+.ap-page-cards.ap-page-cards--row .ap-page-cards__note p {
+	font-size: 18px;
+	line-height: 1.5;
+}
+
+@media (max-width: 800px) {
+	.ap-page-cards.ap-page-cards--row .ap-page-cards__note p {
+		font-size: 16px;
+	}
+}

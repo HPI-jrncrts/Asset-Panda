@@ -24,6 +24,7 @@
 }
 
 .ap-industries {
+	scroll-margin-top: 80px;
 	width: 100%;
 	max-width: none;
 	margin: 0;
@@ -43,10 +44,13 @@
 	pointer-events: none;
 }
 
-.ap-industries .ap-sector-bg-svg {
+.ap-industries .ap-sector-bg-svg,
+.ap-industries .ap-sector-bg-img {
 	width: 100%;
 	height: 100%;
 	display: block;
+	max-width: none;
+	object-fit: fill;
 }
 
 .ap-industries .ap-sector-box {
@@ -95,7 +99,7 @@
 	border-radius: 999px;
 	pointer-events: none;
 	opacity: 0.12;
-	filter: blur(280px);
+	filter: none; /* was blur(280px): the radial gradients are already soft, and the blur was repainted on every frame of the panel's clip-path animation */
 	transition: opacity 420ms ease;
 }
 
@@ -396,8 +400,13 @@
 		padding: 56px 32px;
 	}
 
+	/* QA 2026-10-29 (Joseph): two fluid columns, so the grid fills the tablet width with no empty right-hand track. */
 	.ap-industries .ap-sector-grid {
-		grid-template-columns: repeat(2, minmax(0, 348px));
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.ap-industries .ap-sector-card {
+		max-width: none;
 	}
 }
 
@@ -517,4 +526,105 @@
 	.ap-industries .ap-sector-link strong {
 		transition: none;
 	}
+}
+
+/* ------------------------------------------------------------ QA 2026-10-27
+ * Section rhythm: --ap-section-y above and below the sector panel (was 80 / 72
+ * / 56 by width); the panel keeps its own inner padding. */
+html body .ap-industries.ap-industries { padding-top: var(--ap-section-y, 64px); padding-bottom: var(--ap-section-y, 64px); }
+
+/* PageSpeed (QA 2026-10-27): the panel's two backdrop glows were 951px and
+ * 853px solid circles under blur(280px), one of the costliest paints on the
+ * page on phones. The same glows are now radial gradients on circles grown
+ * by the blur radius (solid core, fading to nothing at the old blur edge):
+ * no filter, same look. */
+.ap-industries .ap-sector-box-bg::before,
+.ap-industries .ap-sector-box-bg::after { filter: none; }
+.ap-industries .ap-sector-box-bg::before {
+	width: 1511px;
+	height: 1511px;
+	right: 433px;
+	top: -208px;
+	background: radial-gradient(circle closest-side, #5044E1 26%, rgba(80, 68, 225, .5) 55%, rgba(80, 68, 225, 0) 100%);
+}
+.ap-industries .ap-sector-box-bg::after {
+	width: 1413px;
+	height: 1413px;
+	right: -584px;
+	top: 419px;
+	background: radial-gradient(circle closest-side, #00A991 21%, rgba(0, 169, 145, .5) 52%, rgba(0, 169, 145, 0) 100%);
+}
+
+/* Phones (QA 2026-10-27): the panel ran edge to edge with 20px rounded
+ * corners cut off by the screen edge. It is a full-bleed band there now
+ * (square corners), so it reads as a deliberate dark section. */
+@media (max-width: 767px) {
+	html body .ap-industries .ap-sector-box { border-radius: 0; }
+	html body .ap-industries .ap-sector-box-bg { border-radius: 0; clip-path: none; }
+}
+
+/* ------------------------------------------------------------ Type scale (QA 2026-10-28)
+ * Section titles on the kit's heading tokens (tokens.css "Type scale — agent
+ * heroes"): one size per width for every section title on the site (24px at
+ * 390 to 40px at 1440), weight 800, line 1.2, no tracking. */
+html body .ap-industries.ap-industries.ap-industries h2 { font-size: var(--ap-type-h2-size); font-weight: var(--ap-type-h2-weight); line-height: var(--ap-type-h2-line); letter-spacing: var(--ap-type-h2-track); }
+
+/* ------------------------------------------------------------ Motion (QA 2026-10-28, motion agent's R1)
+ * The panel used to widen to the browser edges by animating left / width /
+ * border-radius: a full-width box with two ~1500px glows re-laid-out and
+ * repainted every frame (30 of ~40 frames slow, worst 67-83ms). Now the
+ * indigo panel is sized to the whole section from the start and only its
+ * clip-path animates: at rest it is clipped to the card-sized rounded panel
+ * (exactly where it sat before), on hover / focus the clip opens to the
+ * section edges. Nothing is laid out per frame. The glows are anchored to the
+ * card area as before, so they no longer slide while the panel opens. */
+@media (min-width: 768px) {
+	html body .ap-industries .ap-sector-box { position: static; }
+	html body .ap-industries .ap-sector-box-bg {
+		--ap-sector-ix: max(48px, calc(50% - 600px));
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		width: auto;
+		border-radius: 0;
+		clip-path: inset(var(--ap-section-y, 64px) var(--ap-sector-ix) var(--ap-section-y, 64px) round 24px);
+		will-change: clip-path;
+		transition: clip-path 700ms cubic-bezier(0.22, 1, 0.36, 1);
+	}
+	html body .ap-industries:hover .ap-sector-box-bg,
+	html body .ap-industries:focus-within .ap-sector-box-bg {
+		left: 0;
+		width: auto;
+		border-radius: 0;
+		clip-path: inset(var(--ap-section-y, 64px) 0 var(--ap-section-y, 64px) round 0);
+	}
+	html body .ap-industries .ap-sector-box-bg::before { right: calc(var(--ap-sector-ix) + 433px); top: calc(var(--ap-section-y, 64px) - 208px); }
+	html body .ap-industries .ap-sector-box-bg::after { right: calc(var(--ap-sector-ix) - 584px); top: calc(var(--ap-section-y, 64px) + 419px); }
+	html body .ap-industries .ap-sector-box-bg::before,
+	html body .ap-industries .ap-sector-box-bg::after { transition: opacity var(--ap-dur-base, 300ms) var(--ap-ease-standard, ease); }
+}
+@media (min-width: 768px) and (max-width: 1279px) {
+	html body .ap-industries .ap-sector-box-bg { --ap-sector-ix: 32px; }
+}
+@media (min-width: 768px) and (prefers-reduced-motion: reduce) {
+	html body .ap-industries .ap-sector-box-bg { transition: none; }
+}
+/* PageSpeed: on phones the section's blurred "aurora" SVG (a 120px Gaussian
+ * blur over the whole section) sits entirely behind the full-bleed panel, so
+ * it is not painted at all there. */
+@media (max-width: 767px) {
+	html body .ap-industries .ap-sector-bg { display: none; }
+}
+
+/* QA 2026-10-29 (Joseph: "something wrong on this section before it fully loads"): the panel animates its own
+ * shape (clip-path / left / width), so a late style change while the page is still loading replayed that animation
+ * and drew the panel offset from its text. Until motion.js has run (it marks <html data-ap-motion-ready> once the
+ * stylesheets are in), the panel and its glows take their final shape with no transition. The section's top edge is
+ * white (the background art's top ellipse was #F9FAFB, a grey band under the section above). */
+:root:not([data-ap-motion-ready]) .ap-industries .ap-sector-box-bg,
+:root:not([data-ap-motion-ready]) .ap-industries .ap-sector-box-bg::before,
+:root:not([data-ap-motion-ready]) .ap-industries .ap-sector-box-bg::after,
+:root:not([data-ap-motion-ready]) .ap-industries .ap-sector-card {
+	transition: none !important;
 }

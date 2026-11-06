@@ -1,0 +1,261 @@
+/*
+ * page-values — "Our People" (Our Company, Figma 7455:103802).
+ *
+ * Slate-50-to-white band (lighter at the bottom). Header: 14px/800 eyebrow, 40px/800 h2 with the indigo-to-green
+ * phrase, 18px lede; a 14px/600 arrow link on the right. Points: 40px icon, 20px/800 h3, 14px text, 40px apart,
+ * beside a 519 x 346 photo with 16px corners. Links nudge with translate; never transform.
+ */
+
+.ap-page-values,
+.ap-page-values * {
+	box-sizing: border-box;
+}
+
+/* Our Company 2026-10-31 (Joseph: "remove the white section and have the gradient run through the Our People
+ * section so it doesn't cutoff on the 3 sections"): the band no longer fades to white. It starts on page-reach's
+ * last colour (slate-50, its teal orb carried over the seam at the same place and size) and ends on page-founder's
+ * first (indigo-50, its mint corner orb rising from below), so Who We Serve, Our People and the founder row read as
+ * one wash. */
+.ap-page-values {
+	position: relative;
+	width: 100%;
+	background:
+		radial-gradient(34vw 340px at 72% -40px, rgba(0, 169, 145, 0.1) 0%, rgba(0, 169, 145, 0) 70%),
+		radial-gradient(42vw 480px at 100% 100%, rgba(199, 255, 241, 0.75) 0%, rgba(199, 255, 241, 0) 70%),
+		radial-gradient(30% 46% at 12% 58%, rgba(131, 140, 246, 0.1) 0%, rgba(131, 140, 246, 0) 70%),
+		linear-gradient(180deg, var(--ap-slate-50) 0%, var(--ap-indigo-50) 100%);
+	font-family: var(--ap-font-body);
+	color: var(--ap-text-body);
+}
+
+.ap-page-values__wrap {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 40px 40px 120px;
+	display: flex;
+	flex-direction: column;
+	gap: 40px;
+}
+
+.ap-page-values__head {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 24px;
+}
+
+.ap-page-values__intro {
+	flex: 0 1 560px;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.ap-page-values .ap-page-values__eyebrow {
+	margin: 0;
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: 0.56px;
+	text-transform: uppercase;
+	color: var(--ap-text-eyebrow);
+}
+
+.ap-page-values .ap-page-values__title {
+	margin: 0;
+	font-family: var(--ap-font-display);
+	font-size: 40px;
+	font-weight: var(--ap-weight-display);
+	line-height: 1.2;
+	letter-spacing: 0;
+	color: var(--ap-text-heading);
+}
+
+.ap-page-values__accent {
+	background-image: linear-gradient(35.9deg, var(--ap-brand-indigo) 3.6%, var(--ap-brand-green) 50.1%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+.ap-page-values__lede {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.ap-page-values .ap-page-values__lede p {
+	margin: 0;
+	font-size: 18px;
+	line-height: 1.5;
+	color: var(--ap-text-body);
+}
+
+.ap-page-values .ap-page-values__link {
+	flex: 0 0 auto;
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 14px;
+	font-weight: var(--ap-weight-link);
+	line-height: 1.2;
+	color: var(--ap-text-heading);
+	text-decoration: none;
+}
+
+.ap-page-values__link svg {
+	flex: 0 0 24px;
+	color: var(--ap-brand-indigo);
+	translate: 0 0;
+	transition: translate var(--ap-dur-base) var(--ap-ease-standard);
+}
+
+@media (hover: hover) {
+	.ap-page-values .ap-page-values__link:hover svg {
+		translate: 4px 0;
+	}
+}
+
+.ap-page-values__row {
+	display: flex;
+	align-items: center;
+	gap: 40px;
+}
+
+.ap-page-values__items {
+	flex: 1 1 0;
+	min-width: 0;
+	max-width: 560px;
+	display: flex;
+	flex-direction: column;
+	gap: 40px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ap-page-values__item {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	margin: 0;
+}
+
+.ap-page-values__icon {
+	flex: 0 0 40px;
+	display: block;
+	width: 40px;
+	height: 40px;
+}
+
+.ap-page-values__item-text {
+	flex: 1 1 0;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.ap-page-values .ap-page-values__item-title {
+	margin: 0;
+	font-family: var(--ap-font-display);
+	font-size: 20px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: 0;
+	color: var(--ap-text-heading);
+}
+
+.ap-page-values .ap-page-values__item-body {
+	margin: 0;
+	font-size: 14px;
+	line-height: 1.5;
+	color: var(--ap-text-body);
+}
+
+.ap-page-values .ap-page-values__item-body a {
+	color: var(--ap-brand-indigo);
+	font-weight: var(--ap-weight-link);
+}
+
+.ap-page-values__media {
+	flex: 0 0 519px;
+	aspect-ratio: 519 / 346;
+	margin-left: auto;
+	overflow: hidden;
+	border-radius: var(--ap-radius-lg, 16px);
+}
+
+.ap-page-values__media img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+@media (max-width: 1100px) {
+	.ap-page-values__media {
+		flex-basis: 44%;
+	}
+}
+
+@media (max-width: 1000px) {
+	.ap-page-values__head {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.ap-page-values__intro {
+		flex-basis: auto;
+		max-width: 680px;
+	}
+
+	.ap-page-values__wrap {
+		padding-bottom: 80px;
+	}
+
+	.ap-page-values__row {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.ap-page-values__items {
+		max-width: none;
+		gap: 28px;
+	}
+
+	.ap-page-values__media {
+		flex: 0 0 auto;
+		width: 100%;
+		max-width: 640px;
+		margin-left: 0;
+	}
+}
+
+@media (max-width: 640px) {
+	.ap-page-values__wrap {
+		padding: 48px 20px 64px;
+		gap: 32px;
+	}
+
+	.ap-page-values .ap-page-values__title {
+		font-size: 28px;
+	}
+
+	.ap-page-values .ap-page-values__lede p {
+		font-size: 16px;
+	}
+
+	.ap-page-values .ap-page-values__item-title {
+		font-size: 18px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ap-page-values__link svg {
+		transition: none;
+	}
+}

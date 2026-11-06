@@ -79,15 +79,24 @@ $orb    = trim( (string) $props['orb'] );
 $sphere = ap_ui_asset_url( 'assist-problem', 'sphere.svg' );
 $mark   = ap_ui_asset_url( 'assist-problem', 'ursa-logo.svg' );
 $art    = '' !== $blur || '' !== $ring || '' !== $panda || '' !== $orb || $chips;
+// id on the section (the page's own anchor), letters, digits, hyphens; empty renders none.
+$anchor = preg_match( '/^[A-Za-z][A-Za-z0-9_-]{0,63}$/', trim( (string) $props['anchor'] ) ) ? trim( (string) $props['anchor'] ) : '';
+// heading "beside": the eyebrow and heading open the copy column, beside the art, instead of sitting centred above the row.
+$beside = 'beside' === $props['heading'];
+$head   = '<div class="ap-assist-problem__head">'
+	. ( '' !== $eyebrow ? '<p class="ap-assist-problem__eyebrow">' . esc_html( $eyebrow ) . '</p>' : '' )
+	. '<h2 class="ap-assist-problem__title">' . $ap_accent( $title, $props['title_accent'] ) . '</h2></div>';
 ?>
-<section class="ap-assist-problem">
+<section class="ap-assist-problem<?php echo 'md' === $props['body_size'] ? ' ap-assist-problem--body-md' : ''; ?><?php echo $beside ? ' ap-assist-problem--head-beside' : ''; ?>"<?php echo '' !== $anchor ? ' id="' . esc_attr( $anchor ) . '"' : ''; ?>>
 	<div class="ap-assist-problem__wrap">
+<?php if ( ! $beside ) : ?>
 		<div class="ap-assist-problem__head ap-assist-problem__rev">
 			<?php if ( '' !== $eyebrow ) : ?>
 				<p class="ap-assist-problem__eyebrow"><?php echo esc_html( $eyebrow ); ?></p>
 			<?php endif; ?>
 			<h2 class="ap-assist-problem__title"><?php echo $ap_accent( $title, $props['title_accent'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; only <br> and fixed spans are added. ?></h2>
 		</div>
+<?php endif; ?>
 		<div class="ap-assist-problem__row">
 			<?php if ( $art ) : ?>
 				<div class="ap-assist-problem__artwrap">
@@ -121,10 +130,11 @@ $art    = '' !== $blur || '' !== $ring || '' !== $panda || '' !== $orb || $chips
 					</div>
 				</div>
 			<?php endif; ?>
-			<?php if ( '' !== $sub || $paras || $bullets ) : ?>
+			<?php if ( $beside || '' !== $sub || $paras || $bullets ) : ?>
 				<div class="ap-assist-problem__copy ap-assist-problem__rev">
+<?php echo $beside ? $head : ''; // phpcs:ignore WordPress.Security.EscapeOutput -- built above from escaped parts. ?>
 					<?php if ( '' !== $sub ) : ?>
-						<h3 class="ap-assist-problem__subtitle"><?php echo $ap_ursa( ap_ui_lines( $sub ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; only <br> and a fixed span are added. ?></h3>
+						<h3 class="ap-assist-problem__subtitle"><?php echo '' !== trim( (string) $props['sub_title_accent'] ) ? $ap_accent( $sub, $props['sub_title_accent'] ) : $ap_ursa( ap_ui_lines( $sub ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; only <br> and fixed spans are added. ?></h3>
 					<?php endif; ?>
 					<?php foreach ( $paras as $para ) : ?>
 						<p><?php echo $ap_ursa( esc_html( $para ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; only a fixed span is added. ?></p>

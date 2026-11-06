@@ -49,6 +49,13 @@
 			"default": [],
 			"description": "Lines at the top of the centre panel. Each: accent (the gradient word) and text."
 		},
+		"lines_size": {
+			"type": "string",
+			"required": false,
+			"default": "md",
+			"enum": [ "md", "lg" ],
+			"description": "Centre-panel lines: md 16px/700 (Asset Intelligence Platform), lg 20px/800 in a taller 510px panel (Ursa AI frame 7261:111783)."
+		},
 		"meet": {
 			"type": "string",
 			"required": false,

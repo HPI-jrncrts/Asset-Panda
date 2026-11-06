@@ -8,6 +8,10 @@
 	"description": "Ursa AI data-control band: a dark indigo card with the Ursa orb, a heading, a short paragraph and a button on the right. Ursa AI frame 7261:114286 (under the stats row). This block is an adapter — it holds no markup; it maps attributes to kit props.",
 	"textdomain": "assetpanda",
 	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
 		"title": {
 			"type": "string",
 			"default": ""
@@ -23,6 +27,14 @@
 		"cta_url": {
 			"type": "string",
 			"default": "/get-a-demo/"
+		},
+		"mark": {
+			"type": "string",
+			"default": "ursa",
+			"enum": [
+				"ursa",
+				"panda"
+			]
 		},
 		"joined": {
 			"type": "boolean",

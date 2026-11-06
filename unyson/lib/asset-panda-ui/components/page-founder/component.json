@@ -1,0 +1,18 @@
+{
+	"name": "page-founder",
+	"description": "Founder section of the 2026 company pages (Our Company, Figma 7460:104311): a square photo with rounded corners beside an eyebrow, the heading (h2) with a small green second line inside it (e.g. the title), paragraphs and an icon link, on an indigo-50-to-white band with a soft green orb.",
+	"props": {
+		"anchor": { "type": "string", "required": false, "default": "", "description": "id on the section (letters, digits, hyphens), e.g. rex-kurzius." },
+		"eyebrow": { "type": "string", "required": false, "default": "", "description": "Small uppercase label above the heading." },
+		"title": { "type": "string", "required": true, "description": "Heading (h2), e.g. Meet Rex Kurzius." },
+		"subtitle": { "type": "string", "required": false, "default": "", "description": "Small green line drawn under the title inside the same h2, e.g. Founder and CEO." },
+		"body": { "type": "string", "required": false, "default": "", "description": "Copy. Blank line = new paragraph; [label](url) links, **bold**." },
+		"link_label": { "type": "string", "required": false, "default": "", "description": "Link under the copy. Renders only with link_url." },
+		"link_url": { "type": "string", "required": false, "default": "", "description": "Link destination." },
+		"link_icon": { "type": "string", "required": false, "default": "", "enum": [ "", "linkedin" ], "description": "Icon before the link: linkedin, or none." },
+		"image": { "type": "string", "required": false, "default": "", "description": "Square photo (shown 450px, rounded). Empty = copy only." },
+		"image_alt": { "type": "string", "required": false, "default": "", "description": "Photo alt text." },
+		"image_width": { "type": "integer", "required": false, "default": 0, "description": "Photo intrinsic width in px (0 omits it)." },
+		"image_height": { "type": "integer", "required": false, "default": 0, "description": "Photo intrinsic height in px." }
+	}
+}

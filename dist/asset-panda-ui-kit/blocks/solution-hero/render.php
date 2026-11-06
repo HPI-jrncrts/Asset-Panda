@@ -34,12 +34,14 @@ $props = array(
 	'photo_alt'         => $attributes['photo_alt'] ?? '',
 	'visual'            => $attributes['visual'] ?? array(),
 	'photo_box'         => $attributes['photo_box'] ?? array(),
+	'form'              => $attributes['form'] ?? array(),
 	'cards'             => $attributes['cards'] ?? array(),
 	'features'          => $attributes['features'] ?? array(),
 	'secondary_label'   => $attributes['secondary_label'] ?? '',
 	'secondary_url'     => $attributes['secondary_url'] ?? '',
 	'badges_below'      => $attributes['badges_below'] ?? false,
 	'title_accent_fill' => $attributes['title_accent_fill'] ?? 'slice',
+	'choices'           => $attributes['choices'] ?? array(),
 );
 
 $ap_html = ap_render_component( 'solution-hero', $props );
