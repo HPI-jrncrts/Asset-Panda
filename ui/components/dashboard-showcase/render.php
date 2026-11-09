@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $tip_tones  = array( 'violet', 'blue', 'green', 'yellow' );
 $orb_tones  = array( 'red', 'lb', 'yl', 'green', 'in' );
-$chip_tones = array( 'em', 'in', 'lb', 'yl', 'vi', 'bl' );
+$chip_tones = array( 'em', 'in', 'lb', 'yl', 'vi', 'bl', 'rd' );
 
 $tips = array();
 foreach ( is_array( $props['tips'] ) ? $props['tips'] : array() as $tip ) {
@@ -130,6 +130,15 @@ if ( $ap_lede_max >= 200 && $ap_lede_max <= 1200 && 856 !== $ap_lede_max ) {
 $ap_lede_m = (int) $props['lede_size_m'];
 if ( $ap_lede_m >= 12 && $ap_lede_m <= 28 && 18 !== $ap_lede_m ) {
 	$ap_dash_vars[] = '--ap-dash-lede-m:' . $ap_lede_m . 'px';
+}
+// Screenshot framing on desktop: each capture has its own crop (Police vs Fire).
+$ap_shot_left = is_numeric( $props['image_left'] ) ? round( (float) $props['image_left'], 2 ) : -18.6;
+if ( $ap_shot_left >= -60 && $ap_shot_left <= 0 && abs( $ap_shot_left + 18.6 ) > 0.001 ) {
+	$ap_dash_vars[] = '--ap-dash-shot-left:' . $ap_shot_left . '%';
+}
+$ap_shot_bottom = is_numeric( $props['image_bottom'] ) ? round( (float) $props['image_bottom'], 2 ) : 0;
+if ( $ap_shot_bottom >= -80 && $ap_shot_bottom <= 0 && abs( $ap_shot_bottom ) > 0.001 ) {
+	$ap_dash_vars[] = '--ap-dash-shot-bottom:' . $ap_shot_bottom . '%';
 }
 ?>
 <section class="<?php echo esc_attr( implode( ' ', $ap_dash_classes ) ); ?>"<?php echo $ap_dash_vars ? ' style="' . esc_attr( implode( ';', $ap_dash_vars ) ) . '"' : ''; ?>>

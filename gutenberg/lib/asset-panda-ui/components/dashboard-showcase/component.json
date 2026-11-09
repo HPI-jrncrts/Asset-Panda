@@ -31,6 +31,18 @@
 			"default": "",
 			"description": "Screenshot alt text."
 		},
+		"image_left": {
+			"type": "number",
+			"required": false,
+			"default": -18.6,
+			"description": "Desktop framing: the screenshot's left edge, in percent of the frame width (the image is always 131.8% wide). -18.6 suits the Police capture; Fire's Figma framing is -24.8. Phones show the whole image."
+		},
+		"image_bottom": {
+			"type": "number",
+			"required": false,
+			"default": 0,
+			"description": "Desktop framing: the screenshot's bottom edge, in percent of the frame height (negative pushes it below the frame, so higher rows show). 0 suits the Police capture; Fire's Figma framing is -40."
+		},
 		"background": {
 			"type": "string",
 			"required": false,
@@ -41,7 +53,7 @@
 			"type": "array",
 			"required": false,
 			"default": [],
-			"description": "Up to four floating cards, placed as in the design. Each: title; optional icon (URL), icon_svg (inline SVG), icon_alt, tone (violet, blue, green, yellow) and rows (each: title, sub, chip, chip_tone — em, in, lb, yl, vi, bl; or parts, an ordered list of {kind: code|title|num|sub|sub14|chip|avatar, text, tone, muted, image}, with layout person or oper for the avatar rows)."
+			"description": "Up to four floating cards, placed as in the design. Each: title; optional icon (URL), icon_svg (inline SVG), icon_alt, tone (violet, blue, green, yellow) and rows (each: title, sub, chip, chip_tone — em, in, lb, yl, vi, bl, rd; or parts, an ordered list of {kind: code|title|num|sub|sub14|chip|avatar, text, tone, muted, image}, with layout person or oper for the avatar rows)."
 		},
 		"orbs": {
 			"type": "array",

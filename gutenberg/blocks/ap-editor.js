@@ -497,8 +497,30 @@
 
 	/*
 	 * Every field the editor can show: { path, key, value, scope }. path is
-	 * [ key ] for an attribute, [ key, row, field ] for a repeater row field.
+	 * [ key ] for an attribute, [ key, row, field ] for a repeater row field, and
+	 * [ key, row, list, item, field ] for the copy of a list inside a row (a tab's
+	 * items, an FAQ topic's questions) — kit 1.3.194, so the text of a tab or topic
+	 * opened in the preview can be edited in place too.
 	 */
+	function nestedFields( key, i, row, out ) {
+		Object.keys( row ).forEach( function ( sub ) {
+			var list = row[ sub ];
+			if ( ! Array.isArray( list ) ) {
+				return;
+			}
+			list.forEach( function ( item, j ) {
+				if ( ! item || typeof item !== 'object' || Array.isArray( item ) ) {
+					return;
+				}
+				Object.keys( item ).forEach( function ( f ) {
+					if ( typeof item[ f ] === 'string' && ! NOT_COPY.test( f ) && ! IMAGE_KEY.test( f ) && ! LINK_KEY.test( f ) ) {
+						out.push( { path: [ key, i, sub, j, f ], key: f, value: item[ f ], scope: item } );
+					}
+				} );
+			} );
+		} );
+	}
+
 	function fieldList( name, schema, attributes ) {
 		var out = [];
 		Object.keys( schema ).forEach( function ( key ) {
@@ -520,6 +542,7 @@
 							out.push( { path: [ key, i, f ], key: f, value: row[ f ], scope: row } );
 						}
 					} );
+					nestedFields( key, i, row, out );
 				} );
 				return;
 			}
@@ -532,28 +555,37 @@
 	}
 
 	function getPath( attributes, path ) {
-		if ( path.length === 1 ) {
-			return attributes[ path[ 0 ] ];
+		var cur = attributes;
+		for ( var i = 0; i < path.length; i++ ) {
+			if ( cur === null || cur === undefined ) {
+				return undefined;
+			}
+			cur = cur[ path[ i ] ];
 		}
-		var rows = attributes[ path[ 0 ] ] || [];
-		return rows[ path[ 1 ] ] ? rows[ path[ 1 ] ][ path[ 2 ] ] : undefined;
+		return cur;
+	}
+
+	/* A copy of node with value written at path: every array and object on the way is copied, never mutated. */
+	function setIn( node, path, value ) {
+		if ( ! path.length ) {
+			return value;
+		}
+		var head = path[ 0 ];
+		var rest = path.slice( 1 );
+		if ( Array.isArray( node ) ) {
+			return node.map( function ( item, i ) {
+				return i === head ? setIn( item, rest, value ) : item;
+			} );
+		}
+		var copy = Object.assign( {}, node || {} );
+		copy[ head ] = setIn( copy[ head ], rest, value );
+		return copy;
 	}
 
 	/* The attribute patch that writes value at path (rows copied, never mutated). */
 	function patchFor( attributes, path, value ) {
 		var patch = {};
-		if ( path.length === 1 ) {
-			patch[ path[ 0 ] ] = value;
-			return patch;
-		}
-		patch[ path[ 0 ] ] = ( attributes[ path[ 0 ] ] || [] ).map( function ( row, i ) {
-			if ( i !== path[ 1 ] ) {
-				return row;
-			}
-			var copy = Object.assign( {}, row );
-			copy[ path[ 2 ] ] = value;
-			return copy;
-		} );
+		patch[ path[ 0 ] ] = setIn( attributes[ path[ 0 ] ], path.slice( 1 ), value );
 		return patch;
 	}
 
@@ -896,6 +928,105 @@
 	}
 
 	/*
+	 * Interactive sections in the builder (kit 1.3.193). The canvas gets the kit's
+	 * stylesheets but not its scripts, so sliders, chip and tab switchers and the
+	 * calculators sat still and the text on a hidden slide or tab could only be
+	 * edited in the sidebar. These components' own behaviour.js files now run in
+	 * the canvas. Left out on purpose: anything that loads a third party (HubSpot,
+	 * Cal.com, Calendly, YouTube players, Cookiebot), fetches, moves markup out of
+	 * its block, or only follows the page's scroll.
+	 */
+	var EDITOR_BEHAVIOURS = {
+		'case-slider': 1,
+		'case-studies': 1,
+		'demo-stories': 1,
+		'story-slider': 1,
+		'page-reviews': 1,
+		'plans-compare': 1,
+		'plans-picker': 1,
+		'feature-cards': 1,
+		'integration-directory': 1,
+		'page-directory': 1,
+		'page-faq-hub': 1,
+		'pricing-calculator': 1,
+		'roi-calculator': 1,
+	};
+	var SLIDER_ROOTS = '[data-ap-case-slider], [data-ap-cases], [data-ap-story]';
+	var BOOT_EVENT = 'ap-editor-boot';
+
+	/*
+	 * Run a component script in the canvas document. Each script starts with
+	 * `if ( document.readyState === 'loading' ) addEventListener( 'DOMContentLoaded', boot )`;
+	 * while it runs that check reads 'loading' and the listener goes on BOOT_EVENT
+	 * instead, so boot() can be run again for every fresh server preview (boot is
+	 * idempotent per section) while the script's page-wide listeners are added once.
+	 */
+	function runScript( doc, code, url ) {
+		var add = doc.addEventListener;
+		try {
+			Object.defineProperty( doc, 'readyState', {
+				configurable: true,
+				get: function () {
+					return 'loading';
+				},
+			} );
+			doc.addEventListener = function ( type, fn, opts ) {
+				return add.call( doc, type === 'DOMContentLoaded' ? BOOT_EVENT : type, fn, opts );
+			};
+			var s = doc.createElement( 'script' );
+			s.textContent = code + '\n//# sourceURL=' + url;
+			( doc.head || doc.documentElement ).appendChild( s );
+		} finally {
+			delete doc.readyState;
+			delete doc.addEventListener;
+		}
+	}
+
+	/* Load one component's behaviour.js into the canvas, once per canvas document. */
+	function loadBehaviour( doc, comp ) {
+		var kit = window.AP_UI_KIT;
+		var loaded = doc.__apEdBehaviours || ( doc.__apEdBehaviours = {} );
+		if ( ! loaded[ comp ] ) {
+			var url = kit.url + '/components/' + comp + '/behaviour.js?ver=' + encodeURIComponent( kit.ver );
+			loaded[ comp ] = window
+				.fetch( url, { credentials: 'same-origin' } )
+				.then( function ( r ) {
+					return r.ok ? r.text() : '';
+				} )
+				.then( function ( code ) {
+					if ( code ) {
+						runScript( doc, code, url );
+					}
+				} )
+				.catch( function () {} );
+		}
+		return loaded[ comp ];
+	}
+
+	/* Start the interactive parts of a freshly rendered preview. Resolves once they are running. */
+	function runBehaviours( host, name ) {
+		var kit = window.AP_UI_KIT;
+		var comps = kit && kit.url && kit.css && kit.css[ name ] ? kit.css[ name ].filter( function ( c ) {
+			return EDITOR_BEHAVIOURS[ c ];
+		} ) : [];
+		if ( ! comps.length || ! window.Promise || ! window.fetch ) {
+			return Promise.resolve();
+		}
+		var doc = host.ownerDocument;
+		// No autoplay in the editor: a slide must never move away while its text is being edited.
+		Array.prototype.forEach.call( host.querySelectorAll( SLIDER_ROOTS ), function ( root ) {
+			root.setAttribute( 'data-ap-autoplay', '0' );
+		} );
+		return Promise.all( comps.map( function ( c ) {
+			return loadBehaviour( doc, c );
+		} ) ).then( function () {
+			var ev = doc.createEvent( 'Event' );
+			ev.initEvent( BOOT_EVENT, false, false );
+			doc.dispatchEvent( ev );
+		} );
+	}
+
+	/*
 	 * The live preview: ServerSideRender plus the in-place editing layer.
 	 * Delegated listeners on the wrapper read the latest props from a ref, so
 	 * a re-render never leaves a stale handler behind.
@@ -913,11 +1044,95 @@
 			var doc = host.ownerDocument;
 			ensureStyles( doc, props.name );
 
+			/*
+			 * What the editor has opened, picked or moved to in the preview, by position:
+			 * accordion rows (<details>), tabs (radio inputs), chips, slider dots and other
+			 * pressed / current / expanded buttons. The preview is re-rendered on the server
+			 * after every edit, which would snap all of it back to the saved page (first row
+			 * open, first tab, first slide) mid-edit; restore() puts it back.
+			 */
+			var TOGGLES = 'input[type="radio"], input[type="checkbox"]';
+			var ACTIVE = '[aria-current="true"], [aria-current="page"], [aria-pressed="true"], [aria-expanded="true"]';
+			var shown = null;
+			var restoring = false;
+			function output() {
+				return host.firstElementChild && host.firstElementChild.firstElementChild;
+			}
+			function snapshot() {
+				// Only a preview that has had its state put back (data-ap-ed-ready) is read: a fresh render
+				// still showing the saved page's defaults must never overwrite what the editor had open.
+				var out = output();
+				if ( restoring || ! out || ! out.hasAttribute( 'data-ap-ed-ready' ) ) {
+					return;
+				}
+				var buttons = host.querySelectorAll( 'button' );
+				var active = [];
+				for ( var b = 0; b < buttons.length; b++ ) {
+					if ( buttons[ b ].matches( ACTIVE ) ) {
+						active.push( b );
+					}
+				}
+				shown = {
+					open: Array.prototype.map.call( host.querySelectorAll( 'details' ), function ( d ) {
+						return d.open;
+					} ),
+					checked: Array.prototype.map.call( host.querySelectorAll( TOGGLES ), function ( input ) {
+						return input.checked;
+					} ),
+					active: active,
+				};
+			}
+			function restore() {
+				if ( ! shown ) {
+					return;
+				}
+				var rows = host.querySelectorAll( 'details' );
+				shown.open.forEach( function ( open, i ) {
+					if ( rows[ i ] && rows[ i ].open !== open ) {
+						rows[ i ].open = open;
+					}
+				} );
+				var inputs = host.querySelectorAll( TOGGLES );
+				shown.checked.forEach( function ( checked, i ) {
+					var input = inputs[ i ];
+					if ( input && input.checked !== checked ) {
+						input.checked = checked;
+						var ev = doc.createEvent( 'Event' );
+						ev.initEvent( 'change', true, false );
+						input.dispatchEvent( ev ); // A script-driven filter follows the restored choice.
+					}
+				} );
+				var buttons = host.querySelectorAll( 'button' );
+				shown.active.forEach( function ( i ) {
+					if ( buttons[ i ] && ! buttons[ i ].matches( ACTIVE ) ) {
+						buttons[ i ].click(); // The section's own script moves to that slide / chip / panel.
+					}
+				} );
+			}
+
 			var frame = 0;
 			function rebind() {
 				var win = doc.defaultView || window;
 				win.cancelAnimationFrame( frame );
 				frame = win.requestAnimationFrame( function () {
+					// A fresh server preview: start its sliders and switchers, then put back what was showing.
+					var out = output();
+					if ( out && ! out.hasAttribute( 'data-ap-ed-seen' ) && ! host.querySelector( '.components-spinner' ) ) {
+						out.setAttribute( 'data-ap-ed-seen', '' );
+						runBehaviours( host, latest.current.name ).then( function () {
+							if ( ! out.isConnected ) {
+								return; // Replaced by a newer render meanwhile; that one restores itself.
+							}
+							restoring = true; // The clicks that replay the state are not the editor's own.
+							try {
+								restore();
+							} finally {
+								restoring = false;
+							}
+							out.setAttribute( 'data-ap-ed-ready', '' );
+							rebind(); // Text on the slide or tab now showing gets marked.
+						} );
+					}
 					if ( host.querySelector( '[data-ap-editing]' ) ) {
 						return;
 					}
@@ -984,10 +1199,59 @@
 				}
 			}
 
+			/*
+			 * An accordion row in the preview. The click handler below cancels the
+			 * browser's own toggle (so a click can never leave the editor), so rows are
+			 * opened and closed here instead: clicking the question text opens the row
+			 * and edits the question (never closes it mid-edit); clicking anywhere else
+			 * on the row (the +/− icon, the padding) opens or closes it. A click made by
+			 * the keyboard while typing in the question is left alone.
+			 */
+			function toggleRow( summary, e ) {
+				var details = summary.parentElement;
+				if ( ! details || details.nodeName.toUpperCase() !== 'DETAILS' || details.querySelector( 'summary' ) !== summary ) {
+					return;
+				}
+				var onText = e.target.closest( '[data-ap-kind="text"]' );
+				if ( onText && e.detail === 0 && onText.hasAttribute( 'data-ap-editing' ) ) {
+					return;
+				}
+				var open = onText ? true : ! details.open;
+				if ( details.open !== open ) {
+					details.open = open; // Opening one row of a group closes the others.
+				}
+				snapshot();
+				rebind(); // A row that was closed when the preview was marked gets its answer marked now.
+			}
+
+			/* After a click or a change in the preview: remember what shows, and mark the text that just came into view. */
+			var settle = 0;
+			function afterInteraction() {
+				if ( restoring ) {
+					return;
+				}
+				var win = doc.defaultView || window;
+				win.clearTimeout( settle );
+				settle = win.setTimeout( function () {
+					snapshot();
+					rebind();
+				}, 120 );
+			}
+
 			function onClick( e ) {
 				var link = e.target.closest && e.target.closest( 'a, summary, button' );
 				if ( link && host.contains( link ) ) {
 					e.preventDefault(); // Never navigate (or toggle) out of the editor.
+				}
+				// A video poster stays a poster in the editor (no YouTube player while editing).
+				var facade = e.target.closest && e.target.closest( '.apc-vid, [data-yt], [data-embed], [data-ap-video]' );
+				if ( facade && host.contains( facade ) ) {
+					e.stopPropagation();
+				}
+				afterInteraction();
+				var summary = e.target.closest && e.target.closest( 'summary' );
+				if ( summary && host.contains( summary ) ) {
+					toggleRow( summary, e );
 				}
 				var node = e.target.closest && e.target.closest( '[data-ap-path]' );
 				if ( ! node || ! host.contains( node ) ) {
@@ -1048,9 +1312,12 @@
 			host.addEventListener( 'keydown', onKeyDown );
 			host.addEventListener( 'paste', onPaste );
 			host.addEventListener( 'focusout', onFocusOut );
+			host.addEventListener( 'change', afterInteraction ); // A tab or filter picked through its label.
 			return function () {
 				observer.disconnect();
 				( doc.defaultView || window ).cancelAnimationFrame( frame );
+				( doc.defaultView || window ).clearTimeout( settle );
+				host.removeEventListener( 'change', afterInteraction );
 				host.removeEventListener( 'mousedown', onMouseDown, true );
 				host.removeEventListener( 'click', onClick, true );
 				host.removeEventListener( 'keydown', onKeyDown );

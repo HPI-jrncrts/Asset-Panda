@@ -412,7 +412,21 @@ $nav_tones = array(
 							</div>
 						<?php endif; ?>
 
-						<?php if ( 'capabilities' === $part['key'] && $part['cards'] ) : ?>
+						<?php if ( 'capabilities' === $part['key'] && $part['cards'] && 'timeline' === $ap_idet_str( $part['data'], 'style' ) ) : ?>
+							<div class="ap-integration-detail__tl">
+								<span class="ap-integration-detail__tl-beam" aria-hidden="true"></span>
+								<ol class="ap-integration-detail__tl-list" role="list">
+									<?php foreach ( $part['cards'] as $card ) : ?>
+										<li class="ap-integration-detail__tl-item">
+											<<?php echo esc_html( $h_item ); ?> class="ap-integration-detail__tl-title"><?php echo $ap_idet_text( $card['title'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped by ap_ui_lines(). ?></<?php echo esc_html( $h_item ); ?>>
+											<?php if ( '' !== $card['text'] ) : ?>
+												<p class="ap-integration-detail__tl-text"><?php echo $ap_idet_text( $card['text'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped by ap_ui_lines(). ?></p>
+											<?php endif; ?>
+										</li>
+									<?php endforeach; ?>
+								</ol>
+							</div>
+						<?php elseif ( 'capabilities' === $part['key'] && $part['cards'] ) : ?>
 							<ul class="ap-integration-detail__cards" role="list">
 								<?php foreach ( $part['cards'] as $card ) : ?>
 									<li class="ap-integration-detail__card ap-integration-detail--tone-<?php echo esc_attr( $card['tone'] ); ?>">
@@ -436,9 +450,12 @@ $nav_tones = array(
 							<?php
 							$t_label = '' !== $p_head ? $p_head : ( '' !== $p_eye ? $p_eye : $part['label'] );
 							$t_has_h = '' !== implode( '', $part['cols'] );
+							$t_cmp   = 'compare' === $ap_idet_str( $part['data'], 'style' );
+							// The compare-table check (green disc, white tick) before each cell of the first value column.
+							$t_check = '<svg class="ap-integration-detail__check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="8" fill="#00A991"/><path d="M4.8 8.2l2.1 2.1 4.3-4.6" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 							?>
-							<div class="ap-integration-detail__table-wrap" role="region" aria-label="<?php echo esc_attr( $t_label ); ?>" tabindex="0">
-								<table class="ap-integration-detail__table ap-integration-detail__table--cols-<?php echo esc_attr( (string) min( 4, $part['width'] ) ); ?>">
+							<div class="ap-integration-detail__table-wrap<?php echo $t_cmp ? ' ap-integration-detail__table-wrap--compare' : ''; ?>" role="region" aria-label="<?php echo esc_attr( $t_label ); ?>" tabindex="0">
+								<table class="ap-integration-detail__table ap-integration-detail__table--cols-<?php echo esc_attr( (string) min( 4, $part['width'] ) ); ?><?php echo $t_cmp ? ' ap-integration-detail__table--compare' : ''; ?>">
 									<?php if ( $t_has_h ) : ?>
 										<thead>
 											<tr>
@@ -455,7 +472,7 @@ $nav_tones = array(
 													<?php if ( 0 === $c ) : ?>
 														<th scope="row"><?php echo $ap_idet_text( $cell ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped by ap_ui_lines(). ?></th>
 													<?php else : ?>
-														<td<?php echo '' !== $part['cols'][ $c ] ? ' data-label="' . esc_attr( $part['cols'][ $c ] ) . '"' : ''; ?>><?php echo $ap_idet_text( $cell ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped by ap_ui_lines(). ?></td>
+														<td<?php echo '' !== $part['cols'][ $c ] ? ' data-label="' . esc_attr( $part['cols'][ $c ] ) . '"' : ''; ?>><?php echo ( $t_cmp && 1 === $c && '' !== $cell ) ? $t_check : ''; // phpcs:ignore WordPress.Security.EscapeOutput -- fixed SVG. ?><?php echo $ap_idet_text( $cell ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped by ap_ui_lines(). ?></td>
 													<?php endif; ?>
 												<?php endforeach; ?>
 											</tr>

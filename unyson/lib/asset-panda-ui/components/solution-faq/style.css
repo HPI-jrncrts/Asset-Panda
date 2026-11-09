@@ -222,3 +222,8 @@ html body .ap-solution-faq.ap-solution-faq .ap-solution-faq__title { font-size: 
 
 /* QA 2026-10-29 (Joseph, sitewide): sections without a colour gradient are pure white — the white-to-#f9fafb fades
  * showed as a grey band against the next section. */
+
+/* Long unbroken strings in a question or answer (a permission name, URL or e-mail typed in the builder) wrap
+ * instead of pushing the page sideways on phones. `anywhere`, not `break-word`: it also lowers the min-content
+ * width the row's grid/flex parents size by, which is what overflowed (kit 1.3.192). Normal words never break. */
+.ap-solution-faq :is(.ap-solution-faq__q, .ap-solution-faq__panel) { min-width: 0; overflow-wrap: anywhere; }

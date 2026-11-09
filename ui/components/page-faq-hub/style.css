@@ -529,3 +529,8 @@
 		transition: none;
 	}
 }
+
+/* Long unbroken strings in a question or answer (a permission name, URL or e-mail typed in the builder) wrap
+ * instead of pushing the page sideways on phones. `anywhere`, not `break-word`: it also lowers the min-content
+ * width the row's grid/flex parents size by, which is what overflowed (kit 1.3.192). Normal words never break. */
+.ap-page-faq-hub :is(.ap-page-faq-hub__q, .ap-page-faq-hub__a) { min-width: 0; overflow-wrap: anywhere; }

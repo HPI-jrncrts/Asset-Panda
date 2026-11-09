@@ -2,14 +2,17 @@
  * integration-detail — keeps the part index in step with the page, and swaps
  * the overview video's poster for the player.
  *
- * Index: the part crossing the band from just under the sticky header to 60%
+ * Index: the part crossing the band from just under the sticky header to 40%
  * down the viewport is the current one — the lowest part in that band wins, so
- * a part becomes current as its top passes the 60% line and a short last part
- * still lights up at the foot of the page. Its link gets aria-current, which
- * CSS turns into the coloured dot. A click scrolls to the part (smoothly,
- * instantly under reduced motion), moves focus there so keyboard users carry
- * on from it, and records the anchor in the address bar without a jump.
- * One IntersectionObserver per instance; nothing is measured on scroll.
+ * a part becomes current as its top passes the 40% line (a short part keeps the
+ * dot while it is read); at the foot of the page a short last part that can no
+ * longer reach the band lights up once fully in view. Its link gets
+ * aria-current, which CSS turns into the coloured dot. A click scrolls to the
+ * part (smoothly, instantly under reduced motion), moves focus there so keyboard
+ * users carry on from it, records the anchor in the address bar without a jump,
+ * and pins that part as current until the reader scrolls (wheel, touch, scroll
+ * keys or a press outside the index). Observers only; nothing is measured on
+ * scroll.
  *
  * Video: the play control is a real link to the video (it works with no
  * script). With the script, a click puts the player in the frame — a
@@ -44,6 +47,7 @@
 			}
 		}
 		var current = parts.length ? parts[ 0 ].id : '';
+		var pinned = ''; // the part a click jumped to, held current until the reader scrolls
 
 		function setActive( id ) {
 			if ( ! byId[ id ] ) {
@@ -80,6 +84,7 @@
 				target.setAttribute( 'tabindex', '-1' );
 			}
 			target.focus( { preventScroll: true } );
+			pinned = target.id;
 			setActive( target.id );
 			if ( window.history && window.history.replaceState ) {
 				try {
@@ -93,11 +98,37 @@
 		if ( ! ( 'IntersectionObserver' in window ) || ! parts.length ) {
 			return;
 		}
+
+		// A clicked part stays current until the reader scrolls on their own: the
+		// smooth scroll to it passes other parts through the band, and a short part
+		// can sit with the next part's top already inside the band. Programmatic
+		// scrolling fires none of these events; wheel, touch, scroll keys and a
+		// press outside the index (the scrollbar included) release the pin.
+		function release( e ) {
+			if ( ! pinned ) {
+				return;
+			}
+			if ( 'mousedown' === e.type && e.target.closest && e.target.closest( '.ap-integration-detail__nav' ) ) {
+				return;
+			}
+			if ( 'keydown' === e.type && ! /^(ArrowUp|ArrowDown|PageUp|PageDown|Home|End| |Spacebar)$/.test( e.key ) ) {
+				return;
+			}
+			pinned = '';
+		}
+		[ 'wheel', 'touchstart', 'keydown', 'mousedown' ].forEach( function ( type ) {
+			window.addEventListener( type, release, { passive: true } );
+		} );
+
+		var bandTop = Math.round( stickyTop( root ) );
 		var inBand = {};
 		var io = new IntersectionObserver(
 			function ( entries ) {
 				for ( var j = 0; j < entries.length; j++ ) {
 					inBand[ entries[ j ].target.id ] = entries[ j ].isIntersecting;
+				}
+				if ( pinned ) {
+					return;
 				}
 				for ( var p = parts.length - 1; p >= 0; p-- ) {
 					if ( inBand[ parts[ p ].id ] ) {
@@ -110,15 +141,38 @@
 				// No part in the band: between two parts the current one stays; back
 				// above the first part (a jump to the top) the index starts again at 01.
 				// One read per observer callback, never per scroll frame.
-				if ( parts[ 0 ].id !== current && parts[ 0 ].getBoundingClientRect().top >= window.innerHeight * 0.6 ) {
+				if ( parts[ 0 ].id !== current && parts[ 0 ].getBoundingClientRect().top >= window.innerHeight * 0.4 ) {
 					setActive( parts[ 0 ].id );
 				}
 			},
-			{ rootMargin: '-' + Math.round( stickyTop( root ) ) + 'px 0px -40% 0px' }
+			// The band: from just under the sticky header to 40% down the viewport.
+			{ rootMargin: '-' + bandTop + 'px 0px -60% 0px' }
 		);
 		parts.forEach( function ( part ) {
 			io.observe( part );
 		} );
+
+		// Page foot: a short last part may never reach the band. Once it is fully in
+		// view, if the page cannot scroll far enough to bring its top into the band,
+		// it becomes current (one read per callback).
+		var last = parts[ parts.length - 1 ];
+		if ( parts.length > 1 ) {
+			new IntersectionObserver(
+				function ( entries ) {
+					var en = entries[ entries.length - 1 ];
+					if ( pinned || ! en.isIntersecting || en.intersectionRatio < 0.99 || current === last.id ) {
+						return;
+					}
+					var doc = document.documentElement;
+					var room = doc.scrollHeight - ( window.scrollY + window.innerHeight );
+					var toBand = last.getBoundingClientRect().top - window.innerHeight * 0.4;
+					if ( room < toBand ) {
+						setActive( last.id );
+					}
+				},
+				{ threshold: [ 0.99, 1 ] }
+			).observe( last );
+		}
 	}
 
 	function play( link ) {
