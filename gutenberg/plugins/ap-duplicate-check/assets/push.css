@@ -1,0 +1,16 @@
+/* AP Duplicate Check — "Send changes to the live page" window and panel. */
+.ap-dupcheck-push { max-width: 760px; }
+.ap-dupcheck-push__h { margin: 20px 0 8px; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: #50575e; }
+.ap-dupcheck-push__rows { display: grid; gap: 4px; }
+.ap-dupcheck-push__row { padding: 8px 10px 2px; border: 1px solid #dcdcde; border-radius: 6px; background: #fff; }
+.ap-dupcheck-push__row--add { border-left: 4px solid #00a32a; }
+.ap-dupcheck-push__row--replace { border-left: 4px solid #2271b1; }
+.ap-dupcheck-push__row--remove { border-left: 4px solid #d63638; background: #fcf9f9; }
+.ap-dupcheck-push__row--order { border-left: 4px solid #dba617; background: #fcf9e8; }
+.ap-dupcheck-push__row--whole { border: 2px solid #5044e1; background: #f5f4fe; margin-bottom: 6px; }
+.ap-dupcheck-push__row--whole .components-checkbox-control__label { font-weight: 600; }
+.ap-dupcheck-push__row .components-checkbox-control__help { margin-top: 2px; color: #646970; }
+.ap-dupcheck-push__same { color: #50575e; font-size: 12px; }
+.ap-dupcheck-push__buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.ap-dupcheck-panel .components-button.is-link { display: block; margin-top: 10px; }
+.ap-dupcheck-panel__undo { color: #50575e; font-size: 12px; }
