@@ -19,6 +19,7 @@ const AP_TL_PAGE          = 'ap-template-library';
 const AP_TL_SETTINGS_PAGE = 'ap-template-library-settings';
 
 add_action( 'admin_menu', 'ap_tl_admin_menu' );
+add_action( 'admin_post_ap_tl_use', 'ap_tl_handle_use' );
 add_action( 'admin_post_ap_tl_add', 'ap_tl_handle_add' );
 add_action( 'admin_post_ap_tl_remove', 'ap_tl_handle_remove' );
 add_action( 'admin_post_ap_tl_toggle', 'ap_tl_handle_toggle' );
@@ -53,6 +54,30 @@ function ap_tl_library_url( $template = '' ) {
 		$args['template'] = $template;
 	}
 	return add_query_arg( $args, admin_url( 'admin.php' ) );
+}
+
+/**
+ * "Use template": starts a draft from the template and opens it in the editor.
+ *
+ * @param string $template Template key.
+ * @return string
+ */
+function ap_tl_use_url( $template ) {
+	return wp_nonce_url( add_query_arg( array( 'action' => 'ap_tl_use', 'template' => $template ), admin_url( 'admin-post.php' ) ), 'ap_tl_use_' . $template );
+}
+
+/** admin-post: create the draft, then open it in the block editor. */
+function ap_tl_handle_use() {
+	$key = ap_tl_requested_template();
+	if ( '' === $key || ! check_admin_referer( 'ap_tl_use_' . $key ) ) {
+		wp_die( esc_html__( 'That link has expired. Go back to the Template Library and try again.', 'ap-template-library' ), 400 );
+	}
+	$id = ap_tl_start_draft( $key );
+	if ( is_wp_error( $id ) ) {
+		wp_die( esc_html( $id->get_error_message() ), '', array( 'response' => (int) ( $id->get_error_data()['status'] ?? 400 ), 'back_link' => true ) );
+	}
+	wp_safe_redirect( add_query_arg( 'ap_tl_new', '1', get_edit_post_link( $id, 'raw' ) ) );
+	exit;
 }
 
 /** URL of the settings screen. */
@@ -338,7 +363,10 @@ function ap_tl_render_library_page() {
 	if ( ! current_user_can( 'edit_pages' ) ) {
 		return;
 	}
-	if ( '' !== ap_tl_requested_template() ) {
+	// 1.3.0: templates open in the page editor. The old boxes screen stays only
+	// for someone who saved unsent work on it, so nothing is lost.
+	$requested = ap_tl_requested_template();
+	if ( '' !== $requested && isset( ap_tl_get_progress( get_current_user_id() )[ $requested ] ) ) {
 		ap_tl_render_builder();
 		return;
 	}
@@ -386,7 +414,28 @@ function ap_tl_render_library() {
 		echo ' <a class="page-title-action" href="' . esc_url( ap_tl_settings_url() ) . '">' . esc_html__( 'Manage templates', 'ap-template-library' ) . '</a>';
 	}
 	echo '<hr class="wp-header-end">';
-	echo '<p class="ap-tl-lead">' . esc_html__( 'Pick a template to start a new page from it. Every template is a real page on this site: you get its sections as boxes to fill in, then "Send to Draft" creates a draft you can preview and publish from WordPress.', 'ap-template-library' ) . '</p>';
+	echo '<p class="ap-tl-lead">' . esc_html__( 'Pick a template to start a new page. "Use template" opens the normal page editor with the template already filled in: type over the text, use the toolbar for bold and links, and replace images. It is saved as a draft — nothing goes live until you publish.', 'ap-template-library' ) . '</p>';
+
+	$drafts = ap_tl_template_drafts( 30 );
+	if ( $drafts ) {
+		$labels = array();
+		foreach ( $templates as $t ) {
+			$labels[ $t['key'] ] = $t['label'];
+		}
+		echo '<details class="ap-tl-drafts" open><summary>' . esc_html( sprintf( /* translators: %d: number of drafts. */ _n( 'Drafts started from templates (%d)', 'Drafts started from templates (%d)', count( $drafts ), 'ap-template-library' ), count( $drafts ) ) ) . '</summary>';
+		echo '<table class="widefat striped"><thead><tr><th>' . esc_html__( 'Draft', 'ap-template-library' ) . '</th><th>' . esc_html__( 'Template', 'ap-template-library' ) . '</th><th>' . esc_html__( 'By', 'ap-template-library' ) . '</th><th>' . esc_html__( 'Last edited', 'ap-template-library' ) . '</th><th></th></tr></thead><tbody>';
+		foreach ( $drafts as $d ) {
+			$key   = (string) get_post_meta( $d->ID, AP_TL_SOURCE_META, true );
+			$title = '' !== trim( $d->post_title ) ? $d->post_title : __( '(no title yet)', 'ap-template-library' );
+			$user  = get_userdata( (int) $d->post_author );
+			echo '<tr><td><strong>' . esc_html( $title ) . '</strong></td>';
+			echo '<td>' . esc_html( $labels[ $key ] ?? $key ) . '</td>';
+			echo '<td>' . esc_html( $user ? $user->display_name : '' ) . '</td>';
+			echo '<td>' . esc_html( human_time_diff( (int) get_post_modified_time( 'U', true, $d ), time() ) ) . ' ' . esc_html__( 'ago', 'ap-template-library' ) . '</td>';
+			echo '<td>' . ( current_user_can( 'edit_post', $d->ID ) ? '<a class="button button-small" href="' . esc_url( get_edit_post_link( $d->ID, 'raw' ) ) . '">' . esc_html__( 'Continue editing', 'ap-template-library' ) . '</a>' : '' ) . '</td></tr>';
+		}
+		echo '</tbody></table></details>';
+	}
 
 	echo '<div class="ap-tl-filters">';
 	echo '<div class="ap-tl-tabs" role="tablist" aria-label="' . esc_attr__( 'Template groups', 'ap-template-library' ) . '">';
@@ -496,14 +545,14 @@ function ap_tl_render_card( array $template, array $context, array $progress ) {
 	}
 	if ( isset( $progress[ $template['key'] ]['saved'] ) ) {
 		/* translators: %s: date and time. */
-		echo '<p class="ap-tl-status ap-tl-status--info"><span class="dashicons dashicons-backup" aria-hidden="true"></span> ' . esc_html( sprintf( __( 'Unsent work saved %s', 'ap-template-library' ), wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), (int) $progress[ $template['key'] ]['saved'] ) ) ) . '</p>';
+		echo '<p class="ap-tl-status ap-tl-status--info"><span class="dashicons dashicons-backup" aria-hidden="true"></span> ' . esc_html( sprintf( __( 'Unsent work saved %s', 'ap-template-library' ), wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), (int) $progress[ $template['key'] ]['saved'] ) ) ) . ' <a href="' . esc_url( ap_tl_library_url( $template['key'] ) ) . '">' . esc_html__( 'Open it on the old screen', 'ap-template-library' ) . '</a></p>';
 	}
 	echo '</div>';
 
 	echo '<div class="ap-tl-card__actions">';
 	if ( $can ) {
 		/* translators: %s: template name. */
-		echo '<a class="button button-primary ap-tl-use" href="' . esc_url( ap_tl_library_url( $template['key'] ) ) . '" aria-label="' . esc_attr( sprintf( __( 'Use template: %s', 'ap-template-library' ), $template['label'] ) ) . '">' . esc_html__( 'Use template', 'ap-template-library' ) . '</a>';
+		echo '<a class="button button-primary ap-tl-use" href="' . esc_url( ap_tl_use_url( $template['key'] ) ) . '" aria-label="' . esc_attr( sprintf( __( 'Use template: %s (opens the editor)', 'ap-template-library' ), $template['label'] ) ) . '">' . esc_html__( 'Use template', 'ap-template-library' ) . '</a>';
 	} else {
 		echo '<button type="button" class="button button-primary" disabled>' . esc_html__( 'Use template', 'ap-template-library' ) . '</button>';
 	}

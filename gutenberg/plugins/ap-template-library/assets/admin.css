@@ -830,3 +830,9 @@
 		transition: none;
 	}
 }
+
+/* 1.3.0: drafts started from templates. */
+.ap-tl-drafts { margin: 14px 0 22px; background: #fff; border: 1px solid #dcdcde; border-radius: 8px; padding: 10px 14px; }
+.ap-tl-drafts summary { cursor: pointer; font-weight: 600; font-size: 14px; padding: 4px 0; }
+.ap-tl-drafts table { margin-top: 10px; }
+.ap-tl-drafts td:last-child { text-align: right; white-space: nowrap; }

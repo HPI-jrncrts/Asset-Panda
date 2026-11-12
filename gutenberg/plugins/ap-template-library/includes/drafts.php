@@ -323,6 +323,101 @@ function ap_tl_create_draft( $key, array $payload ) {
 }
 
 /**
+ * 1.3.0 "Use template": a new draft holding the reference page's blocks as they
+ * are, opened straight in the page editor (no boxes screen). The title starts
+ * empty so the writer names the new page; the type, resource type, page
+ * settings and header image come from the reference.
+ *
+ * @param string $key Template key.
+ * @return int|WP_Error New draft id.
+ */
+function ap_tl_start_draft( $key ) {
+	$template = ap_tl_get_template( $key );
+	if ( ! $template ) {
+		return new WP_Error( 'ap_tl_unknown_template', __( 'That template no longer exists.', 'ap-template-library' ), array( 'status' => 404 ) );
+	}
+	$context = ap_tl_template_context( $template );
+	if ( 'ok' !== $context['status'] || ! $context['post'] ) {
+		return new WP_Error( 'ap_tl_reference_missing', __( 'The page this template is built from is missing, so it cannot be used right now.', 'ap-template-library' ), array( 'status' => 409 ) );
+	}
+	$post_type = $context['post_type'];
+	if ( ! ap_tl_user_can_create( $post_type ) ) {
+		return new WP_Error( 'ap_tl_forbidden', __( 'You are not allowed to create this kind of content.', 'ap-template-library' ), array( 'status' => 403 ) );
+	}
+	$reference = $context['post'];
+	$post_id   = wp_insert_post(
+		wp_slash(
+			array(
+				'post_type'      => $post_type,
+				'post_status'    => 'draft',
+				'post_title'     => '',
+				'post_content'   => (string) $reference->post_content,
+				'post_excerpt'   => post_type_supports( $post_type, 'excerpt' ) ? (string) $reference->post_excerpt : '',
+				'post_author'    => get_current_user_id(),
+				'post_parent'    => is_post_type_hierarchical( $post_type ) && $reference->post_type === $post_type ? (int) $reference->post_parent : 0,
+				'comment_status' => $reference->post_type === $post_type ? $reference->comment_status : get_default_comment_status( $post_type ),
+				'ping_status'    => $reference->post_type === $post_type ? $reference->ping_status : get_default_comment_status( $post_type, 'pingback' ),
+				'page_template'  => $reference->post_type === $post_type ? (string) get_page_template_slug( $reference ) : '',
+			)
+		),
+		true
+	);
+	if ( is_wp_error( $post_id ) ) {
+		return $post_id;
+	}
+	foreach ( ap_tl_copy_meta_keys( $template, $reference ) as $meta_key ) {
+		$value = get_post_meta( $reference->ID, (string) $meta_key, true );
+		if ( '' !== $value && null !== $value ) {
+			update_post_meta( $post_id, (string) $meta_key, wp_slash( $value ) );
+		}
+	}
+	update_post_meta( $post_id, AP_TL_SOURCE_META, $template['key'] );
+
+	if ( '' !== $context['resource_type'] && taxonomy_exists( 'resource-types' ) ) {
+		$term = get_term_by( 'slug', $context['resource_type'], 'resource-types' );
+		if ( $term ) {
+			wp_set_object_terms( $post_id, array( (int) $term->term_id ), 'resource-types' );
+		}
+	}
+	if ( post_type_supports( $post_type, 'thumbnail' ) ) {
+		$img = ap_tl_reference_featured( $reference );
+		if ( $img['id'] && wp_attachment_is_image( $img['id'] ) ) {
+			set_post_thumbnail( $post_id, $img['id'] );
+		} elseif ( '' !== $img['url'] ) {
+			update_post_meta( $post_id, '_ap_featured_image_url', esc_url_raw( $img['url'] ) );
+			if ( '' !== $img['alt'] ) {
+				update_post_meta( $post_id, '_ap_featured_image_alt', sanitize_text_field( $img['alt'] ) );
+			}
+		}
+	}
+
+	/** This action is documented in ap_tl_create_draft(). */
+	do_action( 'ap_tl_draft_created', $post_id, $template, $reference );
+	return (int) $post_id;
+}
+
+/**
+ * Drafts started from templates (newest first), for the Library page.
+ *
+ * @param int $limit Most rows.
+ * @return WP_Post[]
+ */
+function ap_tl_template_drafts( $limit = 30 ) {
+	return get_posts(
+		array(
+			'post_type'        => ap_tl_source_post_types(),
+			'post_status'      => array( 'draft', 'pending', 'future' ),
+			'meta_key'         => AP_TL_SOURCE_META, // phpcs:ignore WordPress.DB.SlowDBQuery
+			'orderby'          => 'modified',
+			'order'            => 'DESC',
+			'posts_per_page'   => $limit,
+			'no_found_rows'    => true,
+			'suppress_filters' => false,
+		)
+	);
+}
+
+/**
  * All saved progress of a user (template key => {state, saved, hash}).
  *
  * @param int $user_id User.
