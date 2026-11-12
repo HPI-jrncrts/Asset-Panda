@@ -168,15 +168,17 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-	.ap-solution-features .ap-solution-features__rev {
-		animation: apSolutionFeaturesUp 1ms linear both;
-		animation-timeline: view();
-		animation-range: entry 5% entry 40%;
-	}
+	@supports (animation-timeline: view()) {
+		.ap-solution-features .ap-solution-features__rev {
+			animation: apSolutionFeaturesUp 1ms linear both;
+			animation-timeline: view();
+			animation-range: entry 5% entry 40%;
+		}
 
-	.ap-solution-features .ap-solution-features__rev--d1 { animation-range: entry 11% entry 46%; }
-	.ap-solution-features .ap-solution-features__rev--d2 { animation-range: entry 17% entry 52%; }
-	.ap-solution-features .ap-solution-features__rev--d3 { animation-range: entry 23% entry 58%; }
+		.ap-solution-features .ap-solution-features__rev--d1 { animation-range: entry 11% entry 46%; }
+		.ap-solution-features .ap-solution-features__rev--d2 { animation-range: entry 17% entry 52%; }
+		.ap-solution-features .ap-solution-features__rev--d3 { animation-range: entry 23% entry 58%; }
+	}
 }
 
 @media (max-width: 1000px) {

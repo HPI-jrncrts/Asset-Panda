@@ -97,17 +97,19 @@
 
 /* Scroll reveal: a CSS scroll timeline, staggered per logo (no script). */
 @media (prefers-reduced-motion: no-preference) {
-	.ap-solution-trust .ap-solution-trust__rev {
-		animation: apSolutionTrustUp 1ms linear both;
-		animation-timeline: view();
-		animation-range: entry 5% entry 40%;
-	}
+	@supports (animation-timeline: view()) {
+		.ap-solution-trust .ap-solution-trust__rev {
+			animation: apSolutionTrustUp 1ms linear both;
+			animation-timeline: view();
+			animation-range: entry 5% entry 40%;
+		}
 
-	.ap-solution-trust .ap-solution-trust__rev--d1 { animation-range: entry 9% entry 44%; }
-	.ap-solution-trust .ap-solution-trust__rev--d2 { animation-range: entry 13% entry 48%; }
-	.ap-solution-trust .ap-solution-trust__rev--d3 { animation-range: entry 17% entry 52%; }
-	.ap-solution-trust .ap-solution-trust__rev--d4 { animation-range: entry 21% entry 56%; }
-	.ap-solution-trust .ap-solution-trust__rev--d5 { animation-range: entry 25% entry 60%; }
+		.ap-solution-trust .ap-solution-trust__rev--d1 { animation-range: entry 9% entry 44%; }
+		.ap-solution-trust .ap-solution-trust__rev--d2 { animation-range: entry 13% entry 48%; }
+		.ap-solution-trust .ap-solution-trust__rev--d3 { animation-range: entry 17% entry 52%; }
+		.ap-solution-trust .ap-solution-trust__rev--d4 { animation-range: entry 21% entry 56%; }
+		.ap-solution-trust .ap-solution-trust__rev--d5 { animation-range: entry 25% entry 60%; }
+	}
 }
 
 @media (min-width: 901px) {

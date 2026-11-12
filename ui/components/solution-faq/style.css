@@ -181,13 +181,15 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-	.ap-solution-faq .ap-solution-faq__rev {
-		animation: apSolutionFaqUp 1ms linear both;
-		animation-timeline: view();
-		animation-range: entry 5% entry 38%;
-	}
+	@supports (animation-timeline: view()) {
+		.ap-solution-faq .ap-solution-faq__rev {
+			animation: apSolutionFaqUp 1ms linear both;
+			animation-timeline: view();
+			animation-range: entry 5% entry 38%;
+		}
 
-	.ap-solution-faq .ap-solution-faq__rev--d1 { animation-range: entry 10% entry 43%; }
+		.ap-solution-faq .ap-solution-faq__rev--d1 { animation-range: entry 10% entry 43%; }
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {

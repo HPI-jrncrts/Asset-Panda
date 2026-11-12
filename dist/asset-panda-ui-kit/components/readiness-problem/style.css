@@ -205,17 +205,19 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-	.ap-readiness-problem .ap-readiness-problem__rev {
-		animation: apReadinessProblemUp 1ms linear both;
-		animation-timeline: view();
-		animation-range: entry 5% entry 40%;
-	}
+	@supports (animation-timeline: view()) {
+		.ap-readiness-problem .ap-readiness-problem__rev {
+			animation: apReadinessProblemUp 1ms linear both;
+			animation-timeline: view();
+			animation-range: entry 5% entry 40%;
+		}
 
-	.ap-readiness-problem .ap-readiness-problem__pill { animation-name: apReadinessProblemIn; }
-	.ap-readiness-problem .ap-readiness-problem__rev--d1 { animation-range: entry 10% entry 45%; }
-	.ap-readiness-problem .ap-readiness-problem__rev--d2 { animation-range: entry 15% entry 50%; }
-	.ap-readiness-problem .ap-readiness-problem__rev--d3 { animation-range: entry 20% entry 55%; }
-	.ap-readiness-problem .ap-readiness-problem__rev--d4 { animation-range: entry 25% entry 60%; }
+		.ap-readiness-problem .ap-readiness-problem__pill { animation-name: apReadinessProblemIn; }
+		.ap-readiness-problem .ap-readiness-problem__rev--d1 { animation-range: entry 10% entry 45%; }
+		.ap-readiness-problem .ap-readiness-problem__rev--d2 { animation-range: entry 15% entry 50%; }
+		.ap-readiness-problem .ap-readiness-problem__rev--d3 { animation-range: entry 20% entry 55%; }
+		.ap-readiness-problem .ap-readiness-problem__rev--d4 { animation-range: entry 25% entry 60%; }
+	}
 }
 
 @media (max-width: 1180px) {

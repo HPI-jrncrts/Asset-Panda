@@ -62,18 +62,20 @@
 
 /* Scroll reveal: a CSS scroll timeline, staggered per badge (no script). */
 @media (prefers-reduced-motion: no-preference) {
-	.ap-solution-awards .ap-solution-awards__rev {
-		animation: apSolutionAwardsFade 1ms linear both;
-		animation-timeline: view();
-		animation-range: entry 5% entry 40%;
-	}
+	@supports (animation-timeline: view()) {
+		.ap-solution-awards .ap-solution-awards__rev {
+			animation: apSolutionAwardsFade 1ms linear both;
+			animation-timeline: view();
+			animation-range: entry 5% entry 40%;
+		}
 
-	.ap-solution-awards .ap-solution-awards__rev--d1 { animation-range: entry 8% entry 43%; }
-	.ap-solution-awards .ap-solution-awards__rev--d2 { animation-range: entry 11% entry 46%; }
-	.ap-solution-awards .ap-solution-awards__rev--d3 { animation-range: entry 14% entry 49%; }
-	.ap-solution-awards .ap-solution-awards__rev--d4 { animation-range: entry 17% entry 52%; }
-	.ap-solution-awards .ap-solution-awards__rev--d5 { animation-range: entry 20% entry 55%; }
-	.ap-solution-awards .ap-solution-awards__rev--d6 { animation-range: entry 23% entry 58%; }
+		.ap-solution-awards .ap-solution-awards__rev--d1 { animation-range: entry 8% entry 43%; }
+		.ap-solution-awards .ap-solution-awards__rev--d2 { animation-range: entry 11% entry 46%; }
+		.ap-solution-awards .ap-solution-awards__rev--d3 { animation-range: entry 14% entry 49%; }
+		.ap-solution-awards .ap-solution-awards__rev--d4 { animation-range: entry 17% entry 52%; }
+		.ap-solution-awards .ap-solution-awards__rev--d5 { animation-range: entry 20% entry 55%; }
+		.ap-solution-awards .ap-solution-awards__rev--d6 { animation-range: entry 23% entry 58%; }
+	}
 }
 
 @media (max-width: 900px) {

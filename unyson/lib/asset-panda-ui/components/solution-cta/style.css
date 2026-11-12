@@ -135,10 +135,12 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-	.ap-solution-cta .ap-solution-cta__rev {
-		animation: apSolutionCtaUp 1ms linear both;
-		animation-timeline: view();
-		animation-range: entry 5% entry 40%;
+	@supports (animation-timeline: view()) {
+		.ap-solution-cta .ap-solution-cta__rev {
+			animation: apSolutionCtaUp 1ms linear both;
+			animation-timeline: view();
+			animation-range: entry 5% entry 40%;
+		}
 	}
 }
 
@@ -397,10 +399,12 @@ html body .ap-solution-cta.ap-solution-cta.ap-solution-cta .ap-solution-cta__tit
 }
 
 @media (prefers-reduced-motion: no-preference) {
-	.ap-solution-cta.ap-solution-cta--splash .ap-solution-cta__rev {
-		animation: apSolutionCtaUp 1ms linear both;
-		animation-timeline: view();
-		animation-range: entry 5% entry 40%;
+	@supports (animation-timeline: view()) {
+		.ap-solution-cta.ap-solution-cta--splash .ap-solution-cta__rev {
+			animation: apSolutionCtaUp 1ms linear both;
+			animation-timeline: view();
+			animation-range: entry 5% entry 40%;
+		}
 	}
 }
 

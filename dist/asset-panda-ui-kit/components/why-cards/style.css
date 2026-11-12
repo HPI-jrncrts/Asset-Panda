@@ -267,15 +267,17 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-	.ap-why-cards .ap-why-cards__rev {
-		animation: apWhyCardsUp 1ms linear both;
-		animation-timeline: view();
-		animation-range: entry 5% entry 38%;
-	}
+	@supports (animation-timeline: view()) {
+		.ap-why-cards .ap-why-cards__rev {
+			animation: apWhyCardsUp 1ms linear both;
+			animation-timeline: view();
+			animation-range: entry 5% entry 38%;
+		}
 
-	.ap-why-cards .ap-why-cards__rev--d1 { animation-range: entry 10% entry 43%; }
-	.ap-why-cards .ap-why-cards__rev--d2 { animation-range: entry 16% entry 49%; }
-	.ap-why-cards .ap-why-cards__rev--d3 { animation-range: entry 22% entry 55%; }
+		.ap-why-cards .ap-why-cards__rev--d1 { animation-range: entry 10% entry 43%; }
+		.ap-why-cards .ap-why-cards__rev--d2 { animation-range: entry 16% entry 49%; }
+		.ap-why-cards .ap-why-cards__rev--d3 { animation-range: entry 22% entry 55%; }
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {

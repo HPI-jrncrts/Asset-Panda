@@ -216,18 +216,20 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-	.ap-solution-rows .ap-solution-rows__rev {
-		animation: apSolutionRowsUp 1ms linear both;
-		animation-timeline: view();
-		animation-range: entry 5% entry 35%;
-	}
+	@supports (animation-timeline: view()) {
+		.ap-solution-rows .ap-solution-rows__rev {
+			animation: apSolutionRowsUp 1ms linear both;
+			animation-timeline: view();
+			animation-range: entry 5% entry 35%;
+		}
 
-	.ap-solution-rows .ap-solution-rows__rev--d1 { animation-range: entry 8% entry 38%; }
-	.ap-solution-rows .ap-solution-rows__rev--d2 { animation-range: entry 11% entry 41%; }
-	.ap-solution-rows .ap-solution-rows__rev--d3 { animation-range: entry 14% entry 44%; }
-	.ap-solution-rows .ap-solution-rows__rev--d4 { animation-range: entry 17% entry 47%; }
-	.ap-solution-rows .ap-solution-rows__rev--d5 { animation-range: entry 20% entry 50%; }
-	.ap-solution-rows .ap-solution-rows__rev--d6 { animation-range: entry 23% entry 53%; }
+		.ap-solution-rows .ap-solution-rows__rev--d1 { animation-range: entry 8% entry 38%; }
+		.ap-solution-rows .ap-solution-rows__rev--d2 { animation-range: entry 11% entry 41%; }
+		.ap-solution-rows .ap-solution-rows__rev--d3 { animation-range: entry 14% entry 44%; }
+		.ap-solution-rows .ap-solution-rows__rev--d4 { animation-range: entry 17% entry 47%; }
+		.ap-solution-rows .ap-solution-rows__rev--d5 { animation-range: entry 20% entry 50%; }
+		.ap-solution-rows .ap-solution-rows__rev--d6 { animation-range: entry 23% entry 53%; }
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
