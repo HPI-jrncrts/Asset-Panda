@@ -236,9 +236,12 @@ add_filter(
 			}
 			// A ranked list only when the title says so: how-to posts number their sections too
 			// ("1. Straight-Line" in What Is Depreciation), and those are not vendors to draw logos for.
+			// 1.3.25: or when the body has company logo boxes (logo-boxes.php), which only "Best …"
+			// articles get, so a draft started from the "Best" template previews as one before it has a title.
 			$listicle = $ranks >= 2
-				&& preg_match( '/\b(best|top|alternatives?|vs\.?|compared|comparison)\b/i', $title )
-				&& ! preg_match( '/\bbest practices?\b/i', $title );
+				&& ( ( preg_match( '/\b(best|top|alternatives?|vs\.?|compared|comparison)\b/i', $title )
+					&& ! preg_match( '/\bbest practices?\b/i', $title ) )
+					|| ( defined( 'AP_CONTENT_LOGO_BOX_CLASS' ) && false !== strpos( (string) $content, AP_CONTENT_LOGO_BOX_CLASS ) ) );
 			ap26x_state(
 				array(
 					'active'     => true,

@@ -136,6 +136,12 @@
 				var pick = sizes.large || sizes.full;
 				url = ( pick && pick.source_url ) || m.source_url || '';
 			}
+		} else {
+			// 1.3.25: a post whose header image is an address only (imported posts, Template Library drafts).
+			var meta = editor.getEditedPostAttribute( 'meta' ) || {};
+			if ( typeof meta._ap_featured_image_url === 'string' && /^https?:\/\//.test( meta._ap_featured_image_url ) ) {
+				url = meta._ap_featured_image_url;
+			}
 		}
 		var eyebrow = CFG.postLabel || '';
 		if ( CFG.postType === 'resource' ) {
