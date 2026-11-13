@@ -5,7 +5,7 @@
 		"variant": { "type": "string", "default": "grid", "enum": ["grid", "related"] },
 		"heading": { "type": "string", "default": "", "description": "Section heading (H2). Optional on the grid." },
 		"count_text": { "type": "string", "default": "", "description": "e.g. Showing 1–6 of 268." },
-		"items": { "type": "array", "default": [], "description": "Cards. Each: title, url (both required); image, image_alt, image_w, image_h; label + label_url (resource type); category + category_url; excerpt; date (display text) + date_iso." },
+		"items": { "type": "array", "default": [], "description": "Cards. Each: title, url (both required); image, image_alt, image_w, image_h; label + label_url (resource type); category + category_url; excerpt; date (display text) + date_iso; date_label (e.g. \"Published:\" or \"Updated On:\"): when set, the date leaves the meta row and shows as its own italic line under the title." },
 		"eager": { "type": "integer", "default": 0, "description": "How many leading card images load eagerly (the first row of a listing is in the first screen)." },
 		"more_label": { "type": "string", "default": "Read More" },
 		"pages": { "type": "array", "default": [], "description": "Page links in order. Each: label, url, current (boolean), gap (boolean: an ellipsis, no link)." },

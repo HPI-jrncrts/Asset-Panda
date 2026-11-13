@@ -1031,6 +1031,29 @@ function ap_ui_lines( $text ) {
 }
 
 /**
+ * Whether this render is the block editor's live preview of a block (the builder's server-side render through
+ * /wp/v2/block-renderer/), never a page a visitor sees.
+ *
+ * Tables use it to keep a row or column the editor has just added, while its cells are still empty, so it shows in
+ * the preview and can be typed into; on the page an unfinished row stays out as before. They also mark each row
+ * with its index in the data (data-ap-row) so the editor's table tools act on the right one.
+ *
+ * @return bool
+ */
+function ap_ui_editor_preview() {
+	static $on = null;
+	if ( null === $on ) {
+		$route = '';
+		if ( defined( 'REST_REQUEST' ) && REST_REQUEST && isset( $GLOBALS['wp'] ) && is_object( $GLOBALS['wp'] ) && isset( $GLOBALS['wp']->query_vars['rest_route'] ) ) {
+			$route = (string) $GLOBALS['wp']->query_vars['rest_route'];
+		}
+		$on = 0 === strpos( $route, '/wp/v2/block-renderer/' ) && function_exists( 'current_user_can' ) && current_user_can( 'edit_posts' );
+		$on = (bool) apply_filters( 'ap_ui_editor_preview', $on );
+	}
+	return $on;
+}
+
+/**
  * Apply brand-mark styling to already-escaped text.
  *
  * The design requires "UrsaAI" to render as a gradient word with a superscript

@@ -38,6 +38,11 @@ $w         = (int) $props['image_w'];
 $h         = (int) $props['image_h'];
 $side      = 'left' === $props['image_side'] ? 'left' : 'right';
 $date      = trim( (string) $props['date'] );
+// A labelled date ("Published:" / "Updated On:") is its own italic line under the title; an unlabelled one stays in the
+// share row as before.
+$date_lbl  = '' !== $date ? trim( (string) $props['date_label'] ) : '';
+$date_tag  = '<time class="ap-resource-header__date"' . ( '' !== trim( (string) $props['date_iso'] ) ? ' datetime="' . esc_attr( (string) $props['date_iso'] ) . '"' : '' ) . '>' . esc_html( $date ) . '</time>';
+$date_row  = '' !== $date && '' === $date_lbl;
 $share_url = trim( (string) $props['share_url'] );
 // A YouTube video for the article media slot (QA 2026-10-30, webinars): the 11-character id from an id or any
 // youtube.com / youtu.be URL. It takes the image's place and autoplays muted (browsers only autoplay muted video).
@@ -114,10 +119,13 @@ if ( 'article' === $variant ) :
 				</p>
 			<?php endif; ?>
 			<h1 class="ap-resource-header__title"><?php echo esc_html( $title ); ?></h1>
-			<?php if ( '' !== $date || $share_a ) : ?>
+			<?php if ( '' !== $date_lbl ) : ?>
+				<p class="ap-resource-header__dated"><?php echo esc_html( $date_lbl ); ?> <?php echo $date_tag; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped above. ?></p>
+			<?php endif; ?>
+			<?php if ( $date_row || $share_a ) : ?>
 				<div class="ap-resource-header__meta">
-					<?php if ( '' !== $date ) : ?>
-						<time class="ap-resource-header__date"<?php echo '' !== trim( (string) $props['date_iso'] ) ? ' datetime="' . esc_attr( (string) $props['date_iso'] ) . '"' : ''; ?>><?php echo esc_html( $date ); ?></time>
+					<?php if ( $date_row ) : ?>
+						<?php echo $date_tag; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped above. ?>
 					<?php endif; ?>
 					<?php if ( $share_a ) : ?>
 						<div class="ap-resource-header__share">
@@ -169,6 +177,9 @@ endif;
 	<div class="ap-resource-header__band">
 		<div class="ap-resource-header__copy">
 			<h1 class="ap-resource-header__title"><?php echo esc_html( $title ); ?></h1>
+			<?php if ( '' !== $date_lbl ) : ?>
+				<p class="ap-resource-header__dated"><?php echo esc_html( $date_lbl ); ?> <?php echo $date_tag; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped above. ?></p>
+			<?php endif; ?>
 			<?php if ( '' !== $label ) : ?>
 				<p class="ap-resource-header__label">
 					<?php if ( '' !== $label_url ) : ?>
@@ -191,10 +202,10 @@ endif;
 					<?php endforeach; ?>
 				</ul>
 			<?php endif; ?>
-			<?php if ( '' !== $date || $share ) : ?>
+			<?php if ( $date_row || $share ) : ?>
 				<div class="ap-resource-header__meta">
-					<?php if ( '' !== $date ) : ?>
-						<time class="ap-resource-header__date"<?php echo '' !== trim( (string) $props['date_iso'] ) ? ' datetime="' . esc_attr( (string) $props['date_iso'] ) . '"' : ''; ?>><?php echo esc_html( $date ); ?></time>
+					<?php if ( $date_row ) : ?>
+						<?php echo $date_tag; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped above. ?>
 					<?php endif; ?>
 					<?php if ( $share ) : ?>
 						<div class="ap-resource-header__share">

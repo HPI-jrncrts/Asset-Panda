@@ -318,3 +318,43 @@
 	.ap-compare-table .ap-compare-table__table .ap-compare-table__b::before { color: #6b7280; }
 	.ap-compare-table .ap-compare-table__note { display: inline; margin: 0 0 0 6px; }
 }
+
+/*
+ * More competitor columns (--multi, extra_columns): the criterion and winner columns keep their share, the
+ * value columns (Asset Panda and every competitor) split the rest evenly (--ap-ct-vals = their count), and
+ * only the last value column takes the table's rounded right corners. Phones keep the card layout above.
+ */
+@media (min-width: 640px) {
+	.ap-compare-table--multi .ap-compare-table__table .ap-compare-table__th--crit,
+	.ap-compare-table--multi .ap-compare-table__table .ap-compare-table__crit { width: 22%; }
+	.ap-compare-table--multi .ap-compare-table__table .ap-compare-table__th--w,
+	.ap-compare-table--multi .ap-compare-table__table .ap-compare-table__w { width: 15%; }
+	.ap-compare-table--multi .ap-compare-table__table .ap-compare-table__th--a,
+	.ap-compare-table--multi .ap-compare-table__table .ap-compare-table__a,
+	.ap-compare-table--multi .ap-compare-table__table .ap-compare-table__th--b,
+	.ap-compare-table--multi .ap-compare-table__table .ap-compare-table__b { width: calc(62% / var(--ap-ct-vals, 3)); }
+	.ap-compare-table--multi.ap-compare-table--nowin .ap-compare-table__table .ap-compare-table__th--crit,
+	.ap-compare-table--multi.ap-compare-table--nowin .ap-compare-table__table .ap-compare-table__crit { width: 24%; }
+	.ap-compare-table--multi.ap-compare-table--nowin .ap-compare-table__table .ap-compare-table__th--a,
+	.ap-compare-table--multi.ap-compare-table--nowin .ap-compare-table__table .ap-compare-table__a,
+	.ap-compare-table--multi.ap-compare-table--nowin .ap-compare-table__table .ap-compare-table__th--b,
+	.ap-compare-table--multi.ap-compare-table--nowin .ap-compare-table__table .ap-compare-table__b { width: calc(75% / var(--ap-ct-vals, 3)); }
+	.ap-compare-table--multi .ap-compare-table__table .ap-compare-table__th--b { border-radius: 0; }
+	.ap-compare-table--multi .ap-compare-table__table .ap-compare-table__th--b.is-last { border-radius: 0 10px 0 0; }
+	.ap-compare-table--multi .ap-compare-table__table tbody tr:last-child .ap-compare-table__b { border-radius: 0; }
+	.ap-compare-table--multi .ap-compare-table__table tbody tr:last-child .ap-compare-table__b.is-last { border-radius: 0 0 10px 0; }
+	/* A hairline between two competitor columns, which share one grey. */
+	.ap-compare-table--multi .ap-compare-table__table .ap-compare-table__th--x,
+	.ap-compare-table--multi .ap-compare-table__table .ap-compare-table__x { box-shadow: inset 1px 0 0 #fff; }
+}
+
+@media (min-width: 640px) and (max-width: 900px) {
+	.ap-compare-table--multi .ap-compare-table__table .ap-compare-table__th--crit,
+	.ap-compare-table--multi .ap-compare-table__table .ap-compare-table__crit { width: 21%; }
+	.ap-compare-table--multi .ap-compare-table__table .ap-compare-table__th--w,
+	.ap-compare-table--multi .ap-compare-table__table .ap-compare-table__w { width: 19%; }
+	.ap-compare-table--multi .ap-compare-table__table .ap-compare-table__th--a,
+	.ap-compare-table--multi .ap-compare-table__table .ap-compare-table__a,
+	.ap-compare-table--multi .ap-compare-table__table .ap-compare-table__th--b,
+	.ap-compare-table--multi .ap-compare-table__table .ap-compare-table__b { width: calc(59% / var(--ap-ct-vals, 3)); }
+}

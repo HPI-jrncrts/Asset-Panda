@@ -11,9 +11,9 @@
 .ap-compare .ap-compare-vs { display: none; }
 
 /* ---- home (live home sheet) ---- */
-.ap-compare--home .ap-compare-table .ap-left-empty {grid-column:1;grid-row:7}
-.ap-compare--home .ap-compare-table .ap-center-cta {grid-column:2;grid-row:7}
-.ap-compare--home .ap-compare-table .ap-right-empty {grid-column:3;grid-row:7}
+.ap-compare--home .ap-compare-table .ap-left-empty {grid-column:1;grid-row:calc(3 + var(--ap-compare-rows, 4))}
+.ap-compare--home .ap-compare-table .ap-center-cta {grid-column:2;grid-row:calc(3 + var(--ap-compare-rows, 4))}
+.ap-compare--home .ap-compare-table .ap-right-empty {grid-column:3;grid-row:calc(3 + var(--ap-compare-rows, 4))}
 .ap-compare--home {width: 100%; max-width: none; margin: 0 !important; padding: 80px 24px 40px; background: #fff; font-family: "Manrope", Arial, sans-serif !important; overflow: hidden;}
 .ap-compare--home, .ap-compare--home * {box-sizing: border-box;}
 .ap-compare--home .ap-compare-inner {position: relative; width: 100%; max-width: 1120px; margin: 0 auto;}
@@ -23,7 +23,7 @@
 .ap-compare--home h2 span {display: block;}
 .ap-compare--home .ap-gradient-text {background: linear-gradient( 76.7deg, #5044E1 3.63%, #00A991 50.12% ); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;}
 .ap-compare--home .ap-compare-heading p:not(.ap-eyebrow) {margin: 16px 0 0; color: #5B616E; font-size: 18px; line-height: 1.5; font-weight: 400;}
-.ap-compare--home .ap-compare-table {position: relative; width: 100%; display: grid; grid-template-columns: 347px 427px 347px; grid-template-rows: 160px 88px repeat(4, minmax(127px, auto)) auto; justify-content: center; align-items: stretch;}
+.ap-compare--home .ap-compare-table {position: relative; width: 100%; display: grid; grid-template-columns: 347px 427px 347px; grid-template-rows: 160px 88px repeat(var(--ap-compare-rows, 4), minmax(127px, auto)) auto; justify-content: center; align-items: stretch;}
 .ap-compare--home .ap-compare-table::before {box-sizing: border-box; content: ""; position: absolute; top: 0; bottom: 0; left: 347px; width: 427px; background: linear-gradient( 180deg, #FFFFFF 80.94%, #A7B3FA 108.27% ); border: 0; border-radius: 16px; box-shadow: inset 0 0 0 1px #838CF6, 0 2px 24px #E1E6FE; pointer-events: none; z-index: 0;}
 .ap-compare--home .ap-compare-table::after {display: none;}
 .ap-compare--home .ap-cell {position: relative; z-index: 1; min-width: 0;}
@@ -101,7 +101,7 @@
 /* Tablets keep the three columns (fluid 31 / 38 / 31 instead of the desktop's 347 / 427 / 347 px); the stacked
  * card is for phones only. Every rule here answers one the stacked block above sets for ≤1279. */
 @media (min-width: 768px) and (max-width: 1279px) {
-	.ap-compare--home .ap-compare-table {display: grid; width: 100%; max-width: 100%; margin: 0; grid-template-columns: 31% 38% 31%; grid-template-rows: 150px 80px repeat(4, minmax(110px, auto)) auto; justify-content: center; align-items: stretch; background: none; border: 0 !important; border-radius: 0; box-shadow: none; overflow: visible; isolation: auto;}
+	.ap-compare--home .ap-compare-table {display: grid; width: 100%; max-width: 100%; margin: 0; grid-template-columns: 31% 38% 31%; grid-template-rows: 150px 80px repeat(var(--ap-compare-rows, 4), minmax(110px, auto)) auto; justify-content: center; align-items: stretch; background: none; border: 0 !important; border-radius: 0; box-shadow: none; overflow: visible; isolation: auto;}
 	.ap-compare--home .ap-compare-table::before {display: block; left: 31%; width: 38%;}
 	.ap-compare--home .ap-compare-table::after {display: none;}
 	.ap-compare--home .ap-left-spacer, .ap-compare--home .ap-left-empty, .ap-compare--home .ap-right-empty {display: block !important;}
@@ -123,9 +123,9 @@
 }
 
 /* ---- platform (live platform sheet) ---- */
-.ap-compare--platform .ap-compare-table .ap-left-empty {grid-column:1;grid-row:7}
-.ap-compare--platform .ap-compare-table .ap-center-cta {grid-column:2;grid-row:7}
-.ap-compare--platform .ap-compare-table .ap-right-empty {grid-column:3;grid-row:7}
+.ap-compare--platform .ap-compare-table .ap-left-empty {grid-column:1;grid-row:calc(3 + var(--ap-compare-rows, 5))}
+.ap-compare--platform .ap-compare-table .ap-center-cta {grid-column:2;grid-row:calc(3 + var(--ap-compare-rows, 5))}
+.ap-compare--platform .ap-compare-table .ap-right-empty {grid-column:3;grid-row:calc(3 + var(--ap-compare-rows, 5))}
 .ap-compare--platform {width: 100%; max-width: none; margin: 0 !important; padding: 80px 24px 80px; background: #fff; font-family: "Manrope", Arial, sans-serif !important; overflow: hidden;}
 .ap-compare--platform, .ap-compare--platform * {box-sizing: border-box;}
 .ap-compare--platform .ap-compare-inner {position: relative; width: 100%; max-width: 1121px; margin: 0 auto;}
@@ -135,7 +135,7 @@
 .ap-compare--platform h2 span {display: block;}
 .ap-compare--platform .ap-gradient-text {background: linear-gradient(76.7deg, #5044E1 3.63%, #00A991 50.12%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;}
 .ap-compare--platform .ap-compare-heading p:not(.ap-eyebrow) {margin: 16px 0 0; color: #5B616E; font-size: 18px; line-height: 1.5; font-weight: 400;}
-.ap-compare--platform .ap-compare-table {position: relative; width: 100%; display: grid; grid-template-columns: 347px 427px 347px; grid-template-rows: 160px 88px repeat(5, minmax(127px, auto)); justify-content: center; align-items: stretch;}
+.ap-compare--platform .ap-compare-table {position: relative; width: 100%; display: grid; grid-template-columns: 347px 427px 347px; grid-template-rows: 160px 88px repeat(var(--ap-compare-rows, 5), minmax(127px, auto)); justify-content: center; align-items: stretch;}
 .ap-compare--platform .ap-compare-table::before {box-sizing: border-box; content: ""; position: absolute; top: 0; bottom: 0; left: 347px; width: 427px; background: linear-gradient(180deg, #FFFFFF 80.94%, #A7B3FA 108.27%); border: 0; border-radius: 16px; box-shadow: inset 0 0 0 1px #838CF6, 0 2px 24px #E1E6FE; pointer-events: none; z-index: 0;}
 .ap-compare--platform .ap-compare-table::after {display: none;}
 .ap-compare--platform .ap-cell {position: relative; z-index: 1; min-width: 0;}
@@ -297,3 +297,33 @@ html body .ap-compare.ap-compare.ap-compare .ap-eyebrow { font-size: var(--ap-ty
 /* Motion (QA 2026-10-28, motion agent's R4): hover moves use translate / scale, never transform (scroll entrances own transform), on the house timing. */
 html body .ap-compare .ap-compare-link svg { transition: translate var(--ap-dur-base, .3s) var(--ap-ease-standard, ease); }
 html body .ap-compare .ap-compare-link:hover svg { transform: none; translate: 4px 0; }
+
+/*
+ * More columns (--multi, extra_columns). Where the section is a grid (home from 768px, every variant from
+ * 1280px) the columns share the width in their 347 : 427 : 347 … proportions, the centre panel (::before)
+ * follows the centre column (--ap-compare-a-left / -w, set by render.php), the right column's top cell and
+ * the CTA row's spacer span every competitor column, and only the last column keeps the rounded corners.
+ * On the stacked layout each competitor cell is captioned with its column's heading (.ap-compare-col).
+ */
+.ap-compare .ap-compare-col {display: none;}
+.ap-compare--multi .ap-compare-table .ap-right-top, .ap-compare--multi .ap-compare-table .ap-right-empty {grid-column: 3 / -1;}
+@media (min-width: 1280px) {
+	.ap-compare--multi .ap-compare-table {grid-template-columns: minmax(0, 347fr) minmax(0, 427fr) repeat(var(--ap-compare-cols, 2), minmax(0, 347fr));}
+	.ap-compare--multi .ap-compare-table::before {left: var(--ap-compare-a-left); width: var(--ap-compare-a-w);}
+	.ap-compare--multi .ap-right-copy-end:not(.is-last) {border-radius: 0 !important;}
+	/* The narrower centre heading flows as one text (the brand mark is a span: as a flex item it split the line). */
+	.ap-compare--multi .ap-center-title {display: block; align-content: center;}
+}
+@media (min-width: 768px) and (max-width: 1279px) {
+	.ap-compare--home.ap-compare--multi .ap-center-title {display: block; align-content: center;}
+	.ap-compare--home.ap-compare--multi .ap-compare-vs {display: none;}
+	.ap-compare--home.ap-compare--multi .ap-compare-table {grid-template-columns: minmax(0, 31fr) minmax(0, 38fr) repeat(var(--ap-compare-cols, 2), minmax(0, 31fr));}
+	.ap-compare--home.ap-compare--multi .ap-compare-table::before {left: var(--ap-compare-a-left-m); width: var(--ap-compare-a-w-m);}
+	.ap-compare--home.ap-compare--multi .ap-right-copy-end:not(.is-last) {border-radius: 0 !important;}
+}
+@media (max-width: 1279px) {
+	.ap-compare--platform.ap-compare--multi .ap-compare-col, .ap-compare--guide.ap-compare--multi .ap-compare-col {display: block; margin: 0 0 2px; color: #7B9DB5; font-size: 11px; line-height: 1.3; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase;}
+}
+@media (max-width: 767px) {
+	.ap-compare--home.ap-compare--multi .ap-compare-col {display: block; margin: 0 0 2px; color: #7B9DB5; font-size: 11px; line-height: 1.3; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase;}
+}

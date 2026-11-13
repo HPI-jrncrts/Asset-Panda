@@ -72,6 +72,9 @@ $arrow_left = '<svg viewBox="0 0 19 9" width="19" height="9" fill="none" aria-hi
 					$excerpt  = trim( (string) ( $item['excerpt'] ?? '' ) );
 					$date     = trim( (string) ( $item['date'] ?? '' ) );
 					$date_iso = trim( (string) ( $item['date_iso'] ?? '' ) );
+					// With a label ("Published:" / "Updated On:") the date gets its own italic line under the title.
+					$date_lbl = '' !== $date ? trim( (string) ( $item['date_label'] ?? '' ) ) : '';
+					$date_tag = '<time class="ap-resource-cards__date"' . ( '' !== $date_iso ? ' datetime="' . esc_attr( $date_iso ) . '"' : '' ) . '>' . esc_html( $date ) . '</time>';
 					$is_eager = $i < $eager;
 					?>
 					<li class="ap-resource-cards__card">
@@ -85,7 +88,7 @@ $arrow_left = '<svg viewBox="0 0 19 9" width="19" height="9" fill="none" aria-hi
 							<?php endif; ?>
 						</a>
 						<div class="ap-resource-cards__body">
-							<?php if ( '' !== $label || '' !== $cat || '' !== $date ) : ?>
+							<?php if ( '' !== $label || '' !== $cat || ( '' !== $date && '' === $date_lbl ) ) : ?>
 								<p class="ap-resource-cards__meta">
 									<?php if ( '' !== $label ) : ?>
 										<?php if ( '' !== $label_u ) : ?>
@@ -101,12 +104,15 @@ $arrow_left = '<svg viewBox="0 0 19 9" width="19" height="9" fill="none" aria-hi
 											<span class="ap-resource-cards__cat"><?php echo esc_html( $cat ); ?></span>
 										<?php endif; ?>
 									<?php endif; ?>
-									<?php if ( '' !== $date ) : ?>
-										<time class="ap-resource-cards__date"<?php echo '' !== $date_iso ? ' datetime="' . esc_attr( $date_iso ) . '"' : ''; ?>><?php echo esc_html( $date ); ?></time>
+									<?php if ( '' !== $date && '' === $date_lbl ) : ?>
+										<?php echo $date_tag; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped above. ?>
 									<?php endif; ?>
 								</p>
 							<?php endif; ?>
 							<h3 class="ap-resource-cards__title"><a href="<?php echo esc_url( $url ); ?>"><?php echo esc_html( $title ); ?></a></h3>
+							<?php if ( '' !== $date_lbl ) : ?>
+								<p class="ap-resource-cards__dated"><?php echo esc_html( $date_lbl ); ?> <?php echo $date_tag; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped above. ?></p>
+							<?php endif; ?>
 							<?php if ( '' !== $excerpt ) : ?>
 								<p class="ap-resource-cards__excerpt"><?php echo esc_html( $excerpt ); ?></p>
 							<?php endif; ?>

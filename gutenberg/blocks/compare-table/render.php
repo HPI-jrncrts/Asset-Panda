@@ -28,7 +28,9 @@ $props = array(
 	'before_mark'     => $attributes['before_mark'] ?? '',
 	'before_logo'     => $attributes['before_logo'] ?? '',
 	'before_logo_alt' => $attributes['before_logo_alt'] ?? '',
+	'extra_columns'   => $attributes['extra_columns'] ?? array(),
 	'winner_title'    => $attributes['winner_title'] ?? 'Winner',
+	'winner_column'   => $attributes['winner_column'] ?? true,
 	'rows'            => $attributes['rows'] ?? array(),
 	'note'            => $attributes['note'] ?? '',
 );

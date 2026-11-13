@@ -1,6 +1,6 @@
 {
 	"name": "compare-table",
-	"description": "Comparison-guide table for the resource-center articles (Asset Panda vs X): a criterion column with small icons, the Asset Panda column under an indigo header with the wordmark, the competitor column under a grey header with its mark, and a Winner column of pills (Asset Panda amber, Tie indigo, the competitor grey), with an optional footnote. Figma: Website Design 2026 > Blog > Compare article (7219:87997).",
+	"description": "Comparison-guide table for the resource-center articles (Asset Panda vs X): a criterion column with small icons, the Asset Panda column under an indigo header with the wordmark, the competitor column under a grey header with its mark (more competitor columns optional), and a Winner column of pills (Asset Panda amber, Tie indigo, the competitor grey), with an optional footnote. Figma: Website Design 2026 > Blog > Compare article (7219:87997).",
 	"props": {
 		"label_title": {
 			"type": "string",
@@ -38,16 +38,28 @@
 			"default": "",
 			"description": "Alt text of the competitor logo."
 		},
+		"extra_columns": {
+			"type": "array",
+			"required": false,
+			"default": [],
+			"description": "More competitor columns after the first one, in order. Each: title (heading text), mark (short word drawn as a black rounded mark), logo (image URL, used instead of mark) and logo_alt. Their cells are each row extra[]. Styled like the first competitor column; the table divides its width between all value columns."
+		},
 		"winner_title": {
 			"type": "string",
 			"required": false,
 			"default": "Winner",
 			"description": "Heading of the winner column."
 		},
+		"winner_column": {
+			"type": "boolean",
+			"required": false,
+			"default": true,
+			"description": "Show the Winner column (when a row names a winner). Off leaves it out and keeps the rows winners for later."
+		},
 		"rows": {
 			"type": "array",
 			"required": true,
-			"description": "Rows. Each: label (required), after and before (the two cells), winner (pill text: a name containing Asset Panda is amber, Tie is indigo, anything else grey); optional icon_svg (16px criterion icon), after_check (default true) and before_check (default false) for a green check instead of the grey dot, winner_note (small line under the pill, e.g. (CMMS-first)). When no row has a winner or winner_note, the Winner column is left out."
+			"description": "Rows. Each: label (required), after and before (the Asset Panda and first competitor cells), winner (pill text: a name containing Asset Panda is amber, Tie is indigo, anything else grey); optional icon_svg (16px criterion icon), after_check (default true) and before_check (default false) for a green check instead of the grey dot, winner_note (small line under the pill, e.g. (CMMS-first)), and extra: one { text, check } per extra_columns column, in order (missing cells show empty). When no row has a winner or winner_note, the Winner column is left out."
 		},
 		"note": {
 			"type": "string",

@@ -30,6 +30,7 @@ $props = array(
 	'categories'  => $attributes['categories'] ?? array(),
 	'date'        => $attributes['date'] ?? '',
 	'date_iso'    => $attributes['date_iso'] ?? '',
+	'date_label'  => $attributes['date_label'] ?? '',
 	'image'       => $attributes['image'] ?? '',
 	'video'       => $attributes['video'] ?? '',
 	'image_alt'   => $attributes['image_alt'] ?? '',

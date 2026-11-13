@@ -10,6 +10,7 @@
 		"categories": { "type": "array", "default": [], "description": "Category chips (band only). Each: label (required), url." },
 		"date": { "type": "string", "default": "", "description": "Display date (press releases)." },
 		"date_iso": { "type": "string", "default": "" },
+		"date_label": { "type": "string", "required": false, "default": "", "description": "A label for the date (e.g. \"Published:\" or \"Updated On:\"). When set, the date shows as its own italic line under the title instead of in the share row." },
 		"image": { "type": "string", "default": "" },
 		"video": { "type": "string", "required": false, "default": "", "description": "Article variant: a YouTube video (id or youtube.com / youtu.be URL) drawn in the media slot in place of the image, autoplaying muted with its controls (webinars)." },
 		"image_alt": { "type": "string", "default": "" },

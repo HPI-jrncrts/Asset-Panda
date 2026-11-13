@@ -138,6 +138,8 @@
 		background_image: 'Background image URL',
 		overlay: 'Wash over the background image',
 		decoration: 'Decoration',
+		extra_columns: 'More columns (add and remove them with the table tools)',
+		winner_column: 'Show the Winner column',
 	};
 
 	/*
@@ -253,6 +255,8 @@
 		'assetpanda/roi-calculator.fields': [ 'group', 'key', 'label', 'help', 'value', 'suffix' ],
 		'assetpanda/roi-calculator.results': [ 'key', 'label', 'icon' ],
 		'assetpanda/compare-table.rows': [ 'label', 'after', 'before', 'winner', 'winner_note', 'after_check', 'before_check', 'icon_svg' ],
+		'assetpanda/compare-table.extra_columns': [ 'title', 'mark', 'logo', 'logo_alt' ],
+		'assetpanda/comparison.extra_columns': [ 'title' ],
 		'assetpanda/page-toc.items': [ 'label', 'anchor' ],
 		'assetpanda/thanks-steps.items': [ 'label', 'tone', 'title', 'body' ],
 		'assetpanda/plans-hero.badges': [ 'image', 'alt', 'h' ],
@@ -295,6 +299,16 @@
 		'assetpanda/message-hero.links': [ 'label', 'url', 'style' ],
 		'assetpanda/thanks-calendly.tracks': [ 'url', 'event_title', 'duration', 'body', 'when_key' ],
 		'assetpanda/login-splash.items': [ 'type', 'size', 'image', 'alt', 'width', 'height', 'wide', 'tag', 'text', 'bold', 'label', 'url', 'new_tab' ],
+	};
+
+	/*
+	 * Lists that are a table's columns: their cells live in every row, so a column is added, removed or moved
+	 * only with the table tools (which change the rows too). The sidebar still edits each column's fields.
+	 */
+	var FIXED_ROWS = {
+		'assetpanda/compare-table.extra_columns': true,
+		'assetpanda/comparison.extra_columns': true,
+		'assetpanda/plans-compare.plans': true,
 	};
 
 	/*
@@ -409,10 +423,14 @@
 
 	var useRef = element.useRef;
 	var useEffect = element.useEffect;
+	var useState = element.useState;
 	var BlockControls = blockEditor.BlockControls;
 	var ToolbarGroup = components.ToolbarGroup;
 	var ToolbarButton = components.ToolbarButton;
 	var Dropdown = components.Dropdown;
+	var MenuItem = components.MenuItem;
+	var MenuGroup = components.MenuGroup;
+	var Popover = components.Popover;
 
 	/* Keys that hold geometry, tokens, ids or markup, never copy a reader sees. */
 	var NOT_COPY =
@@ -572,10 +590,14 @@
 		}
 		var head = path[ 0 ];
 		var rest = path.slice( 1 );
-		if ( Array.isArray( node ) ) {
-			return node.map( function ( item, i ) {
-				return i === head ? setIn( item, rest, value ) : item;
-			} );
+		if ( Array.isArray( node ) || ( ( node === null || node === undefined ) && typeof head === 'number' ) ) {
+			// A copy: a cell of a column just added may sit past the end of a row's list.
+			var items = ( node || [] ).slice();
+			while ( items.length < head ) {
+				items.push( rest.length ? {} : '' );
+			}
+			items[ head ] = setIn( items[ head ], rest, value );
+			return items;
 		}
 		var copy = Object.assign( {}, node || {} );
 		copy[ head ] = setIn( copy[ head ], rest, value );
@@ -629,6 +651,7 @@
 			if ( ! marked[ m ].hasAttribute( 'data-ap-editing' ) ) {
 				marked[ m ].removeAttribute( 'data-ap-path' );
 				marked[ m ].removeAttribute( 'data-ap-kind' );
+				marked[ m ].removeAttribute( 'data-ap-cell' );
 				marked[ m ].removeAttribute( 'title' );
 			}
 		}
@@ -673,6 +696,24 @@
 		var fields = fieldList( name, schema, attributes );
 		var hints = HINTS[ name ] || {};
 
+		// 0. Table cells, by position (see Tables): every cell that holds text, even an empty one, so a row or
+		//    column just added can be typed into. Their fields are then left out of the matching by value.
+		var bound = {};
+		var table = tableFor( name, attributes );
+		if ( table ) {
+			previewCells( table, host, attributes ).forEach( function ( cell ) {
+				if ( ! cell.text || ! free( cell.text ) || cell.text.closest( ARIA_HIDDEN ) ) {
+					return;
+				}
+				mark( cell.text, { path: [ '__cell', cell.t, cell.r, cell.c ] }, 'text' );
+				cell.text.setAttribute( 'data-ap-cell', '' );
+				var at = table.path( attributes, cell.t, cell.r, cell.c );
+				if ( at ) {
+					bound[ at.join( '.' ) ] = true;
+				}
+			} );
+		}
+
 		// 1. Hinted fields first: they are found by selector, whatever they show.
 		fields.forEach( function ( f ) {
 			if ( f.path.length === 1 && hints[ f.key ] ) {
@@ -709,7 +750,7 @@
 		var groups = {};
 		var order = [];
 		fields.forEach( function ( f ) {
-			if ( f.path.length === 1 && hints[ f.key ] ) {
+			if ( ( f.path.length === 1 && hints[ f.key ] ) || bound[ f.path.join( '.' ) ] ) {
 				return;
 			}
 			if ( NOT_COPY.test( f.key ) || IMAGE_KEY.test( f.key ) || ! f.value || hasMarkup( f.value ) ) {
@@ -782,7 +823,11 @@
 		'.ap-live [data-ap-editing]{outline:2px solid #5044e1!important;background:rgba(80,68,225,.06);cursor:text}' +
 		'.ap-live img[data-ap-kind="image"]{cursor:pointer;transition:outline-color .15s;outline:3px solid transparent;outline-offset:2px}' +
 		'.ap-live img[data-ap-kind="image"]:hover{outline-color:#00a991}' +
-		'.ap-live a{cursor:default}';
+		'.ap-live a{cursor:default}' +
+		'.ap-live span[data-ap-cell]:empty,.ap-live p[data-ap-cell]:empty{display:inline-block;min-width:3em;min-height:1.3em;vertical-align:middle}' +
+		'.ap-live [data-ap-cell]:empty::before{content:"Type here";color:#9ca3af;font-style:italic;font-weight:400;font-size:13px;letter-spacing:0;text-transform:none}' +
+		'.ap-live [data-ap-cell][data-ap-editing]:empty::before{content:""}' +
+		'.ap-live [data-ap-cell-on]{box-shadow:inset 0 0 0 2px #5044e1!important}';
 
 	/*
 	 * Kit stylesheets inside the canvas, so a block looks as it does on the
@@ -1026,6 +1071,1499 @@
 		} );
 	}
 
+	/* ---------------------------------------------------------------------
+	 * Tables: add and remove rows and columns.
+	 *
+	 * Joseph, 2026-11-13: "all the tables within the builder should have the
+	 * capability of adding and removing rows and columns". Every table a page
+	 * can hold gets the tools WordPress's own table block has: click a cell,
+	 * then the table button in the block toolbar (or the Table panel in the
+	 * sidebar) inserts a row above or below it, a column before or after it,
+	 * or deletes its row or column. One adapter per table kind knows where the
+	 * rows, columns and cells live in the block's attributes and in the preview:
+	 *
+	 *   assetpanda/compare-table       criterion · Asset Panda · competitors
+	 *                                  (before + extra_columns) · Winner
+	 *   assetpanda/comparison          pillar · Asset Panda · competitors
+	 *   assetpanda/plans-compare       row label · one column per plan
+	 *   assetpanda/integration-detail  its Supported Data table (data)
+	 *   any block whose text holds an HTML <table> (lp-prose's html)
+	 *
+	 * WordPress's own table block (core/table) has these tools already.
+	 *
+	 * Cells are bound to the editor by position, not by their text, so an empty
+	 * cell of a new row or column can be clicked and typed into: the kit keeps
+	 * such rows in the editor's preview and marks each with its index in the
+	 * data (data-ap-row; ap_ui_editor_preview()). A column that is the table's
+	 * reason to exist (the row names, the Asset Panda column of an "Asset Panda
+	 * vs …" table) or the last of its kind is kept, and the menu says why.
+	 * ------------------------------------------------------------------- */
+
+	function list( v ) {
+		return Array.isArray( v ) ? v : [];
+	}
+	function str( v ) {
+		return typeof v === 'string' ? v : typeof v === 'number' ? String( v ) : '';
+	}
+	function intAttr( node, name ) {
+		var v = node.getAttribute( name );
+		return v === null || v === '' ? null : parseInt( v, 10 );
+	}
+	function own1( node, sel ) {
+		for ( var c = node.firstElementChild; c; c = c.nextElementSibling ) {
+			if ( c.matches( sel ) ) {
+				return c;
+			}
+		}
+		return null;
+	}
+	/* Rows of a kit table: the header row is -1, body rows carry their data index (data-ap-row). */
+	function kitRowIndex( row ) {
+		var r = intAttr( row, 'data-ap-row' );
+		if ( r !== null ) {
+			return r;
+		}
+		return row.closest( 'thead' ) || row.querySelector( '[role="columnheader"]' ) ? -1 : null;
+	}
+	/* The rows array at `key`, with one inserted at `at` or removed at `r`. */
+	function rowsInsert( a, key, at, row ) {
+		var rows = list( a[ key ] ).slice();
+		rows.splice( Math.max( 0, Math.min( at, rows.length ) ), 0, row );
+		var patch = {};
+		patch[ key ] = rows;
+		return patch;
+	}
+	function rowsRemove( a, key, r ) {
+		var patch = {};
+		patch[ key ] = list( a[ key ] ).filter( function ( _, i ) {
+			return i !== r;
+		} );
+		return patch;
+	}
+
+	/*
+	 * Competitor columns of compare-table and comparison as one list: the first comes from the before_* props and
+	 * each row's `before`, the rest from extra_columns and each row's extra[]. write() puts a changed list back.
+	 */
+	function competitors( a, withLogo ) {
+		var rows = list( a.rows );
+		var first = { head: { title: str( a.before_title ) }, cells: [] };
+		if ( withLogo ) {
+			first.head.mark = str( a.before_mark );
+			first.head.logo = str( a.before_logo );
+			first.head.logo_alt = str( a.before_logo_alt );
+		}
+		first.cells = rows.map( function ( r ) {
+			r = r || {};
+			return { text: str( r.before ), check: !! r.before_check };
+		} );
+		var out = [ first ];
+		list( a.extra_columns ).forEach( function ( h, j ) {
+			h = h && typeof h === 'object' ? h : { title: str( h ) };
+			var head = { title: str( h.title ) };
+			if ( withLogo ) {
+				head.mark = str( h.mark );
+				head.logo = str( h.logo );
+				head.logo_alt = str( h.logo_alt );
+			}
+			out.push( {
+				head: head,
+				cells: rows.map( function ( r ) {
+					var c = list( ( r || {} ).extra )[ j ];
+					c = c && typeof c === 'object' ? c : { text: str( c ) };
+					return { text: str( c.text ), check: !! c.check };
+				} ),
+			} );
+		} );
+		return out;
+	}
+	function writeCompetitors( a, comp, withLogo ) {
+		var first = comp[ 0 ];
+		var patch = { before_title: first.head.title };
+		if ( withLogo ) {
+			patch.before_mark = first.head.mark || '';
+			patch.before_logo = first.head.logo || '';
+			patch.before_logo_alt = first.head.logo_alt || '';
+		}
+		patch.extra_columns = comp.slice( 1 ).map( function ( c ) {
+			var h = { title: c.head.title };
+			if ( withLogo ) {
+				if ( c.head.mark ) {
+					h.mark = c.head.mark;
+				}
+				if ( c.head.logo ) {
+					h.logo = c.head.logo;
+					h.logo_alt = c.head.logo_alt || '';
+				}
+			}
+			return h;
+		} );
+		patch.rows = list( a.rows ).map( function ( r, i ) {
+			var copy = Object.assign( {}, r || {} );
+			copy.before = first.cells[ i ].text;
+			if ( withLogo ) {
+				if ( first.cells[ i ].check ) {
+					copy.before_check = true;
+				} else {
+					delete copy.before_check;
+				}
+			}
+			var extra = comp.slice( 1 ).map( function ( c ) {
+				var cell = { text: c.cells[ i ].text };
+				if ( withLogo && c.cells[ i ].check ) {
+					cell.check = true;
+				}
+				return cell;
+			} );
+			if ( extra.length ) {
+				copy.extra = extra;
+			} else {
+				delete copy.extra;
+			}
+			return copy;
+		} );
+		return patch;
+	}
+	function blankColumn( a, withLogo ) {
+		return {
+			head: withLogo ? { title: '', mark: '', logo: '', logo_alt: '' } : { title: '' },
+			cells: list( a.rows ).map( function () {
+				return { text: '', check: false };
+			} ),
+		};
+	}
+	function extraCells( a ) {
+		return list( a.extra_columns ).map( function () {
+			return { text: '' };
+		} );
+	}
+
+	var TABLES = {};
+
+	/* The comparison-guide table: criterion · Asset Panda · competitors · Winner. */
+	TABLES[ 'assetpanda/compare-table' ] = {
+		tableSel: '.ap-compare-table__table',
+		rowSel: 'tr',
+		cellSel: 'th, td',
+		rowIndex: kitRowIndex,
+		winner: function ( a ) {
+			return (
+				a.winner_column !== false &&
+				list( a.rows ).some( function ( r ) {
+					return r && ( str( r.winner ) || str( r.winner_note ) );
+				} )
+			);
+		},
+		model: function ( a ) {
+			var m = 1 + list( a.extra_columns ).length;
+			return { rows: list( a.rows ).length, cols: 2 + m + ( this.winner( a ) ? 1 : 0 ), m: m };
+		},
+		colOf: function ( cell, a ) {
+			var m = 1 + list( a.extra_columns ).length;
+			var x = intAttr( cell, 'data-ap-x' );
+			var cl = cell.classList;
+			if ( cl.contains( 'ap-compare-table__crit' ) || cl.contains( 'ap-compare-table__th--crit' ) ) {
+				return 0;
+			}
+			if ( cl.contains( 'ap-compare-table__a' ) || cl.contains( 'ap-compare-table__th--a' ) ) {
+				return 1;
+			}
+			if ( x !== null ) {
+				return 3 + x;
+			}
+			if ( cl.contains( 'ap-compare-table__b' ) || cl.contains( 'ap-compare-table__th--b' ) ) {
+				return 2;
+			}
+			if ( cl.contains( 'ap-compare-table__w' ) || cl.contains( 'ap-compare-table__th--w' ) ) {
+				return 2 + m;
+			}
+			return -1;
+		},
+		textNode: function ( cell, r, c, a ) {
+			var m = 1 + list( a.extra_columns ).length;
+			if ( r < 0 ) {
+				if ( c === 1 ) {
+					return null; // the wordmark
+				}
+				if ( c >= 2 && c < 2 + m ) {
+					return cell.querySelector( '.ap-compare-table__brand' );
+				}
+				return cell;
+			}
+			if ( c === 0 ) {
+				var spans = cell.querySelectorAll( ':scope > span:not(.ap-compare-table__ico)' );
+				return spans.length ? spans[ spans.length - 1 ] : null;
+			}
+			if ( c >= 1 && c < 2 + m ) {
+				return own1( cell, 'span' );
+			}
+			// The Winner cell: by position only while empty (a pill's footnote star sits outside the pill).
+			return cell.children.length ? null : cell;
+		},
+		path: function ( a, t, r, c ) {
+			var m = 1 + list( a.extra_columns ).length;
+			if ( r < 0 ) {
+				if ( c === 0 ) {
+					return [ 'label_title' ];
+				}
+				if ( c === 2 ) {
+					return [ 'before_title' ];
+				}
+				if ( c > 2 && c < 2 + m ) {
+					return [ 'extra_columns', c - 3, 'title' ];
+				}
+				return c === 2 + m ? [ 'winner_title' ] : null;
+			}
+			if ( c === 0 ) {
+				return [ 'rows', r, 'label' ];
+			}
+			if ( c === 1 ) {
+				return [ 'rows', r, 'after' ];
+			}
+			if ( c === 2 ) {
+				return [ 'rows', r, 'before' ];
+			}
+			if ( c > 2 && c < 2 + m ) {
+				return [ 'rows', r, 'extra', c - 3, 'text' ];
+			}
+			return c === 2 + m ? [ 'rows', r, 'winner' ] : null;
+		},
+		fixedCol: function ( a, c ) {
+			var m = 1 + list( a.extra_columns ).length;
+			if ( c === 0 ) {
+				return __( 'The first column names each row, so it stays.', 'assetpanda' );
+			}
+			if ( c === 1 ) {
+				return __( 'This table compares other tools with Asset Panda, so the Asset Panda column stays.', 'assetpanda' );
+			}
+			if ( c < 2 + m && m === 1 ) {
+				return __( 'A comparison keeps at least one other column.', 'assetpanda' );
+			}
+			return '';
+		},
+		insertColAt: function ( a, at ) {
+			return at >= 2 ? '' : __( 'New columns go after the Asset Panda column.', 'assetpanda' );
+		},
+		insertCol: function ( a, t, at ) {
+			var comp = competitors( a, true );
+			var k = Math.max( 0, Math.min( at - 2, comp.length ) );
+			comp.splice( k, 0, blankColumn( a, true ) );
+			return { patch: writeCompetitors( a, comp, true ), at: 2 + k };
+		},
+		removeCol: function ( a, t, c ) {
+			var comp = competitors( a, true );
+			if ( c >= 2 && c < 2 + comp.length ) {
+				comp.splice( c - 2, 1 );
+				return { patch: writeCompetitors( a, comp, true ) };
+			}
+			// The Winner column: hidden (winner_column off), the winners kept; the Options toggle brings it back.
+			return c === 2 + comp.length ? { patch: { winner_column: false } } : null;
+		},
+		insertRow: function ( a, t, at ) {
+			var row = { label: '', after: '', before: '', winner: '' };
+			var extra = extraCells( a );
+			if ( extra.length ) {
+				row.extra = extra;
+			}
+			return rowsInsert( a, 'rows', at, row );
+		},
+		removeRow: function ( a, t, r ) {
+			return rowsRemove( a, 'rows', r );
+		},
+	};
+
+	/* The homepage / platform / guide comparison: pillar · Asset Panda · competitors (a grid of role="row"s). */
+	TABLES[ 'assetpanda/comparison' ] = {
+		tableSel: '.ap-compare-table[role="table"]',
+		rowSel: '[role="row"]',
+		cellSel: '.ap-cell',
+		rowIndex: kitRowIndex,
+		model: function ( a ) {
+			var m = 1 + list( a.extra_columns ).length;
+			return { rows: list( a.rows ).length, cols: 2 + m, m: m };
+		},
+		colOf: function ( cell ) {
+			var x = intAttr( cell, 'data-ap-x' );
+			var cl = cell.classList;
+			if ( x !== null ) {
+				return 3 + x;
+			}
+			if ( cl.contains( 'ap-left-label' ) || cl.contains( 'ap-left-title' ) ) {
+				return 0;
+			}
+			if ( cl.contains( 'ap-center-copy' ) || cl.contains( 'ap-center-title' ) ) {
+				return 1;
+			}
+			if ( cl.contains( 'ap-right-copy' ) || cl.contains( 'ap-right-title' ) ) {
+				return 2;
+			}
+			return -1;
+		},
+		textNode: function ( cell, r, c ) {
+			if ( r < 0 ) {
+				return c === 1 ? cell.querySelector( '.ap-compare-t' ) : cell;
+			}
+			if ( c === 0 ) {
+				return cell.querySelector( '.ap-compare-t' );
+			}
+			return cell.querySelector( '.ap-compare-txt' ) || cell.querySelector( 'p' );
+		},
+		path: function ( a, t, r, c ) {
+			if ( r < 0 ) {
+				return c === 0 ? [ 'pillar_title' ] : c === 1 ? [ 'after_title' ] : c === 2 ? [ 'before_title' ] : [ 'extra_columns', c - 3, 'title' ];
+			}
+			return c === 0 ? [ 'rows', r, 'pillar' ] : c === 1 ? [ 'rows', r, 'after' ] : c === 2 ? [ 'rows', r, 'before' ] : [ 'rows', r, 'extra', c - 3, 'text' ];
+		},
+		fixedCol: function ( a, c ) {
+			if ( c === 0 ) {
+				return __( 'The first column names each row, so it stays.', 'assetpanda' );
+			}
+			if ( c === 1 ) {
+				return __( 'This section compares other ways of working with Asset Panda, so the Asset Panda column stays.', 'assetpanda' );
+			}
+			return list( a.extra_columns ).length ? '' : __( 'A comparison keeps at least one other column.', 'assetpanda' );
+		},
+		insertColAt: function ( a, at ) {
+			return at >= 2 ? '' : __( 'New columns go after the Asset Panda column.', 'assetpanda' );
+		},
+		insertCol: function ( a, t, at ) {
+			var comp = competitors( a, false );
+			var k = Math.max( 0, Math.min( at - 2, comp.length ) );
+			comp.splice( k, 0, blankColumn( a, false ) );
+			return { patch: writeCompetitors( a, comp, false ), at: 2 + k };
+		},
+		removeCol: function ( a, t, c ) {
+			var comp = competitors( a, false );
+			if ( c < 2 || c >= 2 + comp.length || comp.length < 2 ) {
+				return null;
+			}
+			comp.splice( c - 2, 1 );
+			return { patch: writeCompetitors( a, comp, false ) };
+		},
+		insertRow: function ( a, t, at ) {
+			var row = { pillar: '', after: '', before: '' };
+			var extra = extraCells( a );
+			if ( extra.length ) {
+				row.extra = extra;
+			}
+			return rowsInsert( a, 'rows', at, row );
+		},
+		removeRow: function ( a, t, r ) {
+			return rowsRemove( a, 'rows', r );
+		},
+	};
+
+	/* Plan values are one string per row ("yes|no|5 users") or a list; both are kept in the form they came in. */
+	function planValues( row, n ) {
+		var v = row && row.values;
+		var out = Array.isArray( v ) ? v.map( str ) : str( v ) === '' ? [] : str( v ).split( '|' );
+		out = out.map( function ( s ) {
+			return s.trim();
+		} );
+		while ( out.length < n ) {
+			out.push( '' );
+		}
+		return out;
+	}
+	function planRow( row, values ) {
+		var copy = Object.assign( {}, row || {} );
+		copy.values = Array.isArray( row && row.values ) ? values : values.join( '|' );
+		return copy;
+	}
+
+	/* The pricing comparison: row label · one column per plan. */
+	TABLES[ 'assetpanda/plans-compare' ] = {
+		tableSel: '.ap-plans-compare__table',
+		rowSel: 'tr',
+		cellSel: 'th, td',
+		rowIndex: kitRowIndex,
+		model: function ( a ) {
+			return { rows: list( a.rows ).length, cols: 1 + list( a.plans ).length };
+		},
+		colOf: function ( cell ) {
+			var c = intAttr( cell, 'data-col' );
+			return c === null ? 0 : c;
+		},
+		textNode: function ( cell, r, c ) {
+			if ( r < 0 ) {
+				return c === 0 ? null : cell.querySelector( '.ap-plans-compare__pn' );
+			}
+			if ( c === 0 ) {
+				return cell.querySelector( '.ap-plans-compare__lt' ) || own1( cell, 'span' );
+			}
+			// A tick or a dash is changed in the sidebar (values: yes / no); a written value is typed in place.
+			return cell.classList.contains( 'is-value' ) ? cell : null;
+		},
+		path: function ( a, t, r, c ) {
+			if ( r < 0 ) {
+				return c === 0 ? null : [ 'plans', c - 1, 'name' ];
+			}
+			return c === 0 ? [ 'rows', r, 'label' ] : null; // a value lives inside the row's values
+		},
+		get: function ( a, t, r, c ) {
+			if ( r >= 0 && c > 0 ) {
+				return planValues( list( a.rows )[ r ], list( a.plans ).length )[ c - 1 ] || '';
+			}
+			return undefined;
+		},
+		set: function ( a, t, r, c, text ) {
+			if ( r < 0 || c === 0 ) {
+				return null;
+			}
+			var n = list( a.plans ).length;
+			return {
+				rows: list( a.rows ).map( function ( row, i ) {
+					if ( i !== r ) {
+						return row;
+					}
+					var values = planValues( row, n );
+					values[ c - 1 ] = text;
+					return planRow( row, values );
+				} ),
+			};
+		},
+		fixedCol: function ( a, c ) {
+			if ( c === 0 ) {
+				return __( 'The first column names each row, so it stays.', 'assetpanda' );
+			}
+			return list( a.plans ).length < 2 ? __( 'The table keeps at least one plan.', 'assetpanda' ) : '';
+		},
+		insertColAt: function ( a, at ) {
+			return at >= 1 ? '' : __( 'New plans go after the row names.', 'assetpanda' );
+		},
+		insertCol: function ( a, t, at ) {
+			var plans = list( a.plans ).slice();
+			var k = Math.max( 0, Math.min( at - 1, plans.length ) );
+			plans.splice( k, 0, { name: '', price: '' } );
+			return {
+				patch: {
+					plans: plans,
+					rows: list( a.rows ).map( function ( row ) {
+						var values = planValues( row, plans.length - 1 );
+						values.splice( k, 0, '' );
+						return planRow( row, values );
+					} ),
+				},
+				at: 1 + k,
+			};
+		},
+		removeCol: function ( a, t, c ) {
+			var plans = list( a.plans );
+			var k = c - 1;
+			if ( k < 0 || k >= plans.length || plans.length < 2 ) {
+				return null;
+			}
+			return {
+				patch: {
+					plans: plans.filter( function ( _, i ) {
+						return i !== k;
+					} ),
+					rows: list( a.rows ).map( function ( row ) {
+						var values = planValues( row, plans.length );
+						values.splice( k, 1 );
+						return planRow( row, values );
+					} ),
+				},
+			};
+		},
+		insertRow: function ( a, t, at ) {
+			var rows = list( a.rows );
+			var near = rows[ Math.max( 0, Math.min( at, rows.length ) - 1 ) ] || {};
+			// Same values form as the rows around it; a row under a section band starts as a plain row.
+			var row = planRow( { values: Array.isArray( near.values ) ? [] : '' }, planValues( {}, list( a.plans ).length ) );
+			row.label = '';
+			row.hint = '';
+			row.kind = near.kind && near.kind !== 'group' ? near.kind : 'top';
+			return rowsInsert( a, 'rows', at, row );
+		},
+		removeRow: function ( a, t, r ) {
+			return rowsRemove( a, 'rows', r );
+		},
+	};
+
+	/* An integration page's Supported Data table: data.columns (the header) and data.rows (lists of cells). */
+	function dataTable( a ) {
+		var d = a.data && typeof a.data === 'object' && ! Array.isArray( a.data ) ? a.data : {};
+		var cols = list( d.columns ).map( str );
+		var rows = list( d.rows ).map( function ( row ) {
+			if ( Array.isArray( row ) ) {
+				return row.map( str );
+			}
+			return row && typeof row === 'object'
+				? Object.keys( row ).map( function ( k ) {
+						return str( row[ k ] );
+				  } )
+				: [];
+		} );
+		var width = cols.length;
+		rows.forEach( function ( row ) {
+			width = Math.max( width, row.length );
+		} );
+		width = Math.max( width, 1 );
+		function pad( l ) {
+			l = l.slice();
+			while ( l.length < width ) {
+				l.push( '' );
+			}
+			return l;
+		}
+		return { d: d, cols: pad( cols ), rows: rows.map( pad ), width: width, headed: cols.join( '' ) !== '' };
+	}
+	function dataPatch( dt, cols, rows ) {
+		var data = Object.assign( {}, dt.d );
+		data.columns = cols;
+		data.rows = rows;
+		return { data: data };
+	}
+
+	TABLES[ 'assetpanda/integration-detail' ] = {
+		tableSel: '.ap-integration-detail__table',
+		rowSel: 'tr',
+		cellSel: 'th, td',
+		rowIndex: kitRowIndex,
+		model: function ( a ) {
+			var dt = dataTable( a );
+			return { rows: dt.rows.length, cols: dt.width };
+		},
+		colOf: function ( cell ) {
+			return cell.cellIndex;
+		},
+		textNode: function ( cell ) {
+			return cell;
+		},
+		path: function () {
+			return null; // cells are written through set(): rows may be lists or keyed objects
+		},
+		get: function ( a, t, r, c ) {
+			var dt = dataTable( a );
+			return r < 0 ? dt.cols[ c ] : ( dt.rows[ r ] || [] )[ c ];
+		},
+		set: function ( a, t, r, c, text ) {
+			var dt = dataTable( a );
+			var cols = dt.cols.slice();
+			var rows = dt.rows.map( function ( row ) {
+				return row.slice();
+			} );
+			if ( r < 0 ) {
+				cols[ c ] = text;
+			} else if ( rows[ r ] ) {
+				rows[ r ][ c ] = text;
+			}
+			return dataPatch( dt, cols, rows );
+		},
+		fixedCol: function ( a ) {
+			return dataTable( a ).width < 2 ? __( 'The table keeps at least one column.', 'assetpanda' ) : '';
+		},
+		insertColAt: function () {
+			return '';
+		},
+		insertCol: function ( a, t, at ) {
+			var dt = dataTable( a );
+			var k = Math.max( 0, Math.min( at, dt.width ) );
+			var cols = dt.cols.slice();
+			cols.splice( k, 0, '' );
+			return {
+				patch: dataPatch(
+					dt,
+					cols,
+					dt.rows.map( function ( row ) {
+						row = row.slice();
+						row.splice( k, 0, '' );
+						return row;
+					} )
+				),
+				at: k,
+			};
+		},
+		removeCol: function ( a, t, c ) {
+			var dt = dataTable( a );
+			if ( dt.width < 2 || c < 0 || c >= dt.width ) {
+				return null;
+			}
+			function drop( row ) {
+				return row.filter( function ( _, i ) {
+					return i !== c;
+				} );
+			}
+			return { patch: dataPatch( dt, drop( dt.cols ), dt.rows.map( drop ) ) };
+		},
+		insertRow: function ( a, t, at ) {
+			var dt = dataTable( a );
+			var rows = dt.rows.slice();
+			var blank = [];
+			for ( var i = 0; i < dt.width; i++ ) {
+				blank.push( '' );
+			}
+			rows.splice( Math.max( 0, Math.min( at, rows.length ) ), 0, blank );
+			return dataPatch( dt, dt.cols, rows );
+		},
+		removeRow: function ( a, t, r ) {
+			var dt = dataTable( a );
+			return dataPatch(
+				dt,
+				dt.cols,
+				dt.rows.filter( function ( _, i ) {
+					return i !== r;
+				} )
+			);
+		},
+	};
+
+	/*
+	 * A table written as HTML inside a text attribute (lp-prose's html, e.g. the GDPR page). The markup is parsed,
+	 * the change made to that table only, and the table's markup put back in place of the old one, so the rest of
+	 * the text is left byte for byte. A cell holding only text can be typed into in place; one with links or
+	 * formatting is edited in the sidebar's text field. Merged cells (colspan / rowspan) keep their columns.
+	 */
+	var TABLE_RE = /<table\b[\s\S]*?<\/table\s*>/gi;
+	function htmlKey( name, attributes ) {
+		var type = blocks.getBlockType( name );
+		var schema = ( type && type.attributes ) || {};
+		var keys = Object.keys( schema );
+		for ( var i = 0; i < keys.length; i++ ) {
+			var v = attributes[ keys[ i ] ];
+			if ( ! SKIP[ keys[ i ] ] && schema[ keys[ i ] ].type === 'string' && typeof v === 'string' && /<table\b/i.test( v ) ) {
+				return keys[ i ];
+			}
+		}
+		return '';
+	}
+	function htmlTables( html ) {
+		var doc = new window.DOMParser().parseFromString( '<!doctype html><body>' + html, 'text/html' );
+		return { doc: doc, tables: Array.prototype.slice.call( doc.body.querySelectorAll( 'table' ) ) };
+	}
+	function htmlPut( a, key, parsed, t ) {
+		var html = str( a[ key ] );
+		var found = html.match( TABLE_RE ) || [];
+		var patch = {};
+		if ( found.length === parsed.tables.length ) {
+			var n = -1;
+			patch[ key ] = html.replace( TABLE_RE, function ( whole ) {
+				n++;
+				return n === t ? parsed.tables[ t ].outerHTML : whole;
+			} );
+		} else {
+			patch[ key ] = parsed.doc.body.innerHTML;
+		}
+		return patch;
+	}
+	function htmlMerged( table ) {
+		return !! table.querySelector( '[colspan]:not([colspan="1"]), [rowspan]:not([rowspan="1"])' );
+	}
+	function htmlWidth( table ) {
+		var w = 0;
+		Array.prototype.forEach.call( table.rows, function ( row ) {
+			w = Math.max( w, row.cells.length );
+		} );
+		return w;
+	}
+	function htmlBlankLike( cell ) {
+		var copy = cell.cloneNode( false );
+		copy.removeAttribute( 'colspan' );
+		copy.removeAttribute( 'rowspan' );
+		return copy;
+	}
+
+	var HTML_TABLE = {
+		html: true,
+		tableSel: 'table',
+		rowSel: 'tr',
+		cellSel: 'th, td',
+		rowIndex: function ( row ) {
+			return row.rowIndex;
+		},
+		parsed: function ( a, name ) {
+			var key = htmlKey( name, a );
+			return key ? { key: key, p: htmlTables( str( a[ key ] ) ) } : null;
+		},
+		model: function ( a, t, name ) {
+			var h = this.parsed( a, name );
+			var table = h && h.p.tables[ t ];
+			return table ? { rows: table.rows.length, cols: htmlWidth( table ), merged: htmlMerged( table ) } : { rows: 0, cols: 0 };
+		},
+		colOf: function ( cell ) {
+			return cell.cellIndex;
+		},
+		textNode: function ( cell ) {
+			for ( var c = cell.firstElementChild; c; c = c.nextElementSibling ) {
+				if ( c.nodeName.toUpperCase() !== 'BR' ) {
+					return null;
+				}
+			}
+			return cell;
+		},
+		path: function () {
+			return null;
+		},
+		get: function ( a, t, r, c, name ) {
+			var h = this.parsed( a, name );
+			var table = h && h.p.tables[ t ];
+			var cell = table && table.rows[ r ] && table.rows[ r ].cells[ c ];
+			return cell ? cell.textContent : undefined;
+		},
+		set: function ( a, t, r, c, text, name ) {
+			var h = this.parsed( a, name );
+			var table = h && h.p.tables[ t ];
+			var cell = table && table.rows[ r ] && table.rows[ r ].cells[ c ];
+			if ( ! cell ) {
+				return null;
+			}
+			cell.textContent = text;
+			return htmlPut( a, h.key, h.p, t );
+		},
+		fixedCol: function ( a, c, t, name ) {
+			var m = this.model( a, t, name );
+			if ( m.merged ) {
+				return __( 'This table has merged cells, so its columns are changed in the text field.', 'assetpanda' );
+			}
+			return m.cols < 2 ? __( 'The table keeps at least one column.', 'assetpanda' ) : '';
+		},
+		insertColAt: function ( a, at, t, name ) {
+			return this.model( a, t, name ).merged ? __( 'This table has merged cells, so its columns are changed in the text field.', 'assetpanda' ) : '';
+		},
+		insertCol: function ( a, t, at, name ) {
+			var h = this.parsed( a, name );
+			var table = h && h.p.tables[ t ];
+			if ( ! table ) {
+				return null;
+			}
+			var width = htmlWidth( table );
+			var k = Math.max( 0, Math.min( at, width ) );
+			Array.prototype.forEach.call( table.rows, function ( row ) {
+				var ref = row.cells[ Math.min( k, row.cells.length - 1 ) ];
+				var cell = ref ? htmlBlankLike( ref ) : h.p.doc.createElement( row.parentNode && row.parentNode.nodeName.toUpperCase() === 'THEAD' ? 'th' : 'td' );
+				if ( k < row.cells.length ) {
+					row.insertBefore( cell, row.cells[ k ] );
+				} else {
+					row.appendChild( cell );
+				}
+			} );
+			return { patch: htmlPut( a, h.key, h.p, t ), at: k };
+		},
+		removeCol: function ( a, t, c, name ) {
+			var h = this.parsed( a, name );
+			var table = h && h.p.tables[ t ];
+			if ( ! table || htmlWidth( table ) < 2 ) {
+				return null;
+			}
+			Array.prototype.forEach.call( table.rows, function ( row ) {
+				if ( row.cells[ c ] ) {
+					row.removeChild( row.cells[ c ] );
+				}
+			} );
+			return { patch: htmlPut( a, h.key, h.p, t ) };
+		},
+		insertRow: function ( a, t, at, name ) {
+			var h = this.parsed( a, name );
+			var table = h && h.p.tables[ t ];
+			if ( ! table ) {
+				return null;
+			}
+			var rows = table.rows;
+			// Below a header row, the new row starts the body (a copy of the first body row's shape).
+			var ref = rows[ Math.max( 0, Math.min( at, rows.length ) - 1 ) ] || rows[ 0 ];
+			var inHead = ref && ref.parentNode.nodeName.toUpperCase() === 'THEAD';
+			var body = table.tBodies[ 0 ];
+			if ( at > 0 && inHead && body && body.rows.length ) {
+				ref = body.rows[ 0 ];
+			}
+			var row = ref ? ref.cloneNode( false ) : h.p.doc.createElement( 'tr' );
+			Array.prototype.forEach.call( ref ? ref.cells : [], function ( cell ) {
+				row.appendChild( htmlBlankLike( cell ) );
+			} );
+			if ( at <= 0 && rows[ 0 ] ) {
+				rows[ 0 ].parentNode.insertBefore( row, rows[ 0 ] );
+			} else if ( at > 0 && inHead && body ) {
+				body.insertBefore( row, body.firstChild );
+			} else if ( rows[ at ] && rows[ at ].parentNode === ref.parentNode ) {
+				ref.parentNode.insertBefore( row, rows[ at ] );
+			} else {
+				( ref ? ref.parentNode : body || table ).appendChild( row );
+			}
+			return htmlPut( a, h.key, h.p, t );
+		},
+		removeRow: function ( a, t, r, name ) {
+			var h = this.parsed( a, name );
+			var table = h && h.p.tables[ t ];
+			if ( ! table || ! table.rows[ r ] ) {
+				return null;
+			}
+			table.rows[ r ].parentNode.removeChild( table.rows[ r ] );
+			return htmlPut( a, h.key, h.p, t );
+		},
+	};
+
+	/*
+	 * Cell by cell, for Google Sheets' "Insert cells" / "Delete cells" (Joseph, 2026-11-13: "something like the
+	 * google sheet add / remove … cells, rows"). Each adapter reads and writes one cell's whole content (its text
+	 * and whatever travels with it: a check, a criterion's icon, a winner's note) and names the kind of each
+	 * column; cells only move between columns of the same kind (a row name never lands in a value cell).
+	 *   kind( a, t, c )              'label' | 'value' | 'winner' | 'text' | 'cell' | '' (does not move)
+	 *   emptyCell( kind )            the content of a blank cell of that kind
+	 *   readCell( a, t, r, c )       a cell's content
+	 *   writeCells( a, t, changes )  the patch writing [ { r, c, value } ]
+	 *   shiftRows( a, t, c )         rows a column's cells move through (default: every row)
+	 */
+	function cleanExtra( row, n ) {
+		var ex = list( row.extra ).slice();
+		while ( ex.length < n ) {
+			ex.push( { text: '' } );
+		}
+		return ex;
+	}
+
+	Object.assign( TABLES[ 'assetpanda/compare-table' ], {
+		kind: function ( a, t, c ) {
+			var m = 1 + list( a.extra_columns ).length;
+			return c === 0 ? 'label' : c < 2 + m ? 'value' : 'winner';
+		},
+		emptyCell: function ( kind ) {
+			return kind === 'label' ? { label: '', icon_svg: '' } : kind === 'winner' ? { winner: '', winner_note: '' } : { text: '', check: false };
+		},
+		readCell: function ( a, t, r, c ) {
+			var row = list( a.rows )[ r ] || {};
+			var m = 1 + list( a.extra_columns ).length;
+			if ( c === 0 ) {
+				return { label: str( row.label ), icon_svg: str( row.icon_svg ) };
+			}
+			if ( c === 1 ) {
+				return { text: str( row.after ), check: row.after_check !== false };
+			}
+			if ( c === 2 ) {
+				return { text: str( row.before ), check: !! row.before_check };
+			}
+			if ( c < 2 + m ) {
+				var x = list( row.extra )[ c - 3 ];
+				x = x && typeof x === 'object' ? x : { text: str( x ) };
+				return { text: str( x.text ), check: !! x.check };
+			}
+			return { winner: str( row.winner ), winner_note: str( row.winner_note ) };
+		},
+		writeCells: function ( a, t, changes ) {
+			var m = 1 + list( a.extra_columns ).length;
+			var rows = list( a.rows ).map( function ( row ) {
+				return Object.assign( {}, row || {} );
+			} );
+			changes.forEach( function ( ch ) {
+				var row = rows[ ch.r ];
+				var v = ch.value;
+				if ( ! row ) {
+					return;
+				}
+				if ( ch.c === 0 ) {
+					row.label = v.label;
+					if ( v.icon_svg ) {
+						row.icon_svg = v.icon_svg;
+					} else {
+						delete row.icon_svg;
+					}
+				} else if ( ch.c === 1 ) {
+					row.after = v.text;
+					row.after_check = !! v.check;
+				} else if ( ch.c === 2 ) {
+					row.before = v.text;
+					row.before_check = !! v.check;
+				} else if ( ch.c < 2 + m ) {
+					var ex = cleanExtra( row, m - 1 );
+					ex[ ch.c - 3 ] = v.check ? { text: v.text, check: true } : { text: v.text };
+					row.extra = ex;
+				} else {
+					row.winner = v.winner;
+					if ( v.winner_note ) {
+						row.winner_note = v.winner_note;
+					} else {
+						delete row.winner_note;
+					}
+				}
+			} );
+			return { rows: rows };
+		},
+	} );
+
+	Object.assign( TABLES[ 'assetpanda/comparison' ], {
+		kind: function ( a, t, c ) {
+			return c === 0 ? 'label' : 'value';
+		},
+		emptyCell: function ( kind ) {
+			return kind === 'label' ? { pillar: '', winner: '' } : '';
+		},
+		readCell: function ( a, t, r, c ) {
+			var row = list( a.rows )[ r ] || {};
+			if ( c === 0 ) {
+				return { pillar: str( row.pillar ), winner: str( row.winner ) };
+			}
+			if ( c === 1 ) {
+				return str( row.after );
+			}
+			if ( c === 2 ) {
+				return str( row.before );
+			}
+			var x = list( row.extra )[ c - 3 ];
+			return str( x && typeof x === 'object' ? x.text : x );
+		},
+		writeCells: function ( a, t, changes ) {
+			var n = list( a.extra_columns ).length;
+			var rows = list( a.rows ).map( function ( row ) {
+				return Object.assign( {}, row || {} );
+			} );
+			changes.forEach( function ( ch ) {
+				var row = rows[ ch.r ];
+				if ( ! row ) {
+					return;
+				}
+				if ( ch.c === 0 ) {
+					row.pillar = ch.value.pillar;
+					if ( ch.value.winner ) {
+						row.winner = ch.value.winner;
+					} else {
+						delete row.winner;
+					}
+				} else if ( ch.c === 1 ) {
+					row.after = ch.value;
+				} else if ( ch.c === 2 ) {
+					row.before = ch.value;
+				} else {
+					var ex = cleanExtra( row, n );
+					ex[ ch.c - 3 ] = { text: ch.value };
+					row.extra = ex;
+				}
+			} );
+			return { rows: rows };
+		},
+	} );
+
+	Object.assign( TABLES[ 'assetpanda/plans-compare' ], {
+		kind: function ( a, t, c ) {
+			return c === 0 ? 'label' : 'value';
+		},
+		emptyCell: function ( kind ) {
+			return kind === 'label' ? { label: '', hint: '' } : '';
+		},
+		readCell: function ( a, t, r, c ) {
+			var row = list( a.rows )[ r ] || {};
+			return c === 0 ? { label: str( row.label ), hint: str( row.hint ) } : planValues( row, list( a.plans ).length )[ c - 1 ] || '';
+		},
+		writeCells: function ( a, t, changes ) {
+			var n = list( a.plans ).length;
+			var rows = list( a.rows ).slice();
+			changes.forEach( function ( ch ) {
+				var row = rows[ ch.r ];
+				if ( ! row ) {
+					return;
+				}
+				if ( ch.c === 0 ) {
+					row = Object.assign( {}, row, { label: ch.value.label, hint: ch.value.hint } );
+				} else {
+					var values = planValues( row, n );
+					values[ ch.c - 1 ] = ch.value;
+					row = planRow( row, values );
+				}
+				rows[ ch.r ] = row;
+			} );
+			return { rows: rows };
+		},
+		// A plan's values pass over the section bands (they have none).
+		shiftRows: function ( a, t, c ) {
+			var out = [];
+			list( a.rows ).forEach( function ( row, i ) {
+				if ( c === 0 || ( row && row.kind !== 'group' ) ) {
+					out.push( i );
+				}
+			} );
+			return out;
+		},
+	} );
+
+	Object.assign( TABLES[ 'assetpanda/integration-detail' ], {
+		kind: function () {
+			return 'text';
+		},
+		emptyCell: function () {
+			return '';
+		},
+		readCell: function ( a, t, r, c ) {
+			return ( dataTable( a ).rows[ r ] || [] )[ c ] || '';
+		},
+		writeCells: function ( a, t, changes ) {
+			var dt = dataTable( a );
+			var rows = dt.rows.map( function ( row ) {
+				return row.slice();
+			} );
+			changes.forEach( function ( ch ) {
+				if ( rows[ ch.r ] ) {
+					rows[ ch.r ][ ch.c ] = ch.value;
+				}
+			} );
+			return dataPatch( dt, dt.cols, rows );
+		},
+	} );
+
+	Object.assign( HTML_TABLE, {
+		kind: function ( a, t, c, name ) {
+			return this.model( a, t, name ).merged ? '' : 'cell';
+		},
+		emptyCell: function () {
+			return '';
+		},
+		// A cell's markup (links and formatting travel with it).
+		readCell: function ( a, t, r, c, name ) {
+			var h = this.parsed( a, name );
+			var table = h && h.p.tables[ t ];
+			var cell = table && table.rows[ r ] && table.rows[ r ].cells[ c ];
+			return cell ? cell.innerHTML : '';
+		},
+		writeCells: function ( a, t, changes, name ) {
+			var h = this.parsed( a, name );
+			var table = h && h.p.tables[ t ];
+			if ( ! table ) {
+				return null;
+			}
+			changes.forEach( function ( ch ) {
+				var row = table.rows[ ch.r ];
+				if ( ! row ) {
+					return;
+				}
+				while ( row.cells.length <= ch.c ) {
+					row.appendChild( h.p.doc.createElement( row.cells.length ? row.cells[ 0 ].nodeName.toLowerCase() : 'td' ) );
+				}
+				row.cells[ ch.c ].innerHTML = ch.value;
+			} );
+			return htmlPut( a, h.key, h.p, t );
+		},
+	} );
+
+	function blankContent( v ) {
+		if ( typeof v === 'string' ) {
+			return v.replace( /<br\s*\/?>|&nbsp;|\s/gi, '' ) === '';
+		}
+		return Object.keys( v || {} ).every( function ( k ) {
+			return typeof v[ k ] !== 'string' || v[ k ].trim() === '';
+		} );
+	}
+
+	/* The cells a shift moves through, from the selected one: the rest of its row (same kind) or of its column. */
+	function cellsRun( ad, a, t, r, c, name, across ) {
+		var m = tCall( ad, 'model', [ a, t ], name );
+		var kind = tCall( ad, 'kind', [ a, t, c ], name );
+		var run = [];
+		if ( across ) {
+			for ( var cc = c; cc < m.cols && tCall( ad, 'kind', [ a, t, cc ], name ) === kind; cc++ ) {
+				run.push( { r: r, c: cc } );
+			}
+		} else {
+			var rows = ad.shiftRows ? tCall( ad, 'shiftRows', [ a, t, c ], name ) : null;
+			for ( var rr = 0; rr < m.rows; rr++ ) {
+				if ( rr >= r && ( ! rows || rows.indexOf( rr ) !== -1 ) ) {
+					run.push( { r: rr, c: c } );
+				}
+			}
+		}
+		return { run: run, kind: kind };
+	}
+
+	/* Why a cell shift is unavailable for the selection, or ''. */
+	function shiftWhy( ad, a, sel, name, across ) {
+		if ( ! sel ) {
+			return __( 'Click a cell in the table first.', 'assetpanda' );
+		}
+		if ( sel.r < 0 && ! ad.html ) {
+			return __( 'Header cells do not move; type over them instead.', 'assetpanda' );
+		}
+		var kind = tCall( ad, 'kind', [ a, sel.t, sel.c ], name );
+		if ( ! kind ) {
+			return __( 'This table has merged cells, so its cells are moved in the text field.', 'assetpanda' );
+		}
+		if ( across && ( kind === 'label' || kind === 'winner' ) ) {
+			return __( 'Cells in this column do not move sideways: the next column holds different content.', 'assetpanda' );
+		}
+		if ( ! across && ad.shiftRows && tCall( ad, 'shiftRows', [ a, sel.t, sel.c ], name ).indexOf( sel.r ) === -1 ) {
+			return __( 'A section band has no cells to move.', 'assetpanda' );
+		}
+		return '';
+	}
+
+	/*
+	 * Insert cells (shift right / down): the selected cell becomes blank and the cells after it move one place;
+	 * when the last of them is not blank the table grows by a column (same kind) or a row, so nothing is lost.
+	 * Delete cells (shift left / up): the cells after the selected one move back one place; the last becomes blank.
+	 */
+	function shiftCells( ad, a, sel, name, across, insert ) {
+		var t = sel.t;
+		var info = cellsRun( ad, a, t, sel.r, sel.c, name, across );
+		var run = info.run;
+		if ( ! run.length ) {
+			return null;
+		}
+		var base = a;
+		var grow = null;
+		var last = run[ run.length - 1 ];
+		if ( insert && ! blankContent( tCall( ad, 'readCell', [ a, t, last.r, last.c ], name ) ) ) {
+			if ( across ) {
+				if ( tCall( ad, 'insertColAt', [ a, last.c + 1, t ], name ) ) {
+					return null;
+				}
+				var res = tCall( ad, 'insertCol', [ a, t, last.c + 1 ], name );
+				grow = res && res.patch;
+			} else {
+				grow = tCall( ad, 'insertRow', [ a, t, tCall( ad, 'model', [ a, t ], name ).rows ], name );
+			}
+			if ( ! grow ) {
+				return null;
+			}
+			base = Object.assign( {}, a, grow );
+			run = cellsRun( ad, base, t, sel.r, sel.c, name, across ).run;
+		}
+		var values = run.map( function ( p ) {
+			return tCall( ad, 'readCell', [ base, t, p.r, p.c ], name );
+		} );
+		var blank = tCall( ad, 'emptyCell', [ info.kind ], name );
+		var moved = insert ? [ blank ].concat( values.slice( 0, -1 ) ) : values.slice( 1 ).concat( [ blank ] );
+		var patch = tCall(
+			ad,
+			'writeCells',
+			[
+				base,
+				t,
+				run.map( function ( p, i ) {
+					return { r: p.r, c: p.c, value: moved[ i ] };
+				} ),
+			],
+			name
+		);
+		return patch ? Object.assign( {}, grow || {}, patch ) : null;
+	}
+
+	/* The table adapter for a block, or null. */
+	function tableFor( name, attributes ) {
+		if ( TABLES[ name ] ) {
+			return TABLES[ name ];
+		}
+		return htmlKey( name, attributes || {} ) ? HTML_TABLE : null;
+	}
+
+	/* Adapter calls take the block name last (the HTML adapter needs it to find its text attribute). */
+	function tCall( ad, fn, args, name ) {
+		return ad[ fn ].apply( ad, args.concat( [ name ] ) );
+	}
+
+	/* The cell of the preview that `target` is in: { t, r, c } or null. */
+	function locateCell( ad, host, target, a ) {
+		var cell = target && target.closest && target.closest( ad.cellSel );
+		if ( ! cell || ! host.contains( cell ) ) {
+			return null;
+		}
+		var table = cell.closest( ad.tableSel );
+		var row = cell.closest( ad.rowSel );
+		if ( ! table || ! row || ! table.contains( row ) ) {
+			return null;
+		}
+		var t = Array.prototype.indexOf.call( host.querySelectorAll( ad.tableSel ), table );
+		var r = ad.rowIndex( row );
+		var c = ad.colOf( cell, a );
+		return t < 0 || r === null || c < 0 ? null : { t: t, r: r, c: c };
+	}
+
+	/* Every cell of the preview's tables: { node (the cell), text (the element holding its text, or null), t, r, c }. */
+	function previewCells( ad, host, a ) {
+		var out = [];
+		Array.prototype.forEach.call( host.querySelectorAll( ad.tableSel ), function ( table, t ) {
+			Array.prototype.forEach.call( table.querySelectorAll( ad.rowSel ), function ( row ) {
+				if ( row.closest( ad.tableSel ) !== table ) {
+					return;
+				}
+				var r = ad.rowIndex( row );
+				if ( r === null ) {
+					return;
+				}
+				Array.prototype.forEach.call( row.querySelectorAll( ad.cellSel ), function ( cell ) {
+					if ( cell.closest( ad.rowSel ) !== row ) {
+						return;
+					}
+					var c = ad.colOf( cell, a );
+					if ( c >= 0 ) {
+						out.push( { node: cell, text: ad.textNode( cell, r, c, a ), t: t, r: r, c: c } );
+					}
+				} );
+			} );
+		} );
+		return out;
+	}
+
+	/* A cell's text in the attributes, and the patch that writes new text there. */
+	function cellValue( ad, a, loc, name ) {
+		if ( ad.get ) {
+			var got = tCall( ad, 'get', [ a, loc.t, loc.r, loc.c ], name );
+			if ( got !== undefined ) {
+				return str( got );
+			}
+		}
+		var path = ad.path( a, loc.t, loc.r, loc.c );
+		return path ? str( getPath( a, path ) ) : '';
+	}
+	function cellPatch( ad, a, loc, text, name ) {
+		if ( ad.set ) {
+			var p = tCall( ad, 'set', [ a, loc.t, loc.r, loc.c, text ], name );
+			if ( p ) {
+				return p;
+			}
+		}
+		var path = ad.path( a, loc.t, loc.r, loc.c );
+		return path ? patchFor( a, path, text ) : null;
+	}
+
+	/*
+	 * The table actions for the selected cell, named as in Google Sheets (or only the two "at the end" ones without
+	 * a selection): each is { key, label, icon, group, why (why it is unavailable, or ''), run() → { patch, select } }.
+	 * group: 'insert', 'delete' (rows and columns), 'insert-cells' / 'delete-cells' (the two submenus), 'end'.
+	 */
+	function tableActions( ad, name, a, sel ) {
+		var t = sel ? sel.t : 0;
+		var m = tCall( ad, 'model', [ a, t ], name );
+		var out = [];
+		function add( key, group, label, icon, why, run ) {
+			out.push( { key: key, group: group, label: label, icon: icon, why: why || '', run: run } );
+		}
+		var head = sel && sel.r < 0;
+		var noSel = __( 'Click a cell in the table first.', 'assetpanda' );
+		var lastRow = m.rows < 2 ? __( 'The table keeps at least one row; remove the block to remove the table.', 'assetpanda' ) : '';
+		function shift( across, insert ) {
+			return function () {
+				var patch = shiftCells( ad, a, sel, name, across, insert );
+				return patch && { patch: patch, select: sel };
+			};
+		}
+
+		add( 'row-above', 'insert', __( 'Insert 1 row above', 'assetpanda' ), 'table-row-before', ! sel ? noSel : head ? __( 'New rows go under the header row.', 'assetpanda' ) : '', function () {
+			return { patch: tCall( ad, 'insertRow', [ a, t, sel.r ], name ), select: { t: t, r: sel.r, c: sel.c } };
+		} );
+		add( 'row-below', 'insert', __( 'Insert 1 row below', 'assetpanda' ), 'table-row-after', ! sel ? noSel : '', function () {
+			return { patch: tCall( ad, 'insertRow', [ a, t, sel.r + 1 ], name ), select: { t: t, r: sel.r + 1, c: sel.c } };
+		} );
+		add( 'col-before', 'insert', __( 'Insert 1 column left', 'assetpanda' ), 'table-col-before', ! sel ? noSel : tCall( ad, 'insertColAt', [ a, sel ? sel.c : 0, t ], name ), function () {
+			var res = tCall( ad, 'insertCol', [ a, t, sel.c ], name );
+			return res && { patch: res.patch, select: { t: t, r: sel.r, c: res.at } };
+		} );
+		add( 'col-after', 'insert', __( 'Insert 1 column right', 'assetpanda' ), 'table-col-after', ! sel ? noSel : tCall( ad, 'insertColAt', [ a, sel ? sel.c + 1 : 0, t ], name ), function () {
+			var res = tCall( ad, 'insertCol', [ a, t, sel.c + 1 ], name );
+			return res && { patch: res.patch, select: { t: t, r: sel.r, c: res.at } };
+		} );
+		add( 'cells-right', 'insert-cells', __( 'Insert cells and shift right', 'assetpanda' ), 'arrow-right-alt', shiftWhy( ad, a, sel, name, true ), shift( true, true ) );
+		add( 'cells-down', 'insert-cells', __( 'Insert cells and shift down', 'assetpanda' ), 'arrow-down-alt', shiftWhy( ad, a, sel, name, false ), shift( false, true ) );
+		add( 'row-delete', 'delete', __( 'Delete row', 'assetpanda' ), 'table-row-delete', ! sel ? noSel : head ? __( 'The header row stays; clear its text instead.', 'assetpanda' ) : lastRow, function () {
+			return { patch: tCall( ad, 'removeRow', [ a, t, sel.r ], name ), select: m.rows > 1 ? { t: t, r: Math.min( sel.r, m.rows - 2 ), c: sel.c } : null };
+		} );
+		add( 'col-delete', 'delete', __( 'Delete column', 'assetpanda' ), 'table-col-delete', ! sel ? noSel : tCall( ad, 'fixedCol', [ a, sel ? sel.c : 0, t ], name ), function () {
+			var res = tCall( ad, 'removeCol', [ a, t, sel.c ], name );
+			return res && { patch: res.patch, select: { t: t, r: sel.r, c: Math.max( 0, Math.min( sel.c, m.cols - 2 ) ) } };
+		} );
+		add( 'cells-left', 'delete-cells', __( 'Delete cells and shift left', 'assetpanda' ), 'arrow-left-alt', shiftWhy( ad, a, sel, name, true ), shift( true, false ) );
+		add( 'cells-up', 'delete-cells', __( 'Delete cells and shift up', 'assetpanda' ), 'arrow-up-alt', shiftWhy( ad, a, sel, name, false ), shift( false, false ) );
+		add( 'row-end', 'end', __( 'Add a row at the end', 'assetpanda' ), 'table-row-after', '', function () {
+			return { patch: tCall( ad, 'insertRow', [ a, t, m.rows ], name ), select: { t: t, r: m.rows, c: 0 } };
+		} );
+		add( 'col-end', 'end', __( 'Add a column at the end', 'assetpanda' ), 'table-col-after', tCall( ad, 'insertColAt', [ a, m.cols, t ], name ), function () {
+			var res = tCall( ad, 'insertCol', [ a, t, m.cols ], name );
+			return res && { patch: res.patch, select: { t: t, r: sel ? sel.r : 0, c: res.at } };
+		} );
+		return { actions: out, model: m };
+	}
+
+	/* Run one action: apply its patch and move the selection to the cell it names. */
+	function runTableAction( action, setAttributes, setSel ) {
+		if ( action.why ) {
+			return;
+		}
+		var res = action.run();
+		if ( res && res.patch ) {
+			setAttributes( res.patch );
+			setSel( res.select || null );
+		}
+	}
+
+	/* The table button in the block toolbar. */
+	function tableToolbar( ad, name, a, sel, setAttributes, setSel ) {
+		var Menu = components.ToolbarDropdownMenu || components.DropdownMenu;
+		if ( ! Menu ) {
+			return null;
+		}
+		var built = tableActions( ad, name, a, sel );
+		var groups = sel ? [ 'insert', 'insert-cells', 'delete', 'delete-cells' ] : [ 'end' ];
+		return el(
+			BlockControls,
+			{ group: 'other' },
+			el(
+				ToolbarGroup,
+				null,
+				el( Menu, {
+					icon: 'editor-table',
+					label: sel
+						? __( 'Table: insert or delete rows, columns and cells (or right-click a cell)', 'assetpanda' )
+						: __( 'Table: add rows and columns (click a cell to choose where)', 'assetpanda' ),
+					controls: groups.map( function ( g ) {
+						return built.actions
+							.filter( function ( act ) {
+								return act.group === g;
+							} )
+							.map( function ( act ) {
+								return {
+									title: act.label + ( act.why && sel ? ' — ' + act.why : '' ),
+									icon: act.icon,
+									isDisabled: !! act.why,
+									onClick: function () {
+										runTableAction( act, setAttributes, setSel );
+									},
+								};
+							} );
+					} ),
+				} )
+			)
+		);
+	}
+
+	/* The Table panel in the sidebar: the same actions, with the reason beside any that is unavailable. */
+	function tablePanel( ad, name, a, sel, setAttributes, setSel ) {
+		var built = tableActions( ad, name, a, sel );
+		var m = built.model;
+		var where = sel
+			? sel.r < 0
+				? __( 'Selected: the header row, column ', 'assetpanda' ) + ( sel.c + 1 )
+				: __( 'Selected: row ', 'assetpanda' ) + ( sel.r + 1 ) + __( ', column ', 'assetpanda' ) + ( sel.c + 1 )
+			: __( 'Click a cell in the table to insert or delete rows, columns and cells beside it (or right-click it for the same menu as Google Sheets). Click any cell, even an empty one, to type in it.', 'assetpanda' );
+		var heads = {
+			insert: __( 'Insert', 'assetpanda' ),
+			'insert-cells': __( 'Insert cells', 'assetpanda' ),
+			delete: __( 'Delete', 'assetpanda' ),
+			'delete-cells': __( 'Delete cells', 'assetpanda' ),
+			end: __( 'At the end of the table', 'assetpanda' ),
+		};
+		return el(
+			PanelBody,
+			{ key: 'ap-table', title: __( 'Table: rows, columns and cells', 'assetpanda' ), initialOpen: true },
+			el( 'p', { style: { margin: '0 0 8px' } }, m.rows + ' ' + ( m.rows === 1 ? __( 'row', 'assetpanda' ) : __( 'rows', 'assetpanda' ) ) + ' · ' + m.cols + ' ' + ( m.cols === 1 ? __( 'column', 'assetpanda' ) : __( 'columns', 'assetpanda' ) ) ),
+			el( 'p', { style: { margin: '0 0 12px', color: '#50575e' } }, where ),
+			[ 'insert', 'insert-cells', 'delete', 'delete-cells', 'end' ].map( function ( g ) {
+				return el(
+					'div',
+					{ key: g, style: { marginBottom: '10px' } },
+					el( 'p', { style: { margin: '0 0 4px', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', color: '#757575' } }, heads[ g ] ),
+					built.actions
+						.filter( function ( act ) {
+							return act.group === g;
+						} )
+						.map( function ( act ) {
+							return el(
+								'div',
+								{ key: act.key, style: { marginBottom: '4px' } },
+								el(
+									Button,
+									{
+										variant: 'secondary',
+										isDestructive: g.indexOf( 'delete' ) === 0,
+										disabled: !! act.why,
+										icon: act.icon,
+										onClick: function () {
+											runTableAction( act, setAttributes, setSel );
+										},
+										style: { width: '100%', justifyContent: 'flex-start' },
+									},
+									act.label
+								),
+								act.why && sel ? el( 'p', { style: { margin: '2px 0 0', fontSize: '12px', color: '#757575' } }, act.why ) : null
+							);
+						} )
+				);
+			} )
+		);
+	}
+
+	/*
+	 * Right-click on a table cell: the Google Sheets cell menu (Joseph's screenshots, 2026-11-13) — Insert 1 row
+	 * above / below, Insert 1 column left / right, Insert cells ▸ (shift right, shift down), then Delete row,
+	 * Delete column, Delete cells ▸ (shift left, shift up). Opens at the pointer; Esc or a click away closes it.
+	 */
+	function TableMenu( props ) {
+		var sub = useState( '' );
+		var built = tableActions( props.ad, props.name, props.a, props.sel );
+		var byGroup = {};
+		built.actions.forEach( function ( act ) {
+			( byGroup[ act.group ] = byGroup[ act.group ] || [] ).push( act );
+		} );
+		function item( act, indent ) {
+			return el(
+				MenuItem,
+				{
+					key: act.key,
+					icon: indent ? null : act.group.indexOf( 'delete' ) === 0 ? 'trash' : 'plus',
+					iconPosition: 'left',
+					disabled: !! act.why,
+					info: act.why || undefined,
+					style: indent ? { paddingLeft: '36px' } : undefined,
+					onClick: function () {
+						runTableAction( act, props.setAttributes, props.setSel );
+						props.onClose();
+					},
+				},
+				act.label
+			);
+		}
+		function submenu( key, label, icon, acts ) {
+			var open = sub[ 0 ] === key;
+			return [
+				el(
+					MenuItem,
+					{
+						key: key,
+						icon: icon,
+						iconPosition: 'left',
+						suffix: open ? '▾' : '▸',
+						'aria-expanded': open,
+						onClick: function () {
+							sub[ 1 ]( open ? '' : key );
+						},
+					},
+					label
+				),
+			].concat(
+				open
+					? acts.map( function ( act ) {
+							return item( act, true );
+					  } )
+					: []
+			);
+		}
+		return el(
+			Popover,
+			{
+				anchor: props.anchor,
+				placement: 'bottom-start',
+				offset: 4,
+				onClose: props.onClose,
+				focusOnMount: 'firstElement',
+				className: 'ap-table-menu',
+			},
+			el(
+				'div',
+				{ style: { minWidth: '280px', maxWidth: '340px', padding: '4px' } },
+				el(
+					MenuGroup,
+					null,
+					( byGroup.insert || [] ).map( function ( act ) {
+						return item( act );
+					} ),
+					submenu( 'insert-cells', __( 'Insert cells', 'assetpanda' ), 'plus', byGroup[ 'insert-cells' ] || [] )
+				),
+				el(
+					MenuGroup,
+					null,
+					( byGroup.delete || [] ).map( function ( act ) {
+						return item( act );
+					} ),
+					submenu( 'delete-cells', __( 'Delete cells', 'assetpanda' ), 'trash', byGroup[ 'delete-cells' ] || [] )
+				)
+			)
+		);
+	}
+
 	/*
 	 * The live preview: ServerSideRender plus the in-place editing layer.
 	 * Delegated listeners on the wrapper read the latest props from a ref, so
@@ -1139,6 +2677,7 @@
 					var p = latest.current;
 					var type = blocks.getBlockType( p.name );
 					bindPreview( host, p.name, ( type && type.attributes ) || {}, p.attributes );
+					markSelected( host, p );
 				} );
 			}
 			var observer = new ( doc.defaultView || window ).MutationObserver( rebind );
@@ -1148,6 +2687,11 @@
 			function fieldOf( node ) {
 				var p = latest.current;
 				var path = JSON.parse( node.getAttribute( 'data-ap-path' ) );
+				if ( path[ 0 ] === '__cell' ) {
+					var cellAt = { t: path[ 1 ], r: path[ 2 ], c: path[ 3 ] };
+					var tableAd = tableFor( p.name, p.attributes );
+					return { path: path, key: '__cell', cell: cellAt, value: tableAd ? cellValue( tableAd, p.attributes, cellAt, p.name ) : '', scope: {} };
+				}
 				var type = blocks.getBlockType( p.name );
 				var list = fieldList( p.name, ( type && type.attributes ) || {}, p.attributes );
 				for ( var i = 0; i < list.length; i++ ) {
@@ -1174,6 +2718,17 @@
 					node.textContent = before;
 					return;
 				}
+				if ( field.cell ) {
+					var lp = latest.current;
+					var cellAd = tableFor( lp.name, lp.attributes );
+					if ( cellAd && text !== cellValue( cellAd, lp.attributes, field.cell, lp.name ) ) {
+						var cellP = cellPatch( cellAd, lp.attributes, field.cell, text, lp.name );
+						if ( cellP ) {
+							lp.setAttributes( cellP );
+						}
+					}
+					return;
+				}
 				var current = getPath( latest.current.attributes, field.path );
 				if ( norm( text ) !== norm( current || '' ) || ( '' === norm( current || '' ) && text !== '' ) ) {
 					latest.current.setAttributes( patchFor( latest.current.attributes, field.path, text ) );
@@ -1181,6 +2736,16 @@
 			}
 
 			function onMouseDown( e ) {
+				// A click in a table selects that cell for the table tools (toolbar button and sidebar panel).
+				var lp = latest.current;
+				var tableAd = lp.onCell ? tableFor( lp.name, lp.attributes ) : null;
+				var at = tableAd ? locateCell( tableAd, host, e.target, lp.attributes ) : null;
+				if ( at ) {
+					lp.onCell( at );
+				}
+				if ( e.button !== 0 ) {
+					return; // a right-click opens the table menu, it does not start typing
+				}
 				var node = e.target.closest && e.target.closest( '[data-ap-path]' );
 				if ( ! node || ! host.contains( node ) ) {
 					return;
@@ -1307,6 +2872,33 @@
 				}
 			}
 
+			/* Right-click on a table cell: the Google Sheets cell menu (TableMenu), at the pointer. */
+			function onContextMenu( e ) {
+				var lp = latest.current;
+				var tableAd = lp.onMenu ? tableFor( lp.name, lp.attributes ) : null;
+				var at = tableAd ? locateCell( tableAd, host, e.target, lp.attributes ) : null;
+				if ( ! at ) {
+					return;
+				}
+				e.preventDefault();
+				var editing = host.querySelector( '[data-ap-editing]' );
+				if ( editing ) {
+					stop( editing, true );
+				}
+				var x = e.clientX;
+				var y = e.clientY;
+				lp.onMenu( {
+					loc: at,
+					anchor: {
+						ownerDocument: doc,
+						getBoundingClientRect: function () {
+							return new ( doc.defaultView || window ).DOMRect( x, y, 0, 0 );
+						},
+					},
+				} );
+			}
+
+			host.addEventListener( 'contextmenu', onContextMenu );
 			host.addEventListener( 'mousedown', onMouseDown, true );
 			host.addEventListener( 'click', onClick, true );
 			host.addEventListener( 'keydown', onKeyDown );
@@ -1318,6 +2910,7 @@
 				( doc.defaultView || window ).cancelAnimationFrame( frame );
 				( doc.defaultView || window ).clearTimeout( settle );
 				host.removeEventListener( 'change', afterInteraction );
+				host.removeEventListener( 'contextmenu', onContextMenu );
 				host.removeEventListener( 'mousedown', onMouseDown, true );
 				host.removeEventListener( 'click', onClick, true );
 				host.removeEventListener( 'keydown', onKeyDown );
@@ -1325,6 +2918,17 @@
 				host.removeEventListener( 'focusout', onFocusOut );
 			};
 		}, [] );
+
+		// The selected table cell keeps its outline when the selection moves without a new preview.
+		var cell = props.cell;
+		useEffect(
+			function () {
+				if ( hostRef.current ) {
+					markSelected( hostRef.current, latest.current );
+				}
+			},
+			[ cell ? cell.t : -2, cell ? cell.r : -2, cell ? cell.c : -2 ]
+		);
 
 		// POST, not GET: a full page section's attributes (7–13 KB of JSON, some of it markup) would
 		// otherwise travel in the URL, where length limits and the host's WAF can turn the preview
@@ -1334,6 +2938,23 @@
 			{ ref: hostRef, className: 'ap-live' },
 			el( ServerSideRender, { block: props.name, attributes: props.attributes, httpMethod: 'POST' } )
 		);
+	}
+
+	/* Outline the table cell the tools act on (editor only). */
+	function markSelected( host, p ) {
+		var on = host.querySelectorAll( '[data-ap-cell-on]' );
+		for ( var i = 0; i < on.length; i++ ) {
+			on[ i ].removeAttribute( 'data-ap-cell-on' );
+		}
+		var ad = p.cell ? tableFor( p.name, p.attributes ) : null;
+		if ( ! ad ) {
+			return;
+		}
+		previewCells( ad, host, p.attributes ).forEach( function ( c ) {
+			if ( c.t === p.cell.t && c.r === p.cell.r && c.c === p.cell.c ) {
+				c.node.setAttribute( 'data-ap-cell-on', '' );
+			}
+		} );
 	}
 
 	/* The site header and footer: no in-place editing (LIVE_OFF), but still styled as on the page. */
@@ -1557,6 +3178,7 @@
 	 */
 	function repeater( blockName, key, rows, setRows, open ) {
 		var shape = ROWS[ blockName + '.' + key ] || [ 'title', 'body' ];
+		var fixed = !! FIXED_ROWS[ blockName + '.' + key ];
 
 		function update( index, field, value ) {
 			// Never mutate in place — React needs a new reference to re-render.
@@ -1604,7 +3226,9 @@
 						},
 					},
 					el( 'strong', null, labelFor( key, blockName ) + ' ' + ( index + 1 ) ),
-					el(
+					fixed
+						? null
+						: el(
 						'div',
 						null,
 						el( Button, {
@@ -1653,8 +3277,17 @@
 		return el(
 			PanelBody,
 			{ key: key, title: labelFor( key, blockName ), initialOpen: open !== false },
+			fixed
+				? el(
+						'p',
+						{ style: { margin: '0 0 12px', color: '#50575e' } },
+						__( 'These are table columns: add, remove and place them with the table button in the block toolbar (or the Table panel above), which keeps every row in step.', 'assetpanda' )
+				  )
+				: null,
 			cards,
-			el(
+			fixed
+				? null
+				: el(
 				Button,
 				{
 					variant: 'primary',
@@ -1680,6 +3313,18 @@
 
 		var live = ! LIVE_OFF[ name ];
 		var arrayPanels = [];
+
+		// Tables: the cell the table tools act on (set by a click in the preview), while it still exists.
+		var selState = useState( null );
+		var menuState = useState( null );
+		var table = live ? tableFor( name, attributes ) : null;
+		var sel = selState[ 0 ];
+		if ( sel && table ) {
+			var tm = tCall( table, 'model', [ attributes, sel.t ], name );
+			if ( sel.r >= tm.rows || sel.c >= tm.cols ) {
+				sel = null;
+			}
+		}
 		var optionFields = [];
 		var scalarFields = [];
 
@@ -1739,6 +3384,21 @@
 			Fragment,
 			null,
 			live ? linksControl( name, schema, attributes, setAttributes ) : null,
+			table ? tableToolbar( table, name, attributes, sel, setAttributes, selState[ 1 ] ) : null,
+			table && menuState[ 0 ] && props.isSelected
+				? el( TableMenu, {
+						ad: table,
+						name: name,
+						a: attributes,
+						sel: menuState[ 0 ].loc,
+						anchor: menuState[ 0 ].anchor,
+						setAttributes: setAttributes,
+						setSel: selState[ 1 ],
+						onClose: function () {
+							menuState[ 1 ]( null );
+						},
+				  } )
+				: null,
 			el(
 				InspectorControls,
 				null,
@@ -1756,6 +3416,7 @@
 							)
 					  )
 					: null,
+				table ? tablePanel( table, name, attributes, sel, setAttributes, selState[ 1 ] ) : null,
 				optionFields.length
 					? el( PanelBody, { title: __( 'Options', 'assetpanda' ), initialOpen: true }, optionFields )
 					: null,
@@ -1768,7 +3429,20 @@
 				'div',
 				blockEditor.useBlockProps(),
 				live
-					? el( LivePreview, { name: name, clientId: props.clientId, attributes: attributes, setAttributes: setAttributes } )
+					? el( LivePreview, {
+							name: name,
+							clientId: props.clientId,
+							attributes: attributes,
+							setAttributes: setAttributes,
+							cell: table && props.isSelected ? sel : null,
+							onCell: table ? selState[ 1 ] : null,
+							onMenu: table
+								? function ( m ) {
+										selState[ 1 ]( m.loc );
+										menuState[ 1 ]( m );
+								  }
+								: null,
+					  } )
 					: el( StyledPreview, { name: name, attributes: attributes } )
 			)
 		);

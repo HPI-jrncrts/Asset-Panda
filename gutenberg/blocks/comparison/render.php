@@ -31,6 +31,7 @@ $props = array(
 	'pillar_title'        => $attributes['pillar_title'] ?? 'Value Pillar',
 	'after_title'         => $attributes['after_title'] ?? 'Asset Panda (Powered by UrsaAI)',
 	'before_title'        => $attributes['before_title'] ?? 'Spreadsheets & Siloed Tools',
+	'extra_columns'       => $attributes['extra_columns'] ?? array(),
 	'vs_label'            => $attributes['vs_label'] ?? '',
 	'rows'                => $attributes['rows'] ?? array(),
 	'winner_title'        => $attributes['winner_title'] ?? 'Winner',

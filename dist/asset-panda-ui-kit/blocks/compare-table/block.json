@@ -5,7 +5,7 @@
 	"title": "AP Compare Table",
 	"category": "design",
 	"icon": "block-default",
-	"description": "Comparison-guide table for the resource-center articles (Asset Panda vs X): a criterion column with small icons, the Asset Panda column under an indigo header with the wordmark, the competitor column under a grey header with its mark, and a Winner column of pills (Asset Panda amber, Tie indigo, the competitor grey), with an optional footnote. Figma: Website Design 2026 > Blog > Compare article (7219:87997). This block is an adapter — it holds no markup; it maps attributes to kit props.",
+	"description": "Comparison-guide table for the resource-center articles (Asset Panda vs X): a criterion column with small icons, the Asset Panda column under an indigo header with the wordmark, the competitor column under a grey header with its mark (more competitor columns optional), and a Winner column of pills (Asset Panda amber, Tie indigo, the competitor grey), with an optional footnote. Figma: Website Design 2026 > Blog > Compare article (7219:87997). This block is an adapter — it holds no markup; it maps attributes to kit props.",
 	"textdomain": "assetpanda",
 	"attributes": {
 		"label_title": {
@@ -32,9 +32,17 @@
 			"type": "string",
 			"default": ""
 		},
+		"extra_columns": {
+			"type": "array",
+			"default": []
+		},
 		"winner_title": {
 			"type": "string",
 			"default": "Winner"
+		},
+		"winner_column": {
+			"type": "boolean",
+			"default": true
 		},
 		"rows": {
 			"type": "array",

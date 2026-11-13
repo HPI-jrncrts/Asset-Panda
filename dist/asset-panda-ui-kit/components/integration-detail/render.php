@@ -146,7 +146,10 @@ foreach ( is_array( $raw_c ) ? $raw_c : array() as $c ) {
 	$d_cols[] = is_scalar( $c ) ? trim( (string) $c ) : '';
 }
 $raw_r = $dat['rows'] ?? array();
-foreach ( is_array( $raw_r ) ? $raw_r : array() as $row ) {
+// The editor's live preview keeps an empty row (just added, not typed into yet) and knows each row's index.
+$d_edit  = ap_ui_editor_preview();
+$d_index = array();
+foreach ( is_array( $raw_r ) ? $raw_r : array() as $r_index => $row ) {
 	if ( ! is_array( $row ) ) {
 		continue;
 	}
@@ -154,8 +157,9 @@ foreach ( is_array( $raw_r ) ? $raw_r : array() as $row ) {
 	foreach ( array_values( $row ) as $cell ) {
 		$cells[] = is_scalar( $cell ) ? trim( (string) $cell ) : '';
 	}
-	if ( '' !== implode( '', $cells ) ) {
-		$d_rows[] = $cells;
+	if ( '' !== implode( '', $cells ) || $d_edit ) {
+		$d_rows[]  = $cells;
+		$d_index[] = (int) $r_index;
 	}
 }
 // The table is as wide as its widest row (or its header); short rows are padded.
@@ -171,6 +175,7 @@ if ( $d_rows || '' !== $ap_idet_str( $dat, 'title' ) ) {
 		'data'  => $dat,
 		'cols'  => array_pad( $d_cols, $d_width, '' ),
 		'rows'  => $d_rows,
+		'index' => $d_index,
 		'width' => $d_width,
 	);
 }
@@ -449,7 +454,7 @@ $nav_tones = array(
 						<?php if ( 'data' === $part['key'] && $part['rows'] ) : ?>
 							<?php
 							$t_label = '' !== $p_head ? $p_head : ( '' !== $p_eye ? $p_eye : $part['label'] );
-							$t_has_h = '' !== implode( '', $part['cols'] );
+							$t_has_h = '' !== implode( '', $part['cols'] ) || $d_edit; // the editor shows the header row to type into
 							$t_cmp   = 'compare' === $ap_idet_str( $part['data'], 'style' );
 							// The compare-table check (green disc, white tick) before each cell of the first value column.
 							$t_check = '<svg class="ap-integration-detail__check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="8" fill="#00A991"/><path d="M4.8 8.2l2.1 2.1 4.3-4.6" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -466,8 +471,8 @@ $nav_tones = array(
 										</thead>
 									<?php endif; ?>
 									<tbody>
-										<?php foreach ( $part['rows'] as $cells ) : ?>
-											<tr>
+										<?php foreach ( $part['rows'] as $r_pos => $cells ) : ?>
+											<tr<?php echo $d_edit ? ' data-ap-row="' . (int) $part['index'][ $r_pos ] . '"' : ''; ?>>
 												<?php foreach ( array_pad( $cells, $part['width'], '' ) as $c => $cell ) : ?>
 													<?php if ( 0 === $c ) : ?>
 														<th scope="row"><?php echo $ap_idet_text( $cell ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped by ap_ui_lines(). ?></th>

@@ -127,6 +127,10 @@ foreach ( is_array( $props['items'] ) ? $props['items'] : array() as $item ) {
 		'tag'    => trim( (string) ( $item['tag'] ?? '' ) ),
 		'desc'   => trim( (string) ( $item['description'] ?? '' ) ),
 		'groups' => array_keys( $groups ),
+		// A card that is a post (the Compare hub's guides): "Published: / Updated On:" and its date, from the adapter.
+		'date'   => trim( (string) ( $item['date'] ?? '' ) ),
+		'iso'    => trim( (string) ( $item['date_iso'] ?? '' ) ),
+		'dlabel' => trim( (string) ( $item['date_label'] ?? '' ) ),
 	);
 }
 if ( empty( $items ) ) {
@@ -275,6 +279,9 @@ if ( '' !== $placeholder ) {
 										<?php echo $compare ? ap_ui_lines( $item['name'] ) : esc_html( $item['name'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped (ap_ui_lines() adds only <br>). ?>
 									<?php endif; ?>
 								</h3>
+								<?php if ( '' !== $item['date'] ) : ?>
+									<p class="ap-integration-directory__dated"><?php echo '' !== $item['dlabel'] ? esc_html( $item['dlabel'] ) . ' ' : ''; ?><time<?php echo '' !== $item['iso'] ? ' datetime="' . esc_attr( $item['iso'] ) . '"' : ''; ?>><?php echo esc_html( $item['date'] ); ?></time></p>
+								<?php endif; ?>
 								<?php if ( '' !== $item['tag'] ) : ?>
 									<p class="ap-integration-directory__tag" data-ap-intdir-text><?php echo esc_html( $item['tag'] ); ?></p>
 								<?php endif; ?>

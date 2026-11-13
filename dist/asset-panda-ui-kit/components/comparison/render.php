@@ -9,6 +9,16 @@
  * row; the Asset Intelligence Platform page sets a "Connected by design" card
  * under the table instead.
  *
+ * More columns (extra_columns, each row's extra[] cells) follow the muted right
+ * column and look like it (--multi): the columns then share the width, keeping
+ * their 347 : 427 : 347 proportions. On the stacked layout every competitor cell
+ * is then captioned with its column's heading.
+ *
+ * In the editor's live preview (ap_ui_editor_preview()) a row with empty cells is
+ * kept and carries data-ap-row (its index in rows), and the pillar and centre
+ * heading texts sit in their own spans, so a row or column just added in the
+ * editor shows and can be typed into.
+ *
  * @var array $props Validated props.
  */
 
@@ -16,14 +26,37 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$rows = array_values(
-	array_filter(
-		is_array( $props['rows'] ) ? $props['rows'] : array(),
-		static function ( $r ) {
-			return is_array( $r ) && ! empty( $r['pillar'] ) && ! empty( $r['after'] ) && ! empty( $r['before'] );
-		}
-	)
-);
+$editing = ap_ui_editor_preview();
+
+// More columns after the muted right one.
+$extras = array();
+foreach ( is_array( $props['extra_columns'] ) ? $props['extra_columns'] : array() as $col ) {
+	$extras[] = trim( (string) ( is_array( $col ) ? ( $col['title'] ?? '' ) : ( is_scalar( $col ) ? $col : '' ) ) );
+}
+$n_extra = count( $extras );
+
+$rows = array();
+foreach ( is_array( $props['rows'] ) ? $props['rows'] : array() as $index => $r ) {
+	if ( ! is_array( $r ) || ( ! $editing && ( empty( $r['pillar'] ) || empty( $r['after'] ) || empty( $r['before'] ) ) ) ) {
+		continue;
+	}
+	$cells = array();
+	$raw_x = is_array( $r['extra'] ?? null ) ? array_values( $r['extra'] ) : array();
+	for ( $x = 0; $x < $n_extra; $x++ ) {
+		$cell    = $raw_x[ $x ] ?? '';
+		$cells[] = trim( (string) ( is_array( $cell ) ? ( $cell['text'] ?? '' ) : ( is_scalar( $cell ) ? $cell : '' ) ) );
+	}
+	$rows[] = array_merge(
+		$r,
+		array(
+			'pillar' => (string) ( $r['pillar'] ?? '' ),
+			'after'  => (string) ( $r['after'] ?? '' ),
+			'before' => (string) ( $r['before'] ?? '' ),
+			'extra'  => $cells,
+			'index'  => (int) $index,
+		)
+	);
+}
 
 $lines = array_values(
 	array_filter(
@@ -57,7 +90,8 @@ $accent   = trim( (string) $props['title_accent'] );
 $eyebrow  = trim( (string) $props['eyebrow'] );
 $intro    = trim( (string) $props['intro'] );
 $before   = trim( (string) $props['before_title'] );
-$vs       = '' !== trim( (string) $props['vs_label'] ) ? (string) $props['vs_label'] : ' vs. ' . $before;
+// The stacked header's " vs. …" names every competitor column.
+$vs       = '' !== trim( (string) $props['vs_label'] ) ? (string) $props['vs_label'] : ' vs. ' . implode( ', ', array_filter( array_merge( array( $before ), $extras ), 'strlen' ) );
 $label    = '' !== trim( (string) $props['table_label'] ) ? $props['table_label'] : implode( ' ', $lines );
 $has_cta  = '' !== trim( (string) $props['cta_label'] ) && '' !== trim( (string) $props['cta_url'] );
 $has_link = '' !== trim( (string) $props['link_label'] ) && '' !== trim( (string) $props['link_url'] );
@@ -66,13 +100,27 @@ $last     = count( $rows ) - 1;
 $asset    = static function ( $f ) {
 	return esc_url( ap_ui_asset_url( 'comparison', $f ) );
 };
+// Grid hints: the row count (the CTA row sits under the last row) and, with more columns, their count and where
+// the centre column's panel starts and how wide it is (347 : 427 : 347 … proportions).
+$n_comp    = 1 + $n_extra;
+$grid_vars = '--ap-compare-rows:' . (int) count( $rows );
+if ( $n_extra ) {
+	$total      = 347 + 427 + 347 * $n_comp;
+	$total_m    = 31 + 38 + 31 * $n_comp;
+	$grid_vars .= ';--ap-compare-cols:' . (int) $n_comp
+		. ';--ap-compare-a-left:' . round( 347 / $total * 100, 4 ) . '%;--ap-compare-a-w:' . round( 427 / $total * 100, 4 ) . '%'
+		. ';--ap-compare-a-left-m:' . round( 31 / $total_m * 100, 4 ) . '%;--ap-compare-a-w-m:' . round( 38 / $total_m * 100, 4 ) . '%';
+}
+$cap = static function ( $name ) use ( $n_extra ) {
+	return $n_extra ? '<span class="ap-compare-col">' . esc_html( $name ) . '</span>' : '';
+};
 $dims     = static function ( $w, $h ) {
 	$w = (int) $w;
 	$h = (int) $h;
 	return ( $w > 0 && $h > 0 && $w < 10000 && $h < 10000 ) ? ' width="' . $w . '" height="' . $h . '"' : '';
 };
 ?>
-<section class="ap-compare ap-compare--<?php echo esc_attr( $variant ); ?>">
+<section class="ap-compare ap-compare--<?php echo esc_attr( $variant ); ?><?php echo $n_extra ? ' ap-compare--multi' : ''; ?>">
 	<div class="ap-compare-inner">
 		<div class="ap-compare-heading">
 			<?php if ( '' !== $eyebrow ) : ?>
@@ -88,7 +136,7 @@ $dims     = static function ( $w, $h ) {
 			<?php endif; ?>
 		</div>
 
-		<div class="ap-compare-table" role="table" aria-label="<?php echo esc_attr( $label ); ?>"<?php echo $is_guide ? ' style="--ap-compare-rows:' . (int) count( $rows ) . '"' : ''; ?>>
+		<div class="ap-compare-table" role="table" aria-label="<?php echo esc_attr( $label ); ?>" style="<?php echo esc_attr( $grid_vars ); ?>">
 			<div class="ap-cell ap-left-spacer" aria-hidden="true"></div>
 			<div class="ap-cell ap-center-top" aria-hidden="true">
 				<?php if ( '' !== trim( (string) $props['banner'] ) ) : ?>
@@ -100,20 +148,33 @@ $dims     = static function ( $w, $h ) {
 			</div>
 			<div role="row" style="display:contents">
 				<div class="ap-cell ap-left-title" role="columnheader"><?php echo esc_html( $props['pillar_title'] ); ?></div>
-				<div class="ap-cell ap-center-title" role="columnheader"><?php echo ap_ui_brandmarks( esc_html( $props['after_title'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; brandmarks adds a fixed span. ?><span class="ap-compare-vs" aria-hidden="true"><?php echo esc_html( $vs ); ?></span></div>
-				<div class="ap-cell ap-right-title" role="columnheader"><?php echo esc_html( $before ); ?></div>
+				<div class="ap-cell ap-center-title" role="columnheader"><?php echo $editing ? '<span class="ap-compare-t">' : ''; ?><?php echo ap_ui_brandmarks( esc_html( $props['after_title'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; brandmarks adds a fixed span. ?><?php echo $editing ? '</span>' : ''; ?><span class="ap-compare-vs" aria-hidden="true"><?php echo esc_html( $vs ); ?></span></div>
+				<div class="ap-cell ap-right-title<?php echo $n_extra ? '' : ' is-last'; ?>" role="columnheader"><?php echo esc_html( $before ); ?></div>
+				<?php foreach ( $extras as $x => $title ) : ?>
+					<div class="ap-cell ap-right-title ap-extra-title<?php echo $x === $n_extra - 1 ? ' is-last' : ''; ?>" role="columnheader" data-ap-x="<?php echo (int) $x; ?>"><?php echo esc_html( $title ); ?></div>
+				<?php endforeach; ?>
 			</div>
 			<?php foreach ( $rows as $i => $row ) : ?>
-				<div role="row" style="display:contents">
-					<div class="ap-cell ap-left-label" role="rowheader"><?php echo esc_html( $row['pillar'] ); ?> <?php if ( $is_guide && '' !== $win_tone( $row['winner'] ?? '' ) ) : ?><span class="ap-compare-winner ap-compare-winner--<?php echo esc_attr( $win_tone( $row['winner'] ) ); ?>"><?php if ( '' !== $win_k && 'tie' !== $win_tone( $row['winner'] ) ) : ?><span class="ap-compare-winner__k"><?php echo esc_html( $win_k ); ?></span><?php endif; ?><?php echo esc_html( $row['winner'] ); ?></span><?php endif; ?></div>
+				<div role="row" style="display:contents"<?php echo $editing ? ' data-ap-row="' . (int) $row['index'] . '"' : ''; ?>>
+					<div class="ap-cell ap-left-label" role="rowheader"><?php echo $editing ? '<span class="ap-compare-t">' . esc_html( $row['pillar'] ) . '</span>' : esc_html( $row['pillar'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped. ?> <?php if ( $is_guide && '' !== $win_tone( $row['winner'] ?? '' ) ) : ?><span class="ap-compare-winner ap-compare-winner--<?php echo esc_attr( $win_tone( $row['winner'] ) ); ?>"><?php if ( '' !== $win_k && 'tie' !== $win_tone( $row['winner'] ) ) : ?><span class="ap-compare-winner__k"><?php echo esc_html( $win_k ); ?></span><?php endif; ?><?php echo esc_html( $row['winner'] ); ?></span><?php endif; ?></div>
 					<div role="cell" class="ap-cell ap-center-copy<?php echo ( ( 'platform' === $variant || ( $is_guide && ! $has_cta && ! $has_link ) ) && $i === $last ) ? ' ap-center-copy-end' : ''; ?>">
 						<img decoding="async" class="ap-panda-mini-img" src="<?php echo $asset( 'compare-panda.svg' ); // phpcs:ignore WordPress.Security.EscapeOutput -- esc_url in the helper. ?>" alt="" loading="lazy" />
 						<p><?php echo ap_ui_brandmarks( esc_html( $row['after'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped; brandmarks adds a fixed span. ?></p>
 					</div>
-					<div role="cell" class="ap-cell ap-right-copy<?php echo $i === $last ? ' ap-right-copy-end' : ''; ?>">
+					<div role="cell" class="ap-cell ap-right-copy<?php echo $i === $last ? ' ap-right-copy-end' : ''; ?><?php echo $n_extra ? '' : ' is-last'; ?>">
 						<img decoding="async" class="ap-table-mini-img" src="<?php echo $asset( 'compare-table.svg' ); // phpcs:ignore WordPress.Security.EscapeOutput -- esc_url in the helper. ?>" alt="" loading="lazy" />
-						<p><?php echo esc_html( $row['before'] ); ?></p>
+						<?php if ( $n_extra ) : ?>
+							<p><?php echo $cap( $before ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in $cap. ?><span class="ap-compare-txt"><?php echo esc_html( $row['before'] ); ?></span></p>
+						<?php else : ?>
+							<p><?php echo esc_html( $row['before'] ); ?></p>
+						<?php endif; ?>
 					</div>
+					<?php foreach ( $row['extra'] as $x => $text ) : ?>
+						<div role="cell" class="ap-cell ap-right-copy ap-extra-copy<?php echo $i === $last ? ' ap-right-copy-end' : ''; ?><?php echo $x === $n_extra - 1 ? ' is-last' : ''; ?>" data-ap-x="<?php echo (int) $x; ?>">
+							<img decoding="async" class="ap-table-mini-img" src="<?php echo $asset( 'compare-table.svg' ); // phpcs:ignore WordPress.Security.EscapeOutput -- esc_url in the helper. ?>" alt="" loading="lazy" />
+							<p><?php echo $cap( $extras[ $x ] ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in $cap. ?><span class="ap-compare-txt"><?php echo esc_html( $text ); ?></span></p>
+						</div>
+					<?php endforeach; ?>
 				</div>
 			<?php endforeach; ?>
 			<?php if ( $has_cta || $has_link ) : ?>

@@ -21,13 +21,17 @@ $ap_key = static function ( $name ) {
 	return trim( preg_replace( '/[^a-z0-9]+/', '-', strtolower( trim( (string) $name ) ) ), '-' );
 };
 
+// The editor's live preview keeps a plan (column) or row just added, before it has a name, and marks each row
+// with its index in rows (data-ap-row) for the editor's table tools.
+$editing = ap_ui_editor_preview();
+
 $plans = array();
 foreach ( is_array( $props['plans'] ) ? $props['plans'] : array() as $row ) {
 	if ( ! is_array( $row ) ) {
 		continue;
 	}
 	$name = trim( (string) ( $row['name'] ?? '' ) );
-	if ( '' === $name ) {
+	if ( '' === $name && ! $editing ) {
 		continue;
 	}
 	// accent: a named colour from a fixed palette (never raw CSS).
@@ -48,12 +52,12 @@ if ( '' === $title || empty( $plans ) ) {
 $count = count( $plans );
 $kinds = array( 'top', 'group', 'sub', 'sub2' );
 $rows  = array();
-foreach ( is_array( $props['rows'] ) ? $props['rows'] : array() as $row ) {
+foreach ( is_array( $props['rows'] ) ? $props['rows'] : array() as $r_index => $row ) {
 	if ( ! is_array( $row ) ) {
 		continue;
 	}
 	$label = trim( (string) ( $row['label'] ?? '' ) );
-	if ( '' === $label ) {
+	if ( '' === $label && ! $editing ) {
 		continue;
 	}
 	$kind   = in_array( $row['kind'] ?? '', $kinds, true ) ? $row['kind'] : 'top';
@@ -68,6 +72,7 @@ foreach ( is_array( $props['rows'] ) ? $props['rows'] : array() as $row ) {
 		array_values( $values )
 	);
 	$rows[] = array(
+		'index'  => (int) $r_index,
 		'label'  => $label,
 		'hint'   => trim( (string) ( $row['hint'] ?? '' ) ),
 		'kind'   => $kind,
@@ -180,13 +185,13 @@ $ap_cell = static function ( $value ) use ( $included, $excluded ) {
 				<tbody>
 					<?php foreach ( $rows as $row ) : ?>
 						<?php if ( 'group' === $row['kind'] ) : ?>
-							<tr class="is-group">
+							<tr class="is-group"<?php echo $editing ? ' data-ap-row="' . (int) $row['index'] . '"' : ''; ?>>
 								<th scope="colgroup" colspan="<?php echo (int) ( $count + 1 ); ?>"><span><?php echo esc_html( $row['label'] ); ?></span></th>
 							</tr>
 						<?php else : ?>
-							<tr class="is-<?php echo esc_attr( $row['kind'] ); ?>">
+							<tr class="is-<?php echo esc_attr( $row['kind'] ); ?>"<?php echo $editing ? ' data-ap-row="' . (int) $row['index'] . '"' : ''; ?>>
 								<th scope="row" class="ap-plans-compare__rh">
-									<?php echo esc_html( $row['label'] ); ?>
+									<?php echo $editing ? '<span class="ap-plans-compare__lt">' . esc_html( $row['label'] ) . '</span>' : esc_html( $row['label'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped. ?>
 									<?php if ( '' !== $row['hint'] ) : ?>
 										<span class="ap-plans-compare__hint"><?php echo esc_html( $row['hint'] ); ?></span>
 									<?php endif; ?>

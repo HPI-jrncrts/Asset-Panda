@@ -1070,3 +1070,14 @@
 @media (prefers-reduced-motion: reduce) {
 	.ap-integration-directory:not(.ap-integration-directory--compare) .ap-integration-directory__card:hover { translate: 0 0; }
 }
+
+/* A card that is a post (the Compare hub's guides): "Published: / Updated On:" and its date, italic and grey,
+   under the name — the same line as the Resource Center cards (resource-cards__dated). */
+.ap-integration-directory .ap-integration-directory__dated {
+	margin: 6px 0 0;
+	font-size: 13px;
+	font-style: italic;
+	font-weight: var(--ap-weight-body);
+	line-height: 1.4;
+	color: var(--ap-slate-500);
+}

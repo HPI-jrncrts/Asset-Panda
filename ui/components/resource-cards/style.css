@@ -569,3 +569,22 @@ a.ap-resource-cards__step:hover {
 		animation: none;
 	}
 }
+
+/* The labelled date ("Published: …" / "Updated On: …") on its own line under the title: italic, grey. */
+.ap-resource-cards__dated {
+	margin: -2px 0 10px;
+	color: var(--ap-slate-500);
+	font-size: 13px;
+	font-style: italic;
+	line-height: 1.4;
+}
+
+.ap-resource-cards__dated .ap-resource-cards__date {
+	padding-left: 0;
+	color: inherit;
+	font-weight: inherit;
+}
+
+.ap-resource-cards__dated .ap-resource-cards__date::before {
+	content: none;
+}

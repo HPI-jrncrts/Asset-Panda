@@ -49,6 +49,10 @@
 			"type": "string",
 			"default": "Spreadsheets & Siloed Tools"
 		},
+		"extra_columns": {
+			"type": "array",
+			"default": []
+		},
 		"vs_label": {
 			"type": "string",
 			"default": ""
