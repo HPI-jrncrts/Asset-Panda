@@ -384,6 +384,10 @@ function ap_content_rest_set_modified( $value, $post ) {
 		array( 'ID' => $post->ID )
 	);
 	update_post_meta( $post->ID, '_ap_source_modified_gmt', $gmt );
+	// A text change this save recorded (dates.php) is dated by the source's modified time too.
+	if ( ! empty( $GLOBALS['ap_content_text_touched'][ $post->ID ] ) && defined( 'AP_CONTENT_TEXT_UPDATED_META' ) ) {
+		update_post_meta( $post->ID, AP_CONTENT_TEXT_UPDATED_META, $gmt );
+	}
 	clean_post_cache( $post->ID );
 	$post->post_modified     = $local;
 	$post->post_modified_gmt = $gmt;

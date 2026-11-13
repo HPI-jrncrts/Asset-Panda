@@ -567,10 +567,14 @@ function ap_content_post_primary_category( $post ) {
 /**
  * resource-cards item for a post.
  *
- * @param WP_Post $post Post.
+ * 1.3.28: with $dated (the listings) every card shows "Published: <date>" / "Updated On: <date>" (dates.php); press
+ * releases show it everywhere, as their plain date before.
+ *
+ * @param WP_Post $post  Post.
+ * @param bool    $dated Show the date on a resource card too.
  * @return array
  */
-function ap_content_card_props( $post ) {
+function ap_content_card_props( $post, $dated = false ) {
 	list( $label, $label_url ) = ap_content_post_type_label( $post );
 	$img                       = ap_content_post_image( $post->ID, 'large' );
 	$cat                       = ap_content_post_primary_category( $post );
@@ -589,7 +593,11 @@ function ap_content_card_props( $post ) {
 		$item['category']     = $cat['label'];
 		$item['category_url'] = $cat['url'];
 	}
-	if ( 'newsroom' === $post->post_type ) {
+	if ( ap_content_kit_has_date_label() ) {
+		if ( $dated || 'newsroom' === $post->post_type ) {
+			$item = array_merge( $item, ap_content_date_props( $post ) );
+		}
+	} elseif ( 'newsroom' === $post->post_type ) {
 		$item['date']     = get_the_date( 'F j, Y', $post );
 		$item['date_iso'] = get_the_date( 'Y-m-d', $post );
 	}
@@ -697,7 +705,7 @@ function ap_content_render_hub_grid() {
 	$items = array();
 	foreach ( (array) $wp_query->posts as $post ) {
 		if ( $post instanceof WP_Post ) {
-			$items[] = ap_content_card_props( $post );
+			$items[] = ap_content_card_props( $post, true );
 		}
 	}
 	$pages = ap_content_listing_pages();
@@ -876,7 +884,10 @@ function ap_content_render_single_header() {
 		'share_url'   => (string) get_permalink( $post ),
 		'share_title' => $title,
 	);
-	if ( 'newsroom' === $post->post_type ) {
+	if ( ap_content_kit_has_date_label() && in_array( $post->post_type, ap_content_dated_types(), true ) ) {
+		// 1.3.28: "Published: <date>" / "Updated On: <date>" under the title on every resource and press release.
+		$props = array_merge( $props, ap_content_date_props( $post ) );
+	} elseif ( 'newsroom' === $post->post_type ) {
 		$props['date']     = get_the_date( 'F j, Y', $post );
 		$props['date_iso'] = get_the_date( 'Y-m-d', $post );
 	}
