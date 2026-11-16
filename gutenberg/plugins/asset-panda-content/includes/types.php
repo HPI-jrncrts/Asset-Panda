@@ -323,6 +323,25 @@ function ap_content_listing_redirects() {
 	return (array) apply_filters( 'ap_content_listing_redirects', array( 'compare' => 'compare' ) );
 }
 
+/**
+ * Where a Resource Type listing 301s (Compare → /compare/ once that page is published), or '' when the listing is
+ * served at its own address. Shared by the redirect and the sitemap.
+ *
+ * @param WP_Term $term Resource Type.
+ * @return string
+ */
+function ap_content_type_redirect_url( $term ) {
+	if ( ! $term instanceof WP_Term || 'resource-types' !== $term->taxonomy ) {
+		return '';
+	}
+	$redirects = ap_content_listing_redirects();
+	if ( ! isset( $redirects[ $term->slug ] ) ) {
+		return '';
+	}
+	$target = ap_content_type_url( $term );
+	return ( $target && false === strpos( $target, '/resource-center/' . $term->slug . '/' ) ) ? $target : '';
+}
+
 add_action(
 	'template_redirect',
 	function () {
@@ -354,14 +373,10 @@ add_action(
 
 			// A listing live sends elsewhere (Compare → /compare/).
 			if ( is_tax( 'resource-types' ) ) {
-				$term      = get_queried_object();
-				$redirects = ap_content_listing_redirects();
-				if ( $term instanceof WP_Term && isset( $redirects[ $term->slug ] ) ) {
-					$target = ap_content_type_url( $term );
-					if ( $target && false === strpos( $target, '/resource-center/' . $term->slug . '/' ) ) {
-						wp_safe_redirect( $target, 301, 'Asset Panda Content' );
-						exit;
-					}
+				$target = ap_content_type_redirect_url( get_queried_object() );
+				if ( '' !== $target ) {
+					wp_safe_redirect( $target, 301, 'Asset Panda Content' );
+					exit;
 				}
 				return;
 			}

@@ -1119,10 +1119,105 @@ add_filter(
 
 /* ── Old category addresses ──────────────────────────────────────────── */
 
+/**
+ * Categories that hold a published core post, directly or through a child category (term id => true). WordPress
+ * lists a category archive with its children's posts, so a parent counts when a child has one. One query, kept
+ * until a post or term changes.
+ *
+ * @return array<int, bool>
+ */
+function ap_content_categories_with_posts() {
+	static $memo = null;
+	$key = 'cats_with_posts:' . wp_cache_get_last_changed( 'posts' ) . ':' . wp_cache_get_last_changed( 'terms' );
+	if ( is_array( $memo ) && $memo['key'] === $key ) {
+		return $memo['ids'];
+	}
+	$ids = wp_cache_get( $key, 'ap_content' );
+	if ( ! is_array( $ids ) ) {
+		global $wpdb;
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$rows = $wpdb->get_col(
+			"SELECT DISTINCT tt.term_id FROM {$wpdb->term_taxonomy} tt
+			JOIN {$wpdb->term_relationships} tr ON tr.term_taxonomy_id = tt.term_taxonomy_id
+			JOIN {$wpdb->posts} p ON p.ID = tr.object_id
+			WHERE tt.taxonomy = 'category' AND p.post_type = 'post' AND p.post_status = 'publish'"
+		);
+		$ids = array();
+		foreach ( (array) $rows as $id ) {
+			$ids[ (int) $id ] = true;
+			foreach ( get_ancestors( (int) $id, 'category', 'taxonomy' ) as $parent ) {
+				$ids[ (int) $parent ] = true;
+			}
+		}
+		wp_cache_set( $key, $ids, 'ap_content', HOUR_IN_SECONDS );
+	}
+	$memo = array(
+		'key' => $key,
+		'ids' => $ids,
+	);
+	return $ids;
+}
+
+/**
+ * Where a category's own archive (/category/<topic>/) sends visitors: the blog's topic tab when the category holds
+ * blog resources and no published core post (the import's pages linked to the category archives; live has no such
+ * addresses), else ''. The one answer for the redirect, for links that name a category, and for the sitemap.
+ *
+ * @param WP_Term|int $term Category.
+ * @return string
+ */
+function ap_content_category_redirect_url( $term ) {
+	if ( ! $term instanceof WP_Term ) {
+		$term = get_term( (int) $term, 'category' );
+	}
+	if ( ! $term instanceof WP_Term || 'category' !== $term->taxonomy ) {
+		return '';
+	}
+	$counts = ap_content_listing_counts();
+	if ( empty( $counts[ 'category|' . $term->slug . '|blog' ] ) ) {
+		return '';
+	}
+	$core = ap_content_categories_with_posts();
+	if ( isset( $core[ (int) $term->term_id ] ) ) {
+		return '';
+	}
+	return ap_content_term_filter_url( 'category', $term->slug );
+}
+
+/**
+ * A link to a category: straight to its blog topic tab when its archive redirects there (no extra hop), else its
+ * archive.
+ *
+ * @param WP_Term|int $term Category.
+ * @return string
+ */
+function ap_content_category_link( $term ) {
+	$url = ap_content_category_redirect_url( $term );
+	return '' !== $url ? $url : (string) get_category_link( $term );
+}
+
+/*
+ * Every link to a category whose archive redirects goes straight to its topic tab, whoever prints it (the blog
+ * templates snippet's search-result cards call get_category_link(), so do Yoast's breadcrumbs): one hop less. The
+ * archive address itself still redirects below.
+ */
+add_filter(
+	'category_link',
+	function ( $link, $term_id = 0 ) {
+		try {
+			$url = ap_content_category_redirect_url( (int) $term_id );
+			return '' !== $url ? $url : $link;
+		} catch ( \Throwable $e ) {
+			return $link;
+		}
+	},
+	10,
+	2
+);
+
 /*
  * /category/<topic>/ (WordPress's own category archive) → the blog's topic tab, when the
- * category holds blog resources and no published core post (the import's pages linked to the
- * category archives; live has no such addresses).
+ * category holds blog resources and no published core post.
  */
 add_action(
 	'template_redirect',
@@ -1131,28 +1226,10 @@ add_action(
 			return;
 		}
 		try {
-			$term = get_queried_object();
-			if ( ! $term instanceof WP_Term ) {
+			$url = ap_content_category_redirect_url( get_queried_object() );
+			if ( '' === $url ) {
 				return;
 			}
-			$counts = ap_content_listing_counts();
-			if ( empty( $counts[ 'category|' . $term->slug . '|blog' ] ) ) {
-				return;
-			}
-			$core = get_posts(
-				array(
-					'post_type'      => 'post',
-					'post_status'    => 'publish',
-					'cat'            => (int) $term->term_id,
-					'posts_per_page' => 1,
-					'fields'         => 'ids',
-					'no_found_rows'  => true,
-				)
-			);
-			if ( $core ) {
-				return;
-			}
-			$url   = ap_content_term_filter_url( 'category', $term->slug );
 			$paged = (int) get_query_var( 'paged' );
 			if ( $paged > 1 ) {
 				$url .= 'page/' . $paged . '/';
@@ -1164,6 +1241,33 @@ add_action(
 		}
 	},
 	2
+);
+
+/*
+ * Yoast's sitemaps list term archives by their own address. The ones this plugin 301s elsewhere (a category with a
+ * blog topic tab, the Compare type listing → /compare/) are left out: a sitemap names only addresses that answer
+ * 200. The topic tabs are not listed instead, because they print the blog listing as their canonical.
+ */
+add_filter(
+	'wpseo_sitemap_entry',
+	function ( $url, $type = '', $term = null ) {
+		if ( 'term' !== $type || ! $term instanceof WP_Term ) {
+			return $url;
+		}
+		try {
+			if ( 'category' === $term->taxonomy && '' !== ap_content_category_redirect_url( $term ) ) {
+				return false;
+			}
+			if ( 'resource-types' === $term->taxonomy && function_exists( 'ap_content_type_redirect_url' ) && '' !== ap_content_type_redirect_url( $term ) ) {
+				return false;
+			}
+		} catch ( \Throwable $e ) {
+			return $url;
+		}
+		return $url;
+	},
+	10,
+	3
 );
 
 add_filter(

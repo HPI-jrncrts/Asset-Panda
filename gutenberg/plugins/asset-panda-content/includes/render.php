@@ -252,7 +252,7 @@ function ap_content_card( $post ) {
 		$default = (int) get_option( 'default_category' );
 		foreach ( (array) $cats as $cat ) {
 			if ( (int) $cat->term_id !== $default ) {
-				$tag = '<a class="ap26-card__tag" href="' . esc_url( get_category_link( $cat ) ) . '">' . esc_html( $cat->name ) . '</a>';
+				$tag = '<a class="ap26-card__tag" href="' . esc_url( ap_content_category_link( $cat ) ) . '">' . esc_html( $cat->name ) . '</a>';
 				break;
 			}
 		}
@@ -413,13 +413,13 @@ function ap_content_render_blog_hero() {
 	$out    .= '<div class="ap26-tabs"><div class="ap26-tabs__rail">';
 	$out    .= '<a class="ap26-tab is-active" href="' . esc_url( get_post_type_archive_link( 'resource' ) ) . '">All</a>';
 	foreach ( $visible as $cat ) {
-		$out .= '<a class="ap26-tab" href="' . esc_url( get_category_link( $cat ) ) . '">' . esc_html( $cat->name ) . '</a>';
+		$out .= '<a class="ap26-tab" href="' . esc_url( ap_content_category_link( $cat ) ) . '">' . esc_html( $cat->name ) . '</a>';
 	}
 	$out .= '</div>';
 	if ( $rest ) {
 		$out .= '<div class="ap26-tabs__moremenu"><button type="button" class="ap26-tabs__more" aria-expanded="false" aria-label="More categories">' . ap_content_icon( 'dots' ) . '</button><div class="ap26-tabs__dropdown" hidden>';
 		foreach ( $rest as $cat ) {
-			$out .= '<a href="' . esc_url( get_category_link( $cat ) ) . '">' . esc_html( $cat->name ) . '</a>';
+			$out .= '<a href="' . esc_url( ap_content_category_link( $cat ) ) . '">' . esc_html( $cat->name ) . '</a>';
 		}
 		$out .= '</div></div>';
 	}

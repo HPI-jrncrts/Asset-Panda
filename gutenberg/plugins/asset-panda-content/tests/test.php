@@ -624,6 +624,45 @@ t_ok( 'J14 printed on a press release', 1 === substr_count( $h, 'class="ap-conte
 list( $st, $h ) = t_http( '/resource-center/blog/ap-test-core-post/' );
 t_ok( 'J15 printed on a core post', 1 === substr_count( $h, 'class="ap-content-jsonld"' ) );
 
+/* ── 1.3.31: category addresses that redirect stay out of links and sitemaps ── */
+$topic = wp_insert_term( 'AP Test Topic', 'category', array( 'slug' => 'ap-test-topic' ) );
+$coreparent = wp_insert_term( 'AP Test Topic Core', 'category', array( 'slug' => 'ap-test-topic-core' ) );
+$corechild  = wp_insert_term( 'AP Test Topic Core Child', 'category', array( 'slug' => 'ap-test-topic-core-child', 'parent' => (int) $coreparent['term_id'] ) );
+$topic_id   = (int) $topic['term_id'];
+$cpar_id    = (int) $coreparent['term_id'];
+$cchild_id  = (int) $corechild['term_id'];
+list( $s ) = t_rest( 'POST', '/wp/v2/resource', $mk( 'ap-test-blog-topic', array( 'blog' ), array( 'ap_terms' => array( 'resource-types' => array( 'blog' ), 'category' => array( array( 'slug' => 'ap-test-topic', 'name' => 'AP Test Topic' ) ) ) ) ) );
+list( $s2 ) = t_rest( 'POST', '/wp/v2/resource', $mk( 'ap-test-blog-topic-core', array( 'blog' ), array( 'ap_terms' => array( 'resource-types' => array( 'blog' ), 'category' => array( array( 'slug' => 'ap-test-topic-core', 'name' => 'AP Test Topic Core' ) ) ) ) ) );
+// A published core post in the CHILD category: WordPress lists the parent's archive with it, so the parent stays.
+wp_insert_post( array( 'post_type' => 'post', 'post_status' => 'publish', 'post_title' => 'AP Test Core In Child', 'post_name' => 'ap-test-core-in-child', 'post_category' => array( $cchild_id ) ) );
+delete_transient( 'ap_content_listing_counts' );
+$topic_url = $HOME . '/resource-center/blog/filter/search/ap-test-topic/';
+t_ok( 'S1 setup: two blog resources with categories', 201 === $s && 201 === $s2, array( $s, $s2 ) );
+t_ok( 'S2 category with blog resources and no core post → its topic tab', $topic_url === ap_content_category_redirect_url( $topic_id ), ap_content_category_redirect_url( $topic_id ) );
+t_ok( 'S3 parent whose child holds a core post → no redirect; child without blog resources → none', '' === ap_content_category_redirect_url( $cpar_id ) && '' === ap_content_category_redirect_url( $cchild_id ), array( ap_content_category_redirect_url( $cpar_id ), ap_content_category_redirect_url( $cchild_id ) ) );
+t_ok( 'S4 links: topic tab for the redirected category, own archive for the other', $topic_url === ap_content_category_link( get_term( $topic_id, 'category' ) ) && get_category_link( $cpar_id ) === ap_content_category_link( $cpar_id ), array( ap_content_category_link( $topic_id ), ap_content_category_link( $cpar_id ) ) );
+t_ok( 'S14 get_category_link / get_term_link of the redirected category = its topic tab (any template, e.g. the snippet\'s search cards)', $topic_url === get_category_link( $topic_id ) && $topic_url === get_term_link( get_term( $topic_id, 'category' ) ), array( get_category_link( $topic_id ), get_term_link( get_term( $topic_id, 'category' ) ) ) );
+t_ok( 'S15 a category served as is keeps its own archive link', $HOME . '/category/ap-test-topic-core/' === get_category_link( $cpar_id ) && $HOME . '/category/ap-test-topic-core/ap-test-topic-core-child/' === get_category_link( $cchild_id ), array( get_category_link( $cpar_id ), get_category_link( $cchild_id ) ) );
+list( $st, $h, $loc ) = t_http( '/category/ap-test-topic/' );
+t_ok( 'S5 /category/<topic>/ still 301s to the topic tab', 301 === $st && $topic_url === $loc, array( $st, $loc ) );
+list( $st, $h, $loc ) = t_http( '/category/ap-test-topic-core/' );
+t_ok( 'S6 the category with a core post (through its child) is not redirected', 301 !== $st || false === strpos( (string) $loc, '/filter/' ), array( $st, $loc ) );
+$entry = function ( $term ) {
+	return apply_filters( 'wpseo_sitemap_entry', array( 'loc' => get_term_link( $term ) ), 'term', $term );
+};
+t_ok( 'S7 sitemap: the redirected category is left out', false === $entry( get_term( $topic_id, 'category' ) ), $entry( get_term( $topic_id, 'category' ) ) );
+t_ok( 'S8 sitemap: a category served as is stays', is_array( $entry( get_term( $cpar_id, 'category' ) ) ) );
+$cmp_term  = get_term_by( 'slug', 'compare', 'resource-types' );
+$blog_term = get_term_by( 'slug', 'blog', 'resource-types' );
+t_ok( 'S9 sitemap: Compare listing (→ /compare/) left out, Blog listing stays', false === $entry( $cmp_term ) && is_array( $entry( $blog_term ) ), array( $entry( $cmp_term ), $entry( $blog_term ) ) );
+$post_entry = apply_filters( 'wpseo_sitemap_entry', array( 'loc' => 'x' ), 'post', get_post( $core_id ) );
+t_ok( 'S10 sitemap: post entries untouched', array( 'loc' => 'x' ) === $post_entry, $post_entry );
+list( $st, $h ) = t_http( '/resource-center/' );
+t_ok( 'S11 blog hero + card tags link the topic tab, never /category/ap-test-topic/', 200 === $st && t_has( $h, 'href="' . $topic_url . '"' ) && ! t_has( $h, '/category/ap-test-topic/"' ), array( $st, substr_count( $h, $topic_url ) ) );
+t_ok( 'S12 the card tag of the topic resource uses the topic tab', t_has( $h, '<a class="ap26-card__tag" href="' . $topic_url . '">AP Test Topic</a>' ) );
+list( $st, $h, $loc ) = t_http( '/resource-center/compare/' );
+t_ok( 'S13 Compare listing still 301s to /compare/', 301 === $st && $HOME . '/compare/' === $loc, array( $st, $loc ) );
+
 /* Activation is idempotent; deactivate/reactivate keeps content and URLs */
 deactivate_plugins( 'asset-panda-content/asset-panda-content.php' );
 t_ok( 'E1 deactivation drops stored rules', false === get_option( 'rewrite_rules' ) );

@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Asset Panda Content
  * Description:       The Resource Center and Pressroom content platform for the 2026 site: `resource` + `resource-types` and `newsroom` at the live www.assetpanda.com URLs, the import REST contract, Yoast-compatible SEO meta (with a fallback while Yoast is absent) and rendering through the 2026 blog templates. 1.3.0: live's look through the kit's resource-* components, live's industry and topic filters at live's filter addresses, and an instant-search index. 1.3.4: blog and compare posts follow the Figma post designs (light header, image below the title) instead of live's band: the kit's resource-header "article" variant when the kit has it, else the 2026 templates' own post header. 1.3.5: article body copy at weight 400.
- * Version:           1.3.30
+ * Version:           1.3.32
  * Requires at least: 6.7
  * Requires PHP:      7.4
  * Author:            Asset Panda
@@ -31,7 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'AP_CONTENT_VERSION', '1.3.30' );
+define( 'AP_CONTENT_VERSION', '1.3.32' );
 define( 'AP_CONTENT_CONTRACT', '1.1' );
 define( 'AP_CONTENT_FILE', __FILE__ );
 define( 'AP_CONTENT_DIR', __DIR__ );
