@@ -210,20 +210,40 @@ function ap_ui_validate( $component, array $contract, array $props ) {
 }
 
 /**
- * Let WordPress print a kit stylesheet inline instead of as a <link>.
+ * Whether kit stylesheets print inline in the page (the default) instead of as cached files.
  *
- * A kit page enqueues ~30 small stylesheets; as separate render-blocking
- * requests they cost the first paint on phones (PageSpeed). WordPress core
- * inlines any stylesheet that carries `path` data while the page's running
- * total stays under `styles_inline_size_limit` (wp_maybe_inline_styles, which
- * also rewrites relative url()s). The budget is raised once so a full kit page
- * fits; non-kit styles are unaffected unless they opt in themselves.
+ * Inline is fastest for a first visit: on a phone (Slow 4G, 4x CPU) the stylesheets as files took the first paint
+ * of the homepage from 1.0 s to 2.5 s (12-15 render-blocking requests; measured on staging 2026-11-16 with kit
+ * 1.3.200, which made files the default). Files halve the HTML (510 KB → 270 KB) and are cached across pages; a page
+ * that arrives damaged is handled by the site plugin's page guard either way (asset-panda-site 1.3.6).
  *
- * The path handed to WordPress is a minified copy (ap_ui_minified_path): the
- * component stylesheets are written with comments and indentation, and inline
- * they travel inside every page — on the key pages 280 KB of CSS, 45 KB after
- * compression, of which a third was comments and whitespace. The minified copy
- * is what the browser receives; the source files stay as written.
+ * As files: define AP_UI_INLINE_CSS as false, or filter ap_ui_inline_css.
+ *
+ * @return bool
+ */
+function ap_ui_inline_css() {
+	static $inline = null;
+	if ( null === $inline ) {
+		$inline = ! defined( 'AP_UI_INLINE_CSS' ) || AP_UI_INLINE_CSS;
+		if ( function_exists( 'apply_filters' ) ) {
+			$inline = (bool) apply_filters( 'ap_ui_inline_css', $inline );
+		}
+	}
+	return $inline;
+}
+
+/**
+ * Serve a kit stylesheet as its minified copy.
+ *
+ * The component stylesheets are written with comments and indentation; the browser receives a minified copy
+ * (ap_ui_minified_path), a third smaller. As a file (ap_ui_inline_css() false) the <link> points at the copy in
+ * <uploads>/ap-ui-cache/, whose name changes with its content, so browsers and the edge cache keep it; its
+ * relative url()s are rewritten to absolute ones first, because the copy lives in another folder than its source.
+ * When no copy can be made the <link> keeps the stylesheet in the kit, which is just as correct.
+ *
+ * Inline (ap_ui_inline_css(), the default): WordPress core inlines a stylesheet that carries `path` data while the page's
+ * running total stays under `styles_inline_size_limit` (wp_maybe_inline_styles, which also rewrites relative
+ * url()s); the budget is raised once so a full kit page fits.
  *
  * @param string $handle Style handle.
  * @param string $file   Absolute path of the stylesheet.
@@ -232,8 +252,67 @@ function ap_ui_allow_inline( $handle, $file ) {
 	if ( ! function_exists( 'wp_style_add_data' ) || ! is_readable( $file ) ) {
 		return;
 	}
-	wp_style_add_data( $handle, 'path', ap_ui_minified_path( $file ) );
-	ap_ui_raise_inline_budget();
+	$styles = function_exists( 'wp_styles' ) ? wp_styles() : null;
+	$src    = $styles && isset( $styles->registered[ $handle ] ) ? (string) $styles->registered[ $handle ]->src : '';
+	if ( ap_ui_inline_css() ) {
+		wp_style_add_data( $handle, 'path', ap_ui_minified_path( $file, $src ) );
+		ap_ui_raise_inline_budget();
+		return;
+	}
+	$url = ap_ui_cache_file_url( ap_ui_minified_path( $file, $src ) );
+	if ( '' !== $url && $styles && isset( $styles->registered[ $handle ] ) ) {
+		$styles->registered[ $handle ]->src = $url;
+	}
+}
+
+/**
+ * The public URL of a file in the minified-copy folder, or '' for any other path (the source file itself).
+ *
+ * @param string $path Absolute path.
+ * @return string
+ */
+function ap_ui_cache_file_url( $path ) {
+	$dir = ap_ui_cache_dir();
+	if ( '' === $dir || 0 !== strpos( str_replace( '\\', '/', (string) $path ), $dir . '/' ) || ! function_exists( 'wp_get_upload_dir' ) ) {
+		return '';
+	}
+	$up = wp_get_upload_dir();
+	if ( empty( $up['baseurl'] ) ) {
+		return '';
+	}
+	$base = rtrim( (string) $up['baseurl'], '/' );
+	if ( function_exists( 'set_url_scheme' ) ) {
+		$base = set_url_scheme( $base );
+	}
+	return $base . '/ap-ui-cache/' . basename( (string) $path );
+}
+
+/**
+ * A stylesheet with its relative url()s made absolute against the URL it is published at.
+ *
+ * WordPress does this when it inlines a stylesheet (_wp_normalize_relative_css_links); a minified copy served from
+ * another folder needs it too, or every relative image (assets/icon-arrow.svg) would point into that folder.
+ *
+ * @param string $css Stylesheet.
+ * @param string $url URL of the original stylesheet.
+ * @return string
+ */
+function ap_ui_absolute_css_links( $css, $url ) {
+	if ( '' === $url || false === stripos( $css, 'url(' ) ) {
+		return $css;
+	}
+	if ( function_exists( '_wp_normalize_relative_css_links' ) ) {
+		return _wp_normalize_relative_css_links( $css, $url );
+	}
+	$base = preg_replace( '#[^/]*(\?.*)?$#', '', $url );
+	$out  = preg_replace_callback(
+		'#url\(\s*([\'"]?)(?![\'"]?(?:[a-z][a-z0-9+.-]*:|/|\#))([^\'")]+)\1\s*\)#i',
+		static function ( $m ) use ( $base ) {
+			return 'url(' . $m[1] . $base . $m[2] . $m[1] . ')';
+		},
+		$css
+	);
+	return null === $out ? $css : $out;
 }
 
 /**
@@ -257,7 +336,7 @@ function ap_ui_raise_inline_budget() {
  * Bump when ap_ui_minify_css() changes, so cached minified copies are rebuilt.
  */
 if ( ! defined( 'AP_UI_MINIFY_REV' ) ) {
-	define( 'AP_UI_MINIFY_REV', '1' );
+	define( 'AP_UI_MINIFY_REV', '2' ); // 2: copies carry absolute url()s (served from the cache folder, 1.3.200).
 }
 
 /**
@@ -361,17 +440,24 @@ function ap_ui_cache_dir() {
  * Falls back to the source file whenever the copy cannot be made or would not
  * be smaller, so a problem here only ever costs bytes, never styling.
  *
+ * Given the stylesheet's URL, the copy's relative url()s are made absolute against it, so the copy can be served
+ * from the cache folder (1.3.200). Earlier copies are kept for two days: a page cached before an update (edge,
+ * browser) still names them.
+ *
  * @param string $file Absolute path of the stylesheet.
- * @return string Absolute path to hand to wp_style_add_data( …, 'path' ).
+ * @param string $url  URL the stylesheet is published at ('' = leave its url()s as they are).
+ * @return string Absolute path of the copy (or of the source file).
  */
-function ap_ui_minified_path( $file ) {
+function ap_ui_minified_path( $file, $url = '' ) {
 	static $memo = array();
 
 	$file = (string) $file;
-	if ( isset( $memo[ $file ] ) ) {
-		return $memo[ $file ];
+	$url  = (string) $url;
+	$key  = $file . '|' . $url;
+	if ( isset( $memo[ $key ] ) ) {
+		return $memo[ $key ];
 	}
-	$memo[ $file ] = $file;
+	$memo[ $key ] = $file;
 
 	$dir = ap_ui_cache_dir();
 	if ( '' === $dir || ! is_file( $file ) ) {
@@ -383,9 +469,9 @@ function ap_ui_minified_path( $file ) {
 		return $file;
 	}
 	$stem = preg_replace( '/[^a-z0-9_-]+/i', '-', basename( dirname( $file ) ) . '-' . pathinfo( $file, PATHINFO_FILENAME ) );
-	$out  = $dir . '/' . $stem . '-' . substr( md5( $file . '|' . $mtime . '|' . $size . '|' . AP_UI_VERSION . '|' . AP_UI_MINIFY_REV ), 0, 10 ) . '.css';
+	$out  = $dir . '/' . $stem . '-' . substr( md5( $file . '|' . $mtime . '|' . $size . '|' . AP_UI_VERSION . '|' . AP_UI_MINIFY_REV . '|' . $url ), 0, 10 ) . '.css';
 	if ( is_file( $out ) && @filesize( $out ) > 0 ) { // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
-		$memo[ $file ] = $out;
+		$memo[ $key ] = $out;
 		return $out;
 	}
 
@@ -393,6 +479,7 @@ function ap_ui_minified_path( $file ) {
 	if ( false === $css || '' === $css ) {
 		return $file;
 	}
+	$css = ap_ui_absolute_css_links( $css, $url );
 	$min = ap_ui_minify_css( $css );
 	if ( '' === $min || strlen( $min ) >= strlen( $css ) ) {
 		return $file;
@@ -409,14 +496,15 @@ function ap_ui_minified_path( $file ) {
 			return $file;
 		}
 	}
-	// Copies of this stylesheet from earlier versions are no longer needed.
+	// Copies of this stylesheet from earlier versions go after two days; until then a page cached before the
+	// update (by the edge or a browser) can still load the copy it names.
 	foreach ( (array) glob( $dir . '/' . $stem . '-*.css' ) as $old ) {
-		if ( $old !== $out ) {
+		if ( $old !== $out && @filemtime( $old ) < time() - 2 * DAY_IN_SECONDS ) { // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 			@unlink( $old ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 		}
 	}
 
-	$memo[ $file ] = $out;
+	$memo[ $key ] = $out;
 	return $out;
 }
 

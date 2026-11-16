@@ -13,12 +13,21 @@
  * X-Frame-Options off on the paths in "xfo_omit" (default /login-splash*) so no
  * browser can block that frame; frame-ancestors still limits who may frame them.
  *
- * Permissions-Policy is copied as live sends it, including `fullscreen=('self')`.
- * The quoted 'self' is not valid structured-header syntax, so browsers that
- * parse the header reject it as a whole: on live it restricts nothing. Keep it
- * byte for byte unless the policy is reviewed. Written correctly it would turn
- * off autoplay, fullscreen and encrypted media for the click-to-play YouTube
- * players and camera for the Ursa demo frame.
+ * Permissions-Policy (1.3.8, reviewed 2026-11-16 with Joseph). Live used to send
+ * a copy of the old site's header with `fullscreen=('self')`: the quoted 'self'
+ * is not valid structured-header syntax, so Chrome logged "Error with
+ * Permissions-Policy header" on every page and ignored the whole header (it
+ * restricted nothing). Written correctly, that old list would also have turned
+ * off autoplay, fullscreen and encrypted media for the YouTube / Vimeo players
+ * and camera for the Ursa demo frame. The header now names only features no page
+ * and no player uses, each switched off with `=()`; everything the site uses
+ * (autoplay, fullscreen, encrypted-media, picture-in-picture, accelerometer,
+ * gyroscope, clipboard-write for the players; camera for the Ursa demo; payment
+ * for Cal.com; sync-xhr and the ad-measurement features for third-party tags)
+ * is left out, so it keeps the browser default exactly as before. Only features
+ * Chrome recognises are listed, so the header logs nothing. Checked on live pages
+ * in Chrome: every player and the Ursa frame keep the same features; a tutorial
+ * video plays.
  *
  * Not here: Strict-Transport-Security. Live sends it from a WP Engine Web Rule
  * (install assetpanda1, Header Rules #0, "When: All responses"), which also
@@ -34,7 +43,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Live's header values.
+ * Live's header values (Permissions-Policy corrected in 1.3.8, see above).
  *
  * @return array<string, string>
  */
@@ -42,7 +51,7 @@ function ap_site_live_header_values() {
 	return array(
 		'csp'         => "frame-ancestors 'self' https://login.assetpanda.com https://stage.assetpanda.com https://prelive.assetpanda.com https://admin.assetpanda.com;",
 		'csp_ro'      => "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://consent.cookiebot.com https://js.hsforms.net https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://consent.cookiebot.com https://js.hsforms.net; frame-src 'self' https://www.googletagmanager.com https://consent.cookiebot.com; object-src 'none'; base-uri 'self'; form-action 'self' https://js.hsforms.net; frame-ancestors 'self'; upgrade-insecure-requests; block-all-mixed-content",
-		'permissions' => "accelerometer=(), ambient-light-sensor=(), autoplay=(), battery=(), camera=(), cross-origin-isolated=(), display-capture=(), document-domain=(), encrypted-media=(), execution-while-not-rendered=(), execution-while-out-of-viewport=(), fullscreen=('self'), geolocation=(), gyroscope=(), keyboard-map=(), magnetometer=(), microphone=(), midi=(), navigation-override=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(), usb=(), web-share=(), xr-spatial-tracking=()",
+		'permissions' => 'bluetooth=(), display-capture=(), geolocation=(), hid=(), idle-detection=(), local-fonts=(), magnetometer=(), microphone=(), midi=(), publickey-credentials-get=(), screen-wake-lock=(), serial=(), usb=(), window-management=(), xr-spatial-tracking=()',
 		'referrer'    => 'strict-origin-when-cross-origin',
 		'nosniff'     => 'nosniff',
 		'xfo'         => 'SAMEORIGIN',

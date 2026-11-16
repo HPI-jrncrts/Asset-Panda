@@ -148,7 +148,8 @@ $bo = strpos( $r['body'], '<body' );
 $ns = strpos( $r['body'], 'googletagmanager.com/ns.html' );
 check( 'www page: noscript right after <body> (wp_body_open)', false !== $bo && false !== $ns && $ns > $bo && ( $ns - strpos( $r['body'], '>', $bo ) ) < 400, $ns - $bo );
 check( 'www page: Cookiebot tag identical to live (whitespace-normalised)', false !== strpos( squash( preg_replace( array( '/"\s+/', '/>\s+</' ), array( '" ', '><' ), $r['body'] ) ), $live_cb ), $live_cb );
-check( 'www page: Cookiebot is the last script before </body>', preg_match( '#<script id="Cookiebot"[^>]*></script>\s*</body>#', $r['body'] ) );
+// Since 1.3.6 the page guard's end mark is printed last on purpose (wp_footer PHP_INT_MAX); Cookiebot comes right before it.
+check( 'www page: Cookiebot is the last script before </body> but for the page guard\'s end mark', preg_match( '#<script id="Cookiebot"[^>]*></script>\s*(<script id="ap-page-guard-end"[^>]*>.*?</script>\s*)?</body>#s', $r['body'] ) );
 check( 'www page: preconnect googletagmanager + cookiebot', false !== strpos( $r['body'], "rel='preconnect' href='https://www.googletagmanager.com'" ) && false !== strpos( $r['body'], "rel='preconnect' href='https://consent.cookiebot.com'" ) );
 check( 'www page: preconnect + dns-prefetch for the two HubSpot form hosts, as live', false !== strpos( $r['body'], "rel='preconnect' href='https://js-na2.hsforms.net'" ) && false !== strpos( $r['body'], "rel='preconnect' href='https://forms-na2.hsforms.com'" ) && false !== strpos( $r['body'], "rel='dns-prefetch' href='//js-na2.hsforms.net'" ) && false !== strpos( $r['body'], "rel='dns-prefetch' href='//forms-na2.hsforms.com'" ) );
 check( 'www page: exactly one GTM loader and one noscript', 1 === substr_count( $r['body'], 'googletagmanager.com/gtm.js' ) && 1 === substr_count( $r['body'], 'googletagmanager.com/ns.html' ) );
@@ -227,6 +228,10 @@ $compare = static function ( $label, $ours, $theirs, $skip = array() ) use ( $SE
 		}
 		$a = isset( $ours[ $h ] ) ? $ours[ $h ] : null;
 		$b = isset( $theirs[ $h ] ) ? $theirs[ $h ] : null;
+		// 1.3.8: Permissions-Policy is no longer live's malformed copy; wherever live sent one, ours is the corrected value.
+		if ( 'permissions-policy' === $h && null !== $b ) {
+			$b = ap_site_live_header_values()['permissions'];
+		}
 		if ( $a !== $b ) {
 			$diff[ $h ] = array(
 				'ours' => $a,
@@ -238,6 +243,16 @@ $compare = static function ( $label, $ours, $theirs, $skip = array() ) use ( $SE
 };
 $r = http( 'GET', '/', $WWW, $https );
 $compare( 'headers / = live / (CSP-RO off by default)', $r['headers'], $live_hdr['home'], array( 'content-security-policy-report-only' ) );
+$pp_ok = isset( $r['headers']['permissions-policy'] );
+foreach ( $pp_ok ? explode( ',', $r['headers']['permissions-policy'] ) : array() as $pp_member ) {
+	$pp_ok = $pp_ok && (bool) preg_match( '/^\s*[a-z][a-z0-9-]*=\((\s*(self|\*|"https:\/\/[^"\s]+"))*\s*\)\s*$/', $pp_member );
+}
+$pp_kept = array( 'autoplay', 'fullscreen', 'encrypted-media', 'picture-in-picture', 'accelerometer', 'gyroscope', 'clipboard-write', 'camera', 'payment', 'sync-xhr' );
+check(
+	'Permissions-Policy (1.3.8): valid structured-header syntax, nothing the players, the Ursa demo, Cal.com or the tags use',
+	$pp_ok && ! preg_match( '/(^|,\s*)(' . implode( '|', $pp_kept ) . ')=/', $r['headers']['permissions-policy'] ),
+	isset( $r['headers']['permissions-policy'] ) ? $r['headers']['permissions-policy'] : null
+);
 check( 'headers /: no CSP report-only by default', ! isset( $r['headers']['content-security-policy-report-only'] ) );
 check( 'headers /: no HSTS from PHP (WP Engine rule)', ! isset( $r['headers']['strict-transport-security'] ) );
 $r = http( 'GET', $p_page, $WWW, $https );
