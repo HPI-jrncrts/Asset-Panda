@@ -12,7 +12,7 @@
  *     is there too, and once the page has loaded, that the kit stylesheets applied (a token on the root);
  *   - the last thing before </body> marks the end and checks that the start mark is there.
  * A missing mark or missing styles means the page did not arrive whole: it is fetched again under a fresh address
- * (?ap_fresh=<time>, so no browser, edge or server cache can hand back the same damaged copy), and that fresh page
+ * (?ap_fresh=<time>.<reason>, so no browser, edge or server cache can hand back the same damaged copy), and that fresh page
  * takes the parameter back out of the address bar before analytics starts. One try per address per tab session:
  * a page that is still damaged after the fresh load stays as it is (no reload loops), and nothing happens without
  * session storage.
@@ -33,7 +33,8 @@ function ap_site_page_guard_heal_js() {
 	return 'function(r){var d=document.documentElement,l=location,k="ap-heal:"+l.pathname;'
 		. 'if(d.hasAttribute("data-ap-fresh")||/[?&]ap_fresh=/.test(l.search))return;'
 		. 'try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,r+" "+Date.now());}catch(e){return;}'
-		. 'var s=l.search.replace(/^\\?/,"");l.replace(l.pathname+"?"+(s?s+"&":"")+"ap_fresh="+Date.now()+l.hash);}';
+		// The reason travels in the value (ap_fresh=<time>.end|start|css), so the access logs say why a page healed.
+		. 'var s=l.search.replace(/^\\?/,"");l.replace(l.pathname+"?"+(s?s+"&":"")+"ap_fresh="+Date.now()+"."+r+l.hash);}';
 }
 
 /*
@@ -54,8 +55,12 @@ add_action(
 			// Parsed, but the end of the page never arrived.
 			. 'd.addEventListener("DOMContentLoaded",function(){if(!h.hasAttribute("data-ap-end"))heal("end");});'
 			// Loaded (a load cut off mid-way may skip DOMContentLoaded): the end is there, and the kit stylesheets applied.
+			// A frame that is not drawn has no computed styles at all (Firefox gives empty values for every property of a
+			// display:none iframe: the hidden login splash was reloading once per Firefox visit, 10 of the 28 reloads in
+			// the edge log of 2026-11-14..17), so the stylesheet check runs only where styles are computed.
 			. 'w.addEventListener("load",function(){if(!h.hasAttribute("data-ap-end"))return heal("end");'
-			. 'if(d.querySelector("#ap-ui-tokens-css,#ap-ui-tokens-inline-css")&&!getComputedStyle(h).getPropertyValue("--ap-slate-500").trim())heal("css");'
+			. 'var c=getComputedStyle(h);'
+			. 'if(c&&c.display&&d.querySelector("#ap-ui-tokens-css,#ap-ui-tokens-inline-css")&&!c.getPropertyValue("--ap-slate-500").trim())heal("css");'
 			. '});})(window,document);';
 		echo '<script id="ap-page-guard-start" data-no-defer="1" data-no-optimize="1" data-cookieconsent="ignore">' . $js . "</script>\n"; // phpcs:ignore WordPress.Security.EscapeOutput -- fixed script.
 	},

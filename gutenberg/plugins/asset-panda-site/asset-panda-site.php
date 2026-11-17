@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Asset Panda Site
  * Description:       Site-wide setup for www.assetpanda.com that is not page content: Google Tag Manager and Cookiebot, security headers, forced HTTPS and the homepage Ursa demo frame (production host only), a reload of any page that arrives damaged, a log line for any request slower than 3 seconds, a user enumeration guard, sign-in protection (lockout, Google reCAPTCHA v3), WordPress's emoji script kept off the pages, plus one-time Yoast SEO and site identity setup. Settings → Asset Panda Site.
- * Version:           1.3.8
+ * Version:           1.3.9
  * Requires at least: 6.5
  * Requires PHP:      7.4
  * Author:            Asset Panda
@@ -32,7 +32,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'AP_SITE_VERSION', '1.3.8' );
+define( 'AP_SITE_VERSION', '1.3.9' );
 define( 'AP_SITE_FILE', __FILE__ );
 define( 'AP_SITE_DIR', __DIR__ );
 define( 'AP_SITE_OPTION', 'ap_site_settings' );

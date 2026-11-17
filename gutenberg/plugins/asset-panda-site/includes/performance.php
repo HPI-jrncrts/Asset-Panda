@@ -64,3 +64,51 @@ add_action(
 	},
 	1
 );
+
+/*
+ * WordPress's speculative loading is off (1.3.9, 2026-11-17).
+ *
+ * Since 6.8 core prints <script type="speculationrules"> on every page for logged-out visitors: "prefetch any
+ * link on this site when the visitor starts to press it". Chrome has acted on it for years; Safari started to
+ * (26.2+). Rex's iPad (Safari 27.3, the only visitor on that version in 72 hours of edge logs) fetched a page
+ * for every menu link his finger touched (245 pages in 12 minutes on 2026-11-17, 130 in 6 on 2026-11-15) and then
+ * showed pages that were empty, or that began part-way through with their stylesheet as text. The edge log has
+ * every one of those 1,963 responses as a complete 200 in milliseconds: the pages left the server whole and were
+ * lost in the browser, on the path that hands a prefetched page to the tab. Reproduced the trigger in WebKit 26.5:
+ * with the rules a press on a link sends a "Sec-Purpose: prefetch" request for it, without them nothing is sent.
+ *
+ * With no rules a page is fetched when it is opened, as on the old site. The cost is the head start prefetch
+ * gave Chrome on a click (the pages answer from the edge cache in 10 to 20 ms, so little is lost).
+ *
+ * Any host. Back on: define( 'AP_SITE_SPECULATIVE_LOADING', true ) in wp-config.php, or the filter
+ * ap_site_feature_no_speculative_loading.
+ */
+
+/**
+ * Whether core's speculation rules are kept off the pages on this request.
+ *
+ * @return bool
+ */
+function ap_site_no_speculative_loading_on() {
+	if ( defined( 'AP_SITE_DISABLE' ) && AP_SITE_DISABLE ) {
+		return false;
+	}
+	if ( defined( 'AP_SITE_SPECULATIVE_LOADING' ) && AP_SITE_SPECULATIVE_LOADING ) {
+		return false;
+	}
+	return (bool) apply_filters( 'ap_site_feature_no_speculative_loading', true );
+}
+
+// Core: a null configuration switches speculative loading off (wp_get_speculation_rules_configuration()).
+add_filter(
+	'wp_speculation_rules_configuration',
+	static function ( $config ) {
+		return ap_site_guard(
+			static function () use ( $config ) {
+				return ap_site_no_speculative_loading_on() ? null : $config;
+			},
+			$config
+		);
+	},
+	PHP_INT_MAX
+);

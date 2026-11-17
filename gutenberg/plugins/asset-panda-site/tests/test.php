@@ -155,6 +155,20 @@ check( 'www page: preconnect + dns-prefetch for the two HubSpot form hosts, as l
 check( 'www page: exactly one GTM loader and one noscript', 1 === substr_count( $r['body'], 'googletagmanager.com/gtm.js' ) && 1 === substr_count( $r['body'], 'googletagmanager.com/ns.html' ) );
 check( 'www page: no Geotargetly (off by default)', false === strpos( $r['body'], 'g792337341' ) );
 
+/* ── 1.3.9: no speculative loading; guard reload reason; guard skips frames with no computed styles ── */
+check( 'www page: WordPress prints no speculation rules (no page is fetched before it is opened)', false === stripos( $r['body'], 'speculationrules' ), substr( $r['body'], (int) stripos( $r['body'], 'speculationrules' ) - 40, 200 ) );
+$r_stg = http( 'GET', $p_page, $DEV, $https );
+check( 'staging page: no speculation rules either (any host)', 200 === $r_stg['code'] && false === stripos( $r_stg['body'], 'speculationrules' ) );
+$spec_default = array( 'mode' => 'prefetch', 'eagerness' => 'conservative' );
+check( 'core filter: the configuration is null (core then prints nothing)', null === apply_filters( 'wp_speculation_rules_configuration', $spec_default ) );
+check( 'core: wp_get_speculation_rules() is null', ! function_exists( 'wp_get_speculation_rules' ) || null === wp_get_speculation_rules() );
+add_filter( 'ap_site_feature_no_speculative_loading', '__return_false' );
+check( 'switch: with the feature filtered off the core configuration passes through unchanged', $spec_default === apply_filters( 'wp_speculation_rules_configuration', $spec_default ) );
+remove_filter( 'ap_site_feature_no_speculative_loading', '__return_false' );
+check( 'guard: a reload carries its reason (ap_fresh=<time>.end|start|css)', false !== strpos( $r['body'], '"ap_fresh="+Date.now()+"."+r+l.hash' ) );
+check( 'guard: the stylesheet check runs only where styles are computed (hidden frames are left alone)', false !== strpos( $r['body'], 'var c=getComputedStyle(h);if(c&&c.display&&d.querySelector(' ) );
+check( 'guard: still one start mark first in <head> and one end mark last in <body>', 1 === substr_count( $r['body'], 'id="ap-page-guard-start"' ) && 1 === substr_count( $r['body'], 'id="ap-page-guard-end"' ) && strpos( $r['body'], 'id="ap-page-guard-start"' ) < 200 + strpos( $r['body'], '<head' ) + 2000 );
+
 foreach ( array( $DEV => 'staging host', 'localhost:8898' => 'localhost', 'asset-panda-local.local' => 'local site host', 'assetpanda1.wpenginepowered.com' => 'live install domain', 'assetpanda.com' => 'apex (not on the list)' ) as $h => $label ) {
 	$r = http( 'GET', $p_page, $h, $https );
 	check( $label . ': no GTM, Cookiebot or headers', 200 === $r['code'] && false === strpos( $r['body'], 'googletagmanager' ) && false === strpos( $r['body'], 'cookiebot' ) && ! isset( $r['headers']['content-security-policy'] ) && ! isset( $r['headers']['permissions-policy'] ), $r['code'] );
