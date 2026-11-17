@@ -821,6 +821,11 @@ function ap_render_component( $component, array $props = array() ) {
 
 	$html = $renderer( $render, $props, $component );
 
+	// Words given a hover effect in the builder (<span class="ap-anim-hover-…">) need the animation sheet.
+	if ( is_string( $html ) && false !== strpos( $html, 'ap-anim-' ) ) {
+		ap_ui_enqueue_anim();
+	}
+
 	/**
 	 * Filters whether the alt-text pass runs on a component's output.
 	 *

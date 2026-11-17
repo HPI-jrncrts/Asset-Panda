@@ -91,6 +91,10 @@
 			"type": "string",
 			"default": ""
 		},
+		"after_submit_url": {
+			"type": "string",
+			"default": ""
+		},
 		"fallback_email": {
 			"type": "string",
 			"default": ""

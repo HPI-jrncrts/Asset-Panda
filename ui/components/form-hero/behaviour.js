@@ -18,7 +18,8 @@
  * A mount loads its script when it nears the viewport (the heroes are already
  * in view, so they load at once). If no form has appeared 6 seconds after the
  * script was requested, the "Form not loading?" box is shown, as on live.
- * Nothing here submits anything or changes where the form goes.
+ * Nothing here submits anything. Where the form goes is HubSpot's setting,
+ * unless the mount names an after_submit_url (see goAfter below).
  */
 (function () {
 	'use strict';
@@ -231,6 +232,182 @@
 		}).observe(el, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'placeholder', 'src'] });
 	}
 
+	/*
+	 * after_submit_url (data-ap-hs-after): once HubSpot reports the form sent, the
+	 * visitor goes there. {trial_token} in it becomes a new random token that is
+	 * first written into the form's trial_token field, so the app can find this
+	 * submission: the trial sign-up mechanism (the GTM tag on
+	 * /start-a-free-trial-email-only/), built in so it also works where GTM does
+	 * not run (staging, signed-in staff, blocked tag managers). Hidden fields
+	 * named like a query parameter of the page (aws_marketplace_ref) are filled
+	 * by HubSpot itself. A "Not redirected?" link is left in case the browser
+	 * holds the page.
+	 */
+	var TOKEN_FIELD = 'trial_token';
+	var AFTER_OK = /^(https?:\/\/[^\s\/]+|\/(?![\/\\]))/i;
+
+	function newToken() {
+		var c = window.crypto;
+		if (c && typeof c.randomUUID === 'function') {
+			return c.randomUUID();
+		}
+		var b = new Uint8Array(16);
+		if (c && c.getRandomValues) {
+			c.getRandomValues(b);
+		} else {
+			for (var i = 0; i < 16; i++) {
+				b[i] = Math.floor(Math.random() * 256);
+			}
+		}
+		b[6] = (b[6] & 15) | 64;
+		b[8] = (b[8] & 63) | 128;
+		var h = Array.prototype.map.call(b, function (x) {
+			return (x + 256).toString(16).slice(1);
+		}).join('');
+		return h.slice(0, 8) + '-' + h.slice(8, 12) + '-' + h.slice(12, 16) + '-' + h.slice(16, 20) + '-' + h.slice(20);
+	}
+
+	function wantsToken(el) {
+		return (el.getAttribute('data-ap-hs-after') || '').indexOf('{trial_token}') !== -1;
+	}
+
+	function tokenOf(el) {
+		if (!el.apTrialToken) {
+			el.apTrialToken = newToken();
+		}
+		return el.apTrialToken;
+	}
+
+	function afterUrl(el) {
+		var url = el.getAttribute('data-ap-hs-after') || '';
+		if (!AFTER_OK.test(url)) {
+			return '';
+		}
+		return wantsToken(el) ? url.split('{trial_token}').join(encodeURIComponent(tokenOf(el))) : url;
+	}
+
+	function goAfter(el) {
+		var url = afterUrl(el);
+		if (!url || el.getAttribute('data-ap-hs-sent')) {
+			return;
+		}
+		el.setAttribute('data-ap-hs-sent', '1');
+		var note = document.createElement('p');
+		note.className = 'ap-form-hero__after';
+		var link = document.createElement('a');
+		link.href = url;
+		link.textContent = 'Continue';
+		note.appendChild(document.createTextNode('Not redirected? '));
+		note.appendChild(link);
+		el.appendChild(note);
+		window.location.assign(url);
+	}
+
+	/* The kit mount a developer-embed form belongs to: its instance's root, else the form ID. */
+	function mountOfForm(form) {
+		var id = '';
+		var formId = '';
+		try {
+			id = String(form.getInstanceId() || '');
+		} catch (e) {}
+		try {
+			formId = String(form.getFormId() || '').toLowerCase();
+		} catch (e) {}
+		var node = id ? (document.getElementById(id + '-r') || document.getElementById(id)) : null;
+		var hit = node && node.closest ? node.closest('[data-ap-form-hero]') : null;
+		if (hit) {
+			return hit;
+		}
+		var all = document.querySelectorAll('[data-ap-form-hero][data-ap-hs-after]');
+		for (var i = 0; i < all.length; i++) {
+			if (formId && all[i].getAttribute('data-ap-hs-form') === formId) {
+				return all[i];
+			}
+		}
+		return null;
+	}
+
+	function formFromEvent(event) {
+		try {
+			return window.HubSpotFormsV4 ? window.HubSpotFormsV4.getFormFromEvent(event) : null;
+		} catch (e) {
+			return null;
+		}
+	}
+
+	function setDeveloperToken(form, el) {
+		try {
+			form.setFieldValue('0-1/' + TOKEN_FIELD, tokenOf(el));
+			el.setAttribute('data-ap-hs-token', '1');
+			return true;
+		} catch (e) {
+			return false;
+		}
+	}
+
+	var afterHooked = false;
+
+	function hookDeveloperAfter() {
+		if (afterHooked) {
+			return;
+		}
+		afterHooked = true;
+		window.addEventListener('hs-form-event:on-ready', function (event) {
+			var form = formFromEvent(event);
+			var el = form ? mountOfForm(form) : null;
+			if (el && el.getAttribute('data-ap-hs-after') && wantsToken(el)) {
+				setDeveloperToken(form, el);
+			}
+		});
+		window.addEventListener('hs-form-event:on-submission:success', function (event) {
+			var form = formFromEvent(event);
+			var el = form ? mountOfForm(form) : null;
+			if (el && el.getAttribute('data-ap-hs-after')) {
+				goAfter(el);
+			}
+		});
+	}
+
+	/* The form may have become ready before the listener: set the token from the live forms too (as the GTM tag does). */
+	function pollDeveloperToken(el) {
+		if (!wantsToken(el)) {
+			return;
+		}
+		var tries = 0;
+		(function attempt() {
+			if (el.getAttribute('data-ap-hs-token')) {
+				return;
+			}
+			var forms = [];
+			try {
+				forms = window.HubSpotFormsV4 ? window.HubSpotFormsV4.getForms() : [];
+			} catch (e) {}
+			for (var i = 0; i < forms.length; i++) {
+				if (mountOfForm(forms[i]) === el && setDeveloperToken(forms[i], el)) {
+					return;
+				}
+			}
+			if (tries++ < 60) {
+				window.setTimeout(attempt, 250);
+			}
+		})();
+	}
+
+	/* v2 (classic) forms: the token goes into the hidden input itself. */
+	function setV2Token(el) {
+		var doc = frameDocument(el);
+		var roots = doc ? [doc, el] : [el];
+		roots.forEach(function (root) {
+			Array.prototype.forEach.call(root.querySelectorAll('input[name="' + TOKEN_FIELD + '"]'), function (input) {
+				if (input.value !== tokenOf(el)) {
+					input.value = tokenOf(el);
+					input.dispatchEvent(new Event('input', { bubbles: true }));
+					input.dispatchEvent(new Event('change', { bubbles: true }));
+				}
+			});
+		});
+	}
+
 	function mount(el) {
 		if (el.getAttribute('data-ap-hs-mounted')) {
 			return;
@@ -242,7 +419,13 @@
 		watchFallback(el);
 		observe(el);
 
+		var after = AFTER_OK.test(el.getAttribute('data-ap-hs-after') || '');
+
 		if (el.getAttribute('data-ap-hs-embed') === 'developer') {
+			if (after) {
+				hookDeveloperAfter();
+				pollDeveloperToken(el);
+			}
 			// The developer script draws every .hs-form-html on the page when it
 			// runs; one copy per portal is enough.
 			var src = developerScript(region, portal);
@@ -271,9 +454,24 @@
 						window.setTimeout(function () {
 							try {
 								settle(el);
+								if (after && wantsToken(el)) {
+									setV2Token(el);
+								}
 							} catch (e) {}
 						}, delay);
 					});
+				},
+				onBeforeFormSubmit: function () {
+					if (after && wantsToken(el)) {
+						try {
+							setV2Token(el);
+						} catch (e) {}
+					}
+				},
+				onFormSubmitted: function () {
+					if (after) {
+						goAfter(el);
+					}
 				}
 			});
 		}).catch(function () {

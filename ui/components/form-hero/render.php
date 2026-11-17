@@ -8,7 +8,9 @@
  * region as data attributes, and behaviour.js loads HubSpot's script and draws
  * the form there (classic v2 embed, or the developer embed for forms built in
  * HubSpot's new editor). Where the visitor goes after submitting is the form's
- * own redirect, set in HubSpot.
+ * own redirect, set in HubSpot, unless after_submit_url names a page: then
+ * behaviour.js sends the visitor there (with a fresh {trial_token}, also
+ * written into the form's trial_token field), as the trial sign-up does.
  *
  * The card carries data-ap-form-skin: it is the kit's form skin (HubSpot's own
  * stylesheet is never attached; style.css draws the fields and button), and
@@ -54,6 +56,13 @@ $has_form  = '' !== $hs_portal && '' !== $hs_form;
  */
 $mount_id = function_exists( 'wp_unique_id' ) ? wp_unique_id( 'ap-form-hero-form-' ) : 'ap-form-hero-form-' . substr( md5( uniqid( '', true ) ), 0, 8 );
 
+/*
+ * In the builder (the block editor's live preview) the HubSpot form is not drawn: its place shows a
+ * placeholder box that names the connected form, or invites adding one. The builder opens a box on click
+ * to paste the form's embed code or link (ap-editor.js, data-ap-hs-placeholder).
+ */
+$in_builder = function_exists( 'ap_ui_editor_preview' ) && ap_ui_editor_preview();
+
 $fb_email = sanitize_email( trim( (string) $props['fallback_email'] ) );
 $fb_phone = trim( (string) $props['fallback_phone'] );
 $fb_tel   = preg_replace( '/[^0-9+]/', '', $fb_phone );
@@ -67,14 +76,52 @@ $form_intro = trim( (string) $props['form_intro'] );
 $form_note  = trim( (string) $props['form_note'] );
 
 /*
- * Escaped text with the author's line breaks and **bold** runs. The text is
- * escaped first, so the fixed <strong> and <br> are the only markup added.
+ * Escaped text with the author's formatting (the fields are plain text; the builder writes these marks):
+ * line breaks, [link text](address), **bold**, //italic//, __underline__ and {hover:name}words{/hover} (a hover
+ * effect from the kit's animation sheet: <span class="ap-anim-hover-name">). The text is escaped first, so the
+ * fixed <a>, <strong>, <em>, <u>, <span> and <br> are the only markup added; a link address must be https/http, a
+ * /path on this site, #anchor, mailto: or tel:, and goes through esc_url(). Links come first, so formatting can sit
+ * inside a link's text.
  */
 $ap_rich = static function ( $text ) {
-	$html = ap_ui_lines( $text );
-	$bold = preg_replace( '/\*\*(.+?)\*\*/s', '<strong>$1</strong>', $html );
-	return is_string( $bold ) ? $bold : $html;
+	$html  = ap_ui_lines( $text );
+	$steps = array(
+		array( '/\[([^\[\]<>]+)\]\(\s*((?:https?:\/\/|mailto:|tel:|\/(?![\/\\\\])|#)[^\s()<>]*)\s*\)/i', 'link' ),
+		array( '/\*\*(.+?)\*\*/s', '<strong>$1</strong>' ),
+		// Italic //…//: never the // of an address (after ":" or another "/").
+		array( '#(?<![:/\w])//(?=\S)(.+?)(?<=\S)//(?![/\w])#s', '<em>$1</em>' ),
+		array( '/(?<!\w)__(?=\S)(.+?)(?<=\S)__(?!\w)/s', '<u>$1</u>' ),
+		array( '/\{hover:(lift|grow|glow|brighten|tilt|underline|colour|highlight|gradient)\}(.+?)\{\/hover\}/s', '<span class="ap-anim-hover-$1">$2</span>' ),
+	);
+	foreach ( $steps as $step ) {
+		$next = 'link' === $step[1]
+			? preg_replace_callback(
+				$step[0],
+				static function ( $m ) {
+					$url = esc_url( html_entity_decode( $m[2], ENT_QUOTES, 'UTF-8' ), array( 'http', 'https', 'mailto', 'tel' ) );
+					return '' !== $url ? '<a href="' . $url . '">' . $m[1] . '</a>' : $m[0];
+				},
+				$html
+			)
+			: preg_replace( $step[0], $step[1], $html );
+		$html = is_string( $next ) ? $next : $html;
+	}
+	return $html;
 };
+
+/*
+ * Where the visitor goes once the form is sent (behaviour.js), when the page says so instead of HubSpot. Only
+ * https/http or a /path; {trial_token} is kept for the script (esc_url_raw() would strip the braces).
+ */
+$hs_after = '';
+$after_in = trim( (string) $props['after_submit_url'] );
+if ( '' !== $after_in && preg_match( '#^(https?://[^\s/]+|/(?![/\\\\]))#i', $after_in ) ) {
+	$marker   = 'ap0trial0token0';
+	$after_ok = esc_url_raw( str_replace( '{trial_token}', $marker, $after_in ), array( 'http', 'https' ) );
+	if ( '' !== $after_ok && preg_match( '#^(https?://[^\s/]+|/(?![/\\\\]))#i', $after_ok ) ) {
+		$hs_after = str_replace( $marker, '{trial_token}', $after_ok );
+	}
+}
 
 $bullets = array();
 foreach ( is_array( $props['bullets'] ) ? $props['bullets'] : array() as $bullet ) {
@@ -99,15 +146,27 @@ if ( '' !== $bg && function_exists( 'ap_ui_preload_image' ) ) {
 // The form card, buffered once: the section variants draw it beside their copy, the card variant draws it alone.
 ob_start();
 ?>
-		<?php if ( $has_form || '' !== $form_title ) : ?>
+		<?php if ( $has_form || '' !== $form_title || $in_builder ) : ?>
 			<div class="ap-form-hero__card" data-ap-form-skin>
 				<?php if ( '' !== $form_title ) : ?>
 					<<?php echo tag_escape( $card_tag ); ?> class="ap-form-hero__card-title"><?php echo esc_html( $form_title ); ?></<?php echo tag_escape( $card_tag ); ?>>
 				<?php endif; ?>
 				<?php if ( '' !== $form_intro ) : ?>
-					<p class="ap-form-hero__card-intro"><?php echo esc_html( $form_intro ); ?></p>
+					<p class="ap-form-hero__card-intro"><?php echo $ap_rich( $form_intro ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?></p>
 				<?php endif; ?>
-				<?php if ( $has_form ) : ?>
+				<?php if ( $in_builder ) : ?>
+					<div class="ap-form-hero__placeholder<?php echo $has_form ? ' is-set' : ''; ?>" data-ap-hs-placeholder data-ap-noedit role="button" tabindex="0">
+						<span class="ap-form-hero__placeholder-icon" aria-hidden="true"></span>
+						<?php if ( $has_form ) : ?>
+							<strong>HubSpot form</strong>
+							<span><?php echo esc_html( substr( $hs_form, 0, 8 ) . '… · portal ' . $hs_portal . ' · ' . $hs_region . ( 'developer' === $hs_embed ? ' · new editor' : '' ) ); ?></span>
+							<span>The form shows on the published page. Click to change it.</span>
+						<?php else : ?>
+							<strong>Add a HubSpot form</strong>
+							<span>Click and paste the form's embed code or link from HubSpot.</span>
+						<?php endif; ?>
+					</div>
+				<?php elseif ( $has_form ) : ?>
 					<div
 						id="<?php echo esc_attr( $mount_id ); ?>"
 						class="ap-form-hero__form ap-form-hero__form--<?php echo esc_attr( $hs_embed ); ?>"
@@ -117,6 +176,7 @@ ob_start();
 						data-ap-hs-region="<?php echo esc_attr( $hs_region ); ?>"
 						data-ap-hs-embed="<?php echo esc_attr( $hs_embed ); ?>"
 						<?php if ( '' !== $hs_submit ) : ?>data-ap-hs-submit="<?php echo esc_attr( $hs_submit ); ?>"<?php endif; ?>
+						<?php if ( '' !== $hs_after ) : ?>data-ap-hs-after="<?php echo esc_attr( $hs_after ); ?>"<?php endif; ?>
 					>
 						<?php if ( 'developer' === $hs_embed ) : ?>
 							<div class="hs-form-html" data-region="<?php echo esc_attr( $hs_region ); ?>" data-form-id="<?php echo esc_attr( $hs_form ); ?>" data-portal-id="<?php echo esc_attr( $hs_portal ); ?>"></div>
@@ -133,7 +193,7 @@ ob_start();
 					<?php endif; ?>
 				<?php endif; ?>
 				<?php if ( '' !== $form_note ) : ?>
-					<p class="ap-form-hero__note"><?php echo esc_html( $form_note ); ?></p>
+					<p class="ap-form-hero__note"><?php echo $ap_rich( $form_note ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?></p>
 				<?php endif; ?>
 			</div>
 		<?php endif; ?>

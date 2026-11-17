@@ -5,7 +5,10 @@
  *
  *   ambient (always on)   ap-anim-float, ap-anim-float-slow, ap-anim-sway,
  *                         ap-anim-pulse, ap-anim-glow, ap-anim-spin-slow
- *   on hover              ap-anim-hover-lift, ap-anim-hover-grow
+ *   on hover              boxes: ap-anim-hover-lift, -grow, -glow, -brighten, -tilt
+ *                         text:  ap-anim-hover-underline, -colour, -highlight, -gradient
+ *                         (any of them also on words picked in the builder's text toolbar: a kit
+ *                         text field's {hover:name}words{/hover} draws <span class="ap-anim-hover-name">)
  *   on scroll (reveal)    ap-anim-reveal, -reveal-left, -reveal-right,
  *                         -reveal-fade, -reveal-zoom — the builder adds
  *                         data-ap-reveal to the block, so the motion layer
@@ -67,6 +70,72 @@
 .ap-anim-hover-lift:hover { translate: 0 -6px; }
 .ap-anim-hover-grow:hover { scale: 1.03; }
 
+/* Boxes: a soft indigo glow, a little brighter, a slight tilt. */
+.ap-anim-hover-glow,
+.ap-anim-hover-brighten,
+.ap-anim-hover-tilt {
+	transition:
+		box-shadow var(--ap-dur-base, 0.3s) var(--ap-ease-standard, cubic-bezier(0.25, 0.45, 0.45, 0.95)),
+		filter var(--ap-dur-base, 0.3s) var(--ap-ease-standard, cubic-bezier(0.25, 0.45, 0.45, 0.95)),
+		rotate var(--ap-dur-base, 0.3s) var(--ap-ease-standard, cubic-bezier(0.25, 0.45, 0.45, 0.95));
+}
+
+.ap-anim-hover-glow:hover { box-shadow: 0 12px 32px color-mix(in srgb, var(--ap-brand-indigo, #5044e1) 30%, transparent); }
+.ap-anim-hover-brighten:hover { filter: brightness(1.08) saturate(1.06); }
+.ap-anim-hover-tilt:hover { rotate: -1.5deg; }
+
+/* Words that move need a box of their own (an inline run cannot be moved or scaled). */
+span.ap-anim-hover-lift,
+span.ap-anim-hover-grow,
+span.ap-anim-hover-tilt {
+	display: inline-block;
+}
+
+/* Text: an underline that grows from the left, a colour change, a highlight that sweeps in, gradient text. */
+.ap-anim-hover-underline,
+.ap-anim-hover-highlight {
+	background-repeat: no-repeat;
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+	transition: background-size var(--ap-dur-base, 0.3s) var(--ap-ease-standard, cubic-bezier(0.25, 0.45, 0.45, 0.95));
+}
+
+.ap-anim-hover-underline {
+	background-image: linear-gradient(currentColor, currentColor);
+	background-position: 0 100%;
+	background-size: 0 2px;
+}
+
+.ap-anim-hover-underline:hover { background-size: 100% 2px; }
+
+.ap-anim-hover-highlight {
+	background-image: linear-gradient(color-mix(in srgb, #00a991 24%, transparent), color-mix(in srgb, #00a991 24%, transparent));
+	background-position: 0 88%;
+	background-size: 0 42%;
+}
+
+.ap-anim-hover-highlight:hover { background-size: 100% 42%; }
+
+.ap-anim-hover-colour {
+	transition: color var(--ap-dur-base, 0.3s) var(--ap-ease-standard, cubic-bezier(0.25, 0.45, 0.45, 0.95));
+}
+
+.ap-anim-hover-colour:hover { color: var(--ap-brand-indigo, #5044e1); }
+
+.ap-anim-hover-gradient {
+	background-image: var(--ap-gradient-text, linear-gradient(32deg, #5044e1 4%, #00a991 50%));
+	-webkit-background-clip: text;
+	background-clip: text;
+	transition:
+		color var(--ap-dur-base, 0.3s) var(--ap-ease-standard, cubic-bezier(0.25, 0.45, 0.45, 0.95)),
+		-webkit-text-fill-color var(--ap-dur-base, 0.3s) var(--ap-ease-standard, cubic-bezier(0.25, 0.45, 0.45, 0.95));
+}
+
+.ap-anim-hover-gradient:hover {
+	color: transparent;
+	-webkit-text-fill-color: transparent;
+}
+
 /* The zoom entrance (the other reveals are the motion layer's own). */
 html.ap-motion [data-ap-reveal="zoom"]:not(.ap-inview) {
 	opacity: 0;
@@ -80,8 +149,10 @@ html.ap-motion [data-ap-reveal="zoom"]:not(.ap-inview) {
 	}
 
 	.ap-anim-hover-lift:hover,
-	.ap-anim-hover-grow:hover {
+	.ap-anim-hover-grow:hover,
+	.ap-anim-hover-tilt:hover {
 		translate: none;
 		scale: none;
+		rotate: none;
 	}
 }

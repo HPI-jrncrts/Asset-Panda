@@ -371,6 +371,12 @@
 			button: 'Button text (empty = "Talk to an Expert")',
 			url: 'Button link (empty = /get-a-demo/)',
 		},
+		'assetpanda/form-hero': {
+			body: 'Description (to format it, select words on the page)',
+			form_intro: 'Form intro (to format it, select words on the page)',
+			form_note: 'Note under the form (to format it, select words on the page)',
+			after_submit_url: 'After submit, go to (empty = HubSpot\'s setting; {trial_token} adds a sign-up token)',
+		},
 	};
 
 	/*
@@ -458,6 +464,168 @@
 
 	function hasMarkup( s ) {
 		return /<[a-z!\/][^>]*>/i.test( String( s ) );
+	}
+
+	/*
+	 * Rich text in the builder (Google Docs style). A few plain-text fields are drawn by their component
+	 * with **bold** and [link text](address) (form-hero's copy, card intro and note). In the preview they
+	 * are edited as formatted text: select words, then Ctrl+K (or right-click → Insert link, or the link
+	 * button on the small toolbar) links them, Ctrl+B bolds them. On commit the formatting is written back
+	 * as the marks the component reads, so the field itself stays plain text.
+	 *
+	 * RICH_FIELDS: fields that take links (and bold). Other fields whose saved text holds **bold** keep it
+	 * (bold only) when edited in place.
+	 */
+	var RICH_FIELDS = {
+		'assetpanda/form-hero': { body: true, form_intro: true, form_note: true },
+	};
+	// The marks (DokuWiki style): **bold**, //italic//, __underline__, [text](address), {hover:name}words{/hover}.
+	var RICH_MARKS = /\*\*[\s\S]+?\*\*|\[[^\[\]<>]+\]\(\s*[^\s()<>]*\s*\)|(^|[^:\/\w])\/\/\S[\s\S]*?\/\/|(^|\W)__\S[\s\S]*?__|\{hover:[a-z]+\}/;
+	var HOVER_NAMES = 'lift|grow|glow|brighten|tilt|underline|colour|highlight|gradient';
+
+	/* The hover effects words can take (the kit's anim.css ap-anim-hover-*), as the toolbar lists them. */
+	var TEXT_HOVERS = [
+		[ 'underline', 'Underline grows' ],
+		[ 'colour', 'Colour change' ],
+		[ 'highlight', 'Highlight' ],
+		[ 'gradient', 'Gradient text' ],
+		[ 'lift', 'Lift' ],
+		[ 'grow', 'Grow' ],
+		[ 'tilt', 'Tilt' ],
+	];
+
+	function isRich( s ) {
+		return RICH_MARKS.test( String( s ) );
+	}
+
+	function shownText( s ) {
+		return String( s )
+			.replace( /\[([^\[\]<>]+)\]\(\s*[^\s()<>]*\s*\)/g, '$1' )
+			.replace( new RegExp( '\\{hover:(?:' + HOVER_NAMES + ')\\}([\\s\\S]*?)\\{/hover\\}', 'g' ), '$1' )
+			.replace( /\*\*([\s\S]+?)\*\*/g, '$1' )
+			.replace( /(^|[^:\/\w])\/\/(?=\S)([\s\S]+?)\/\/(?![\/\w])/g, '$1$2' )
+			.replace( /(^|\W)__(?=\S)([\s\S]+?)__(?!\w)/g, '$1$2' );
+	}
+
+	/* A link address the kit will draw: https/http, a /path on the site, #anchor, mailto: or tel:; '' otherwise. */
+	function safeHref( u ) {
+		u = String( u || '' ).trim();
+		if ( ! /^(https?:\/\/[^\s\/]+|mailto:|tel:|#|\/(?![\/\\]))/i.test( u ) ) {
+			return '';
+		}
+		return u.replace( /\s/g, '%20' ).replace( /\(/g, '%28' ).replace( /\)/g, '%29' );
+	}
+
+	/* What an editor types in the link box, as an address: a site, an email, a phone number or a /path. */
+	function linkFromInput( v ) {
+		v = String( v || '' ).trim();
+		if ( ! v ) {
+			return '';
+		}
+		if ( /^[^\s@\/:]+@[^\s@\/]+\.[a-z]{2,}$/i.test( v ) ) {
+			return 'mailto:' + v;
+		}
+		if ( /^\+?[0-9][0-9 ().-]{6,}$/.test( v ) ) {
+			return 'tel:' + v.replace( /[^0-9+]/g, '' );
+		}
+		if ( /^(https?:\/\/|mailto:|tel:|#|\/)/i.test( v ) ) {
+			return safeHref( v );
+		}
+		if ( /^[a-z0-9-]+(\.[a-z0-9-]+)+([\/?#]\S*)?$/i.test( v ) ) {
+			return safeHref( 'https://' + v );
+		}
+		return '';
+	}
+
+	/*
+	 * A rich field's edited copy back to its saved text: <a> → [text](address), bold → **text**, italic →
+	 * //text//, underline → __text__, a hover effect span → {hover:name}text{/hover}; line breaks kept.
+	 * A style already open further out is not written again (no ****), and formatting inside a link stays.
+	 */
+	function richSource( node ) {
+		var nbsp = new RegExp( String.fromCharCode( 160 ), 'g' );
+		var hoverClass = new RegExp( '(?:^|\\s)ap-anim-hover-(' + HOVER_NAMES + ')(?:\\s|$)' );
+		var out = '';
+		function plain( n ) {
+			return ( n.textContent || '' ).replace( /[\[\]]/g, '' ).replace( /\s+/g, ' ' );
+		}
+		// Wrap what was written since `start` in a mark, keeping the run's outer spaces outside it.
+		function wrap( start, open, close ) {
+			var inner = out.slice( start );
+			out = out.slice( 0, start ) + ( inner.trim() ? inner.replace( /^(\s*)([\s\S]*?)(\s*)$/, function ( m, a, b, z ) {
+				return a + open + b + close + z;
+			} ) : inner );
+		}
+		( function walk( n, on ) {
+			on = on || {};
+			for ( var c = n.firstChild; c; c = c.nextSibling ) {
+				if ( c.nodeType === 3 ) {
+					// As the page shows it: runs of whitespace are one space, none at the start of a line (the
+					// kit writes "<br>\n", so the newline after a break is not a second break).
+					var t = c.data.replace( /[\t\n\r ]+/g, ' ' );
+					if ( out === '' || out.slice( -1 ) === '\n' ) {
+						t = t.replace( /^ /, '' );
+					}
+					out += t;
+					continue;
+				}
+				if ( c.nodeType !== 1 ) {
+					continue;
+				}
+				var tag = c.nodeName.toUpperCase();
+				if ( tag === 'BR' ) {
+					out = out.replace( / +$/, '' ) + '\n';
+					continue;
+				}
+				if ( tag === 'SVG' || tag === 'IMG' || tag === 'STYLE' || tag === 'SCRIPT' ) {
+					continue;
+				}
+				if ( tag === 'A' ) {
+					var href = safeHref( c.getAttribute( 'href' ) );
+					if ( ! href || ! plain( c ).trim() ) {
+						walk( c, on );
+						continue;
+					}
+					// The link's text keeps its formatting, but never brackets or line breaks (they end the link).
+					var at = out.length;
+					walk( c, on );
+					var words = out.slice( at ).replace( /[\[\]]/g, '' ).replace( /\s*\n\s*/g, ' ' );
+					out = out.slice( 0, at ) + '[' + words + '](' + href + ')';
+					continue;
+				}
+				if ( /^(DIV|P|LI)$/.test( tag ) && out && out.slice( -1 ) !== '\n' ) {
+					out += '\n';
+				}
+				var css = c.style || {};
+				var weight = css.fontWeight || '';
+				var deco = ( css.textDecorationLine || css.textDecoration || '' ) + '';
+				var hover = hoverClass.exec( c.className && typeof c.className === 'string' ? c.className : '' );
+				var marks = [];
+				var next = Object.assign( {}, on );
+				if ( ! on.b && ( tag === 'B' || tag === 'STRONG' || weight === 'bold' || parseInt( weight, 10 ) >= 600 ) ) {
+					next.b = true;
+					marks.push( [ '**', '**' ] );
+				}
+				if ( ! on.i && ( tag === 'I' || tag === 'EM' || css.fontStyle === 'italic' ) ) {
+					next.i = true;
+					marks.push( [ '//', '//' ] );
+				}
+				if ( ! on.u && ( tag === 'U' || deco.indexOf( 'underline' ) !== -1 ) ) {
+					next.u = true;
+					marks.push( [ '__', '__' ] );
+				}
+				if ( ! on.h && hover ) {
+					next.h = true;
+					marks.push( [ '{hover:' + hover[ 1 ] + '}', '{/hover}' ] );
+				}
+				var start = out.length;
+				walk( c, next );
+				for ( var k = marks.length - 1; k >= 0; k-- ) {
+					wrap( start, marks[ k ][ 0 ], marks[ k ][ 1 ] );
+				}
+			}
+		} )( node );
+		return out.replace( nbsp, ' ' );
 	}
 
 	function isImageValue( v ) {
@@ -690,6 +858,11 @@
 			taken.push( node );
 			node.setAttribute( 'data-ap-path', JSON.stringify( field.path ) );
 			node.setAttribute( 'data-ap-kind', kind );
+			if ( field.rich ) {
+				node.setAttribute( 'data-ap-rich', field.rich );
+			} else {
+				node.removeAttribute( 'data-ap-rich' );
+			}
 			node.setAttribute( 'title', kind === 'image' ? __( 'Click to replace this image', 'assetpanda' ) : __( 'Click to edit', 'assetpanda' ) );
 		}
 
@@ -757,6 +930,15 @@
 				return;
 			}
 			var want = norm( f.value );
+			var linkable = f.path.length === 1 && !! ( RICH_FIELDS[ name ] && RICH_FIELDS[ name ][ f.key ] );
+			// Bold or links: the preview shows the words without the marks (when it draws them at all).
+			var drawn = isRich( f.value ) && ! showing( want ).length;
+			if ( drawn ) {
+				want = norm( shownText( f.value ) );
+			}
+			if ( linkable || drawn ) {
+				f = Object.assign( {}, f, { rich: linkable ? 'link' : 'bold' } );
+			}
 			if ( ! want ) {
 				return;
 			}
@@ -827,7 +1009,32 @@
 		'.ap-live span[data-ap-cell]:empty,.ap-live p[data-ap-cell]:empty{display:inline-block;min-width:3em;min-height:1.3em;vertical-align:middle}' +
 		'.ap-live [data-ap-cell]:empty::before{content:"Type here";color:#9ca3af;font-style:italic;font-weight:400;font-size:13px;letter-spacing:0;text-transform:none}' +
 		'.ap-live [data-ap-cell][data-ap-editing]:empty::before{content:""}' +
-		'.ap-live [data-ap-cell-on]{box-shadow:inset 0 0 0 2px #5044e1!important}';
+		'.ap-live [data-ap-cell-on]{box-shadow:inset 0 0 0 2px #5044e1!important}' +
+		'.ap-live [data-ap-editing][data-ap-rich] a{cursor:text}' +
+		// Rich text tools (toolbar, right-click menu, link box), drawn in the canvas document.
+		'.ap-ed-rt{position:fixed;z-index:100000;background:#fff;border:1px solid #dadce0;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.16);font:13px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif;color:#202124}' +
+		'.ap-ed-rt button{font:inherit;color:inherit;background:none;border:0;border-radius:4px;cursor:pointer}' +
+		'.ap-ed-rt-bar{display:flex;gap:2px;padding:3px}' +
+		'.ap-ed-rt-bar button{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 6px;font-size:15px}' +
+		'.ap-ed-rt-bar button:hover,.ap-ed-rt-menu button:hover{background:#f1f3f4}' +
+		'.ap-ed-rt-menu{display:flex;flex-direction:column;min-width:200px;padding:6px 0}' +
+		'.ap-ed-rt-menu button{display:flex;justify-content:space-between;gap:24px;width:100%;padding:7px 16px;border-radius:0;text-align:left}' +
+		'.ap-ed-rt-menu kbd{font:inherit;color:#5f6368}' +
+		'.ap-ed-rt-box{display:flex;flex-direction:column;gap:8px;width:340px;padding:12px}' +
+		'.ap-ed-rt-box input{width:100%;box-sizing:border-box;height:34px;padding:0 10px;border:1px solid #dadce0;border-radius:4px;font:inherit;color:#202124;background:#fff}' +
+		'.ap-ed-rt-box input:focus{outline:2px solid #5044e1;outline-offset:-1px;border-color:#5044e1}' +
+		'.ap-ed-rt-row{display:flex;gap:8px;justify-content:flex-end}' +
+		'.ap-ed-rt-row button{padding:6px 12px;border:1px solid #dadce0}' +
+		'.ap-ed-rt-row button.is-primary{background:#5044e1;border-color:#5044e1;color:#fff}' +
+		'.ap-ed-rt-box textarea{width:100%;box-sizing:border-box;padding:8px 10px;border:1px solid #dadce0;border-radius:4px;font:12px/1.4 ui-monospace,Consolas,monospace;color:#202124;background:#fff;resize:vertical}' +
+		'.ap-ed-rt-box textarea:focus{outline:2px solid #5044e1;outline-offset:-1px;border-color:#5044e1}' +
+		'.ap-ed-rt-box strong{font-size:14px}' +
+		'.ap-ed-rt-now{color:#5f6368;font-size:12px;word-break:break-all}' +
+		'.ap-live [data-ap-hs-placeholder]{cursor:pointer}' +
+		'.ap-ed-rt-head{padding:6px 16px 8px;color:#5f6368;font-size:12px}' +
+		'.ap-ed-rt-hover button span{padding:1px 0}' +
+		'.ap-ed-rt-note:empty{display:none}' +
+		'.ap-ed-rt-note{color:#d93025;font-size:12px}';
 
 	/*
 	 * Kit stylesheets inside the canvas, so a block looks as it does on the
@@ -2708,14 +2915,24 @@
 				}
 				var before = node.getAttribute( 'data-ap-before' ) || '';
 				var field = fieldOf( node );
-				var text = readText( node );
+				var rich = node.hasAttribute( 'data-ap-rich' );
+				closeUi();
+				var text = rich ? richSource( node ) : readText( node );
 				text = isMultiline( field.key ) ? text.replace( /[ \t]+\n/g, '\n' ).replace( /\n{3,}/g, '\n\n' ) : text.replace( /\s*\n\s*/g, ' ' );
 				text = text.replace( /^[ \t\n]+|[ \t\n]+$/g, '' );
 				node.removeAttribute( 'data-ap-editing' );
 				node.removeAttribute( 'data-ap-before' );
 				node.removeAttribute( 'contenteditable' );
+				// Formatted text goes back to the drawn copy when cancelled or unchanged.
+				var showBefore = function () {
+					if ( rich ) {
+						node.innerHTML = before;
+					} else {
+						node.textContent = before;
+					}
+				};
 				if ( ! commit ) {
-					node.textContent = before;
+					showBefore();
 					return;
 				}
 				if ( field.cell ) {
@@ -2730,8 +2947,12 @@
 					return;
 				}
 				var current = getPath( latest.current.attributes, field.path );
-				if ( norm( text ) !== norm( current || '' ) || ( '' === norm( current || '' ) && text !== '' ) ) {
+				// Formatted text is compared as saved (a link added or removed changes the marks, not the words).
+				var changed = rich ? text !== String( current || '' ).replace( /^[ \t\n]+|[ \t\n]+$/g, '' ) : norm( text ) !== norm( current || '' ) || ( '' === norm( current || '' ) && text !== '' );
+				if ( changed ) {
 					latest.current.setAttributes( patchFor( latest.current.attributes, field.path, text ) );
+				} else if ( rich ) {
+					showBefore();
 				}
 			}
 
@@ -2756,12 +2977,530 @@
 				if ( node.hasAttribute( 'data-ap-editing' ) ) {
 					return;
 				}
+				startEdit( node );
+			}
+
+			function startEdit( node ) {
 				node.setAttribute( 'data-ap-editing', '' );
+				if ( node.hasAttribute( 'data-ap-rich' ) ) {
+					// Formatted text (links, bold): edited as it shows, saved back as the kit's marks.
+					node.setAttribute( 'data-ap-before', node.innerHTML );
+					node.contentEditable = 'true';
+					return; // The toolbar shows once words are selected (placeBar, on selectionchange).
+				}
 				node.setAttribute( 'data-ap-before', node.textContent );
 				node.contentEditable = 'plaintext-only';
 				if ( node.contentEditable !== 'plaintext-only' ) {
 					node.contentEditable = 'true';
 				}
+			}
+
+			/* ---- Rich text tools, Google Docs style: a small toolbar, a right-click menu, a link box. ---- */
+			var ui = { bar: null, barFor: null, menu: null, box: null };
+			var LINK_ICON = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>';
+
+			function escHtml( s ) {
+				return String( s ).replace( /&/g, '&amp;' ).replace( /</g, '&lt;' ).replace( />/g, '&gt;' ).replace( /"/g, '&quot;' );
+			}
+
+			function uiBox( cls ) {
+				var d = doc.createElement( 'div' );
+				d.className = 'ap-ed-rt ' + cls;
+				d.setAttribute( 'data-ap-ed-ui', '' );
+				// A press on the tools keeps the text selection (only the link box's fields take focus).
+				d.addEventListener( 'mousedown', function ( e ) {
+					if ( ! ( e.target.closest && e.target.closest( 'input, textarea' ) ) ) {
+						e.preventDefault();
+					}
+					e.stopPropagation();
+				} );
+				doc.body.appendChild( d );
+				return d;
+			}
+
+			function uiButton( html, title, fn, cls ) {
+				var b = doc.createElement( 'button' );
+				b.type = 'button';
+				b.className = cls || '';
+				b.innerHTML = html;
+				if ( title ) {
+					b.title = title;
+					b.setAttribute( 'aria-label', title );
+				}
+				b.addEventListener( 'click', function ( e ) {
+					e.preventDefault();
+					e.stopPropagation();
+					fn();
+				} );
+				return b;
+			}
+
+			function closeUi( which ) {
+				( which ? [ which ] : [ 'bar', 'menu', 'box' ] ).forEach( function ( k ) {
+					if ( ui[ k ] ) {
+						ui[ k ].remove();
+						ui[ k ] = null;
+					}
+				} );
+				if ( ! which || which === 'bar' ) {
+					ui.barFor = null;
+				}
+			}
+
+			function selectionIn( node ) {
+				var sel = doc.getSelection();
+				if ( ! sel || ! sel.rangeCount ) {
+					return null;
+				}
+				var r = sel.getRangeAt( 0 );
+				return node.contains( r.commonAncestorContainer ) ? r.cloneRange() : null;
+			}
+
+			function linkAt( node, range ) {
+				if ( ! range ) {
+					return null;
+				}
+				var points = [ range.commonAncestorContainer, range.startContainer ];
+				for ( var i = 0; i < points.length; i++ ) {
+					var p = points[ i ].nodeType === 1 ? points[ i ] : points[ i ].parentElement;
+					var a = p && p.closest ? p.closest( 'a' ) : null;
+					if ( a && node.contains( a ) ) {
+						return a;
+					}
+				}
+				return null;
+			}
+
+			function useRange( node, range ) {
+				node.focus();
+				if ( range ) {
+					var sel = doc.getSelection();
+					sel.removeAllRanges();
+					sel.addRange( range );
+				}
+			}
+
+			function unwrap( a ) {
+				while ( a.firstChild ) {
+					a.parentNode.insertBefore( a.firstChild, a );
+				}
+				a.remove();
+			}
+
+			function placeNear( box, rect ) {
+				var win = doc.defaultView || window;
+				var top = rect.bottom + 8;
+				if ( top + box.offsetHeight > win.innerHeight - 4 ) {
+					top = Math.max( 4, rect.top - box.offsetHeight - 8 );
+				}
+				box.style.top = top + 'px';
+				box.style.left = Math.max( 4, Math.min( rect.left, win.innerWidth - box.offsetWidth - 4 ) ) + 'px';
+			}
+
+			/*
+			 * The small toolbar (Bold, Link) floats just under the selected words while some are selected in
+			 * formatted text, so a plain click into the text never covers what is around it.
+			 */
+			function placeBar() {
+				var node = host.querySelector( '[data-ap-editing][data-ap-rich]' );
+				var range = node && ! ui.box && ! ui.menu ? selectionIn( node ) : null;
+				if ( ! range || range.collapsed || ! range.toString().trim() ) {
+					closeUi( 'bar' );
+					return;
+				}
+				if ( ! ui.bar || ui.barFor !== node ) {
+					showRichBar( node );
+				}
+				var win = doc.defaultView || window;
+				var r = range.getBoundingClientRect();
+				var top = r.bottom + 6; // Below the words (as Google Docs' link bubble), above when there is no room.
+				if ( top + ui.bar.offsetHeight > win.innerHeight - 4 ) {
+					top = Math.max( 4, r.top - ui.bar.offsetHeight - 6 );
+				}
+				ui.bar.style.top = top + 'px';
+				ui.bar.style.left = Math.max( 4, Math.min( r.left + r.width / 2 - ui.bar.offsetWidth / 2, win.innerWidth - ui.bar.offsetWidth - 4 ) ) + 'px';
+			}
+
+			function makeBold( node ) {
+				node.focus();
+				doc.execCommand( 'bold' );
+			}
+
+			function format( node, command ) {
+				node.focus();
+				doc.execCommand( command );
+				placeBar();
+			}
+
+			var HOVER_ICON = '<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="currentColor" d="M12 2l2.2 6.6L21 11l-6.8 2.4L12 20l-2.2-6.6L3 11l6.8-2.4z"/><path fill="currentColor" d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg>';
+
+			function showRichBar( node ) {
+				closeUi( 'bar' );
+				ui.bar = uiBox( 'ap-ed-rt-bar' );
+				ui.barFor = node;
+				var full = node.getAttribute( 'data-ap-rich' ) === 'link';
+				ui.bar.appendChild( uiButton( '<b>B</b>', __( 'Bold (Ctrl+B)', 'assetpanda' ), function () {
+					format( node, 'bold' );
+				} ) );
+				if ( full ) {
+					ui.bar.appendChild( uiButton( '<i style="font-family:Georgia,serif">I</i>', __( 'Italic (Ctrl+I)', 'assetpanda' ), function () {
+						format( node, 'italic' );
+					} ) );
+					ui.bar.appendChild( uiButton( '<u>U</u>', __( 'Underline (Ctrl+U)', 'assetpanda' ), function () {
+						format( node, 'underline' );
+					} ) );
+					ui.bar.appendChild( uiButton( LINK_ICON, __( 'Insert link (Ctrl+K)', 'assetpanda' ), function () {
+						openLinkBox( node );
+					} ) );
+					ui.bar.appendChild( uiButton( HOVER_ICON, __( 'Hover effect', 'assetpanda' ), function () {
+						var r = ui.bar.getBoundingClientRect();
+						openHoverMenu( node, r.left, r.bottom );
+					} ) );
+				}
+			}
+
+			/* The hover span (ap-anim-hover-*) around a range, if the range sits inside one. */
+			function hoverAt( node, range ) {
+				var p = range ? range.commonAncestorContainer : null;
+				p = p && p.nodeType !== 1 ? p.parentElement : p;
+				var s = p && p.closest ? p.closest( '[class*="ap-anim-hover-"]' ) : null;
+				return s && node.contains( s ) && s !== node ? s : null;
+			}
+
+			/* Give the selected words a hover effect (name) or take it away (''). */
+			function applyHover( node, range, name ) {
+				useRange( node, range );
+				if ( ! range ) {
+					return;
+				}
+				var inside = hoverAt( node, range );
+				if ( inside ) {
+					if ( name ) {
+						inside.className = 'ap-anim-hover-' + name;
+					} else {
+						unwrap( inside );
+					}
+					node.focus();
+					return;
+				}
+				if ( range.collapsed ) {
+					return;
+				}
+				var frag = range.extractContents();
+				Array.prototype.slice.call( frag.querySelectorAll( '[class*="ap-anim-hover-"]' ) ).forEach( unwrap );
+				if ( name ) {
+					var span = doc.createElement( 'span' );
+					span.className = 'ap-anim-hover-' + name;
+					span.appendChild( frag );
+					range.insertNode( span );
+					var sel = doc.getSelection();
+					var r2 = doc.createRange();
+					r2.selectNodeContents( span );
+					sel.removeAllRanges();
+					sel.addRange( r2 );
+				} else {
+					range.insertNode( frag );
+				}
+				node.focus();
+			}
+
+			/* The hover effects, each label showing its own effect when the pointer is on it. */
+			function openHoverMenu( node, x, y ) {
+				var range = selectionIn( node );
+				var inside = hoverAt( node, range );
+				if ( ! range || ( range.collapsed && ! inside ) ) {
+					return;
+				}
+				closeUi( 'menu' );
+				var menu = ( ui.menu = uiBox( 'ap-ed-rt-menu ap-ed-rt-hover' ) );
+				var head = doc.createElement( 'div' );
+				head.className = 'ap-ed-rt-head';
+				head.textContent = __( 'Hover effect (point at one to see it)', 'assetpanda' );
+				menu.appendChild( head );
+				var now = inside ? ( inside.className.match( /ap-anim-hover-([a-z]+)/ ) || [] )[ 1 ] : '';
+				TEXT_HOVERS.forEach( function ( h ) {
+					menu.appendChild( uiButton( '<span class="ap-anim-hover-' + h[ 0 ] + '">' + escHtml( __( h[ 1 ], 'assetpanda' ) ) + '</span>' + ( now === h[ 0 ] ? '<kbd>✓</kbd>' : '' ), '', function () {
+						closeUi( 'menu' );
+						applyHover( node, range, h[ 0 ] );
+					} ) );
+				} );
+				if ( inside ) {
+					menu.appendChild( uiButton( '<span>' + escHtml( __( 'No hover effect', 'assetpanda' ) ) + '</span>', '', function () {
+						closeUi( 'menu' );
+						applyHover( node, range, '' );
+					} ) );
+				}
+				placeNear( menu, { left: x, right: x, top: y, bottom: y } );
+				// Only this menu closes on a press elsewhere (a menu opened from it is not touched).
+				var away = function ( e ) {
+					if ( ui.menu !== menu ) {
+						doc.removeEventListener( 'mousedown', away, true );
+					} else if ( ! menu.contains( e.target ) ) {
+						closeUi( 'menu' );
+						doc.removeEventListener( 'mousedown', away, true );
+					}
+				};
+				doc.addEventListener( 'mousedown', away, true );
+			}
+
+			/* The link box: Text and Link, as Google Docs asks. Selected words become the link's text. */
+			function openLinkBox( node ) {
+				var range = selectionIn( node );
+				var a = linkAt( node, range );
+				closeUi( 'menu' );
+				closeUi( 'box' );
+				var box = ( ui.box = uiBox( 'ap-ed-rt-box' ) );
+				var text = doc.createElement( 'input' );
+				text.type = 'text';
+				text.placeholder = __( 'Text', 'assetpanda' );
+				text.value = a ? a.textContent : range ? range.toString() : '';
+				var link = doc.createElement( 'input' );
+				link.type = 'text';
+				link.placeholder = __( 'Paste a link, a /page, an email or a phone number', 'assetpanda' );
+				link.value = a ? a.getAttribute( 'href' ) || '' : '';
+				var note = doc.createElement( 'div' );
+				note.className = 'ap-ed-rt-note';
+				var row = doc.createElement( 'div' );
+				row.className = 'ap-ed-rt-row';
+				var original = text.value;
+
+				function apply() {
+					var url = linkFromInput( link.value );
+					var words = text.value.trim() || link.value.trim();
+					if ( ! url ) {
+						note.textContent = __( 'Use a web address, a /page on this site, an email or a phone number.', 'assetpanda' );
+						link.focus();
+						return;
+					}
+					closeUi( 'box' );
+					useRange( node, range );
+					if ( a ) {
+						a.setAttribute( 'href', url );
+						if ( text.value.trim() && text.value !== original ) {
+							a.textContent = text.value.trim();
+						}
+					} else if ( range && ! range.collapsed && text.value === original ) {
+						doc.execCommand( 'createLink', false, url );
+					} else {
+						doc.execCommand( 'insertHTML', false, '<a href="' + escHtml( url ) + '">' + escHtml( words ) + '</a>' );
+					}
+					node.focus();
+				}
+
+				function cancel() {
+					closeUi( 'box' );
+					useRange( node, range );
+				}
+
+				row.appendChild( uiButton( __( 'Apply', 'assetpanda' ), '', apply, 'is-primary' ) );
+				if ( a ) {
+					row.appendChild( uiButton( __( 'Remove link', 'assetpanda' ), '', function () {
+						closeUi( 'box' );
+						useRange( node, range );
+						unwrap( a );
+						node.focus();
+					} ) );
+				}
+				row.appendChild( uiButton( __( 'Cancel', 'assetpanda' ), '', cancel ) );
+				box.appendChild( text );
+				box.appendChild( link );
+				box.appendChild( row );
+				box.appendChild( note );
+				[ text, link ].forEach( function ( input ) {
+					input.addEventListener( 'keydown', function ( e ) {
+						e.stopPropagation();
+						if ( e.key === 'Enter' ) {
+							e.preventDefault();
+							apply();
+						} else if ( e.key === 'Escape' ) {
+							e.preventDefault();
+							cancel();
+						}
+					} );
+					// Clicking away from the box (not back into the text) ends the edit as usual.
+					input.addEventListener( 'blur', function ( e ) {
+						var to = e.relatedTarget;
+						if ( to && ( box.contains( to ) || to === node || node.contains( to ) ) ) {
+							return;
+						}
+						( doc.defaultView || window ).setTimeout( function () {
+							if ( ui.box === box && ! box.contains( doc.activeElement ) && doc.activeElement !== node ) {
+								closeUi();
+								stop( node, true );
+							}
+						}, 0 );
+					} );
+				} );
+				var rect = range && range.getBoundingClientRect ? range.getBoundingClientRect() : null;
+				if ( ! rect || ( ! rect.width && ! rect.height ) ) {
+					rect = node.getBoundingClientRect();
+				}
+				placeNear( box, rect );
+				var first = a || ( range && ! range.collapsed ) ? link : text;
+				first.focus();
+				first.select(); // An existing address is replaced by what is typed, as in Google Docs.
+			}
+
+			/*
+			 * The HubSpot form placeholder (form-hero, builder only): paste the form's embed code, its editor
+			 * link or its ID, and the block takes the portal, form, region and embed type from it.
+			 */
+			function parseHubSpot( s ) {
+				s = String( s || '' );
+				var GUID = '([0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12})';
+				var out = {};
+				var m;
+				m = s.match( new RegExp( 'app(?:-([a-z0-9]{2,6}))?\\.hubspot\\.com/forms/(\\d{3,12})/(new-editor|editor)/' + GUID, 'i' ) );
+				if ( m ) {
+					out.hubspot_region = ( m[ 1 ] || 'na1' ).toLowerCase();
+					out.hubspot_portal = m[ 2 ];
+					out.hubspot_form = m[ 4 ].toLowerCase();
+					out.form_embed = m[ 3 ].toLowerCase() === 'new-editor' ? 'developer' : 'v2';
+					return out;
+				}
+				if ( ( m = s.match( /(?:data-portal-id|portalId)["']?\s*[:=]\s*["']?(\d{3,12})/i ) ) ) {
+					out.hubspot_portal = m[ 1 ];
+				}
+				if ( ( m = s.match( new RegExp( '(?:data-form-id|formId)["\']?\\s*[:=]\\s*["\']?' + GUID, 'i' ) ) ) ) {
+					out.hubspot_form = m[ 1 ].toLowerCase();
+				}
+				if ( ( m = s.match( /(?:data-region|region)["']?\s*[:=]\s*["']?([a-z]{2}\d)/i ) ) || ( m = s.match( /js-([a-z]{2}\d)\.hsforms\.net/i ) ) ) {
+					out.hubspot_region = m[ 1 ].toLowerCase();
+				}
+				if ( /hbspt\.forms\.create/.test( s ) ) {
+					out.form_embed = 'v2';
+				} else if ( /hs-form-html|hs-form-frame|hsforms\.net\/forms\/embed\/(developer\/)?\d+\.js/i.test( s ) ) {
+					out.form_embed = 'developer';
+				}
+				if ( ! out.hubspot_form && ( m = s.match( new RegExp( GUID, 'i' ) ) ) ) {
+					out.hubspot_form = m[ 1 ].toLowerCase();
+				}
+				if ( out.hubspot_portal && ! out.hubspot_region && /hsforms|hbspt/i.test( s ) ) {
+					out.hubspot_region = 'na1';
+				}
+				return out;
+			}
+
+			function openFormBox( ph ) {
+				closeUi();
+				var at = latest.current.attributes || {};
+				var box = ( ui.box = uiBox( 'ap-ed-rt-box' ) );
+				var head = doc.createElement( 'strong' );
+				head.textContent = __( 'HubSpot form', 'assetpanda' );
+				var now = doc.createElement( 'div' );
+				now.className = 'ap-ed-rt-now';
+				now.textContent = at.hubspot_form
+					? __( 'Connected:', 'assetpanda' ) + ' ' + at.hubspot_form + ' · portal ' + ( at.hubspot_portal || '?' ) + ' · ' + ( at.hubspot_region || 'na1' )
+					: __( 'No form connected yet.', 'assetpanda' );
+				var area = doc.createElement( 'textarea' );
+				area.rows = 4;
+				area.placeholder = __( 'Paste the embed code from HubSpot (Share → Embed code), or the link to the form in HubSpot', 'assetpanda' );
+				var note = doc.createElement( 'div' );
+				note.className = 'ap-ed-rt-note';
+				var row = doc.createElement( 'div' );
+				row.className = 'ap-ed-rt-row';
+
+				function done() {
+					closeUi( 'box' );
+					doc.removeEventListener( 'mousedown', away, true );
+				}
+				function apply() {
+					var got = parseHubSpot( area.value );
+					if ( ! got.hubspot_form || ! ( got.hubspot_portal || at.hubspot_portal ) ) {
+						note.textContent = __( 'No form found in that. Paste the whole embed code from HubSpot, or the form\'s link.', 'assetpanda' );
+						area.focus();
+						return;
+					}
+					latest.current.setAttributes( got );
+					done();
+				}
+				var away = function ( e ) {
+					if ( ui.box !== box ) {
+						doc.removeEventListener( 'mousedown', away, true );
+					} else if ( ! box.contains( e.target ) ) {
+						done();
+					}
+				};
+
+				row.appendChild( uiButton( __( 'Use this form', 'assetpanda' ), '', apply, 'is-primary' ) );
+				if ( at.hubspot_form ) {
+					row.appendChild( uiButton( __( 'Remove form', 'assetpanda' ), '', function () {
+						latest.current.setAttributes( { hubspot_form: '' } );
+						done();
+					} ) );
+				}
+				row.appendChild( uiButton( __( 'Cancel', 'assetpanda' ), '', done ) );
+				box.appendChild( head );
+				box.appendChild( now );
+				box.appendChild( area );
+				box.appendChild( row );
+				box.appendChild( note );
+				area.addEventListener( 'keydown', function ( e ) {
+					e.stopPropagation();
+					if ( e.key === 'Escape' ) {
+						e.preventDefault();
+						done();
+					} else if ( e.key === 'Enter' && ( e.ctrlKey || e.metaKey ) ) {
+						e.preventDefault();
+						apply();
+					}
+				} );
+				placeNear( box, ph.getBoundingClientRect() );
+				doc.addEventListener( 'mousedown', away, true );
+				area.focus();
+			}
+
+			/* Right-click in formatted text: Insert link / Remove link / Bold, with their shortcuts. */
+			function openRichMenu( node, x, y ) {
+				closeUi( 'menu' );
+				var range = selectionIn( node );
+				var a = linkAt( node, range );
+				var menu = ( ui.menu = uiBox( 'ap-ed-rt-menu' ) );
+				function item( label, keys, fn ) {
+					menu.appendChild( uiButton( '<span>' + escHtml( label ) + '</span><kbd>' + escHtml( keys ) + '</kbd>', '', function () {
+						closeUi( 'menu' );
+						useRange( node, range );
+						fn();
+					} ) );
+				}
+				if ( node.getAttribute( 'data-ap-rich' ) === 'link' ) {
+					item( a ? __( 'Edit link', 'assetpanda' ) : __( 'Insert link', 'assetpanda' ), 'Ctrl+K', function () {
+						openLinkBox( node );
+					} );
+				}
+				if ( a ) {
+					item( __( 'Remove link', 'assetpanda' ), '', function () {
+						unwrap( a );
+						node.focus();
+					} );
+				}
+				item( __( 'Bold', 'assetpanda' ), 'Ctrl+B', function () {
+					makeBold( node );
+				} );
+				if ( node.getAttribute( 'data-ap-rich' ) === 'link' ) {
+					item( __( 'Italic', 'assetpanda' ), 'Ctrl+I', function () {
+						format( node, 'italic' );
+					} );
+					item( __( 'Underline', 'assetpanda' ), 'Ctrl+U', function () {
+						format( node, 'underline' );
+					} );
+					if ( ( range && ! range.collapsed ) || hoverAt( node, range ) ) {
+						item( __( 'Hover effect…', 'assetpanda' ), '', function () {
+							openHoverMenu( node, x, y );
+						} );
+					}
+				}
+				placeNear( menu, { left: x, right: x, top: y, bottom: y } );
+				// Only this menu closes on a press elsewhere (a menu opened from it is not touched).
+				var away = function ( e ) {
+					if ( ui.menu !== menu ) {
+						doc.removeEventListener( 'mousedown', away, true );
+					} else if ( ! menu.contains( e.target ) ) {
+						closeUi( 'menu' );
+						doc.removeEventListener( 'mousedown', away, true );
+					}
+				};
+				doc.addEventListener( 'mousedown', away, true );
 			}
 
 			/*
@@ -2808,6 +3547,14 @@
 				if ( link && host.contains( link ) ) {
 					e.preventDefault(); // Never navigate (or toggle) out of the editor.
 				}
+				// The HubSpot form placeholder: paste the form's embed code or link.
+				var formSpot = e.target.closest && e.target.closest( '[data-ap-hs-placeholder]' );
+				if ( formSpot && host.contains( formSpot ) ) {
+					e.preventDefault();
+					e.stopPropagation();
+					openFormBox( formSpot );
+					return;
+				}
 				// A video poster stays a poster in the editor (no YouTube player while editing).
 				var facade = e.target.closest && e.target.closest( '.apc-vid, [data-yt], [data-embed], [data-ap-video]' );
 				if ( facade && host.contains( facade ) ) {
@@ -2841,8 +3588,32 @@
 				}
 				// The block editor must not treat typing here as block commands (Enter = new block, Backspace = delete block).
 				e.stopPropagation();
+				var rich = node.getAttribute( 'data-ap-rich' );
+				var mod = ( e.ctrlKey || e.metaKey ) && ! e.altKey;
+				if ( rich && mod ) {
+					var k = String( e.key ).toLowerCase();
+					if ( k === 'k' && rich === 'link' ) {
+						e.preventDefault();
+						openLinkBox( node );
+						return;
+					}
+					if ( k === 'b' ) {
+						e.preventDefault();
+						makeBold( node );
+						return;
+					}
+					if ( k === 'i' || k === 'u' ) {
+						e.preventDefault();
+						// Italic and underline where the page draws them (form-hero's copy); elsewhere they would be lost.
+						if ( rich === 'link' ) {
+							format( node, k === 'i' ? 'italic' : 'underline' );
+						}
+						return;
+					}
+				}
 				if ( e.key === 'Escape' ) {
 					e.preventDefault();
+					closeUi();
 					stop( node, false );
 					node.blur();
 				} else if ( e.key === 'Enter' ) {
@@ -2867,13 +3638,48 @@
 
 			function onFocusOut( e ) {
 				var node = e.target.closest && e.target.closest( '[data-ap-editing]' );
-				if ( node ) {
-					stop( node, true );
+				if ( ! node ) {
+					return;
 				}
+				// Moving into the link box or onto the toolbar, or from a link inside the text to the text
+				// itself (a right-click focuses the link first), is not leaving the text.
+				var to = e.relatedTarget;
+				if ( to && ( to === node || node.contains( to ) || ( to.closest && to.closest( '[data-ap-ed-ui]' ) ) ) ) {
+					return;
+				}
+				stop( node, true );
 			}
 
 			/* Right-click on a table cell: the Google Sheets cell menu (TableMenu), at the pointer. */
 			function onContextMenu( e ) {
+				// Formatted text: Insert link / Remove link / Bold, as in Google Docs.
+				var richNode = e.target.closest && e.target.closest( '[data-ap-rich]' );
+				if ( richNode && host.contains( richNode ) ) {
+					e.preventDefault();
+					if ( ! richNode.hasAttribute( 'data-ap-editing' ) ) {
+						var other = host.querySelector( '[data-ap-editing]' );
+						if ( other ) {
+							stop( other, true );
+						}
+						startEdit( richNode );
+					}
+					var keep = selectionIn( richNode );
+					var onLink = e.target.closest && e.target.closest( 'a' );
+					if ( onLink && richNode.contains( onLink ) && ! ( keep && onLink.contains( keep.commonAncestorContainer ) ) ) {
+						// Right-click on a link: the menu acts on that link.
+						keep = doc.createRange();
+						keep.selectNodeContents( onLink );
+					} else if ( ! keep || keep.collapsed ) {
+						// No words selected: the cursor goes where the click was (a new link is typed there).
+						var at = doc.caretRangeFromPoint ? doc.caretRangeFromPoint( e.clientX, e.clientY ) : null;
+						if ( at && richNode.contains( at.startContainer ) ) {
+							keep = at;
+						}
+					}
+					useRange( richNode, keep );
+					openRichMenu( richNode, e.clientX, e.clientY );
+					return;
+				}
 				var lp = latest.current;
 				var tableAd = lp.onMenu ? tableFor( lp.name, lp.attributes ) : null;
 				var at = tableAd ? locateCell( tableAd, host, e.target, lp.attributes ) : null;
@@ -2905,7 +3711,12 @@
 			host.addEventListener( 'paste', onPaste );
 			host.addEventListener( 'focusout', onFocusOut );
 			host.addEventListener( 'change', afterInteraction ); // A tab or filter picked through its label.
+			doc.addEventListener( 'scroll', placeBar, true ); // The formatting toolbar follows its text.
+			doc.addEventListener( 'selectionchange', placeBar );
 			return function () {
+				closeUi();
+				doc.removeEventListener( 'scroll', placeBar, true );
+				doc.removeEventListener( 'selectionchange', placeBar );
 				observer.disconnect();
 				( doc.defaultView || window ).cancelAnimationFrame( frame );
 				( doc.defaultView || window ).clearTimeout( settle );

@@ -189,6 +189,72 @@
 	text-decoration: underline;
 }
 
+/* [link text](address) in the copy, the card intro and the note. */
+.ap-form-hero .ap-form-hero__body a,
+.ap-form-hero .ap-form-hero__card-intro a,
+.ap-form-hero .ap-form-hero__note a {
+	color: var(--ap-brand-indigo);
+	font-weight: 600;
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+.ap-form-hero--dark .ap-form-hero__body a {
+	color: var(--ap-white);
+}
+
+/* The builder's stand-in for the HubSpot form (block editor preview only; never on a page). */
+.ap-form-hero .ap-form-hero__placeholder {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 4px;
+	min-height: 140px;
+	padding: 20px 16px;
+	justify-content: center;
+	border: 2px dashed var(--ap-brand-indigo);
+	border-radius: 8px;
+	background: rgba(80, 68, 225, .05);
+	color: var(--ap-text-body);
+	font-size: 14px;
+	line-height: 1.45;
+	text-align: center;
+	cursor: pointer;
+}
+
+.ap-form-hero .ap-form-hero__placeholder:hover {
+	background: rgba(80, 68, 225, .1);
+}
+
+.ap-form-hero .ap-form-hero__placeholder strong {
+	color: var(--ap-text-heading);
+	font-size: 15px;
+}
+
+.ap-form-hero .ap-form-hero__placeholder-icon {
+	width: 28px;
+	height: 28px;
+	margin-bottom: 4px;
+	border-radius: 50%;
+	background: var(--ap-brand-indigo);
+	-webkit-mask: radial-gradient(circle at 50% 50%, #000 34%, transparent 36%, transparent 52%, #000 54%);
+	mask: radial-gradient(circle at 50% 50%, #000 34%, transparent 36%, transparent 52%, #000 54%);
+}
+
+/* after_submit_url: the "Not redirected? Continue" line left under a sent form. */
+.ap-form-hero .ap-form-hero__after {
+	margin: 12px 0 0;
+	color: var(--ap-text-body);
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+.ap-form-hero .ap-form-hero__after a {
+	color: var(--ap-brand-indigo);
+	font-weight: 700;
+	text-decoration: underline;
+}
+
 html.ap-intl .ap-form-hero__fb-phone {
 	display: none;
 }
