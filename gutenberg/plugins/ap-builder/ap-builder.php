@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       AP Builder
  * Description:       The Asset Panda page builder's library, docked under the block editor on every page, post, resource and press release: visual elements (site art and the Media Library, with upload), animations, styled containers, every section design used on the site, whole-page layouts from the Template Library, an AI helper that builds sections from those designs through the site's AI connector (Settings → Connectors), and (1.1.0) the Video Library: YouTube videos added once, synced from the channel, and shown where you choose (Video Tutorials page, integration pages, featured on any page). Editor only: nothing loads on a visitor's page except the small animation sheet on pages that use an animation.
- * Version:           1.1.4
+ * Version:           1.1.5
  * Requires at least: 6.7
  * Requires PHP:      7.4
  * Author:            Asset Panda
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'AP_BUILDER_VERSION', '1.1.4' );
+define( 'AP_BUILDER_VERSION', '1.1.5' );
 define( 'AP_BUILDER_FILE', __FILE__ );
 define( 'AP_BUILDER_DIR', __DIR__ );
 define( 'AP_BUILDER_REST_NS', 'ap-builder/v1' );
